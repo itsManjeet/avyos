@@ -5,7 +5,7 @@ diff -Naur a/config.layout b/config.layout
  ##    (This may become a configurable parameter at some point.)
  ##
  
-+<Layout RLXOS>
++<Layout AVYOS>
 +    prefix:       
 +    exec_prefix:  ${prefix}/usr
 +    bindir:       ${exec_prefix}/bin

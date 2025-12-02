@@ -3,7 +3,7 @@ version: 4.20.2
 about: GTK widgets library for Xfce
 
 configure: >-
-  --with-vendor-info='rlxos GNU/Linux'
+  --with-vendor-info='avyos GNU/Linux'
 
 variables:
   run-autogen: false

@@ -41,7 +41,7 @@ script: |
   --with-native-debug-symbols=internal \
   --with-version-pre=""             \
   --with-version-opt=""             \
-  --with-vendor-name="RLXOS"
+  --with-vendor-name="AVYOS"
 
   unset MAKEFLAGS
   make LOG=warn JOBS=$(nproc) images

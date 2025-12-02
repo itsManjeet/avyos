@@ -47,11 +47,9 @@ script: |-
     targets = "X86"
     link-shared = true
     download-ci-llvm = false
-    static-libstdcpp = false
-    use-libcxx = true
 
     [build]
-    description = "rlxos GNU/Linux"
+    description = "avyos GNU/Linux"
     docs = false
     locked-deps = true
     tools = ["cargo", "clippy", "rustdoc", "rustfmt"]

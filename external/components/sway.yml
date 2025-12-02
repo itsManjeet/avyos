@@ -3,7 +3,7 @@ version: 1.9
 about: Tiling Wayland compositor and replacement for the i3 window manager
 
 pre-script: |-
-  sed -i "s/branch \\\'@1@\\\'/rlxos/g" meson.build
+  sed -i "s/branch \\\'@1@\\\'/avyos/g" meson.build
 post-script: |-
   install -v -D -m 0644 /dev/stdin %{install-root}%{datadir}/xdg-desktop-portal/sway-portals.conf << "EOF"
   [preferred]

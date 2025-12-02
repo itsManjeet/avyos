@@ -1,6 +1,6 @@
 id: branding
 version: 2.0
-about: rlxos branding icons
+about: avyos branding icons
 
 build-depends: 
 - components/imagemagick.yml
@@ -9,7 +9,7 @@ variables:
   strip: false
 
 script: |-
-    for icon in $RLXOS_FILES/branding/*.svg ; do
+    for icon in $AVYOS_FILES/branding/*.svg ; do
         install -D -m 0644 -t %{install-root}/%{datadir}/icons/hicolor/scalable/apps/ ${icon}
         for size in 16 22 24 32 36 48 64 72 96 128 192 256 512 ; do
             mkdir -p %{install-root}/%{datadir}/icons/hicolor/${size}x${size}/apps/
@@ -18,4 +18,4 @@ script: |-
     done
     
     mkdir -p %{install-root}%{datadir}/icons/
-    convert -background none -resize 64x24 $RLXOS_FILES/branding/rlxos-logo-simple-white.svg %{install-root}%{datadir}/icons/rlxos-plymouth-logo.png
+    convert -background none -resize 64x24 $AVYOS_FILES/branding/avyos-logo-simple-white.svg %{install-root}%{datadir}/icons/avyos-plymouth-logo.png

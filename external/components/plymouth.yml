@@ -25,7 +25,7 @@ pre-script: |-
 configure: >-
   --runstatedir=/run
   --with-runtimedir=/run
-  --with-logo=%{datadir}/icons/rlxos-plymouth-logo.png
+  --with-logo=%{datadir}/icons/avyos-plymouth-logo.png
 
 post-script: |-
-  install -D -m 0644 %{datadir}/icons/rlxos-plymouth-logo.png %{install-root}/%{datadir}/plymouth/themes/spinner/watermark.png
+  install -D -m 0644 %{datadir}/icons/avyos-plymouth-logo.png %{install-root}/%{datadir}/plymouth/themes/spinner/watermark.png

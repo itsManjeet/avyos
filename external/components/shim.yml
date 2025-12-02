@@ -7,7 +7,7 @@ pre-script: |-
   openssl x509 -inform PEM -outform DER -in "/assets/sign-keys/VENDOR.crt" -out "VENDOR.cer"
 
 make-args: >-
-  EFIDIR=rlxos
+  EFIDIR=avyos
   ESPROOTDIR=boot/efi
   VENDIR_CERT_FILE=VENDOR.cer
 

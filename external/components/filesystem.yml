@@ -1,6 +1,6 @@
 id: filesystem
 version: 0.0.3
-about: rlxos filesystem
+about: avyos filesystem
 strip: false
 clean-empty-dir: false
 
@@ -18,16 +18,16 @@ script: |
 
   for f in fstab group host.conf hosts issue nsswitch.conf \
            passwd securetty shells profile inputrc ; do
-    install -m644 $RLXOS_FILES/filesystem/$f %{install-root}/%{sysconfdir}
-    install -m644 $RLXOS_FILES/filesystem/$f %{install-root}/%{datadir}/factory/%{sysconfdir}
+    install -m644 $AVYOS_FILES/filesystem/$f %{install-root}/%{sysconfdir}
+    install -m644 $AVYOS_FILES/filesystem/$f %{install-root}/%{datadir}/factory/%{sysconfdir}
   done
 
   echo "en_IN.utf-8" > %{install-root}%{sysconfdir}/locale.conf
 
   ln -s ../proc/self/mounts %{install-root}%{sysconfdir}/mtab
   for f in gshadow shadow; do
-    install -m600 $RLXOS_FILES/filesystem/$f %{install-root}/%{sysconfdir}
-    install -m600 $RLXOS_FILES/filesystem/$f %{install-root}/%{datadir}/factory/%{sysconfdir}
+    install -m600 $AVYOS_FILES/filesystem/$f %{install-root}/%{sysconfdir}
+    install -m600 $AVYOS_FILES/filesystem/$f %{install-root}/%{datadir}/factory/%{sysconfdir}
   done
   for d in cache local opt log/old lib/misc empty; do
     install -d -m755 %{install-root}/%{localstatedir}/$d
@@ -55,9 +55,9 @@ script: |
   ln -s usr/bin %{install-root}/sbin
   ln -s bin %{install-root}/usr/sbin
 
-  install -D -m644 $RLXOS_FILES/filesystem/sysusers %{install-root}/%{libdir}/sysusers.d/rlxos.conf
-  install -D -m644 $RLXOS_FILES/filesystem/tmpfiles %{install-root}/%{libdir}/tmpfiles.d/rlxos.conf
-  install -D -m755 $RLXOS_FILES/filesystem/env-generator %{install-root}/%{libdir}/systemd/system-environment-generators/10-rlxos
+  install -D -m644 $AVYOS_FILES/filesystem/sysusers %{install-root}/%{libdir}/sysusers.d/avyos.conf
+  install -D -m644 $AVYOS_FILES/filesystem/tmpfiles %{install-root}/%{libdir}/tmpfiles.d/avyos.conf
+  install -D -m755 $AVYOS_FILES/filesystem/env-generator %{install-root}/%{libdir}/systemd/system-environment-generators/10-avyos
 
 
 depends:

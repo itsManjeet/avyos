@@ -4,14 +4,14 @@ pre-script: |-
     mkdir -p ISO/{boot/grub/{fonts,x86_64-efi},efi/boot,isolinux,LiveOS}
 
     install -vDm0644 /dev/stdin ISO/isolinux/isolinux.cfg << EOF
-    DEFAULT RLXOS GNU/Linux
-        LABEL RLXOS GNU/Linux
+    DEFAULT AVYOS GNU/Linux
+        LABEL AVYOS GNU/Linux
         KERNEL __KERNEL__
         APPEND initrd=__INITRD__ __KARGS__
     EOF
 
     install -vDm0644 /dev/stdin ISO/boot/grub/grub.cfg << EOF
-    set default="RLXOS GNU/Linux"
+    set default="AVYOS GNU/Linux"
     set timeout=10
 
     insmod all_video
@@ -26,7 +26,7 @@ pre-script: |-
         terminal_output gfxterm
     fi
 
-    menuentry "RLXOS GNU/Linux" {
+    menuentry "AVYOS GNU/Linux" {
         linux __KERNEL__ __KARGS__
         initrd __INITRD__
     }
@@ -45,7 +45,7 @@ post-script: |-
 
     grub-mkimage -c ISO/boot/grub-early.cfg -o ISO/efi/boot/bootx64.efi -Ox86_64-efi -p "" iso9660 normal search search_fs_file
     dd if=/dev/zero of=ISO/boot/efiboot.img count=4096
-    mkdosfs -n RLXOS-UEFI ISO/boot/efiboot.img
+    mkdosfs -n AVYOS-UEFI ISO/boot/efiboot.img
     mmd -i ISO/boot/efiboot.img ::/EFI
     mmd -i ISO/boot/efiboot.img ::/EFI/BOOT 
     mcopy -i ISO/boot/efiboot.img ISO/efi/boot/bootx64.efi ::/EFI/BOOT
@@ -68,10 +68,10 @@ post-script: |-
             -no-emul-boot \
             -isohybrid-gpt-basdat \
             -volid %{installer-volume-id} \
-        -o %{install-root}/rlxos-%{channel}-installer.iso ISO/
+        -o %{install-root}/avyos-%{channel}-installer.iso ISO/
 
     cd %{install-root}
-    sha256sum rlxos-%{channel}-installer.iso >rlxos-%{channel}-installer.iso.sha265sum
+    sha256sum avyos-%{channel}-installer.iso >avyos-%{channel}-installer.iso.sha265sum
 
 
 build-depends:

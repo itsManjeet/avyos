@@ -6,12 +6,12 @@ build-depends:
   - components/bash.yml
 
 script: |-
-  install -D -m 0644 -t %{install-root}/%{sysconfdir}/pki/ostree/ $RLXOS_FILES/rlxos.gpg
-  install -D -m 0644 /dev/stdin %{install-root}/%{sysconfdir}/ostree/remotes.d/rlxos.conf << "EOF"
-  [remote "rlxos"]
-  url=https://ostree.rlxos.dev
+  install -D -m 0644 -t %{install-root}/%{sysconfdir}/pki/ostree/ $AVYOS_FILES/avyos.gpg
+  install -D -m 0644 /dev/stdin %{install-root}/%{sysconfdir}/ostree/remotes.d/avyos.conf << "EOF"
+  [remote "avyos"]
+  url=https://ostree.avyos.dev
   gpg-verify=true
-  gpgkeypath=/%{sysconfdir}/pki/ostree//rlxos.gpg
+  gpgkeypath=/%{sysconfdir}/pki/ostree//avyos.gpg
   EOF
 
   install -D -m 0644 /dev/stdin %{install-root}/%{libdir}/tmpfiles.d/ostree.conf << "EOF"

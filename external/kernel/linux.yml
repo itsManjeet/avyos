@@ -8095,7 +8095,7 @@ script: |-
   value_str MODULE_SIG_KEY ""
   enable MODULE_SIG_KEY_TYPE_ECDSA
   enable SYSTEM_TRUSTED_KEYRING
-  value_str SYSTEM_TRUSTED_KEYS "$RLXOS_FILES/sign-keys/linux-module-cert.crt"
+  value_str SYSTEM_TRUSTED_KEYS "$AVYOS_FILES/sign-keys/linux-module-cert.crt"
   enable SYSTEM_EXTRA_CERTIFICATE
   value SYSTEM_EXTRA_CERTIFICATE_SIZE 4096
   enable SECONDARY_TRUSTED_KEYRING

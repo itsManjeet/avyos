@@ -1,10 +1,10 @@
 id: apache
-version: 2.4.62
+version: 2.4.66
 about: Apache HTTP server version 2.4.x
 
 configure: >
   --enable-authz-fcgi
-  --enable-layout=RLXOS
+  --enable-layout=AVYOS
   --enable-mods-shared="all cgi"
   --enable-mpms-shared=all
   --enable-suexec=shared
@@ -33,9 +33,9 @@ depends:
   - components/libxml2.yml
 sources:
   - https://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
-  - patches/apache/httpd-%{version}-RLXOS_layout-1.patch
+  - patches/apache/httpd-%{version}-AVYOS_layout-1.patch
 pre-script: |
-  patch -Np1 -i httpd-%{version}-RLXOS_layout-1.patch
+  patch -Np1 -i httpd-%{version}-AVYOS_layout-1.patch
   sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in
 
   sed -e '/HTTPD_ROOT/s:${ap_prefix}:/etc/httpd:'       \

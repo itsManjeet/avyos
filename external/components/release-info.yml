@@ -1,6 +1,6 @@
 id: release-info
 merge: [version.yml]
-about: rlxos Release information
+about: avyos Release information
 
 build-depends:
   - components/bash.yml
@@ -9,16 +9,16 @@ script: |
   mkdir -p %{install-root}/%{sysconfdir}
 
   cat > %{install-root}/%{sysconfdir}/os-release <<EOF
-  NAME="rlxos GNU/Linux"
+  NAME="avyos GNU/Linux"
   VERSION=%{channel}
-  ID=rlxos
-  PRETTY_NAME="rlxos GNU/Linux"
+  ID=avyos
+  PRETTY_NAME="avyos GNU/Linux"
   VERSION_CODENAME="%{channel}"
   IMAGE_VERSION="%{version}"
   EOF
 
   cat > %{install-root}/%{sysconfdir}/lsb-release <<EOF
-  DISTRIB_ID="rlxos GNU/Linux"
+  DISTRIB_ID="avyos GNU/Linux"
   DISTRIB_RELEASE="%{version} %{channel}"
-  DISTRIB_DESCRIPTION="rlxos %{channel}"
+  DISTRIB_DESCRIPTION="avyos %{channel}"
   EOF

@@ -35,7 +35,7 @@ jobs:
       - name: Checkout installer iso
         run: |
           make checkout ELEMENT=installer/image.yml DESTDIR=${CACHE_PATH}/releases/${CHANNEL}
-          (cd ${CACHE_PATH}/releases/${CHANNEL}/; zsyncmake -b 2048 -C -u http://repo.rlxos.dev/releases/${CHANNEL}/rlxos-${CHANNEL}-installer.iso rlxos-${CHANNEL}-installer.iso)
+          (cd ${CACHE_PATH}/releases/${CHANNEL}/; zsyncmake -b 2048 -C -u http://repo.avyos.dev/releases/${CHANNEL}/avyos-${CHANNEL}-installer.iso avyos-${CHANNEL}-installer.iso)
 
       - name: Update Ostree
         run: make ELEMENT=system/repo.yml update-ostree
@@ -44,4 +44,4 @@ jobs:
         run: make extensions
       
       - name: Upload to sourceforge
-        run: scp -pr ${CACHE_PATH}/releases/${CHANNEL}/ itsmanjeet@frs.sourceforge.net:/home/frs/p/rlxos/releases/
+        run: scp -pr ${CACHE_PATH}/releases/${CHANNEL}/ itsmanjeet@frs.sourceforge.net:/home/frs/p/avyos/releases/

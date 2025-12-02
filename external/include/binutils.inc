@@ -6,7 +6,7 @@ pre-script: |-
 
 configure: >
   --with-lib-path=/usr/lib
-  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
+  --with-bugurl=https://github.com/itsmanjeet/avyos/issues
   --enable-cet
   --enable-colored-disassembly
   --enable-default-execstack=no

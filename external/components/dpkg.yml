@@ -10,7 +10,7 @@ configure: >-
 
 post-script: |
   mkdir -p %{install-root}%{sysconfdir}/dpkg/origins
-  ln -sf rlxos %{install-root}%{sysconfdir}/dpkg/origins/default
+  ln -sf avyos %{install-root}%{sysconfdir}/dpkg/origins/default
 
   mkdir -p %{install-root}/var/dpkg/updates/
   touch %{install-root}/var/lib/dpkg/{status,available}

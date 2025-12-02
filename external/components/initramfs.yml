@@ -1,6 +1,6 @@
 id: initramfs
 version: 0.3.0
-about: rlxos initramfs tool
+about: avyos initramfs tool
 
 script: |-
   install -v -D -m 644 /assets/init.in.sh  %{install-root}%{datadir}/initramfs/init.in

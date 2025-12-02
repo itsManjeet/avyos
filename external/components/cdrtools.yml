@@ -14,7 +14,7 @@ script: |-
   sed -i 's|INSDIR=.*|INSDIR=bin|' rscsi/Makefile
 
   export GMAKE_NOWARN=true
-  make -j1 INS_BASE=/usr INS_RBASE=/ VERSION_OS="_rlxos"
+  make -j1 INS_BASE=/usr INS_RBASE=/ VERSION_OS="_avyos"
   make -j1 INS_BASE=/usr INS_RBASE=/ DESTDIR=%{install-root} install
 
   # remove unneeded files that may cause conflicts

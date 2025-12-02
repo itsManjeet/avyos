@@ -73,7 +73,7 @@ compiler:
     script: |-
       _pkg_name=$(basename %{go-pkg})
       mkdir -p %{install-root}/usr/bin/
-      (cd /go/src/rlxos/%{go-pkg}; go build -o %{install-root}/usr/bin/$_pkg_name)
+      (cd /go/src/avyos/%{go-pkg}; go build -o %{install-root}/usr/bin/$_pkg_name)
 
   cargo:
     file: Cargo.toml

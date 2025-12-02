@@ -1,6 +1,6 @@
 id: sdk
 version: 2.0
-about: RLXOS Software Development Kit
+about: AVYOS Software Development Kit
 
 include:
     - platform.yml

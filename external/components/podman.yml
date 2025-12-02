@@ -1,0 +1,41 @@
+id: podman
+version: 5.7.0
+about: Tool and library for running OCI-based containers in pods
+
+build-dir: "."
+
+script: |-
+  cd conmon-2.1.13
+  export GOCACHE="$(mktemp -d)"
+  make && make podman LIBEXECDIR=%{install-root}/%{libdir}/
+
+  cd runc-1.4.0
+  make BUILDTAGS="apparmor seccomp"
+  install -v -D -m 0755 runc -t %{install-root}%{bindir}
+
+  cd ../podman-%{version}
+  make BUILDTAGS="apparmor seccomp" DESTDIR=%{install-root} PREFIX=%{prefix}
+  make install DESTDIR=%{install-root} PREFIX=%{prefix} LIBEXECDIR=%{libdir}
+
+  cd ..
+  mkdir -p %{install-root}%{sysconfdir}/containers
+  cp registries.conf %{install-root}%{sysconfdir}/containers/
+  cp default-policy.json  %{install-root}%{sysconfdir}/containers/policy.json
+
+depends:
+  - components/glibc.yml
+  - components/apparmor.yml
+  - components/libseccomp.yml
+  - components/gpgme.yml
+  - components/btrfs-progs.yml
+
+build-depends:
+  - components/go.yml
+
+sources:
+  - conmon-2.1.13.tar.gz::https://github.com/containers/conmon/archive/refs/tags/v2.1.13.tar.gz
+  - runc-1.4.0.tar.gz::https://github.com/opencontainers/runc/archive/refs/tags/v1.4.0.tar.gz
+  - podman-%{version}.tar.gz::https://github.com/containers/podman/archive/refs/tags/v%{version}.tar.gz
+  - https://raw.githubusercontent.com/containers/image/main/registries.conf
+  - https://raw.githubusercontent.com/containers/image/main/default-policy.json
+

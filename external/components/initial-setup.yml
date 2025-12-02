@@ -7,7 +7,7 @@ commit: 2835b2c61d0fe2cc4a92b4ae5a663057ba4a5f1f
 
 post-script: |-
   for script in first-boot installer ; do
-    install -Dm0755 -t "%{install-root}%{libdir}/%{id}/" $RLXOS_FILES/%{id}/${script}.sh
+    install -Dm0755 -t "%{install-root}%{libdir}/%{id}/" $AVYOS_FILES/%{id}/${script}.sh
     sed -i s'#@@OSTREE_BRANCH@@#%{ostree-branch}#g' %{install-root}%{libdir}/%{id}/${script}.sh
   done
 

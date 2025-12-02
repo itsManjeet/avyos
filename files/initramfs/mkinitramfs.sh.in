@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # mkinitramfs
-# Copyright (C) 2023 rlxos
+# Copyright (C) 2023 avyos
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ systemd-sysusers systemd-tmpfiles"
 INITRD_DIR=$(mktemp -d /tmp/initramfs.XXXXXXXXXX)
 INIT_IN=${INIT_IN:-'/usr/share/initramfs/init.in'}
 KERNEL=${KERNEL:-$(uname -r)}
-PASSWORD='rlxos'
+PASSWORD='avyos'
 unsorted=$(mktemp /tmp/unsorted.XXXXXXXXXX)
 MODULES_DIR='/lib/modules'
 UNIVERSAL=1
@@ -256,7 +256,7 @@ install_plymouth() {
     mkdir -p ${INITRD_DIR}/run/plymouth
     
     local DATADIR="/usr/share/plymouth"
-    local PLYMOUTH_LOGO_FILE="${DATADIR}/rlxos-logo.png"
+    local PLYMOUTH_LOGO_FILE="${DATADIR}/avyos-logo.png"
     local PLYMOUTH_THEME_NAME="$(plymouth-set-default-theme)"
     local PLYMOUTH_THEME_DIR="${DATADIR}/themes/${PLYMOUTH_THEME_NAME}"
     local PLYMOUTH_IMAGE_DIR=$(grep "ImageDir *= *" ${PLYMOUTH_THEME_DIR}/${PLYMOUTH_THEME_NAME}.plymouth | sed 's/ImageDir *= *//')

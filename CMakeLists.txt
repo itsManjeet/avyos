@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(rlxos
+project(avyos
         VERSION "3.0"
         DESCRIPTION "Immutable OpenSource OS"
         LANGUAGES C CXX ASM)

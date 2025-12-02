@@ -6,7 +6,7 @@ pre-script: |-
   sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 
 configure: >-
-  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
+  --with-bugurl=https://github.com/itsmanjeet/avyos/issues
   --with-linker-hash-style=gnu
   --with-system-zlib
   --enable-__cax_atexit

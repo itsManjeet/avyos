@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # init.in
-# Copyright (C) 2023 rlxos
+# Copyright (C) 2023 avyos
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -130,7 +130,7 @@ else
     mount -o rw ${ROOT} ${SYSROOT} || rescue "failed to mount ${ROOT} ${SYSROOT}"
 
     if [[ -z ${SYSTEM} ]] ; then
-        SYSTEM="LABEL=$(lsblk -no path,label | grep "rlxos_image_" | sort -r | head -n1 | awk '{print $1}')"
+        SYSTEM="LABEL=$(lsblk -no path,label | grep "avyos_image_" | sort -r | head -n1 | awk '{print $1}')"
     fi
     
 

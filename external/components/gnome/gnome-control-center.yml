@@ -3,7 +3,7 @@ version: 44.3
 about: Control Center package contains the GNOME settings manager
 
 pre-script: |-
-  sed -i "s|gnome-logo|rlxos-logo|g" panels/info-overview/cc-info-overview-panel.c
+  sed -i "s|gnome-logo|avyos-logo|g" panels/info-overview/cc-info-overview-panel.c
 
 configure: >-
   --buildtype=release

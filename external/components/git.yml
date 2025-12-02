@@ -1,15 +1,28 @@
 id: git
-version: 2.46.0
+version: 2.52.0
 about: Directory content manager
 
-variables:
-  run-autogen: false
-  seperate-build-dir: false
+run-autogen: false
+seperate-build-dir: false
+
 configure: >
   --with-gitconfig=%{sysconfdir}/gitconfig
   --with-python=python3
+
+post-script: |-
+  make -C %{build-root}/contrib/subtree all
+  make -C %{build-root}/contrib/credential/libsecret
+  make -C %{build-root}/contrib/credential/netrc
+
+  make -C %{build-root}/contrib/subtree DESTDIR=%{install-root} install
+  install -v -D -m 0755 -t %{install-root}/%{libdir}/git-core/ \
+    %{build-root}/contrib/credential/libsecret/git-credential-libsecret
+  make -C %{build-root}/contrib/credential/netrc DESTDIR=%{install-root} install
+
 depends:
   - components/curl.yml
   - components/expat.yml
+  - components/libsecret.yml
+
 sources:
   - https://www.kernel.org/pub/software/scm/git/git-%{version}.tar.xz

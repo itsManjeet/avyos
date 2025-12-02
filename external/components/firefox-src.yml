@@ -53,14 +53,14 @@ script: |-
 
   install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/distribution/distribution.ini << "EOF"
   [Global]
-  id=rlxos
+  id=avyos
   version=2.0
-  about=Mozilla Firefox for RLXOS
+  about=Mozilla Firefox for AVYOS
 
   [Preferences]
-  app.distributor=rlxos
+  app.distributor=avyos
   app.distributor.channel=firefox
-  app.partner.rlxos=rlxos
+  app.partner.avyos=avyos
   EOF
 
   for i in 16 22 24 32 48 64 128 256 ; do

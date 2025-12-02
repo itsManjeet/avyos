@@ -1,6 +1,6 @@
 id: selftest
 version: 0.0.1
-about: rlxos self test utility
+about: avyos self test utility
 release: 0
 depends:
 - components/findutils.yml

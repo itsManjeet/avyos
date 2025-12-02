@@ -1,6 +1,6 @@
 id: bootstrap
 version: 2307
-about: rlxos bootstrap toolchain
+about: avyos bootstrap toolchain
 
 build-depends:
   - components/kernel-headers.yml

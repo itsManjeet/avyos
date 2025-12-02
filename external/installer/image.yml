@@ -7,10 +7,10 @@ include:
 
 include-root: /source-repo
 sysroot: /sysroot
-installer-volume-id: RLXOS
+installer-volume-id: AVYOS
 
 kargs: >-
-  --karg=root=live:LABEL=RLXOS
+  --karg=root=live:LABEL=AVYOS
   --karg=quiet
   --karg=splash
   --karg=rd.live=1
@@ -21,7 +21,7 @@ strip: false
 script: |-
   mkdir -p %{sysroot}
   ostree admin init-fs --modern %{sysroot}
-  ostree admin os-init --sysroot=%{sysroot} rlxos
+  ostree admin os-init --sysroot=%{sysroot} avyos
 
   ostree config --repo=%{sysroot}/ostree/repo set sysroot.bootloader none
   ostree config --repo=%{sysroot}/ostree/repo set sysroot.bootprefix true
@@ -30,7 +30,7 @@ script: |-
 
   ostree admin deploy \
     --sysroot=%{sysroot} \
-    --os=rlxos  \
+    --os=avyos  \
     %{kargs} \
     %{ostree-branch}
 

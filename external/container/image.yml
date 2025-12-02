@@ -1,6 +1,6 @@
-id: rlxos-container-devel
+id: avyos-container-devel
 merge: [version.yml, external/include/container.inc]
-about: rlxos container developers image
+about: avyos container developers image
 
 capabilities:
   - CAP_SYS_CHROOT
@@ -11,6 +11,7 @@ include:
   - components/make.yml
   - components/gcc.yml
   - components/binutils.yml
+  - components/llvm.yml
   - components/automake.yml
   - components/patch.yml
   - components/m4.yml
@@ -31,7 +32,7 @@ build-depends:
   - components/squashfs-tools.yml
 
 pre-script: |-
-  cp /assets/sdt{,-config}.h %{include-root}/%{prefix}/include/sys/
+  cp /files/sdt{,-config}.h %{include-root}/%{prefix}/include/sys/
 
 initial-commands: |-
   systemd-sysusers

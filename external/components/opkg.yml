@@ -1,0 +1,16 @@
+id: opkg
+version: 0.8.0
+about: Opkg is a lightweight package management system based upon ipkg
+
+build-type: autotools
+# configure: >-
+#   --with-libsolv
+
+depends:
+  - components/curl.yml
+  - components/gpgme.yml
+  - components/libarchive.yml
+  # - components/libsolv.yml
+
+sources:
+  - https://git.yoctoproject.org/opkg/snapshot/opkg-%{version}.tar.gz

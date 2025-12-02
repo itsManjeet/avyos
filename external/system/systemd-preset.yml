@@ -6,7 +6,7 @@ build-depends:
   - components/systemd.yml
 
 script: |-
-  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/systemd/system-preset/99-rlxos.preset << "EOF"
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/systemd/system-preset/99-avyos.preset << "EOF"
   disable systemd-networkd.socket
   disable systemd-networkd.service
   disable systemd-networkd-wait-online.service

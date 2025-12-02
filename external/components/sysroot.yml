@@ -3,6 +3,9 @@ version: 2.0.9
 about: Package Management and Updater Daemon
 commit: a219c582553c347fb0d3d11947beff124ff4a92b
 
+pre-script: |-
+  patch -Np1 -i 0001-rebrand.patch
+
 depends:
   - components/glibc.yml
   - components/libyaml-cpp.yml
@@ -14,3 +17,4 @@ build-depends:
 
 sources:
 - sysroot-%{commit}.tar.gz::https://github.com/itsManjeet/sysroot/archive/%{commit}.tar.gz
+- patches/sysroot/0001-rebrand.patch

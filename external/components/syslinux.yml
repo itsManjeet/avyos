@@ -3,9 +3,9 @@ version: 6.03
 about: Collection of boot loaders that boot from FAT, ext2/3/4 and btrfs filesystems, from CDs and via PXE
 
 script: |-
-  mkdir rlxos
+  mkdir avyos
   for i in chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32; do
-    cp $(find bios -name $i) rlxos
+    cp $(find bios -name $i) avyos
   done
 
   patch -p1 -i /patches/syslinux/fix-build-with-glibc-2.36.patch
@@ -15,7 +15,7 @@ script: |-
   make OPTFLAGS="$CFLAGS" installer
   make OPTFLAGS="$CFLAGS" INSTALLROOT=%{install-root} MANDIR=%{datadir}/man install
 
-  cp rlxos/* %{install-root}/%{datadir}/syslinux
+  cp avyos/* %{install-root}/%{datadir}/syslinux
 
 depends:
   - components/mtools.yml

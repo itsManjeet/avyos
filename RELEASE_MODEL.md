@@ -1,8 +1,8 @@
 # Release Model
 
-rlxos follows provide rolling releases, means you need not to reinstall the os for newer releases but os directly rolled to newer versions with updates.
+avyos follows provide rolling releases, means you need not to reinstall the os for newer releases but os directly rolled to newer versions with updates.
 
-rlxos provided updates with 3 channels based on their stability and updates frequence.
+avyos provided updates with 3 channels based on their stability and updates frequence.
 
 | Channel      | Description                                                       | Duration |
 | ------------ | ----------------------------------------------------------------- | -------- |

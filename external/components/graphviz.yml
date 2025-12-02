@@ -8,8 +8,7 @@ depends:
   - components/libwebp.yml
   - components/poppler.yml
   - components/librsvg.yml
-build-depends:
-  - components/git.yml
+
 sources:
   - https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 pre-script: |

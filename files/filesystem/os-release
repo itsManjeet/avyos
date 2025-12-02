@@ -1,5 +1,5 @@
-NAME="rlxos @codename@"
+NAME="avyos @codename@"
 VERSION="@version@"
-ID=rlxos
-PRETTY_NAME="rlxos GNU/Linux"
+ID=avyos
+PRETTY_NAME="avyos GNU/Linux"
 VERSION_CODENAME="@codename@"

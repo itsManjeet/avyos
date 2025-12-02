@@ -30,13 +30,13 @@ configure: >
   -D debug-shell=%{bindir}/sh
   -D default-user-shell=%{bindir}/sh
   -D dev-kvm-mode=0660
-  -D fallback-hostname='rlxos'
+  -D fallback-hostname='avyos'
   -D docdir=%{datadir}/doc/system-%{version}
-  -Dsbat-distro='rlxos'
-  -Dsbat-distro-summary='rlxos GNU/Linux'
+  -Dsbat-distro='avyos'
+  -Dsbat-distro-summary='avyos GNU/Linux'
   -Dsbat-distro-pkgname="%{id}"
   -Dsbat-distro-version="%{version}"
-  -Dsbat-distro-url="https://rlxos.dev/"
+  -Dsbat-distro-url="https://avyos.dev/"
 
 post-script: |-
   rm -f %{install-root}%{libdir}/sysusers.d/*.conf

@@ -17,10 +17,10 @@ script: |-
     PREFIX=/usr SBINDIR=/usr/bin MANDIR=%{datadir}/man \
     DESTDIR=%{install-root} install
 
-  #install -v -D -m 0755 $RLXOS_FILES/healthd %{install-root}/usr/bin/healthd
-  #install -v -D -m 0644 $RLXOS_FILES/healthd.conf %{install-root}%{sysconfdir}/healthd.conf
-  #install -v -D -m 0644 $RLXOS_FILES/sensord.conf %{install-root}%{sysconfdir}/conf.d/sensord
-  #install -v -D -m 0644 $RLXOS_FILES/healthd.service %{install-root}/usr/lib/systemd/system/healthd.service
+  #install -v -D -m 0755 $AVYOS_FILES/healthd %{install-root}/usr/bin/healthd
+  #install -v -D -m 0644 $AVYOS_FILES/healthd.conf %{install-root}%{sysconfdir}/healthd.conf
+  #install -v -D -m 0644 $AVYOS_FILES/sensord.conf %{install-root}%{sysconfdir}/conf.d/sensord
+  #install -v -D -m 0644 $AVYOS_FILES/healthd.service %{install-root}/usr/lib/systemd/system/healthd.service
   install -v -D -m 0644 prog/init/*.service -t %{install-root}/usr/lib/systemd/system/
 
 # TODO: fix configuration

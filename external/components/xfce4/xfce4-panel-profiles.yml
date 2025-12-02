@@ -13,8 +13,8 @@ script: |-
   # cleanup default layouts
   rm %{install-root}%{datadir}/xfce4-panel-profiles/layouts/*
 
-  # Install rlxos provided layouts
-  cp $RLXOS_FILES/layouts/*.tar.bz2 %{install-root}%{datadir}/xfce4-panel-profiles/layouts/
+  # Install avyos provided layouts
+  cp $AVYOS_FILES/layouts/*.tar.bz2 %{install-root}%{datadir}/xfce4-panel-profiles/layouts/
 
   # Why executable??
   chmod -x %{install-root}%{datadir}/icons/hicolor/*/apps/org.xfce.PanelProfiles.*

@@ -14,10 +14,10 @@
  
  is_top_level=true
 +saved_list="${list}"
-+for rlxos_sys_image in $(swupd sysroot list-images --grub | sort -r) ; do
-+    rd_image=$(echo "$rlxos_sys_image" | cut -d ':' -f2)
-+    rlxos_sys_image=$(echo "$rlxos_sys_image" | cut -d ':' -f1)
-+    gettext_printf "System Image: %s\n" "${rlxos_sys_image}" >&2
++for avyos_sys_image in $(swupd sysroot list-images --grub | sort -r) ; do
++    rd_image=$(echo "$avyos_sys_image" | cut -d ':' -f2)
++    avyos_sys_image=$(echo "$avyos_sys_image" | cut -d ':' -f1)
++    gettext_printf "System Image: %s\n" "${avyos_sys_image}" >&2
 +    list="${saved_list}"
  while [ "x$list" != "x" ] ; do
    linux=`version_find_latest $list`
@@ -50,7 +50,7 @@
      GRUB_DISABLE_SUBMENU="true"
    fi
 +  
-+  linux_entry "${OS} ${rlxos_sys_image}" "${version}" simple \
++  linux_entry "${OS} ${avyos_sys_image}" "${version}" simple \
 +  "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT} rd.image=${rd_image}"
  
 -  if [ "x$is_top_level" = xtrue ] && [ "x${GRUB_DISABLE_SUBMENU}" != xtrue ]; then
@@ -74,12 +74,12 @@
  
 -  linux_entry "${OS}" "${version}" advanced \
 -              "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
-+  linux_entry "${OS} ${rlxos_sys_image}" "${version}" advanced \
++  linux_entry "${OS} ${avyos_sys_image}" "${version}" advanced \
 +              "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT} rd.image=${rd_image}"
    if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
 -    linux_entry "${OS}" "${version}" recovery \
 -                "single ${GRUB_CMDLINE_LINUX}"
-+    linux_entry "${OS} ${rlxos_sys_image}" "${version}" recovery \
++    linux_entry "${OS} ${avyos_sys_image}" "${version}" recovery \
 +                "single ${GRUB_CMDLINE_LINUX} rd.image=${rd_image}"
    fi
 +  

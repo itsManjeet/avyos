@@ -35,7 +35,7 @@ pre-script: |
   sed -i 's#/usr/share/misc/usb.ids#/usr/share/hwdata/usb.ids#g' Completion/Linux/Command/_lsusb
 
 post-script: |
-  install -v -D -m 0644 $RLXOS_FILES/zsh/profile -t %{install-root}%{sysconfdir}/zsh
+  install -v -D -m 0644 $AVYOS_FILES/zsh/profile -t %{install-root}%{sysconfdir}/zsh
   install -vDm0644 /dev/stdin %{install-root}/%{sysconfdir}/skel/.zshrc << "EOF"
   EOF
 

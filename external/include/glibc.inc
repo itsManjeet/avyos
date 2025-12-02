@@ -12,7 +12,7 @@ pre-script: |-
 
 configure: >-
   --with-headers=%{prefix}/include
-  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
+  --with-bugurl=https://github.com/itsmanjeet/avyos/issues
   --enable-bind-now
   --enable-cet
   --enable-fortify-source

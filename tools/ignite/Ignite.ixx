@@ -341,7 +341,7 @@ export class Ignite
             "NOCONFIGURE=1",     "HOME=/",     "SHELL=/bin/sh",
             "TERM=dumb",         "USER=nishu", "LOGNAME=nishu",
             "LC_ALL=C",          "TZ=UTC",     "SOURCE_DATA_EPOCH=918239400",
-            "RLXOS_FILES=/files"};
+            "AVYOS_FILES=/files"};
         if (auto n = config.node["environ"]; n)
         {
             for (const auto& i : n)
@@ -374,7 +374,7 @@ export class Ignite
                     {"/cache", cache_path / "cache"},
                     {"/files", project_path / "files"},
                     {"/patches", project_path / "patches"},
-                    {"/rlxos", project_path},
+                    {"/avyos", project_path},
 
                 },
             .capabilities = capabilities,

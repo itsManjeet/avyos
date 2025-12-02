@@ -1,12 +1,11 @@
 id: libreoffice
-version: 24.2.5.2
+version: 25.8.3.2
 about: LibreOffice is a full-featured office suite
 
 environ:
   - TAR_OPTIONS=--no-same-owner
 
 pre-script: |-
-  patch -Np1 -i libreoffice-24.2.5.2-boost_fixes-2.patch
 
   sed -i '/icuuc \\/a zlib\\' writerperfect/Library_wpftdraw.mk
 
@@ -29,7 +28,7 @@ pre-script: |-
 
   ./configure --prefix=%{prefix}  \
       --sysconfdir=%{sysconfdir}  \
-      --with-vendor=RLXOS         \
+      --with-vendor=AVYOS         \
       --with-myspell-dicts        \
       --with-lang=ALL             \
       --without-junit             \
@@ -119,4 +118,3 @@ sources:
   - libreoffice-dictionaries-%{version}::https://download.documentfoundation.org/libreoffice/src/%{version:3}/libreoffice-dictionaries-%{version}.tar.xz
   - libreoffice-help-%{version}::https://download.documentfoundation.org/libreoffice/src/%{version:3}/libreoffice-help-%{version}.tar.xz
   - libreoffice-translations-%{version}::https://download.documentfoundation.org/libreoffice/src/%{version:3}/libreoffice-translations-%{version}.tar.xz
-  - https://www.linuxfromscratch.org/patches/blfs/svn/libreoffice-%{version}-boost_fixes-2.patch

@@ -20,7 +20,7 @@ Key-Type: DSA
 Key-Length: 1024
 Subkey-Type: ELG-E
 Subkey-Length: 1024
-Name-Real: RLXOS
+Name-Real: AVYOS
 Expire-Date: 0
 %no-protection
 %commit
@@ -102,14 +102,14 @@ $(OSTREE_GPG)/key-config:
 	gpg --homedir=ostree-gpg.tmp -k --with-colons | sed '/^fpr:/q;d' | cut -d: -f10 >ostree-gpg.tmp/default-id
 	mv ostree-gpg.tmp $(OSTREE_GPG)
 
-files/rlxos.gpg: $(OSTREE_GPG)/key-config
+files/avyos.gpg: $(OSTREE_GPG)/key-config
 	gpg --homedir=$(OSTREE_GPG) --export --armor >"$@"
 
 update-app-market: $(IGNITE)
 	$(IGNITE) meta -cache-path $(CACHE_PATH) $(APPMARKET_PATH)/$(CHANNEL)
 	./scripts/extract-icons.sh $(APPMARKET_PATH)/$(CHANNEL)/apps/ $(APPMARKET_PATH)/$(CHANNEL)/icons/
 
-update-ostree: $(IGNITE) files/rlxos.gpg
+update-ostree: $(IGNITE) files/avyos.gpg
 ifndef ELEMENT
 	@echo "no ELEMENT specified"
 	@exit 1
@@ -117,7 +117,7 @@ endif
 	scripts/commit-ostree.sh													\
 	  --gpg-homedir=$(OSTREE_GPG)												\
 	  --gpg-sign=$$(cat $(OSTREE_GPG)/default-id)								\
-	  --collection-id=dev.rlxos.System											\
+	  --collection-id=dev.avyos.System											\
 	  --version=$(VERSION)													\
 	  $(OSTREE_REPO) $(ELEMENT)													\
 	  $(OSTREE_BRANCH)
@@ -147,7 +147,7 @@ files/sign-keys/modules/linux-module-cert.crt: files/sign-keys/linux-module-cert
 
 files/sign-keys/%.crt files/sign-keys/%.key:
 	[ -d files/sign-keys ] || mkdir -p files/sign-keys
-	openssl req -new -x509 -newkey rsa:2048 -subj "/CN=RLXOS $(basename $(notdir $@)) key/" -keyout "$(basename $@).key" -out "$(basename $@).crt" -days 3650 -nodes -sha256
+	openssl req -new -x509 -newkey rsa:2048 -subj "/CN=AVYOS $(basename $(notdir $@)) key/" -keyout "$(basename $@).key" -out "$(basename $@).crt" -days 3650 -nodes -sha256
 
 download-microsoft-keys: files/sign-keys/extra-db/.keep files/sign-keys/extra-kek/.keep
 	curl https://www.microsoft.com/pkiops/certs/MicCorUEFCA2011_2011-06-27.crt | openssl x509 -inform der -outform pem >files/sign-keys/extra-kek/mic-kek.crt

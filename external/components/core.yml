@@ -1,7 +1,7 @@
 id: core
 version: 2.0
 merge: [external/include/meta.inc]
-about: rlxos core components
+about: avyos core components
 
 depends:
   - components/busybox.yml

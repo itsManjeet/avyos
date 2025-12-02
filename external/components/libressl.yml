@@ -1,0 +1,9 @@
+id: libressl
+version: 4.2.1
+about: Free version of the TLS/crypto stack forked from OpenSSL
+
+depends:
+  - components/glibc.yml
+
+sources:
+  - https://cdn.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%{version}.tar.gz

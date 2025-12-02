@@ -1,9 +1,9 @@
 id: pam-config
 version: 0.0.1
-about: rlxos pam configuration module
+about: avyos pam configuration module
 
 build-depends:
   - components/bash.yml
 
 script: |
-  install -v -D -m 644 -t %{install-root}/etc/pam.d/ $RLXOS_FILES/pam/*
+  install -v -D -m 644 -t %{install-root}/etc/pam.d/ $AVYOS_FILES/pam/*

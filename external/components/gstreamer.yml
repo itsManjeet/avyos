@@ -41,8 +41,8 @@ configure: >-
   -D gstreamer:ptp-helper-permissions=capabilities
   -D libnice=disabled
   -D orc-source=system
-  -D package-name="RLXOS %{version}"
-  -D package-origin="https://rlxos.dev/"
+  -D package-name="AVYOS %{version}"
+  -D package-origin="https://avyos.dev/"
   -D vaapi=enabled
 
 depends:

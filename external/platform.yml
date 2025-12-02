@@ -1,7 +1,7 @@
 id: platform
 version: 2.2
 merge: [external/include/meta.inc]
-about: RLXOS platform components
+about: AVYOS platform components
 
 depends:
     - components/2in1.yml

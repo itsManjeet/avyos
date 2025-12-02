@@ -1,0 +1,116 @@
+From f77fc0e5d5838eb1831f6b1338adbe04b7b2ffb9 Mon Sep 17 00:00:00 2001
+From: Manjeet Singh <itsmanjeet1998@gmail.com>
+Date: Sun, 7 Dec 2025 13:23:31 +0000
+Subject: [PATCH] rebrand
+
+---
+ Deployment.cpp |  6 +++---
+ Sysroot.cpp    | 16 ++++++++--------
+ Sysroot.h      |  2 +-
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/Deployment.cpp b/Deployment.cpp
+index 90d9847..c3b1d7f 100644
+--- a/Deployment.cpp
++++ b/Deployment.cpp
+@@ -62,8 +62,8 @@ void Deployment::parse(OstreeRepo* repo) {
+     if (refspec.ends_with("/local")) {
+         GError* error;
+         // fallback to stable if error
+-        channel = origin_get_string(origin, "rlxos", "channel", "stable");
+-        auto ext_id = origin_get_string_list(origin, "rlxos", "extensions");
++        channel = origin_get_string(origin, "avyos", "channel", "stable");
++        auto ext_id = origin_get_string_list(origin, "avyos", "extensions");
+ 
+         std::unique_ptr<GVariant, decltype(&g_variant_unref)> commit(
+                 nullptr, g_variant_unref);
+@@ -91,7 +91,7 @@ void Deployment::parse(OstreeRepo* repo) {
+ std::string Deployment::get_revision(
+         GVariantDict* dict, const std::string& id) {
+     std::unique_ptr<GVariant, decltype(&g_variant_unref)> value(
+-            g_variant_dict_lookup_value(dict, ("rlxos.revision." + id).c_str(),
++            g_variant_dict_lookup_value(dict, ("avyos.revision." + id).c_str(),
+                     G_VARIANT_TYPE_STRING),
+             g_variant_unref);
+     gsize size;
+diff --git a/Sysroot.cpp b/Sysroot.cpp
+index 3f1a0b4..defb2b6 100644
+--- a/Sysroot.cpp
++++ b/Sysroot.cpp
+@@ -165,7 +165,7 @@ std::optional<UpdateInfo> Sysroot::pull(const Deployment& deployment,
+     int i = 0;
+     for (const auto& refspec : refs) {
+         auto [ref_changed, ref_revision, ref_changelog] =
+-                get_changelog("rlxos:" + refspec, revisions[i++]);
++                get_changelog("avyos:" + refspec, revisions[i++]);
+         updated_revisions.emplace_back(ref_revision);
+         if (ref_changed) {
+             updateInfo.changelog += ref_changelog + "\n";
+@@ -186,7 +186,7 @@ std::optional<UpdateInfo> Sysroot::pull(const Deployment& deployment,
+ 
+     std::unique_ptr<OstreeMutableTree, decltype(&g_object_unref)> mutableTree(
+             ostree_mutable_tree_new_from_commit(
+-                    repo, ("rlxos:" + refs[0]).c_str(), &error),
++                    repo, ("avyos:" + refs[0]).c_str(), &error),
+             g_object_unref);
+     if (mutableTree == nullptr) throw Error(error);
+ 
+@@ -195,7 +195,7 @@ std::optional<UpdateInfo> Sysroot::pull(const Deployment& deployment,
+                 nullptr, g_object_unref);
+         GFile* res;
+         gchar* file;
+-        if (!ostree_repo_read_commit(repo, ("rlxos:" + refs[i]).c_str(), &res,
++        if (!ostree_repo_read_commit(repo, ("avyos:" + refs[i]).c_str(), &res,
+                     &file, nullptr, &error)) {
+             throw Error(error);
+         }
+@@ -214,11 +214,11 @@ std::optional<UpdateInfo> Sysroot::pull(const Deployment& deployment,
+     gchar* commit_checksum;
+     std::unique_ptr<GVariantDict, decltype(&g_variant_dict_unref)> options(
+             g_variant_dict_new(nullptr), g_variant_dict_unref);
+-    g_variant_dict_insert_value(options.get(), "rlxos.revision.core",
++    g_variant_dict_insert_value(options.get(), "avyos.revision.core",
+             g_variant_new_string(updated_revisions[0].c_str()));
+     for (int i = 0; i < deployment.extensions.size(); i++) {
+         g_variant_dict_insert_value(options.get(),
+-                ("rlxos.revision." + deployment.extensions[i].first).c_str(),
++                ("avyos.revision." + deployment.extensions[i].first).c_str(),
+                 g_variant_new_string(updated_revisions[i + 1].c_str()));
+     }
+ 
+@@ -247,16 +247,16 @@ std::optional<UpdateInfo> Sysroot::pull(const Deployment& deployment,
+ 
+     origin.reset(
+             ostree_sysroot_origin_new_from_refspec(backend, "x86_64/os/local"));
+-    g_key_file_set_boolean(origin.get(), "rlxos", "merged", true);
++    g_key_file_set_boolean(origin.get(), "avyos", "merged", true);
+ 
+     std::vector<gchar*> ext_id;
+     for (auto const& [id, _] : deployment.extensions) {
+         ext_id.push_back((gchar*)id.c_str());
+     }
+     g_key_file_set_string_list(
+-            origin.get(), "rlxos", "extensions", ext_id.data(), ext_id.size());
++            origin.get(), "avyos", "extensions", ext_id.data(), ext_id.size());
+     g_key_file_set_string(
+-            origin.get(), "rlxos", "channel", deployment.channel.c_str());
++            origin.get(), "avyos", "channel", deployment.channel.c_str());
+ 
+     std::unique_ptr<OstreeDeployment, decltype(&g_object_unref)> new_deployment(
+             nullptr, g_object_unref);
+diff --git a/Sysroot.h b/Sysroot.h
+index 8c1e213..a13706c 100644
+--- a/Sysroot.h
++++ b/Sysroot.h
+@@ -22,7 +22,7 @@
+ #include <functional>
+ #include <optional>
+ #include <ostree.h>
+-#define OSNAME "rlxos"
++#define OSNAME "avyos"
+ 
+ struct UpdateInfo {
+     std::string changelog;
+-- 
+2.47.3
+

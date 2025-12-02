@@ -62,7 +62,7 @@ int pull(Ignite* ignite, const std::vector<std::string>& args)
     std::vector<Ignite::State> states;
     ignite->resolve(args, states);
     const auto artifact_url = ignite->config.get<std::string>(
-        "artifact-url", "https://repo.rlxos.dev");
+        "artifact-url", "https://repo.avyos.dev");
     std::filesystem::create_directories(cache_path);
 
     for (auto& [id, recipe, cached] : states)
@@ -389,6 +389,7 @@ int update(Ignite* ignite, const std::vector<std::string>& args)
     }
     return 0;
 }
+
 
 int main(int argc, char** argv)
 {

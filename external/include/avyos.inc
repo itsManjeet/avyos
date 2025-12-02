@@ -1,5 +1,5 @@
 script: |-
-    cmake -S /rlxos -B %{build-dir}     \
+    cmake -S /avyos -B %{build-dir}     \
         -DCMAKE_INSTALL_PREFIX=%{prefix}          \
         -DCMAKE_INSTALL_SYSCONFDIR=%{sysconfdir}  \
         -DCMAKE_INSTALL_BINDIR=%{bindir}          \
@@ -9,7 +9,7 @@ script: |-
         -DCMAKE_INSTALL_LOCALSTATEDIR=%{localstatedir}  \
         -DCMAKE_INSTALL_DATADIR=%{datadir}        \
         -DCMAKE_BUILD_TYPE=Release                \
-        -DCMAKE_MODULE_PATH=/rlxos/cmake %{configure}
+        -DCMAKE_MODULE_PATH=/avyos/cmake %{configure}
 
     cmake --build %{build-dir} %{compile} --target %{id}
     DESTDIR=%{install-root} cmake --install %{build-dir} %{install} --target %{id}
