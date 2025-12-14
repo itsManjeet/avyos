@@ -18,7 +18,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "udev.h"
+#include "libudev.h"
 #include "udev_list.h"
 
 void udev_list_entry_init(struct udev_list_entry *list_entry)

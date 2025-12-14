@@ -21,7 +21,7 @@
 #include <sys/socket.h>
 #include <linux/netlink.h>
 
-#include "udev.h"
+#include "libudev.h"
 #include "udev_list.h"
 
 #ifndef UDEV_MONITOR_NLGRP

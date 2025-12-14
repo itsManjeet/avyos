@@ -17,7 +17,7 @@
 
 #include <stdlib.h>
 
-#include "udev.h"
+#include "libudev.h"
 
 struct udev {
     int refcount;

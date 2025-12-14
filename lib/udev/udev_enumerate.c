@@ -23,7 +23,7 @@
 #include <fnmatch.h>
 #include <pthread.h>
 
-#include "udev.h"
+#include "libudev.h"
 #include "udev_list.h"
 
 struct udev_enumerate {

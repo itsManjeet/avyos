@@ -23,7 +23,7 @@
 #include <sys/stat.h>
 #include <linux/input.h>
 
-#include "udev.h"
+#include "libudev.h"
 #include "udev_list.h"
 
 #ifndef LINE_MAX
