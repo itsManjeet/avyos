@@ -1,0 +1,9 @@
+# Nulea M501 does not name itself as a "Trackball"
+# In USB mode, it shares a generic dongle and name with other non-trackball
+# mice. As such, trackball quirks are enabled only for bluetooth modes.
+
+[Nulea M501 Bluetooth Trackball]
+MatchBus=bluetooth
+MatchVendor=0x000E
+MatchProduct=0x3412
+ModelTrackball=1

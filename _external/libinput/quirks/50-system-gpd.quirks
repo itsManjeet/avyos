@@ -1,0 +1,11 @@
+[GPD Win Max - All versions]
+MatchName=HTIX5288:00 093A:0255 Touchpad
+MatchUdevType=touchpad
+MatchDMIModalias=dmi:*svnGPD:*pnG1619-*
+AttrEventCode=-BTN_RIGHT
+
+[GPD MicroPC 2 Touchpad]
+MatchName=ALPS0001:00 36B6:C001 Touchpad
+MatchUdevType=touchpad
+MatchDMIModalias=dmi:*svnGPD:pnG1688-08:*
+AttrInputProp=-INPUT_PROP_BUTTONPAD

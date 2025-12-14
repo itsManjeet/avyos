@@ -1,0 +1,8 @@
+# Clickpad that announces BTN_RIGHT
+# requires AttrInputProp=+INPUT_PROP_PRESSUREPAD
+[HONOR MagicBook Art 14]
+MatchName=*TOPS0102*
+MatchDMIModalias=dmi:*svnHONOR:*pnMRA-XXX*
+MatchUdevType=touchpad
+AttrEventCode=-BTN_RIGHT
+AttrInputProp=+INPUT_PROP_PRESSUREPAD
