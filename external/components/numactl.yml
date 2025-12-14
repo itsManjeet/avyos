@@ -1,8 +1,0 @@
-id: numactl
-version: 2.0.16
-about: Simple NUMA policy support
-
-depends:
-  - components/glibc.yml
-sources:
-  - https://github.com/numactl/numactl/releases/download/v%{version}/%{id}-%{version}.tar.gz

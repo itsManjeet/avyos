@@ -1,9 +1,0 @@
-id: libbsd
-version: 0.11.7
-about: Provides useful functions commonly found on BSD systems like strlcpy
-
-depends:
-  - components/glibc.yml
-  - components/libmd.yml
-sources:
-  - https://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz

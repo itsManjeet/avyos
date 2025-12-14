@@ -1,5 +1,0 @@
-id: xfce4-mount-plugin
-version: 1.1.6
-about: Mount/umount utility for the Xfce4 panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

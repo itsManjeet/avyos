@@ -1,9 +1,0 @@
-id: kcrash
-merge: [external/include/kf5.inc]
-about: KF5 kcrash
-depends:
-  - components/qt.yml
-  - components/kcoreaddons.yml
-  - components/kwindowsystem.yml
-build-depends:
-  - components/extra-cmake-modules.yml

@@ -1,8 +1,0 @@
-id: plasma-firewall
-merge: [external/include/plasma.inc]
-about: Plasma plasma-firewall
-
-depends:
-  - components/plasma/systemsettings.yml
-build-depends:
-  - components/extra-cmake-modules.yml

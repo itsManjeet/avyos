@@ -1,9 +1,0 @@
-id: ostree-integrity
-version: 0.0.1
-about: Ostree Integrity test
-
-script: |-
-  false
-
-depends:
-  - components/ostree.yml

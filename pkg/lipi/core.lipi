@@ -1,0 +1,25 @@
+; not
+(define (not v) (if v #f #t))
+
+(define (foldl f acc lst)
+  (if (nil? lst)
+    acc
+    (foldl f
+      (f acc (car lst))
+      (cdr lst))))
+
+(define (foldr f acc lst)
+  (if (nil? lst)
+    acc
+    (f (car lst)
+      (foldr f acc (cdr lst)))))
+
+(define (reverse lst)
+  (foldl (fun (acc x) (cons x acc)) '() lst))
+
+(define (for-each f lst)
+  (if (nil? lst)
+    #N
+    (do
+      (f (car lst))
+      (for-each f (cdr lst)))))

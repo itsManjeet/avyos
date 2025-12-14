@@ -1,8 +1,0 @@
-id: kcodecs
-
-depends:
-  - components/qt.yml
-build-depends:
-  - components/gperf.yml
-  - components/extra-cmake-modules.yml
-merge: [external/include/kf5.inc]

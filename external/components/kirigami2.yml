@@ -1,8 +1,0 @@
-id: kirigami2
-merge: [external/include/kf5.inc]
-about: KF5 kirigami2
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-  - components/kpackage.yml

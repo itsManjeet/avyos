@@ -1,8 +1,0 @@
-id: xfce4-clipman-plugin
-version: 1.6.5
-about: A clipboard plugin for the Xfce4 panel
-depends:
-  - components/x11/libxtst.yml
-  - components/qrencode.yml
-
-merge: [external/include/xfce4-panel-plugin.inc]

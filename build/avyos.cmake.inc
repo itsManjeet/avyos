@@ -1,0 +1,87 @@
+include ${.TOPDIR}/build/avyos.toolchain.inc
+
+DISTDIR 		?= ${.CURDIR}
+
+ifeq (${HOST_BUILD},1)
+CONFIGURE_ARGS	?= \
+	-DCMAKE_INSTALL_PREFIX=${TOOLCHAIN_PATH}
+DESTDIR 		?= /
+else
+CONFIGURE_ARGS	?= \
+	-DCMAKE_INSTALL_PREFIX=/ \
+	-DCMAKE_INSTALL_BINDIR=/cmd \
+	-DCMAKE_INSTALL_SBINDIR=/cmd \
+	-DCMAKE_INSTALL_SYSCONFDIR=/config \
+	-DCMAKE_INSTALL_LIBDIR=/lib \
+	-DCMAKE_INSTALL_LIBEXECDIR=/lib \
+	-DCMAKE_INSTALL_DATADIR=/data
+EXTRA_CONFIGURE_ARGS    += -DCMAKE_TOOLCHAIN_FILE=${.OBJDIR}/avyos.${TARGET_TRIPLET}.cmake
+DESTDIR			?= ${SYSROOT_PATH}
+
+define AVYOS_TOOLCHAIN_FILE
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR ${GOARCH})
+
+set(CMAKE_C_COMPILER	${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-gcc)
+set(CMAKE_CXX_COMPILER	${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-g++)
+set(CMAKE_ASM_COMPILER	${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-asm)
+set(CMAKE_LINKER		${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-ld)
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+set(CMAKE_SYSROOT       "${SYSROOT_PATH}")
+
+set(CMAKE_C_FLAGS		"${CFLAGS}")
+set(CMAKE_CXX_FLAGS		"${CXXFLAGS}")
+set(CMAKE_ASM_FLAGS		"${CFLAGS}")
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+endef
+export AVYOS_TOOLCHAIN_FILE
+
+endif
+
+all: ${.OBJDIR}/.install-done
+
+${.OBJDIR}/.configure-done: ${DISTDIR}/CMakeLists.txt
+ifneq (${HOST_BUILD},1)
+	echo "$$AVYOS_TOOLCHAIN_FILE" > ${.OBJDIR}/avyos.${TARGET_TRIPLET}.cmake
+endif
+	cmake -B ${.OBJDIR} -S ${DISTDIR} ${CONFIGURE_ARGS} ${EXTRA_CONFIGURE_ARGS}
+	
+	@touch $@
+
+${.OBJDIR}/.build-done: ${.OBJDIR}/.configure-done
+	cd ${.OBJDIR}; \
+		${PRE_BUILD_COMMANDS}
+	
+	cmake --build ${.OBJDIR} ${BUILD_ARGS} -j$(shell nproc)
+
+	cd ${.OBJDIR}; \
+		${POST_BUILD_COMMANDS}
+
+	@touch $@
+
+${.OBJDIR}/.install-done: ${.OBJDIR}/.build-done
+	cd ${.OBJDIR}; \
+		${PRE_INSTALL_COMMANDS}
+	
+	DESTDIR=${DESTDIR} cmake --install ${.OBJDIR} ${INSTALL_ARGS}
+
+	cd ${.OBJDIR}; \
+		${POST_INSTALL_COMMANDS}
+	
+	@touch $@
+
+clean:
+	rm -rf ${.OBJDIR}/.*-done
+
+distclean:
+	rm -rf ${.OBJDIR}
+
+include ${.TOPDIR}/build/avyos.sources.inc
+
+.PHONE: all configure-help clean distclean

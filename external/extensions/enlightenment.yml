@@ -1,7 +1,0 @@
-id: enlightenment
-version: 0.26.0
-about: Enlightenment desktop environment
-include:
-  - components/meta-enlightenment.yml
-
-merge: [external/include/extension.inc]

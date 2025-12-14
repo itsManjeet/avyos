@@ -1,6 +1,0 @@
-# INCLUDE sdt.h and sdt-config.h for GLIBC
-# INCLUDE jansson library on core for binutils
-# internal/element: FIX element information hashing
-# components/filesystem: override systemd sysusers.d/basic.conf to create more precise users and groups
-# components/filesystem: added /usr/bin/bash and /bin/sh on shells
-# components/*.yml: add presets for all systemd servers

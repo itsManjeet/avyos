@@ -1,8 +1,0 @@
-id: xfce4-mpc-plugin
-version: 0.5.3
-about: Control the Music Player Daemon from the Xfce4 panel
-
-depends:
-  - components/libmpd.yml
-
-merge: [external/include/xfce4-panel-plugin.inc]

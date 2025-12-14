@@ -1,9 +1,0 @@
-id: libxcvt
-version: 0.1.2
-about: Library providing a standalone version of the X server implementation of the VESA CVT standard timing modelines generator
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://xorg.freedesktop.org/releases/individual/lib/libxcvt-%{version}.tar.xz

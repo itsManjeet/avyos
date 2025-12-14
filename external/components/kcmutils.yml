@@ -1,9 +1,0 @@
-id: kcmutils
-about: KF5 kcmutils
-
-depends:
-  - components/kdeclarative.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-
-merge: [external/include/kf5.inc]

@@ -1,7 +1,0 @@
-id: perl-xml-simple
-version: 2.25
-about: An easy API to read and write XML (especially config files)
-depends:
-  - components/perl.yml
-sources:
-  - https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-%{version}.tar.gz

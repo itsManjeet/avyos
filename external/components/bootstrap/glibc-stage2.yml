@@ -1,6 +1,0 @@
-id: glibc-stage2
-merge:
-  - external/include/glibc.inc
-
-build-depends:
-  - components/bootstrap/gcc-stage1.yml

@@ -1,7 +1,0 @@
-id: kdnssd
-merge: [external/include/kf5.inc]
-about: KF5 kdnssd
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml

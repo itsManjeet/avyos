@@ -1,9 +1,0 @@
-id: libdaemon
-version: 0.14
-about: A lightweight C library that eases the writing of UNIX daemons
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - http://0pointer.de/lennart/projects/libdaemon/libdaemon-%{version}.tar.gz

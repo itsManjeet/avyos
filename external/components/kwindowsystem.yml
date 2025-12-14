@@ -1,9 +1,0 @@
-id: kwindowsystem
-merge: [external/include/kf5.inc]
-about: Access to windowing system
-
-depends:
-  - components/qt.yml
-  - components/kwayland.yml
-build-depends:
-  - components/extra-cmake-modules.yml

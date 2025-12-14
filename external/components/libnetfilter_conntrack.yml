@@ -1,9 +1,0 @@
-id: libnetfilter_conntrack
-version: 1.0.9
-about: library providing an API to the in-kernel connecting tracking state table
-
-depends:
-  - components/libmnl.yml
-  - components/libnfnetlink.yml
-sources:
-  - https://www.netfilter.org/projects/libnetfilter_conntrack/assets/libnetfilter_conntrack-%{version}.tar.bz2

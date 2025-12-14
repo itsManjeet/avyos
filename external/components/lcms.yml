@@ -1,8 +1,0 @@
-id: lcms
-version: 2.15
-about: Little Color Management System is a small-footprint color management engine
-sources:
-  - https://downloads.sourceforge.net/lcms/lcms2-%{version}.tar.gz
-
-depends:
-  - components/libtiff.yml

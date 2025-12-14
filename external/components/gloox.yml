@@ -1,9 +1,0 @@
-id: gloox
-version: 1.0.27
-about: C++ libraries for development of jabber client/component/server
-
-depends:
-  - components/gnutls.yml
-  - components/libidn2.yml
-sources:
-  - https://camaya.net/download/gloox-%{version}.tar.bz2

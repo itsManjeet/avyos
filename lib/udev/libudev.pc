@@ -1,0 +1,11 @@
+prefix=/
+exec_prefix=${prefix}
+libdir=/lib
+includedir=${prefix}/include
+
+Name: libudev
+Description: Daemonless replacement for libudev
+Version: 251
+URL: https://github.com/illiliti/libudev-zero
+Libs: -L${libdir} -ludev
+Cflags: -I${includedir}

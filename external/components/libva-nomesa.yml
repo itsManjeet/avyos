@@ -1,9 +1,0 @@
-id: libva-nomesa
-version: 2.19.0
-about: Library provides access to hardware accelerated video processing
-
-depends:
-  - components/libdrm.yml
-
-sources:
-  - https://github.com/intel/libva/releases/download/%{version}/libva-%{version}.tar.bz2

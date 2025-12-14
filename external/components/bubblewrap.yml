@@ -1,9 +1,0 @@
-id: bubblewrap
-version: 0.9.0
-about: A setuid implementation of user namespaces, or sandboxing, that provides access to a subset of kernel user namespace features
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://github.com/projectatomic/bubblewrap/releases/download/v%{version}/bubblewrap-%{version}.tar.xz

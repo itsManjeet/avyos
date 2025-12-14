@@ -1,8 +1,0 @@
-id: perl-mime-charset
-version: 1.012.2
-about: Charset information for MIME
-depends:
-  - components/perl.yml
-sources:
-  - https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/MIME-Charset-%{version}.tar.gz
-install: INSTALLDIRS=vendor

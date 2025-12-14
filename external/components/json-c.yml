@@ -1,9 +1,0 @@
-id: json-c
-version: 0.17
-about: A reference counting object model that allows you to easily construct JSON objects in C
-sources:
-  - https://s3.amazonaws.com/json-c_releases/releases/json-c-%{version}.tar.gz
-depends:
-  - components/glibc.yml
-build-depends:
-  - components/cmake.yml

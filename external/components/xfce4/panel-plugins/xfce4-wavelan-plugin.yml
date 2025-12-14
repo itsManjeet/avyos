@@ -1,5 +1,0 @@
-id: xfce4-wavelan-plugin
-version: 0.6.3
-about: Plugin to monitor wifi connectivity for the Xfce4 panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

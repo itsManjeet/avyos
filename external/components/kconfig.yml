@@ -1,7 +1,0 @@
-id: kconfig
-about: KF5 kconfig
-merge: [external/include/kf5.inc]
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml

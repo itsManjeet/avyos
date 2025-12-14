@@ -1,9 +1,0 @@
-id: gobject-introspection
-version: 1.76.1
-about: Describe the program APIs and collect them in a uniform, machine readable format
-sources:
-  - https://download.gnome.org/sources/gobject-introspection/%{version:2}/gobject-introspection-%{version}.tar.xz
-build-dir: gobject-introspection-%{version}
-
-depends:
-  - components/glib.yml

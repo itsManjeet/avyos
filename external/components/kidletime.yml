@@ -1,9 +1,0 @@
-id: kidletime
-merge: [external/include/kf5.inc]
-about: KF5 kidletime
-
-depends:
-  - components/qt.yml
-  - components/kwayland.yml
-build-depends:
-  - components/extra-cmake-modules.yml

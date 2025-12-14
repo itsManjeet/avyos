@@ -1,9 +1,0 @@
-id: pam-config
-version: 0.0.1
-about: rlxos pam configuration module
-
-build-depends:
-  - components/bash.yml
-
-script: |
-  install -v -D -m 644 -t %{install-root}/etc/pam.d/ /assets/pam/*

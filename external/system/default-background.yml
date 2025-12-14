@@ -1,9 +1,0 @@
-id: default-background
-version: 0.0.1
-about: Default background
-
-build-type: import
-target: "usr/share/backgrounds/"
-
-sources:
-  - assets/backgrounds/default.jpeg

@@ -1,7 +1,0 @@
-id: kdav
-merge: [external/include/kf5.inc]
-about: KF5 kdav
-depends:
-  - components/kio.yml
-build-depends:
-  - components/extra-cmake-modules.yml

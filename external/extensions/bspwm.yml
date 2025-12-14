@@ -1,7 +1,0 @@
-id: bspwm
-version: 0.9.10
-about: bspwm window manager
-include:
-  - components/bspwm.yml
-
-merge: [external/include/extension.inc]

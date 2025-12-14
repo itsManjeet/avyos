@@ -1,0 +1,13 @@
+; List all files
+(define (ls . path)
+  (let ((dir (if (nil? path) "." (car path))))
+    (let ((files (os:list-dir dir)))
+      (do
+        (for-each
+          (fun (f)
+            (let ((name (map:at f "name"))
+                (size (map:at f "size"))
+                (isdir (if (map:at f "is-dir") "/" "")))
+              (write 1 "{name}{isdir} ")))
+          files)
+        (write 1 "\n")))))

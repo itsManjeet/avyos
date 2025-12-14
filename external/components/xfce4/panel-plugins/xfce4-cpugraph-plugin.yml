@@ -1,5 +1,0 @@
-id: xfce4-cpugraph-plugin
-version: 1.2.8
-about: Graphical representation of the CPU load
-
-merge: [external/include/xfce4-panel-plugin.inc]

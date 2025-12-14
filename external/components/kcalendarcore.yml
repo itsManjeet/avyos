@@ -1,9 +1,0 @@
-id: kcalendarcore
-about: KF5 kcalendarcore
-
-depends:
-  - components/libical.yml
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-merge: [external/include/kf5.inc]

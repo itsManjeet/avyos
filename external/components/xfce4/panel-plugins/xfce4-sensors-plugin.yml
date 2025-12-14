@@ -1,9 +1,0 @@
-id: xfce4-sensors-plugin
-version: 1.4.4
-about: Sensors plugin for the Xfce panel
-
-depends:
-- components/libnotify.yml
-- components/lm-sensors.yml
-
-merge: [external/include/xfce4-panel-plugin.inc]

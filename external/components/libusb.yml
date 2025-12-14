@@ -1,9 +1,0 @@
-id: libusb
-version: 1.0.27
-about: A library used by some applications for USB device access
-
-sources:
-  - https://github.com/libusb/libusb/releases/download/v%{version}/libusb-%{version}.tar.bz2
-
-depends:
-  - components/glibc.yml

@@ -1,10 +1,1 @@
-/.cache
-/.vscode
-
-/build
-/checkout
-
-/ostree-branch.yml
-/version.yml
-/channel.yml
-/config.mk
+/_out

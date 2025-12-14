@@ -1,5 +1,0 @@
-id: xfce4-verve-plugin
-version: 2.0.3
-about: Command line plugin for the Xfce panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

@@ -1,4 +1,0 @@
-DISTRIB_ID="rlxos"
-DISTRIB_RELEASE="@version@"
-DISTRIB_CODENAME="@codename@"
-DISTRIB_DESCRIPTION="rlxos @version@ @codename@"

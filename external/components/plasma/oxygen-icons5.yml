@@ -1,8 +1,0 @@
-id: oxygen-icons5
-merge: [external/include/plasma.inc]
-about: KF5 oxygen-icons5
-
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml

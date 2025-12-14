@@ -1,8 +1,0 @@
-id: amtk
-version: 5.6.1
-about: A basic GTKUIManager replacement based on GAction
-
-depends:
-  - components/gtk.yml
-sources:
-  - https://download.gnome.org/sources/amtk/%{version:2}/amtk-%{version}.tar.xz

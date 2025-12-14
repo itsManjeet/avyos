@@ -1,8 +1,0 @@
-id: libnfnetlink
-version: 1.0.2
-about: low-level library for netfilter related kernel/userspace communication
-
-depends:
-  - components/glibc.yml
-sources:
-  - https://www.netfilter.org/projects/libnfnetlink/assets/libnfnetlink-%{version}.tar.bz2

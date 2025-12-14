@@ -1,8 +1,0 @@
-id: libmd
-version: 1.1.0
-about: Message Digest functions from BSD systems
-
-depends:
-  - components/glibc.yml
-sources:
-  - https://libbsd.freedesktop.org/releases/libmd-%{version}.tar.xz

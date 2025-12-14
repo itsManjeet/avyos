@@ -1,9 +1,0 @@
-id: less
-version: 661
-about: A text file viewer
-sources:
-  - https://www.greenwoodsoftware.com/less/less-%{version}.tar.gz
-depends:
-  - components/glibc.yml
-  - components/ncurses.yml
-  - components/pcre2.yml

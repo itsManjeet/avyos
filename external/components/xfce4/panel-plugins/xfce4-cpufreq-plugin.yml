@@ -1,5 +1,0 @@
-id: xfce4-cpufreq-plugin
-version: 1.2.8
-about: CPU frequency and governor plugin for the Xfce4 panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

@@ -1,9 +1,0 @@
-id: gofont
-version: latest
-about: Official go fonts
-
-sources:
-  - ttf-gofont.tar.gz::https://go.googlesource.com/image/+archive/master/font/gofont/ttfs.tar.gz
-script: |-
-  mkdir -p %{install-root}%{datadir}/fonts/%{id}
-  mv *.ttf %{install-root}%{datadir}/fonts/%{id}/

@@ -1,8 +1,0 @@
-id: perl-uri
-version: 5.09
-about: Module implements the URI class
-
-depends:
-  - components/perl.yml
-sources:
-  - https://www.cpan.org/authors/id/O/OA/OALDERS/URI-%{version}.tar.gz

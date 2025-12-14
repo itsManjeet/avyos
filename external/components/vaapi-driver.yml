@@ -1,9 +1,0 @@
-id: vaapi-driver
-version: 2.4.1
-about: VAAPI driver
-
-depends:
-  - components/libva.yml
-sources:
-  - https://github.com/intel/intel-vaapi-driver/releases/download/%{version}/intel-vaapi-driver-%{version}.tar.bz2
-# TODO: fix update url

@@ -1,8 +1,0 @@
-id: libmtp
-version: 1.1.21
-about: Library implementation of the Media Transfer Protocol
-
-depends:
-  - components/libusb.yml
-sources:
-  - https://downloads.sourceforge.net/libmtp/libmtp-%{version}.tar.gz

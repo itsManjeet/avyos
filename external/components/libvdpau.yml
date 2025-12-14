@@ -1,8 +1,0 @@
-id: libvdpau
-version: 1.5
-about: A library which implements the VDPAU library
-
-depends:
-  - components/x11/libx11.yml
-sources:
-  - https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/%{version}/libvdpau-%{version}.tar.bz2

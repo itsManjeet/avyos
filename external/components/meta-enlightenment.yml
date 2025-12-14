@@ -1,9 +1,0 @@
-id: meta-enlightenment
-version: 0.26.0
-about: Enlightenment group
-
-depends:
-  - components/enlightenment/enlightenment.yml
-  - components/enlightenment/terminology.yml
-
-merge: [external/include/meta.inc]

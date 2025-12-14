@@ -1,5 +1,0 @@
-id: xfce4-genmon-plugin
-version: 4.2.0
-about: Plugin that monitors customizable programs stdout for the Xfce4 panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

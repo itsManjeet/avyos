@@ -1,5 +1,0 @@
-NAME="rlxos @codename@"
-VERSION="@version@"
-ID=rlxos
-PRETTY_NAME="rlxos GNU/Linux"
-VERSION_CODENAME="@codename@"

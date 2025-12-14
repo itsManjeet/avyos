@@ -1,9 +1,0 @@
-id: py-psutil
-version: 5.9.6
-about: A cross platform process and system utilities module for python
-
-depends:
-- components/python.yml
-- components/py/py-setuptools.yml
-sources:
-- py-psutil-%{version}.tar.gz::https://github.com/giampaolo/psutil/archive/release-%{version}.tar.gz

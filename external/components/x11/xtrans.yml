@@ -1,9 +1,0 @@
-id: xtrans
-version: 1.5.0
-about: xorg library xtrans
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://www.x.org/pub/individual/lib/xtrans-%{version}.tar.xz

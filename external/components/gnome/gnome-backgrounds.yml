@@ -1,8 +1,0 @@
-id: gnome-backgrounds
-version: 46.0
-about:
-  A collection of graphics files which can be used as backgrounds in the GNOME
-  Desktop environment
-
-sources:
-  - https://download.gnome.org/sources/gnome-backgrounds/%{version:2}/gnome-backgrounds-%{version}.tar.xz

@@ -1,7 +1,0 @@
-id: py-cairo
-version: 1.24.0
-about: Python bindings to cairo
-depends:
-  - components/cairo.yml
-sources:
-  - https://github.com/pygobject/pycairo/releases/download/v%{version}/pycairo-%{version}.tar.gz

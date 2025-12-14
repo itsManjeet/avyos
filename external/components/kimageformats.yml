@@ -1,8 +1,0 @@
-id: kimageformats
-merge: [external/include/kf5.inc]
-about: KF5 kimageformats
-depends:
-  - components/qt.yml
-  - components/karchive.yml
-build-depends:
-  - components/extra-cmake-modules.yml

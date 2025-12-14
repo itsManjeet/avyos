@@ -1,5 +1,0 @@
-id: xfce4-time-out-plugin
-version: 1.1.3
-about: Take a break from your computer with this plugin for Xfce4
-
-merge: [external/include/xfce4-panel-plugin.inc]

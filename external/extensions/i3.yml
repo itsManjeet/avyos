@@ -1,9 +1,0 @@
-id: i3
-version: 0.1.0
-about: I3 Window Manager
-include:
-  - components/i3.yml
-  - components/i3lock.yml
-  - components/i3status.yml
-
-merge: [external/include/extension.inc]

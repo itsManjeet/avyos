@@ -1,9 +1,0 @@
-id: swig
-version: 4.2.1
-about: Generate scripting interface to C/C++ code
-
-depends:
-  - components/libgcc.yml
-  - components/pcre.yml
-sources:
-  - https://downloads.sourceforge.net/swig/swig-%{version}.tar.gz

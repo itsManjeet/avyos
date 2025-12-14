@@ -1,9 +1,0 @@
-id: kguiaddons
-merge: [external/include/kf5.inc]
-about: KF5 kguiaddons
-
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-  - components/plasma/plasma-wayland-protocols.yml

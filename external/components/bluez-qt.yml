@@ -1,9 +1,0 @@
-id: bluez-qt
-merge: [external/include/kf5.inc]
-about: KF5 bluez-qt
-
-depends:
-  - components/qt.yml
-  - components/bluez.yml
-build-depends:
-  - components/extra-cmake-modules.yml

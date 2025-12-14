@@ -1,9 +1,0 @@
-image="/usr/share/backgrounds/default_blur.jpg"
-scaling=fill
-
-indicator-caps-lock
-indicator-idle-visible
-indicator-thickness=4
-
-font="Liberation Sans"
-font-size=14

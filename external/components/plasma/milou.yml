@@ -1,9 +1,0 @@
-id: milou
-merge: [external/include/plasma.inc]
-about: Plasma milou
-depends:
-  - components/krunner.yml
-  - components/kitemmodels.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-  - components/kdoctools.yml

@@ -1,7 +1,0 @@
-id: awesome
-version: 4.3
-about: Awesome window manager
-include:
-  - components/awesome.yml
-
-merge: [external/include/extension.inc]

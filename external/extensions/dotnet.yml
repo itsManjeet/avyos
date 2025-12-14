@@ -1,7 +1,0 @@
-id: dotnet
-version: 6.0.300
-about: Binary release of .NET
-include:
-  - components/dotnet.yml
-
-merge: [external/include/extension.inc]

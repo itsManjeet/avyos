@@ -1,7 +1,0 @@
-id: nvidia
-version: 0.1.0
-about: Nvidia userland utilities
-include:
-  - components/nvidia-settings.yml
-
-merge: [external/include/extension.inc]

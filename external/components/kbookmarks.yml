@@ -1,8 +1,0 @@
-id: kbookmarks
-about: KF5 kbookmarks
-
-depends:
-  - components/kxmlgui.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-merge: [external/include/kf5.inc]

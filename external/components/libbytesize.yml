@@ -1,8 +1,0 @@
-id: libbytesize
-version: 2.10
-about: A library which facilitates the common operations with sizes in bytes
-
-depends:
-  - components/pcre2.yml
-sources:
-  - https://github.com/storaged-project/libbytesize/releases/download/%{version}/libbytesize-%{version}.tar.gz

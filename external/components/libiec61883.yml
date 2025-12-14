@@ -1,8 +1,0 @@
-id: libiec61883
-version: 1.2.0
-about: A higher level API for streaming DV, MPEG-2 and audio over Linux IEEE 1394
-
-depends:
-  - components/libraw1394.yml
-sources:
-  - https://www.kernel.org/pub/linux/libs/ieee1394/libiec61883-%{version}.tar.xz

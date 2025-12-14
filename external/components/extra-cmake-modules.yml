@@ -1,7 +1,0 @@
-id: extra-cmake-modules
-merge: [external/include/kf5.inc]
-about: |
-  Extra Cmake Modules package contains extra CMake modules used by KDE Frameworks 5
-
-depends:
-  - components/cmake.yml

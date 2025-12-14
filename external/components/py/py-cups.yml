@@ -1,7 +1,0 @@
-id: py-cups
-version: 2.0.1
-about: Python bindings to libcups
-depends:
-  - components/cups.yml
-sources:
-  - py-cups-%{version}.tar.gz::https://github.com/OpenPrinting/pycups/archive/v%{version}.tar.gz

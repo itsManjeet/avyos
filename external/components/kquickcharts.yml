@@ -1,8 +1,0 @@
-id: kquickcharts
-merge: [external/include/kf5.inc]
-about: KF5 kquickcharts
-
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml

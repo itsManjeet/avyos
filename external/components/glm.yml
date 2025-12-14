@@ -1,9 +1,0 @@
-id: glm
-version: 1.0.1
-about: C++ mathematics library for 3D software
-
-build-depends:
-  - components/unzip.yml
-
-sources:
-  - glm-%{version}.tar.gz::https://github.com/g-truc/glm/archive/refs/tags/%{version}.tar.gz

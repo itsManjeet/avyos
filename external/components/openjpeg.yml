@@ -1,9 +1,0 @@
-id: openjpeg
-version: 2.5.2
-about: An open-source implementation of the JPEG-2000 standard
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://github.com/uclouvain/openjpeg/archive/v%{version}/openjpeg-%{version}.tar.gz

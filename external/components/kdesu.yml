@@ -1,9 +1,0 @@
-id: kdesu
-merge: [external/include/kf5.inc]
-about: KF5 kdesu
-
-depends:
-  - components/kconfig.yml
-  - components/kpty.yml
-build-depends:
-  - components/extra-cmake-modules.yml

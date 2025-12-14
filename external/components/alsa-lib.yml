@@ -1,9 +1,0 @@
-id: alsa-lib
-version: 1.2.12
-about: ALSA library to access the ALSA sound interface
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://www.alsa-project.org/assets/pub/lib/alsa-lib-%{version}.tar.bz2

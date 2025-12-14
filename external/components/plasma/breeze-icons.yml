@@ -1,8 +1,0 @@
-id: breeze-icons
-about: KF5 breeze-icons
-
-depends:
-  - components/qt.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-merge: [external/include/plasma.inc]

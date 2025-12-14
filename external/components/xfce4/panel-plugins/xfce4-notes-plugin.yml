@@ -1,9 +1,0 @@
-id: xfce4-notes-plugin
-version: 1.10.0
-about: Notes plugin for the Xfce panel
-
-configure: >-
-  CFLAGS="$CFLAGS -Wno-incompatible-pointer-types"
-  --disable-debug
-
-merge: [external/include/xfce4-panel-plugin.inc]

@@ -1,9 +1,0 @@
-id: ktexteditor
-merge: [external/include/kf5.inc]
-about: KF5 ktexteditor
-
-depends:
-  - components/kparts.yml
-  - components/syntax-highlighting.yml
-build-depends:
-  - components/extra-cmake-modules.yml

@@ -1,5 +1,0 @@
-id: xfce4-eyes-plugin
-version: 4.6.0
-about: A rolling eyes (following mouse pointer) plugin for the Xfce panel
-
-merge: [external/include/xfce4-panel-plugin.inc]

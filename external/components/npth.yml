@@ -1,9 +1,0 @@
-id: npth
-version: 1.7
-about: library for non-preemptive priority-based scheduling for multiple threads of execution
-
-depends:
-- components/glibc.yml
-
-sources:
-  - https://www.gnupg.org/ftp/gcrypt/npth/npth-%{version}.tar.bz2

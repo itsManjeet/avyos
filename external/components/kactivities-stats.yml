@@ -1,8 +1,0 @@
-id: kactivities-stats
-about: KF5 kactivities-stats
-
-depends:
-  - components/kactivities.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-merge: [external/include/kf5.inc]

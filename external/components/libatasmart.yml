@@ -1,7 +1,0 @@
-id: libatasmart
-version: 0.19
-about: A disk reporting library
-depends:
-  - components/glibc.yml
-sources:
-  - http://0pointer.de/public/libatasmart-%{version}.tar.xz
