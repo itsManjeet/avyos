@@ -1,0 +1,97 @@
+//
+// Copyright © 2011-2012 Intel Corporation
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice (including the next
+// paragraph) shall be included in all copies or substantial portions of the
+// Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+
+subdirs = ["*"]
+build = ["Android.sources.bp"]
+
+cc_defaults {
+    name: "libdrm_defaults",
+    cflags: [
+        // XXX: Consider moving these to config.h analogous to autoconf.
+        "-DMAJOR_IN_SYSMACROS=1",
+        "-DHAVE_VISIBILITY=1",
+        "-DHAVE_LIBDRM_ATOMIC_PRIMITIVES=1",
+
+        "-Wall",
+        "-Werror",
+        "-Wno-deprecated-declarations",
+        "-Wno-format",
+        "-Wno-gnu-variable-sized-type-not-at-end",
+        "-Wno-implicit-function-declaration",
+        "-Wno-int-conversion",
+        "-Wno-missing-field-initializers",
+        "-Wno-pointer-arith",
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+    ],
+    export_system_include_dirs: ["."],
+}
+
+cc_library_headers {
+    name: "libdrm_headers",
+    vendor_available: true,
+    host_supported: true,
+    defaults: ["libdrm_defaults"],
+    export_include_dirs: ["include/drm", "android"],
+    apex_available: [
+        "//apex_available:platform",
+        "com.android.virt",
+    ],
+}
+
+genrule {
+    name: "generated_static_table_fourcc_h",
+    out: ["generated_static_table_fourcc.h"],
+    srcs: ["include/drm/drm_fourcc.h"],
+    tool_files: ["gen_table_fourcc.py"],
+    cmd: "python3 $(location gen_table_fourcc.py) $(in) $(out)",
+}
+
+// Library for the device
+cc_library {
+    name: "libdrm",
+    recovery_available: true,
+    vendor_available: true,
+    host_supported: true,
+    defaults: [
+        "libdrm_defaults",
+        "libdrm_sources",
+    ],
+
+    generated_headers: [
+        "generated_static_table_fourcc_h",
+    ],
+
+    export_include_dirs: ["include/drm", "android"],
+
+    cflags: [
+        "-Wno-enum-conversion",
+        "-Wno-pointer-arith",
+        "-Wno-sign-compare",
+        "-Wno-tautological-compare",
+    ],
+    apex_available: [
+        "//apex_available:platform",
+        "com.android.virt",
+    ],
+}

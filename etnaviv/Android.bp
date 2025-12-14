@@ -1,0 +1,11 @@
+build = ["Android.sources.bp"]
+
+cc_library_shared {
+    name: "libdrm_etnaviv",
+    defaults: [
+        "libdrm_defaults",
+        "libdrm_etnaviv_sources",
+    ],
+    vendor: true,
+    shared_libs: ["libdrm"],
+}

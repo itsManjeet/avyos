@@ -1,0 +1,11 @@
+build = ["Android.sources.bp"]
+
+cc_library_shared {
+    name: "libdrm_nouveau",
+    defaults: [
+        "libdrm_defaults",
+        "libdrm_nouveau_sources",
+    ],
+    vendor: true,
+    shared_libs: ["libdrm"],
+}
