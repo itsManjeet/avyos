@@ -58,7 +58,7 @@ ${.OBJDIR}/.configure-done: ${DISTDIR}/meson.build
 ifneq (${HOST_BUILD},1)
 	echo "$$AVYOS_TOOLCHAIN_FILE" > ${.OBJDIR}/avyos.${TARGET_TRIPLET}-meson.txt
 endif
-	meson setup ${.OBJDIR} ${DISTDIR} ${CONFIGURE_ARGS} ${EXTRA_CONFIGURE_ARGS}
+	meson setup ${.OBJDIR} ${DISTDIR} ${CONFIGURE_ARGS} ${EXTRA_CONFIGURE_ARGS} --wrap-mode=nodownload
 	
 	@touch $@
 
