@@ -1,0 +1,92 @@
+# Copyright 2005-2025 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This test is here to confirm that the command "list ." will print the
+# same message if GDB detects no debug information at all, or detects some
+# but nothing for the current objfile.
+
+require !use_gdb_stub
+
+standard_testfile .c -extra.c
+
+proc do_test { debug } {
+
+    set opts {}
+    lappend opts additional_flags=-nostdlib
+
+    if {$debug == "some"} {
+	lappend opts debug
+
+	if {[prepare_for_testing_full "failed to prepare" \
+		[list ${::testfile}-${debug} $opts \
+		    $::srcfile [list nodebug] \
+		    $::srcfile2 [list debug]]]} {
+	    return -1
+	}
+
+
+	with_test_prefix "before list" {
+	    gdb_test "info source" \
+		[string_to_regexp "No current source file."]
+	}
+
+	gdb_test "list ." \
+	    .*[string_to_regexp \
+		 "This testcase is part of GDB, the GNU debugger."].* \
+	    "print before start"
+
+	with_test_prefix "after list" {
+	    gdb_test "info source" \
+		.*[string_to_regexp $::srcfile2].*
+	}
+
+    } else {
+	lappend opts nodebug
+
+	set executable ${::testfile}-none
+	if {[build_executable "failed to prepare" ${executable} \
+		[list $::srcfile $::srcfile2] $opts]} {
+	    return -1
+	}
+
+	clean_restart ${executable}
+
+	with_test_prefix "before list" {
+	    gdb_test "info source" \
+		[string_to_regexp "No current source file."]
+	}
+
+	gdb_test "list ." \
+	    "^Insufficient debug info for showing source lines at default location" \
+	    "print before start"
+
+	with_test_prefix "after list" {
+	    gdb_test "info source" \
+		[string_to_regexp "No current source file."]
+	}
+    }
+
+    if { ![runto bar] } {
+	return -1
+    }
+
+    gdb_test "list ." \
+	"^Insufficient debug info for showing source lines at current PC \\($::hex\\)\\." \
+	"print after start"
+}
+
+foreach_with_prefix debug {"none" "some"} {
+    do_test $debug
+}

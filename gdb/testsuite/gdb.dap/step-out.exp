@@ -1,0 +1,106 @@
+# Copyright 2024-2025 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test that stepOut puts the return value in scope.
+
+require allow_dap_tests
+
+load_lib dap-support.exp
+
+standard_testfile
+
+if {[build_executable ${testfile}.exp $testfile] == -1} {
+    return
+}
+
+if {[dap_initialize] == ""} {
+    return
+}
+
+set launch_id [dap_launch $testfile]
+
+set obj [dap_check_request_and_response "set breakpoint on function" \
+	     setFunctionBreakpoints \
+	     {o breakpoints [a [o name [s function_breakpoint_here]]]}]
+set fn_bpno [dap_get_breakpoint_number $obj]
+
+dap_check_request_and_response "configurationDone" configurationDone
+
+dap_check_response "launch response" launch $launch_id
+
+dap_wait_for_event_and_check "inferior started" thread "body reason" started
+
+dap_wait_for_event_and_check "stopped at function breakpoint" stopped \
+    "body reason" breakpoint \
+    "body hitBreakpointIds" $fn_bpno
+
+dap_check_request_and_response "return from function" stepOut \
+    {o threadId [i 1]}
+dap_wait_for_event_and_check "stopped after return" stopped \
+    "body reason" step
+
+set bt [lindex [dap_check_request_and_response "backtrace" stackTrace \
+		    {o threadId [i 1]}] \
+	    0]
+set frame_id [dict get [lindex [dict get $bt body stackFrames] 0] id]
+
+set scopes [dap_check_request_and_response "get scopes" scopes \
+		[format {o frameId [i %d]} $frame_id]]
+set scopes [dict get [lindex $scopes 0] body scopes]
+
+gdb_assert {[llength $scopes] == 2 || [llength $scopes] == 3} "two or three scopes"
+
+lassign $scopes scope reg_scope return_scope
+
+set test "scope is locals"
+if { $return_scope == "" } {
+    unsupported $test
+} else {
+    gdb_assert {[dict get $scope name] == "Locals"} $test
+    gdb_assert {[dict get $scope presentationHint] == "locals"} \
+	"locals presentation hint"
+    gdb_assert {[dict get $scope namedVariables] == 1} "one var in scope"
+
+    gdb_assert {[dict get $return_scope name] == "Return"} "scope is return"
+    gdb_assert {[dict get $return_scope presentationHint] == "returnValue"} \
+	"returnValue presentation hint"
+    gdb_assert {[dict get $return_scope namedVariables] == 1} \
+	"one var in return scope"
+
+    set num [dict get $return_scope variablesReference]
+    set refs [lindex [dap_check_request_and_response "fetch arguments" \
+			  "variables" \
+			  [format {o variablesReference [i %d]} $num]] \
+		  0]
+    set varlist [lindex [dict get $refs body variables] 0]
+
+    gdb_assert {[dict get $varlist variablesReference] > 0} \
+	"variable has children"
+    gdb_assert {[dict get $varlist name] == "(return)"} \
+	"variable is return value"
+}
+
+set response_and_events [dap_request_and_response stepOut {o threadId [i 1]}]
+set response [lindex $response_and_events 0]
+if {[dict get $response success] == "true"} {
+    fail "stepOut from outermost frame should not succeed"
+} else {
+    pass "stepOut from outermost frame failed like it should"
+}
+
+dap_check_request_and_response "still stopped and may request backtrace" \
+    stackTrace {o threadId [i 1]}
+
+dap_shutdown

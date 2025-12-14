@@ -1,0 +1,81 @@
+# Expect script for --package-note tests.
+#   Copyright (C) 2022-2025 Free Software Foundation, Inc.
+#
+# This file is part of the GNU Binutils.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston,
+# MA 02110-1301, USA.
+#
+
+# Exclude non-ELF targets.
+
+if ![is_elf_format] {
+    return
+}
+
+if { !([istarget *-*-linux*]
+       || [istarget arm*-*-uclinuxfdpiceabi]
+       || [istarget *-*-nacl*]
+       || [istarget *-*-gnu*]) } then {
+    return
+}
+
+run_ld_link_tests [list \
+    [list \
+	"package-note.o" \
+	"--package-metadata='{\"foo\":\"bar\"}'" \
+	"" \
+	"" \
+	{start.s} \
+	{{readelf {--notes} package-note.rd}} \
+	"package-note.o" \
+    ] \
+    [list \
+	"package-note1b.o" \
+	"--package-metadata=%7B%22foo%22%3A%22bar%22%7D" \
+	"" \
+	"" \
+	{start.s} \
+	{{readelf {--notes} package-note.rd}} \
+	"package-note1b.o" \
+    ] \
+    [list \
+	"package-note1c.o" \
+	"--package-metadata=%\[lbrace\]%\[quot\]foo%\[quot\]:%\[quot\]bar%\[quot\]%\[rbrace\]" \
+	"" \
+	"" \
+	{start.s} \
+	{{readelf {--notes} package-note.rd}} \
+	"package-note1c.o" \
+    ] \
+    [list \
+	"package-note2.o" \
+	"--package-metadata=%7B%22name%22:%22binutils%22%2C%22ver%22%3A%22x%20%%22%7d" \
+	"" \
+	"" \
+	{start.s} \
+	{{readelf {--notes} package-note2.rd}} \
+	"package-note2.o" \
+    ] \
+    [list \
+	"package-note2b.o" \
+	"--package-metadata={%\[quot\]name%\[quot\]:%\[quot\]binutils%\[quot\]%\[comma\]%\[quot\]ver%\[quot\]:%\[quot\]x%\[space\]%%\[quot\]}" \
+	"" \
+	"" \
+	{start.s} \
+	{{readelf {--notes} package-note2.rd}} \
+	"package-note2b.o" \
+    ] \
+]
