@@ -6,14 +6,16 @@ wayland_protos = dependency('wayland-protocols',
 wl_protocol_dir = wayland_protos.get_variable('pkgdatadir')
 wlr_deps += wayland_protos
 
-wayland_scanner_dep = dependency('wayland-scanner',
-	kwargs: wayland_kwargs,
-	native: true,
-)
-wayland_scanner = find_program(
-	wayland_scanner_dep.get_variable('wayland_scanner'),
-	native: true,
-)
+# AVYOS: TODO fix wayland-scanner hack
+# wayland_scanner_dep = dependency('wayland-scanner',
+# 	kwargs: wayland_kwargs,
+# 	native: true,
+# )
+# wayland_scanner = find_program(
+# 	wayland_scanner_dep.get_variable('wayland_scanner'),
+# 	native: true,
+# )
+wayland_scanner = find_program('wayland-scanner')
 
 protocols = {
 	# Stable upstream protocols

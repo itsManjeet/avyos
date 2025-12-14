@@ -740,13 +740,14 @@ if build_tools
     if get_option('enable-wayland')
         wayland_client_dep = dependency('wayland-client', version: '>=1.2.0', required: false)
         wayland_protocols_dep = dependency('wayland-protocols', version: '>=1.15', required: false)
-        wayland_scanner_dep = dependency('wayland-scanner', required: false, native: true)
-        if not wayland_client_dep.found() or not wayland_protocols_dep.found() or not wayland_scanner_dep.found()
-            error('''The Wayland xkbcli programs require wayland-client and wayland-protocols which were not found.
-You can disable the Wayland xkbcli programs with -Denable-wayland=false.''')
-        endif
-
-        wayland_scanner = find_program(wayland_scanner_dep.get_variable(pkgconfig: 'wayland_scanner'))
+# AVYOS: TODO fix wayland-scanner hack
+#         wayland_scanner_dep = dependency('wayland-scanner', required: false, native: true)
+#         if not wayland_client_dep.found() or not wayland_protocols_dep.found() or not wayland_scanner_dep.found()
+#             error('''The Wayland xkbcli programs require wayland-client and wayland-protocols which were not found.
+# You can disable the Wayland xkbcli programs with -Denable-wayland=false.''')
+#         endif
+#       wayland_scanner = find_program(wayland_scanner_dep.get_variable(pkgconfig: 'wayland_scanner'))
+        wayland_scanner = find_program('wayland-scanner')
         wayland_scanner_code_gen = generator(
             wayland_scanner,
             output: '@BASENAME@-protocol.c',

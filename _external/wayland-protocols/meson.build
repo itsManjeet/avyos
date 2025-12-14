@@ -155,10 +155,11 @@ endforeach
 
 include_dirs = []
 headers = []
-if dep_scanner.version().version_compare('>=1.22.90')
+# AVYOS: TODO fix wayland-scanner hack
+# if dep_scanner.version().version_compare('>=1.22.90')
 	subdir('include/wayland-protocols')
 	include_dirs = ['include']
-endif
+# endif
 
 wayland_protocols_srcdir = meson.current_source_dir()
 

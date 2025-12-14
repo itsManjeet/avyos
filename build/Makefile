@@ -13,5 +13,6 @@ endif
 
 SUBDIR += gcc
 SUBDIR += limine
+SUBDIR += wayland-scanner
 
 include ${.TOPDIR}/build/avyos.subdir.inc
