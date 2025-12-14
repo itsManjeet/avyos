@@ -1,0 +1,36 @@
+digraph stack
+{
+  compound=true;
+  splines=line;
+  rankdir="LR";
+  node [
+    shape="box";
+  ]
+
+  subgraph cluster_2 {
+	  label="Kernel";
+	  event0 [label="/dev/input/event0"];
+	  event1 [label="/dev/input/event1"];
+  }
+
+  subgraph cluster_0 {
+	  label="Compositor process";
+	  libinput [label="libinput context 1"];
+  }
+
+  subgraph cluster_1 {
+	  label="libinput debug-events";
+	  libinput2 [label="libinput context 2"];
+  }
+
+  stdout;
+
+  client [label="Wayland client"];
+
+  event0:e -> libinput:w;
+  event1:e -> libinput:w;
+  event0:e -> libinput2:w;
+  event1:e -> libinput2:w;
+  libinput -> client [ltail=cluster_0 label="Wayland protocol"];
+  libinput2 -> stdout [ltail=cluster_1];
+}

@@ -1,0 +1,31 @@
+digraph stack
+{
+  compound=true;
+  rankdir="LR";
+  node [
+    shape="box";
+  ]
+
+  subgraph cluster_2 {
+	  label="Kernel";
+	  event0 [label="/dev/input/event0"]
+  }
+
+  subgraph cluster_1 {
+	  label="libinput";
+    subgraph cluster_0 {
+	    label="Plugin pipeline";
+	    p1 [label="00-foo.lua"];
+	    p2 [label="10-bar.lua"];
+    }
+	  libinput [label="libinput core"];
+  }
+
+
+  compositor [label="Compositor"];
+
+  event0 -> p1;
+  p1 -> p2;
+  p2 -> libinput;
+  libinput -> compositor [ltail=cluster_1 label="libinput API"];
+}
