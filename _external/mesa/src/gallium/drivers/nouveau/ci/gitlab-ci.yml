@@ -1,0 +1,32 @@
+include:
+  - local: 'src/gallium/drivers/nouveau/ci/gitlab-ci-inc.yml'
+
+.gk20a-gles:
+  extends:
+    - .baremetal-test-arm32-gl
+    - .nouveau-bm-test
+    - .anholt-tegra124-jetson-tk1:arm32
+  parallel: 4
+  timeout: 30m
+  variables:
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: nouveau-gk20a
+
+# Single Jetson Nano board at anholt's house.
+.gm20b-gles-full:
+  extends:
+    - .baremetal-test-arm64-gl
+    - .nouveau-bm-test
+    - .google-tegra210-p3450-0000:arm64
+    - .nouveau-manual-rules
+  timeout: 2h
+  variables:
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: nouveau-gm20b
+
+.gm20b-gles:
+  extends:
+    - .gm20b-gles-full
+  timeout: 30m
+  variables:
+    DEQP_FRACTION: 10

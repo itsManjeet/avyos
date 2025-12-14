@@ -1,0 +1,585 @@
+include:
+  - local: 'src/broadcom/ci/gitlab-ci-inc.yml'
+
+vc4-rpi3-gl:arm64:
+  extends:
+    - .igalia-bcm2837-rpi-3-b
+    - .broadcom-test:arm64-gl
+    - .test-piglit
+    - .vc4-rules
+  timeout: 25m
+  parallel: 3
+  variables:
+    DEQP_SUITE: broadcom-rpi3-gl
+    HWCI_START_WESTON: 1
+
+.ci-tron-vc4-rpi3-gl:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi3:arm64
+    - .test-piglit
+    - .vc4-rules
+  timeout: 25m
+  parallel: 3
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    DEQP_SUITE: broadcom-rpi3-gl
+    HWCI_START_WESTON: 1
+
+vc4-rpi3-gl-piglit-full:arm64:
+  extends:
+    - vc4-rpi3-gl:arm64
+    - .vc4-manual-rules
+  timeout: 25m
+  tags:
+    - igalia-rpi3
+    - igalia-fullrun
+  variables:
+    DEQP_SUITE: broadcom-rpi3-piglit-full
+
+ci-tron-vc4-rpi3-gl-piglit-full:arm64:
+  extends:
+    - .ci-tron-vc4-rpi3-gl:arm64
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    DEQP_SUITE: broadcom-rpi3-piglit-full
+
+vc4-rpi3-gl:arm32:
+  extends:
+    - .igalia-bcm2837-rpi-3-b
+    - .broadcom-test:arm32-gl
+    - .vc4-manual-rules
+  timeout: 25m
+  tags:
+    - igalia-rpi3
+    - igalia-fullrun
+  variables:
+    DEQP_SUITE: broadcom-rpi3-gl-arm32
+
+.ci-tron-vc4-rpi3-gl:arm32:
+  extends:
+    - .ci-tron-arm32-test-gl
+    - .ci-tron-broadcom-rpi3:arm32
+    - .igalia-bcm2835-vc4
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi3-gl-arm32
+
+vc4-rpi3-gl-asan:arm64:
+  extends:
+    - .igalia-bcm2837-rpi-3-b
+    - .broadcom-asan-test:arm64-gl
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi3-gl-asan
+    DEQP_FRACTION: 5
+
+.ci-tron-vc4-rpi3-gl-asan:arm64:
+  extends:
+    - .ci-tron-arm64-test-asan-gl
+    - .ci-tron-broadcom-rpi3:arm64
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi3-gl-asan
+    DEQP_FRACTION: 5
+
+vc4-rpi3-gl-ubsan:arm64:
+  extends:
+    - .igalia-bcm2837-rpi-3-b
+    - .broadcom-ubsan-test:arm64-gl
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi3-gl-ubsan
+    DEQP_FRACTION: 2
+
+.ci-tron-vc4-rpi3-gl-ubsan:arm64:
+  extends:
+    - .ci-tron-arm64-test-ubsan-gl
+    - .ci-tron-broadcom-rpi3:arm64
+    - .vc4-manual-rules
+  timeout: 30m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi3-gl-ubsan
+    DEQP_FRACTION: 2
+
+v3d-rpi4-gl:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-test:arm64-gl
+    - .test-piglit
+    - .v3d-rules
+  timeout: 25m
+  parallel: 8
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi4-gl
+
+.ci-tron-v3d-rpi4-gl:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi4:arm64
+    - .test-piglit
+    - .v3d-rules
+  timeout: 25m
+  parallel: 8
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi4-gl
+
+v3d-rpi4-gl-full:arm64:
+  extends:
+    - v3d-rpi4-gl:arm64
+    - .broadcom-test-full:arm64-gl
+    - .v3d-manual-rules
+  tags:
+    - igalia-rpi4
+    - igalia-fullrun
+  parallel: 4
+  timeout: 45m
+  variables:
+    DEQP_FRACTION: 1
+
+.ci-tron-v3d-rpi4-gl-full:arm64:
+  extends:
+    - .ci-tron-v3d-rpi4-gl:arm64
+    - .v3d-manual-rules
+  timeout: 45m
+  parallel: 8
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 40
+    DEQP_FRACTION: 1
+
+v3d-rpi4-rusticl:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-test:arm64-gl
+    - .test-piglit
+    - .v3d-rusticl-manual-rules
+  timeout: 40m  # base run time = 25min test, 32min total
+  variables:
+    DEQP_SUITE: v3d-rusticl
+
+.ci-tron-v3d-rpi4-rusticl:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi4:arm64
+    - .test-piglit
+    - .v3d-rusticl-manual-rules
+  timeout: 40m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 35
+    DEQP_SUITE: v3d-rusticl
+
+v3d-rpi4-traces:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .piglit-traces-test
+    - .broadcom-test:arm64-gl
+    - .v3d-rules
+  timeout: 25m
+  variables:
+    HWCI_TEST_SCRIPT: "/install/piglit/piglit-traces.sh"
+    PIGLIT_TRACES_FILE: traces-broadcom.yml
+
+v3d-rpi4-gl:arm32:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-test:arm32-gl
+    - .v3d-manual-rules
+  tags:
+    - igalia-rpi4
+    - igalia-fullrun
+  timeout: 35m
+  variables:
+    DEQP_SUITE: broadcom-rpi4-gl-arm32
+
+.ci-tron-v3d-rpi4-gl:arm32:
+  extends:
+    - .ci-tron-arm32-test-gl
+    - .ci-tron-broadcom-rpi4:arm32
+    - .v3d-manual-rules
+  timeout: 35m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 30
+    DEQP_SUITE: broadcom-rpi4-gl-arm32
+
+v3d-rpi4-gl-asan:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-asan-test:arm64-gl
+    - .v3d-manual-rules
+  timeout: 25m
+  variables:
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi4-gl-asan
+    # FIXME: set to 9 once the new failures are investigated
+    DEQP_FRACTION: 30
+
+.ci-tron-v3d-rpi4-gl-asan:arm64:
+  extends:
+    - .ci-tron-arm64-test-asan-gl
+    - .ci-tron-broadcom-rpi4:arm64
+    - .v3d-manual-rules
+  timeout: 30m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi4-gl-asan
+    # FIXME: set to 9 once the new failures are investigated
+    DEQP_FRACTION: 30
+
+v3d-rpi4-gl-ubsan:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-ubsan-test:arm64-gl
+    - .v3d-manual-rules
+  timeout: 25m
+  variables:
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi4-gl-ubsan
+    DEQP_FRACTION: 6
+
+.ci-tron-v3d-rpi4-gl-ubsan:arm64:
+  extends:
+    - .ci-tron-arm64-test-ubsan-gl
+    - .ci-tron-broadcom-rpi4:arm64
+    - .v3d-manual-rules
+  timeout: 30m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi4-gl-ubsan
+    DEQP_FRACTION: 6
+
+v3dv-rpi4-vk:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-test:arm64-vk
+    - .v3dv-rules
+  timeout: 25m
+  parallel: 8
+  variables:
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi4-vk
+    DEQP_FRACTION: 3
+    FLAKES_CHANNEL: "#videocore-ci"
+
+.ci-tron-v3dv-rpi4-vk:arm64:
+  extends:
+    - .ci-tron-arm64-test-vk
+    - .ci-tron-broadcom-rpi4:arm64
+    - .v3dv-rules
+  parallel: 8
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 22
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi4-vk
+    DEQP_FRACTION: 3
+
+v3dv-rpi4-vk-full:arm64:
+  extends:
+    - v3dv-rpi4-vk:arm64
+    - .broadcom-test-full:arm64-vk
+    - .v3dv-manual-rules
+  tags:
+    - igalia-rpi4
+    - igalia-fullrun
+  parallel: 8
+  timeout: 1h
+  variables:
+    # Keep 10 minutes for boot + setup + uploading the artifacts at the end
+    TEST_SETUP_AND_UPLOAD_MARGIN_MINUTES: 10
+    DEQP_FRACTION: 1
+
+.ci-tron-v3dv-rpi4-vk-full:arm64:
+  extends:
+    - .ci-tron-v3dv-rpi4-vk:arm64
+    - .v3dv-manual-rules
+  parallel: 8
+  timeout: 2h
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 110
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi4-vk
+    DEQP_FRACTION: 1
+
+v3dv-rpi4-vk-asan:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-asan-test:arm64-vk
+    - .v3dv-manual-rules
+  timeout: 25m
+  variables:
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi4-vk-asan
+    DEQP_FRACTION: 200
+
+.ci-tron-v3dv-rpi4-vk-asan:arm64:
+  extends:
+    - .ci-tron-arm64-test-asan-vk
+    - .ci-tron-broadcom-rpi4:arm64
+    - .v3dv-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi4-vk-asan
+    DEQP_FRACTION: 200
+
+v3dv-rpi4-vk-ubsan:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-ubsan-test:arm64-vk
+    - .v3dv-manual-rules
+  timeout: 25m
+  variables:
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    DEQP_SUITE: broadcom-rpi4-vk-ubsan
+    DEQP_FRACTION: 200
+
+.ci-tron-v3d-rpi4-vk-ubsan:arm64:
+  extends:
+    - .ci-tron-arm64-test-ubsan-vk
+    - .ci-tron-broadcom-rpi4:arm64
+    - .v3dv-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+    # UBSan is quite slow, so restrict to 1 job
+    FDO_CI_CONCURRENT: 1
+    DEQP_SUITE: broadcom-rpi4-vk-ubsan
+    DEQP_FRACTION: 200
+
+v3d-rpi5-gl:arm64:
+  extends:
+    - .igalia-bcm2712-rpi-5
+    - .broadcom-test:arm64-gl
+    - .test-piglit
+    - .v3d-rules
+  timeout: 25m
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi5-gl
+    DEQP_FRACTION: 4
+
+.ci-tron-v3d-rpi5-gl:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi5:arm64
+    - .test-piglit
+    - .v3d-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi5-gl
+    DEQP_FRACTION: 4
+
+v3d-rpi5-gl-full:arm64:
+  extends:
+    - v3d-rpi5-gl:arm64
+    - .broadcom-test-full:arm64-gl
+    - .v3d-manual-rules
+  parallel: 2
+  tags:
+    - igalia-rpi5
+    - igalia-fullrun
+  timeout: 1h  # usually takes around 48min
+  variables:
+    TEST_SETUP_AND_UPLOAD_MARGIN_MINUTES: 10
+    DEQP_FRACTION: 1
+
+.ci-tron-v3d-rpi5-gl-full:arm64:
+  extends:
+    - .ci-tron-v3d-rpi5-gl:arm64
+    - .v3d-manual-rules
+  timeout: 1h
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 55
+    DEQP_FRACTION: 1
+
+v3d-rpi5-rusticl:arm64:
+  extends:
+    - .igalia-bcm2712-rpi-5
+    - .broadcom-test:arm64-gl
+    - .test-piglit
+    - .v3d-rusticl-manual-rules
+  tags:
+    - igalia-rpi5
+    - igalia-fullrun
+  timeout: 20m  # base run time = 7min test, 9min total
+  variables:
+    DEQP_SUITE: v3d-rusticl
+
+.ci-tron-v3d-rpi5-rusticl:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi5:arm64
+    - .test-piglit
+    - .v3d-rusticl-manual-rules
+  timeout: 30m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+    DEQP_SUITE: v3d-rusticl
+
+v3d-rpi5-traces:arm64:
+  extends:
+    - .igalia-bcm2712-rpi-5
+    - .piglit-traces-test
+    - .broadcom-test:arm64-gl
+    - .v3d-rules
+  timeout: 25m
+  variables:
+    HWCI_TEST_SCRIPT: "/install/piglit/piglit-traces.sh"
+    PIGLIT_TRACES_FILE: traces-broadcom.yml
+
+v3dv-rpi5-vk:arm64:
+  extends:
+    - .igalia-bcm2712-rpi-5
+    - .broadcom-test:arm64-vk
+    - .v3dv-rules
+  timeout: 25m
+  parallel: 2
+  variables:
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi5-vk
+    DEQP_FRACTION: 6
+    FLAKES_CHANNEL: "#videocore-ci"
+
+.ci-tron-v3dv-rpi5-vk:arm64:
+  extends:
+    - .ci-tron-arm64-test-vk
+    - .ci-tron-broadcom-rpi5:arm64
+    - .v3dv-rules
+  timeout: 25m
+  parallel: 2
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 145
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: broadcom-rpi5-vk
+    DEQP_FRACTION: 6
+
+v3dv-rpi5-vk-full:arm64:
+  extends:
+    - v3dv-rpi5-vk:arm64
+    - .broadcom-test-full:arm64-vk
+    - .v3dv-manual-rules
+  tags:
+    - igalia-rpi5
+    - igalia-fullrun
+  parallel: 4
+  timeout: 1h
+  variables:
+    # Keep 10 minutes for boot + setup + uploading the artifacts at the end
+    TEST_SETUP_AND_UPLOAD_MARGIN_MINUTES: 10
+    DEQP_FRACTION: 1
+
+.ci-tron-v3dv-rpi5-vk-full:arm64:
+  extends:
+    - .ci-tron-v3dv-rpi5-vk:arm64
+    - .v3dv-manual-rules
+  timeout: 2h 30m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 145
+    DEQP_FRACTION: 1
+
+# This is quite unstable. Keep it disabled
+.rpi3-skqp:arm64:
+  extends:
+    - .igalia-bcm2837-rpi-3-b
+    - .broadcom-test:arm64-gl
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+
+.ci-tron-rpi3-skqp:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi3:arm64
+    - .vc4-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+
+rpi4-skqp:arm64:
+  extends:
+    - .igalia-bcm2711-rpi-4
+    - .broadcom-test:arm64-gl
+    # SKQP tests both the GL and VK drivers
+    - .v3d-v3dv-manual-rules
+  timeout: 25m
+  variables:
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+    FLAKES_CHANNEL: "#videocore-ci"
+
+ci-tron-rpi4-skqp:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi4:arm64
+    # SKQP tests both the GL and VK drivers
+    - .v3d-v3dv-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+    FLAKES_CHANNEL: "#videocore-ci"
+
+rpi5-skqp:arm64:
+  extends:
+    - .igalia-bcm2712-rpi-5
+    - .broadcom-test:arm64-gl
+    # SKQP tests both the GL and VK drivers
+    - .v3d-v3dv-manual-rules
+  timeout: 25m
+  variables:
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+    FLAKES_CHANNEL: "#videocore-ci"
+
+ci-tron-rpi5-skqp:arm64:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .ci-tron-broadcom-rpi5:arm64
+    # SKQP tests both the GL and VK drivers
+    - .v3d-v3dv-manual-rules
+  timeout: 25m
+  variables:
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 20
+    DEQP_SUITE: broadcom-rpi-skqp
+    HWCI_START_WESTON: 1
+    FLAKES_CHANNEL: "#videocore-ci"

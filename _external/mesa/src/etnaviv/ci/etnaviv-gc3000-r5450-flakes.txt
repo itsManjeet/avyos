@@ -1,0 +1,8 @@
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.dst_color_dst_alpha
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_depth_funcs.stencil_gequal_depth_gequal
+dEQP-GLES2.functional.fragment_ops.interaction.basic_shader.75
+dEQP-GLES2.functional.shaders.random.basic_expression.fragment.50
+dEQP-GLES2.functional.shaders.random.basic_expression.vertex.81
+dEQP-GLES2.functional.shaders.random.scalar_conversion.combined.14
+dEQP-GLES2.functional.texture.filtering.cube.linear_linear_clamp_rgb888_npot
+dEQP-GLES2.functional.texture.filtering.cube.nearest_nearest_repeat_rgba4444_pot

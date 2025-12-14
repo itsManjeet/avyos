@@ -1,0 +1,3 @@
+dEQP-GLES2.functional.texture.specification.basic_teximage2d.rgba4444_cube
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_0
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_3

@@ -1,0 +1,26 @@
+.softpipe-rules:
+  stage: software-renderer
+  rules:
+    - !reference [.test, rules]
+    - !reference [.gl-rules, rules]
+    - changes: &softpipe_file_list
+      - src/gallium/drivers/softpipe/**/*
+      - src/gallium/winsys/sw/**/*
+      when: on_success
+
+.softpipe-test:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  variables:
+    GPU_VERSION: softpipe
+    LIBGL_ALWAYS_SOFTWARE: "true"
+    FLAKES_CHANNEL: "#mesa-swrast-ci"
+    GALLIUM_DRIVER: "softpipe"
+
+.softpipe-deqp-test:
+  extends:
+    - .test-gl
+    - .deqp-test
+    - .softpipe-test
+    # this must be last to avoid breaking dependency rules
+    - .softpipe-rules

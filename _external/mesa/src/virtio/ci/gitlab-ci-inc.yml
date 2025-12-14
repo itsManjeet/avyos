@@ -1,0 +1,64 @@
+.venus-rules:
+  rules:
+    - !reference [.test, rules]
+    - !reference [.vulkan-rules, rules]
+    - changes: &venus_file_list
+        - src/virtio/**/*
+      when: on_success
+
+.venus-manual-rules:
+  rules:
+    - !reference [.test, rules]
+    - !reference [.vulkan-manual-rules, rules]
+    - changes: *venus_file_list
+      when: manual
+
+.venus-lavapipe-rules:
+  stage: layered-backends
+  rules:
+    - !reference [.venus-rules, rules]
+    - !reference [.lavapipe-rules, rules]
+
+.venus-lavapipe-manual-rules:
+  stage: layered-backends-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.venus-manual-rules, rules]
+    - !reference [.lavapipe-manual-rules, rules]
+
+.venus-anv-rules:
+  stage: layered-backends
+  rules:
+    - !reference [.venus-rules, rules]
+    - !reference [.anv-rules, rules]
+
+.venus-anv-manual-rules:
+  stage: layered-backends-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.venus-manual-rules, rules]
+    - !reference [.anv-manual-rules, rules]
+
+
+.venus-lavapipe-test:
+  extends:
+    - .test-vk
+    - .test-crosvm
+    - .venus-lavapipe-rules
+  timeout: 15m
+  variables:
+    VK_DRIVER: virtio
+    CROSVM_GALLIUM_DRIVER: "llvmpipe"
+    CROSVM_VK_DRIVER: "lvp"
+    CROSVM_GPU_ARGS: "vulkan=true,gles=false,backend=virglrenderer,egl=true,surfaceless=true,fixed-blob-mapping=false"
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM
+
+.android-angle-venus-anv-test:
+  extends:
+    - .lava-x86_64-test-android
+    - .anv-test
+    - .test-angle
+  variables:
+    ANDROID_GPU_MODE: venus_guest_angle
+    VK_DRIVER: intel

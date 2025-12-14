@@ -1,0 +1,29 @@
+# Android-specific vkcts test set
+[[deqp]]
+deqp = "/data/deqp/deqp-vk"
+caselists = ["/data/deqp/vk-main.txt"]
+include = ["dEQP-VK.api.external.memory.android_hardware_buffer.*"]
+timeout = 120
+prefix = "ahb-"
+renderer_check = "Virtio-GPU Venus.*Intel"
+
+# Basic fractioned vkcts test set
+[[deqp]]
+deqp = "/data/deqp/deqp-vk"
+caselists = [ "/data/deqp/vk-main.txt" ]
+tests_per_group = 10000
+skips = ["/data/deqp/android-skips.txt"]
+timeout = 120
+fraction = 50
+
+# Basic EGL test set
+[[deqp]]
+deqp = "/data/deqp/deqp-egl-android"
+caselists = ["/data/deqp/egl-main.txt"]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-visibility=hidden"
+]

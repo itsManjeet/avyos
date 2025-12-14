@@ -1,0 +1,177 @@
+x11-dEQP-EGL.functional.buffer_age.no_preserve.no_resize.odd_clear_render_even_clear
+x11-dEQP-EGL.functional.buffer_age.no_preserve.no_resize.odd_none_even_none
+x11-dEQP-EGL.functional.buffer_age.no_preserve.resize_before_swap.odd_clear_clear_even_clear_clear
+x11-dEQP-EGL.functional.buffer_age.no_preserve.resize_before_swap.odd_clear_even_clear
+x11-dEQP-EGL.functional.sharing.gles2.multithread.random.programs.link.7
+
+KHR-GLES31.core.shader_atomic_counters.basic-usage-no-offset
+KHR-GLES31.core.shader_image_load_store.basic-allFormats-load-cs
+KHR-GLES31.core.shader_image_load_store.basic-allFormats-store-fs
+KHR-GLES31.core.shader_image_load_store.basic-glsl-earlyFragTests
+KHR-GLES31.core.shader_storage_buffer_object.advanced-indirectAddressing-case1-cs
+KHR-GLES31.core.shader_storage_buffer_object.advanced-unsizedArrayLength-cs-std430-vec
+KHR-GLES31.core.shader_storage_buffer_object.basic-matrixOperations-case2-cs
+KHR-GLES31.core.texture_cube_map_array.image_op_compute_sh
+dEQP-GLES3.functional.buffer.write.recreate_store.random_4
+dEQP-GLES3.functional.texture.specification.teximage2d_pbo.rgba32i_cube
+dEQP-GLES31.functional.copy_image.compressed.viewclass_astc_10x6_rgba.rgba_astc_10x6_khr_rgba_astc_10x6_khr.cubemap_to_texture3d
+dEQP-GLES31.functional.copy_image.compressed.viewclass_astc_8x5_rgba.rgba_astc_8x5_khr_srgb8_alpha8_astc_8x5_khr.cubemap_to_texture3d
+dEQP-GLES31.functional.copy_image.mixed.viewclass_128_bits_mixed.rgba_astc_10x6_khr_rgba32f.cubemap_to_texture3d
+dEQP-GLES31.functional.copy_image.non_compressed.viewclass_8_bits.r8_r8.texture2d_array_to_texture3d
+dEQP-GLES31.functional.image_load_store.3d.format_reinterpret.rgba8_snorm_rgba8
+dEQP-GLES31.functional.shaders.builtin_functions.common.ceil.vec4_highp_compute
+dEQP-GLES31.functional.ssbo.layout.3_level_unsized_array.packed.bvec3
+dEQP-GLES31.functional.ssbo.layout.instance_array_basic_type.std430.ivec4
+dEQP-GLES31.functional.ssbo.layout.instance_array_basic_type.std430.mat3x2
+dEQP-GLES31.functional.ssbo.layout.instance_array_basic_type.std430.row_major_mat3x2
+dEQP-GLES31.functional.ssbo.layout.random.nested_structs_instance_arrays.17
+dEQP-GLES31.functional.ssbo.layout.single_basic_type.shared.column_major_lowp_mat3x4
+dEQP-GLES31.functional.synchronization.inter_invocation.image_overwrite
+dEQP-GLES31.functional.synchronization.inter_invocation.ssbo_atomic_read_write
+
+fast_color_clear@fcc-front-buffer-distraction
+glx@glx-multi-context-front
+glx@glx-swap-singlebuffer
+glx@glx-visuals-depth
+glx@glx-visuals-stencil
+glx@glx_arb_sync_control@waitformsc
+hiz@hiz-stencil-read-window-depth0
+shaders@glsl-kwin-blur-2
+spec@!opengl 1.0@gl-1.0-drawbuffer-modes
+spec@!opengl 1.0@gl-1.0-front-invalidate-back
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-24_8 samples=2
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-24_8 samples=4
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-32f_24_8_rev samples=2
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-32f_24_8_rev samples=4
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-float-and-ushort samples=2
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-float-and-ushort samples=4
+spec@!opengl 1.1@masked-clear
+spec@!opengl 1.1@teximage-colors gl_rg8_snorm
+spec@!opengl 1.1@teximage-colors gl_rgb16_snorm
+spec@!opengl 3.0@gl30basic
+spec@!opengl es 3.0@gles-3.0-transform-feedback-uniform-buffer-object
+spec@amd_performance_monitor@api
+spec@amd_performance_monitor@vc4
+spec@amd_performance_monitor@vc4@test_counter_string_normal_buffer
+spec@amd_performance_monitor@vc4@test_counter_string_single_character_buffer
+spec@amd_performance_monitor@vc4@test_counter_string_small_buffer
+spec@arb_occlusion_query@occlusion_query_order
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection \*gradarb cube
+spec@arb_texture_buffer_object@formats \(fs- arb\)
+spec@arb_texture_buffer_object@formats \(fs- arb\)@GL_ALPHA16F_ARB
+spec@arb_texture_buffer_object@formats \(fs- arb\)@GL_ALPHA32F_ARB
+spec@arb_texture_buffer_object@formats \(vs- arb\)
+spec@arb_texture_buffer_object@formats \(vs- arb\)@GL_ALPHA16F_ARB
+spec@arb_texture_buffer_object@formats \(vs- arb\)@GL_ALPHA32F_ARB
+spec@arb_texture_multisample@large-float-texture
+spec@arb_timer_query@timestamp-get
+spec@egl 1.4@largest possible eglcreatepbuffersurface and then glclear
+spec@egl_chromium_sync_control@conformance
+spec@egl_chromium_sync_control@conformance@eglGetSyncValuesCHROMIUM_msc_and_sbc_test
+spec@ext_framebuffer_blit@fbo-blit-check-limits
+spec@ext_framebuffer_blit@fbo-sys-blit
+spec@ext_framebuffer_blit@fbo-sys-sub-blit
+spec@ext_packed_depth_stencil@depthstencil-render-miplevels 292 s=z24_s8_d=z24_s8
+spec@ext_packed_depth_stencil@depthstencil-render-miplevels 585 d=s=z24_s8
+spec@ext_packed_depth_stencil@depthstencil-render-miplevels 585 ds=z24_s8
+spec@ext_transform_feedback@order arrays triangles
+spec@glsl-1.10@execution@built-in-functions@fs-op-div-mat2-float
+spec@glsl-1.10@execution@built-in-functions@vs-op-mult-int-ivec2
+spec@glsl-1.30@execution@tex-miplevel-selection texture\(bias\) 2darray
+spec@glsl-1.30@execution@tex-miplevel-selection texture\(bias\) 2dshadow
+spec@glsl-1.30@execution@tex-miplevel-selection texture\(bias\) 3d
+spec@glsl-1.30@execution@tex-miplevel-selection texturelod cube
+spec@glsl-1.30@execution@tex-miplevel-selection texturelod cubearray
+spec@glsl-1.30@execution@texelfetch fs sampler2d 71x1-71x281
+spec@glsl-1.30@execution@texelfetch fs sampler2darray 1x129x9-98x129x9
+spec@glsl-1.30@execution@texelfetch fs sampler3d 1x129x9-98x129x9
+spec@glsl-1.30@execution@vs-loop-uint-induction-var-subtraction
+
+# This test works alone, but fails when executing all the tests together
+# https://gitlab.freedesktop.org/mesa/mesa/-/issues/8684
+dEQP-GLES3.functional.texture.specification.teximage2d_pbo.rgba32f_cube
+
+# Seem reliable on arm64, but they flake on armhf
+dEQP-VK.glsl.builtin.function.integer.findMSB.ivec2_mediump_geometry
+dEQP-VK.glsl.builtin.function.integer.findMSB.ivec2_highp_geometry
+
+# Failed twice one day with two different bad renders, and never since:
+# https://gitlab.freedesktop.org/eric/mesa/-/jobs/37556931
+# https://gitlab.freedesktop.org/eric/mesa/-/jobs/37596148
+dEQP-VK.renderpass2.suballocation.load_store_op_none.depthstencil_d24_unorm_s8_uint_load_op_depth_load_stencil_none_store_op_depth_store_stencil_none_stencil_write_off
+
+dEQP-VK.api.command_buffers.execute_large_primary
+dEQP-VK.binding_model.descriptorset_random.sets4.constant.ubolimitlow.sbolimitlow.sampledimglow.outimgtexlow.noiub.nouab.vert.noia.6
+dEQP-VK.clipping.clip_volume.inside.triangle_strip
+dEQP-VK.clipping.user_defined.clip_cull_distance.vert.8
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.multiple_interpolation.separate.no_sample_decoration.4_samples
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.multiple_interpolation.separate.no_sample_decoration.4_samples
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.multiple_interpolation.structured.no_sample_decoration.4_samples
+dEQP-VK.draw\..*\.multi_draw\.mosaic\..*\.max_draws\..*no_draw_id
+dEQP-VK.draw.renderpass.multiple_interpolation.separate.no_sample_decoration.4_samples
+dEQP-VK.draw.renderpass.multiple_interpolation.structured.no_sample_decoration.4_samples
+dEQP-VK.fragment_operations.occlusion_query.precise_test_scissors_depth_write_stencil_clear
+dEQP-VK.fragment_operations.occlusion_query.precise_test_scissors_depth_write_stencil_clear_stencil_write
+dEQP-VK.glsl.builtin.function.integer.findlsb.uvec2_highp_geometry
+dEQP-VK.glsl.builtin.function.pack_unpack.unpackunorm4x8_geometry
+dEQP-VK.glsl.texture_functions.query.texturequerylevels.usampler1darray_fragment
+dEQP-VK.image.mutable.2d.r8g8b8a8_sint_r16g16_sfloat_clear_load
+dEQP-VK.memory.mapping.suballocation.full.variable.implicit_unmap
+dEQP-VK.memory.pipeline_barrier.transfer_dst_uniform_texel_buffer.1024
+dEQP-VK.memory.pipeline_barrier.transfer_dst_uniform_texel_buffer.1048576
+dEQP-VK.memory.pipeline_barrier.transfer_dst_uniform_texel_buffer.65536
+dEQP-VK.memory.pipeline_barrier.transfer_dst_uniform_texel_buffer.8192
+dEQP-VK.memory_model.message_passing.ext.u32.noncoherent.atomic_atomic.atomicrmw.device.payload_local.image.guard_local.image.frag
+dEQP-VK.memory_model.message_passing.ext.u32.noncoherent.fence_fence.atomicwrite.device.payload_local.image.guard_local.buffer.frag
+dEQP-VK.pipeline.monolithic.image.suballocation.sampling_type.combined.view_type.1d_array.format.r8_unorm.count_1.size.443x1_array_of_6
+dEQP-VK.rasterization.culling.front_triangle_strip
+dEQP-VK.rasterization.primitives.no_stipple.points
+dEQP-VK.rasterization.primitives.no_stipple.rectangular_lines_with_adjacency_factor_large
+dEQP-VK.rasterization.primitives.no_stipple.triangle_fan
+dEQP-VK.rasterization.primitives_multisample_4_bit.no_stipple.lines
+dEQP-VK.rasterization.provoking_vertex.draw.last.triangle_list_with_adjacency
+dEQP-VK.renderpass.suballocation.load_store_op_none.depthstencil_d24_unorm_s8_uint_load_op_depth_load_stencil_none_store_op_depth_store_stencil_none_stencil_write_off
+dEQP-VK.robustness.image_robustness.bind.notemplate.rg32f.unroll.volatile.storage_image.fmt_qual.img.samples_1.cube_array.vert
+dEQP-VK.spirv_assembly.instruction.graphics.float_controls2.fp32.input_args.ord_gt_testedWithout_NotInf_arg1_inf_arg2_one_res_one_deco_vert
+dEQP-VK.ssbo.phys.layout.basic_unsized_array.std430.row_major_mat2x4_store_cols
+dEQP-VK.ssbo.phys.layout.random.basic_types.15
+dEQP-VK.synchronization.cross_instance.suballocated.write_ssbo_vertex_read_vertex_input.buffer_262144_binary_semaphore_fd
+dEQP-VK.synchronization.op.single_queue.binary_semaphore.write_ssbo_vertex_read_vertex_input.buffer_262144
+dEQP-VK.synchronization.signal_order.shared_binary_semaphore.write_copy_buffer_read_vertex_input.buffer_262144_opaque_fd
+dEQP-VK.synchronization.signal_order.shared_binary_semaphore.write_ssbo_vertex_read_vertex_input.buffer_262144_opaque_fd
+dEQP-VK.synchronization.timeline_semaphore.device_host.write_ssbo_geometry_read_vertex_input.buffer_262144
+dEQP-VK.synchronization2.basic.timeline_semaphore.one_queue
+dEQP-VK.synchronization2.op.single_queue.event.write_ssbo_compute_read_vertex_input.buffer_16384
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_blit_image_read_copy_image.image_128x128_r16_uint
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_blit_image_read_copy_image.image_64x64x8_r32_sfloat
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_image_compute_read_image_fragment.image_128_r32_uint
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_ssbo_compute_indirect_read_vertex_input.buffer_262144
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_ssbo_fragment_read_vertex_input.buffer_262144
+dEQP-VK.tessellation.invariance.one_minus_tess_coord_component.isolines_fractional_odd_spacing_ccw
+dEQP-VK.tessellation.invariance.tess_coord_component_range.isolines_fractional_even_spacing_cw
+dEQP-VK.tessellation.user_defined_io.per_patch_block_array.vertex_io_array_size_implicit.triangles
+dEQP-VK.texture.filtering.2d.combinations.nearest.linear.repeat.clamp_to_edge
+dEQP-VK.texture.filtering.2d.combinations.nearest_mipmap_nearest.linear.clamp_to_border.mirrored_repeat
+dEQP-VK.texture.filtering.2d.formats.s8_uint.nearest
+dEQP-VK.texture.filtering.2d_array.combinations.linear_mipmap_linear.linear.mirrored_repeat.repeat
+dEQP-VK.texture.filtering.cube.combinations.nearest.linear.mirrored_repeat.repeat.seamless
+dEQP-VK.texture.shadow.cube.linear.less_d24_unorm_s8_uint
+
+# With linux kernel 6.13-rc4 uprev. Broadcom job uses 6.6.47 kernel, so likely this is caused with recent mesa
+dEQP-VK.glsl.derivate.fwidthfine.static_if.float_mediump
+dEQP-VK.glsl.texture_functions.query.texturequerylevels.sampler1darray_fixed_fragment
+dEQP-VK.renderpass.suballocation.multisample_resolve.layers_6.r32g32b32a32_sfloat.samples_4_resolve_level_4
+dEQP-VK.ssbo.layout.random.all_per_block_buffers.0
+
+api@clgetdeviceinfo
+
+arm32-KHR-GLES31.core.shader_image_load_store.advanced-copyImage-cs
+dEQP-VK.synchronization2.basic.timeline_semaphore.chain
+dEQP-VK.synchronization2.op.single_queue.binary_semaphore.write_ssbo_compute_read_vertex_input.buffer_262144_specialized_access_flag
+hiz@hiz-stencil-test-fbo-d24-s8
+dEQP-VK.fragment_operations.occlusion_query.precise_test_depth_write_stencil_clear
+dEQP-VK.synchronization.op.single_queue.barrier.write_ssbo_compute_read_vertex_input.buffer_262144
+spec@ext_transform_feedback@tessellation quads wireframe
+spec@nv_primitive_restart@primitive-restart-draw-mode-line_strip
+
+dEQP-VK.binding_model.buffer_device_address.set15.depth1.baseubo.convertcheckuv2.store.single.std140.vert_offset_nonzero

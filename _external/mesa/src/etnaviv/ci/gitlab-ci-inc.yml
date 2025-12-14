@@ -1,0 +1,117 @@
+.etnaviv-rules:
+  stage: etnaviv
+  rules:
+    - !reference [.test, rules]
+    - !reference [.austriancoder-farm-rules, rules]
+    - !reference [.gl-rules, rules]
+    - changes: &etnaviv_file_list
+        - src/etnaviv/*
+        - src/etnaviv/ci/gitlab-ci.yml
+        - src/etnaviv/ci/deqp-$DEQP_SUITE.toml
+        - src/etnaviv/ci/$GPU_VERSION-fails.txt
+        - src/etnaviv/ci/$GPU_VERSION-flakes.txt
+        - src/etnaviv/ci/$GPU_VERSION-skips.txt
+        - src/etnaviv/drm/**/*
+        - src/etnaviv/drm-shim/**/*
+        - src/etnaviv/isa/**/*
+        - src/gallium/drivers/etnaviv/**/*
+        - src/gallium/winsys/etnaviv/**/*
+        - src/gallium/auxiliary/renderonly/**/*
+        - src/gallium/winsys/kmsro/**/*
+      when: on_success
+
+.etnaviv-manual-rules:
+  stage: etnaviv-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.austriancoder-farm-manual-rules, rules]
+    - !reference [.gl-manual-rules, rules]
+    - changes:
+        *etnaviv_file_list
+      when: manual
+
+.austriancoder-ci-tron:
+  extends:
+    - .ci-tron-b2c-diskless-v1
+  variables:
+    RUNNER_FARM_LOCATION: austriancoder
+    CI_TRON_TIMEOUT__FIRST_CONSOLE_ACTIVITY__MINUTES: 0.5
+    CI_TRON_TIMEOUT__FIRST_CONSOLE_ACTIVITY__RETRIES: 3
+    CI_TRON_DUT_SETUP_TAGS: "$VIVANTE_MODEL_TAG,$VIVANTE_REVISION_TAG"
+
+.austriancoder-imx6q-cubox-i:arm32:
+  extends:
+    - .austriancoder-ci-tron
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm/v7
+    VIVANTE_MODEL_TAG: "vivante:model:2000"
+    VIVANTE_REVISION_TAG: "vivante:revision:5108"
+    GPU_VERSION: "etnaviv-gc2000-r5108"
+
+# 1 device (2025-01-30)
+.austriancoder-imx6q-cubox-i-2cores:arm32:
+  extends:
+    - .austriancoder-imx6q-cubox-i:arm32
+  variables:
+    FDO_CI_CONCURRENT: 2
+  tags:
+    - farm:$RUNNER_FARM_LOCATION
+    - cpu:cores:2
+    - $VIVANTE_MODEL_TAG
+    - $VIVANTE_REVISION_TAG
+
+# 4 devices (2025-01-30)
+.austriancoder-imx6q-cubox-i-4cores:arm32:
+  extends:
+    - .austriancoder-imx6q-cubox-i:arm32
+  variables:
+    FDO_CI_CONCURRENT: 4
+  tags:
+    - farm:$RUNNER_FARM_LOCATION
+    - cpu:cores:4
+    - $VIVANTE_MODEL_TAG
+    - $VIVANTE_REVISION_TAG
+
+# 2 devices (2025-02-28)
+.austriancoder-imx6qp-nitrogen6_max:arm32:
+  extends:
+    - .austriancoder-ci-tron
+  variables:
+    FDO_CI_CONCURRENT: 4
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm/v7
+    VIVANTE_MODEL_TAG: "vivante:model:3000"
+    VIVANTE_REVISION_TAG: "vivante:revision:5450"
+    GPU_VERSION: "etnaviv-gc3000-r5450"
+  tags:
+    - farm:$RUNNER_FARM_LOCATION
+    - $VIVANTE_MODEL_TAG
+    - $VIVANTE_REVISION_TAG
+
+# 1 devices (2025-02-26)
+.austriancoder-imx8mq-nitrogen:arm64:
+  extends:
+    - .austriancoder-ci-tron
+  variables:
+    FDO_CI_CONCURRENT: 4
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm64/v8
+    VIVANTE_MODEL_TAG: "vivante:model:7000"
+    VIVANTE_REVISION_TAG: "vivante:revision:6214"
+    GPU_VERSION: "etnaviv-gc7000-r6214"
+  tags:
+    - farm:$RUNNER_FARM_LOCATION
+    - $VIVANTE_MODEL_TAG
+    - $VIVANTE_REVISION_TAG
+
+# 1 devices (2025-02-26)
+# Status: https://lava.pengutronix.de/scheduler/device_type/imx8mp-tqma8mpql-mba8mpxl
+.pengutronix-imx8mp-mba8mpxl:arm64:
+  variables:
+    DEVICE_TYPE: imx8mp-tqma8mpql-mba8mpxl
+    DTB: $DEVICE_TYPE
+    FARM: pengutronix
+    GPU_VERSION: "etnaviv-gc7000-r6204"
+    BOOT_METHOD: barebox
+    RUNNER_TAG: mesa-ci-x86-64-lava-imx8mp-tqma8mpql-mba8mpxl
+    VISIBILITY_GROUP: "mesa-ci"
+

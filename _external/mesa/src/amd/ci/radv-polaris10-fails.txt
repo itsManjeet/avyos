@@ -1,0 +1,5 @@
+# Video failures
+dEQP-VK.video.synchronization.decode_h264.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization.decode_h265.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization2.decode_h264.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization2.decode_h265.basic.event.device_set_reset,Fail

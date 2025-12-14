@@ -1,0 +1,34 @@
+#include <windows.h>
+
+#define VER_MAJOR @VER_MAJOR@
+#define VER_MINOR @VER_MINOR@
+#define VER_PATCH @VER_PATCH@
+#define VER_BUILD @VER_BUILD@
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR, VER_MINOR, VER_PATCH, VER_BUILD
+ PRODUCTVERSION VER_MAJOR, VER_MINOR, VER_PATCH, VER_BUILD
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS VOS__WINDOWS32
+ FILETYPE VFT_DLL
+ FILESUBTYPE 0x0L
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904b0"
+        {
+            VALUE "CompanyName", @CompanyName@
+            VALUE "FileDescription", @FileDescription@
+            VALUE "FileVersion", "@FileVersion@"
+            VALUE "InternalName", @InternalName@
+            VALUE "OriginalFilename", @OriginalFilename@
+            VALUE "ProductName", @ProductName@
+            VALUE "ProductVersion", "@ProductVersion@"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 1200
+    }
+}

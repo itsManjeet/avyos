@@ -1,0 +1,241 @@
+variables:
+  LAVA_SSH_CLIENT_IMAGE: "${CI_REGISTRY_IMAGE}/alpine/x86_64_lava_ssh_client:${ALPINE_X86_64_LAVA_SSH_TAG}--${MESA_TEMPLATES_COMMIT}"
+
+
+.lava-test:
+  # LAVA relies on two main containers:
+  # 1. alpine/x86_64_lava-trigger - the container used on the GitLab CI runner
+  # 2. the test-* container (e.g. debian/arm64_test-vk), whose derived rootfs
+  #    is used on the DUT
+  # The following two containers are also used:
+  # 3. alpine/x86_64_lava_ssh_client - the slim SSH client container for jobs
+  #    that use SSH instead of UART as job output
+  # 4. lava/health-check-docker - the slim container used for fastboot
+  # Set image: directly instead of extending .set-image to avoid conflicts
+  # with MESA_IMAGE_PATH and FDO_DISTRIBUTION_TAG between the containers.
+  image: "${CI_REGISTRY_IMAGE}/alpine/x86_64_lava-trigger:${ALPINE_X86_64_LAVA_TRIGGER_TAG}--${MESA_TEMPLATES_COMMIT}"
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  # The jobs themselves shouldn't actually run for an hour, of course.
+  # Jobs are picked up greedily by a GitLab CI runner which is deliberately
+  # overprovisioned compared to the number of available devices. They are
+  # submitted to the LAVA co-ordinator with a job priority which gives
+  # pre-merge priority over everyone else. User-submitted and nightly jobs
+  # can thus spend ages just waiting around in a queue to be run at some
+  # point as they get pre-empted by other things.
+  # Non-queue time has strict timeouts for each stage, e.g. for downloading
+  # the artifacts, booting the device, device setup, running the tests, etc,
+  # which is handled by LAVA itself.
+  # So the only reason we should see anyone bouncing off this timeout is due
+  # to a lack of available devices to run the jobs.
+  timeout: 1h
+  variables:
+    GIT_STRATEGY: none  # testing doesn't build anything from source
+    HWCI_TEST_SCRIPT: ./install/deqp-runner.sh
+    FDO_CI_CONCURRENT: 6  # should be replaced by per-machine definitions
+    # the dispatchers use this to cache data locally
+    LAVA_HTTP_CACHE_URI: "http://caching-proxy/cache/?uri="
+    LAVA_ROOTFS_PATH: "${MESA_IMAGE_PATH}:${FDO_DISTRIBUTION_TAG}/lava-rootfs.tar.zst"
+    # per-job build artifacts
+    JOB_RESULTS_PATH: "${JOB_ARTIFACTS_BASE}/results.tar.zst"
+    S3_ARTIFACT_NAME: "mesa-${ARCH}-default-debugoptimized"
+    S3_RESULTS_UPLOAD: "${JOB_ARTIFACTS_BASE}"
+    PIGLIT_NO_WINDOW: 1
+    VISIBILITY_GROUP: "Collabora+fdo"
+  script:
+    - /lava/lava-submit.sh
+  artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    when: always
+    paths:
+      - results/
+    exclude:
+      - results/*.shader_cache
+    reports:
+      junit: results/junit.xml
+  tags:
+    - $RUNNER_TAG
+  after_script:
+    - curl -L --retry 4 -f --retry-connrefused --retry-delay 30 -s "https://${JOB_RESULTS_PATH}" | tar --warning=no-timestamp --zstd -x
+  needs:
+    - !reference [.required-for-hardware-jobs, needs]
+    - job: alpine/x86_64_lava_ssh_client
+      artifacts: false
+      optional: true
+    - job: alpine/x86_64_lava-trigger
+      artifacts: false
+      optional: true
+
+.lava-x86_64-test:
+  extends:
+    - .lava-test
+  variables:
+    ARCH: x86_64
+    DEBIAN_ARCH: amd64
+    KERNEL_IMAGE_NAME: bzImage
+    KERNEL_IMAGE_TYPE: "zimage"
+    BOOT_METHOD: u-boot
+
+.lava-x86_64-test-android:
+  extends:
+    - .use-debian/x86_64_test-android
+    - .lava-x86_64-test
+    - .android-variables
+  variables:
+    HWCI_ENABLE_X86_KVM: 1
+    HWCI_TEST_SCRIPT: install/cuttlefish-runner.sh
+    S3_ANDROID_ARTIFACT_NAME: mesa-x86_64-android-debug
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/x86_64_test-android
+      artifacts: false
+      optional: true
+    - job: debian-x86_64  # The generic Linux build for the host will be downloaded later
+      artifacts: false
+    - job: debian-android  # The Android build for the guest will be downloaded later and installed via adb
+      artifacts: false
+
+.lava-x86_64-test-gl:
+  extends:
+    - .use-debian/x86_64_test-gl
+    - .lava-x86_64-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/x86_64_test-gl
+      artifacts: false
+      optional: true
+    - job: debian-x86_64
+      artifacts: false
+
+.lava-x86_64-test-video:
+  extends:
+    - .use-debian/x86_64_test-video
+    - .lava-x86_64-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/x86_64_test-video
+      artifacts: false
+      optional: true
+    - job: debian-x86_64
+      artifacts: false
+
+.lava-x86_64-test-vk:
+  extends:
+    - .use-debian/x86_64_test-vk
+    - .lava-x86_64-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/x86_64_test-vk
+      artifacts: false
+      optional: true
+    - job: debian-x86_64
+      artifacts: false
+
+.lava-arm32-test:
+  extends:
+    - .lava-test
+  variables:
+    ARCH: arm32
+    DEBIAN_ARCH: armhf
+    KERNEL_IMAGE_NAME: zImage
+    KERNEL_IMAGE_TYPE: "zimage"
+    BOOT_METHOD: u-boot
+
+.lava-arm32-test-gl:
+  extends:
+    - .use-debian/arm32_test-gl
+    - .lava-arm32-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/arm32_test-gl
+      artifacts: false
+      optional: true
+    - job: debian-arm32
+      artifacts: false
+
+.lava-arm64-test:
+  extends:
+    - .lava-test
+  variables:
+    ARCH: arm64
+    DEBIAN_ARCH: arm64
+    KERNEL_IMAGE_NAME: Image
+    KERNEL_IMAGE_TYPE: "image"
+    BOOT_METHOD: u-boot
+
+.lava-arm64-test-gl:
+  extends:
+    - .use-debian/arm64_test-gl
+    - .lava-arm64-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/arm64_test-gl
+      artifacts: false
+      optional: true
+    - job: debian-arm64
+      artifacts: false
+
+.lava-arm64-test-asan-gl:
+  extends:
+    - .use-debian/arm64_test-gl
+    - .lava-arm64-test
+  variables:
+    DEQP_FORCE_ASAN: 1
+    S3_ARTIFACT_NAME: mesa-arm64-asan-debugoptimized
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/arm64_test-gl
+      artifacts: false
+      optional: true
+    - job: debian-arm64-asan
+      artifacts: false
+
+.lava-arm64-test-vk:
+  extends:
+    - .use-debian/arm64_test-vk
+    - .lava-arm64-test
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/arm64_test-vk
+      artifacts: false
+      optional: true
+    - job: debian-arm64
+      artifacts: false
+
+.lava-arm64-test-asan-vk:
+  extends:
+    - .use-debian/arm64_test-vk
+    - .lava-arm64-test
+  variables:
+    DEQP_FORCE_ASAN: 1
+    S3_ARTIFACT_NAME: mesa-arm64-asan-debugoptimized
+  needs:
+    - !reference [.lava-test, needs]
+    - job: debian/arm64_test-vk
+      artifacts: false
+      optional: true
+    - job: debian-arm64-asan
+      artifacts: false
+
+.lava-piglit-traces:
+  extends:
+    - .piglit-traces-test
+  variables:
+    # until we overcome Infrastructure issues, give traces extra 5 min before timeout
+    DEVICE_HANGING_TIMEOUT_SEC: 600
+    PIGLIT_REPLAY_DEVICE_NAME: "gl-${GPU_VERSION}"
+
+.lava-x86_64-piglit-traces:
+  extends:
+    - .lava-x86_64-test-gl
+    - .lava-piglit-traces
+
+.lava-arm32-piglit-traces:
+  extends:
+    - .lava-arm32-test-gl
+    - .lava-piglit-traces
+
+.lava-arm64-piglit-traces:
+  extends:
+    - .lava-arm64-test-gl
+    - .lava-piglit-traces

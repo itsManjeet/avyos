@@ -1,0 +1,26 @@
+# Copyright 2025 Valve Corporation
+# SPDX-License-Identifier: MIT
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+start = element shaderdb { (isa | family)* }
+
+family = element family {
+  attribute name { text },
+  isa+
+}
+
+isa = element isa {
+  attribute name { text },
+  element stat {
+    attribute name { text },
+    attribute display { text }?,
+    attribute count { xsd:integer }?,
+    attribute more { "better" | "worse" }?,
+    attribute hash { xsd:boolean }?,
+    [ a:defaultValue = "u32" ] attribute type
+      { "u8" | "i8" | "u16" | "i16" | "u32" | "i32" | "u64" | "i64" | "float" | "bool" }?,
+
+    text
+  }+
+}

@@ -1,0 +1,26 @@
+# The following tests started to flake after CI fix, see
+# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/16325
+dEQP-VK.rasterization.interpolation_multisample_4_bit.triangles
+
+dEQP-GLES31.functional.texture.specification.teximage3d_depth.depth32f_stencil8_cube_array
+dEQP-GLES31.functional.texture.specification.teximage3d_depth.depth_component24_cube_array
+dEQP-GLES31.functional.texture.specification.texsubimage3d_depth.depth24_stencil8_cube_array
+dEQP-GLES31.functional.texture.specification.texsubimage3d_depth.depth_component24_cube_array
+
+dEQP-VK.api.copy_and_blit.core.image_to_image.all_formats.color.2d_to_1d.eac_r11_unorm_block.r16g16b16a16_sint.general_optimal
+dEQP-VK.pipeline.monolithic.vertex_input.multiple_attributes.binding_one_to_many.attributes_sequential.ivec3.vec2.mat3
+dEQP-VK.pipeline.monolithic.vertex_input.multiple_attributes.out_of_order.binding_one_to_many.attributes_sequential.vec2.mat3.mat4
+dEQP-VK.pipeline.monolithic.vertex_input.multiple_attributes.out_of_order.binding_one_to_one.attributes.int.vec3.mat2
+dEQP-VK.pipeline.pipeline_library.vertex_input.multiple_attributes.binding_one_to_many.attributes_sequential.ivec3.ivec4.vec2
+dEQP-VK.pipeline.pipeline_library.vertex_input.multiple_attributes.layout_skip.binding_one_to_many.attributes.ivec3.mat3.mat4
+dEQP-VK.pipeline.pipeline_library.vertex_input.multiple_attributes.layout_skip.binding_one_to_many.attributes.ivec4.vec3.mat2
+dEQP-VK.pipeline.pipeline_library.vertex_input.multiple_attributes.out_of_order.binding_one_to_one.attributes.mat2.mat3.mat4
+dEQP-VK.pipeline.pipeline_library.vertex_input.multiple_attributes.out_of_order.binding_one_to_one.attributes.uvec4.vec3.vec4
+dEQP-VK.pipeline.shader_object_linked_spirv.vertex_input.multiple_attributes.out_of_order.binding_one_to_many.attributes_sequential.ivec2.uvec3.vec3
+dEQP-VK.rasterization.depth_bias_control.d16_unorm_s8_uint.float_exact.constant.constant_depth_0_3125.target_bias_0_25.static_no_clamp
+dEQP-VK.rasterization.primitives.dynamic_stipple_and_topology.bresenham_line_strip_with_adjacency_wide
+
+multisample-dEQP-GLES31.functional.blend_equation_advanced.barrier.multiply
+multisample-dEQP-GLES31.functional.blend_equation_advanced.basic.colordodge
+multisample-dEQP-GLES31.functional.blend_equation_advanced.basic.darken
+multisample-dEQP-GLES31.functional.blend_equation_advanced.basic.overlay

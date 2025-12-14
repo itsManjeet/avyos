@@ -1,0 +1,6 @@
+dEQP-VK.pipeline.fast_linked_library.pipeline_cache.robustness2.storage,Fail
+dEQP-VK.pipeline.pipeline_library.pipeline_cache.robustness2.storage,Fail
+dEQP-VK.pipeline.shader_object_linked_binary.pipeline_cache.robustness2.storage,Fail
+dEQP-VK.pipeline.shader_object_linked_spirv.pipeline_cache.robustness2.storage,Fail
+dEQP-VK.pipeline.shader_object_unlinked_binary.pipeline_cache.robustness2.storage,Fail
+dEQP-VK.pipeline.shader_object_unlinked_spirv.pipeline_cache.robustness2.storage,Fail

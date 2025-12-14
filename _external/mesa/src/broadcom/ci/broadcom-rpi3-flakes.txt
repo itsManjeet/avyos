@@ -1,0 +1,219 @@
+dEQP-GLES2.functional.clipping.triangle_vertex.clip_three.clip_neg_x_and_pos_x_and_neg_x_neg_y_neg_z
+dEQP-GLES2.functional.clipping.triangle_vertex.clip_three.clip_neg_x_and_pos_x_and_pos_y_pos_z
+dEQP-GLES2.functional.clipping.triangle_vertex.clip_three.clip_neg_x_and_pos_x_neg_y_pos_z_and_neg_x_pos_y_neg_z
+dEQP-GLES2.functional.clipping.triangle_vertex.clip_three.clip_pos_x_and_neg_x_neg_y_pos_z_and_neg_x_pos_y_neg_z
+dEQP-GLES2.functional.fragment_ops.blend.equation_src_func_dst_func.add_zero_zero
+dEQP-GLES2.functional.fragment_ops.blend.equation_src_func_dst_func.reverse_subtract_one_minus_dst_color_one_minus_constant_alpha
+dEQP-GLES2.functional.fragment_ops.blend.equation_src_func_dst_func.reverse_subtract_src_alpha_one_minus_constant_color
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.dst.one_one_minus_constant_alpha
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.one_minus_dst_color_one_minus_constant_color
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.src_alpha_one
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.src_alpha_zero
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.zero_dst_alpha
+dEQP-GLES2.functional.fragment_ops.blend.rgb_func_alpha_func.src.zero_one_minus_src_alpha
+dEQP-GLES2.functional.fragment_ops.depth_stencil.random.1
+dEQP-GLES2.functional.fragment_ops.depth_stencil.random.17
+dEQP-GLES2.functional.fragment_ops.depth_stencil.random.3
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_depth_funcs.stencil_less_no_depth
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_depth_funcs.stencil_notequal_depth_notequal
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_replace_incr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_wrap_decr_incr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_wrap_invert_decr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_wrap_keep_replace
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_wrap_zero_keep
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.decr_zero_replace
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.incr_decr_invert
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.incr_incr_wrap_decr_wrap
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.incr_wrap_decr_wrap_replace
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.incr_wrap_invert_zero
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.incr_wrap_zero_keep
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.invert_decr_wrap_incr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.invert_keep_replace
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.keep_decr_wrap_invert
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.keep_incr_decr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.keep_incr_incr_wrap
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.keep_invert_decr
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.zero_decr_decr_wrap
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.zero_decr_keep
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.zero_decr_wrap_decr_wrap
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.zero_incr_wrap_invert
+dEQP-GLES2.functional.fragment_ops.depth_stencil.stencil_ops.zero_replace_keep
+dEQP-GLES2.functional.fragment_ops.random.60
+dEQP-GLES2.functional.fragment_ops.random.82
+dEQP-GLES2.functional.shaders.constant_expressions.builtin_functions.exponential.pow_vec2_vertex
+dEQP-GLES2.functional.shaders.indexing.matrix_subscript.mat4_static_loop_write_static_read_vertex
+dEQP-GLES2.functional.shaders.matrix.mul.uniform_highp_mat2_vec2_vertex
+dEQP-GLES2.functional.shaders.operator.angle_and_trigonometry.atan.highp_vec4_vertex
+dEQP-GLES2.functional.shaders.operator.geometric.length.mediump_vec2_fragment
+dEQP-GLES2.functional.shaders.operator.int_compare.greaterThanEqual.mediump_ivec4_fragment
+dEQP-GLES2.functional.shaders.random.all_features.fragment.1
+dEQP-GLES2.functional.shaders.random.all_features.fragment.25
+dEQP-GLES2.functional.shaders.random.all_features.fragment.75
+dEQP-GLES2.functional.shaders.random.basic_expression.fragment.68
+dEQP-GLES2.functional.shaders.random.basic_expression.vertex.23
+dEQP-GLES2.functional.shaders.random.comparison_ops.fragment.22
+dEQP-GLES2.functional.shaders.random.conditionals.combined.95
+dEQP-GLES2.functional.shaders.random.conditionals.vertex.62
+dEQP-GLES2.functional.shaders.random.conditionals.vertex.70
+dEQP-GLES2.functional.shaders.random.conditionals.vertex.83
+dEQP-GLES2.functional.shaders.random.exponential.fragment.33
+dEQP-GLES2.functional.shaders.random.texture.fragment.2
+dEQP-GLES2.functional.shaders.random.trigonometric.fragment.50
+dEQP-GLES2.functional.shaders.random.trigonometric.fragment.79
+dEQP-GLES2.functional.texture.filtering.2d.linear_mipmap_linear_linear_mirror_rgba8888
+dEQP-GLES2.functional.texture.filtering.2d.linear_mipmap_nearest_linear_clamp_rgba8888
+dEQP-GLES2.functional.texture.filtering.2d.nearest_linear_mirror_rgb888_pot
+dEQP-GLES2.functional.texture.filtering.cube.linear_mipmap_nearest_nearest_repeat_l8
+dEQP-GLES2.functional.texture.filtering.cube.linear_nearest_clamp_etc1
+dEQP-GLES2.functional.texture.filtering.cube.nearest_linear_mirror_l8_pot
+dEQP-GLES2.functional.texture.filtering.cube.nearest_linear_mirror_rgb888_pot
+dEQP-GLES2.functional.texture.filtering.cube.nearest_mipmap_linear_linear_mirror_rgba8888
+dEQP-GLES2.functional.texture.format.l8_2d_pot
+dEQP-GLES2.functional.texture.mipmap.cube.generate.a8_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.a8_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.l8_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.l8_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.la88_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb565_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb565_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb888_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb888_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba4444_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba4444_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba5551_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba5551_nicest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba8888_fastest
+dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba8888_nicest
+dEQP-GLES2.functional.texture.size.cube.64x64_rgb888_mipmap
+dEQP-GLES2.functional.texture.specification.basic_copyteximage2d.cube_rgb
+dEQP-GLES2.functional.texture.specification.basic_copyteximage2d.cube_rgba
+dEQP-GLES2.functional.texture.specification.basic_copytexsubimage2d.cube_luminance
+dEQP-GLES2.functional.texture.specification.texsubimage2d_empty_tex.rgba8888_2d
+dEQP-GLES2.functional.uniform_api.value.assigned.by_value.render.basic_array.ivec4_vertex
+
+arm32-dEQP-GLES2.functional.shaders.random.texture.vertex.44
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.a8_nicest
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.l8_nicest
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb565_nicest
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.rgb888_nicest
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba4444_nicest
+arm32-dEQP-GLES2.functional.texture.mipmap.cube.generate.rgba5551_nicest
+
+glx@glx-multi-window-single-context
+glx@glx-visuals-stencil
+shaders@glsl-vs-loop
+shaders@glsl-vs-loop-nested
+spec@ext_framebuffer_blit@fbo-sys-blit
+spec@ext_framebuffer_blit@fbo-sys-sub-blit
+spec@ext_framebuffer_object@fbo-flushing-2
+spec@egl_chromium_sync_control@conformance
+
+# CMA allocations that may sometimes succeed
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-24_8 samples=2
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-24_8 samples=4
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-float-and-ushort samples=2
+spec@!opengl 1.1@depthstencil-default_fb-drawpixels-float-and-ushort samples=4
+spec@!opengl 1.1@depthstencil-default_fb-clear samples=2
+
+# https://gitlab.freedesktop.org/mesa/mesa/-/issues/7186
+spec@!opengl 1.0@rasterpos
+
+# Sometimes fail when run along with other tests, never when run by themselves
+spec@!opengl 1.1@copypixels-sync
+spec@!opengl 1.1@copypixels-draw-sync
+spec@!opengl 1.1@draw-copypixels-sync
+spec@!opengl 1.1@draw-sync
+
+# flaky on wayland, was stable on x11
+spec@ext_image_dma_buf_import@ext_image_dma_buf_import
+
+# fails on arm64, passes on armhf
+spec@arb_depth_buffer_float@depthstencil-render-miplevels 1024 s=z24_s8_d=z32f
+
+# Sometimes goes into an infinite loop and times out
+spec@arb_depth_buffer_float@depthstencil-render-miplevels 146 s=z24_s8_d=z32f_s8
+
+spec@arb_depth_texture@depthstencil-render-miplevels 273 d=z24
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *lod 1d
+spec@arb_occlusion_query2@render
+
+# Updated by ci-collate, found in this job run: https://gitlab.freedesktop.org/mesa/mesa/-/jobs/56164970
+glx@glx-multithread-clearbuffer
+
+spec@arb_vertex_buffer_object@vbo-subdata-many drawarrays
+spec@arb_vertex_buffer_object@vbo-subdata-many drawelements
+spec@arb_vertex_buffer_object@vbo-subdata-many drawrangeelements
+
+# Nightly run expectations update
+spec@glsl-1.20@execution@variable-indexing@fs-uniform-mat2-rd
+
+# started 2024-10-22, cause unclear
+dEQP-EGL.functional.sharing.gles2.multithread.random.programs.link.19
+dEQP-EGL.functional.sharing.gles2.multithread.random_egl_sync.programs.link.19
+
+# With linux kernel 6.13-rc4 uprev. broadcom job uses 6.6.47 kernel, so likely this is caused with recent mesa
+dEQP-GLES2.functional.texture.mipmap.cube.generate.la88_fastest
+
+spec@ext_framebuffer_multisample@accuracy all_samples stencil_draw small depthstencil
+
+spec@arb_point_parameters@arb_point_parameters-point-attenuation
+spec@arb_point_parameters@arb_point_parameters-point-attenuation@Aliased combinations
+spec@arb_point_parameters@arb_point_parameters-point-attenuation@Antialiased combinations
+spec@ext_framebuffer_multisample@accuracy 2 stencil_draw small depthstencil
+
+spec@!opengl 1.0@depth-clear-precision-check
+spec@!opengl 1.0@depth-clear-precision-check@depth16
+spec@!opengl 1.0@depth-clear-precision-check@depth24
+spec@!opengl 1.0@depth-clear-precision-check@depth24_stencil8
+spec@!opengl 1.0@depth-clear-precision-check@depth32
+
+wayland-dEQP-EGL.functional.buffer_age.no_preserve.resize_after_swap.odd_render_render_even_render
+wayland-dEQP-EGL.functional.wide_color.window_8888_colorspace_srgb
+wayland-dEQP-EGL.functional.wide_color.window_888_colorspace_srgb
+
+spec@arb_color_buffer_float@gl_rgba8-render
+x11-dEQP-EGL.functional.color_clears.single_context.gles2.rgba8888_window
+x11-dEQP-EGL.functional.sharing.gles2.multithread.random_egl_server_sync.programs.link.19
+x11-dEQP-EGL.functional.wide_color.pbuffer_8888_colorspace_srgb
+x11-dEQP-EGL.functional.wide_color.pbuffer_888_colorspace_default
+x11-dEQP-EGL.functional.wide_color.pbuffer_888_colorspace_srgb
+x11-dEQP-EGL.functional.wide_color.window_8888_colorspace_srgb
+x11-dEQP-EGL.functional.wide_color.window_888_colorspace_srgb
+
+AbandonedContextImage
+AdvancedBlendTest
+ApplyGamma
+BasicDrawOpAtlas
+BlurMaskBiggerThanDest
+CCPR_busyPath
+CCPR_cache_animationAtlasReuse
+CCPR_cache_deferredCleanup
+CCPR_cache_hashTable
+CCPR_cache_multiFlush
+CCPR_cache_multiTileCache
+CCPR_cache_partialInvalidate
+CCPR_cache_recycleEntries
+CCPR_cleanup
+CCPR_cleanupWithTexAllocFail
+CCPR_unrefPerOpListPathsBeforeOps
+CCPR_unregisterCulledOps
+ClearOp
+ClipMaskCache
+ComposedImageFilterBounds_Gpu
+ComposedImageFilterOffset_Gpu
+CopySurface
+DDLCompatibilityTest
+DDLFlushWhileRecording
+DDLInvalidRecorder
+gl_discard
+gl_multipicturedraw_noclip_tiled
+gl_multipicturedraw_rectclip_tiled
+gl_multipicturedraw_sierpinski_simple
+gl_multipicturedraw_sierpinski_tiled
+gles_discard
+gles_multipicturedraw_invpathclip_tiled
+gles_multipicturedraw_pathclip_tiled
+gles_multipicturedraw_rectclip_tiled
+gles_multipicturedraw_sierpinski_simple
+gles_multipicturedraw_sierpinski_tiled
+gles_scaledemojipos

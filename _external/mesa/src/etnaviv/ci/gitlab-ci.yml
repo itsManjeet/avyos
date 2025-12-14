@@ -1,0 +1,73 @@
+include:
+  - local: 'src/etnaviv/ci/gitlab-ci-inc.yml'
+
+gc2000-gles2:
+  extends:
+    - .ci-tron-arm32-test-gl
+    - .austriancoder-imx6q-cubox-i-4cores:arm32
+    - .etnaviv-manual-rules
+  variables:
+    DEQP_SUITE: etnaviv-gc2000
+    # Disable reporting, since DUTs don't have internet access
+    FLAKES_CHANNEL: ""
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 28
+  timeout: 30m
+
+# Disabled until the 168 fails get addressed
+.gc2000-gles2-asan:
+  extends:
+    - .ci-tron-arm32-test-asan-gl
+    - .austriancoder-imx6q-cubox-i-2cores:arm32
+    - .etnaviv-manual-rules
+  variables:
+    DEQP_SUITE: etnaviv-gc2000
+    FLAKES_CHANNEL: ""
+    DEQP_FRACTION: 100
+    FDO_CI_CONCURRENT: 1
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 28
+  timeout: 30m
+
+gc2000-piglit:
+  extends:
+    - gc2000-gles2
+    - .test-piglit
+  variables:
+    DEQP_SUITE: etnaviv-gc2000-piglit
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 25
+  parallel: 2
+  timeout: 30m
+
+gc3000-gles2:
+  extends:
+    - .ci-tron-arm32-test-gl
+    - .austriancoder-imx6qp-nitrogen6_max:arm32
+    - .etnaviv-manual-rules
+  variables:
+    DEQP_SUITE: etnaviv-gc3000
+    FLAKES_CHANNEL: ""
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 28
+  timeout: 30m
+
+gc7000-imx8mq-gles2:
+  extends:
+    - .ci-tron-arm64-test-gl
+    - .austriancoder-imx8mq-nitrogen:arm64
+    - .etnaviv-manual-rules
+  variables:
+    DEQP_SUITE: etnaviv-gc7000
+    FLAKES_CHANNEL: ""
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    CI_TRON_TIMEOUT__OVERALL__MINUTES: 28
+  timeout: 30m
+
+gc7000-imx8mp-gles2:
+  extends:
+    - .lava-arm64-test-gl
+    - .pengutronix-imx8mp-mba8mpxl:arm64
+    - .etnaviv-manual-rules
+  variables:
+    DEQP_SUITE: etnaviv-gc7000
+  timeout: 30m

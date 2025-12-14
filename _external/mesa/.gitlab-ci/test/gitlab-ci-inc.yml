@@ -1,0 +1,188 @@
+.test:
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  variables:
+    GIT_STRATEGY: none  # testing doesn't build anything from source
+  # `before_script:` is only used by test jobs on generic fdo runners
+  # it's overwritten by hardware test jobs
+  before_script:
+    - !reference [.download_s3, before_script]
+    - section_start ldd_section "Checking ldd on driver build"
+    - LD_LIBRARY_PATH=install/lib find install/lib -name "*.so" -print -exec ldd {} \;
+    - section_end ldd_section
+  artifacts:
+    when: always
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    paths:
+      - results/
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.never-post-merge-rules, rules]
+
+.formatting-check:
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  stage: code-validation
+  extends:
+    - .use-debian/arm64_build
+  variables:
+    GIT_STRATEGY: fetch
+  timeout: 10m
+  script:
+    - git diff --color=always --exit-code  # Fails if there are diffs
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+
+.test-gl:
+  extends:
+    - .test
+    - .use-debian/x86_64_test-gl
+  needs:
+    - job: debian/x86_64_test-gl
+      optional: true
+    - job: debian-x86_64
+    - !reference [.required-for-hardware-jobs, needs]
+  variables:
+    DEBIAN_ARCH: amd64
+    S3_ARTIFACT_NAME: mesa-x86_64-default-debugoptimized
+
+.test-vk:
+  extends:
+    - .test
+    - .use-debian/x86_64_test-vk
+  needs:
+    - job: debian-x86_64
+    - job: debian/x86_64_test-vk
+      optional: true
+    - !reference [.required-for-hardware-jobs, needs]
+  variables:
+    DEBIAN_ARCH: amd64
+    S3_ARTIFACT_NAME: mesa-x86_64-default-debugoptimized
+
+.test-cl:
+  extends:
+    - .test
+    - .use-debian/x86_64_test-gl
+  needs:
+    - job: debian/x86_64_test-gl
+      optional: true
+    - !reference [.required-for-hardware-jobs, needs]
+  variables:
+    S3_ARTIFACT_NAME: mesa-x86_64-default-debugoptimized
+
+.test-android:
+  extends:
+    - .test
+    - .use-debian/x86_64_test-android
+  variables:
+    # This is for the guest artifacts from debian-android which will be
+    # downloaded explicitly by cuttlefish-runner.sh
+    S3_ANDROID_ARTIFACT_NAME: mesa-x86_64-android-debug
+    S3_ARTIFACT_NAME: mesa-x86_64-default-debugoptimized
+    # Set the default Vulkan driver to lavapipe for some preliminary checks
+    # that Cuttlefish always performs before starting the VM. This can be
+    # overwritten depending on the physical machine running the job.
+    VK_DRIVER: "lvp"
+  needs:
+    - job: debian-x86_64
+      artifacts: true  # On the host we want the Linux build
+    - job: debian-android
+      artifacts: false  # The Android build will be downloaded later
+    - job: debian/x86_64_test-android
+      artifacts: false
+      optional: true
+    - !reference [.required-for-hardware-jobs, needs]
+  timeout: 20m
+  script:
+    - ./install/cuttlefish-runner.sh
+  artifacts:
+    paths:
+      - results/
+
+.test-android-cts:
+  variables:
+    ANDROID_CTS_TAG: ${CONDITIONAL_BUILD_ANDROID_CTS_TAG}
+
+.test-angle:
+  variables:
+    ANGLE_TAG: ${CONDITIONAL_BUILD_ANGLE_TAG}
+
+.test-crosvm:
+  variables:
+    CROSVM_TAG: ${CONDITIONAL_BUILD_CROSVM_TAG}
+
+.test-fluster:
+  variables:
+    FLUSTER_TAG: ${CONDITIONAL_BUILD_FLUSTER_TAG}
+    FLUSTER_RESULTS: "${GPU_VERSION}-${FLUSTER_CODEC}"
+    HWCI_TEST_SCRIPT: install/fluster-runner.sh
+
+.test-piglit:
+  variables:
+    PIGLIT_TAG: ${CONDITIONAL_BUILD_PIGLIT_TAG}
+
+.test-vkd3d-proton:
+  variables:
+    VKD3D_PROTON_TAG: ${CONDITIONAL_BUILD_VKD3D_PROTON_TAG}
+    HWCI_TEST_SCRIPT: install/vkd3d-runner.sh
+
+.piglit-traces-test:
+  artifacts:
+    when: on_failure
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    reports:
+      junit: results/junit.xml
+    paths:
+      - results/
+    exclude:
+      - results/*.shader_cache
+  extends:
+    - .test-piglit
+  variables:
+    PIGLIT_REPLAY_EXTRA_ARGS: --db-path ${CI_PROJECT_DIR}/replayer-db/ --minio_bucket=${S3_TRACIE_PUBLIC_BUCKET} --jwt-file=${S3_JWT_FILE}
+    PIGLIT_REPLAY_DEVICE_NAME: $GPU_VERSION
+    PIGLIT_RESULTS: "${GPU_VERSION}-replay"
+    PIGLIT_NO_WINDOW: 1
+    HWCI_TEST_SCRIPT: "install/piglit/piglit-traces.sh"
+
+.deqp-test:
+  script:
+    - rm -rf results  # Clear out old results if the docker container was cached
+    - ./install/deqp-runner.sh
+  artifacts:
+    exclude:
+      - results/*.shader_cache
+    reports:
+      junit: results/junit.xml
+
+.fossilize-test:
+  script:
+    - ./install/fossilize-runner.sh
+  artifacts:
+    when: on_failure
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    paths:
+      - results/
+
+.download_s3:
+  before_script:
+    - !reference [default, before_script]
+    # Use this instead of gitlab's artifacts download because it hits packet.net
+    # instead of fd.o.  Set FDO_HTTP_CACHE_URI to an http cache for your test lab to
+    # improve it even more (see https://docs.mesa3d.org/ci/bare-metal.html for
+    # setup).
+    - section_start artifacts_download "Downloading artifacts from s3"
+    # Note: Build dir (and thus install) may be dirty due to GIT_STRATEGY
+    - rm -rf install
+    - (set -x; curl -L --retry 4 -f --retry-all-errors --retry-delay 60 ${FDO_HTTP_CACHE_URI:-}https://${PIPELINE_ARTIFACTS_BASE}/${S3_ARTIFACT_NAME}.tar.zst | tar --zstd -x)
+    - section_end artifacts_download
+
+# Jobs that need to pass before spending hardware resources on further testing
+.required-for-hardware-jobs:
+  needs:
+    - job: rustfmt
+      optional: true
+      artifacts: false
+    - job: yaml-toml-shell-py-test
+      optional: true
+      artifacts: false

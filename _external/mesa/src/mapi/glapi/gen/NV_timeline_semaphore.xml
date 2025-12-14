@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE OpenGLAPI SYSTEM "gl_API.dtd">
+
+<OpenGLAPI>
+
+<category name="GL_NV_timeline_semaphore" number="551">
+
+  <enum name="MAX_TIMELINE_SEMAPHORE_VALUE_DIFFERENCE_NV" count="1" value="0x95B6">
+    <size name="GetIntegerv"   mode="get"/>
+    <size name="GetFloatv" mode="get"/>
+    <size name="GetDoublev"   mode="get"/>
+    <size name="GetInteger64v" mode="get"/>
+    <size name="GetBooleanv"   mode="get"/>
+  </enum>
+
+  <function name="CreateSemaphoresNV" es2="3.2">
+      <param name="n" type="GLsizei" counter="true"/>
+      <param name="semaphores" type="GLuint *" count="n" output="true"/>
+  </function>
+
+  <function name="SemaphoreParameterivNV" es2="3.2">
+      <param name="semaphore" type="GLuint"/>
+      <param name="pname" type="GLenum"/>
+      <param name="params" type="const GLint *" output="true"/>
+  </function>
+
+  <function name="GetSemaphoreParameterivNV" es2="3.2">
+      <param name="semaphore" type="GLuint"/>
+      <param name="pname" type="GLenum"/>
+      <param name="params" type="GLint *" output="true"/>
+  </function>
+
+  <enum name="SEMAPHORE_TYPE_NV"                         value="0x95B3"/>
+  <enum name="SEMAPHORE_TYPE_BINARY_NV"                  value="0x95B4"/>
+  <enum name="SEMAPHORE_TYPE_TIMELINE_NV"                value="0x95B5"/>
+  <enum name="TIMELINE_SEMAPHORE_VALUE_NV"               value="0x9595"/>
+
+</category>
+
+</OpenGLAPI>

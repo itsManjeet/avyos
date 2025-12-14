@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright © 2020 Google, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ -->
+
+<isa>
+
+<!--
+	Cat7 Instructions:  barrier, cache, sleep instructions
+ -->
+
+<bitset name="#instruction-cat7" extends="#instruction">
+	<pattern low="0"  high="31">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</pattern>
+	<pattern low="32" high="43">xxxxxxxxxxxx</pattern>
+	<field   pos="44"          name="SS" type="bool" display="(ss)"/>
+	<field   pos="59"          name="JP" type="bool" display="(jp)"/>
+	<field   pos="60"          name="SY" type="bool" display="(sy)"/>
+	<pattern low="61" high="63">111</pattern>  <!-- cat7 -->
+</bitset>
+
+<bitset name="#instruction-cat7-barrier" extends="#instruction-cat7">
+	<display>
+		{SY}{SS}{JP}{NAME}{G}{L}{R}{W}
+	</display>
+	<pattern low="45" high="50">x1xxxx</pattern>
+	<field   pos="51"          name="W"  type="bool" display=".w"  />  <!-- write -->
+	<field   pos="52"          name="R"  type="bool" display=".r"  />  <!-- read -->
+	<field   pos="53"          name="L"  type="bool" display=".l"  />  <!-- local -->
+	<field   pos="54"          name="G"  type="bool" display=".g"  />  <!-- global -->
+	<encode>
+		<map name="W">src->cat7.w</map>
+		<map name="R">src->cat7.r</map>
+		<map name="L">src->cat7.l</map>
+		<map name="G">src->cat7.g</map>
+	</encode>
+</bitset>
+
+<bitset name="bar" extends="#instruction-cat7-barrier">
+	<pattern low="55" high="58">0000</pattern>
+</bitset>
+
+<bitset name="fence" extends="#instruction-cat7-barrier">
+	<pattern low="55" high="58">0001</pattern>
+</bitset>
+
+<enum name="#dccln-type">
+	<value val="0" display=".shr"/>
+	<value val="1" display=".all"/>
+</enum>
+
+<bitset name="#instruction-cat7-data" extends="#instruction-cat7">
+	<display>
+		{SY}{SS}{JP}{NAME}{TYPE}
+	</display>
+	<pattern low="45" high="50">xxxxxx</pattern>
+	<field   pos="51" 		   name="TYPE" type="#dccln-type"/>
+	<pattern low="52" high="54">xx0</pattern>
+	<encode>
+		<!-- TODO: read handle type -->
+		<map name="TYPE">1</map>
+	</encode>
+</bitset>
+
+<enum name="#sleep-duration">
+	<value val="0" display=".s">
+		<doc>
+			Short sleep
+		</doc>
+	</value>
+	<value val="1" display=".l">
+		<doc>
+			Long sleep, around 20x longer than short
+		</doc>
+	</value>
+</enum>
+
+<bitset name="sleep" extends="#instruction-cat7">
+	<doc>
+		Short/Long Sleep
+		TODO: how is it different from a bunch of nops?
+	</doc>
+	<display>
+		{SY}{SS}{JP}{NAME}{DURATION}
+	</display>
+	<pattern low="45" high="50">xxxxxx</pattern>
+	<field   pos="51"          name="DURATION" type="#sleep-duration"/>
+	<pattern low="52" high="54">xxx</pattern>
+	<pattern low="55" high="58">0010</pattern>
+	<encode>
+		<!-- TODO: read duration -->
+		<map name="DURATION">1</map>
+	</encode>
+</bitset>
+
+<bitset name="icinv" extends="#instruction-cat7">
+	<doc>
+		Seem to be Instruction Cache Invalidate, supported by the fact
+		that it considerably slows shader execution compared to
+		data cache instructions.
+	</doc>
+	<display>
+		{SY}{SS}{JP}{NAME}
+	</display>
+	<pattern low="45" high="54">xxxxxxxxxx</pattern>
+	<pattern low="55" high="58">0011</pattern>
+</bitset>
+
+<bitset name="dccln" extends="#instruction-cat7-data">
+	<doc>
+		Data (Cache?) Clean
+	</doc>
+	<pattern low="55" high="58">0100</pattern>
+</bitset>
+
+<bitset name="dcinv" extends="#instruction-cat7-data">
+	<doc>
+		Data (Cache?) Invalidate
+	</doc>
+	<pattern low="55" high="58">0101</pattern>
+</bitset>
+
+<bitset name="dcflu" extends="#instruction-cat7-data">
+	<doc>
+		Data (Cache?) Flush
+	</doc>
+	<pattern low="55" high="58">0110</pattern>
+</bitset>
+
+<bitset name="ccinv" extends="#instruction-cat7">
+	<doc>
+		_Presumably_ invalidates workgroup-wide cache for image/buffer data access.
+		So while "fence" is enough to synchronize data access inside a workgroup,
+		for cross-workgroup synchronization we have to invalidate that cache.
+	</doc>
+	<gen min="700"/>
+	<display>
+		{SY}{SS}{JP}{NAME}
+	</display>
+	<pattern low="45" high="50">x1xxxx</pattern>
+	<pattern low="51" high="54">1010</pattern>
+	<pattern low="55" high="58">0101</pattern>
+</bitset>
+
+<bitset name="lock" extends="#instruction-cat7">
+	<doc>
+		Are met at the end of compute shader:
+			(sy)(jp)lock;
+			unlock;
+			end ;
+	</doc>
+	<gen min="700"/>
+	<display>
+		{SY}{SS}{JP}{NAME}
+	</display>
+	<pattern low="45" high="54">1000010000</pattern>
+	<pattern low="55" high="58">0111</pattern>
+</bitset>
+
+<bitset name="unlock" extends="#instruction-cat7">
+	<gen min="700"/>
+	<display>
+		{SY}{SS}{JP}{NAME}
+	</display>
+	<pattern low="45" high="54">1001010000</pattern>
+	<pattern low="55" high="58">0111</pattern>
+</bitset>
+
+<bitset name="#alias-immed-src" size="32">
+	<override>
+		<expr>
+			{TYPE} == 0 &amp;&amp; {TYPE_SIZE} == 0 /* f16 */
+		</expr>
+		<display>
+			h({IMMED})
+		</display>
+		<field name="IMMED" low="0" high="15" type="float"/>
+	</override>
+	<override>
+		<expr>
+			{TYPE} == 0 &amp;&amp; {TYPE_SIZE} == 1 /* f32 */
+		</expr>
+		<display>
+			({IMMED})
+		</display>
+		<field name="IMMED" low="0" high="31" type="float"/>
+	</override>
+	<override>
+		<expr>
+			{TYPE_SIZE} == 0 /* b16 */
+		</expr>
+		<display>
+			h(0x{IMMED})
+		</display>
+		<field name="IMMED" low="0" high="15" type="hex"/>
+	</override>
+
+	<display>
+		(0x{IMMED})
+	</display>
+
+	<field name="IMMED" low="0" high="31" type="hex"/>
+	<encode type="struct ir3_register *">
+		<map name="IMMED">extract_reg_uim(src)</map>
+	</encode>
+</bitset>
+
+<bitset name="#alias-const-src" size="11">
+	<display>
+		{HALF}{CONST}
+	</display>
+	<field name="CONST" low="0" high="10" type="#reg-const"/>
+	<derived name="HALF" type="bool" display="h">
+		<expr>
+			({TYPE_SIZE} == 0) /* b16 */
+		</expr>
+	</derived>
+	<encode type="struct ir3_register *">
+		<map name="CONST">src</map>
+	</encode>
+</bitset>
+
+<bitset name="#alias-gpr-src" size="8">
+	<display>
+		{HALF}{SRC}
+	</display>
+	<field name="SRC" low="0" high="7" type="#reg-gpr"/>
+	<derived name="HALF" type="bool" display="h">
+		<expr>
+			({TYPE_SIZE} == 0) /* b16 */
+		</expr>
+	</derived>
+	<encode type="struct ir3_register *">
+		<map name="SRC">src</map>
+	</encode>
+</bitset>
+
+<enum name="#alias-scope">
+	<value val="0" display="tex"/>
+	<value val="1" display="rt"/>
+	<value val="2" display="mem"/>
+	<value val="3" display="mem"/>
+</enum>
+
+<enum name="#alias-type-size">
+	<value val="0" display="16"/>
+	<value val="1" display="32"/>
+</enum>
+
+<enum name="#alias-type">
+	<doc>
+		The type (float or int) of sources. This seems to have no
+		functional effect and only changes how immediates are displayed.
+		Note that the blob uses i16/i32 when the scope is rt or the 2nd
+		mem, but this is not implemented here. Also note that the blob
+		uses b16/b32 for alias.tex when the type is 0, even though it
+		still prints immediates as floats in that case.
+	</doc>
+	<value val="0" display="f"/>
+	<value val="1" display="b"/>
+</enum>
+
+<enum name="#alias-src-reg-type">
+	<value val="0" display="GPR"/>
+	<value val="1" display="CONST"/>
+	<value val="2" display="IMMED"/>
+</enum>
+
+<bitset name="#dst-rt" size="5">
+	<display>
+		rt{RT}.{SWIZ}
+	</display>
+	<field name="SWIZ" low="0" high="1" type="#swiz"/>
+	<field name="RT" low="2"  high="4" type="uint"/>
+	<encode type="struct ir3_register *">
+		<map name="RT">src->num >> 2</map>
+		<map name="SWIZ">src->num &amp; 0x3</map>
+	</encode>
+</bitset>
+
+<bitset name="alias" extends="#instruction">
+	<doc>
+		For alias.tex (and possibly alias.mem):
+
+		Add an entry to the scope-specific "alias table", when instruction
+		from that scope tries to access a source register it would search
+		its alias table first.
+
+		This allows to reduce the amount of data passed around when reading
+		immediates/constants and reduce register pressure. In addition,
+		the alias table could be populated in the preamble further reducing
+		the amount of instructions being run.
+
+		Used like this:
+			alias.tex.b32.1 r40.x, (-1.456763);
+			alias.tex.b32.0 r40.y, (0.056702);
+			gather4g.s2en.mode6.base0 (f32)(xyzw)r0.x, r40.x, 1;
+		Or this:
+			alias.tex.b32.0 r2.y, c1.w;
+			isam.s2en.mode6.base0.1d (f32)(xyzw)r46.z, r2.y, 0;
+			(sy)stib.f32.2d.4.mode4.base0 r46.z, r2.y, 1;
+
+		Notice the lack of nops between alias and the instruction
+		that uses it.
+
+		In this case, the size of the table is bounded (max 16 entries)
+		and the number of entries in the table is indicated by
+		the first alias instruction in the TABLE_SIZE_MINUS_ONE field.
+
+		For alias.rt: create an entry into the alias table for a render
+		target. For example, this would map the 4th component of render
+		target 0 (FRAG_RESULT_DATA0) to the constant 0x0:
+			alias.rt.b32.0 rt0.w, (0x0)
+
+		alias.rt has to be executed in the preamble and can only map
+		const registers and immediates. Additionally, the register
+		SP_PS_ALIASED_COMPONENTS has to be set to a mask of render
+		target components that will be aliased.
+
+		In this case, the size of the table is only bounded by the
+		number of render targets/components and the TABLE_SIZE_MINUS_ONE
+		field is not used.
+	</doc>
+	<gen min="700"/>
+	<display>
+		{SY}{SS}{JP}{NAME}.{SCOPE}.{TYPE}{TYPE_SIZE}.{TABLE_SIZE_MINUS_ONE} {DST_HALF}{DST}, {SRC}
+	</display>
+
+	<override>
+		<expr>{SRC_REG_TYPE} == 0</expr>
+		<field name="SRC" low="0" high="7" type="#alias-gpr-src">
+			<param name="TYPE_SIZE"/>
+		</field>
+		<pattern low="8" high="31">000000000000000000000000</pattern>
+	</override>
+	<override>
+		<expr>{SRC_REG_TYPE} == 1</expr>
+		<field name="SRC" low="0" high="10" type="#alias-const-src">
+			<param name="TYPE_SIZE"/>
+		</field>
+		<pattern low="11" high="31">000000000000000000000</pattern>
+	</override>
+
+	<field name="SRC" low="0" high="31" type="#alias-immed-src">
+		<param name="TYPE_SIZE"/>
+		<param name="TYPE"/>
+	</field>
+
+	<override>
+		<expr>{SCOPE} == 1</expr>
+		<field low="32" high="36" name="DST" type="#dst-rt"/>
+		<pattern low="37" high="39">000</pattern>
+		<derived name="DST_HALF" expr="#false" type="bool" display=""/>
+	</override>
+	<field   low="32" high="39" name="DST" type="#reg-gpr"/>
+	<field   low="40" high="43" name="TABLE_SIZE_MINUS_ONE" type="uint"/>
+	<field   pos="44"           name="SS" type="bool" display="(ss)"/>
+	<pattern low="45" high="46">xx</pattern>
+	<field   pos="47"           name="SCOPE_LO" type="uint"/>
+	<field   pos="48"           name="TYPE" type="#alias-type"/>
+	<field   pos="49"           name="SCOPE_HI" type="uint"/>
+	<field   pos="50"           name="TYPE_SIZE" type="#alias-type-size"/>
+	<field   low="51" high="52" name="SRC_REG_TYPE" type="#alias-src-reg-type"/>
+	<pattern low="53" high="54">xx</pattern>
+	<pattern low="55" high="58">1000</pattern> <!-- OPC -->
+	<field   pos="59"           name="JP" type="bool" display="(jp)"/>
+	<field   pos="60"           name="SY" type="bool" display="(sy)"/>
+	<pattern low="61" high="63">111</pattern>  <!-- cat7 -->
+	<derived name="SCOPE" type="#alias-scope">
+		<expr>({SCOPE_HI} &lt;&lt; 1) | {SCOPE_LO}</expr>
+	</derived>
+	<derived name="DST_HALF" type="bool" display="h">
+		<expr>{TYPE_SIZE} == 0</expr>
+	</derived>
+	<encode>
+		<map name="SRC">src->srcs[0]</map>
+		<map name="SRC_REG_TYPE">(src->srcs[0]->flags &amp; IR3_REG_CONST) ? 1 : ((src->srcs[0]->flags &amp; IR3_REG_IMMED) ? 2 : 0)</map>
+		<map name="TABLE_SIZE_MINUS_ONE">src->cat7.alias_table_size_minus_one</map>
+		<map name="TYPE_SIZE">(src->srcs[0]->flags &amp; IR3_REG_HALF) ? 0 : 1</map>
+		<map name="SCOPE_LO">src->cat7.alias_scope &amp; 0x1</map>
+		<map name="SCOPE_HI">src->cat7.alias_scope &gt;&gt; 1</map>
+		<map name="TYPE">!src->cat7.alias_type_float</map>
+	</encode>
+</bitset>
+
+</isa>

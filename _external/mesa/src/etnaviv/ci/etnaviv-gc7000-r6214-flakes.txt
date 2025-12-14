@@ -1,0 +1,12 @@
+dEQP-GLES2.functional.color_clear.complex_rgb
+dEQP-GLES2.functional.color_clear.short_scissored_rgb
+dEQP-GLES2.functional.depth_stencil_clear.depth
+dEQP-GLES2.functional.shaders.matrix.mul.const_lowp_mat2_vec2_vertex
+dEQP-GLES2.functional.texture.specification.basic_teximage2d.a8_2
+dEQP-GLES2.functional.texture.specification.basic_teximage2d.l16f_cube
+dEQP-GLES2.functional.texture.specification.basic_texsubimage2d.a16f_cube
+dEQP-GLES2.functional.texture.specification.basic_texsubimage2d.rgb565_cube
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_0
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_5
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_5
+dEQP-GLES2.functional.texture.specification.random_teximage2d.cube_9

@@ -1,0 +1,213 @@
+Mesa 25.1.1 Release Notes / 2025-05-21
+======================================
+
+Mesa 25.1.1 is a bug fix release which fixes bugs found since the 25.1.0 release.
+
+Mesa 25.1.1 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.1 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: cf942a18b7b9e9b88524dcbf0b31fed3cde18e6d52b3375b0ab6587a14415bce  mesa-25.1.1.tar.xz
+    SHA512: 8000fec61da3b7c0355b74458c52f8faeb562398a1882d68cd31a253848edd3333072521ec52f8c5c1a62d909afd6667803d43cb54027d0af3d944f1add27aae  mesa-25.1.1.tar.xz
+
+
+New features
+------------
+
+- None
+
+
+Bug fixes
+---------
+
+- radv: VK_EXT_primitive_topology_list_restart bug
+- [RADV][GFX9] Recent Mesa-git broken on AMD Vega 64 with ring sdma0 timeouts when launching DXVK games
+- ACO: IR Validation error "SDWA operand selection size" triggered by compute shader on VEGA20
+- RADV: Gibberish output with llama.cpp (Vulkan compute) on Radeon VII (Vega20) with Mesa 25.1.0, works on 25.0.5
+- Blending broken in game SkinDeep
+- Radeon R5 (Mullins) H264 VA-API encoding acceleration doesn't work
+- nvk: lib_rs_gen.py requires \`rustfmt`
+- radv: vkd3d-proton test failure with predication + EXT_dgc
+- mesa-25.0.4 aborts Xserver due to ACO "Unsupported opcode" v_lshlrev_b16
+- In SkinDeep, GL_LINES causes GL_INVALID_OPERATION with radeonsi and llvmpipe
+- radv: UB and artifacts when copying a \`COMBINED_IMAGE_SAMPLER` with an immutable sampler
+- RADV: Dynamic state multiple viewport corruption
+- [drm:amdgpu_uvd_cs_pass2 [amdgpu]] \*ERROR* )Handle 0x48780001 already in use!
+- glGetInternalformativ returns incorrect information for GL_STENCIL_INDEX8
+- RadeonSI: Psychonauts rendering regression since !29895
+- [r600g] Rejected CS when using dolphin's GPU texture decoder
+- radeonsi: Assertion \`src_bit_size == bit_size' failed. when running without MESA_GLSL_DISABLE_IO_OPT=1
+- radeonsi vdpau + Packed YUY2 = assert
+- Indiana Jones and The Great Circle, Graphical corruption on 9070 XT.
+- glPushAttrib/glPopAttrib broken with glColorMaterial and ligthing
+
+
+Changes
+-------
+
+Alessandro Astone (1):
+
+- android: Link with libc++fs up to SDK 35
+
+Dave Airlie (1):
+
+- nvk: Fix compute class comparison in dispatch indirect
+
+David Rosca (6):
+
+- frontends/vdpau: Fix creating surfaces with 422 chroma
+- ac/uvd: Add ac_uvd_alloc_stream_handle
+- radv/video: Use ac_uvd_alloc_stream_handle
+- radeonsi/vce: Fix bitstream buffer size
+- radeonsi/vce: Only send one task per IB
+- radeonsi/vce: Fix output quality and performance in speed preset
+
+Dmitry Baryshkov (1):
+
+- rusticl/device: relax some params for embdded profile
+
+Ella Stanforth (1):
+
+- v3d/compiler: Fix ub when using memcmp for texture comparisons.
+
+Eric Engestrom (2):
+
+- docs: add sha sum for 25.1.0
+- .pick_status.json: Update to 8edee1e25b62aa0a60dfa060f68c35cf4e60f59e
+
+Georg Lehmann (2):
+
+- radeonsi: always lower alu bit sizes
+- aco: assume sram ecc is enabled on Vega20
+
+Gurchetan Singh (1):
+
+- gfxstream: make sure by default descriptor is negative
+
+Hans-Kristian Arntzen (1):
+
+- radv: Consider that DGC might need shader reads of predicated data.
+
+José Roberto de Souza (2):
+
+- anv: Implement missing part of Wa_1604061319
+- anv: Enable preemption due 3DPRIMITIVE in GFX 12
+
+Lars-Ivar Hesselberg Simonsen (7):
+
+- pan/texture: Correctly handle slice stride for MSAA
+- pan/texture: Set plane size to slice size
+- pan/genxml/v10: Add minus1 mod for plane width/height
+- pan/genxml/v12: Add minus1 mod for plane width/height
+- pan/genxml/v13: Add minus1 mod for plane width/height
+- pan/texture/v10+: Set width/height in the plane descs
+- panvk/v9+: Set up limited texture descs for storage use
+
+Lionel Landwerlin (3):
+
+- brw: fix brw_nir_move_interpolation_to_top
+- vulkan/runtime: fixup assert with link_geom_stages
+- anv: enable preemption setting on command/batch correctly
+
+Marek Olšák (2):
+
+- nir/opt_vectorize_io: fix a failure when vectorizing different bit sizes
+- nir: fix gathering color interp modes in nir_lower_color_inputs
+
+Mary Guillemard (2):
+
+- pan/bi: Flush subnormals to zero for FROUND on v11+
+- pan/bi: Lower ffract in bifrost_nir_algebraic on v11+
+
+Matt Turner (1):
+
+- gallivm: Use \`llvm.roundeven` in lp_build_round()
+
+Matthieu Oechslin (1):
+
+- r600: Take dual source blending in account when creating target mask with RATs
+
+Mel Henning (2):
+
+- nouveau/headers: Run rustfmt after file is closed
+- nouveau/headers: Ignore PermissionError in rustfmt
+
+Mike Blumenkrantz (1):
+
+- zink: fix broken comparison for dummy pipe surface sizing
+
+Natalie Vock (2):
+
+- radv,driconf: Add radv_force_64k_sparse_alignment config
+- driconf: Add workarounds for DOOM: The Dark Ages
+
+Olivia Lee (2):
+
+- panvk: fix driconf memory leak
+- util/u_printf: fix memory leak in u_printf_singleton_add_serialized
+
+Rhys Perry (3):
+
+- ac/llvm: correctly split vector 8/16-bit stores
+- ac/llvm: correctly set alignment of vector global load/store
+- aco/gfx115: consider point sample acceleration
+
+Rob Clark (2):
+
+- freedreno/ir3: Fix tess/geom asan error
+- freedreno: Fix shader-clock when kernel exposes UCHE_TRAP_BASE
+
+Robert Mader (1):
+
+- llvmpipe: Fix dmabuf import paths for DRM_FORMAT_YUYV variants
+
+Sagar Ghuge (1):
+
+- anv: Fix untyped data port cache pipe control dump output
+
+Samuel Pitoiset (9):
+
+- radv: ignore radv_disable_dcc_stores on GFX12
+- radv: ignore conditional rendering with vkCmdTraceRays*
+- radv: fix SDMA copies for linear 96-bits formats
+- radv: fix emitting dynamic viewports/scissors when the count is static
+- radv: remove the optimization for equal immutable samplers
+- radv: fix fetching conditional rendering state for DGC preprocess
+- radv: fix conditional rendering with DGC and non native 32-bit predicate
+- radv: fix missing texel scale for unaligned linear SDMA copies
+- radv: fix non-indexed draws with primitive restart enable
+
+Tapani Pälli (3):
+
+- mesa: add missing stencil formats to _mesa_is_stencil_format
+- intel/compiler: provide a helper for null any-hit shader
+- anv: use internal rt-null-ahs when any_hit is null
+
+Thomas H.P. Andersen (1):
+
+- driconf: update X4 Foundations executable name
+
+Timothy Arceri (6):
+
+- mesa: fix color material tracking
+- mesa: relax EXT_texture_integer validation
+- st/mesa: fix _IntegerBuffers bitfield use
+- mesa/st: fix _BlendForceAlphaToOneDraw bitfield use
+- mesa/st: fix _IsRGBDraw bitfield use
+- mesa: fix _FP32Buffers bitfield use
+
+llyyr (1):
+
+- vulkan/wsi/wayland: make needs_color_surface_old check if surface exists

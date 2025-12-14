@@ -1,0 +1,227 @@
+Mesa 25.1.5 Release Notes / 2025-07-02
+======================================
+
+Mesa 25.1.5 is a bug fix release which fixes bugs found since the 25.1.4 release.
+
+Mesa 25.1.5 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.5 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: 3c4f6b10ff6ee950d0ec6ea733cc6e6d34c569454e3d39a9b276de9115a3b363  mesa-25.1.5.tar.xz
+    SHA512: ac44aab7ba0aa22f054c6a50fbb92fea5e78ebaea3ed7b4a6f652e1c894375cc8bb383e94390b1b0b956a07b950b0edfa718fb4235b878292246532f59373552  mesa-25.1.5.tar.xz
+
+
+New features
+------------
+
+- None
+
+
+Bug fixes
+---------
+
+- Confidential issue #13432
+- dzn: dzn_meta_init may return VK_SUCCESS when failing, leading to application crashes
+- brw_nir_lower_cmat produces invalid NIR for OpVariable initializers
+- src/asahi/lib/meson.build:65:52: ERROR: Unknown variable "inc_virtio_vdrm".
+- hasvk_tests: ../src/vulkan/runtime/vk_log.c:40: vk_object_to_device: Assertion \`obj->device' failed.
+- radv: android: Why \`VkNativeBufferANDROID::handle::numFds` must be 1 in function \`radv_image_from_gralloc`
+- Regression: Mesa 25.1.1 causes ground texture flickering in DOTA 2
+- GPU process crash via WebGPU shader - wild-deref in Mesa try_opt_exclusive_scan_to_inclusive
+- mesa:freedreno / cffdump-shadow failure
+
+
+Changes
+-------
+
+Adrián Larumbe (2):
+
+- panfrost: Fix Panfrost BO leak in error handling path
+- panfrost: Add missing util_range_init()
+
+Alyssa Rosenzweig (2):
+
+- asahi,hk: fix ts allocation for more shader types
+- asahi: flush around XFB
+
+Antonino Maniscalco (1):
+
+- zink: wait for sparse queue to go idle
+
+Boris Brezillon (1):
+
+- pan/layout: Fix size_B calculation for AFBC(3D)
+
+Calder Young (1):
+
+- anv: Fix typo when checking format's extended usage flag
+
+Christopher Gautier (1):
+
+- panfrost, panvk: The size of resource tables needs to be a multiple of 4.
+
+Dave Airlie (1):
+
+- nouveau: workaround linear/z rendering interaction
+
+David Rosca (1):
+
+- frontends/va: Fix SyncSurface when used to sync coded buffer
+
+Doug Nazar (1):
+
+- glx: Fix memory leak with software dri
+
+Emma Anholt (3):
+
+- intel/shim: Report support for PXP status.
+- freedreno/a2xx: Disable interpolated input intrinsics.
+- turnip: Fix subpass depth/stencil change detection.
+
+Eric Engestrom (11):
+
+- docs: add sha sum for 25.1.4
+- .pick_status.json: Update to e2a2663638669e56960b89ba438cec590b70bcda
+- .pick_status.json: Mark 3778b2226890345042f5869a8552fc55c8ea6998 as denominated
+- hasvk: only run tests on x86 (32 & 64 bit)
+- intel/compiler tests: rewrite subprocess handling in run-test.py
+- intel/compiler tests: fix path-to-string conversion
+- intel/compiler tests: fix "is there something after the options" check
+- intel/compiler tests: fix variable type for getopt_long() return value
+- meson: allow "venus without virgl" builds
+- meson: fix vdrm inclusion logic
+- freedreno/drm: fix libvdrm inclusion logic
+
+Erik Faye-Lund (1):
+
+- pan/bi: rework memory barriers
+
+Faith Ekstrand (4):
+
+- nir/lower_input_attachments: Stop assuming tex src indices
+- nir/lower_input_attachments: Don't ignore tex coordinates
+- nak: Tell NIR to lower invalid implicit LODs
+- nak: I/O offsets are unsigned when combined with RZ
+
+Georg Lehmann (1):
+
+- nir/opt_intrinsic: fix inclusive scan rewrite with multiple uses
+
+Hans-Kristian Arntzen (1):
+
+- radv: Timestamps are not valid on dedicated sparse queue.
+
+Iván Briano (1):
+
+- anv: move view_usage check to before setting the protected bit on it
+
+James Price (1):
+
+- spirv: Fix cooperative matrix in OpVariable initializer
+
+Jesse Natalie (1):
+
+- dzn: Roll up initialization failure in dzn_meta_init
+
+Jose Maria Casanova Crespo (2):
+
+- v3d: Avoid fast TLB blit if reused job doesn't store the color buffer
+- v3d: fix support for no buffer object bound
+
+José Roberto de Souza (1):
+
+- Revert "anv: Enable preemption due 3DPRIMITIVE in GFX 12"
+
+Konstantin Seurer (1):
+
+- lavapipe: Suspend conditional rendering around ray tracing dispatches
+
+Lionel Landwerlin (4):
+
+- anv: only use compressed memory types on Xe2+
+- isl: handle DISABLE_AUX in get_mcs_surf
+- anv: fix clears on single aspect of YCbCr images
+- anv: fix sampler hashing in set layouts
+
+Marek Olšák (1):
+
+- radeonsi: don't clamp the shadow comparison value for nir_texop_lod on gfx8-9
+
+Mike Blumenkrantz (1):
+
+- zink: don't use TRANSFER bit as default pipeline stage if no access is set
+
+Olivia Lee (2):
+
+- panfrost: fix depth clip range with u_blitter
+- panvk: return error when mmap fails in BindImageMemory2 and BindBufferMemory2
+
+Patrick Lerda (2):
+
+- r600: make vertex r10g10b10a2_snorm conformant on palm and beyond
+- r600: fix emit_image_load_or_atomic() snorm formats
+
+Pierre-Eric Pelloux-Prayer (3):
+
+- radeonsi: check set_debug_callback before use
+- radeonsi: transition to TC-compatible HTILE on full clears
+- ac/virtio: fix alignment of metadata command
+
+Rhys Perry (3):
+
+- aco/lower_branches: keep blocks with multiple logical successors
+- nir/lower_bit_size: fix bitz/bitnz
+- aco: update ctx.block when inserting discard block
+
+Rob Clark (3):
+
+- freedreno/a6xx: Fix max_threads to account for reg footprint
+- freedreno/a6xx: Fix thread calc for dummy kernels
+- rusticl: Fix work group size validation
+
+Romaric Jodin (1):
+
+- panvk: fix bi_emit_alu calling bi_make_vec_to
+
+Ryan Houdek (1):
+
+- tu: Fixes missing sse2 flags
+
+Sagar Ghuge (1):
+
+- anv: Apply flush during WriteAccelerationStructures
+
+Samuel Pitoiset (1):
+
+- radv: gather nir shader info at the end of radv_optimize_nir()
+
+Timothy Arceri (1):
+
+- dri: fix __DRI_IMAGE_FORMAT* to PIPE_FORMAT* mappings
+
+Vinson Lee (1):
+
+- freedreno: Sort MRTs so output is stable
+
+Yiwei Zhang (4):
+
+- radv: relax the native_handle_t::numFds requirement
+- u_gralloc/mapper5: fill u_gralloc_buffer_color_info properly
+- u_gralloc/mapper4: fill u_gralloc_buffer_color_info properly
+- venus: fix msaa state sample location info sanitization
+
+mojyack (1):
+
+- mesa: reorder mesa format corresponding to GL_BGRA

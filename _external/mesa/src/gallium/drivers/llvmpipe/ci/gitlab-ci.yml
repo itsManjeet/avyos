@@ -1,0 +1,83 @@
+include:
+  - local: 'src/gallium/drivers/llvmpipe/ci/gitlab-ci-inc.yml'
+
+llvmpipe-piglit-rusticl:
+  extends:
+    - .llvmpipe-piglit-cl
+    - .llvmpipe-rusticl-rules
+    - .test-piglit
+  needs:
+    - job: debian-x86_64
+    - job: debian/x86_64_test-gl
+      optional: true
+  variables:
+    DEQP_SUITE: llvmpipe-rusticl
+    GPU_VERSION: llvmpipe-rusticl
+
+llvmpipe-traces:
+  extends:
+    - .test-gl
+    - .piglit-traces-test
+    - .llvmpipe-test
+  variables:
+    EGL_PLATFORM: "surfaceless"
+    PIGLIT_TRACES_FILE: traces-llvmpipe.yml
+    PIGLIT_REPLAY_DEVICE_NAME: "gl-vmware-llvmpipe"
+  script:
+    - section_start variables "Variables passed through:"
+    - filter_env_vars
+    - section_end variables
+    - $HWCI_TEST_SCRIPT
+
+llvmpipe:
+  variables:
+    DEQP_SUITE: llvmpipe
+    XVFB_SCRIPT: "install/deqp-runner.sh"
+    DEQP_FRACTION: 4
+  extends:
+    - .llvmpipe-deqp-test
+    - .test-piglit
+  script: |
+    . "$SCRIPTS_DIR"/setup-test-env.sh
+    export LD_LIBRARY_PATH="$CI_PROJECT_DIR/install/lib"
+    export LIBGL_DRIVERS_PATH="$CI_PROJECT_DIR/install/lib/dri"
+    section_start weston "weston: prepare"
+    weston -Bheadless-backend.so -Swayland-0 --idle-time=0 &
+    export WAYLAND_DISPLAY=wayland-0
+    section_end weston
+    xvfb-run -e results/xvfb.log --server-args='-noreset' bash -c ". $SCRIPTS_DIR/setup-test-env.sh && ${XVFB_SCRIPT}"
+
+llvmpipe-full:
+  extends:
+    - llvmpipe
+    - .llvmpipe-manual-rules
+  timeout: 1h  # base runtime = 40m
+  variables:
+    DEQP_FRACTION: 1
+
+llvmpipe-deqp-asan:
+  variables:
+    DEQP_SUITE: llvmpipe-asan
+    GPU_VERSION: llvmpipe-asan
+    DEQP_FRACTION: 10
+    # Don't use threads inside llvmpipe, we've already got all cores
+    # busy at the deqp-runner level, and we don't want to overload fd.o
+    # shared runners
+    LP_NUM_THREADS: 0
+    DEQP_FORCE_ASAN: 1
+    S3_ARTIFACT_NAME: mesa-x86_64-asan-debugoptimized
+  extends: .llvmpipe-deqp-test
+  needs:
+    - job: debian/x86_64_test-gl
+      optional: true
+    - job: debian-x86_64-asan
+
+.android-llvmpipe:
+  extends:
+    - .test-android
+    - .llvmpipe-rules
+  variables:
+    ANDROID_GPU_MODE: mesa_swrast
+    GPU_VERSION: llvmpipe
+    DEQP_SUITE: android-llvmpipe
+    # TODO: define DEQP_FRACTION?

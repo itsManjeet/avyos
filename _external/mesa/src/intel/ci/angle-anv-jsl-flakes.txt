@@ -1,0 +1,23 @@
+# non-gpu-hang, frequent flakes that can happen deep in a series of copy_image tests.
+# multiple fails per caselist, with those fails separated by passes!
+dEQP-GLES31.functional.copy_image.mixed.viewclass_.*_mixed.*
+dEQP-GLES31.functional.copy_image.*viewclass_.*
+
+# https://gitlab.freedesktop.org/mesa/mesa/-/issues/9794
+.*dEQP-GLES31.functional.draw_indirect.compute_interop.large.*
+
+# 2024-05-15, after the
+# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/19414/
+dEQP-GLES3.functional.multisample.fbo_8_samples.constancy_both
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_both_inverted
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_both
+
+KHR-GLES31.core.tessellation_shader.vertex.vertex_ordering
+KHR-GLES31.core.tessellation_shader.vertex.vertex_spacing
+
+# Seen in https://gitlab.freedesktop.org/mesa/mesa/-/pipelines/1364513
+dEQP-GLES3.functional.multisample.fbo_8_samples.constancy_both
+
+# uprev ANGLE in Mesa
+KHR-GLES31.core.blend_equation_advanced.test_coherency.multiplySequence
+

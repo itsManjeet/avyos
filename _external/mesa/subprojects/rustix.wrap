@@ -1,0 +1,8 @@
+[wrap-file]
+directory = rustix-1.0.7
+source_url = https://crates.io/api/v1/crates/rustix/1.0.7/download
+source_filename = rustix-1.0.7.tar.gz
+source_hash = c71e83d6afe7ff64890ec6b71d6a69bb8a610ab78ce364b3352876bb4c801266
+patch_directory = rustix
+
+diff_files = rustix/0001-BACKPORT-rustix-on-Linux-support-a-build-without-lin.patch

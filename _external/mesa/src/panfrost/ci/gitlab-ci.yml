@@ -1,0 +1,197 @@
+include:
+  - local: src/panfrost/ci/gitlab-ci-inc.yml
+
+# We only have two machines and these boards are EOL.
+# Put it in nightly until we can move to different boards.
+panfrost-t720-gles2:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-midgard-manual-rules
+    - .panfrost-test
+    - .lava-sun50i-h6-pine-h64:arm64
+
+# We only have two machines, which we share with KernelCI.
+# Keep the second t760 job manual.
+panfrost-t760-gles:arm32:
+  extends:
+    - .lava-arm32-test-gl
+    - .panfrost-midgard-manual-rules
+    - .panfrost-test
+    - .lava-rk3288-veyron-jaq:arm32
+  timeout: 1h 30m
+
+panfrost-t760-traces:arm32:
+  extends:
+    - .lava-arm32-piglit-traces
+    - .panfrost-midgard-manual-rules
+    - .panfrost-test
+    - .lava-rk3288-veyron-jaq:arm32
+    - .panfrost-traces
+
+panfrost-t860-cl:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-midgard-manual-rules
+    - .panfrost-test
+    - .test-piglit
+    - .lava-rk3399-gru-kevin:arm64
+  rules:
+    - !reference [.panfrost-midgard-manual-rules, rules]
+    - !reference [.rusticl-manual-rules, rules]
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: panfrost-t860-cl
+
+panfrost-t860-gl:arm64:
+  parallel: 3
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-midgard-rules
+    - .panfrost-test
+    - .lava-rk3399-gru-kevin:arm64
+  variables:
+    FDO_CI_CONCURRENT: 6
+    DEQP_SUITE: panfrost-t860
+
+panfrost-t860-egl:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-midgard-rules
+    - .panfrost-test
+    - .lava-rk3399-gru-kevin:arm64
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: panfrost-t860-egl
+
+panfrost-t860-traces:arm64:
+  extends:
+    - .lava-arm64-piglit-traces
+    - .panfrost-midgard-manual-rules
+    - .panfrost-test
+    - .lava-rk3399-gru-kevin:arm64
+    - .panfrost-traces
+
+panfrost-g52-gl:arm64:
+  parallel: 4
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-bifrost-gl-rules
+    - .panfrost-test
+    - .lava-meson-g12b-a311d-khadas-vim3:arm64
+  variables:
+    FDO_CI_CONCURRENT: 6
+    DEQP_SUITE: panfrost-g52
+    PAN_MESA_DEBUG: "sync"
+
+panfrost-g52-vk:arm64:
+  parallel: 8
+  extends:
+    - .lava-arm64-test-vk
+    - .panfrost-test
+    - .lava-mt8186-corsola-steelix-sku131072:arm64
+    - .panfrost-vk-rules
+  variables:
+    DRIVER_NAME: panvk
+    # Oversubscribing by one thread speeds up deqp
+    FDO_CI_CONCURRENT: 9
+    MESA_VK_IGNORE_CONFORMANCE_WARNING: 1
+    PAN_I_WANT_A_BROKEN_VULKAN_DRIVER: 1
+    PANVK_DEBUG: "no_known_warn,sync"
+    DEQP_SUITE: panfrost-g52-vk
+    HWCI_START_WESTON: 1
+
+panfrost-g52-piglit:arm64:
+  parallel: 2
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-bifrost-gl-manual-rules
+    - .panfrost-test
+    - .test-piglit
+    - .lava-meson-g12b-a311d-khadas-vim3:arm64
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: panfrost-g52-piglit
+
+panfrost-g72-gl:arm64:
+  parallel: 3
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-bifrost-gl-rules
+    - .panfrost-test
+    - .lava-mt8183-kukui-jacuzzi-juniper-sku16:arm64
+  variables:
+    DEQP_SUITE: panfrost-g72
+
+panfrost-g57-gl:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-bifrost-gl-rules
+    - .panfrost-test
+    - .lava-mt8195-cherry-tomato-r2:arm64
+  parallel: 3
+  variables:
+    DEQP_SUITE: panfrost-g57
+    # Oversubscribing by one thread helps deqp, but hurts piglit
+    FDO_CI_CONCURRENT: 9
+
+panfrost-g57-piglit:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-bifrost-gl-rules
+    - .panfrost-test
+    - .test-piglit
+    - .lava-mt8195-cherry-tomato-r2:arm64
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: panfrost-g57-piglit
+    # Undersubscribing by one thread prevents test timeouts and speeds up
+    # the piglit job overall
+    FDO_CI_CONCURRENT: 7
+
+panfrost-g610-gl:arm64:
+  parallel: 2
+  extends:
+    - .lava-arm64-test-gl
+    - .panfrost-valhall-gl-rules
+    - .panfrost-test
+    - .lava-rk3588-rock-5b:arm64
+  variables:
+    DEQP_SUITE: panfrost-g610
+    PAN_MESA_DEBUG: "sync"
+    LAVA_TAGS: 4gb
+
+# Disable this for now until it gets more stable
+.panfrost-g610-piglit:arm64:
+  extends:
+    - panfrost-g610-gl:arm64
+    - .test-piglit
+    - .panfrost-valhall-gl-manual-rules
+  variables:
+    DEQP_SUITE: panfrost-g610-piglit
+    HWCI_START_WESTON: 1
+
+panfrost-g610-vk:arm64:
+  parallel: 5
+  extends:
+    - .lava-arm64-test-vk
+    - .panfrost-test
+    - .lava-rk3588-rock-5b:arm64
+    - .panfrost-vk-rules
+  variables:
+    DRIVER_NAME: panvk
+    # Using more than 4 cores cause instabilities
+    FDO_CI_CONCURRENT: 4
+    MESA_VK_IGNORE_CONFORMANCE_WARNING: 1
+    PANVK_DEBUG: "no_known_warn,sync,cs"
+    DEQP_SUITE: panfrost-g610-vk
+    DEQP_FRACTION: 5
+    HWCI_START_WESTON: 1
+    LAVA_TAGS: at-least-8gb
+
+panfrost-g610-vk-full:arm64:
+  extends:
+    - panfrost-g610-vk:arm64
+    - .panfrost-vk-manual-rules
+  timeout: 1h 35m
+  variables:
+    DEQP_FRACTION: 1

@@ -1,0 +1,2 @@
+# See https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/9049
+dEQP-VK.pipeline.timestamp.calibrated.calibration_test,Fail

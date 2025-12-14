@@ -1,0 +1,92 @@
+From 84985902ff045a69ede82c4f7bdd1187836c201f Mon Sep 17 00:00:00 2001
+From: Gurchetan Singh <gurchetansingh@google.com>
+Date: Wed, 18 Dec 2024 14:29:44 -0800
+Subject: [PATCH] zerocopy: work around Meson limitation
+
+A local hack until:
+
+https://github.com/mesonbuild/meson/pull/10030
+https://github.com/mesonbuild/meson/issues/13752
+
+is fixed.
+---
+ src/lib.rs | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/src/lib.rs b/src/lib.rs
+index a45c49c..d831634 100644
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -711,7 +711,7 @@ pub use zerocopy_derive::KnownLayout;
+ #[cfg_attr(feature = "derive", doc = "[derive]: zerocopy_derive::KnownLayout")]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.KnownLayout.html"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.KnownLayout.html"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -1217,8 +1217,8 @@ pub use zerocopy_derive::Immutable;
+ )]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.Immutable.html"),
+-    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.Immutable.html#analysis"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.Immutable.html"),
++    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.Immutable.html#analysis"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -1368,7 +1368,7 @@ pub use zerocopy_derive::TryFromBytes;
+ #[cfg_attr(feature = "derive", doc = "[derive]: zerocopy_derive::TryFromBytes")]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.TryFromBytes.html"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.TryFromBytes.html"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -2900,8 +2900,8 @@ unsafe fn try_read_from<S, T: TryFromBytes>(
+ )]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.FromZeros.html"),
+-    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.FromZeros.html#analysis"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.FromZeros.html"),
++    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.FromZeros.html#analysis"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -3419,8 +3419,8 @@ pub use zerocopy_derive::FromBytes;
+ )]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.FromBytes.html"),
+-    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.FromBytes.html#analysis"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.FromBytes.html"),
++    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.FromBytes.html#analysis"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -4857,8 +4857,8 @@ pub use zerocopy_derive::IntoBytes;
+ )]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.IntoBytes.html"),
+-    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.IntoBytes.html#analysis"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.IntoBytes.html"),
++    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.IntoBytes.html#analysis"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,
+@@ -5416,8 +5416,8 @@ pub use zerocopy_derive::Unaligned;
+ )]
+ #[cfg_attr(
+     not(feature = "derive"),
+-    doc = concat!("[derive]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.Unaligned.html"),
+-    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", env!("CARGO_PKG_VERSION"), "/zerocopy/derive.Unaligned.html#analysis"),
++    doc = concat!("[derive]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.Unaligned.html"),
++    doc = concat!("[derive-analysis]: https://docs.rs/zerocopy/", "0.8.13", "/zerocopy/derive.Unaligned.html#analysis"),
+ )]
+ #[cfg_attr(
+     zerocopy_diagnostic_on_unimplemented_1_78_0,

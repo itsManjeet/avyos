@@ -1,0 +1,48 @@
+Mesa 25.1.3 Release Notes / 2025-06-07
+======================================
+
+Mesa 25.1.3 is a bug fix release which fixes bugs found since the 25.1.2 release.
+
+Mesa 25.1.3 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.3 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: ffcb6cadb5fd356d56008e6308641dfe4b2929f30139f6585436ca6e3cddba7f  mesa-25.1.3.tar.xz
+    SHA512: 20b72ac4e39e559e36be07f003707cf5e25c5ebac22746d71438edecb9d911f5341373b1632ff08c00b57ac15fc880ce5a203ab9165e5e71057816be31344fd7  mesa-25.1.3.tar.xz
+
+
+New features
+------------
+
+- None
+
+
+Bug fixes
+---------
+
+- 25.1.2 - instant crash on upgrade, very first attempt at a new surface
+
+
+Changes
+-------
+
+Eric Engestrom (2):
+
+- docs: add sha sum for 25.1.2
+- .pick_status.json: Update to 16dbcd9b04456f6666be2e84d76d40c1d3564ff2
+
+Samuel Pitoiset (1):
+
+- radv,radeonsi: fix emitting UPDATE_DB_SUMMARIZER_TIMEOUT on GFX12

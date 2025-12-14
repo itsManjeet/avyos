@@ -1,0 +1,432 @@
+# Types of CI pipelines:
+# | pipeline name        | context   | description                                                 |
+# |----------------------|-----------|-------------------------------------------------------------|
+# | merge pipeline       | mesa/mesa | pipeline running for an MR; if it passes the MR gets merged |
+# | pre-merge pipeline   | mesa/mesa | same as above, except its status doesn't affect the MR      |
+# | post-merge pipeline  | mesa/mesa | pipeline immediately after merging                          |
+# | fork pipeline        | fork      | pipeline running in a user fork                             |
+# | scheduled pipeline   | mesa/mesa | nightly pipelines, running every morning at 4am UTC         |
+# | direct-push pipeline | mesa/mesa | when commits are pushed directly to mesa/mesa, bypassing Marge and its gating pipeline |
+#
+# Note that the release branches maintained by the release manager fall under
+# the "direct push" category.
+#
+# "context" indicates the permissions that the jobs get; notably, any
+# container created in mesa/mesa gets pushed immediately for everyone to use
+# as soon as the image tag change is merged.
+#
+# Merge pipelines contain all jobs that must pass before the MR can be merged.
+# Pre-merge pipelines contain the exact same jobs as merge pipelines.
+# Post-merge pipelines contain *only* the `pages` job that deploys the new
+# version of the website.
+# Fork pipelines contain everything.
+# Scheduled pipelines only contain the container+build jobs, and some extra
+# test jobs (typically "full" variants of pre-merge jobs that only run 1/X
+# test cases), but not a repeat of the merge pipeline jobs.
+# Direct-push pipelines contain the same jobs as merge pipelines.
+
+workflow:
+  rules:
+    # do not duplicate pipelines on merge pipelines
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
+      when: never
+    # Tag pipelines are disabled as it's too late to run all the tests by
+    # then, the release has been made based on the staging pipelines results
+    - if: $CI_COMMIT_TAG
+      when: never
+    # Merge pipeline
+    - if: &is-merge-attempt $GITLAB_USER_LOGIN == "marge-bot" && $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        MESA_CI_PERFORMANCE_ENABLED: 1
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64: priority:high
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM: priority:high-kvm
+        FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64: priority:high-aarch64
+        CI_TRON_JOB_PRIORITY_TAG: ""  # Empty tags are ignored by gitlab
+        JOB_PRIORITY: 75
+        # fast-fail in merge pipelines: stop early if we get this many unexpected fails/crashes
+        DEQP_RUNNER_MAX_FAILS: 40
+    # Post-merge pipeline
+    - if: &is-post-merge $GITLAB_USER_LOGIN == "marge-bot" && $CI_PIPELINE_SOURCE == "push"
+      variables:
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64: priority:high
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM: priority:high-kvm
+        FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64: priority:high-aarch64
+    # Pre-merge pipeline (because merge pipelines are already caught above)
+    - if: &is-merge-request $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Push to a branch on a fork
+    - if: &is-push-to-fork $CI_PROJECT_NAMESPACE != "mesa" && $CI_PIPELINE_SOURCE == "push"
+    # Nightly pipeline
+    - if: &is-scheduled-pipeline $CI_PIPELINE_SOURCE == "schedule"
+      variables:
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64: priority:low
+        FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM: priority:low-kvm
+        FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64: priority:low-aarch64
+        JOB_PRIORITY: 45
+        # (some) nightly builds perform LTO, so they take much longer than the
+        # short timeout allowed in other pipelines.
+        # Note: 0 = infinity = gitlab's job `timeout:` applies, which is 1h
+        BUILD_JOB_TIMEOUT_OVERRIDE: 0
+    # Pipeline for direct pushes to the default branch that bypassed the CI
+    - if: &is-push-to-upstream-default-branch $CI_PROJECT_NAMESPACE == "mesa" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        JOB_PRIORITY: 70
+    # Pipeline for direct pushes from release maintainer
+    - if: &is-push-to-upstream-staging-branch $CI_PROJECT_NAMESPACE == "mesa" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME =~ /^staging\//
+      variables:
+        JOB_PRIORITY: 70
+
+
+variables:
+  FDO_UPSTREAM_REPO: mesa/mesa
+  MESA_TEMPLATES_COMMIT: &ci-templates-commit c6aeb16f86e32525fa630fb99c66c4f3e62fc3cb
+  CI_PRE_CLONE_SCRIPT: |-
+          set -o xtrace
+          curl --silent --location --fail --retry-connrefused --retry 3 --retry-delay 10 \
+            ${CI_PROJECT_URL}/-/raw/${CI_COMMIT_SHA}/.gitlab-ci/download-git-cache.sh | bash
+          set +o xtrace
+  S3_JWT_FILE: /s3_jwt
+  S3_JWT_FILE_SCRIPT: |-
+      echo -n '${S3_JWT}' > '${S3_JWT_FILE}' &&
+      S3_JWT_FILE_SCRIPT= &&
+      unset CI_JOB_JWT S3_JWT  # Unsetting vulnerable env variables
+  S3_HOST: s3.freedesktop.org
+  # This bucket is used to fetch ANDROID prebuilts and images
+  S3_ANDROID_BUCKET: mesa-rootfs
+  # This bucket is used to fetch the kernel image
+  S3_KERNEL_BUCKET: mesa-rootfs
+  # Bucket for git cache
+  S3_GITCACHE_BUCKET: git-cache
+  # Bucket for the pipeline artifacts pushed to S3
+  S3_ARTIFACTS_BUCKET: artifacts
+  # Buckets for traces
+  S3_TRACIE_RESULTS_BUCKET: mesa-tracie-results
+  S3_TRACIE_PUBLIC_BUCKET: mesa-tracie-public
+  S3_TRACIE_PRIVATE_BUCKET: mesa-tracie-private
+  # Base path used for various artifacts
+  S3_BASE_PATH: "${S3_HOST}/${S3_KERNEL_BUCKET}"
+  # per-pipeline artifact storage on MinIO
+  PIPELINE_ARTIFACTS_BASE: ${S3_HOST}/${S3_ARTIFACTS_BUCKET}/${CI_PROJECT_PATH}/${CI_PIPELINE_ID}
+  # per-job artifact storage on MinIO
+  JOB_ARTIFACTS_BASE: ${PIPELINE_ARTIFACTS_BASE}/${CI_JOB_ID}
+  # reference images stored for traces
+  PIGLIT_REPLAY_REFERENCE_IMAGES_BASE: "${S3_HOST}/${S3_TRACIE_RESULTS_BUCKET}/$FDO_UPSTREAM_REPO"
+  # For individual CI farm status see .ci-farms folder
+  # Disable farm with   `git mv .ci-farms{,-disabled}/$farm_name`
+  # Re-enable farm with `git mv .ci-farms{-disabled,}/$farm_name`
+  # NEVER MIX FARM MAINTENANCE WITH ANY OTHER CHANGE IN THE SAME MERGE REQUEST!
+  ARTIFACTS_BASE_URL: https://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts
+  # Python scripts for structured logger
+  PYTHONPATH: "$PYTHONPATH:$CI_PROJECT_DIR/install"
+  # No point in continuing once the device is lost
+  MESA_VK_ABORT_ON_DEVICE_LOSS: 1
+  # Avoid the wall of "Unsupported SPIR-V capability" warnings in CI job log, hiding away useful output
+  MESA_SPIRV_LOG_LEVEL: error
+  # Default priority for non-merge pipelines
+  FDO_RUNNER_JOB_PRIORITY_TAG_X86_64: ""  # Empty tags are ignored by gitlab
+  FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM: kvm
+  FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64: aarch64
+  CI_TRON_JOB_PRIORITY_TAG: ci-tron:priority:low
+  JOB_PRIORITY: 50
+  DATA_STORAGE_PATH: data_storage
+  KERNEL_IMAGE_BASE: "https://$S3_HOST/$S3_KERNEL_BUCKET/$KERNEL_REPO/$KERNEL_TAG"
+  # Mesa-specific variables that shouldn't be forwarded to DUTs and crosvm
+  CI_EXCLUDE_ENV_VAR_REGEX: 'SCRIPTS_DIR|RESULTS_DIR'
+
+  CI_TRON_JOB_TEMPLATE_PROJECT: &ci-tron-template-project gfx-ci/ci-tron
+  CI_TRON_JOB_TEMPLATE_COMMIT: &ci-tron-template-commit d649a2829517b078a3cb8f3c2e6c8775a5992abb
+  CI_TRON_JOB_TEMPLATE_PROJECT_URL: "https://gitlab.freedesktop.org/$CI_TRON_JOB_TEMPLATE_PROJECT"
+
+
+default:
+  timeout: 1m  # catch any jobs which don't specify a timeout
+  id_tokens:
+    S3_JWT:
+      aud: https://s3.freedesktop.org
+  before_script:
+    - >
+      export SCRIPTS_DIR=$(mktemp -d) &&
+      curl -L -s --retry 4 -f --retry-all-errors --retry-delay 60 -O --output-dir "${SCRIPTS_DIR}" "${CI_PROJECT_URL}/-/raw/${CI_COMMIT_SHA}/.gitlab-ci/setup-test-env.sh" &&
+      . ${SCRIPTS_DIR}/setup-test-env.sh
+    - eval "$S3_JWT_FILE_SCRIPT"
+
+  after_script:
+    # Work around https://gitlab.com/gitlab-org/gitlab/-/issues/20338
+    - find -name '*.log' -exec mv {} {}.txt \;
+
+  # Retry when job fails. Failed jobs can be found in the Mesa CI Daily Reports:
+  # https://gitlab.freedesktop.org/mesa/mesa/-/issues/?sort=created_date&state=opened&label_name%5B%5D=CI%20daily
+  retry:
+    max: 1
+    # Ignore runner_unsupported, stale_schedule, archived_failure, or
+    # unmet_prerequisites
+    when:
+      - api_failure
+      - runner_system_failure
+      - script_failure
+      - job_execution_timeout
+      - scheduler_failure
+      - data_integrity_failure
+      - unknown_failure
+
+stages:
+  - sanity
+  - container
+  - git-archive
+  - build-for-tests
+  - build-only
+  - code-validation
+  - amd
+  - amd-nightly
+  - intel
+  - intel-nightly
+  - nouveau
+  - nouveau-nightly
+  - arm
+  - arm-nightly
+  - broadcom
+  - broadcom-nightly
+  - freedreno
+  - freedreno-nightly
+  - etnaviv
+  - etnaviv-nightly
+  - software-renderer
+  - software-renderer-nightly
+  - layered-backends
+  - layered-backends-nightly
+  - performance
+  - deploy
+
+include:
+  - project: 'freedesktop/ci-templates'
+    ref: *ci-templates-commit
+    file:
+      - '/templates/alpine.yml'
+      - '/templates/debian.yml'
+      - '/templates/fedora.yml'
+      - '/templates/ci-fairy.yml'
+  - project: *ci-tron-template-project
+    ref: *ci-tron-template-commit
+    file: '/.gitlab-ci/dut.yml'
+  - local: '.gitlab-ci/image-tags.yml'
+  - local: '.gitlab-ci/bare-metal/gitlab-ci.yml'
+  - local: '.gitlab-ci/ci-tron/gitlab-ci.yml'
+  - local: '.gitlab-ci/lava/gitlab-ci.yml'
+  - local: '.gitlab-ci/container/gitlab-ci.yml'
+  - local: '.gitlab-ci/build/gitlab-ci.yml'
+  - local: '.gitlab-ci/test/gitlab-ci.yml'
+  - local: '.gitlab-ci/farm-rules.yml'
+  - local: '.gitlab-ci/test-source-dep.yml'
+  - local: 'docs/gitlab-ci.yml'
+  - local: 'src/**/ci/gitlab-ci.yml'
+
+
+# Rules applied to every job in the pipeline
+.common-rules:
+  rules:
+    - if: *is-push-to-fork
+      when: manual
+
+.never-post-merge-rules:
+  rules:
+    - if: *is-post-merge
+      when: never
+
+
+# Note: make sure the branches in this list are the same as in
+# `.build-only-delayed-rules` below.
+.container-rules:
+  rules:
+    - !reference [.common-rules, rules]
+    # Run when re-enabling a disabled farm, but not when disabling it
+    - !reference [.disable-farm-mr-rules, rules]
+    # Never run immediately after merging, as we just ran everything
+    - !reference [.never-post-merge-rules, rules]
+    # Only rebuild containers in merge pipelines if any tags have been
+    # changed, else we'll just use the already-built containers
+    - if: *is-merge-attempt
+      changes: &image_tags_path
+        - .gitlab-ci/image-tags.yml
+      when: on_success
+    # Skip everything for pre-merge and merge pipelines which don't change
+    # anything in the build; we only do this for marge-bot and not user
+    # pipelines in a MR, because we might still need to run it to copy the
+    # container into the user's namespace.
+    - if: *is-merge-attempt
+      when: never
+    # Any MR pipeline which changes image-tags.yml needs to be able to
+    # rebuild the containers
+    - if: *is-merge-request
+      changes: *image_tags_path
+      when: manual
+    # ... if the MR pipeline runs as mesa/mesa and does not need a container
+    # rebuild, we can skip it
+    - if: &is-upstream-mr-pipeline $CI_PROJECT_PATH == $FDO_UPSTREAM_REPO && $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    # ... however for MRs running inside the user namespace, we may need to
+    # run these jobs to copy the container images from upstream
+    - if: *is-merge-request
+      when: manual
+    # Build everything after someone bypassed the CI
+    - if: *is-push-to-upstream-default-branch
+      when: on_success
+    # Build everything when pushing to staging branches
+    - if: *is-push-to-upstream-staging-branch
+      when: on_success
+    # Scheduled pipelines reuse already-built containers
+    - if: *is-scheduled-pipeline
+      when: never
+    # Any other pipeline in the upstream should reuse already-built containers
+    - if: &is-upstream-pipeline $CI_PROJECT_PATH == $FDO_UPSTREAM_REPO
+      when: never
+    # Allow building everything in fork pipelines, but build nothing unless
+    # manually triggered
+    - when: manual
+
+# Note: make sure the branches in this list are the same as in
+# `.build-only-delayed-rules` below.
+.build-rules:
+  rules:
+    - !reference [.common-rules, rules]
+    # Run when re-enabling a disabled farm, but not when disabling it
+    - !reference [.disable-farm-mr-rules, rules]
+    # Never run immediately after merging, as we just ran everything
+    - !reference [.never-post-merge-rules, rules]
+    # Build everything in merge pipelines, if any files affecting the pipeline
+    # were changed
+    - if: *is-merge-attempt
+      changes: &all_paths
+        - VERSION
+        - bin/git_sha1_gen.py
+        - bin/install_megadrivers.py
+        - bin/symbols-check.py
+        - bin/ci/**/*
+        # GitLab CI
+        - .gitlab-ci.yml
+        - .gitlab-ci/**/*
+        - .ci-farms/*
+        # Meson
+        - meson*
+        - build-support/**/*
+        - subprojects/**/*
+        # clang format
+        - .clang-format
+        - .clang-format-include
+        - .clang-format-ignore
+        # Source code
+        - include/**/*
+        - src/**/*
+      when: on_success
+    # Same as above, but for pre-merge pipelines
+    - if: *is-merge-request
+      changes: *all_paths
+      when: manual
+    # Skip everything for pre-merge and merge pipelines which don't change
+    # anything in the build
+    - if: *is-merge-attempt
+      when: never
+    - if: *is-merge-request
+      when: never
+    # Build everything after someone bypassed the CI
+    - if: *is-push-to-upstream-default-branch
+      when: on_success
+    # Build everything when pushing to staging branches
+    - if: *is-push-to-upstream-staging-branch
+      when: on_success
+    # Build everything in scheduled pipelines
+    - if: *is-scheduled-pipeline
+      when: on_success
+    # Allow building everything in fork pipelines, but build nothing unless
+    # manually triggered
+    - when: manual
+
+# Repeat of the above but with `when: on_success` replaced with
+# `when: delayed` + `start_in:`, for build-only jobs.
+# Note: make sure the branches in this list are the same as in
+# `.container+build-rules` above.
+.build-only-delayed-rules:
+  rules:
+    - !reference [.common-rules, rules]
+    # Run when re-enabling a disabled farm, but not when disabling it
+    - !reference [.disable-farm-mr-rules, rules]
+    # Never run immediately after merging, as we just ran everything
+    - !reference [.never-post-merge-rules, rules]
+    # Build everything in merge pipelines, if any files affecting the pipeline
+    # were changed
+    - if: *is-merge-attempt
+      changes: *all_paths
+      when: delayed
+      start_in: &build-delay 5 minutes
+    # Same as above, but for pre-merge pipelines
+    - if: *is-merge-request
+      changes: *all_paths
+      when: manual
+    # Skip everything for pre-merge and merge pipelines which don't change
+    # anything in the build
+    - if: *is-merge-attempt
+      when: never
+    - if: *is-merge-request
+      when: never
+    # Build everything after someone bypassed the CI
+    - if: *is-push-to-upstream-default-branch
+      when: delayed
+      start_in: *build-delay
+    # Build everything when pushing to staging branches
+    - if: *is-push-to-upstream-staging-branch
+      when: delayed
+      start_in: *build-delay
+    # Build everything in scheduled pipelines
+    - if: *is-scheduled-pipeline
+      when: delayed
+      start_in: *build-delay
+    # Allow building everything in fork pipelines, but build nothing unless
+    # manually triggered
+    - when: manual
+
+# Sanity checks of MR settings and commit logs
+sanity:
+  extends:
+    - .fdo.ci-fairy
+  stage: sanity
+  tags:
+    - placeholder-job
+  rules:
+    - if: *is-merge-request
+      when: on_success
+    - when: never
+  variables:
+    GIT_STRATEGY: none
+  script:
+    # ci-fairy check-commits --junit-xml=check-commits.xml
+    - ci-fairy check-merge-request --require-allow-collaboration --junit-xml=check-merge-request.xml
+    - |
+      set -eu
+      image_tags=(
+        ALPINE_X86_64_BUILD_TAG
+        ALPINE_X86_64_LAVA_SSH_TAG
+        ALPINE_X86_64_LAVA_TRIGGER_TAG
+        DEBIAN_BASE_TAG
+        DEBIAN_BUILD_TAG
+        DEBIAN_TEST_ANDROID_TAG
+        DEBIAN_TEST_GL_TAG
+        DEBIAN_TEST_VK_TAG
+        FEDORA_X86_64_BUILD_TAG
+        FIRMWARE_TAG
+        KERNEL_TAG
+        PKG_REPO_REV
+        WINDOWS_X64_BUILD_TAG
+        WINDOWS_X64_MSVC_TAG
+        WINDOWS_X64_TEST_TAG
+      )
+      for var in "${image_tags[@]}"
+      do
+        if [ "$(echo -n "${!var}" | wc -c)" -gt 20 ]
+        then
+          echo "$var is too long; please make sure it is at most 20 chars."
+          exit 1
+        fi
+      done
+  artifacts:
+    when: on_failure
+    reports:
+      junit: check-*.xml
+

@@ -1,0 +1,577 @@
+# Build the CI Debian docker images.
+#
+# MESA_IMAGE_TAG is the tag of the docker image used by later stage jobs. If the
+# image doesn't exist yet, the container stage job generates it.
+#
+# In order to generate a new image, one should generally change the tag.
+# While removing the image from the registry would also work, that's not
+# recommended except for ephemeral images during development: Replacing
+# an image after a significant amount of time might pull in newer
+# versions of gcc/clang or other packages, which might break the build
+# with older commits using the same tag.
+#
+# After merging a change resulting in generating a new image to the
+# main repository, it's recommended to remove the image from the source
+# repository's container registry, so that the image from the main
+# repository's registry will be used there as well.
+
+.debian-container-version:
+  variables:
+    FDO_DISTRIBUTION_VERSION: bookworm-slim
+
+.debian-container:
+  extends:
+    - .fdo.container-build@debian
+    - .container
+    - .debian-container-version
+
+# Debian based x86_64 build image base
+debian/x86_64_build-base:
+  extends:
+    - .debian-container
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_build-base "${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LLVM_VERSION: &debian-x86_64-llvm 19
+
+.use-debian/x86_64_build-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .fdo.container-build@debian
+    - .debian-container-version
+    - .use-base-image
+  variables:
+    MESA_BASE_IMAGE: "debian/x86_64_build-base"
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    LLVM_VERSION: *debian-x86_64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_build-base
+      optional: true
+
+# Debian based x86_64 main build image
+debian/x86_64_build:
+  extends:
+    - .use-debian/x86_64_build-base
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_build ${DEBIAN_BUILD_TAG}
+    LLVM_VERSION: *debian-x86_64-llvm
+
+.use-debian/x86_64_build:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    MESA_IMAGE_PATH: "debian/x86_64_build"
+    MESA_IMAGE_TAG: *debian-x86_64_build
+    LLVM_VERSION: *debian-x86_64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_build
+      optional: true
+
+# Debian based x86_32 cross-build image
+debian/x86_32_build:
+  extends:
+    - .use-debian/x86_64_build-base
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_32_build ${DEBIAN_BUILD_TAG}
+
+.use-debian/x86_32_build:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    MESA_IMAGE_PATH: "debian/x86_32_build"
+    MESA_IMAGE_TAG: *debian-x86_32_build
+    LLVM_VERSION: *debian-x86_64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_32_build
+      optional: true
+
+# Debian based ppc64el cross-build image
+debian/ppc64el_build:
+  extends:
+    - .use-debian/x86_64_build-base
+  variables:
+    MESA_IMAGE_TAG: &debian-ppc64el_build ${DEBIAN_BUILD_TAG}
+    LLVM_VERSION: &debian-ppc64el-llvm 15  # no LLVM packages for PPC
+
+.use-debian/ppc64el_build:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    MESA_IMAGE_PATH: "debian/ppc64el_build"
+    MESA_IMAGE_TAG: *debian-ppc64el_build
+    LLVM_VERSION: *debian-ppc64el-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/ppc64el_build
+      optional: true
+
+# Debian based s390x cross-build image
+debian/s390x_build:
+  extends:
+    - .use-debian/x86_64_build-base
+  variables:
+    MESA_IMAGE_TAG: &debian-s390x_build ${DEBIAN_BUILD_TAG}
+    LLVM_VERSION: &debian-s390x-llvm 19
+
+.use-debian/s390x_build:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    MESA_IMAGE_PATH: "debian/s390x_build"
+    MESA_IMAGE_TAG: *debian-s390x_build
+    LLVM_VERSION: *debian-s390x-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/s390x_build
+      optional: true
+
+# Android NDK cross-build image
+.android-variables:
+  variables:
+    ANDROID_VERSION: 14
+    ANDROID_NDK_VERSION: "r27c"
+    ANDROID_SDK_VERSION: 34
+    ANDROID_LLVM_VERSION: llvmorg-19.1.7
+    ANDROID_LLVM_ARTIFACT_NAME: android-x86_64-llvm-20250324
+    # This can be confusing: LLVM_VERSION refers to the host LLVM toolchain
+    # used (LLVM 19 in our Debian system), but ANDROID_LLVM_VERSION refers to
+    # the cross-compiling LLVM toolchain used to build for the Android system.
+    LLVM_VERSION: &debian-android-llvm 19
+    CUTTLEFISH_PROJECT_PATH: ao2/aosp-manifest
+    CUTTLEFISH_BUILD_VERSION_TAGS: mesa-venus
+    CUTTLEFISH_BUILD_NUMBER: 20250701.001
+    AOSP_KERNEL_PROJECT_PATH: ao2/aosp-kernel-manifest
+    AOSP_KERNEL_BUILD_VERSION_TAGS: common-android14-6.1-venus
+    AOSP_KERNEL_BUILD_NUMBER: 20241107.001
+
+debian/android_build:
+  extends:
+    - .android-variables
+    - .use-debian/x86_64_build-base
+  variables:
+    MESA_IMAGE_TAG: &debian-android_build ${DEBIAN_BUILD_TAG}
+
+.use-debian/android_build:
+  extends:
+    - .android-variables
+    - .set-image-base-tag
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_build-base
+    MESA_IMAGE_PATH: "debian/android_build"
+    MESA_IMAGE_TAG: *debian-android_build
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/android_build
+      optional: true
+
+# Debian based ARM build image
+debian/arm64_build:
+  extends:
+    - .fdo.container-build@debian
+    - .container
+    - .debian-container-version
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  variables:
+    MESA_IMAGE_TAG: &debian-arm64_build "${DEBIAN_BUILD_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LLVM_VERSION: &debian-arm64-llvm 19
+
+.use-debian/arm64_build:
+  extends:
+    - .set-image
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  variables:
+    MESA_IMAGE_PATH: "debian/arm64_build"
+    MESA_IMAGE_TAG: *debian-arm64_build
+    MESA_ARTIFACTS_TAG: *debian-arm64_build
+    LLVM_VERSION: *debian-arm64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm64_build
+      optional: true
+
+
+# Debian based x86_64 test image base
+debian/x86_64_test-base:
+  extends:
+    - .debian-container
+    - .container-builds-base
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_test-base "${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LLVM_VERSION: *debian-x86_64-llvm
+
+.use-debian/x86_64_test-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .fdo.container-build@debian
+    - .debian-container-version
+    - .use-base-image
+  variables:
+    MESA_BASE_IMAGE: "debian/x86_64_test-base"
+    MESA_BASE_TAG: *debian-x86_64_test-base
+    LLVM_VERSION: *debian-x86_64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_test-base
+      optional: true
+
+# Debian based ARMv7/armhf test image base
+debian/arm32_test-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .debian-container
+    - .container-builds-base
+  variables:
+    MESA_IMAGE_TAG: &debian-arm32_test-base "${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LLVM_VERSION: *debian-arm64-llvm
+    FDO_DISTRIBUTION_PLATFORM: "linux/arm/v7"
+
+.use-debian/arm32_test-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .fdo.container-build@debian
+    - .debian-container-version
+    - .use-base-image
+  variables:
+    MESA_BASE_IMAGE: "debian/arm32_test-base"
+    MESA_BASE_TAG: *debian-arm32_test-base
+    LLVM_VERSION: *debian-arm64-llvm
+    FDO_DISTRIBUTION_PLATFORM: "linux/arm/v7"
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm32_test-base
+      optional: true
+
+# Debian based aarch64 test image base
+debian/arm64_test-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .debian-container
+    - .container-builds-base
+  variables:
+    MESA_IMAGE_TAG: &debian-arm64_test-base "${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LLVM_VERSION: *debian-arm64-llvm
+
+.use-debian/arm64_test-base:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .fdo.container-build@debian
+    - .debian-container-version
+    - .use-base-image
+  variables:
+    MESA_BASE_IMAGE: "debian/arm64_test-base"
+    MESA_BASE_TAG: *debian-arm64_test-base
+    LLVM_VERSION: *debian-arm64-llvm
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm64_test-base
+      optional: true
+
+# Debian based x86_64 test image for GL
+debian/x86_64_test-gl:
+  extends:
+    - .use-debian/x86_64_test-base
+    - .container-builds-gl
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_test-gl ${DEBIAN_TEST_GL_TAG}
+
+.use-debian/x86_64_test-gl:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_test-base
+    MESA_IMAGE_PATH: "debian/x86_64_test-gl"
+    MESA_IMAGE_TAG: *debian-x86_64_test-gl
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_test-gl
+      optional: true
+
+# Debian based x86_64 test image for VK
+debian/x86_64_test-vk:
+  extends:
+    - .use-debian/x86_64_test-base
+    - .container-builds-vk
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_test-vk ${DEBIAN_TEST_VK_TAG}
+
+.use-debian/x86_64_test-vk:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_test-base
+    MESA_IMAGE_PATH: "debian/x86_64_test-vk"
+    MESA_IMAGE_TAG: *debian-x86_64_test-vk
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_test-vk
+      optional: true
+
+# Debian based x86_64 test image for Android
+debian/x86_64_test-android:
+  extends:
+    - .android-variables
+    - .use-debian/x86_64_test-base
+    - .container-builds-android
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_test-android ${DEBIAN_TEST_ANDROID_TAG}
+
+.use-debian/x86_64_test-android:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM
+  extends:
+    - .android-variables
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_test-base
+    MESA_IMAGE_PATH: "debian/x86_64_test-android"
+    MESA_IMAGE_TAG: *debian-x86_64_test-android
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_test-android
+      optional: true
+
+# Debian based x86_64 test image for video
+debian/x86_64_test-video:
+  extends:
+    - .use-debian/x86_64_test-base
+    - .container-builds-video
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-x86_64_test-video ${DEBIAN_TEST_VIDEO_TAG}
+
+.use-debian/x86_64_test-video:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-x86_64_test-base
+    MESA_IMAGE_PATH: "debian/x86_64_test-video"
+    MESA_IMAGE_TAG: *debian-x86_64_test-video
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/x86_64_test-video
+      optional: true
+
+# Debian based ARMv7/armhf test image for GL
+debian/arm32_test-gl:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .use-debian/arm32_test-base
+    - .container-builds-arm32
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-arm32_test-gl ${DEBIAN_TEST_GL_TAG}
+
+.use-debian/arm32_test-gl:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-arm32_test-base
+    MESA_IMAGE_PATH: "debian/arm32_test-gl"
+    MESA_IMAGE_TAG: *debian-arm32_test-gl
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm32_test-gl
+      optional: true
+
+# Debian based ARMv7/armhf test image for VK
+debian/arm32_test-vk:
+  rules:
+    - when: never  # There are currently no arm32 VK jobs
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .use-debian/arm32_test-base
+    - .container-builds-arm32
+  variables:
+    MESA_IMAGE_TAG: &debian-arm32_test-vk ${DEBIAN_TEST_VK_TAG}
+
+.use-debian/arm32_test-vk:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-arm32_test-base
+    MESA_IMAGE_PATH: "debian/arm32_test-vk"
+    MESA_IMAGE_TAG: *debian-arm32_test-vk
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm32_test-vk
+      optional: true
+
+# Debian based aarch64 test image for GL
+debian/arm64_test-gl:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .use-debian/arm64_test-base
+    - .container-builds-gl
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-arm64_test-gl ${DEBIAN_TEST_GL_TAG}
+
+.use-debian/arm64_test-gl:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-arm64_test-base
+    MESA_IMAGE_PATH: "debian/arm64_test-gl"
+    MESA_IMAGE_TAG: *debian-arm64_test-gl
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm64_test-gl
+      optional: true
+
+# Debian based aarch64 test image for VK
+debian/arm64_test-vk:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .use-debian/arm64_test-base
+    - .container-builds-vk
+    - .export-container
+  variables:
+    MESA_IMAGE_TAG: &debian-arm64_test-vk ${DEBIAN_TEST_VK_TAG}
+
+.use-debian/arm64_test-vk:
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_AARCH64
+  extends:
+    - .set-image-base-tag
+  variables:
+    MESA_BASE_TAG: *debian-arm64_test-base
+    MESA_IMAGE_PATH: "debian/arm64_test-vk"
+    MESA_IMAGE_TAG: *debian-arm64_test-vk
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/arm64_test-vk
+      optional: true
+
+# x86_64 image with ARM64 & ARM32 kernel & rootfs for baremetal testing
+.debian/baremetal_arm_test:
+  extends:
+    - .fdo.container-build@debian
+    - .container
+    - .debian-container-version
+  variables:
+    FDO_DISTRIBUTION_TAG: "${MESA_IMAGE_TAG}--${KERNEL_TAG}--${MESA_TEMPLATES_COMMIT}"
+    MESA_ARTIFACTS_TAG: *debian-arm64_build
+
+debian/baremetal_arm32_test-gl:
+  extends:
+    - .debian/baremetal_arm_test
+  needs:
+    - job: debian/arm32_test-gl
+      optional: true
+  variables:
+    MESA_IMAGE_TAG: &baremetal-arm32_test-gl "${DEBIAN_TEST_GL_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LAVA_DISTRIBUTION_TAG: "debian/arm32_test-gl:${DEBIAN_TEST_GL_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}--${MESA_TEMPLATES_COMMIT}"
+
+debian/baremetal_arm64_test-gl:
+  extends:
+    - .debian/baremetal_arm_test
+  needs:
+    - job: debian/arm64_test-gl
+      optional: true
+  variables:
+    MESA_IMAGE_TAG: &baremetal-arm64_test-gl "${DEBIAN_TEST_GL_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LAVA_DISTRIBUTION_TAG: "debian/arm64_test-gl:${DEBIAN_TEST_GL_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}--${MESA_TEMPLATES_COMMIT}"
+
+debian/baremetal_arm64_test-vk:
+  extends:
+    - .debian/baremetal_arm_test
+  needs:
+    - job: debian/arm64_test-vk
+      optional: true
+  variables:
+    MESA_IMAGE_TAG: &baremetal-arm64_test-vk "${DEBIAN_TEST_VK_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}"
+    LAVA_DISTRIBUTION_TAG: "debian/arm64_test-vk:${DEBIAN_TEST_VK_TAG}--${DEBIAN_BASE_TAG}--${PKG_REPO_REV}--${MESA_TEMPLATES_COMMIT}"
+
+.use-debian/baremetal_arm32_test-gl:
+  image: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${MESA_IMAGE_TAG}--${KERNEL_TAG}--${MESA_TEMPLATES_COMMIT}"
+  variables:
+    MESA_IMAGE_PATH: "debian/baremetal_arm32_test-gl"
+    MESA_IMAGE_TAG: *baremetal-arm32_test-gl
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/baremetal_arm32_test-gl
+      optional: true
+
+.use-debian/baremetal_arm64_test-gl:
+  image: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${MESA_IMAGE_TAG}--${KERNEL_TAG}--${MESA_TEMPLATES_COMMIT}"
+  variables:
+    MESA_IMAGE_PATH: "debian/baremetal_arm64_test-gl"
+    MESA_IMAGE_TAG: *baremetal-arm64_test-gl
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/baremetal_arm64_test-gl
+      optional: true
+
+.use-debian/baremetal_arm64_test-vk:
+  image: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${MESA_IMAGE_TAG}--${KERNEL_TAG}--${MESA_TEMPLATES_COMMIT}"
+  variables:
+    MESA_IMAGE_PATH: "debian/baremetal_arm64_test-vk"
+    MESA_IMAGE_TAG: *baremetal-arm64_test-vk
+  needs:
+    - job: sanity
+      optional: true
+    - job: debian/baremetal_arm64_test-vk
+      optional: true

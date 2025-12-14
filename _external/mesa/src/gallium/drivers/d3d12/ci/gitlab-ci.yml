@@ -1,0 +1,22 @@
+include:
+  - local: 'src/gallium/drivers/d3d12/ci/gitlab-ci-inc.yml'
+
+test-d3d12-quick_gl:
+  extends:
+    - .d3d12-test-piglit
+  variables:
+    PIGLIT_SUITE: d3d12-quick_gl.toml
+    PIGLIT_BASELINE: d3d12-quick_gl.txt
+
+test-d3d12-quick_shader:
+  extends:
+    - .d3d12-test-piglit
+  variables:
+    PIGLIT_SUITE: d3d12-quick_shader.toml
+    PIGLIT_BASELINE: d3d12-quick_shader.txt
+
+test-d3d12-vainfo:
+  extends:
+    - .d3d12-test
+  script:
+    - . _install/vainfo_run.ps1

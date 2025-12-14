@@ -1,0 +1,16 @@
+KHR-GL46.shader_storage_buffer_object.advanced-usage-sync-cs
+KHR-GL46.texture_barrier.disjoint-texels
+KHR-GL46.texture_barrier_ARB.same-texel-rw-multipass
+KHR-GLES31.core.shader_image_load_store.basic-allTargets-loadStoreCS
+KHR-GLES31.core.shader_storage_buffer_object.advanced-usage-sync-cs
+
+glx@glx-buffer-age
+glx@glx-buffer-age vblank_mode=0
+glx@glx-multi-context-ib-1
+glx@glx-multithread-clearbuffer
+glx@glx-multithread-texture
+glx@glx-swap-singlebuffer
+spec@!opengl 1.0@gl-1.0-ortho-pos
+spec@arb_shader_image_load_store@coherency
+spec@arb_shader_image_load_store@coherency@Vertex-Geometry shader/'coherent' qualifier coherency test/256x256
+spec@arb_timer_query@timestamp-get

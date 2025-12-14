@@ -1,0 +1,56 @@
+From b512e6d5a0c79b194293936bd06656646913704e Mon Sep 17 00:00:00 2001
+From: Valentine Burley <valentine.burley@collabora.com>
+Date: Fri, 11 Apr 2025 16:50:57 +0200
+Subject: Revert "Fix spurious failures when using a config without
+ pbuffer support"
+
+This reverts commit 415a0ba8ecde404ef37ce96ece55b46854b44888.
+---
+ external/openglcts/modules/common/glcTestSubcase.cpp | 10 ----------
+ framework/egl/egluGLContextFactory.cpp               |  2 --
+ 2 files changed, 12 deletions(-)
+
+diff --git a/external/openglcts/modules/common/glcTestSubcase.cpp b/external/openglcts/modules/common/glcTestSubcase.cpp
+index 93e58c18a..cd43cc068 100644
+--- a/external/openglcts/modules/common/glcTestSubcase.cpp
++++ b/external/openglcts/modules/common/glcTestSubcase.cpp
+@@ -233,11 +233,6 @@ TestSubcase::IterateResult TestSubcase::iterate(void)
+         if (subError == ERROR)
+             log.writeMessage("Test Setup() failed");
+     }
+-    catch (const tcu::NotSupportedError &ex)
+-    {
+-        log.writeMessage(ex.what());
+-        subError = NOT_SUPPORTED;
+-    }
+     catch (const runtime_error &ex)
+     {
+         log.writeMessage(ex.what());
+@@ -258,11 +253,6 @@ TestSubcase::IterateResult TestSubcase::iterate(void)
+             if (subError == ERROR)
+                 log.writeMessage("Test Run() failed");
+         }
+-        catch (const tcu::NotSupportedError &ex)
+-        {
+-            log.writeMessage(ex.what());
+-            subError = NOT_SUPPORTED;
+-        }
+         catch (const runtime_error &ex)
+         {
+             log.writeMessage(ex.what());
+diff --git a/framework/egl/egluGLContextFactory.cpp b/framework/egl/egluGLContextFactory.cpp
+index 66783ad8b..f347b40ad 100644
+--- a/framework/egl/egluGLContextFactory.cpp
++++ b/framework/egl/egluGLContextFactory.cpp
+@@ -539,8 +539,6 @@ void RenderContext::postIterate(void)
+ 
+     if (m_window)
+     {
+-        EGLU_CHECK_CALL(egl, makeCurrent(m_eglDisplay, m_eglSurface, m_eglSurface, m_eglContext));
+-
+         EGLBoolean swapOk    = egl.swapBuffers(m_eglDisplay, m_eglSurface);
+         EGLint error         = egl.getError();
+         const bool badWindow = error == EGL_BAD_SURFACE || error == EGL_BAD_NATIVE_WINDOW;
+-- 
+2.45.2
+

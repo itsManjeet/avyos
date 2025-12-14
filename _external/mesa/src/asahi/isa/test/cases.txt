@@ -1,0 +1,553 @@
+00c086fdffff         jmp_any  -634
+02000000040001e4     csel     r0l, 0.0, r0l, 0, r0l, fgtn
+0200400000421024     csel     r0l, r0l, 0.0, r1l, r0h, flt
+0200404004404064     csel     r0l, r0l, r2l, r0l, r2l, fltn
+02020010040011e4     csel     r0h, 0.0, r0h, 0, r0h, fgtn
+02020010044300b0     csel     r0h, 0.0, r0h, r1h, 0, fgte
+02040010044200a4     csel     r1l, 0.0, r0h, r1l, r0l, fgte
+0204410444432004     csel     r1l, r0h.abs, r0l.abs, r1h, r1l, feq
+02084654044430a4     csel     r2l, r3l.abs, r2h, r2l, r1h, fgte
+020a3020044250a4     csel     r2h, 1.0, r1l, r1l, r2h, fgte
+020c0010044020a4     csel     r3l, 0.0, r0h, r0l, r1l, fgte
+020e3020040071a4     csel     r3h, 1.0, r1l, 0, r3h, fgte
+021900c0249001b0     csel     r6, 0.0, r6, u8, 0, fgte
+02194ce2244ce064     csel     r6, r6, r7, r6, r7, fltn
+02214c02004ea024     csel     r8, r6, 0.0, r7, r5, flt
+0501000d10c0f200     load     r0_r1_r2_r3, du8, 0, i32, xyzw, a
+0501000d80c01200     load     r0, du64, 0, i32, x, a
+0501480d60c07200     load     r0_r1_r2, du52, 4, i32, xyz, a
+0501a80d69c03200     load     r0_r1, du52, 154, i32, xy, a
+0509480e00c01200     load     r1, du4, r2, i32, x, a
+0511440500c03200     load     r2_r3, dr2, 4, i32, xy, a
+05116e0621c01200     load     r2, dr23, r11, i32, x, a
+0521004500c01200     load     r4, dr0, 0, i32, x, b
+0521040500c01200     load     r4, dr2, 0, i32, x, a
+0521100500c01200     load     r4, dr0, 1, i32, x, a
+0521340510c01200     load     r4, dr10, 3, i32, x, a
+05310c0500c03200     load     r6_r7, dr6, 0, i32, xy, a
+0531200510c01200     load     r6, dr8, 2, i32, x, a
+0531400510c01200     load     r6, dr8, 4, i32, x, a
+0531cc0e60c03200     load     r6_r7, du54, r6, i32, xy, a
+0541000510c03200     load     r8_r9, dr8, 0, i32, xy, a
+0541000e00c07200     load     r8_r9_r10, du0, r0, i32, xyz, a
+05410c0500c03200     load     r8_r9, dr6, 0, i32, xy, a
+05410c0500c0f200     load     r8_r9_r10_r11, dr6, 0, i32, xyzw, a
+05410c4500c03200     load     r8_r9, dr6, 0, i32, xy, b
+05412c0500c01200     load     r8, dr6, 2, i32, x, a
+0541f00f0fc8f20f     load     r8_r9_r10_r11, du0, 4095, lsl 2, i32, xyzw, a
+0551300510c01200     load     r10, dr8, 3, i32, x, a
+05610c0e60c0f200     load     r12_r13_r14_r15, du54, r0, i32, xyzw, a
+0561e44610c01200     load     r12, dr10, r7, i32, x, b
+09010004f0fc0003     st_tile  r0_r1_r2_r3, 0, 255, 0, u8norm, xyzw
+0901000e70fc0003     st_tile  r0_r1_r2, 0, 255, 0, rg11b10f_rtz, xyz
+0901000f70fc0003     st_tile  r0_r1_r2, 0, 255, 0, rgb9e5_rtz, xyz
+09100004f0fc0003     st_tile  r4l_r4h_r5l_r5h, 0, 255, 0, u8norm, xyzw
+09111204f8048000     st_tile  r4_r5_r6_r7, r9l_r9h, 1, 0, explicit_coords, u8norm, xyzw
+0a0040c0             log2     r0l, r0l
+0a0040d0             exp2     r0l, r0l
+0a064380             rcp      r1h, r1h
+0a084580             rcp      r2l, r2h
+0a0a4280             rcp      r2h, r1l
+0a0a4590             rsqrt    r2h, r2h
+0a0d4692             rsqrt    r3, r3
+0a0e4790             rsqrt    r3h, r3h
+0e0100c065002000     iadd     r0, 0, r14.sx, lsl 4
+0e01401600000000     iadd     r0, r0.sx, 1
+0e01402664000000     iadd     r0, r0.sx, r1.sx
+0e01408664000000     iadd     r0, r0.sx, r4.sx
+0e014aa6e4000000     iadd     r0, r5.sx, r5.sx, lsl 1
+0e03408334000000     iadd     dr0, dr0, dr4
+0e05420658020000     iadd     r1, r1.sx, u64.sx
+0e05428658000000     iadd     r1, r1.sx, u4.sx
+0e05428664000000     iadd     r1, r1.sx, r4.sx
+0e09424658000000     iadd     r2, r1.sx, u2.sx
+0e09442658020000     iadd     r2, r2.sx, u65.sx
+0e0944a658000000     iadd     r2, r2.sx, u5.sx
+0e0b44c334000000     iadd     dr2, dr2, dr6
+0e0d408664000000     iadd     r3, r0.sx, r4.sx
+0e0d446658000000     iadd     r3, r2.sx, u3.sx
+0e0d464658020000     iadd     r3, r3.sx, u66.sx
+0e14192500000000     iadd     r5l, u12h.sx, 2
+0e14193500000000     iadd     r5l, u12h.sx, 3
+0e194c1600000000     iadd     r6, r6.sx, 1
+0e194ec664000000     iadd     r6, r7.sx, r6.sx
+0e1b4c4335000000     iadd     dr6, dr6, dr10
+0e1b4cc300000000     iadd     dr6, dr6, 12
+0e1b504335000000     iadd     dr6, dr8, dr10
+0e1b50c334000000     iadd     dr6, dr8, dr6
+0e1d01e064000000     iadd     r7, 1, r7.sx
+0e201a1500000000     iadd     r8l, u13l.sx, 1
+0e23448300000000     iadd     dr8, dr2, 8
+0e23504300000000     iadd     dr8, dr8, 4
+0e23504335000000     iadd     dr8, dr8, dr10
+0e23508300000000     iadd     dr8, dr8, 8
+0e23540335000000     iadd     dr8, dr10, dr8
+0e25502665000000     iadd     r9, r8.sx, r9.sx
+0e2900c064002000     iadd     r10, 0, r6.sx, lsl 4
+0e29540665002000     iadd     r10, r10.sx, r8.sx, lsl 4
+0e2b444335000000     iadd     dr10, dr2, dr10
+0e2b448300000000     iadd     dr10, dr2, 8
+0e2b508301000000     iadd     dr10, dr8, 24
+0e314c1600000000     iadd     r12, r6.sx, 1
+0e31581600000000     iadd     r12, r12.sx, 1
+0e690160a9000000     iadd     r26, 1, $r11, lsl 1
+10c060ffffff         call     -160
+10c08affffff         call     -118
+11000880             st_var   r0, r4l
+11008280             st_var   r0, 2
+11040680             st_var   r1, r3l
+11080880             st_var   r2, r4l
+110c0880             st_var   r3, r4l
+11100a80             st_var   r4, r5l
+11140c80             st_var   r5, r6l
+11141080             st_var   r5, r8l
+11208080             st_var   r8, 0
+11248180             st_var   r9, 1
+112c8380             st_var   r11, 3
+11308480             st_var   r12, 4
+11348580             st_var   r13, 5
+11388680             st_var   r14, 6
+113c8780             st_var   r15, 7
+12004c5200404010     csel     r0l, r6, 5, r0l, 4, ieq
+1201401200401050     csel     r0, r0, 1, r0, 1, ugt
+1202506004506044     csel     r0h, r8l, r3l, r8l, r3l, ugt
+12114802004c0010     csel     r4, r4, 0, r6, 0, ieq
+12194802004c0010     csel     r6, r4, 0, r6, 0, ieq
+12194c12004c1050     csel     r6, r6, 1, r6, 1, ugt
+12194e12004e1050     csel     r6, r7, 1, r7, 1, ugt
+1235548225548045     csel     r13, r10, r12, r10, r12, ugt
+12824262180101300002 csel     r0h, r1, u67, 1, 0, ult
+12824482184100300002 csel     r0h, r2, u68, r0h, 0, ult
+1402                 ret      r1
+1500048d20501400     atomic   _, r10, du18, 0, add, coherent1, a
+1500248c10500600     atomic   _, r3, du10, r1.sx, add, coherent1, a
+1500248c90500600     atomic   _, r3, du74, r1.sx, add, coherent1, a
+1502248c10500600     atomic   _, r3, du10, r1.sx, and, coherent1, a
+1508a48c10d00800     atomic   r1, r4, du10, r5.sx, add, coherent1, a
+150aa48c10d00800     atomic   r1, r4, du10, r5.sx, and, coherent1, a
+1520008d20d00200     atomic   r4, r1, du16, 0, add, coherent1, a
+1520048d20d00200     atomic   r4, r1, du18, 0, add, coherent1, a
+15302c8d20d00c00     atomic   r6, r6, du22, 2, add, coherent1, a
+160081f0             hmul     r0l, $r0h, 0.234375
+168040101100         hmul     r0l, r0l, u8h
+168040700400         hmul     r0l, r0l, r3h
+168241700400         hmul     r0h, r0h, r3h
+168442400400         hmul     r1l, r1l, r2l
+168442422400         hmul     r1l, r1l.abs, r2l.abs
+168442700400         hmul     r1l, r1l, r3h
+168640300400         hmul     r1h, r0l, r1h
+168643500400         hmul     r1h, r1h, r2h
+168842300400         hmul     r2l, r1l, r1h
+168844500400         hmul     r2l, r2l, r2h
+168a44400400         hmul     r2h, r2l, r2l
+168a46400400         hmul     r2h, r3l, r2l
+168a48500400         hmul     r2h, r4l, r2h
+168a4aa00400         hmul     r2h, r5l, r5l
+168c46500400         hmul     r3l, r3l, r2h
+168e42200400         hmul     r3h, r1l, r1l
+168e45500400         hmul     r3h, r2h, r2h
+168e4a500400         hmul     r3h, r5l, r2h
+169044700400         hmul     r4l, r2l, r3h
+169249500400         hmul     r4h, r4h, r2h
+16944a000001         hmul     r5l, r5l, 2.0
+19918000548000000800 latomic  r4, r4, 0, add
+19918002548000000800 latomic  r4, r4, 0, xchg
+19918004548000000800 latomic  r4, r4, 0, umin
+19918006548000000800 latomic  r4, r4, 0, umax
+19918008548000000800 latomic  r4, r4, 0, and
+19918009548000000800 latomic  r4, r4, 0, or
+1991800a548000000800 latomic  r4, r4, 0, xor
+19998003548000000c00 latomic  r6, r6_r7, 0, cmpxchg
+1a0182f2             fmul     r0, $r1, 0.234375
+1a9156222500         fmul     r4, r11, r9
+1aa556222500         fmul     r9, r11, r9
+1aad52222500         fmul     r11, r9, r9
+1e0188a558000000     imul     r0, u4.sx, u5.sx
+1e0542a658440602     imadd    r1, r1.sx, u69.sx, r2.sx
+1e09480659440602     imadd    r2, r4.sx, u72.sx, r2.sx
+1e0d422664460600     imadd    r3, r1.sx, r1.sx, r3.sx
+1e0d444664460600     imadd    r3, r2.sx, r2.sx, r3.sx
+1e0d466664000000     imul     r3, r3.sx, r3.sx
+1e1b428201000001     imul     dr6, r1, 88
+1e23428201000001     imul     dr8, r1, 88
+20000600             jmp_if_skipping_doorbell 6
+20c01c010000         jmp_none 284
+20c060010000         jmp_none 352
+20c09e000000         jmp_none 158
+20c0dc000000         jmp_none 220
+20c0fa000000         jmp_none 250
+2199014000000000     iter     r6, cf1
+219d004000000000     iter     r7, cf0
+2602c1f0             hadd     r0h, ^r0h, 0.234375
+268440000300         hadd     r1l, r0l, 1.0
+269642100400         hadd     r5h, r1l, r0h
+2820                 doorbell 32
+2830                 doorbell 48
+2831                 doorbell 49
+2981800214000000     lstore   r0, 0, i32, x
+2989800234000000     lstore   r2_r3, 0, i32, xy
+298d040214000000     lstore   r3, r2l, 0, i32, x
+29914b02f4000000     lstore   r4_r5_r6_r7, u5h, 0, i32, xyzw
+29914c02f4000000     lstore   r4_r5_r6_r7, u6l, 0, i32, xyzw
+2991800274000000     lstore   r4_r5_r6, 0, i32, xyz
+29918002f4000000     lstore   r4_r5_r6_r7, 0, i32, xyzw
+2a05c2f2             fadd     r1, ^r1, 0.234375
+2a81546a2500         fadd     r0, r10.neg, r11
+2a8441040002         fadd     r1l, r0h.abs, -0.0
+2a8441080002         fadd     r1l, r0h.neg, -0.0
+2a9d4a0a0002         fadd     r7, r5.neg, -0.0
+2e01001000400200     shl      r0, 1, r0
+2e014466241e0000     extr     r0, r2, r3, 30, 0
+2e0158a625180000     extr     r0, r12, r13, 24, 0
+2e05001000420200     shl      r1, 1, r1
+2e0500c024080000     shl      r1, r6, 8
+2e055c06241c0000     extr     r1, r14, r0, 28, 0
+2e11004024070000     shl      r4, r2, 7
+2e194ce6241c0000     extr     r6, r6, r7, 28, 0
+2e81000024420200     shr      r0, r0, r1
+2e81008024020000     shr      r0, r4, 2
+2e850040e41b0000     bfeil    r1, 0, r2, 27, 3
+2e8500e025040400     bfeil    r1, 0, r15, 4, 4
+2e91008064090000     bfeil    r4, 0, r4, 9, 1
+2e99008024020000     shr      r6, r4, 2
+2e9900c024500200     shr      r6, r6, r8
+2e9d00e024500200     shr      r7, r7, r8
+2e9d00e0a40a0c00     bfeil    r7, 0, r7, 10, 14
+2ea100e024180400     bfeil    r8, 0, r7, 24, 4
+2ead0020251c0000     shr      r11, r9, 28
+2ead00c0241c0000     shr      r11, r6, 28
+3111081400622f01     smpf     r4_r5_r6_r7, ts0, ss1, r4, u10l, 2d, xyzw, lod_min, a
+31818000ca6321481b201e00 smpf     r0, du54, r5, r4l, r0, u64l, r15, shadow, 2d_array, x, lod_min, a
+31910400c2620f411b008001 smpf     r4_r5_r6_r7, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_g, a
+31910400c2620f411b008002 smpf     r4_r5_r6_r7, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_b, a
+31910400c2620f411b008003 smpf     r4_r5_r6_r7, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_a, a
+31910406c26293411b200000 smpf     r4_r5, du54, r1, r0h, r2, u67l_u67h, 2d, xy, auto_lod_bias_min, a
+31a10400c2620f411b008000 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_r, a
+31a10400c2620f411b008001 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_g, a
+31a10400c2620f411b008002 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_b, a
+31a10400c2620f411b008003 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, 2d, xyzw, auto_lod, gather_a, a
+31a10400c2620f415b008000 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_r, a
+31a10400c2620f415b008001 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_g, a
+31a10400c2620f415b008002 smpf     r8_r9_r10_r11, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_b, a
+31a10402c862df415b000000 smpf     r8_r9_r10_r11, du54, r4, r0h, r2, r1l_r1h, sparse, 2d, xyzw, auto_lod_bias_min, a
+31a10406c26291411b200000 smpf     r8, du54, r1, r0h, r2, u67l_u67h, 2d, x, auto_lod_bias_min, a
+31a10804c665df411b000208 smpf     r8_r9_r10_r11, du54, r3, r0h, r4, r2l_r2h, r1l, 3d, xyzw, auto_lod_bias_min, a
+31a10808c2679f411b200000 smpf     r8_r9_r10_r11, du54, r1, r0h, r4, u68l_u68h, cube_array, xyzw, auto_lod_bias_min, a
+31b10806c2629f411b200000 smpf     r12_r13_r14_r15, du54, r1, r0h, r4, u67l_u67h, 2d, xyzw, auto_lod_bias_min, a
+31c10400c2620f415b008000 smpf     r16_r17_r18_r19, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_r, a
+31c10400c2620f415b008001 smpf     r16_r17_r18_r19, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_g, a
+31c10400c2620f415b008002 smpf     r16_r17_r18_r19, du54, r1, r0h, r2, 0, sparse, 2d, xyzw, auto_lod, gather_b, a
+31c11800c2622f415b200000 smpf     r16_r17_r18_r19, du54, r1, r0h, r12, u64l, sparse, 2d, xyzw, lod_min, a
+3219010000800100     ballot   r6
+3219420000000100     ballot   r6, r1l, 0, ieq
+3229010000800100     ballot   r10
+325962a226100100     ballot   r54, r17, r21, ieq
+3509000501c03000     stack_load r1l_r1h, 16, i16, xy, a
+3522000500c01200     stack_load r4, 0, i32, x, a
+3532400500c01200     stack_load r6, 4, i32, x, a
+3532800500c01200     stack_load r6, 8, i32, x, a
+3532800502c01200     stack_load r6, 40, i32, x, a
+353ac00503c01200     stack_load r7, 60, i32, x, a
+35b9c00500c03000     stack_load r23l_r23h, 12, i16, xy, a
+35c1800500c03000     stack_load r24l_r24h, 8, i16, xy, a
+35c9400500c03000     stack_load r25l_r25h, 4, i16, xy, a
+35d1000500c03000     stack_load r26l_r26h, 0, i16, xy, a
+360040440441         hfma     r0l, r0l.neg, r2l, r0h
+360241300442         hfma     r0h, r0h, r1h, r1l
+360245340442         hfma     r0h, r2h.neg, r1h, r1l
+36084a540443         hfma     r2l, r5l.neg, r2h, r1h
+36084a740444         hfma     r2l, r5l.neg, r3h, r2l
+360a43300445         hfma     r2h, r1h, r1h, r2h
+360a45600447         hfma     r2h, r2h, r3l, r3h
+360a46600445         hfma     r2h, r3l, r3l, r2h
+360a48800445         hfma     r2h, r4l, r4l, r2h
+360a49900445         hfma     r2h, r4h, r4h, r2h
+360c41340430         hfma     r3l, r0h.neg, r1h, 1.0
+360c46700430         hfma     r3l, r3l, r3h, 1.0
+360c46700448         hfma     r3l, r3l, r3h, r4l
+360c48700446         hfma     r3l, r4l, r3h, r3l
+360e40000447         hfma     r3h, r0l, r0l, r3h
+360e41100447         hfma     r3h, r0h, r0h, r3h
+361410110449         hfma     r5l, u8l, r0h, r4h
+36144530044a         hfma     r5l, r2h, r1h, r5l
+361446940448         hfma     r5l, r3l.neg, r4h, r4l
+3682414404420400     hfma     r0h, r0h.neg, r2l, r1l.neg
+3684469004480400     hfma     r1l, r3l, r4h, r4l.neg
+36884a9404460400     hfma     r2l, r5l.neg, r4h, r3l.neg
+3692100104120100     hfma     r4h, u8l, r0l, u9l
+3800                 wait     a
+3801                 wait     b
+3a81130124540200     ffma     r0, u9h, r0, r10
+3a914602198c0100     ffma     r4, r3, u8, u6
+3a954622198e0100     ffma     r5, r3, u9, u7
+3a954c22194a0200     ffma     r5, r6, u9, r5
+3e0944500400         intl     r2, r2l, r2h
+3e29540e0000         ffs      r10, r10
+3e800a042400         u32_to_f r0l, r0, rte
+3e800b042400         s32_to_f r0l, r0, rte
+3e8108000400         f_to_u32 r0, r0l, rtz
+3e8108802500         f_to_u32 r0, r12, rtz
+3e8109000400         f_to_s32 r0, r0l, rtz
+3e8109802500         f_to_s32 r0, r12, rtz
+3e810a042400         u32_to_f r0, r0, rte
+3e810b042400         s32_to_f r0, r0, rte
+3e8508202400         f_to_u32 r1, r1, rtz
+3e8509202400         f_to_s32 r1, r1, rtz
+3e850a242400         u32_to_f r1, r1, rte
+3e850b242400         s32_to_f r1, r1, rte
+3e8908402400         f_to_u32 r2, r2, rtz
+3e8909402400         f_to_s32 r2, r2, rtz
+3e8d0a242400         u32_to_f r3, r1, rte
+3e8d0a442400         u32_to_f r3, r2, rte
+417f0423             zs_emit  255, r2
+420000000000         update_exec
+42096026e600         if       r16.abs, r17.abs.neg, 1, fneq
+420a00000000         else     0.0, 0.0, 1, feq
+421000000000         if       0.0, 0.0, 2, feq
+422844801100         if       r2l, u12l, 1, flt
+4501040d80c01200     store    r0, du66, 0, i32, x, a
+4501400e00c43200     store    r0_r1, du0, r2, lsl 1, i32, xy, a
+4501404d80c03200     store    r0_r1, du64, 4, i32, xy, b
+4509080500c01200     store    r1, dr4, 0, i32, x, a
+4521000d80c0f200     store    r4_r5_r6_r7, du64, 0, i32, xyzw, a
+4531400510c01200     store    r6, dr8, 4, i32, x, a
+45410c0500c01200     store    r8, dr6, 0, i32, x, a
+4541800e00c8f200     store    r8_r9_r10_r11, du0, r4, lsl 2, i32, xyzw, a
+45492c0500c01200     store    r9, dr6, 2, i32, x, a
+4561000510c01200     store    r12, dr8, 0, i32, x, a
+4561004510c01200     store    r12, dr8, 0, i32, x, b
+4561200510c03200     store    r12_r13, dr8, 2, i32, xy, a
+4561e44610c01200     store    r12, dr10, r7, i32, x, b
+4800c200             pixwait  512, 3
+48040000             pixwait  4, 0
+48080000             pixwait  8, 0
+480c0000             pixwait  12, 0
+49000004f8fc0003     ld_tile  r0l_r0h_r1l_r1h, 0, 255, 0, u8norm, xyzw
+520841000000         if       r0h, 0, 1, ieq
+52084c020000         if       r6, 0, 1, ieq
+52084c120000         if       r6, 1, 1, ieq
+52084c420000         if       r6, 4, 1, ieq
+52084cf20000         if       r6, 15, 1, ieq
+520850020000         if       r8, 0, 1, ieq
+520941000000         if       r0h, 0, 1, ine
+520e00000000         pop_exec 1
+52284c822400         if       r6, r4, 1, ult
+5501248c10500600     atomic   _, r3, du10, r1.sx, imin, coherent1, a
+5502248c10500600     atomic   _, r3, du10, r1.sx, or, coherent1, a
+5509a48c10d00800     atomic   r1, r4, du10, r5.sx, imin, coherent1, a
+550aa48c10d00800     atomic   r1, r4, du10, r5.sx, or, coherent1, a
+6180010000000000     iter     r0l_r0h_r1l_r1h, cf1, cf0
+6181018000000100     iter     r0_r1, cf1, cf0, 0, sample
+618101c000000200     iter     r0_r1_r2, cf1, cf0, centroid
+618101c000401000     iter     r0_r1_r2, cf1, cf0, elide, kill
+619005c000000000     iter     r4l_r4h_r5l, cf5, cf0
+6191010006000300     iter     r4_r5_r6_r7, cf1, cf0, r3l, sample
+6191018002000300     iter     r4_r5, cf1, cf0, r1l, sample
+6191018006000300     iter     r4_r5, cf1, cf0, r3l, sample
+619101c002000300     iter     r4_r5_r6, cf1, cf0, r1l, sample
+62000000             ldimm    r0l, 0
+620100000040         ldimm    r0, 1073741824
+62020000             ldimm    r0h, 0
+6206003c             ldimm    r1h, 15360
+6206483e             ldimm    r1h, 15944
+62080034             ldimm    r2l, 13312
+62090000adde         ldimm    r2, 3735879680
+620a0074             ldimm    r2h, 29696
+620c0080             ldimm    r3l, 32768
+620cdf2a             ldimm    r3l, 10975
+620cff7f             ldimm    r3l, 32767
+620dffffff07         ldimm    r3, 134217727
+620e48be             ldimm    r3h, 48712
+62100000             ldimm    r4l, 0
+62103432             ldimm    r4l, 12852
+621036a2             ldimm    r4l, 41526
+621053b5             ldimm    r4l, 46419
+621083af             ldimm    r4l, 44931
+621100000000         ldimm    r4, 0
+6211ffffffff         ldimm    r4, 4294967295
+62120000             ldimm    r4h, 0
+621500000000         ldimm    r5, 0
+6216003c             ldimm    r5h, 15360
+6225ff3f0000         ldimm    r9, 16383
+6225ffffffff         ldimm    r9, 4294967295
+6229f0ffffff         ldimm    r10, 4294967280
+6800                 barrier
+6985800214000000     lload    r1, 0, i32, x
+6989000214000000     lload    r2, r0l, 0, i32, x
+6991800234000000     lload    r4_r5, 0, i32, xy
+6991800274000000     lload    r4_r5_r6, 0, i32, xyz
+69918002f4000000     lload    r4_r5_r6_r7, 0, i32, xyzw
+6aad50020002         fadd     r11, r8, -0.0, sat
+6f0241104000         shuffle  r0h, r0h, 1, quad, xor
+6f0241204000         shuffle  r0h, r0h, 2, quad, xor
+6f0241304000         shuffle  r0h, r0h, 3, quad, xor
+6f104c100400         shuffle  r4l, r6l, r0h, quad
+6f124c100000         shuffle  r4h, r6l, 1, quad
+6f124c100400         shuffle  r4h, r6l, r0h, quad
+6f124c200000         shuffle  r4h, r6l, 2, quad
+6f194c160400         shuffle  r6, r6, r0h
+6f1a4c000000         shuffle  r6h, r6l, 0, quad
+6f1a4c300000         shuffle  r6h, r6l, 3, quad
+6f8444600000         simd     r1l, r2l, prefix, and
+6f8444604000         simd     r1l, r2l, prefix, or
+6f8444608000         simd     r1l, r2l, prefix, xor
+6f8444608080         simd     r1l, r2l, prefix, smin
+6f8846604000         simd     r2l, r3l, prefix, or
+6f8846608000         simd     r2l, r3l, prefix, xor
+6f8a44600080         simd     r2h, r2l, prefix, iadd
+6f8a44604000         simd     r2h, r2l, prefix, or
+6f8a44608000         simd     r2h, r2l, prefix, xor
+6f8a4460c080         simd     r2h, r2l, prefix, smax
+6f8e46604000         simd     r3h, r3l, prefix, or
+6f8e46608000         simd     r3h, r3l, prefix, xor
+6f9a4c600080         simd     r6h, r6l, prefix, iadd
+6f9d4c620080         simd     r7, r6, prefix, iadd
+7101040000620f00     smpi     r0_r1_r2_r3, ts0, ss0, r2, 0, 2d, xyzw, auto_lod, a
+72001004             mov      r0l, thread_in_grid_x
+72021104             mov      r0h, thread_in_grid_y
+72050000             mov      r1, threadgroup_in_grid_x
+72051004             mov      r1, thread_in_grid_x
+72051400             mov      r1, core_index
+72090100             mov      r2, threadgroup_in_grid_y
+72091004             mov      r2, thread_in_grid_x
+72091104             mov      r2, thread_in_grid_y
+72091208             mov      r2, helper_arg_l
+720d0200             mov      r3, threadgroup_in_grid_z
+720d1308             mov      r3, helper_arg_h
+720d3000             mov      r3, thread_in_threadgroup_x
+72191008             mov      r6, helper_op
+721d1208             mov      r7, helper_arg_l
+72213100             mov      r8, thread_in_threadgroup_y
+72283a00             mov      r10l, active_thread_index_in_simdgroup
+7540010500c01000     map      r8, 0, 0
+7540300500c01000     unmap    r8, 0, 3
+7548110500c01000     map      r9, 0, 1
+7550210500c01000     map      r10, 0, 2
+7558310500c01000     map      r11, 0, 3
+7560000500c01000     unmap    r12, 0, 0
+7560100500c01000     unmap    r12, 0, 1
+7560200500c01000     unmap    r12, 0, 2
+7e0140088000         mov      r0, r0l
+7e014022a500         and      r0, r0, r9
+7e01402a2400         andn2    r0, r0, r1
+7e0140728000         and      r0, r0, 7
+7e0140f28100         and      r0, r0, 31
+7e015ef28000         and      r0, r15, 15
+7e0190098000         mov      r0, u8
+7e02540a8000         mov      r0h, r10
+7e0414098000         mov      r1l, u10l
+7e0442608400         and      r1l, r1l, r3l
+7e044528c400         or       r1l, r2h, r1l
+7e0500088000         mov      r1, 0
+7e05400a8000         mov      r1, r0
+7e0542064000         not      r1, r1
+7e0542e29802         and      r1, r1, u71
+7e0542f28100         and      r1, r1, 31
+7e0542f28300         and      r1, r1, 63
+7e0543088000         mov      r1, r1h
+7e0644088000         mov      r1h, r2l
+7e0646088000         mov      r1h, r3l
+7e0940088000         mov      r2, r0l
+7e0942c29802         and      r2, r1, u70
+7e094462a400         and      r2, r2, r3
+7e09ac098004         mov      r2, u54
+7e0a45608400         and      r2h, r2h, r3l
+7e0d41088000         mov      r3, r0h
+7e0dae098004         mov      r3, u55
+7e1049088000         mov      r4l, r4h
+7e11400a8000         mov      r4, r0
+7e1142088000         mov      r4, r1l
+7e11442ae400         or       r4, r2, r1
+7e15400a8000         mov      r5, r0
+7e19400a8000         mov      r6, r0
+7e19480a8000         mov      r6, r4
+7e194c22a500         and      r6, r6, r9
+7e1d400a8000         mov      r7, r0
+7e1d4a0a8000         mov      r7, r5
+7e2150f28100         and      r8, r8, 31
+7e2446088000         mov      r9l, r3l
+7e2650088000         mov      r9h, r8l
+7e29480a8000         mov      r10, r4
+7e2d440a8000         mov      r11, r2
+7e2d480a8000         mov      r11, r4
+7e2d4a0a8000         mov      r11, r5
+7e2d740a8000         mov      r11, r26
+7e31ae0a8000         mov      r12, $r23
+7e35700a8000         mov      r13, r24
+7e5d980a8000         mov      r23, $r12
+7e615a0a8000         mov      r24, r13
+7e65960a8000         mov      r25, $r11
+85044c0e00c01000     load     r0h, du6, r2, i16, x, a
+8800                 stop
+8e090060a9000000     iadd     $r2, 0, $r11, lsl 1
+8e09562227000000     iadd     $r2, r11, r25
+91008880             st_var   r0, 8, last
+9500248c10500600     atomic   _, r3, du10, r1.sx, xchg, coherent1, a
+9502248c10500600     atomic   _, r3, du10, r1.sx, xor, coherent1, a
+9508a48c10d00800     atomic   r1, r4, du10, r5.sx, xchg, coherent1, a
+950aa48c10d00800     atomic   r1, r4, du10, r5.sx, xor, coherent1, a
+a181004000000000     ldcf     r0_r1_r2, cf0
+a191014000000000     ldcf     r4_r5_r6, cf1
+a191024000000000     ldcf     r4_r5_r6, cf2
+a191034000000000     ldcf     r4_r5_r6, cf3
+ad01100800000010     load     ss1, du4, r1, a
+b1800080004a00000a00 imgwblk  r0l, ts0, r0, 0, 2d, u8norm
+b1848480024a00000a00 imgwblk  r1l, ts2, r2, 0, explicit_coords, 2d, u8norm
+b1880680004880000a00 imgwblk  r2l, ts0, r3, 0, 2d_ms_array, u8norm
+b50081052000         stack_adjust 8
+b500810523800000     stack_adjust 56
+b50081052f8000ff     stack_adjust -8
+b509000501c03000     stack_store r1l_r1h, 16, i16, xy, a
+b521800500c01000     stack_store r4l, 8, i16, x, a
+b522000500c01200     stack_store r4, 0, i32, x, a
+b522400501c01200     stack_store r4, 20, i32, x, a
+b522404500c01200     stack_store r4, 4, i32, x, b
+b522c00500c01200     stack_store r4, 12, i32, x, a
+b53a800501c01200     stack_store r7, 24, i32, x, a
+b552400501c01200     stack_store r10, 20, i32, x, a
+b55a000501c01200     stack_store r11, 16, i32, x, a
+b5b9c00500c03000     stack_store r23l_r23h, 12, i16, xy, a
+b5c1800500c03000     stack_store r24l_r24h, 8, i16, xy, a
+b5c9400500c03000     stack_store r25l_r25h, 4, i16, xy, a
+b5d1000500c03000     stack_store r26l_r26h, 0, i16, xy, a
+c1000100             sample_mask r0l, r0h
+c1008000             sample_mask r0l, 0
+c1020000             sample_mask r0h, r0l
+c1028000             sample_mask r0h, 0
+c102bf0c             sample_mask r0h, 255
+c17f8003             sample_mask 255, 0
+c500003d0880f000     mov      du64, dr0
+c500003d09803000     mov      u72, r0
+c500403d01803000     mov      u10, r0
+c500403d0980f000     mov      du74, dr0
+c500440e00c43000     store    r0l_r0h, du2, r2, lsl 1, i16, xy, a
+c500a03d08803000     mov      u69, r0
+c508c03d08803000     mov      u70, r1
+c508e03d08803000     mov      u71, r1
+c510403d08803000     mov      u66, r2
+c520803d08803000     mov      u68, r4
+c520a03d02807000     mov      u21l_u21h_u22l, r4l_r4h_r5l
+c528903d02803000     mov      u20h_u21l, r5
+c530603d08803000     mov      u67, r6
+ce05864200000000     iadd     $r1, $r3, 4, sat
+d21600000000         pop_exec 2, cache
+d28884020000         if       $r2, 0, 1, cache, seq
+d500688c10500c00     atomic   _, r6_r7, du12, r3.sx, cmpxchg, coherent1, a
+d501248c10500600     atomic   _, r3, du10, r1.sx, imax, coherent1, a
+d508288c10d01000     atomic   r1, r8_r9, du12, r1.sx, cmpxchg, coherent1, a
+d509a48c10d00800     atomic   r1, r4, du10, r5.sx, imax, coherent1, a
+ed01100800000000     load     ts1, du0, r1, a
+ed02100800000008     load     ts2, du2, r1, a
+ed02100800000018     load     ts2, du6, r1, a
+f151a080054a         imgw     r20_r21_r22_r23, ts5, r16, 0, 2d
+f1a18c80c24a1b00     imgw     r8_r9_r10_r11, du54, r1, r6, 0, 2d
+f503                 unknown_barrier_2
+f533                 unknown_barrier_1
+f540                 flush_memory_to_texture
+f596                 memory_barrier
+f599                 memory_barrier_3
+f59a                 memory_barrier_2
+f5a9                 image_barrier_3
+f5aa                 image_barrier_1
+f5ad                 image_barrier_4
+f5ae                 image_barrier_2

@@ -1,0 +1,92 @@
+proxy_cache_path /var/cache/nginx/ levels=1:2 keys_zone=my_cache:10m max_size=50g inactive=2w use_temp_path=off;
+
+server {
+	listen 10.42.0.1:80 default_server;
+	listen 127.0.0.1:80 default_server;
+	listen [::]:80 default_server;
+	resolver 8.8.8.8;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	location /tmp {
+		# Lava server http artifacts to the clients; e.g. for the deploy action
+		alias /var/lib/lava/dispatcher/tmp;
+	}
+
+	proxy_cache my_cache;
+
+	# Wait for the cache creation when multiple query are done for the same file
+	proxy_cache_lock on;
+	proxy_cache_lock_age 30m;
+	proxy_cache_lock_timeout 1h;
+
+	location /force_cache {
+		internal;
+		# On some setups the cache headers will indicate to nginx that the
+		# artifacts shouldn't be cached, however if we know that that is not valid
+		# for lava usage this endpoint allows caching to be forced instead
+		proxy_cache_valid 200 48h;
+		proxy_ignore_headers Cache-Control Set-Cookie expires;
+		include snippets/uri-caching.conf;
+	}
+
+	location /fdo_cache {
+		internal;
+		# As the auth information in the query is being dropped, use
+		# the minimal possible cache validity, such that in practise
+		# every requests gets revalidated. This avoids
+		# unauthenticated downloads from our cache as the cache key doesn't
+		# include auth info
+		proxy_cache_valid 200 1s;
+		proxy_cache_revalidate on;
+		proxy_ignore_headers Cache-Control Set-Cookie expires;
+		set_by_lua_block $cache_key {
+			-- Set the cache key to the uri with the query stripped
+			local unescaped =  ngx.unescape_uri(ngx.var.arg_uri);
+			local it,err = ngx.re.match(unescaped, "([^?]*).*")
+			if not it then
+				-- Fallback on the full uri as key if the regexp fails
+				return ngx.var.arg_uri;
+			end
+			return it[1]
+		}
+		proxy_cache_key $cache_key;
+		include snippets/uri-caching.conf;
+	}
+
+	location /cache {
+		# Gitlabs http server puts everything as no-cache even though
+		# the artifacts URLS don't change.
+		if ($arg_uri ~*  /.*gitlab.*artifacts(\/|%2F)raw/ ) {
+			rewrite ^ /force_cache;
+		}
+
+		# fd.o's object storage has an embedded signature for
+		# authentication as part of its query. So use an adjusted cache key
+		# without the query
+		if ($arg_uri ~*  .*your-objectstorage.com(\/|%2F)fdo-opa(\/|%2F)) {
+			rewrite ^ /fdo_cache;
+		}
+
+		# Set a really low validity together with cache revalidation; Our goal
+		# for caching isn't to lower the number of http requests but to
+		# lower the amount of data transfer. Also for some test
+		# scenarios (typical manual tests) the file at a given url
+		# might get modified so avoid confusion by ensuring
+		# revalidations happens often.
+		proxy_cache_valid 200 10s;
+		proxy_cache_revalidate on;
+		include snippets/uri-caching.conf;
+	}
+}

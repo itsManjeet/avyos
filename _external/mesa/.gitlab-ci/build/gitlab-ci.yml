@@ -1,0 +1,792 @@
+include:
+  - local: '.gitlab-ci/build/gitlab-ci-inc.yml'
+
+# Git archive
+
+make-git-archive:
+  extends:
+    - .fdo.ci-fairy
+  stage: git-archive
+  rules:
+    - !reference [.scheduled_pipeline-rules, rules]
+  script:
+    # Compactify the .git directory
+    - git gc --aggressive
+    # Download & cache the perfetto subproject as well.
+    - rm -rf subprojects/perfetto ; mkdir -p subprojects/perfetto && curl --fail https://android.googlesource.com/platform/external/perfetto/+archive/$(grep 'revision =' subprojects/perfetto.wrap | cut -d ' ' -f3).tar.gz | tar zxf - -C subprojects/perfetto
+    # compress the current folder
+    - tar -cvzf ../$CI_PROJECT_NAME.tar.gz .
+
+    - ci-fairy s3cp --token-file "${S3_JWT_FILE}" ../$CI_PROJECT_NAME.tar.gz https://$S3_HOST/git-cache/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_PROJECT_NAME.tar.gz
+
+debian-x86_64:
+  extends:
+    - .meson-build-for-tests
+    - .use-debian/x86_64_build
+    - .build-run-long  # but it really shouldn't! tracked in mesa#12544
+    - .ci-deqp-artifacts
+  variables:
+    UNWIND: "enabled"
+    DRI_LOADERS: >
+      -D egl=enabled
+      -D gbm=enabled
+      -D glvnd=disabled
+      -D glx=dri
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-rusticl=true
+      -D gallium-va=enabled
+    GALLIUM_DRIVERS: "llvmpipe,softpipe,virgl,radeonsi,zink,iris,svga"
+    VULKAN_DRIVERS: "swrast,amd,intel,virtio"
+    BUILDTYPE: "debugoptimized"
+    EXTRA_OPTION: >
+      -D intel-elk=false
+      -D spirv-to-dxil=true
+      -D tools=drm-shim
+      -D valgrind=disabled
+    S3_ARTIFACT_NAME: mesa-x86_64-default-${BUILDTYPE}
+    RUN_MESON_TESTS: "false"  # debian-build-x86_64 already runs these
+  artifacts:
+    reports:
+      junit: artifacts/ci_scripts_report.xml
+
+debian-x86_64-asan:
+  extends:
+    - debian-x86_64
+    - .meson-build-for-tests
+    - .build-run-long
+  variables:
+    VULKAN_DRIVERS: "swrast"
+    GALLIUM_DRIVERS: "llvmpipe,softpipe"
+    C_ARGS: >
+      -Wno-error=stringop-truncation
+      -Wno-error=deprecated-declarations
+    EXTRA_OPTION: >
+      -D b_sanitize=address
+      -D gallium-va=false
+      -D gallium-rusticl=false
+      -D mesa-clc=system
+      -D tools=dlclose-skip
+      -D valgrind=disabled
+    S3_ARTIFACT_NAME: mesa-x86_64-asan-${BUILDTYPE}
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    RUN_MESON_TESTS: "false"  # just too slow
+    # Do a host build for mesa-clc (asan complains not being loaded as
+    # the first library)
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-rusticl=false
+      -D gallium-drivers=
+      -D glx=disabled
+      -D install-mesa-clc=true
+      -D mesa-clc=enabled
+      -D platforms=
+      -D video-codecs=
+      -D vulkan-drivers=
+
+debian-x86_64-msan:
+  # https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo
+  # msan cannot fully work until it's used together with msan libc
+  extends:
+    - debian-clang
+    - .meson-build-only
+    - .build-run-long
+  variables:
+    # l_undef is incompatible with msan
+    EXTRA_OPTION:
+      -D b_sanitize=memory
+      -D b_lundef=false
+      -D mesa-clc=system
+      -D precomp-compiler=system
+    S3_ARTIFACT_NAME: ""
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    # Don't run all the tests yet:
+    # GLSL has some issues in sexpression reading.
+    # gtest has issues in its test initialization.
+    MESON_TEST_ARGS: "--suite glcpp --suite format"
+    GALLIUM_DRIVERS: "freedreno,iris,nouveau,r300,r600,llvmpipe,softpipe,svga,v3d,vc4,virgl,etnaviv,panfrost,lima,zink,radeonsi,tegra,d3d12,crocus"
+    VULKAN_DRIVERS: intel,amd,broadcom,virtio
+    C_ARGS: >
+      -Wno-error=constant-conversion
+      -Wno-error=enum-conversion
+      -Wno-error=initializer-overrides
+      -Wno-error=sometimes-uninitialized
+      -Werror=misleading-indentation
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=c99-designator
+      -Wno-error=overloaded-virtual
+      -Wno-error=tautological-constant-out-of-range-compare
+      -Wno-error=unused-private-field
+      -Wno-error=vla-cxx-extension
+      -Wno-error=deprecated-declarations
+    RUN_MESON_TESTS: "false"  # just too slow
+    # Do a host build for mesa-clc and precomp-compiler (msan complains about uninitialized
+    # values in the LLVM libs)
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-drivers=
+      -D vulkan-drivers=
+      -D video-codecs=
+      -D glx=disabled
+      -D platforms=
+      -D mesa-clc=enabled
+      -D install-mesa-clc=true
+      -D precomp-compiler=enabled
+      -D install-precomp-compiler=true
+      -D tools=panfrost
+
+debian-x86_64-ubsan:
+  extends:
+    - debian-x86_64
+    - .meson-build-for-tests
+    - .build-run-long
+  variables:
+    C_ARGS: >
+      -Wno-error=stringop-overflow
+      -Wno-error=stringop-truncation
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=array-bounds
+    GALLIUM_DRIVERS: "llvmpipe,softpipe"
+    VULKAN_DRIVERS: "swrast"
+    EXTRA_OPTION: >
+      -D b_sanitize=undefined
+      -D mesa-clc=system
+      -D gallium-rusticl=false
+      -D gallium-va=false
+    S3_ARTIFACT_NAME: ""
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    RUN_MESON_TESTS: "false"  # just too slow
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-rusticl=false
+      -D gallium-drivers=
+      -D vulkan-drivers=
+      -D video-codecs=
+      -D glx=disabled
+      -D platforms=
+      -D mesa-clc=enabled
+      -D install-mesa-clc=true
+
+debian-build-x86_64:
+  extends:
+    - .meson-build-for-tests
+    - .use-debian/x86_64_build
+  variables:
+    UNWIND: "enabled"
+    C_ARGS: >
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=dri
+      -D gbm=enabled
+      -D egl=enabled
+      -D glvnd=disabled
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=enabled
+      -D gallium-va=enabled
+      -D gallium-rusticl=false
+      -D legacy-wayland=bind-wayland-display
+    GALLIUM_DRIVERS: "i915,iris,nouveau,r300,r600,freedreno,llvmpipe,softpipe,svga,v3d,vc4,virgl,etnaviv,panfrost,lima,zink,d3d12,asahi,crocus"
+    VULKAN_DRIVERS: "intel_hasvk,imagination-experimental,microsoft-experimental,nouveau,swrast"
+    BUILDTYPE: "debugoptimized"
+    EXTRA_OPTION: >
+      -D spirv-to-dxil=true
+      -D tools=drm-shim,etnaviv,freedreno,glsl,intel,intel-ui,nir,nouveau,lima,panfrost,asahi
+      -D perfetto=true
+    S3_ARTIFACT_NAME: debian-build-x86_64
+
+# Test a release build with -Werror so new warnings don't sneak in.
+debian-release:
+  extends:
+    - .meson-build-only
+    - .use-debian/x86_64_build
+  variables:
+    UNWIND: "enabled"
+    C_ARGS: >
+      -Wno-error=stringop-overread
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=dri
+      -D gbm=enabled
+      -D egl=enabled
+      -D glvnd=disabled
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=enabled
+      -D gallium-va=enabled
+      -D gallium-rusticl=false
+      -D llvm=enabled
+    GALLIUM_DRIVERS: "i915,iris,nouveau,r300,freedreno,llvmpipe,softpipe,svga,v3d,vc4,virgl,etnaviv,panfrost,lima,zink,d3d12,asahi,crocus"
+    VULKAN_DRIVERS: "swrast,intel_hasvk,imagination-experimental,microsoft-experimental"
+    EXTRA_OPTION: >
+      -D spirv-to-dxil=true
+      -D tools=all
+      -D mesa-clc=enabled
+      -D precomp-compiler=enabled
+      -D intel-rt=enabled
+      -D imagination-srv=true
+    BUILDTYPE: "release"
+    S3_ARTIFACT_NAME: "mesa-x86_64-default-${BUILDTYPE}"
+  script:
+    - !reference [.meson-build-only, script]
+    - 'if [ -n "$MESA_CI_PERFORMANCE_ENABLED" ]; then .gitlab-ci/prepare-artifacts.sh; fi'
+
+alpine-build-testing:
+  extends:
+    - .meson-build-only
+    - .use-alpine/x86_64_build
+  variables:
+    BUILDTYPE: "release"
+    C_ARGS: >
+      -Wno-error=cpp
+      -Wno-error=array-bounds
+      -Wno-error=stringop-overflow
+      -Wno-error=stringop-overread
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=disabled
+      -D gbm=enabled
+      -D egl=enabled
+      -D glvnd=disabled
+      -D platforms=wayland
+    GALLIUM_DRIVERS: "crocus,etnaviv,freedreno,iris,lima,nouveau,panfrost,r300,r600,radeonsi,svga,llvmpipe,softpipe,tegra,v3d,vc4,virgl,zink"
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=disabled
+      -D gallium-va=enabled
+      -D gallium-rusticl=false
+      -D gles1=disabled
+      -D gles2=enabled
+      -D llvm=enabled
+      -D llvm-orcjit=true
+      -D microsoft-clc=disabled
+      -D shared-llvm=enabled
+    UNWIND: "disabled"
+    VULKAN_DRIVERS: "amd,broadcom,freedreno,intel,imagination-experimental"
+
+fedora-release:
+  extends:
+    - .meson-build-only
+    - .use-fedora/x86_64_build
+    - .build-run-long
+  # LTO builds can be really very slow, and we have no way to specify different
+  # timeouts for pre-merge and nightly jobs
+  timeout: 1h
+  variables:
+    BUILDTYPE: "release"
+    # array-bounds are pure non-LTO gcc buggy warning
+    # maybe-uninitialized is misfiring in nir_lower_gs_intrinsics.c, and
+    # a "maybe" warning should never be an error anyway.
+    C_ARGS: >
+      -Wno-error=stringop-overflow
+      -Wno-error=stringop-overread
+      -Wno-error=array-bounds
+      -Wno-error=maybe-uninitialized
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=dangling-reference
+      -Wno-error=overloaded-virtual
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=dri
+      -D gbm=enabled
+      -D egl=enabled
+      -D glvnd=enabled
+      -D platforms=x11,wayland
+    EXTRA_OPTION: >
+      -D tools=drm-shim,etnaviv,freedreno,glsl,intel,nir,nouveau,lima,panfrost,imagination
+      -D vulkan-layers=device-select,overlay
+      -D intel-rt=enabled
+      -D imagination-srv=true
+      -D teflon=true
+    GALLIUM_DRIVERS: "crocus,etnaviv,freedreno,i915,iris,lima,nouveau,panfrost,r300,r600,radeonsi,svga,llvmpipe,softpipe,tegra,v3d,vc4,virgl,zink"
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=enabled
+      -D gallium-va=enabled
+      -D gallium-rusticl=true
+      -D gles1=disabled
+      -D gles2=enabled
+      -D llvm=enabled
+      -D microsoft-clc=disabled
+      -D shared-llvm=enabled
+    UNWIND: "disabled"
+    VULKAN_DRIVERS: "amd,asahi,broadcom,freedreno,imagination-experimental,intel,intel_hasvk"
+
+debian-android:
+  extends:
+    - .android-variables
+    - .meson-cross
+    - .use-debian/android_build
+    - .ci-deqp-artifacts
+    - .meson-build-for-tests
+  variables:
+    BUILDTYPE: debug
+    UNWIND: "disabled"
+    C_ARGS: >
+      -Wno-error=asm-operand-widths
+      -Wno-error=constant-conversion
+      -Wno-error=enum-conversion
+      -Wno-error=initializer-overrides
+      -Wno-error=sometimes-uninitialized
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=c99-designator
+      -Wno-error=unused-variable
+      -Wno-error=unused-but-set-variable
+      -Wno-error=self-assign
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=disabled
+      -D gbm=disabled
+      -D egl=enabled
+      -D glvnd=disabled
+      -D platforms=android
+    FORCE_FALLBACK_FOR: llvm
+    EXTRA_OPTION: >
+      -D amd-use-llvm=false
+      -D android-stub=true
+      -D platform-sdk-version=${ANDROID_SDK_VERSION}
+      -D cpp_rtti=false
+      -D valgrind=disabled
+      -D android-libbacktrace=disabled
+      -D mesa-clc=system
+      -D precomp-compiler=system
+    GALLIUM_ST: >
+      -D gallium-vdpau=disabled
+      -D gallium-va=disabled
+      -D gallium-rusticl=false
+    PKG_CONFIG_LIBDIR: "/disable/non/android/system/pc/files"
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-drivers=
+      -D vulkan-drivers=
+      -D video-codecs=
+      -D glx=disabled
+      -D platforms=
+      -D mesa-clc=enabled
+      -D install-mesa-clc=true
+      -D precomp-compiler=enabled
+      -D install-precomp-compiler=true
+      -D tools=panfrost
+    S3_ARTIFACT_NAME: mesa-x86_64-android-${BUILDTYPE}
+  script:
+    # x86_64 build:
+    - export CROSS=x86_64-linux-android
+    - export GALLIUM_DRIVERS=iris,radeonsi,softpipe,virgl,zink
+    - export VULKAN_DRIVERS=amd,intel,swrast,virtio
+    - .gitlab-ci/create-llvm-meson-wrap-file.sh
+    - !reference [.meson-build-for-tests, script]
+    # remove all the files created by the previous build before the next build
+    - git clean -dxf .
+    # aarch64 build:
+    # build-only, to catch compilation regressions
+    # without calling .gitlab-ci/prepare-artifacts.sh so that the
+    # artifacts are not shipped in mesa-x86_64-android-${BUILDTYPE}
+    - export CROSS=aarch64-linux-android
+    - export GALLIUM_DRIVERS=etnaviv,freedreno,lima,panfrost,vc4,v3d
+    - export VULKAN_DRIVERS=freedreno,broadcom,virtio
+    - !reference [.meson-build-only, script]
+
+.meson-cross:
+  extends:
+    - .meson-build-only
+    - .use-debian/x86_64_build
+  variables:
+    UNWIND: "disabled"
+    DRI_LOADERS: >
+      -D glx=dri
+      -D gbm=enabled
+      -D egl=enabled
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-vdpau=disabled
+      -D gallium-va=disabled
+
+.meson-arm:
+  extends:
+    - .meson-cross
+    - .use-debian/arm64_build
+  variables:
+    VULKAN_DRIVERS: "asahi,broadcom,freedreno"
+    GALLIUM_DRIVERS: "etnaviv,freedreno,lima,nouveau,panfrost,llvmpipe,softpipe,tegra,v3d,vc4,zink"
+    BUILDTYPE: "debugoptimized"
+
+debian-arm32:
+  extends:
+    - .meson-arm
+    - .ci-deqp-artifacts
+    - .meson-build-for-tests
+  variables:
+    CROSS: armhf
+    DRI_LOADERS:
+      -D glvnd=disabled
+    # remove asahi & llvmpipe from the .meson-arm list because here we have llvm=disabled
+    VULKAN_DRIVERS: "broadcom,freedreno"
+    GALLIUM_DRIVERS: "etnaviv,freedreno,lima,nouveau,panfrost,softpipe,tegra,v3d,vc4,zink"
+    EXTRA_OPTION: >
+      -D llvm=disabled
+      -D valgrind=disabled
+      -D gallium-rusticl=false
+      -D mesa-clc=system
+      -D precomp-compiler=system
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-drivers=
+      -D vulkan-drivers=
+      -D video-codecs=
+      -D glx=disabled
+      -D platforms=
+      -D mesa-clc=enabled
+      -D install-mesa-clc=true
+      -D precomp-compiler=enabled
+      -D install-precomp-compiler=true
+      -D tools=panfrost
+    S3_ARTIFACT_NAME: mesa-arm32-default-${BUILDTYPE}
+    # The strip command segfaults, failing to strip the binary and leaving
+    # tempfiles in our artifacts.
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+
+debian-arm32-asan:
+  extends:
+    - debian-arm32
+    - .meson-build-for-tests
+    - .build-run-long
+  variables:
+    GALLIUM_DRIVERS: "etnaviv"
+    VULKAN_DRIVERS: ""
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D llvm=disabled
+      -D b_sanitize=address
+      -D valgrind=disabled
+      -D tools=dlclose-skip
+      -D gallium-rusticl=false
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    RUN_MESON_TESTS: "false"  # just too slow
+    S3_ARTIFACT_NAME: mesa-arm32-asan-${BUILDTYPE}
+
+debian-arm64:
+  extends:
+    - .meson-arm
+    - .ci-deqp-artifacts
+    - .meson-build-for-tests
+  variables:
+    C_ARGS: >
+      -Wno-error=array-bounds
+      -Wno-error=stringop-truncation
+      -Wno-error=deprecated-declarations
+    GALLIUM_DRIVERS: "etnaviv,freedreno,lima,panfrost,v3d,vc4,zink"
+    VULKAN_DRIVERS: "broadcom,freedreno,panfrost"
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D valgrind=disabled
+      -D imagination-srv=true
+      -D freedreno-kmds=msm,virtio
+      -D teflon=true
+    GALLIUM_ST:
+      -D gallium-rusticl=true
+    RUN_MESON_TESTS: "false"  # run by debian-arm64-build-testing
+    S3_ARTIFACT_NAME: mesa-arm64-default-${BUILDTYPE}
+
+debian-arm64-asan:
+  extends:
+    - debian-arm64
+    - .meson-build-for-tests
+    - .build-run-long
+  variables:
+    VULKAN_DRIVERS: "broadcom,freedreno"
+    GALLIUM_DRIVERS: "freedreno,vc4,v3d"
+    C_ARGS: >
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D b_sanitize=address
+      -D valgrind=disabled
+      -D tools=dlclose-skip
+      -D gallium-rusticl=false
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    RUN_MESON_TESTS: "false"  # just too slow
+    S3_ARTIFACT_NAME: mesa-arm64-asan-${BUILDTYPE}
+
+debian-arm64-ubsan:
+  extends:
+    - debian-arm64
+    - .meson-build-for-tests
+    - .build-run-long
+  variables:
+    VULKAN_DRIVERS: "broadcom"
+    GALLIUM_DRIVERS: "v3d,vc4"
+    C_ARGS: >
+      -Wno-error=array-bounds
+      -Wno-error=stringop-overflow
+      -Wno-error=stringop-truncation
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=array-bounds
+      -fno-var-tracking-assignments
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D b_sanitize=undefined
+      -D gallium-rusticl=false
+    ARTIFACTS_DEBUG_SYMBOLS: 1
+    RUN_MESON_TESTS: "false"  # just too slow
+    S3_ARTIFACT_NAME: mesa-arm64-ubsan-${BUILDTYPE}
+
+debian-arm64-build-test:
+  extends:
+    - .meson-arm
+    - .ci-deqp-artifacts
+    - .meson-build-only
+  variables:
+    VULKAN_DRIVERS: "amd,asahi,imagination-experimental,nouveau"
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D tools=panfrost,imagination
+      -D perfetto=true
+
+debian-arm64-release:
+  extends:
+    - debian-arm64
+    - .meson-build-only
+  variables:
+    BUILDTYPE: release
+    S3_ARTIFACT_NAME: mesa-arm64-default-${BUILDTYPE}
+    C_ARGS: >
+      -Wno-error=array-bounds
+      -Wno-error=stringop-overread
+      -Wno-error=deprecated-declarations
+  script:
+    - !reference [.meson-build-only, script]
+    - 'if [ -n "$MESA_CI_PERFORMANCE_ENABLED" ]; then .gitlab-ci/prepare-artifacts.sh; fi'
+
+debian-no-libdrm:
+  extends:
+    - .meson-arm
+    - .meson-build-only
+  variables:
+    VULKAN_DRIVERS: freedreno
+    GALLIUM_DRIVERS: "zink,llvmpipe"
+    BUILDTYPE: release
+    C_ARGS: >
+      -Wno-error=stringop-overread
+      -Wno-error=deprecated-declarations
+    EXTRA_OPTION: >
+      -D freedreno-kmds=kgsl
+      -D glx=disabled
+      -D gbm=disabled
+      -D egl=disabled
+      -D perfetto=true
+
+debian-clang:
+  extends:
+    - .meson-build-only
+    - .use-debian/x86_64_build
+  variables:
+    BUILDTYPE: debug
+    UNWIND: "enabled"
+    C_ARGS: >
+      -Wno-error=constant-conversion
+      -Wno-error=enum-conversion
+      -Wno-error=initializer-overrides
+      -Wno-error=sometimes-uninitialized
+      -Werror=misleading-indentation
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=c99-designator
+      -Wno-error=overloaded-virtual
+      -Wno-error=tautological-constant-out-of-range-compare
+      -Wno-error=unused-private-field
+      -Wno-error=vla-cxx-extension
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=dri
+      -D gbm=enabled
+      -D egl=enabled
+      -D glvnd=enabled
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=enabled
+      -D gallium-va=enabled
+      -D gles1=enabled
+      -D gles2=enabled
+      -D llvm=enabled
+      -D microsoft-clc=disabled
+      -D shared-llvm=enabled
+    GALLIUM_DRIVERS: "iris,nouveau,r300,r600,freedreno,llvmpipe,softpipe,svga,v3d,vc4,virgl,etnaviv,panfrost,lima,zink,radeonsi,tegra,d3d12,crocus,i915,asahi"
+    VULKAN_DRIVERS: intel,amd,freedreno,broadcom,virtio,swrast,panfrost,imagination-experimental,microsoft-experimental,nouveau
+    EXTRA_OPTION:
+      -D spirv-to-dxil=true
+      -D imagination-srv=true
+      -D tools=drm-shim,etnaviv,freedreno,glsl,intel,intel-ui,nir,nouveau,lima,panfrost,asahi,imagination
+      -D vulkan-layers=device-select,overlay
+      -D build-radv-tests=true
+      -D build-aco-tests=true
+      -D mesa-clc=enabled
+      -D precomp-compiler=enabled
+      -D intel-rt=enabled
+      -D imagination-srv=true
+      -D teflon=true
+    CC: clang-${LLVM_VERSION}
+    CXX: clang++-${LLVM_VERSION}
+
+debian-clang-release:
+  extends:
+    - debian-clang
+    - .meson-build-only
+    - .build-run-long
+  variables:
+    BUILDTYPE: "release"
+    C_ARGS: >
+      -Wno-error=constant-conversion
+      -Wno-error=enum-conversion
+      -Wno-error=initializer-overrides
+      -Wno-error=sometimes-uninitialized
+      -Wno-error=deprecated-declarations
+    CPP_ARGS: >
+      -Wno-error=c99-designator
+      -Wno-error=overloaded-virtual
+      -Wno-error=tautological-constant-out-of-range-compare
+      -Wno-error=unused-private-field
+      -Wno-error=vla-cxx-extension
+      -Wno-error=deprecated-declarations
+    DRI_LOADERS: >
+      -D glx=xlib
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-extra-hud=true
+      -D gallium-vdpau=enabled
+      -D gallium-va=enabled
+      -D gles1=disabled
+      -D gles2=disabled
+      -D llvm=enabled
+      -D microsoft-clc=disabled
+      -D shared-llvm=enabled
+
+windows-msvc:
+  extends:
+    - .build-windows
+    - .use-windows_build_msvc
+    - .windows-build-rules
+  stage: build-for-tests
+  script:
+    - pwsh -ExecutionPolicy RemoteSigned .\.gitlab-ci\windows\mesa_build.ps1
+  artifacts:
+    paths:
+      - _build/meson-logs/*.txt
+      - _install/
+
+debian-vulkan:
+  extends:
+    - .meson-build-only
+    - .use-debian/x86_64_build
+  variables:
+    BUILDTYPE: debug
+    UNWIND: "disabled"
+    DRI_LOADERS: >
+      -D glx=disabled
+      -D gbm=disabled
+      -D egl=disabled
+      -D opengl=false
+      -D gles1=disabled
+      -D gles2=disabled
+      -D glvnd=disabled
+      -D platforms=x11,wayland
+    GALLIUM_ST: >
+      -D gallium-vdpau=disabled
+      -D gallium-va=disabled
+      -D gallium-rusticl=false
+      -D b_sanitize=undefined
+      -D c_args=-fno-sanitize-recover=all
+      -D cpp_args=-fno-sanitize-recover=all
+    UBSAN_OPTIONS: "print_stacktrace=1"
+    VULKAN_DRIVERS: amd,asahi,broadcom,freedreno,intel,intel_hasvk,panfrost,virtio,imagination-experimental,microsoft-experimental,nouveau
+    EXTRA_OPTION: >
+      -D vulkan-layers=device-select,overlay
+      -D build-radv-tests=true
+      -D build-aco-tests=true
+      -D intel-rt=disabled
+      -D imagination-srv=true
+
+debian-x86_32:
+  extends:
+    - .meson-cross
+    - .use-debian/x86_32_build
+    - .meson-build-only
+    - .build-run-long  # it's not clear why this runs long, but it also doesn't matter much
+  variables:
+    BUILDTYPE: debug
+    CROSS: i386
+    VULKAN_DRIVERS: intel,amd,swrast,virtio,panfrost
+    GALLIUM_DRIVERS: "iris,nouveau,r300,r600,radeonsi,llvmpipe,softpipe,virgl,zink,crocus,d3d12,panfrost"
+    DRI_LOADERS:
+      -D glvnd=disabled
+    EXTRA_OPTION: >
+      -D vulkan-layers=device-select,overlay
+      -D mesa-clc=system
+    CPP_ARGS: >
+      -Wno-error=deprecated-declarations
+    C_LINK_ARGS: >
+      -Wl,--no-warn-rwx-segments
+    CPP_LINK_ARGS: >
+      -Wl,--no-warn-rwx-segments
+    HOST_BUILD_OPTIONS: >
+      -D build-tests=false
+      -D enable-glcpp-tests=false
+      -D gallium-drivers=
+      -D vulkan-drivers=
+      -D video-codecs=
+      -D glx=disabled
+      -D platforms=
+      -D mesa-clc=enabled
+      -D install-mesa-clc=true
+
+# While s390 is dead, s390x is very much alive, and one of the last major
+# big-endian platforms, so it provides useful coverage.
+# In case of issues with this job, contact @ajax
+debian-s390x:
+  extends:
+    - .meson-cross
+    - .use-debian/s390x_build
+    - .meson-build-only
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64_KVM
+  variables:
+    BUILDTYPE: debug
+    CROSS: s390x
+    GALLIUM_DRIVERS: "llvmpipe,virgl,zink"
+    VULKAN_DRIVERS: "swrast,virtio"
+    DRI_LOADERS:
+      -D glvnd=disabled
+
+debian-ppc64el:
+  extends:
+    - .meson-cross
+    - .use-debian/ppc64el_build
+    - .meson-build-only
+  variables:
+    BUILDTYPE: debug
+    CROSS: ppc64el
+    GALLIUM_DRIVERS: "nouveau,llvmpipe,softpipe,virgl,zink"
+    VULKAN_DRIVERS: "swrast"
+    DRI_LOADERS:
+      -D glvnd=disabled

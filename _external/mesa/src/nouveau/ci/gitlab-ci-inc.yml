@@ -1,0 +1,76 @@
+.nvk-valve-rules:
+  stage: nouveau
+  rules:
+    - !reference [.test, rules]
+    - !reference [.valve-farm-rules, rules]
+    - !reference [.vulkan-rules, rules]
+    - changes: &nvk_file_list
+        - src/nouveau/*
+        - src/nouveau/codegen**/*
+        - src/nouveau/compiler/**/*
+        - src/nouveau/drm/**/*
+        - src/nouveau/nme/**/*
+        - src/nouveau/nil/**/*
+        - src/nouveau/nvidia-headers/**/*
+        - src/nouveau/vulkan/**/*
+        - src/nouveau/winsys/**/*
+        - src/nouveau/ci/gitlab-ci.yml
+        - src/nouveau/ci/gitlab-ci-inc.yml
+        - src/nouveau/ci/deqp-$DEQP_SUITE.toml
+        - src/nouveau/ci/$GPU_VERSION-fails.txt
+        - src/nouveau/ci/$GPU_VERSION-flakes.txt
+        - src/nouveau/ci/$GPU_VERSION-skips.txt
+        - src/nouveau/ci/$GPU_VERSION-vkd3d-fails.txt
+        - src/nouveau/ci/$GPU_VERSION-vkd3d-flakes.txt
+        - src/nouveau/ci/$GPU_VERSION-vkd3d-skips.txt
+      when: on_success
+
+.nvk-valve-manual-rules:
+  stage: nouveau-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.valve-farm-manual-rules, rules]
+    - !reference [.vulkan-manual-rules, rules]
+    - changes:
+        *nvk_file_list
+      when: manual
+
+.nvk-ci-tron-common:
+  variables:
+    CI_TRON_PATTERN__JOB_WARN__REGEX: 'nouveau .+ job timeout|NMI backtrace for cpu \d+'
+    CI_TRON_KERNEL__URL: https://fs.mupuf.org/linux/v6.16-rc2/linux-x86_64
+    CI_TRON_INITRAMFS__DEPMOD__URL: "https://fs.mupuf.org/linux/v6.16-rc2/linux-x86_64.depmod.cpio.xz"
+    CI_TRON_INITRAMFS__GPU__URL: "https://fs.mupuf.org/linux/v6.16-rc2/linux-x86_64.gpu.cpio"
+    CI_TRON_INITRAMFS__GPU__FORMAT__0__ARCHIVE__KEEP__0__PATH: ${GPU_FIRMWARE_KEEP_PATH_REGEX}
+    CI_TRON_KERNEL_CMDLINE__LOAD_MODULES: 'modules_load=nouveau'
+    # GSP is not loaded by default
+    CI_TRON_KERNEL_CMDLINE__NOUVEAU_LOAD_GSP: 'nouveau.config=NvGspRm=1'
+
+.nvk-vkcts:
+  variables:
+    VK_DRIVER: nouveau
+    DEQP_SUITE: nvk
+    MESA_VK_IGNORE_CONFORMANCE_WARNING: 1
+    NVK_I_WANT_A_BROKEN_VULKAN_DRIVER: 1
+    HWCI_TEST_SCRIPT: install/deqp-runner.sh
+
+.nvk-ga106-valve:
+  extends:
+    - .nvk-ci-tron-common
+  variables:
+    GPU_VERSION: nvk-ga106
+    FDO_CI_CONCURRENT: 16
+    RUNNER_FARM_LOCATION: mupuf
+    CI_TRON_DUT_SETUP_TAGS: nvidia:codename:GA106
+    GPU_FIRMWARE_KEEP_PATH_REGEX: '(lib/(modules|firmware/nvidia/ga10\d)/.*)'
+
+.nvk-ad106-valve:
+  extends:
+    - .nvk-ci-tron-common
+  variables:
+    GPU_VERSION: nvk-ad106
+    FDO_CI_CONCURRENT: 32
+    RUNNER_FARM_LOCATION: keywords
+    CI_TRON_DUT_SETUP_TAGS: nvidia:codename:AD106
+    GPU_FIRMWARE_KEEP_PATH_REGEX: '(lib/(modules|firmware/nvidia/(ga|ad)10\d)/.*)'

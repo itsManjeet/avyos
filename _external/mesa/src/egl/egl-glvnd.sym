@@ -1,0 +1,9 @@
+{
+	global:
+		__egl_Main;
+		MesaGLInteropEGLQueryDeviceInfo;
+		MesaGLInteropEGLExportObject;
+		MesaGLInteropEGLFlushObjects;
+	local:
+		*;
+};

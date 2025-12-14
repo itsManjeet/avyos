@@ -1,0 +1,31 @@
+include:
+  - local: 'src/gallium/drivers/softpipe/ci/gitlab-ci-inc.yml'
+
+softpipe:
+  variables:
+    DEQP_SUITE: softpipe
+    XVFB_SCRIPT: "install/deqp-runner.sh"
+    DEQP_FRACTION: 4
+  timeout: 15m
+  extends:
+    - .softpipe-deqp-test
+    - .test-piglit
+  script: |
+    . "$SCRIPTS_DIR"/setup-test-env.sh
+    export LD_LIBRARY_PATH=$CI_PROJECT_DIR/install/lib
+    export LIBGL_DRIVERS_PATH=$CI_PROJECT_DIR/install/lib/dri
+    xvfb-run -e results/xvfb.log --server-args='-noreset' bash -c ". $SCRIPTS_DIR/setup-test-env.sh && ${XVFB_SCRIPT}"
+
+softpipe-asan-gles31:
+  variables:
+    DEQP_SUITE: softpipe-asan
+    GPU_VERSION: softpipe-asan
+    DEQP_FRACTION: 10
+    DEQP_FORCE_ASAN: 1
+    S3_ARTIFACT_NAME: mesa-x86_64-asan-debugoptimized
+  timeout: 10m
+  extends: .softpipe-deqp-test
+  needs:
+    - job: debian/x86_64_test-gl
+      optional: true
+    - job: debian-x86_64-asan

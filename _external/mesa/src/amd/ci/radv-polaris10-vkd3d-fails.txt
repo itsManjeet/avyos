@@ -1,0 +1,2 @@
+# Hardware bugs with sampler reduction and border color + stencil bug
+test_sm67_integer_sampling,Fail

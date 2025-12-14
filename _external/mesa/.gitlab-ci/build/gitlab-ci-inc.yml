@@ -1,0 +1,95 @@
+.meson-build-for-tests:
+  extends:
+    - .build-linux
+  stage: build-for-tests
+  script:
+    - &meson-build timeout --verbose ${BUILD_JOB_TIMEOUT_OVERRIDE:-$BUILD_JOB_TIMEOUT} bash --login .gitlab-ci/meson/build.sh
+    - .gitlab-ci/prepare-artifacts.sh
+
+.meson-build-only:
+  extends:
+    - .meson-build-for-tests
+    - .build-only-delayed-rules
+  stage: build-only
+  script:
+    - *meson-build
+
+# Shared between windows and Linux
+.build-common:
+  extends: .build-rules
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  variables:
+    # Build jobs are typically taking between 5-12 minutes, depending on how
+    # much they build and how many new Rust compilers we have to build twice.
+    # Allow 25 minutes as a reasonable margin: beyond this point, something
+    # has gone badly wrong, and we should try again to see if we can get
+    # something from it.
+    #
+    # Some jobs not in the critical path use a higher timeout, particularly
+    # when building with ASan or UBSan.
+    BUILD_JOB_TIMEOUT: 12m
+    RUN_MESON_TESTS: "true"
+  timeout: 16m
+  # We don't want to download any previous job's artifacts
+  dependencies: []
+  artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    when: always
+    paths:
+      - _build/meson-logs/*.txt
+      - _build/meson-logs/strace
+      - _build/.ninja_log
+      - artifacts
+
+.build-run-long:
+  variables:
+    BUILD_JOB_TIMEOUT: 18m
+  timeout: 25m
+
+
+# Just Linux
+.build-linux:
+  extends: .build-common
+  variables:
+    C_ARGS: >
+      -Wno-error=deprecated-declarations
+    CCACHE_COMPILERCHECK: "content"
+    CCACHE_COMPRESS: "true"
+    CCACHE_DIR: /cache/mesa/ccache
+  # Use ccache transparently, and print stats before/after
+  before_script:
+    - !reference [default, before_script]
+    - |
+      export PATH="/usr/lib/ccache:$PATH"
+      export CCACHE_BASEDIR="$PWD"
+      if test -x /usr/bin/ccache; then
+        section_start ccache_before "ccache stats before build"
+        ccache --show-stats
+        section_end ccache_before
+      fi
+  after_script:
+    - if test -x /usr/bin/ccache; then ccache --show-stats | grep "Hits:"; fi
+    - !reference [default, after_script]
+
+.build-windows:
+  extends:
+    - .build-common
+    - .windows-docker-tags
+  cache:
+    key: ${CI_JOB_NAME}
+    paths:
+      - subprojects/packagecache
+
+.ci-deqp-artifacts:
+  artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_JOB_NAME_SLUG}"
+    when: always
+    untracked: false
+    paths:
+      # Watch out!  Artifacts are relative to the build dir.
+      # https://gitlab.com/gitlab-org/gitlab-ce/commit/8788fb925706cad594adf6917a6c5f6587dd1521
+      - artifacts
+      - _build/meson-logs/*.txt
+      - _build/meson-logs/strace
+      - _build/.ninja_log

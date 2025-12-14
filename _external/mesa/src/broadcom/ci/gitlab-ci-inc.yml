@@ -1,0 +1,356 @@
+.broadcom-common-rules:
+  rules:
+    - changes: &broadcom_file_list
+        - src/broadcom/meson.build
+        - src/broadcom/ci/gitlab-ci.yml
+        - src/broadcom/ci/gitlab-ci-inc.yml
+        - src/broadcom/ci/deqp-$DEQP_SUITE.toml
+        - src/broadcom/ci/$GPU_VERSION-fails.txt
+        - src/broadcom/ci/$GPU_VERSION-flakes.txt
+        - src/broadcom/ci/$GPU_VERSION-skips.txt
+        - src/broadcom/ci/$VK_DRIVER-skips.txt
+        - src/broadcom/ci/$GALLIUM_DRIVER-skips.txt
+        - src/broadcom/ci/$DRIVER_NAME-skips.txt
+        - src/broadcom/ci/$PIGLIT_TRACES_FILE
+        - src/broadcom/cle/**/*
+        - src/broadcom/clif/**/*
+        - src/broadcom/common/**/*
+        - src/broadcom/compiler/**/*
+        - src/broadcom/drm-shim/**/*
+        - src/broadcom/qpu/**/*
+        - src/broadcom/simulator/**/*
+      when: on_success
+
+.broadcom-common-manual-rules:
+  rules:
+    - changes: *broadcom_file_list
+      when: manual
+
+.vc4-rules:
+  stage: broadcom
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-rules, rules]
+    - !reference [.gl-rules, rules]
+    - !reference [.broadcom-common-rules, rules]
+    - changes: &vc4_file_list
+        - src/gallium/drivers/vc4/**/*
+        - src/gallium/winsys/vc4/**/*
+        - src/gallium/auxiliary/renderonly/**/*
+        - src/gallium/winsys/kmsro/**/*
+      when: on_success
+
+.vc4-manual-rules:
+  stage: broadcom-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-manual-rules, rules]
+    - !reference [.gl-manual-rules, rules]
+    - !reference [.broadcom-common-manual-rules, rules]
+    - changes: *vc4_file_list
+      when: manual
+
+.v3d-rules:
+  stage: broadcom
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-rules, rules]
+    - !reference [.gl-rules, rules]
+    - !reference [.broadcom-common-rules, rules]
+    - changes: &v3d_file_list
+        - src/gallium/drivers/v3d/**/*
+        - src/gallium/winsys/v3d/**/*
+        - src/gallium/auxiliary/renderonly/**/*
+        - src/gallium/winsys/kmsro/**/*
+      when: on_success
+
+.v3d-manual-rules:
+  stage: broadcom-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-manual-rules, rules]
+    - !reference [.gl-manual-rules, rules]
+    - !reference [.broadcom-common-manual-rules, rules]
+    - changes:
+        *v3d_file_list
+      when: manual
+
+.v3d-rusticl-rules:
+  stage: broadcom
+  rules:
+    - !reference [.v3d-rules, rules]
+    - !reference [.rusticl-rules, rules]
+
+.v3d-rusticl-manual-rules:
+  stage: broadcom-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.v3d-manual-rules, rules]
+    - !reference [.rusticl-manual-rules, rules]
+
+.v3dv-rules:
+  stage: broadcom
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-rules, rules]
+    - !reference [.vulkan-rules, rules]
+    - !reference [.broadcom-common-rules, rules]
+    - changes: &v3dv_file_list
+        - src/broadcom/vulkan/**/*
+      when: on_success
+
+.v3dv-manual-rules:
+  stage: broadcom-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.igalia-farm-manual-rules, rules]
+    - !reference [.vulkan-manual-rules, rules]
+    - !reference [.broadcom-common-manual-rules, rules]
+    - changes: *v3dv_file_list
+      when: manual
+
+.v3d-v3dv-manual-rules:
+  stage: broadcom-nightly
+  extends: .no-auto-retry
+  rules:
+    - !reference [.test, rules]
+    - !reference [.v3d-manual-rules, rules]
+    - !reference [.v3dv-manual-rules, rules]
+
+# 8 devices (2023-12-18)
+.igalia-bcm2837-rpi-3-b:
+  variables:
+    DEVICE_TYPE: rpi3
+    GPU_VERSION: broadcom-rpi3
+  script:
+    - ./install/bare-metal/poe-powered.sh
+  tags:
+    - igalia-rpi3
+
+# 21 devices (2023-12-18)
+.igalia-bcm2711-rpi-4:
+  variables:
+    DEVICE_TYPE: rpi4
+    GPU_VERSION: broadcom-rpi4
+    VK_DRIVER: broadcom
+  script:
+    - ./install/bare-metal/poe-powered.sh
+  tags:
+    - igalia-rpi4
+
+# 10 devices (2024-07-31)
+.igalia-bcm2712-rpi-5:
+  variables:
+    DEVICE_TYPE: rpi5
+    GPU_VERSION: broadcom-rpi5
+    VK_DRIVER: broadcom
+  script:
+    - ./install/bare-metal/poe-powered.sh
+  tags:
+    - igalia-rpi5
+
+
+# 1 device (2025-05-12)
+.igalia-bcm2835-vc4:
+  variables:
+    RPI_MODEL: bcm2835-vc4
+    RPI_CONFIG_TXT_EXTRAS: |
+      [pi3]
+      # Disable bluetooth so that we can have serial, as they use the same GPIO lines.
+      dtoverlay=disable-bt
+      # Enable the KMS driver
+      dtoverlay=vc4-kms-v3d
+    GPU_VERSION: "broadcom-rpi3"
+
+
+# 1 device (2025-05-12)
+.igalia-bcm2711-vc5:
+  variables:
+    RPI_MODEL: bcm2711-vc5
+    RPI_CONFIG_TXT_EXTRAS: |
+      [pi4]
+      # Disable bluetooth so that we can have serial, as they use the same GPIO lines.
+      dtoverlay=disable-bt
+      # Enable the KMS driver
+      dtoverlay=vc4-kms-v3d-pi4
+    GPU_VERSION: "broadcom-rpi4"
+
+
+# 1 device (2025-05-12)
+.igalia-bcm2712-vc6:
+  variables:
+    RPI_MODEL: bcm2712-vc6
+    RPI_CONFIG_TXT_EXTRAS: |
+      [pi5]
+      # Disable bluetooth so that we can have serial, as they use the same GPIO lines.
+      dtoverlay=disable-bt,uart0_console
+      # Enable the KMS driver
+      dtoverlay=vc4-kms-v3d-pi5
+    GPU_VERSION: "broadcom-rpi5"
+
+
+.ci-tron-broadcom:
+  extends:
+    - .ci-tron-b2c-diskless-v1
+  variables:
+    RPI_DOWNSTREAM_PACKAGE_VERSION: '1.20250430'
+    RPI_DOWNSTREAM_KERNEL_VERSION: '6.12.25'
+    # An uprev should only change the two variables above, and technically the
+    # kernel version could instead be set to `.*` in the regex below, but
+    # having it here documents this information well.
+    RPI_DOWNSTREAM_PACKAGE_URL: 'https://github.com/raspberrypi/firmware/archive/refs/tags/$RPI_DOWNSTREAM_PACKAGE_VERSION.zip'
+    CI_TRON_DUT_SETUP_TAGS: dt_gpu:model:$RPI_MODEL,cpu:arch:$RPI_ARCH
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_BOOTLOADER__0__PATH: '/config.txt'
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_BOOTLOADER__0__DATA: |
+      [all]
+      $RPI_CONFIG_TXT_64BIT
+      enable_uart=1
+      kernel={{ job.tftp.path_to("kernel") }}
+      initramfs {{ job.tftp.path_to("initramfs") }} followkernel
+      $RPI_CONFIG_TXT_EXTRAS
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_BOOTLOADER__1__PATH: '/cmdline.txt'
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_BOOTLOADER__1__DATA: >-
+      modules_load=overlay,vc4,v3d,snd_soc_hdmi_codec,i2c-brcmstb,i2c-bcm2835,nbd
+      {{ job.deployment.kernel.cmdline }}
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_PLATFORM__0__URL: $RPI_DOWNSTREAM_PACKAGE_URL
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_PLATFORM__0__PATH: '/(.*)'
+    CI_TRON_TFTP_ARTIFACT_CATEGORY__50_PLATFORM__0__FORMAT__0__ARCHIVE__MATCH: 'firmware-$RPI_DOWNSTREAM_PACKAGE_VERSION/boot/\1'
+    CI_TRON_KERNEL__URL: $RPI_DOWNSTREAM_PACKAGE_URL
+    CI_TRON_KERNEL__FORMAT__0__ARCHIVE__MATCH: 'firmware-$RPI_DOWNSTREAM_PACKAGE_VERSION/boot/$RPI_KERNEL.img'
+    CI_TRON_INITRAMFS_CATEGORY__50_KERNEL_MODULES__0__URL: $RPI_DOWNSTREAM_PACKAGE_URL
+    CI_TRON_INITRAMFS_CATEGORY__50_KERNEL_MODULES__0__FORMAT__0__ARCHIVE__EXTENSION: 'cpio'
+    CI_TRON_INITRAMFS_CATEGORY__50_KERNEL_MODULES__0__FORMAT__0__ARCHIVE__KEEP__0__PATH: 'firmware-$RPI_DOWNSTREAM_PACKAGE_VERSION/(modules/$RPI_DOWNSTREAM_KERNEL_VERSION-$RPI_MODULES\+?/(modules|kernel/(fs/overlayfs|sound|drivers/(block/nbd|gpu|i2c/busses/i2c-br?cm|media/cec|video))).*)'
+    CI_TRON_INITRAMFS_CATEGORY__50_KERNEL_MODULES__0__FORMAT__0__ARCHIVE__KEEP__0__REWRITE: 'usr/lib/\1'
+    VK_DRIVER: broadcom
+    FLAKES_CHANNEL: "#videocore-ci"
+  tags:
+    - farm:igalia
+    - dt_gpu:model:$RPI_MODEL
+
+
+# For RPI_KERNEL, see KERNEL in
+# https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
+# For RPI_MODULES, it's not really documented anywhere, but the options
+# (in the current version) are v7, v7l, v8, v8-16k, with the last one
+# corresponding to kernel_2712, for the rpi5, and the other ones
+# corresponding to their s/v/kernel/ counterpart.
+.ci-tron-broadcom-rpi3:arm32:
+  extends:
+    - .igalia-bcm2835-vc4
+    - .ci-tron-broadcom
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm/v7
+    RPI_ARCH: armv7l
+    RPI_CONFIG_TXT_64BIT: 'arm_64bit=0'
+    RPI_KERNEL: 'kernel7'
+    RPI_MODULES: 'v7'
+
+.ci-tron-broadcom-rpi3:arm64:
+  extends:
+    - .igalia-bcm2835-vc4
+    - .ci-tron-broadcom
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm64/v8
+    RPI_ARCH: aarch64
+    RPI_CONFIG_TXT_64BIT: 'arm_64bit=1'
+    RPI_KERNEL: 'kernel8'
+    RPI_MODULES: 'v8'
+
+.ci-tron-broadcom-rpi4:arm32:
+  extends:
+    - .igalia-bcm2711-vc5
+    - .ci-tron-broadcom
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm/v7
+    RPI_ARCH: armv7l
+    RPI_CONFIG_TXT_64BIT: 'arm_64bit=0'
+    RPI_KERNEL: 'kernel7l'
+    RPI_MODULES: 'v7l'
+
+.ci-tron-broadcom-rpi4:arm64:
+  extends:
+    - .igalia-bcm2711-vc5
+    - .ci-tron-broadcom
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm64/v8
+    RPI_ARCH: aarch64
+    RPI_CONFIG_TXT_64BIT: 'arm_64bit=1'
+    RPI_KERNEL: 'kernel8'
+    RPI_MODULES: 'v8'
+
+.ci-tron-broadcom-rpi5:arm64:
+  extends:
+    - .igalia-bcm2712-vc6
+    - .ci-tron-broadcom
+  variables:
+    CI_TRON__B2C_DISKLESS_IMAGESTORE_PLATFORM: linux/arm64/v8
+    RPI_ARCH: aarch64
+    RPI_CONFIG_TXT_64BIT: 'arm_64bit=1'
+    RPI_KERNEL: 'kernel_2712'
+    RPI_MODULES: 'v8-16k'
+
+
+.broadcom-test:
+  script:
+    - ./install/bare-metal/poe-powered.sh
+  variables:
+    BOOT_PHASE_TIMEOUT_SECONDS: 90
+    HWCI_TEST_SCRIPT: "/install/deqp-runner.sh"
+    FLAKES_CHANNEL: "#videocore-ci"
+    FARM: igalia
+
+.broadcom-test:arm64-gl:
+  extends:
+    - .broadcom-test
+    - .baremetal-test-arm64-gl
+  variables:
+    BM_BOOTFS: /boot/raspberrypi_arm64
+
+.broadcom-test:arm64-vk:
+  extends:
+    - .broadcom-test
+    - .baremetal-test-arm64-vk
+  variables:
+    BM_BOOTFS: /boot/raspberrypi_arm64
+
+.broadcom-test-full:arm64-gl:
+  extends:
+    - .broadcom-test:arm64-gl
+  variables:
+    BM_BOOTFS: /boot/raspberrypi_arm64_full
+
+.broadcom-test-full:arm64-vk:
+  extends:
+    - .broadcom-test:arm64-vk
+  variables:
+    BM_BOOTFS: /boot/raspberrypi_arm64_full
+
+.broadcom-asan-test:arm64-gl:
+  extends:
+    - .broadcom-test:arm64-gl
+    - .baremetal-arm64-asan-test-gl
+
+.broadcom-asan-test:arm64-vk:
+  extends:
+    - .broadcom-test:arm64-vk
+    - .baremetal-arm64-asan-test-vk
+
+.broadcom-ubsan-test:arm64-gl:
+  extends:
+    - .broadcom-test:arm64-gl
+    - .baremetal-arm64-ubsan-test-gl
+
+.broadcom-ubsan-test:arm64-vk:
+  extends:
+    - .broadcom-test:arm64-vk
+    - .baremetal-arm64-ubsan-test-vk
+
+.broadcom-test:arm32-gl:
+  extends:
+    - .broadcom-test
+    - .baremetal-test-arm32-gl
+  variables:
+    BM_BOOTFS: /boot/raspberrypi_arm32
