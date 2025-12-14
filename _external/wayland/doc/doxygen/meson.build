@@ -1,19 +1,8 @@
 # Here be dragons
 
-dot_gv = {
-	'wayland-architecture': files('dot/wayland-architecture.gv'),
-	'x-architecture': files('dot/x-architecture.gv'),
-}
-
-# This is a workaround for Meson's custom_target() directive, which
-# currently does not support outputs pointing to a sub-directory
-# XXX: try turning these into maps, so they can be indexed with picture name
-dot_png = []
-dot_map = []
-
 doxygen_conf = configuration_data()
 doxygen_conf.set('VERSION', meson.project_version())
-doxygen_conf.set('top_builddir', meson.build_root())
+doxygen_conf.set('top_builddir', meson.project_build_root())
 wayland_doxygen = configure_file(
 	input: 'wayland.doxygen.in',
 	output: 'wayland.doxygen',
@@ -76,6 +65,7 @@ foreach f_name, sections: formats
 		# We do not really need an output file, but Meson
 		# will complain if one is not set, so we use a
 		# dummy 'stamp' file
+		stamp = join_paths(meson.current_build_dir(), '@0@.stamp'.format(t_name))
 		custom_target(
 			t_name,
 			command: [
@@ -84,26 +74,26 @@ foreach f_name, sections: formats
 				'--builddir=@OUTDIR@',
 				'--section=@0@'.format(s_name),
 				'--output-format=@0@'.format(f_name),
-				'--stamp=doc/doxygen/@0@.stamp'.format(t_name),
+				'--stamp=@0@'.format(stamp),
 				wayland_doxygen,
 				'@INPUT@',
 			],
 			input: s_files,
 			output: '@0@.stamp'.format(t_name),
-			depends: [dot_png, dot_map],
 			build_by_default: true,
 		)
 	endforeach
 endforeach
 
 man_files = shared_files + server_files + client_files + cursor_files
+stamp = join_paths(meson.current_build_dir(), 'man3.stamp')
 custom_target(
 	'man-pages-3',
 	command: [
 		gen_doxygen,
 		'--builddir=@OUTDIR@',
 		'--output-format=man3',
-		'--stamp=doc/doxygen/man3.stamp',
+		'--stamp=@0@'.format(stamp),
 		wayland_doxygen,
 		'@INPUT@',
 	],

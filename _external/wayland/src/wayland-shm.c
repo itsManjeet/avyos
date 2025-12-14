@@ -38,13 +38,14 @@
 #include <stdint.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <sys/stat.h>
 #include <unistd.h>
-#include <assert.h>
 #include <signal.h>
 #include <pthread.h>
 #include <errno.h>
 #include <fcntl.h>
 
+#include "wayland-os.h"
 #include "wayland-util.h"
 #include "wayland-private.h"
 #include "wayland-server.h"
@@ -61,13 +62,32 @@ struct wl_shm_pool {
 	int internal_refcount;
 	int external_refcount;
 	char *data;
-	int32_t size;
-	int32_t new_size;
+	ssize_t size;
+	ssize_t new_size;
+#ifndef MREMAP_MAYMOVE
+	/* The following three fields are needed for mremap() emulation. */
+	int mmap_fd;
+	int mmap_flags;
+	int mmap_prot;
+#endif
 	bool sigbus_is_impossible;
 };
 
+/** \class wl_shm_buffer
+ *
+ * \brief A SHM buffer
+ *
+ * wl_shm_buffer provides a helper for accessing the contents of a wl_buffer
+ * resource created via the wl_shm interface.
+ *
+ * A wl_shm_buffer becomes invalid as soon as its #wl_resource is destroyed.
+ */
 struct wl_shm_buffer {
 	struct wl_resource *resource;
+	int internal_refcount;
+	int external_refcount;
+	struct wl_client *client;
+	struct wl_listener client_destroy_listener;
 	int32_t width, height;
 	int32_t stride;
 	uint32_t format;
@@ -81,6 +101,26 @@ struct wl_shm_sigbus_data {
 	int fallback_mapping_used;
 };
 
+static void *
+shm_pool_grow_mapping(struct wl_shm_pool *pool)
+{
+	void *data;
+
+#ifdef MREMAP_MAYMOVE
+	data = mremap(pool->data, pool->size, pool->new_size, MREMAP_MAYMOVE);
+#else
+	data = wl_os_mremap_maymove(pool->mmap_fd, pool->data, &pool->size,
+				    pool->new_size, pool->mmap_prot,
+				    pool->mmap_flags);
+	if (pool->size != 0 && pool->resource != NULL) {
+		wl_resource_post_error(pool->resource,
+				       WL_SHM_ERROR_INVALID_FD,
+				       "leaked old mapping");
+	}
+#endif
+	return data;
+}
+
 static void
 shm_pool_finish_resize(struct wl_shm_pool *pool)
 {
@@ -89,11 +129,12 @@ shm_pool_finish_resize(struct wl_shm_pool *pool)
 	if (pool->size == pool->new_size)
 		return;
 
-	data = mremap(pool->data, pool->size, pool->new_size, MREMAP_MAYMOVE);
+	data = shm_pool_grow_mapping(pool);
 	if (data == MAP_FAILED) {
-		wl_resource_post_error(pool->resource,
-				       WL_SHM_ERROR_INVALID_FD,
-				       "failed mremap");
+		if (pool->resource != NULL)
+			wl_resource_post_error(pool->resource,
+					       WL_SHM_ERROR_INVALID_FD,
+					       "failed mremap");
 		return;
 	}
 
@@ -106,17 +147,52 @@ shm_pool_unref(struct wl_shm_pool *pool, bool external)
 {
 	if (external) {
 		pool->external_refcount--;
+		if (pool->external_refcount < 0)
+			wl_abort("Requested to unref an external reference to "
+				 "pool but none found\n");
 		if (pool->external_refcount == 0)
 			shm_pool_finish_resize(pool);
 	} else {
 		pool->internal_refcount--;
+		if (pool->internal_refcount < 0)
+			wl_abort("Requested to unref an internal reference to "
+				 "pool but none found\n");
 	}
 
-	if (pool->internal_refcount + pool->external_refcount)
+	if (pool->internal_refcount + pool->external_refcount > 0)
 		return;
 
 	munmap(pool->data, pool->size);
+#ifndef MREMAP_MAYMOVE
+	close(pool->mmap_fd);
+#endif
 	free(pool);
+}
+
+static void
+shm_buffer_unref(struct wl_shm_buffer *buffer, bool external)
+{
+	if (external) {
+		buffer->external_refcount--;
+		if (buffer->external_refcount < 0) {
+			wl_abort("Requested to unref an external reference to "
+				 "buffer but none found\n");
+		}
+	} else {
+		buffer->internal_refcount--;
+		if (buffer->internal_refcount < 0) {
+			wl_abort("Requested to unref an internal reference to "
+				 "buffer but none found\n");
+		}
+	}
+
+	if (buffer->internal_refcount + buffer->external_refcount > 0)
+		return;
+
+	if (buffer->client)
+		wl_list_remove(&buffer->client_destroy_listener.link);
+	shm_pool_unref(buffer->pool, false);
+	free(buffer);
 }
 
 static void
@@ -124,9 +200,7 @@ destroy_buffer(struct wl_resource *resource)
 {
 	struct wl_shm_buffer *buffer = wl_resource_get_user_data(resource);
 
-	if (buffer->pool)
-		shm_pool_unref(buffer->pool, false);
-	free(buffer);
+	shm_buffer_unref(buffer, false);
 }
 
 static void
@@ -160,6 +234,17 @@ format_is_supported(struct wl_client *client, uint32_t format)
 	return false;
 }
 
+
+static void
+shm_buffer_client_destroy_notify(struct wl_listener *listener, void *data)
+{
+	struct wl_shm_buffer *buffer =
+		wl_container_of(listener, buffer, client_destroy_listener);
+
+	buffer->client = NULL;
+	wl_list_remove(&buffer->client_destroy_listener.link);
+}
+
 static void
 shm_pool_create_buffer(struct wl_client *client, struct wl_resource *resource,
 		       uint32_t id, int32_t offset,
@@ -177,7 +262,7 @@ shm_pool_create_buffer(struct wl_client *client, struct wl_resource *resource,
 	}
 
 	if (offset < 0 || width <= 0 || height <= 0 || stride < width ||
-	    INT32_MAX / stride <= height ||
+	    INT32_MAX / stride < height ||
 	    offset > pool->size - stride * height) {
 		wl_resource_post_error(resource,
 				       WL_SHM_ERROR_INVALID_STRIDE,
@@ -186,12 +271,20 @@ shm_pool_create_buffer(struct wl_client *client, struct wl_resource *resource,
 		return;
 	}
 
-	buffer = malloc(sizeof *buffer);
+	buffer = zalloc(sizeof *buffer);
 	if (buffer == NULL) {
 		wl_client_post_no_memory(client);
 		return;
 	}
 
+	buffer->client = client;
+	buffer->client_destroy_listener.notify =
+		shm_buffer_client_destroy_notify;
+	wl_client_add_destroy_listener(buffer->client,
+				       &buffer->client_destroy_listener);
+
+	buffer->internal_refcount = 1;
+	buffer->external_refcount = 0;
 	buffer->width = width;
 	buffer->height = height;
 	buffer->format = format;
@@ -219,6 +312,7 @@ destroy_pool(struct wl_resource *resource)
 {
 	struct wl_shm_pool *pool = wl_resource_get_user_data(resource);
 
+	pool->resource = NULL;
 	shm_pool_unref(pool, false);
 }
 
@@ -263,7 +357,11 @@ shm_create_pool(struct wl_client *client, struct wl_resource *resource,
 		uint32_t id, int fd, int32_t size)
 {
 	struct wl_shm_pool *pool;
+	struct stat statbuf;
 	int seals;
+	int prot;
+	int flags;
+	uint32_t version;
 
 	if (size <= 0) {
 		wl_resource_post_error(resource,
@@ -272,7 +370,7 @@ shm_create_pool(struct wl_client *client, struct wl_resource *resource,
 		goto err_close;
 	}
 
-	pool = malloc(sizeof *pool);
+	pool = zalloc(sizeof *pool);
 	if (pool == NULL) {
 		wl_client_post_no_memory(client);
 		goto err_close;
@@ -282,7 +380,11 @@ shm_create_pool(struct wl_client *client, struct wl_resource *resource,
 	seals = fcntl(fd, F_GET_SEALS);
 	if (seals == -1)
 		seals = 0;
-	pool->sigbus_is_impossible = (seals & F_SEAL_SHRINK) ? true : false;
+
+	if ((seals & F_SEAL_SHRINK) && fstat(fd, &statbuf) >= 0)
+		pool->sigbus_is_impossible = statbuf.st_size >= size;
+	else
+		pool->sigbus_is_impossible = false;
 #else
 	pool->sigbus_is_impossible = false;
 #endif
@@ -291,19 +393,27 @@ shm_create_pool(struct wl_client *client, struct wl_resource *resource,
 	pool->external_refcount = 0;
 	pool->size = size;
 	pool->new_size = size;
-	pool->data = mmap(NULL, size,
-			  PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	prot = PROT_READ | PROT_WRITE;
+	flags = MAP_SHARED;
+	pool->data = mmap(NULL, size, prot, flags, fd, 0);
 	if (pool->data == MAP_FAILED) {
-		wl_resource_post_error(resource,
-				       WL_SHM_ERROR_INVALID_FD,
+		wl_resource_post_error(resource, WL_SHM_ERROR_INVALID_FD,
 				       "failed mmap fd %d: %s", fd,
 				       strerror(errno));
 		goto err_free;
 	}
+#ifndef MREMAP_MAYMOVE
+	/* We may need to keep the fd, prot and flags to emulate mremap(). */
+	pool->mmap_fd = fd;
+	pool->mmap_prot = prot;
+	pool->mmap_flags = flags;
+#else
 	close(fd);
+#endif
 
+	version = wl_resource_get_version(resource);
 	pool->resource =
-		wl_resource_create(client, &wl_shm_pool_interface, 1, id);
+		wl_resource_create(client, &wl_shm_pool_interface, version, id);
 	if (!pool->resource) {
 		wl_client_post_no_memory(client);
 		munmap(pool->data, pool->size);
@@ -323,8 +433,15 @@ err_close:
 	close(fd);
 }
 
+static void
+shm_release(struct wl_client *client, struct wl_resource *resource)
+{
+	wl_resource_destroy(resource);
+}
+
 static const struct wl_shm_interface shm_interface = {
-	shm_create_pool
+	shm_create_pool,
+	shm_release,
 };
 
 static void
@@ -336,7 +453,7 @@ bind_shm(struct wl_client *client,
 	struct wl_array *additional_formats;
 	uint32_t *p;
 
-	resource = wl_resource_create(client, &wl_shm_interface, 1, id);
+	resource = wl_resource_create(client, &wl_shm_interface, version, id);
 	if (!resource) {
 		wl_client_post_no_memory(client);
 		return;
@@ -355,7 +472,7 @@ bind_shm(struct wl_client *client,
 WL_EXPORT int
 wl_display_init_shm(struct wl_display *display)
 {
-	if (!wl_global_create(display, &wl_shm_interface, 1, NULL, bind_shm))
+	if (!wl_global_create(display, &wl_shm_interface, 2, NULL, bind_shm))
 		return -1;
 
 	return 0;
@@ -375,7 +492,7 @@ wl_shm_buffer_get(struct wl_resource *resource)
 }
 
 WL_EXPORT int32_t
-wl_shm_buffer_get_stride(struct wl_shm_buffer *buffer)
+wl_shm_buffer_get_stride(const struct wl_shm_buffer *buffer)
 {
 	return buffer->stride;
 }
@@ -392,19 +509,14 @@ wl_shm_buffer_get_stride(struct wl_shm_buffer *buffer)
  * SIGBUS signals. This can happen if the client claims that the
  * buffer is larger than it is or if something truncates the
  * underlying file. To prevent this signal from causing the compositor
- * to crash you should call wl_shm_buffer_begin_access and
- * wl_shm_buffer_end_access around code that reads from the memory.
+ * to crash you should call wl_shm_buffer_begin_access() and
+ * wl_shm_buffer_end_access() around code that reads from the memory.
  *
  * \memberof wl_shm_buffer
  */
 WL_EXPORT void *
 wl_shm_buffer_get_data(struct wl_shm_buffer *buffer)
 {
-	assert(buffer->pool);
-
-	if (!buffer->pool)
-		return NULL;
-
 	if (buffer->pool->external_refcount &&
 	    (buffer->pool->size != buffer->pool->new_size))
 		wl_log("Buffer address requested when its parent pool "
@@ -414,21 +526,60 @@ wl_shm_buffer_get_data(struct wl_shm_buffer *buffer)
 }
 
 WL_EXPORT uint32_t
-wl_shm_buffer_get_format(struct wl_shm_buffer *buffer)
+wl_shm_buffer_get_format(const struct wl_shm_buffer *buffer)
 {
 	return buffer->format;
 }
 
 WL_EXPORT int32_t
-wl_shm_buffer_get_width(struct wl_shm_buffer *buffer)
+wl_shm_buffer_get_width(const struct wl_shm_buffer *buffer)
 {
 	return buffer->width;
 }
 
 WL_EXPORT int32_t
-wl_shm_buffer_get_height(struct wl_shm_buffer *buffer)
+wl_shm_buffer_get_height(const struct wl_shm_buffer *buffer)
 {
 	return buffer->height;
+}
+
+/** Reference a shm_buffer
+ *
+ * \param buffer The buffer object
+ *
+ * Returns a pointer to the buffer and increases the refcount.
+ *
+ * The compositor must remember to call wl_shm_buffer_unref() when
+ * it no longer needs the reference to ensure proper destruction
+ * of the buffer.
+ *
+ * \memberof wl_shm_buffer
+ * \sa wl_shm_buffer_unref
+ */
+WL_EXPORT struct wl_shm_buffer *
+wl_shm_buffer_ref(struct wl_shm_buffer *buffer)
+{
+	buffer->external_refcount++;
+	return buffer;
+}
+
+/** Unreference a shm_buffer
+ *
+ * \param buffer The buffer object
+ *
+ * Drops a reference to a buffer object.
+ *
+ * This is only necessary if the compositor has explicitly
+ * taken a reference with wl_shm_buffer_ref(), otherwise
+ * the buffer will be automatically destroyed when appropriate.
+ *
+ * \memberof wl_shm_buffer
+ * \sa wl_shm_buffer_ref
+ */
+WL_EXPORT void
+wl_shm_buffer_unref(struct wl_shm_buffer *buffer)
+{
+	shm_buffer_unref(buffer, true);
 }
 
 /** Get a reference to a shm_buffer's shm_pool
@@ -438,7 +589,7 @@ wl_shm_buffer_get_height(struct wl_shm_buffer *buffer)
  * Returns a pointer to a buffer's shm_pool and increases the
  * shm_pool refcount.
  *
- * The compositor must remember to call wl_shm_pool_unref when
+ * The compositor must remember to call wl_shm_pool_unref() when
  * it no longer needs the reference to ensure proper destruction
  * of the pool.
  *
@@ -448,9 +599,6 @@ wl_shm_buffer_get_height(struct wl_shm_buffer *buffer)
 WL_EXPORT struct wl_shm_pool *
 wl_shm_buffer_ref_pool(struct wl_shm_buffer *buffer)
 {
-	assert(buffer->pool->internal_refcount +
-	       buffer->pool->external_refcount);
-
 	buffer->pool->external_refcount++;
 	return buffer->pool;
 }
@@ -552,7 +700,7 @@ init_sigbus_data_key(void)
  * In order to make the compositor robust against clients that change
  * the size of the underlying file or lie about its size, you should
  * protect access to the buffer by calling this function before
- * reading from the memory and call wl_shm_buffer_end_access
+ * reading from the memory and call wl_shm_buffer_end_access()
  * afterwards. This will install a signal handler for SIGBUS which
  * will prevent the compositor from crashing.
  *
@@ -563,15 +711,15 @@ init_sigbus_data_key(void)
  *
  * If a SIGBUS signal is received for an address within the range of
  * the SHM pool of the given buffer then the client will be sent an
- * error event when wl_shm_buffer_end_access is called. If the signal
+ * error event when wl_shm_buffer_end_access() is called. If the signal
  * is for an address outside that range then the signal handler will
  * reraise the signal which would will likely cause the compositor to
  * terminate.
  *
  * It is safe to nest calls to these functions as long as the nested
- * calls are all accessing the same buffer. The number of calls to
- * wl_shm_buffer_end_access must match the number of calls to
- * wl_shm_buffer_begin_access. These functions are thread-safe and it
+ * calls are all accessing the same pool. The number of calls to
+ * wl_shm_buffer_end_access() must match the number of calls to
+ * wl_shm_buffer_begin_access(). These functions are thread-safe and it
  * is allowed to simultaneously access different buffers or the same
  * buffer from multiple threads.
  *
@@ -597,18 +745,19 @@ wl_shm_buffer_begin_access(struct wl_shm_buffer *buffer)
 		pthread_setspecific(wl_shm_sigbus_data_key, sigbus_data);
 	}
 
-	assert(sigbus_data->current_pool == NULL ||
-	       sigbus_data->current_pool == pool);
+	if (!(sigbus_data->current_pool == NULL ||
+	       sigbus_data->current_pool == pool))
+		wl_abort("Incorrect pool passed for current thread\n");
 
 	sigbus_data->current_pool = pool;
 	sigbus_data->access_count++;
 }
 
-/** Ends the access to a buffer started by wl_shm_buffer_begin_access
+/** Ends the access to a buffer started by wl_shm_buffer_begin_access()
  *
  * \param buffer The SHM buffer
  *
- * This should be called after wl_shm_buffer_begin_access once the
+ * This should be called after wl_shm_buffer_begin_access() once the
  * buffer is no longer being accessed. If a SIGBUS signal was
  * generated in-between these two calls then the resource for the
  * given buffer will be sent an error.
@@ -625,13 +774,22 @@ wl_shm_buffer_end_access(struct wl_shm_buffer *buffer)
 		return;
 
 	sigbus_data = pthread_getspecific(wl_shm_sigbus_data_key);
-	assert(sigbus_data && sigbus_data->access_count >= 1);
+	if (!(sigbus_data && sigbus_data->access_count >= 1))
+		wl_abort("sigbus_data is NULL or wl_shm_buffer_begin_access "
+			 "wasn't called before\n");
 
 	if (--sigbus_data->access_count == 0) {
 		if (sigbus_data->fallback_mapping_used) {
-			wl_resource_post_error(buffer->resource,
-					       WL_SHM_ERROR_INVALID_FD,
-					       "error accessing SHM buffer");
+			if (buffer->resource) {
+				wl_resource_post_error(buffer->resource,
+						       WL_SHM_ERROR_INVALID_FD,
+						       "error accessing SHM buffer");
+			} else if (buffer->client) {
+				wl_client_post_implementation_error(buffer->client,
+								    "Error accessing SHM buffer of a "
+								    "wl_buffer resource which has "
+								    "already been destroyed");
+			}
 			sigbus_data->fallback_mapping_used = 0;
 		}
 

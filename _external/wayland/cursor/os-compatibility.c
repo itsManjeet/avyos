@@ -31,11 +31,18 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <signal.h>
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #ifdef HAVE_MEMFD_CREATE
 #include <sys/mman.h>
+#endif
+
+/* Fallback to no flag when missing the definition */
+#ifndef MFD_NOEXEC_SEAL
+#define MFD_NOEXEC_SEAL 0
 #endif
 
 #include "os-compatibility.h"
@@ -118,10 +125,25 @@ os_create_anonymous_file(off_t size)
 	static const char template[] = "/wayland-cursor-shared-XXXXXX";
 	const char *path;
 	char *name;
+	size_t name_size;
 	int fd;
 
 #ifdef HAVE_MEMFD_CREATE
-	fd = memfd_create("wayland-cursor", MFD_CLOEXEC | MFD_ALLOW_SEALING);
+	/*
+	* Linux kernels older than 6.3 reject MFD_NOEXEC_SEAL with EINVAL.
+	* Try first *with* it, and if that fails, try again *without* it.
+	*/
+	errno = 0;
+	fd = memfd_create(
+		"wayland-cursor",
+		MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_NOEXEC_SEAL);
+
+	if (fd < 0 && errno == EINVAL && MFD_NOEXEC_SEAL != 0) {
+		fd = memfd_create(
+			"wayland-cursor",
+			MFD_CLOEXEC | MFD_ALLOW_SEALING);
+	}
+
 	if (fd >= 0) {
 		/* We can add this seal before calling posix_fallocate(), as
 		 * the file is currently zero-sized anyway.
@@ -134,17 +156,17 @@ os_create_anonymous_file(off_t size)
 #endif
 	{
 		path = getenv("XDG_RUNTIME_DIR");
-		if (!path) {
+		if (!path || path[0] != '/') {
 			errno = ENOENT;
 			return -1;
 		}
 
-		name = malloc(strlen(path) + sizeof(template));
+		name_size = strlen(path) + sizeof(template);
+		name = malloc(name_size);
 		if (!name)
 			return -1;
 
-		strcpy(name, path);
-		strcat(name, template);
+		snprintf(name, name_size, "%s%s", path, template);
 
 		fd = create_tmpfile_cloexec(name);
 
@@ -166,11 +188,28 @@ int
 os_resize_anonymous_file(int fd, off_t size)
 {
 #ifdef HAVE_POSIX_FALLOCATE
-	/* 
-	 * Filesystems that do support fallocate will return EINVAL or
+	sigset_t mask;
+	sigset_t old_mask;
+
+	/*
+	 * posix_fallocate() might be interrupted, so we need to check
+	 * for EINTR and retry in that case.
+	 * However, in the presence of an alarm, the interrupt may trigger
+	 * repeatedly and prevent a large posix_fallocate() to ever complete
+	 * successfully, so we need to first block SIGALRM to prevent
+	 * this.
+	 */
+	sigemptyset(&mask);
+	sigaddset(&mask, SIGALRM);
+	sigprocmask(SIG_BLOCK, &mask, &old_mask);
+	/*
+	 * Filesystems that do not support fallocate will return EINVAL or
 	 * EOPNOTSUPP. In this case we need to fall back to ftruncate
 	 */
-	errno = posix_fallocate(fd, 0, size);
+	do {
+		errno = posix_fallocate(fd, 0, size);
+	} while (errno == EINTR);
+	sigprocmask(SIG_SETMASK, &old_mask, NULL);
 	if (errno == 0)
 		return 0;
 	else if (errno != EINVAL && errno != EOPNOTSUPP)

@@ -80,12 +80,54 @@ enum intf_A_foo {
 	 * @since 2
 	 */
 	INTF_A_FOO_THIRD = 2,
+	/**
+	 * this is a negative value
+	 * @since 2
+	 */
+	INTF_A_FOO_NEGATIVE = -1,
+	/**
+	 * this is a deprecated value
+	 * @since 2
+	 * @deprecated Deprecated since version 3
+	 */
+	INTF_A_FOO_DEPRECATED = 3,
 };
 /**
  * @ingroup iface_intf_A
  */
 #define INTF_A_FOO_THIRD_SINCE_VERSION 2
+/**
+ * @ingroup iface_intf_A
+ */
+#define INTF_A_FOO_NEGATIVE_SINCE_VERSION 2
+/**
+ * @ingroup iface_intf_A
+ */
+#define INTF_A_FOO_DEPRECATED_SINCE_VERSION 2
 #endif /* INTF_A_FOO_ENUM */
+
+#ifndef INTF_A_BAR_ENUM
+#define INTF_A_BAR_ENUM
+enum intf_A_bar {
+	/**
+	 * this is the first
+	 */
+	INTF_A_BAR_FIRST = 0x01,
+	/**
+	 * this is the second
+	 */
+	INTF_A_BAR_SECOND = 0x02,
+	/**
+	 * this is the third
+	 * @since 2
+	 */
+	INTF_A_BAR_THIRD = 0x04,
+};
+/**
+ * @ingroup iface_intf_A
+ */
+#define INTF_A_BAR_THIRD_SINCE_VERSION 2
+#endif /* INTF_A_BAR_ENUM */
 
 /**
  * @ingroup iface_intf_A
@@ -96,6 +138,12 @@ struct intf_A_listener {
 	 */
 	void (*hey)(void *data,
 		    struct intf_A *intf_A);
+	/**
+	 * @since 2
+	 * @deprecated Deprecated since version 3
+	 */
+	void (*yo)(void *data,
+		   struct intf_A *intf_A);
 };
 
 /**
@@ -117,6 +165,10 @@ intf_A_add_listener(struct intf_A *intf_A,
  * @ingroup iface_intf_A
  */
 #define INTF_A_HEY_SINCE_VERSION 1
+/**
+ * @ingroup iface_intf_A
+ */
+#define INTF_A_YO_SINCE_VERSION 2
 
 /**
  * @ingroup iface_intf_A
@@ -159,8 +211,8 @@ intf_A_rq1(struct intf_A *intf_A, const struct wl_interface *interface, uint32_t
 {
 	struct wl_proxy *untyped_new;
 
-	untyped_new = wl_proxy_marshal_constructor_versioned((struct wl_proxy *) intf_A,
-			 INTF_A_RQ1, interface, version, interface->name, version, NULL);
+	untyped_new = wl_proxy_marshal_flags((struct wl_proxy *) intf_A,
+			 INTF_A_RQ1, interface, version, 0, interface->name, version, NULL);
 
 	return (void *) untyped_new;
 }
@@ -173,8 +225,8 @@ intf_A_rq2(struct intf_A *intf_A, const char *str, int32_t i, uint32_t u, wl_fix
 {
 	struct wl_proxy *typed_new;
 
-	typed_new = wl_proxy_marshal_constructor((struct wl_proxy *) intf_A,
-			 INTF_A_RQ2, &intf_not_here_interface, NULL, str, i, u, f, fd, obj);
+	typed_new = wl_proxy_marshal_flags((struct wl_proxy *) intf_A,
+			 INTF_A_RQ2, &intf_not_here_interface, wl_proxy_get_version((struct wl_proxy *) intf_A), 0, NULL, str, i, u, f, fd, obj);
 
 	return (struct intf_not_here *) typed_new;
 }
@@ -185,10 +237,8 @@ intf_A_rq2(struct intf_A *intf_A, const char *str, int32_t i, uint32_t u, wl_fix
 static inline void
 intf_A_destroy(struct intf_A *intf_A)
 {
-	wl_proxy_marshal((struct wl_proxy *) intf_A,
-			 INTF_A_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) intf_A);
+	wl_proxy_marshal_flags((struct wl_proxy *) intf_A,
+			 INTF_A_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) intf_A), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifdef  __cplusplus

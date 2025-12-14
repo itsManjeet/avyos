@@ -4,5 +4,5 @@ library only. Issues with Wayland during day-to-day usage are almost
 certainly a bug in your compositor and **not** a bug with in this
 repository.
 
-Please remove this comment before filing your bug.
+Please remove this comment before filing your issue.
 -->

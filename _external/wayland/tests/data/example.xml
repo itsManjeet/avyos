@@ -812,7 +812,7 @@
 	which will subsequently be used in either the
 	data_device.enter event (for drag-and-drop) or the
 	data_device.selection event (for selections).  Immediately
-	following the data_device_data_offer event, the new data_offer
+	following the data_device.data_offer event, the new data_offer
 	object will send out data_offer.offer events to describe the
 	mime types it offers.
       </description>
@@ -1980,21 +1980,23 @@
 	from a "finger" source may be in a smooth coordinate space with
 	kinetic scrolling whereas a "wheel" source may be in discrete steps
 	of a number of lines.
-
-	The "continuous" axis source is a device generating events in a
-	continuous coordinate space, but using something other than a
-	finger. One example for this source is button-based scrolling where
-	the vertical motion of a device is converted to scroll events while
-	a button is held down.
-
-	The "wheel tilt" axis source indicates that the actual device is a
-	wheel but the scroll event is not caused by a rotation but a
-	(usually sideways) tilt of the wheel.
       </description>
       <entry name="wheel" value="0" summary="a physical wheel rotation" />
       <entry name="finger" value="1" summary="finger on a touch surface" />
-      <entry name="continuous" value="2" summary="continuous coordinate space"/>
-      <entry name="wheel_tilt" value="3" summary="a physical wheel tilt" since="6"/>
+      <entry name="continuous" value="2">
+	<description summary="continuous coordinate space">
+	  A device generating events in a continuous coordinate space, but
+	  using something other than a finger. One example for this source
+	  is button-based scrolling where the vertical motion of a device
+	  is converted to scroll events while a button is held down.
+	</description>
+      </entry>
+      <entry name="wheel_tilt" value="3" since="6">
+	<description summary="a physical wheel tilt">
+	  Indicates that the actual device is a wheel but the scroll event is
+	  not caused by a rotation but a (usually sideways) tilt of the wheel.
+	</description>
+      </entry>
     </enum>
 
     <event name="axis_source" since="5">

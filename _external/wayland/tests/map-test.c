@@ -119,3 +119,19 @@ TEST(map_flags)
 
 	wl_map_release(&map);
 }
+
+static enum wl_iterator_result never_run(void *element, void *data, uint32_t flags)
+{
+	assert(0);
+}
+
+TEST(map_iter_empty)
+{
+	struct wl_map map;
+
+	wl_map_init(&map, WL_MAP_SERVER_SIDE);
+
+	wl_map_for_each(&map, never_run, NULL);
+
+	wl_map_release(&map);
+}

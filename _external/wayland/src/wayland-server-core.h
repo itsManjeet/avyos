@@ -217,13 +217,17 @@ wl_display_flush_clients(struct wl_display *display);
 void
 wl_display_destroy_clients(struct wl_display *display);
 
+void
+wl_display_set_default_max_buffer_size(struct wl_display *display,
+				       size_t max_buffer_size);
+
 struct wl_client;
 
 typedef void (*wl_global_bind_func_t)(struct wl_client *client, void *data,
 				      uint32_t version, uint32_t id);
 
 uint32_t
-wl_display_get_serial(struct wl_display *display);
+wl_display_get_serial(const struct wl_display *display);
 
 uint32_t
 wl_display_next_serial(struct wl_display *display);
@@ -279,6 +283,13 @@ wl_display_set_global_filter(struct wl_display *display,
 const struct wl_interface *
 wl_global_get_interface(const struct wl_global *global);
 
+uint32_t
+wl_global_get_name(const struct wl_global *global,
+                   const struct wl_client *client);
+
+uint32_t
+wl_global_get_version(const struct wl_global *global);
+
 struct wl_display *
 wl_global_get_display(const struct wl_global *global);
 
@@ -313,7 +324,7 @@ void
 wl_client_flush(struct wl_client *client);
 
 void
-wl_client_get_credentials(struct wl_client *client,
+wl_client_get_credentials(const struct wl_client *client,
 			  pid_t *pid, uid_t *uid, gid_t *gid);
 
 int
@@ -326,6 +337,14 @@ wl_client_add_destroy_listener(struct wl_client *client,
 struct wl_listener *
 wl_client_get_destroy_listener(struct wl_client *client,
 			       wl_notify_func_t notify);
+
+void
+wl_client_add_destroy_late_listener(struct wl_client *client,
+				    struct wl_listener *listener);
+
+struct wl_listener *
+wl_client_get_destroy_late_listener(struct wl_client *client,
+				    wl_notify_func_t notify);
 
 struct wl_resource *
 wl_client_get_object(struct wl_client *client, uint32_t id);
@@ -349,6 +368,19 @@ void
 wl_client_for_each_resource(struct wl_client *client,
                             wl_client_for_each_resource_iterator_func_t iterator,
                             void *user_data);
+
+typedef void (*wl_user_data_destroy_func_t)(void *data);
+
+void
+wl_client_set_user_data(struct wl_client *client,
+			void *data,
+			wl_user_data_destroy_func_t dtor);
+
+void *
+wl_client_get_user_data(struct wl_client *client);
+
+void
+wl_client_set_max_buffer_size(struct wl_client *client, size_t max_buffer_size);
 
 /** \class wl_listener
  *
@@ -481,6 +513,9 @@ wl_signal_emit(struct wl_signal *signal, void *data)
 		l->notify(l, data);
 }
 
+void
+wl_signal_emit_mutable(struct wl_signal *signal, void *data);
+
 typedef void (*wl_resource_destroy_func_t)(struct wl_resource *resource);
 
 /*
@@ -515,7 +550,10 @@ void
 wl_resource_queue_event_array(struct wl_resource *resource,
 			      uint32_t opcode, union wl_argument *args);
 
-/* msg is a printf format string, variable args are its args. */
+void
+wl_resource_post_error_vargs(struct wl_resource *resource,
+			     uint32_t code, const char *msg, va_list argp);
+
 void
 wl_resource_post_error(struct wl_resource *resource,
 		       uint32_t code, const char *msg, ...) WL_PRINTF(3, 4);
@@ -548,7 +586,7 @@ void
 wl_resource_destroy(struct wl_resource *resource);
 
 uint32_t
-wl_resource_get_id(struct wl_resource *resource);
+wl_resource_get_id(const struct wl_resource *resource);
 
 struct wl_list *
 wl_resource_get_link(struct wl_resource *resource);
@@ -569,7 +607,7 @@ void *
 wl_resource_get_user_data(struct wl_resource *resource);
 
 int
-wl_resource_get_version(struct wl_resource *resource);
+wl_resource_get_version(const struct wl_resource *resource);
 
 void
 wl_resource_set_destructor(struct wl_resource *resource,
@@ -579,8 +617,12 @@ int
 wl_resource_instance_of(struct wl_resource *resource,
 			const struct wl_interface *interface,
 			const void *implementation);
+
 const char *
-wl_resource_get_class(struct wl_resource *resource);
+wl_resource_get_class(const struct wl_resource *resource);
+
+const struct wl_interface *
+wl_resource_get_interface(struct wl_resource *resource);
 
 void
 wl_resource_add_destroy_listener(struct wl_resource *resource,
@@ -616,16 +658,22 @@ void *
 wl_shm_buffer_get_data(struct wl_shm_buffer *buffer);
 
 int32_t
-wl_shm_buffer_get_stride(struct wl_shm_buffer *buffer);
+wl_shm_buffer_get_stride(const struct wl_shm_buffer *buffer);
 
 uint32_t
-wl_shm_buffer_get_format(struct wl_shm_buffer *buffer);
+wl_shm_buffer_get_format(const struct wl_shm_buffer *buffer);
 
 int32_t
-wl_shm_buffer_get_width(struct wl_shm_buffer *buffer);
+wl_shm_buffer_get_width(const struct wl_shm_buffer *buffer);
 
 int32_t
-wl_shm_buffer_get_height(struct wl_shm_buffer *buffer);
+wl_shm_buffer_get_height(const struct wl_shm_buffer *buffer);
+
+struct wl_shm_buffer *
+wl_shm_buffer_ref(struct wl_shm_buffer *buffer);
+
+void
+wl_shm_buffer_unref(struct wl_shm_buffer *buffer);
 
 struct wl_shm_pool *
 wl_shm_buffer_ref_pool(struct wl_shm_buffer *buffer);
@@ -639,10 +687,11 @@ wl_display_init_shm(struct wl_display *display);
 uint32_t *
 wl_display_add_shm_format(struct wl_display *display, uint32_t format);
 
+WL_DEPRECATED
 struct wl_shm_buffer *
 wl_shm_buffer_create(struct wl_client *client,
 		     uint32_t id, int32_t width, int32_t height,
-		     int32_t stride, uint32_t format) WL_DEPRECATED;
+		     int32_t stride, uint32_t format);
 
 void
 wl_log_set_handler_server(wl_log_func_t handler);

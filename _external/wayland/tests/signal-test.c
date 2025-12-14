@@ -115,3 +115,44 @@ TEST(signal_emit_to_more_listeners)
 
 	assert(3 * counter == count);
 }
+
+struct signal_emit_mutable_data {
+	int count;
+	struct wl_listener *remove_listener;
+};
+
+static void
+signal_notify_mutable(struct wl_listener *listener, void *data)
+{
+	struct signal_emit_mutable_data *test_data = data;
+	test_data->count++;
+}
+
+static void
+signal_notify_and_remove_mutable(struct wl_listener *listener, void *data)
+{
+	struct signal_emit_mutable_data *test_data = data;
+	signal_notify_mutable(listener, test_data);
+	wl_list_remove(&test_data->remove_listener->link);
+}
+
+TEST(signal_emit_mutable)
+{
+	struct signal_emit_mutable_data data = {0};
+
+	/* l2 will remove l3 before l3 is notified */
+	struct wl_signal signal;
+	struct wl_listener l1 = {.notify = signal_notify_mutable};
+	struct wl_listener l2 = {.notify = signal_notify_and_remove_mutable};
+	struct wl_listener l3 = {.notify = signal_notify_mutable};
+
+	wl_signal_init(&signal);
+	wl_signal_add(&signal, &l1);
+	wl_signal_add(&signal, &l2);
+	wl_signal_add(&signal, &l3);
+
+	data.remove_listener = &l3;
+	wl_signal_emit_mutable(&signal, &data);
+
+	assert(data.count == 2);
+}

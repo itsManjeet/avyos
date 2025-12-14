@@ -11,7 +11,6 @@ tgt = custom_target(
 	],
 	input: [ shared_files, server_files ],
 	output: [ 'combine.xslt', 'index.xml' ],
-	depends: [dot_png, dot_map]
 )
 
 doxygen_Server_combine_xslt = tgt[0]

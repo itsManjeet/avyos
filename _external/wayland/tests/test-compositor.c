@@ -40,6 +40,8 @@
 #include "test-runner.h"
 #include "test-compositor.h"
 
+int client_log_fd = -1;
+
 /* --- Protocol --- */
 struct test_compositor;
 
@@ -101,26 +103,23 @@ handle_client_destroy(void *data)
 {
 	struct client_info *ci = data;
 	struct display *d;
-	siginfo_t status;
+	int status;
 
 	d = ci->display;
 
-	assert(waitid(P_PID, ci->pid, &status, WEXITED) != -1);
+	assert(waitpid(ci->pid, &status, 0) != -1);
 
-	switch (status.si_code) {
-	case CLD_KILLED:
-	case CLD_DUMPED:
+	if (WIFSIGNALED(status)) {
 		fprintf(stderr, "Client '%s' was killed by signal %d\n",
-			ci->name, status.si_status);
-		ci->exit_code = status.si_status;
-		break;
-	case CLD_EXITED:
-		if (status.si_status != EXIT_SUCCESS)
-			fprintf(stderr, "Client '%s' exited with code %d\n",
-				ci->name, status.si_status);
+			ci->name, WTERMSIG(status));
+		ci->kill_code = WTERMSIG(status);
 
-		ci->exit_code = status.si_status;
-		break;
+	} else if (WIFEXITED(status)) {
+		if (WEXITSTATUS(status) != EXIT_SUCCESS)
+			fprintf(stderr, "Client '%s' exited with code %d\n",
+				ci->name, WEXITSTATUS(status));
+
+		ci->exit_code = WEXITSTATUS(status);
 	}
 
 	++d->clients_terminated_no;
@@ -156,8 +155,20 @@ client_destroyed(struct wl_listener *listener, void *data)
 }
 
 static void
+client_log_handler(const char *fmt, va_list arg)
+{
+	va_list arg_copy;
+
+	va_copy(arg_copy, arg);
+	vdprintf(client_log_fd, fmt, arg_copy);
+	va_end(arg_copy);
+
+	vfprintf(stderr, fmt, arg);
+}
+
+static void
 run_client(void (*client_main)(void *data), void *data,
-	   int wayland_sock, int client_pipe)
+	   int wayland_sock, int client_pipe, int log_fd)
 {
 	char s[8];
 	int cur_fds;
@@ -172,6 +183,10 @@ run_client(void (*client_main)(void *data), void *data,
 	/* for wl_display_connect() */
 	snprintf(s, sizeof s, "%d", wayland_sock);
 	setenv("WAYLAND_SOCKET", s, 0);
+
+	/* Capture the log to the specified file descriptor. */
+	client_log_fd = log_fd;
+	wl_log_set_handler_client(client_log_handler);
 
 	cur_fds = count_open_fds();
 
@@ -188,6 +203,18 @@ run_client(void (*client_main)(void *data), void *data,
 	check_fd_leaks(cur_fds);
 }
 
+static int
+create_log_fd(void)
+{
+	char logname[] = "/tmp/wayland-tests-log-XXXXXX";
+	int log_fd = mkstemp(logname);
+
+	if (log_fd >= 0)
+		unlink(logname);
+
+	return log_fd;
+}
+
 static struct client_info *
 display_create_client(struct display *d,
 		      void (*client_main)(void *data),
@@ -199,10 +226,14 @@ display_create_client(struct display *d,
 	pid_t pid;
 	int can_continue = 0;
 	struct client_info *cl;
+	int log_fd;
 
 	assert(pipe(pipe_cli) == 0 && "Failed creating pipe");
 	assert(socketpair(AF_UNIX, SOCK_STREAM, 0, sock_wayl) == 0
 	       && "Failed creating socket pair");
+
+	log_fd = create_log_fd();
+	assert(log_fd >= 0 && "Failed to create log fd");
 
 	pid = fork();
 	assert(pid != -1 && "Fork failed");
@@ -211,10 +242,11 @@ display_create_client(struct display *d,
 		close(sock_wayl[1]);
 		close(pipe_cli[1]);
 
-		run_client(client_main, data, sock_wayl[0], pipe_cli[0]);
+		run_client(client_main, data, sock_wayl[0], pipe_cli[0], log_fd);
 
 		close(sock_wayl[0]);
 		close(pipe_cli[0]);
+		close(log_fd);
 
 		exit(0);
 	}
@@ -231,6 +263,7 @@ display_create_client(struct display *d,
 	cl->name = name;
 	cl->pid = pid;
 	cl->pipe = pipe_cli[1];
+	cl->log_fd = log_fd;
 	cl->destroy_listener.notify = &client_destroyed;
 
 	cl->wl_client = wl_client_create(d->wl_display, sock_wayl[1]);
@@ -329,7 +362,6 @@ struct display *
 display_create(void)
 {
 	struct display *d = NULL;
-	struct wl_global *g;
 	const char *socket_name;
 	int stat = 0;
 
@@ -350,9 +382,10 @@ display_create(void)
 	wl_list_init(&d->waiting_for_resume);
 	d->wfr_num = 0;
 
-	g = wl_global_create(d->wl_display, &test_compositor_interface,
-			     1, d, tc_bind);
-	assert(g && "Creating test global failed");
+	d->test_global = wl_global_create(d->wl_display,
+					  &test_compositor_interface,
+					  1, d, tc_bind);
+	assert(d->test_global && "Creating test global failed");
 
 	return d;
 }
@@ -389,8 +422,10 @@ display_resume(struct display *d)
 	wl_display_run(d->wl_display);
 }
 
+/* If signum is 0, expect a successful client exit, otherwise
+ * expect the client to have been killed by that signal. */
 void
-display_destroy(struct display *d)
+display_destroy_expect_signal(struct display *d, int signum)
 {
 	struct client_info *cl, *next;
 	int failed = 0;
@@ -401,15 +436,25 @@ display_destroy(struct display *d)
 	wl_list_for_each_safe(cl, next, &d->clients, link) {
 		assert(cl->wl_client == NULL);
 
-		if (cl->exit_code != 0) {
+		if (signum != 0 && cl->kill_code != signum) {
+			++failed;
+			fprintf(stderr,
+				"Client '%s' failed, expecting signal %d, "
+				"got %d\n",
+				cl->name, signum, cl->kill_code);
+		}
+		else if (signum == 0 &&
+			 (cl->kill_code != 0 || cl->exit_code != 0)) {
 			++failed;
 			fprintf(stderr, "Client '%s' failed\n", cl->name);
 		}
 
 		close(cl->pipe);
+		close(cl->log_fd);
 		free(cl);
 	}
 
+	wl_global_destroy(d->test_global);
 	wl_display_destroy(d->wl_display);
 	free(d);
 
@@ -417,6 +462,12 @@ display_destroy(struct display *d)
 		fprintf(stderr, "%d child(ren) failed\n", failed);
 		abort();
 	}
+}
+
+void
+display_destroy(struct display *d)
+{
+	display_destroy_expect_signal(d, 0);
 }
 
 /*
@@ -456,7 +507,7 @@ static const struct wl_registry_listener registry_listener =
 	NULL
 };
 
-struct client *client_connect()
+struct client *client_connect(void)
 {
 	struct wl_registry *reg;
 	struct client *c = calloc(1, sizeof *c);

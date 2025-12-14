@@ -24,6 +24,7 @@
  * SOFTWARE.
  */
 
+#include <errno.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -147,7 +148,9 @@ wl_array_copy(struct wl_array *array, struct wl_array *source)
 		array->size = source->size;
 	}
 
-	memcpy(array->data, source->data, source->size);
+	if (source->size > 0)
+		memcpy(array->data, source->data, source->size);
+
 	return 0;
 }
 
@@ -171,9 +174,23 @@ union map_entry {
 	void *data;
 };
 
-#define map_entry_is_free(entry) ((entry).next & 0x1)
-#define map_entry_get_data(entry) ((void *)((entry).next & ~(uintptr_t)0x3))
-#define map_entry_get_flags(entry) (((entry).next >> 1) & 0x1)
+static inline bool
+map_entry_is_free(union map_entry entry)
+{
+	return entry.next & 0x1;
+}
+
+static inline void *
+map_entry_get_data(union map_entry entry)
+{
+	return (void *)(entry.next & ~(uintptr_t)0x3);
+}
+
+static inline uint32_t
+map_entry_get_flags(union map_entry entry)
+{
+	return (entry.next >> 1) & 0x1;
+}
 
 void
 wl_map_init(struct wl_map *map, uint32_t side)
@@ -195,6 +212,7 @@ wl_map_insert_new(struct wl_map *map, uint32_t flags, void *data)
 	union map_entry *start, *entry;
 	struct wl_array *entries;
 	uint32_t base;
+	uint32_t count;
 
 	if (map->side == WL_MAP_CLIENT_SIDE) {
 		entries = &map->client_entries;
@@ -215,10 +233,26 @@ wl_map_insert_new(struct wl_map *map, uint32_t flags, void *data)
 		start = entries->data;
 	}
 
+	/* wl_array only grows, so if we have too many objects at
+	 * this point there's no way to clean up. We could be more
+	 * pro-active about trying to avoid this allocation, but
+	 * it doesn't really matter because at this point there is
+	 * nothing to be done but disconnect the client and delete
+	 * the whole array either way.
+	 */
+	count = entry - start;
+	if (count > WL_MAP_MAX_OBJECTS) {
+		/* entry->data is freshly malloced garbage, so we'd
+		 * better make it a NULL so wl_map_for_each doesn't
+		 * dereference it later. */
+		entry->data = NULL;
+		errno = ENOSPC;
+		return 0;
+	}
 	entry->data = data;
 	entry->next |= (flags & 0x1) << 1;
 
-	return (entry - start) + base;
+	return count + base;
 }
 
 int
@@ -235,12 +269,21 @@ wl_map_insert_at(struct wl_map *map, uint32_t flags, uint32_t i, void *data)
 		i -= WL_SERVER_ID_START;
 	}
 
-	count = entries->size / sizeof *start;
-	if (count < i)
+	if (i > WL_MAP_MAX_OBJECTS) {
+		errno = ENOSPC;
 		return -1;
+	}
 
-	if (count == i)
-		wl_array_add(entries, sizeof *start);
+	count = entries->size / sizeof *start;
+	if (count < i) {
+		errno = EINVAL;
+		return -1;
+	}
+
+	if (count == i) {
+		if (!wl_array_add(entries, sizeof *start))
+			return -1;
+	}
 
 	start = entries->data;
 	start[i].data = data;
@@ -257,30 +300,43 @@ wl_map_reserve_new(struct wl_map *map, uint32_t i)
 	struct wl_array *entries;
 
 	if (i < WL_SERVER_ID_START) {
-		if (map->side == WL_MAP_CLIENT_SIDE)
+		if (map->side == WL_MAP_CLIENT_SIDE) {
+			errno = EINVAL;
 			return -1;
+		}
 
 		entries = &map->client_entries;
 	} else {
-		if (map->side == WL_MAP_SERVER_SIDE)
+		if (map->side == WL_MAP_SERVER_SIDE) {
+			errno = EINVAL;
 			return -1;
+		}
 
 		entries = &map->server_entries;
 		i -= WL_SERVER_ID_START;
 	}
 
-	count = entries->size / sizeof *start;
-
-	if (count < i)
+	if (i > WL_MAP_MAX_OBJECTS) {
+		errno = ENOSPC;
 		return -1;
+	}
+
+	count = entries->size / sizeof *start;
+	if (count < i) {
+		errno = EINVAL;
+		return -1;
+	}
 
 	if (count == i) {
-		wl_array_add(entries, sizeof *start);
+		if (!wl_array_add(entries, sizeof *start))
+			return -1;
+
 		start = entries->data;
 		start[i].data = NULL;
 	} else {
 		start = entries->data;
 		if (start[i].data != NULL) {
+			errno = EINVAL;
 			return -1;
 		}
 	}
@@ -361,18 +417,21 @@ wl_map_lookup_flags(struct wl_map *map, uint32_t i)
 static enum wl_iterator_result
 for_each_helper(struct wl_array *entries, wl_iterator_func_t func, void *data)
 {
-	union map_entry *start, *end, *p;
 	enum wl_iterator_result ret = WL_ITERATOR_CONTINUE;
+	union map_entry entry, *start;
+	size_t count;
 
-	start = entries->data;
-	end = (union map_entry *) ((char *) entries->data + entries->size);
+	start = (union map_entry *) entries->data;
+	count = entries->size / sizeof(union map_entry);
 
-	for (p = start; p < end; p++)
-		if (p->data && !map_entry_is_free(*p)) {
-			ret = func(map_entry_get_data(*p), data, map_entry_get_flags(*p));
+	for (size_t idx = 0; idx < count; idx++) {
+		entry = start[idx];
+		if (entry.data && !map_entry_is_free(entry)) {
+			ret = func(map_entry_get_data(entry), data, map_entry_get_flags(entry));
 			if (ret != WL_ITERATOR_CONTINUE)
 				break;
 		}
+	}
 
 	return ret;
 }

@@ -28,40 +28,31 @@
 
 #include <stdint.h>
 
-typedef int		XcursorBool;
-typedef uint32_t	XcursorUInt;
-
-typedef XcursorUInt	XcursorDim;
-typedef XcursorUInt	XcursorPixel;
-
-typedef struct _XcursorImage {
-    XcursorUInt	    version;	/* version of the image data */
-    XcursorDim	    size;	/* nominal size for matching */
-    XcursorDim	    width;	/* actual width */
-    XcursorDim	    height;	/* actual height */
-    XcursorDim	    xhot;	/* hot spot x (must be inside image) */
-    XcursorDim	    yhot;	/* hot spot y (must be inside image) */
-    XcursorUInt	    delay;	/* animation delay to next frame (ms) */
-    XcursorPixel    *pixels;	/* pointer to pixels */
-} XcursorImage;
+struct xcursor_image {
+	uint32_t version; /* version of the image data */
+	uint32_t size; /* nominal size for matching */
+	uint32_t width; /* actual width */
+	uint32_t height; /* actual height */
+	uint32_t xhot; /* hot spot x (must be inside image) */
+	uint32_t yhot; /* hot spot y (must be inside image) */
+	uint32_t delay; /* animation delay to next frame (ms) */
+	uint32_t *pixels; /* pointer to pixels */
+};
 
 /*
  * Other data structures exposed by the library API
  */
-typedef struct _XcursorImages {
-    int		    nimage;	/* number of images */
-    XcursorImage    **images;	/* array of XcursorImage pointers */
-    char	    *name;	/* name used to load images */
-} XcursorImages;
-
-XcursorImages *
-XcursorLibraryLoadImages (const char *file, const char *theme, int size);
+struct xcursor_images {
+	int nimage; /* number of images */
+	struct xcursor_image **images; /* array of XcursorImage pointers */
+	char *name; /* name used to load images */
+};
 
 void
-XcursorImagesDestroy (XcursorImages *images);
+xcursor_images_destroy(struct xcursor_images *images);
 
 void
 xcursor_load_theme(const char *theme, int size,
-		    void (*load_callback)(XcursorImages *, void *),
-		    void *user_data);
+		   void (*load_callback)(struct xcursor_images *, void *),
+		   void *user_data);
 #endif

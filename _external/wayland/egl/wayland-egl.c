@@ -35,6 +35,20 @@
 #include "wayland-util.h"
 
 
+/** Resize the EGL window
+ *
+ * \param egl_window A pointer to a struct wl_egl_window
+ * \param width The new width
+ * \param height The new height
+ * \param dx Offset on the X axis
+ * \param dy Offset on the Y axis
+ *
+ * Note that applications should prefer using the wl_surface.offset request if
+ * the associated wl_surface has the interface version 5 or higher.
+ *
+ * If the wl_surface.offset request is used, applications MUST pass 0 to both
+ * dx and dy.
+ */
 WL_EXPORT void
 wl_egl_window_resize(struct wl_egl_window *egl_window,
 		     int width, int height,

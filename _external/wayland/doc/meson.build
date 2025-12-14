@@ -1,3 +1,7 @@
+if not get_option('libraries')
+	error('-Ddocumentation=true requires -Dlibraries=true')
+endif
+
 dot = find_program('dot')
 doxygen = find_program('doxygen')
 xsltproc = find_program('xsltproc')
@@ -18,7 +22,7 @@ if vers.version_compare('< 2.26.0')
 endif
 
 manpage_xsl = 'http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl'
-cmd = run_command(xsltproc, '--nonet', manpage_xsl)
+cmd = run_command(xsltproc, '--nonet', manpage_xsl, check: false)
 if cmd.returncode() != 0
 	error('The style sheet for man pages providing "@0@" was not found.'.format(manpage_xsl))
 endif

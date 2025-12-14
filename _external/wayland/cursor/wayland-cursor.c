@@ -27,6 +27,7 @@
 #include "xcursor.h"
 #include "wayland-cursor.h"
 #include "wayland-client.h"
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -68,11 +69,16 @@ shm_pool_create(struct wl_shm *shm, int size)
 		goto err_close;
 
 	pool->pool = wl_shm_create_pool(shm, pool->fd, size);
+	if (!pool->pool)
+		goto err_unmap;
+
 	pool->size = size;
 	pool->used = 0;
 
 	return pool;
 
+err_unmap:
+	munmap(pool->data, size);
 err_close:
 	close(pool->fd);
 err_free:
@@ -92,7 +98,7 @@ shm_pool_resize(struct shm_pool *pool, int size)
 
 	pool->data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED,
 			  pool->fd, 0);
-	if (pool->data == (void *)-1)
+	if (pool->data == MAP_FAILED)
 		return 0;
 	pool->size = size;
 
@@ -129,7 +135,6 @@ struct wl_cursor_theme {
 	struct wl_cursor **cursors;
 	struct wl_shm *shm;
 	struct shm_pool *pool;
-	char *name;
 	int size;
 };
 
@@ -152,32 +157,32 @@ struct cursor {
  * the returned buffer.
  */
 WL_EXPORT struct wl_buffer *
-wl_cursor_image_get_buffer(struct wl_cursor_image *_img)
+wl_cursor_image_get_buffer(struct wl_cursor_image *image)
 {
-	struct cursor_image *image = (struct cursor_image *) _img;
-	struct wl_cursor_theme *theme = image->theme;
+	struct cursor_image *img = (struct cursor_image *) image;
+	struct wl_cursor_theme *theme = img->theme;
 
-	if (!image->buffer) {
-		image->buffer =
+	if (!img->buffer) {
+		img->buffer =
 			wl_shm_pool_create_buffer(theme->pool->pool,
-						  image->offset,
-						  _img->width, _img->height,
-						  _img->width * 4,
+						  img->offset,
+						  image->width, image->height,
+						  image->width * 4,
 						  WL_SHM_FORMAT_ARGB8888);
 	};
 
-	return image->buffer;
+	return img->buffer;
 }
 
 static void
-wl_cursor_image_destroy(struct wl_cursor_image *_img)
+wl_cursor_image_destroy(struct wl_cursor_image *image)
 {
-	struct cursor_image *image = (struct cursor_image *) _img;
+	struct cursor_image *img = (struct cursor_image *) image;
 
-	if (image->buffer)
-		wl_buffer_destroy(image->buffer);
+	if (img->buffer)
+		wl_buffer_destroy(img->buffer);
 
-	free(image);
+	free(img);
 }
 
 static void
@@ -252,12 +257,9 @@ err_free_cursor:
 }
 
 static void
-load_default_theme(struct wl_cursor_theme *theme)
+load_fallback_theme(struct wl_cursor_theme *theme)
 {
 	uint32_t i;
-
-	free(theme->name);
-	theme->name = strdup("default");
 
 	theme->cursor_count = ARRAY_LENGTH(cursor_metadata);
 	theme->cursors = malloc(theme->cursor_count * sizeof(*theme->cursors));
@@ -278,12 +280,13 @@ load_default_theme(struct wl_cursor_theme *theme)
 }
 
 static struct wl_cursor *
-wl_cursor_create_from_xcursor_images(XcursorImages *images,
+wl_cursor_create_from_xcursor_images(struct xcursor_images *images,
 				     struct wl_cursor_theme *theme)
 {
 	struct cursor *cursor;
 	struct cursor_image *image;
-	int i, size;
+	size_t size;
+	int i;
 
 	cursor = malloc(sizeof *cursor);
 	if (!cursor)
@@ -313,7 +316,12 @@ wl_cursor_create_from_xcursor_images(XcursorImages *images,
 		image->image.hotspot_y = images->images[i]->yhot;
 		image->image.delay = images->images[i]->delay;
 
-		size = image->image.width * image->image.height * 4;
+		size = (size_t) image->image.width * image->image.height * 4;
+		if (size > INT_MAX) {
+			free(image);
+			break;
+		}
+
 		image->offset = shm_pool_allocate(theme->pool, size);
 		if (image->offset < 0) {
 			free(image);
@@ -339,33 +347,34 @@ wl_cursor_create_from_xcursor_images(XcursorImages *images,
 }
 
 static void
-load_callback(XcursorImages *images, void *data)
+load_callback(struct xcursor_images *images, void *data)
 {
 	struct wl_cursor_theme *theme = data;
 	struct wl_cursor *cursor;
+	struct wl_cursor **p;
+	size_t s;
 
 	if (wl_cursor_theme_get_cursor(theme, images->name)) {
-		XcursorImagesDestroy(images);
+		xcursor_images_destroy(images);
 		return;
 	}
 
 	cursor = wl_cursor_create_from_xcursor_images(images, theme);
 
 	if (cursor) {
-		theme->cursor_count++;
-		theme->cursors =
-			realloc(theme->cursors,
-				theme->cursor_count * sizeof theme->cursors[0]);
+		s = theme->cursor_count + 1;
+		p = realloc(theme->cursors, s * sizeof theme->cursors[0]);
 
-		if (theme->cursors == NULL) {
-			theme->cursor_count--;
+		if (p == NULL) {
 			free(cursor);
 		} else {
+			theme->cursor_count = s;
+			theme->cursors = p;
 			theme->cursors[theme->cursor_count - 1] = cursor;
 		}
 	}
 
-	XcursorImagesDestroy(images);
+	xcursor_images_destroy(images);
 }
 
 /** Load a cursor theme to memory shared with the compositor
@@ -388,30 +397,31 @@ wl_cursor_theme_load(const char *name, int size, struct wl_shm *shm)
 	if (!theme)
 		return NULL;
 
+	if (size < 0 || (size > 0 && INT_MAX / size / 4 < size))
+		goto err;
+
 	if (!name)
 		name = "default";
 
-	theme->name = strdup(name);
-	if (!theme->name)
-		goto out_error_name;
 	theme->size = size;
 	theme->cursor_count = 0;
 	theme->cursors = NULL;
 
 	theme->pool = shm_pool_create(shm, size * size * 4);
 	if (!theme->pool)
-		goto out_error_pool;
+		goto err;
 
 	xcursor_load_theme(name, size, load_callback, theme);
 
 	if (theme->cursor_count == 0)
-		load_default_theme(theme);
+		xcursor_load_theme(NULL, size, load_callback, theme);
+
+	if (theme->cursor_count == 0)
+		load_fallback_theme(theme);
 
 	return theme;
 
-out_error_pool:
-	free(theme->name);
-out_error_name:
+err:
 	free(theme);
 	return NULL;
 }
@@ -430,7 +440,6 @@ wl_cursor_theme_destroy(struct wl_cursor_theme *theme)
 
 	shm_pool_destroy(theme->pool);
 
-	free(theme->name);
 	free(theme->cursors);
 	free(theme);
 }
@@ -468,21 +477,21 @@ wl_cursor_theme_get_cursor(struct wl_cursor_theme *theme,
  * given time in the cursor animation.
  */
 WL_EXPORT int
-wl_cursor_frame_and_duration(struct wl_cursor *_cursor, uint32_t time,
+wl_cursor_frame_and_duration(struct wl_cursor *cursor, uint32_t time,
 			     uint32_t *duration)
 {
-	struct cursor *cursor = (struct cursor *) _cursor;
+	struct cursor *cur = (struct cursor *) cursor;
 	uint32_t t;
 	int i;
 
-	if (cursor->cursor.image_count == 1) {
+	if (cur->cursor.image_count == 1 || cur->total_delay == 0) {
 		if (duration)
 			*duration = 0;
 		return 0;
 	}
 
 	i = 0;
-	t = time % cursor->total_delay;
+	t = time % cur->total_delay;
 
 	/* If there is a 0 delay in the image set then this
 	 * loop breaks on it and we display that cursor until
@@ -491,8 +500,8 @@ wl_cursor_frame_and_duration(struct wl_cursor *_cursor, uint32_t time,
 	 * seen one in a cursor file, we haven't bothered to
 	 * "fix" this.
 	 */
-	while (t - cursor->cursor.images[i]->delay < t)
-		t -= cursor->cursor.images[i++]->delay;
+	while (t - cur->cursor.images[i]->delay < t)
+		t -= cur->cursor.images[i++]->delay;
 
 	if (!duration)
 		return i;
@@ -500,10 +509,10 @@ wl_cursor_frame_and_duration(struct wl_cursor *_cursor, uint32_t time,
 	/* Make sure we don't accidentally tell the caller this is
 	 * a static cursor image.
 	 */
-	if (t >= cursor->cursor.images[i]->delay)
+	if (t >= cur->cursor.images[i]->delay)
 		*duration = 1;
 	else
-		*duration = cursor->cursor.images[i]->delay - t;
+		*duration = cur->cursor.images[i]->delay - t;
 
 	return i;
 }
@@ -517,7 +526,7 @@ wl_cursor_frame_and_duration(struct wl_cursor *_cursor, uint32_t time,
  * given time in the cursor animation.
  */
 WL_EXPORT int
-wl_cursor_frame(struct wl_cursor *_cursor, uint32_t time)
+wl_cursor_frame(struct wl_cursor *cursor, uint32_t time)
 {
-	return wl_cursor_frame_and_duration(_cursor, time, NULL);
+	return wl_cursor_frame_and_duration(cursor, time, NULL);
 }
