@@ -1,0 +1,269 @@
+Mesa 25.1.2 Release Notes / 2025-06-04
+======================================
+
+Mesa 25.1.2 is a bug fix release which fixes bugs found since the 25.1.1 release.
+
+Mesa 25.1.2 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.2 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: c29c93fd35119b949a589463d1feb61b4000c0daad04e8d543d7f909f119bd97  mesa-25.1.2.tar.xz
+    SHA512: 60ac5c5aea8460d5281558491838ef0af9d7ba9ab7fd71fa58b6914da154d171a6b3c8a1a6daeb6cc27ced63056c3a784b5172d33429600a3d89c2849f260114  mesa-25.1.2.tar.xz
+
+
+New features
+------------
+
+- None
+
+
+Bug fixes
+---------
+
+- Confidential issue #13281
+- anv, regression: Missing terrain in It Takes Two on BMG
+- "breaking-limit" benchmark will Freeze before starting.
+- rusticl: CL_MEM_HOST_READ_ONLY cl_image2d reads zeroes from host on AMD Vega8
+- Bug (bad code optimization?) in the GLSL (compute) shader compiler
+- nvk: Broken lighting in Trine 5
+- RX9070 hard crash with Mafia Definitive Edition
+- RADV: Potential bug with vulkan fragment shader interpolation (on outputs from mesh shaders?)
+- In the game "Foundation" a buildings areas of effect is missing
+- ANV: Dota 2 May 22 2025 update crashing in vkCmdBindDescriptorSets with no validation error
+- Vulkan Video engages during playback of format which is not supported by my Fiji GPU
+- Weston hangs on virtio (non-accelerated version) on QEMU with Mesa main
+- KVM/qemu: GDM fails to start / gnome-shell crashes after update to mesa-dri-drivers-25.0.3
+
+
+Changes
+-------
+
+Adam Jackson (2):
+
+- vtn: (Silently) handle FunctionParameterAttributeNo{Capture,Write}
+- vtn/opencl: Handle OpenCLstd_F{Min,Max}_common
+
+Calder Young (2):
+
+- iris: Fix accidental writes to global dirty bit instead of local
+- iris: set dependency between SF_CL and CC states
+
+Christian Gmeiner (1):
+
+- zink: Fix NIR validation error in cubemap-to-array lowering
+
+Connor Abbott (1):
+
+- tu: Use safe-const GS variant for VPC binning state
+
+David Rosca (4):
+
+- radv/video: Limit 10bit H265 decode support to stoney and newer
+- frontends/va: Fix H264 top/bottom is reference flags
+- radeonsi/vcn: Use picture fence in JPEG decode
+- radv/video: Set correct minCodedExtent for encode
+
+Dmitry Baryshkov (2):
+
+- meson: stop building XA by default
+- freedreno: replace fixed array for globabl_bindings with dynamic array
+
+Eric Engestrom (4):
+
+- docs: add sha sum for 25.1.1
+- .pick_status.json: Update to 57b04e8dfda9b09fb018907ae921f3ebbc68ad3a
+- .pick_status.json: Mark 09e713f46be03ec22c9f9d592c2a435e9afca3f3 as denominated
+- .pick_status.json: Mark f0dde6ca7f64a25bc541b9437dc9de6fc59761a5 as denominated
+
+Eric R. Smith (1):
+
+- panfrost, panvk: fix G31 use of SHADER_MODE_EARLY_ZS_ALWAYS
+
+Erik Faye-Lund (2):
+
+- mesa/main: remove non-existing function prototype
+- panfrost: do not try to use 4x4 tiles on v4 gpus
+
+Faith Ekstrand (4):
+
+- nvk: Allocate the correct VAB size on Kepler
+- nouveau/mme: Don't install the HW tests
+- nvk: Only allow importing mappable dma-bufs to HOST_VISIBLE types
+- vulkan/pipeline: Hash null descriptor robustness info
+
+Georg Lehmann (3):
+
+- aco: clamp exponent of 16bit ldexp
+- nir/opt_if: don't replace constant uses with other uniform values
+- nir/opt_if: limit rewrite_uniform_uses iand recursion
+
+Gurchetan Singh (1):
+
+- gfxstream: get rid of logspam in virtualized case
+
+Iago Toral Quiroga (1):
+
+- broadcom/compiler: handle moving last ubo load in the block correctly
+
+Jonathan Gray (1):
+
+- vulkan: add missing include for FALLTHROUGH
+
+Jordan Justen (2):
+
+- intel/dev: Add BMG PCI IDs 0xe220-0xe223
+- intel/dev: Add PTL PCI IDs 0xb084-0xb087
+
+Juan A. Suarez Romero (2):
+
+- v3d,v3dv: set max supertiles to 256
+- v3dv: consider render area when configuring supertiles
+
+Karol Herbst (6):
+
+- nir: fix use-after-free on function parameter names
+- vtn: fix use-after-free on function parameter names
+- zink: set unordered_read/write after buffer_barrier in set_global_binding
+- rusticl/kernel: rework validation in clSetKernelExecInfo
+- rusticl/kernel: implement CL_INVALID_ARG_VALUE for image args in clSetKernelArg
+- rusticl/memory: properly set pipe_image_view::access
+
+Lars-Ivar Hesselberg Simonsen (4):
+
+- panvk/v10+: Remove unnecessary alloc in dispatch_precomp
+- panvk/v10+: Limit direct dispatch WLS allocation
+- panvk/jm: Apply direct dispatch WLS instance limit
+- panfrost: Apply direct dispatch WLS instance limit
+
+LingMan (1):
+
+- entaviv/isa: Silence warnings about non snake case names
+
+Lionel Landwerlin (5):
+
+- anv/brw: stop turning load_push_constants into load_uniform
+- hasvk/elk: stop turning load_push_constants into load_uniform
+- anv: don't use pipeline layout at descriptor bind
+- brw: don't generate invalid instructions
+- brw: fix brw_nir_fs_needs_null_rt helper
+
+Marek Olšák (2):
+
+- winsys/amdgpu: fix running out of 32bit address space with high FPS
+- glsl: fix sampler and image type checking in lower_precision
+
+Mary Guillemard (2):
+
+- pan/genxml: Fix typo for NEXT_SB_ENTRY
+- pan/bi: Stop writing pan_shader_info::vs::idvs on non VS stages
+
+Mauro Rossi (4):
+
+- android: fix llvmpipe build rules
+- llvmpipe: Define LP_NIR_SHADER_DUMP_DIR differently on Android
+- llvmpipe: Use mkdir instead of std::filesystem::create_directory on Android
+- Revert "android: Link with libc++fs up to SDK 35"
+
+Maíra Canal (1):
+
+- v3d: make sure all jobs are done before destroying the context
+
+Mel Henning (5):
+
+- nak: Fix a perf regression in tex lowering
+- nak/spill_values: Follow phis from src to dest
+- nvk: Call ensure_slm for nvk_cmd_dispatch_shader
+- nak: Forbid reordering labeled OpNop
+- nak: Don't swap f2fp sources in legalize
+
+Mike Blumenkrantz (8):
+
+- llvmpipe: disable conditional rendering mem for blits
+- lavapipe: handle counterOffset in vkCmdDrawIndirectByteCountEXT
+- tc: fix detection of in-flight resource usage when sync is used
+- zink: also check for host-visible on staging uploads
+- zink: fix queue transition check in check_for_layout_update()
+- d3d10umd: stop using pipe_surface::width/height
+- zink: unlock instance mutex if creation fails
+- lavapipe: undo fb remapping before poisoning memory at end of renderpass
+
+Natalie Vock (1):
+
+- radv/rt: Report 256 byte alignment for scratch
+
+Olivia Lee (9):
+
+- pan/csf: add cs_maybe mechanism to retroactively patch cs contents
+- pan/csf: rename cs_exception_handler to cs_function
+- panvk/csf: set up shared register dump regions for cs functions
+- panvk: track whether we are in a vk_meta command
+- panvk: fix case where vk_meta is used after PROVOKING_VERTEX_MODE_LAST
+- panvk/csf: fix case where vk_meta is used before PROVOKING_VERTEX_MODE_LAST
+- panvk/csf: fix provoking vertex mode in partial secondary cmdbufs
+- panfrost: fix assertion failure compiling image conversion shaders
+- panfrost: legalize afbc before zs and rt clears
+
+Patrick Lerda (1):
+
+- r600: fix pop-free clipping
+
+Paulo Zanoni (2):
+
+- anv/trtt: don't avoid the TR-TT submission when there is stuff to signal
+- intel/isl: don't clamp num_elements to (1 << 27)
+
+Qiang Yu (1):
+
+- nir/opt_varyings: fix mesh shader miss promote varying to flat
+
+Rhys Perry (1):
+
+- nir: fix unpack_unorm_2x16/unpack_snorm_2x16 constant folding
+
+Rob Clark (1):
+
+- ci: Disable fd-farm
+
+Robert Mader (2):
+
+- egl: Remove check for GL or GLES
+- egl: Fixes for eglQueryContext and RESET_NOTIFICATION_STRATEGY
+
+Samuel Pitoiset (4):
+
+- radv: fix capture/replay with sparse images and descriptor buffer
+- radv: add radv_disable_hiz_his_gfx12 and enable for Mafia Definitive Edition
+- radv,radeonsi: emit UPDATE_DB_SUMMARIZER_TIMEOUT on GFX12
+- radv: set radv_zero_vram=true for GPUScore: Breaking limit
+
+Sviatoslav Peleshko (1):
+
+- intel/brw: Use correct instruction for value change check when coalescing
+
+Timothy Arceri (3):
+
+- mesa: update validation when draw buffer changes
+- mesa: extend linear_as_nearest work around
+- util: add workaround for the game Foundation
+
+Yao Zi (1):
+
+- radeonsi: Fix violation of aliasing rules in radeon_ws_bo_reference
+
+Yiwei Zhang (3):
+
+- kopper: Revert "kopper: Explicitly choose zink"
+- panvk: fix memory binding for wsi image alias
+- vulkan/wsi: include missing barrier for transferring to blit dst image

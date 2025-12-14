@@ -1,0 +1,4 @@
+__egl_Main
+MesaGLInteropEGLQueryDeviceInfo
+MesaGLInteropEGLExportObject
+MesaGLInteropEGLFlushObjects

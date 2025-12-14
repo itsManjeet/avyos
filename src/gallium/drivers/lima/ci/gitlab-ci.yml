@@ -1,0 +1,24 @@
+include:
+  - local: 'src/gallium/drivers/lima/ci/gitlab-ci-inc.yml'
+
+lima-mali450-deqp:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .lima-rules
+    - .lava-meson-gxl-s805x-libretech-ac:arm64
+  variables:
+    HWCI_START_WESTON: 1
+    DEQP_SUITE: lima-mali450-deqp
+    VISIBILITY_GROUP: "mesa-ci"
+
+lima-mali450-piglit:arm64:
+  extends:
+    - .lava-arm64-test-gl
+    - .test-piglit
+    - .lima-rules
+    - .lava-meson-gxl-s805x-libretech-ac:arm64
+  variables:
+    DEQP_SUITE: lima-mali450-piglit
+    PIGLIT_PLATFORM: gbm
+    VISIBILITY_GROUP: "mesa-ci"
+  parallel: 2

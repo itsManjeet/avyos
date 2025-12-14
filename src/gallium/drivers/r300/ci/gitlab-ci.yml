@@ -1,0 +1,64 @@
+include:
+  - local: 'src/gallium/drivers/r300/ci/gitlab-ci-inc.yml'
+
+.ondracka-generic:
+  extends:
+    - .ci-tron-x86_64-test-gl-manual  # use debian-build-x86_64 rather than debian-x86_64
+    - .r300-manual-rules
+  variables:
+    FDO_CI_CONCURRENT: 2
+    RUNNER_FARM_LOCATION: ondracka
+    CI_TRON_INITRAMFS__DEPMOD__URL: "https://gitlab.freedesktop.org/gfx-ci/boot2container/-/releases/$B2C_VERSION/downloads/linux-x86_64.depmod.cpio.xz"
+    CI_TRON_INITRAMFS__GPU__URL: "https://gitlab.freedesktop.org/gfx-ci/boot2container/-/releases/$B2C_VERSION/downloads/linux-x86_64.gpu.cpio"
+    CI_TRON_INITRAMFS__GPU__FORMAT__0__ARCHIVE__KEEP__0__PATH: "(lib/(modules|firmware/radeon)/.*)"
+    CI_TRON_KERNEL_CMDLINE__LOAD_MODULES: 'modules_load=radeon'
+
+.ondracka-rv530:
+  extends:
+    - .ondracka-generic
+  variables:
+    CI_TRON_DUT_SETUP_TAGS: radeon:codename:RV530
+
+.ondracka-rv380:
+  extends:
+    - .ondracka-generic
+  variables:
+    CI_TRON_DUT_SETUP_TAGS: radeon:codename:RV380
+
+r300-rv530-deqp-gles2:
+  extends:
+    - .ondracka-rv530
+  variables:
+    DEQP_SUITE: r300-rv530
+    GPU_VERSION: r300-rv530-nohiz
+    # Only single process can use hiz at a time, and we have some issues
+    # there in depth stencil tests, so it brings flakes,
+    # see https://gitlab.freedesktop.org/mesa/mesa/-/issues/8093
+    RADEON_DEBUG: nohiz
+
+r300-rv380-deqp-gles2:
+  extends:
+    - .ondracka-rv380
+  variables:
+    DEQP_SUITE: r300-rv380
+    GPU_VERSION: r300-rv380
+
+r300-rv410-deqp-piglit:
+  extends:
+    - .ondracka-generic
+    - .test-piglit
+  variables:
+    DEQP_SUITE: r300-rv410
+    GPU_VERSION: r300-rv410
+    PIGLIT_PLATFORM: gbm
+    CI_TRON_DUT_SETUP_TAGS: radeon:codename:RV410
+
+r300-rv530-piglit:
+  extends:
+    - .ondracka-rv530
+    - .test-piglit
+  variables:
+    DEQP_SUITE: r300-piglit
+    PIGLIT_PLATFORM: gbm
+    RADEON_DEBUG: nohiz
+    GPU_VERSION: r300-rv530-nohiz

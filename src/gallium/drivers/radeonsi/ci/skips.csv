@@ -1,0 +1,26 @@
+# These are not built on Linux
+spec@!opengl 1.1@windowoverlap
+wgl@wgl-multi-context-single-window
+wgl@wgl-multi-window-single-context
+wgl@wgl-sanity
+
+# Don't test GPU resets
+robustness.*infinite_loop
+
+# Don't test max allocation sizes
+maxsize
+max[_-].*size
+maxuniformblocksize
+
+# Don't test interop with Vulkan
+ext_external_obj
+
+# These create a bright green window that covers the whole screen, which can be distracting.
+glx@glx_arb_sync_control@timing.*fullscreen
+
+# This one takes forever
+KHR-Single-GL46.arrays_of_arrays_gl.AtomicUsage
+
+# This might hang in release builds. We should fail to compile instead of hanging.
+# gfx10_ngg_calculate_subgroup_info: Assertion `max_esverts >= max_verts_per_prim && max_gsprims >= 1' failed.
+gs-max-output

@@ -1,0 +1,13 @@
+# nouveau 0000:2d:00.0: gsp: mmu fault queued
+# nouveau 0000:2d:00.0: gsp: rc engn:00000001 chid:24 type:31 scope:1 part:233
+# nouveau 0000:2d:00.0: fifo:c00000:0003:0018:[d3d12[1056]] errored - disabling channel
+# nouveau 0000:2d:00.0: d3d12[1056]: channel 24 killed!
+test_uav_counter_null_behavior_dxbc,Crash
+test_uav_counter_null_behavior_dxil,Crash
+
+test_sampler_feedback_implicit_lod_aniso,Fail
+
+# Might be a test bug; see https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32777#note_3010306
+test_wmma_copy_transpose,Crash
+test_wmma_matmul,Crash
+test_wmma_multi_matmul,Crash

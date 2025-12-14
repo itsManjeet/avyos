@@ -1,0 +1,65 @@
+include:
+  - local: 'docs/gitlab-ci-inc.yml'
+
+deploy-docs:
+  extends: .docs-base
+  stage: deploy
+  pages: true
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.no_scheduled_pipelines-rules, rules]
+    # post-merge pipeline
+    - if: '$CI_PROJECT_NAMESPACE == "mesa" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH'
+      changes: &docs-or-ci
+        - docs/**/*
+        - .gitlab-ci.yml
+        # All the source files documentation is extracted from
+        # git grep -h ":file: src/" -- docs | sort | uniq
+        - src/compiler/nir/nir.h
+        - src/intel/isl/**/*
+        - src/vulkan/runtime/**/*
+      when: always
+    # Other cases default to never
+
+test-docs:
+  extends: .docs-base
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  stage: deploy
+  rules:
+    - !reference [.common-rules, rules]
+    # merge pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $GITLAB_USER_LOGIN == "marge-bot"'
+      changes: *docs-or-ci
+      when: on_success
+    # pre-merge pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *docs-or-ci
+      when: manual
+    # fork pipeline
+    - if: '$CI_COMMIT_BRANCH && $CI_PROJECT_NAMESPACE != "mesa"'
+      changes: *docs-or-ci
+      when: manual
+    # Other cases default to never
+
+linkcheck-docs:
+  extends: .docs-base
+  # Cancel job if a newer commit is pushed to the same branch
+  interruptible: true
+  stage: deploy
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.scheduled_pipeline-rules, rules]
+    # pre-merge pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $GITLAB_USER_LOGIN != "marge-bot"'
+      changes: *docs-or-ci
+      when: manual
+  allow_failure: true
+  script:
+    - |
+      if ! sphinx-build -W -b linkcheck docs public
+      then
+        echo "Summary:"
+        cat public/output.txt
+        exit 1
+      fi

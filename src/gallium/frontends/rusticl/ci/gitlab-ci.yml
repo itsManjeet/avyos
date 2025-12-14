@@ -1,0 +1,3 @@
+include:
+  - local: 'src/gallium/frontends/rusticl/ci/gitlab-ci-inc.yml'
+

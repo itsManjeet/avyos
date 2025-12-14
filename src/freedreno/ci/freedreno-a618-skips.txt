@@ -1,0 +1,18 @@
+# Note: skips lists for CI are just a list of lines that, when
+# non-zero-length and not starting with '#', will regex match to
+# delete lines from the test list.  Be careful.
+
+# Still running after 3 hours, time is spent in batch_draw_tracking().
+KHR-GLES31.core.shader_image_load_store.basic-allFormats-store-fs
+
+# 60s timeout
+KHR-GLES31.core.tessellation_shader.tessellation_control_to_tessellation_evaluation.gl_MaxPatchVertices_Position_PointSize
+KHR-GL46.copy_image.functional
+
+# Flaky when run in parallel due to DRM control node acquisition.
+dEQP-VK.wsi.*display.*
+
+# Exclude WSI related tests for a618-vk-asan
+# The ones that weren't being skipped were causing leaks
+asan-dEQP-VK.image.swapchain_mutable.*
+asan-dEQP-VK.wsi.*

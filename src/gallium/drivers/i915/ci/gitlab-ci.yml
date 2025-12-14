@@ -1,0 +1,12 @@
+include:
+  - local: 'src/intel/ci/gitlab-ci-inc.yml'
+  - local: 'src/gallium/drivers/i915/ci/gitlab-ci-inc.yml'
+
+
+i915-g33:
+  extends:
+    - .ondracka-g33-test
+    - .test-piglit
+  variables:
+    DEQP_SUITE: i915g
+    PIGLIT_PLATFORM: gbm

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE OpenGLAPI SYSTEM "gl_API.dtd">
+
+<OpenGLAPI>
+
+<category name="GL_OVR_multiview">
+    <function name="FramebufferTextureMultiviewOVR" es2="3.0" desktop="true" no_error="true">
+        <param name="target" type="GLenum"/>
+        <param name="attachment" type="GLenum"/>
+        <param name="texture" type="GLuint"/>
+        <param name="level" type="GLint"/>
+        <param name="baseviewindex" type="GLint"/>
+        <param name="numviews" type="GLsizei"/>
+    </function>
+
+    <function name="NamedFramebufferTextureMultiviewOVR" es2="3.0" desktop="true" no_error="true">
+        <param name="framebuffer" type="GLuint"/>
+        <param name="attachment" type="GLenum"/>
+        <param name="texture" type="GLuint"/>
+        <param name="level" type="GLint"/>
+        <param name="baseviewindex" type="GLint"/>
+        <param name="numviews" type="GLsizei"/>
+    </function>
+
+    <enum name="MAX_VIEWS_OVR" count="1" value="0x9631"/>
+</category>
+
+</OpenGLAPI>

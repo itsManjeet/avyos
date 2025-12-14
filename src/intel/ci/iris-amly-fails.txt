@@ -1,0 +1,2 @@
+# New failures with GL CTS 4.6.6.0
+KHR-GL46.direct_state_access.vertex_arrays_vertex_buffers_errors,Fail

@@ -1,0 +1,23 @@
+dEQP-GLES2.functional.fbo.render.shared_colorbuffer.rbo_rgba4_depth_component16
+
+# the array tests take us down with a fault:
+# panfrost ff9a0000.gpu: js fault, js=0, status=INSTR_INVALID_PC
+# ... and the random tests presumably include some array in with them
+# flake the lot until it's been root-caused; first seen around 2025-05-07
+dEQP-GLES3.functional.fragment_out.array..*
+dEQP-GLES3.functional.fragment_out.random..*
+
+# These go from Fail to Crash every now and then
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_alpha_to_coverage
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_both
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_both_inverted
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_sample_coverage
+dEQP-GLES3.functional.multisample.fbo_max_samples.constancy_sample_coverage_inverted
+dEQP-GLES3.functional.multisample.fbo_max_samples.proportionality_alpha_to_coverage
+dEQP-GLES3.functional.multisample.fbo_max_samples.stencil
+dEQP-GLES31.functional.fbo.no_attachments.maximums.all
+dEQP-GLES31.functional.texture.multisample.samples_10..*
+dEQP-GLES31.functional.texture.multisample.samples_12..*
+dEQP-GLES31.functional.texture.multisample.samples_13..*
+dEQP-GLES31.functional.texture.multisample.samples_16..*
+dEQP-GLES3.functional.draw_buffers_indexed.random.max_implementation_draw_buffers.15

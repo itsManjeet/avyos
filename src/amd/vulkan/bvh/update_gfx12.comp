@@ -1,0 +1,196 @@
+/*
+ * Copyright © 2025 Valve Corporation
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#version 460
+
+#extension GL_GOOGLE_include_directive : require
+
+#extension GL_EXT_shader_explicit_arithmetic_types_int8 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int16 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int32 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_int64 : require
+#extension GL_EXT_shader_explicit_arithmetic_types_float16 : require
+#extension GL_EXT_scalar_block_layout : require
+#extension GL_EXT_buffer_reference : require
+#extension GL_EXT_buffer_reference2 : require
+#extension GL_KHR_memory_scope_semantics : require
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_shuffle : require
+#extension GL_KHR_shader_subgroup_ballot : require
+#extension GL_KHR_shader_subgroup_clustered : require
+
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+
+#include "build_interface.h"
+#include "invocation_cluster.h"
+#include "update.h"
+
+layout(push_constant) uniform CONSTS
+{
+   update_gfx12_args args;
+};
+
+uint32_t
+read_bits(VOID_REF data, uint32_t start, uint32_t count)
+{
+   uint32_t shift = start % 32;
+   uint32_t lower = DEREF(INDEX(uint32_t, data, start / 32)) >> shift;
+   uint32_t upper = 0;
+   if (shift != 0 && shift + count > 32)
+      upper = DEREF(INDEX(uint32_t, data, start / 32 + 1)) << (32 - shift);
+   uint32_t total = lower | upper;
+   return count != 32 ? total & ((1u << count) - 1u) : total;
+}
+
+void
+main()
+{
+   uint32_t bvh_offset = DEREF(args.src).bvh_offset;
+
+   VOID_REF src_bvh = OFFSET(args.src, bvh_offset);
+   VOID_REF dst_bvh = OFFSET(args.dst, bvh_offset);
+
+   uint32_t leaf_node_size = SIZEOF(radv_gfx12_primitive_node);
+   uint32_t first_leaf_offset = id_to_offset(RADV_BVH_ROOT_NODE) + SIZEOF(radv_gfx12_box_node);
+   uint32_t internal_nodes_offset = first_leaf_offset + args.leaf_node_count * leaf_node_size;
+
+   uint32_t node_count = DEREF(args.src).update_dispatch_size[0] / 8;
+   uint32_t node_index = node_count - 1 - gl_GlobalInvocationID.x / 8;
+
+   bool is_root_node = node_index == 0;
+
+   /* Each invocation cluster updates one internal node. */
+   radv_invocation_cluster cluster;
+   radv_invocation_cluster_init(cluster, 8);
+
+   uint32_t node_offset = internal_nodes_offset + SIZEOF(radv_gfx12_box_node) * (node_index - 1);
+   if (is_root_node)
+      node_offset = id_to_offset(RADV_BVH_ROOT_NODE);
+
+   radv_gfx12_box_node src_node = DEREF(REF(radv_gfx12_box_node) OFFSET(src_bvh, node_offset));
+   REF(radv_gfx12_box_node) dst_node = REF(radv_gfx12_box_node) OFFSET(dst_bvh, node_offset);
+
+   uint32_t valid_child_count_minus_one = src_node.child_count_exponents >> 28;
+
+   radv_gfx12_box_child child = src_node.children[cluster.invocation_index];
+   uint32_t child_type = (child.dword2 >> 24) & 0xf;
+
+   bool is_leaf_or_invalid = child_type == radv_bvh_node_triangle;
+   bool is_valid = cluster.invocation_index <= valid_child_count_minus_one && valid_child_count_minus_one != 0xf;
+   bool is_leaf = is_leaf_or_invalid && is_valid;
+
+   uint32_t child_offset;
+   if (is_leaf_or_invalid) {
+      child_offset = id_to_offset(src_node.primitive_base_id);
+      uint32_t child_index = bitCount(radv_ballot(cluster, true) & ((1u << cluster.invocation_index) - 1));
+      child_offset += leaf_node_size * child_index;
+   } else {
+      child_offset = id_to_offset(src_node.internal_base_id);
+      uint32_t child_index = bitCount(radv_ballot(cluster, true) & ((1u << cluster.invocation_index) - 1));
+      child_offset += SIZEOF(radv_gfx12_box_node) * child_index;
+   }
+
+   uint32_t child_index = (child_offset - internal_nodes_offset) / SIZEOF(radv_gfx12_box_node);
+
+   bool is_ready = is_leaf_or_invalid;
+   while (true) {
+      if (!is_ready)
+         is_ready = DEREF(INDEX(uint32_t, args.internal_ready_count, child_index)) != 0;
+
+      if (radv_ballot(cluster, is_ready) != 0xff)
+         continue;
+
+      vk_aabb bounds;
+      bounds.min = vec3(INFINITY);
+      bounds.max = vec3(-INFINITY);
+
+      if (is_leaf) {
+         VOID_REF src_leaf_node = OFFSET(src_bvh, child_offset);
+         uint32_t indices_midpoint = read_bits(src_leaf_node, 42, 10);
+         uint32_t geometry_index = read_bits(src_leaf_node, indices_midpoint - 28, 28);
+         uint32_t primitive_index = read_bits(src_leaf_node, indices_midpoint, 28);
+
+         vk_bvh_geometry_data geom_data = DEREF(INDEX(vk_bvh_geometry_data, args.geom_data, geometry_index));
+
+         VOID_REF dst_leaf_node = OFFSET(dst_bvh, child_offset);
+         if (geom_data.geometry_type == VK_GEOMETRY_TYPE_TRIANGLES_KHR) {
+            radv_build_triangle(bounds, dst_leaf_node, geom_data, primitive_index, true);
+         } else {
+            VOID_REF src_ptr = OFFSET(geom_data.data, primitive_index * geom_data.stride);
+            radv_build_aabb(bounds, src_ptr, dst_leaf_node, geometry_index, primitive_index, true);
+         }
+      } else if (is_valid) {
+         bounds = DEREF(INDEX(vk_aabb, args.bounds, child_index));
+      }
+
+      vk_aabb total_bounds;
+      total_bounds.min.x = subgroupClusteredMin(bounds.min.x, 8);
+      total_bounds.min.y = subgroupClusteredMin(bounds.min.y, 8);
+      total_bounds.min.z = subgroupClusteredMin(bounds.min.z, 8);
+      total_bounds.max.x = subgroupClusteredMax(bounds.max.x, 8);
+      total_bounds.max.y = subgroupClusteredMax(bounds.max.y, 8);
+      total_bounds.max.z = subgroupClusteredMax(bounds.max.z, 8);
+
+      if (!is_root_node) {
+         DEREF(INDEX(vk_aabb, args.bounds, node_index - 1)) = total_bounds;
+
+         memoryBarrier(gl_ScopeDevice, gl_StorageSemanticsBuffer,
+                       gl_SemanticsAcquireRelease | gl_SemanticsMakeAvailable | gl_SemanticsMakeVisible);
+
+         DEREF(INDEX(uint32_t, args.internal_ready_count, node_index - 1)) = 1;
+      }
+
+      vec3 origin = total_bounds.min;
+      vec3 extent = total_bounds.max - total_bounds.min;
+
+      extent = uintBitsToFloat((floatBitsToUint(extent) + uvec3(0x7fffff)) & 0x7f800000);
+      uvec3 extent_exponents = floatBitsToUint(extent) >> 23;
+
+      if (cluster.invocation_index == 0) {
+         if (!VK_BUILD_FLAG(RADV_BUILD_FLAG_UPDATE_IN_PLACE)) {
+            DEREF(dst_node).primitive_base_id = src_node.primitive_base_id;
+            DEREF(dst_node).internal_base_id = src_node.internal_base_id;
+         }
+         DEREF(dst_node).origin = origin;
+         DEREF(dst_node).child_count_exponents = extent_exponents.x | (extent_exponents.y << 8) |
+                                                 (extent_exponents.z << 16) | (valid_child_count_minus_one << 28);
+         if (!VK_BUILD_FLAG(RADV_BUILD_FLAG_UPDATE_IN_PLACE))
+            DEREF(dst_node).obb_matrix_index = 0x7f;
+      }
+
+      if (is_valid) {
+         radv_gfx12_box_child box_child;
+         box_child.dword0 = (child.dword0 & 0xFF000000) |
+                            min(uint32_t(floor((bounds.min.x - origin.x) / extent.x * float(0x1000))), 0xfff) |
+                            (min(uint32_t(floor((bounds.min.y - origin.y) / extent.y * float(0x1000))), 0xfff) << 12);
+         box_child.dword1 =
+            (child.dword1 & 0xFF000000) |
+            min(uint32_t(floor((bounds.min.z - origin.z) / extent.z * float(0x1000))), 0xfff) |
+            (min(uint32_t(ceil((bounds.max.x - origin.x) / extent.x * float(0x1000))) - 1, 0xfff) << 12);
+         box_child.dword2 =
+            (child.dword2 & 0xFF000000) |
+            min(uint32_t(ceil((bounds.max.y - origin.y) / extent.y * float(0x1000))) - 1, 0xfff) |
+            (min(uint32_t(ceil((bounds.max.z - origin.z) / extent.z * float(0x1000))) - 1, 0xfff) << 12);
+         DEREF(dst_node).children[cluster.invocation_index] = box_child;
+      }
+
+      if (!VK_BUILD_FLAG(RADV_BUILD_FLAG_UPDATE_IN_PLACE) && !is_valid) {
+         radv_gfx12_box_child null_child;
+         null_child.dword0 = 0xffffffff;
+         null_child.dword1 = 0xfff;
+         null_child.dword2 = 0;
+         DEREF(dst_node).children[cluster.invocation_index] = null_child;
+      }
+
+      if (is_root_node)
+         DEREF(args.dst).aabb = total_bounds;
+
+      /* Make changes to internal_ready_count available to the other invocations. */
+      memoryBarrier(gl_ScopeDevice, gl_StorageSemanticsBuffer,
+                    gl_SemanticsAcquireRelease | gl_SemanticsMakeAvailable | gl_SemanticsMakeVisible);
+      break;
+   }
+}

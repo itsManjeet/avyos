@@ -1,0 +1,4109 @@
+Mesa 25.1.0 Release Notes / 2025-05-07
+======================================
+
+Mesa 25.1.0 is a new development release. People who are concerned
+with stability and reliability should stick with a previous release or
+wait for Mesa 25.1.1.
+
+Mesa 25.1.0 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.0 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: b1c45888969ee5df997e2542654f735ab1b772924b442f3016d2293414c99c14  mesa-25.1.0.tar.xz
+    SHA512: 40298370727fa1ad6d59be8692dfef01c42e41780816e9b951a05f779c7acca127162d2d3cedfccb7bfe3834b9e917c2b9bc6cb76887488d919cb61741a1da1a  mesa-25.1.0.tar.xz
+
+
+New features
+------------
+
+- cl_khr_spirv_linkonce_odr in rusticl
+- storagePushConstant16 on panvk
+- storageInputOutput16 on panvk
+- VK_KHR_depth_stencil_resolve on panvk
+- VK_KHR_separate_depth_stencil_layouts on panvk
+- VK_EXT_separate_stencil_usage on panvk
+- VK_KHR_sampler_ycbcr_conversion on panvk/v10+
+- VK_EXT_ycbcr_2plane_444_formats on panvk/v10+
+- VK_EXT_ycbcr_image_arrays on panvk/v10+
+- VK_KHR_imageless_framebuffer on panvk
+- VK_KHR_uniform_buffer_standard_layout on panvk
+- VK_EXT_border_color_swizzle on panvk
+- VK_MESA_image_alignment_control on NVK
+- shaderFloat16 on panvk
+- VK_KHR_shader_subgroup_uniform_control_flow on panvk/v10+
+- VK_KHR_shader_maximal_reconvergence on panvk/v10+
+- VK_EXT_device_memory_report on RADV
+- VK_KHR_shader_subgroup_extended_types on panvk/v10+
+- shaderStorageImageExtendedFormats on panvk
+- VK_KHR_display on panvk
+- VK_EXT_display_control on panvk
+- EXT_shader_framebuffer_image_fetch on v3d
+- EXT_shader_framebuffer_image_fetch_coherent on v3d
+- KHR_blend_equation_advanced on v3d
+- KHR_blend_equation_advanced_coherent on v3d
+- KHR_partial_update on etnaviv
+- VK_KHR_line_rasterization on panvk
+- VK_EXT_line_rasterization on panvk
+- shaderImageGatherExtended on panvk
+- textureCompressionBC on panvk
+- VK_EXT_sample_locations on RADV for GFX10+
+- GL_ARB_shader_clock on panvk
+- VK_KHR_shader_float_controls on panvk
+- VK_KHR_shader_float_controls2 on panvk/v10+
+- storageBuffer8BitAccess on panvk
+- storagePushConstant8 on panvk
+- uniformAndStorageBuffer8BitAccess on panvk
+- MSAA with 8 and 16 sample counts on panvk
+- VK_KHR_spirv_1_4 on panvk/v10+
+- Mali G720 and G725 on Panfrost and panvk
+- dualSrcBlend on panvk
+- VK_KHR_dynamic_rendering_local_read on panvk
+- VK_EXT_subgroup_size_control on panvk/v10+
+- VK_KHR_format_feature_flags2 on panvk
+- shaderStorageImageReadWithoutFormat on panvk
+- shaderStorageImageWriteWithoutFormat on panvk
+- VK_EXT_direct_mode_display on panvk
+- Vulkan 1.2 on panvk/v10+
+
+
+Bug fixes
+---------
+
+- RADV:RX 9070:Mesa-25.0.5 GTA 5 Enhanced GPU HANG
+- [ANV/DG2] nvpro-samples/vk_raytracing_tutorial_KHR/ray_tracing_reflections renders not all reflections
+- radv: Flickering in Kingdom Come: Deliverance II
+- RADV regression causes severe glitches in Hunt Showdown 1896 on Polaris
+- Z-Fighting in Tomb Raider IV - VI Remastered Linux
+- [anv] VK_ERROR_DEVICE_LOST on Linux 6.13.8 while playing Dota 2 on Intel Graphics
+- Variable Rate Shading (VRS) produces very aliased results on RADV with an AMD gpu
+- WWE 2k23 small "artifacts"
+- RadeonSI - ACO does not spill enough SGPRs despite low VGPR pressure in some scenarios
+- RADV: Performance Regression (~18%) on Vega 64 (GFX9) in Cyberpunk 2077 caused by commit 08918f08805f (MR 34361)
+- radeonsi: CL conformance test \`vector_swizzle` fails since 177427877bb50ad7ba24abfa13e55a2684d804df
+- [macOS] glapi_gentable.c:46:10: fatal error: 'glapitable.h' file not found
+- commit 90faadae regression - Warhammer 40,000: Space Marine 2 crashing
+- RADV: GPU hangs always at certain places in the game "Sniper Elite: Resistance"
+- Random mesa crashes in kwin_wayland on a 6600XT
+- Patch to fix clinfo on rusticl
+- radv/aco: Ghost of Tsushima hangs and causes gpu resets on RDNA 3 GPU
+- mesa-vulkan-driver-git.x86_64 causes strange colored rectangle artifacts in Final Fantasy XIV
+- NVK - Out of video memory error when starting Marvel Rivals
+- NVK - Out of video memory error when starting Marvel Rivals
+- RADV: Performance regression in Elden Ring on GFX8/Polaris
+- RADV: Performance regression in Elden Ring on GFX8/Polaris
+- Vulkan issues after sleeping on 9070 XT
+- ring gfx_0.0.0 timeout after waking from sleep - RX 9070
+- Confidential issue #12324
+- Confidential issue #12946
+- svga: how do I test this driver?
+- brw: new Xe2 CTS failures
+- [NVK] NAK assert in The Last of Us Part 2 shader
+- anv: S.T.A.L.K.E.R. 2: Heart of Chornobyl crashes after starting a new game
+- [ANV][LNL] - Lost Records: Bloom & Rage (1902960) - Title hangs on launch and subsequently crashes to desktop.
+- [BMG] Intel b580 battlemage: Fort Solis (Unreal Engine game) boots to menu, hangs while loading after hitting continue from the main menu
+- [ANV][LNL] -  NINJA GAIDEN 2 Black (3287520) - Environment assets are incorrectly rendered or missing.
+- [ANV][LNL] - The Headliners (3059070) - Title hangs a few minutes after launch.
+- anv, regression: Invisibly blinking cliffs & rocks in Satisfactory DX12 on BMG
+- [Feature request] Add HK support for VK_EXT_queue_family_foreign vulkan extension
+- vk/overlay: output_file option failing
+- The Last of Us Part I GPU hang on gfx1201
+- glsl: IR validation fails on some shaders after lower_precision (breaks GLSL-to-NIR)
+- [bisected, LNL] brw: 341e5117ecbc ("brw/nir: Treat load_const as convergent") regresses arb_gpu_shader5-interpolateAtOffset on LNL
+- vulkan regression mesa 24.3.4 to 25.0.0.rc3 with broadcom
+- AMD: broken Minetest trace on Vega iGPU
+- All OpenGL applications segfault
+- radv: nir_opt_varyings.c:2766: deduplicate_outputs: Assertion \`list_index == 0' failed.
+- vulkan/wsi: memory leak from wsi_CreateSwapchainKHR
+- [RADV][RDNA3][Phoenix3][APU] NARAKA: BLADEPOINT (1203220) gpu hang reproducible (ice/water regression mesa 24.1 bisected SAMPLE_MASK_TRACKER_WATERMARK=15) random (maybe other apps/games)
+- GPU hangs running Octopath Traveler II with 780M
+- GPU crash on Radeon 780M with Tales of Arise
+- The Last of Us - shadows flickering on gfx1201 without nohiz flag
+- brw: Hit unreachable nir_op_fsign case that brw_nir_lower_fsign missed
+- Panvk:Add Support for BCn (BC1–BC7) Texture Compression
+- anv: Dark pattern overlayed on objects in Eve Online DX11 mode on BMG
+- radv/aco: Strobing artifacts in Pacific Drive
+- aco: Distorted light halos, Star Citizen
+- Mesa 25 removes VA-API encoding for R9 390
+- debian-android build is huge
+- isl: CPCBCompressionEnable is now LosslessCompressionEnable
+- Video stuttering / anv: extend implicit fencing support
+- anv, bmg: Visual issues in AC Origins, Odyssey and Fenyx Rising when dxvk doesn't export PointSize
+- [ANV][LNL] - A Game About Digging A Hole (3244220) - Title throws an assertion failure on launch.
+- [ANV][BMG] - A Plague Tale: Requiem - Severe shadow flicker
+- [ANV][LNL] - Hogwarts Legacy (990080)  - Flickering artifacts visible on magical barrier.
+- brw: regression on Gfx9 dEQP-VK
+- HTML Docs fail to build from source with Sphinx 8.2.1
+- libglapi.dll ain't built anymore under Windows
+- anv/video: Timestamps are exposed in video encode queue, but it crashes
+- Getting a crash with manually built llvmpipe (OpenGL)
+- [RadeonSI] Blender assetshelf icons are borken in mesa >= 25.0.0
+- radeonsi regression after 24.3.4
+- misc OpenGL CTS failures
+- glBindVertexBuffer regression due to ID reuse
+- RADV: logic used to avoid running on CDNA is faulty
+- [ANV][LNL] - Company of Heroes 3 (1677280) - Circular banding is present on screen during gameplay.
+- video hardware acceleration issue with "VA"
+- [LNL/BMG] Assassin's Creed Valhalla trace replay hang
+- Vulkan conformanceVersion is reported as 0.0.0.0 in Mesa 25.0.0
+- X11 + Zink on NVK flickers older frames in Firefox based browsers
+- VRAM Abnormal use on mesa 25.0
+- [radv][regression] Multiple games detect the wrong amount of vram
+- Resident Evil 2 Remake flickers
+- OpConstantNull not supported for OpTypeCooperativeMatrixKHR
+- v3dv: vkcube-wayland crashes on raspberry pi 5 kernel 6.12 and latest mesa
+- GMSH Visualization Fails with radeonsi:can't compile a main shader part,  Fedora 41 AMD 7900xt
+- AMD VDPAU deinterlacing SIGSEGV
+- radv: vkd3d-proton test_primitive_restart_list_topology_stream_output randomly fails on NAVI2X
+- Mesa 24.1 introduced a Vulkan problem with DOOM 2016 on AMD 780M GPU
+- radeonsi: Firefox fails assertion requiring binding vertex elements before vertex_buffers
+- nouveau & zink+nvk: Flashing in Firefox and Thunderbird on Hyprland
+- Zink: Kopper's present thread causes Wayland protocol races
+- GLmatrix needs aligned malloc
+- Lavapipe crashes if no Position is output in mesh shader
+- radeonsi/video: Allocate video buffers with modifiers 7f7206f1a9d brake 'mplayer -vo vdpau...' on GFX8 (Polaris 20)
+- [RADV/aco][regression][bisected] - Avowed (2457220) - GPU hangs near Watermill outside of Dawnshore
+- radv/sqtt: assertion "layout transition marker should be only emitted inside a barrier marker"
+- mesa_shader_cache directory is created even if mesa_shader_cache_db is used.
+- nak: Fold i2b(b2i(x))
+- [radv] Glitchy ground geometry regression in Total War Warhammer III on RX 7600
+- NVK: Implement shaderSharedInt64Atomics
+- nvk: Implement VK_MESA_image_alignment_control
+- radeonsi: regression with running DaVinci Resolve under rusticl since 666a6eb871d5dec79362bdc5d16f15915eb52f96
+- [ANV][LNL] - Black Myth: Wukong (2358720) - Corruption is visible near the edge of water.
+- [ANV][LNL] - Hogwarts Legacy (990080) - Pixelated corruption is visible when looking out at the water.
+- radv/video/h265: pps.flags.transform_skip_enabled_flag = 1 randomly hangs GPU
+- turnip falls with \`assertion "errno == ETIME" failed`
+- [ANV][LNL] - Steel Rats (619700) - Game crashes after opening logos play before reaching main menu
+- nvk: Implement host-only descriptors
+- Gnome-shell Wayland fails to start with segfault at modifier-less driver
+- [ANV][LNL] - DYNASTY WARRIORS: ORIGINS (2384580) - Dithered transparency has vertical bands.
+- AMD Radeon R9 270 randomly causes video playback applications to crash with "amdgpu: The CS has been rejected"
+- ci: a306 jobs use a307 files
+- Rendering issues on GravityMark with RadeonSI ACO
+- Expose low latency encoding for radv vulkan video encode
+- i915: multiple tests assert with tgsi_ureg.h:893: ureg_swizzle: Assertion \`reg.File != TGSI_FILE_NULL' failed.
+- ci: debian-build-testing fails in nightly
+- shaders/closed/steam/deus-ex-mankind-divided/260.shader_test fails NIR validation
+- shaders/closed/steam/deus-ex-mankind-divided/260.shader_test fails NIR validation
+- panvk : vk_pipeline_cache_object_deserialize: Assertion \`reader.current == reader.end && !reader.overrun' failed.
+- 46a8d5e7ef61735416d0c54886a7a9930621ae2c causes a permission denied spam
+- [BUILD] Build Failure: Implicit Function Declaration 'timespec_sub_saturate' (loader_wayland_helper.c)
+- anv: \`MESA: warning: INTEL_HWCONFIG_MIN_GS_URB_ENTRIES (2) != devinfo->urb.min_entries[MESA_SHADER_GEOMETRY] (0)`
+- intel genX_acceleration_structure: missing dependency to bvh/header.spv.h
+- ci: what's going on with zink-venus-lavapipe ?
+
+
+Changes
+-------
+
+Aaron Ruby (17):
+
+- gfxstream: Replace pre-processor (LINUX && !ANDROID) checks with LINUX_GUEST_BUILD
+- gfxstream: Make the virtgpu device discovery for LinuxVirtGpu more robust
+- gfxstream: Change "mesaOnly" nomenclature to be "guestOnly"
+- gfxstream: Add common interfaces in the VirtGpuDevice to query DrmInfo and PciBusInfo
+- gfxstream: Clean up the gfxstream_vk device and instance init
+- gfxstream: Fix precedence and ownership issues on Linux for imported FD and the VirtGpuResource
+- gfxstream: Add reference counting for GEM handles in LinuxVirtGpuBlob
+- gfxstream: Downgrade log severity when enabling params in LinuxVirtGpu
+- gfxstream: Remove vkGetImageSubresourceLayout ResourceTracker entry
+- gfxstream: Full emulation support for VK_EXT_image_drm_format_modifier
+- gfxstream: Resolve/clean-up inconsistencies with advertising emulated extensions
+- gfxstream: No VIRGL_BIND_LINEAR for ColorBuffers
+- gfxstream: Move virtgpu_gfxstream_protocols.h to the common location for house protocols
+- egl: Remove FallbackZink config item entirely
+- gbm/dri: Match zink autoloading from egl
+- drm-uapi: Sync virtgpu header
+- virtio: Remove virglrenderer_hw.h entirely
+
+Adam Jackson (8):
+
+- zink: Enable KHR_shader_subgroup
+- lvp: set subgroupQuadOperationsInAllStages to true
+- glx: Make #undef GLX_INDIRECT_RENDERING do something
+- mapi/glx: Remove xserver code generation
+- glx: Remove (almost) all usage of _X_HIDDEN / _X_INTERNAL
+- mapi/glx: Remove FASTCALL/PURE
+- loader: Stop looking in ${libdir}/tls/
+- meson: Simplify the power8 optimization logic
+
+Aditya Kumar (1):
+
+- gfxstream: Fix compiling gfxstream for musl libs
+
+Alejandro Piñeiro (1):
+
+- nir: aliasing checks should be also done with index != 0
+
+Aleksi Sapon (3):
+
+- draw: fix gl_PrimitiveID in tessellation
+- llvmpipe: improve aniso filtering
+- lp: fix gnu-empty-initializer warning
+
+Alyssa Rosenzweig (226):
+
+- meson: factor out with_driver_using_cl
+- nir: add nir_function_intrinsics_pass
+- nir/lower_scratch_to_var: handle KERNELs
+- nir/lower_scratch_to_var: handle multi-function shaders
+- nir/print: extract nir_print_function_body
+- nir/serialize: add specialized function serialization
+- nir: introduce bindgen_return
+- nir: add nir_call_serialized helper
+- vtn: add vtn_bindgen2 tool
+- libcl: add MIN3/MAX3 macros like on the host
+- libcl: define GLSL-style compute built-ins
+- libagx: port to glsl-style compute builtins
+- asahi: port to vtn_bindgen2
+- nir: include __LINE__ in NIR_PASS validation results
+- libcl: add unreachable() macro
+- nir: add image_min_lod_agx
+- nir: add lod_bias_min_agx tex src
+- agx: lower min LOD for txf
+- agx: switch to nir_tex_src_lod_bias_min_agx
+- hk: pack has_border with clamp_0_sampler_index
+- hk: rearrange sampler image desc
+- hk: emulate EXT_image_view_min_lod
+- hk: advertise EXT_image_view_min_lod
+- Revert "hk: Stop using strings or common key types for meta keys"
+- intel: drop nir_lower_printf calls
+- intel/nir_lower_printf: modernize nir
+- intel: port to u_printf context + singleton
+- nir/lower_printf: hash format strings in nir_printf_fmt
+- nir: drop printf_base_identifier
+- nir: add nir_intrinsic_has_semantic helper
+- nir: switch intrinsic semantics to BIT
+- nir: mark subgroup/quadgroup ops
+- nir/gather_info: use subgroup/quadgroup flags
+- nir/opt_move_discards_to_top: use semantic
+- nir: mark a few more subgroup ops
+- libcl/vk: add common query copy write routine
+- nir: default-initialize next_stage
+- asahi: clang-format
+- asahi: fix libwrap.dylib
+- asahi: fix cull distance with GS
+- hk: implement calibrated timestamps
+- hk: fix increment CS invs
+- hk: do not incorrectly offset host-image-copy sources
+- asahi: bind zero-page
+- libagx: use zero page
+- asahi: use zero sink for vbuf
+- hk: use zero sink for null index buffer
+- hk: don't allocate zero sink
+- libagx: add missing null pointer check
+- asahi: perf debug indirect tess
+- asahi: use NIR_PASS to validate more
+- asahi: switch tib lower to intrinsic pass
+- libagx: fix subgroup id confusion
+- libagx: fix wraparound issue with robust draw kernel
+- libagx: use assert instead of 0xdeadbeef writes
+- asahi: add more alignment asserts
+- hk: reject non-2D modifiers
+- hk: unstub UnmapMemory2KHR
+- hk: unbind VAs
+- hk: fix buffer binding
+- hk: enable bufferDeviceAddressCaptureReplay
+- docs/asahi: update varying info
+- docs/asahi: add some section headers
+- docs/asahi: describe sparse page tables
+- asahi: rename Null layout
+- asahi: identify image mode enum
+- asahi: add sparse block XML
+- ail: model sparse page tables
+- ail: unit test sparse_table_size_B
+- ail: report mip_tail_first_lod for sparse
+- ail: report miptail stride
+- ail: move helpers to layout.h for sharing
+- ail: extract a blocksize helper
+- ail: expose ail_get_max_tile_size
+- ail: add ail_bytes_to_pages helper
+- ail: add ail_get_twiddled_block_B helper
+- ail: unit test ail_get_twiddled_block_B
+- asahi: assert page alignment in vm_bind
+- asahi: support unbinding VA in agx_va_free
+- agx: implement sparse residency queries
+- hk: ban sparse host-image-copy
+- hk: implement sparse
+- asahi: drop cargo culted disk cache disable
+- agx: fix uniform atomic opts
+- hk: ensure space with the dispatch
+- hk: pass cmdbuf, not control stream, into precomp dispatch
+- hk: assert more
+- hk: accelerate buffer copies with CL
+- hk: pass cmdbuf to perf_debug
+- libagx: fix ia_primitives with tessellation
+- libagx: vectorize tess level loads
+- hk: perf debug sparse binding
+- asahi,libagx,hk: don't set custom_target names
+- asahi: drop trivial depends
+- agx: assert shift bounds
+- agx: fix botched address fuses
+- hk: do not clamp txf for copy shaders
+- libagx: use 64-bit multiply for image atomic calculation
+- asahi: fix null deref in error path
+- hk: fake min/max filtering for proton
+- agx: handle rgb32 residency queries
+- hk: ban sparse RGB32
+- agx: handle sparse buffer images
+- asahi: support sparse in virtgpu
+- nir/builder: add nir_shader_tex_pass
+- treewide: use nir_shader_tex_pass
+- radv/nir_lower_viewport_to_zero: intrinsic pass
+- radv/nir_lower_view_index: intrinsic pass
+- radv/nir_lower_fs_barycentric: intrinsic pass
+- radv/nir_lower_intrinsics_early: intrinsic pass
+- radv/nir_lower_fs_intrinsics: intrinsic pass
+- nvk: rewrite query copy shader in CL C
+- docs/asahi: clarify twiddled vs GPU-tiled
+- ail: rename twiddled -> gpu tiled
+- ail: split compression up
+- asahi: rename wip modifier
+- asahi: drop silly
+- hk: drop silly
+- nir: add nir_progress/nir_no_progress helpers
+- asahi: clang-format
+- nir: clang-format
+- treewide: Switch to nir_progress
+- treewide: port remaining nir_metadata_preserve users
+- nir,nak: update comments referencing nir_metadata_preserve
+- nir: eliminate nir_metadata_preserve
+- nir: clean up progress
+- ir3: clean up progress manually
+- asahi: clang-format
+- vulkan: add common VK_PRINT_STR/VK_COPY_STR macros
+- hk: switch to common VK_COPY/PRINT_STR
+- anv,hasvk: switch to common VK_COPY/PRINT_STR
+- v3dv: switch to common VK_COPY/PRINT_STR
+- radv: use VK_COPY_STR
+- panfrost,panvk: fix clang warnings
+- vulkan: add helpers to work with executable statistics
+- util: add shader statistic framework
+- asahi: port to common stats framework
+- v3dv: fix clang warning
+- meson: make CL args common
+- meson: set NDEBUG appropriately for OpenCL
+- intel: use common CL args
+- meson,clc: set CL standard from meson
+- panfrost: clean up CL meson rules
+- panfrost: port to common stats framework
+- agx: call nir_lower_is_helper_invocation
+- pan/mdg: call nir_lower_is_helper_invocation
+- nir/lower_helper_writes: fix stores after discard
+- pan/lower_helper_invocation: clean up
+- bin: add script for applying review trailers
+- bin: add list of Mesa contributors
+- libcl: add u_foreach_bit
+- hk: fix cull distance confusion
+- asahi: integrate printf/abort support
+- libagx: do not use prefix sums for GS index buffer
+- asahi/gs: drop non-XFB prefix sums
+- asahi/gs: factor out output info
+- asahi/gs: avoid recalculating
+- asahi/gs: only prefix sum with XFB
+- libagx,asahi: hoist GS draw generation
+- asahi/gs: drop unused params
+- asahi/gs: report whether xfb is needed
+- asahi: do not dispatch count/pre-GS unless needed
+- hk: do not dispatch count/pre-GS unless needed
+- libagx: use indirect draw struct
+- libagx: clean up
+- tu: use the stats framework
+- v3dv: use the stats framework
+- drm-uapi: update drm_fourcc.h
+- ail: drop fake modifiers
+- libagx: reduce # of variants of unroll restart
+- asahi: add assert for max variant count
+- agx: fix ctz of zero with address calcs
+- agx: fix tg4 offset residency
+- hk: advertise semaphore extensions
+- hk: advertise bufferDeviceAddressCaptureReplayEXT
+- hk: fix unaligned copies
+- libagx: clean up query copy; bug fix
+- libagx: assert alignment for copies
+- libagx: use common heap allocs
+- asahi: fix printf without result buffer
+- asahi: fix depth buffer feedback loops
+- asahi: clang-format
+- glsl_to_nir: upcast array indices
+- nir/lower_blend: refactor logicop variables
+- nir/lower_blend: disable logic ops for unsupported formats
+- nir/lower_tex: use vector_insert_imm
+- vk/meta: generalize 3D blit code
+- asahi,hk: disentangle logicop_enable
+- agx: optimize nonuniform offset
+- hk: drop dead todo
+- hk: fix last VGT output component limits
+- hk: support colour <--> z/s copies
+- hk: advertise VK_EXT_queue_family_foreign
+- hk: advertise maintenance7
+- hk: advertise maintenance8
+- bin: add rebase mode
+- drm-uapi: add asahi uapi
+- asahi: disable virtio gpu for upstream
+- asahi: port to stable uAPI
+- asahi: remove unstable uapi header
+- gallium: wire up asahi driver
+- asahi: fix i/a queries with tess
+- panfrost: invert and rename no_ubo_to_push flag
+- panfrost: do not push "true" UBOs
+- asahi: shrink VA space for sparse emulation
+- asahi: add sparse emu helpers
+- asahi: fix zero bo leak
+- hk: bind for sparse emulation
+- hk: use ro maps
+- hk: advertise sparseResidencyBuffer
+- hk: drop soft fault assumption in hk_buffer_addr_range
+- util/simple_mtx: fix duplicate definition
+- nir: unvendor lod_bias(_agx)
+- nir: handle mismatched bias/lod bitsizes
+- nir: add sampler LOD bias lowering
+- hk: handle lod/min_lod size mismatch
+- agx: switch to common LOD bias lowering
+- hk: fix underbinding scratch
+- hk: fix tessellation + clipper queries
+- hk: fix null FS corner cases
+- agx: model sources as late-kill in demand calcs
+- agx: late-kill sources
+- agx: early-kill sources only if it won't shuffle
+- hk: fix patch count = 0 handling
+- asahi: fix possible null deref
+- asahi: do not use "Null" layout
+
+Andrew Wolfers (1):
+
+- vulkan: Add BGRA format support
+
+Antonino Maniscalco (2):
+
+- freedreno/crashdec: Avoid crashing on some traces
+- freedreno/crashdec: Add check for \`CP_BV_SQE_STAT_ADDR`
+
+Antonio Ospite (28):
+
+- ci/android: fix building deqp on Android
+- ci/android: add an android-angle-lavapipe job
+- ci/android: don't do unnecessary cleanup
+- ci/android: don't set HOME globally in cuttlefish-runner.sh
+- ci/android: disable audio in cuttlefish, it is not needed
+- ci/android: disable modem simulator in cuttlefish, it is not needed
+- ci/android: stop cuttlefish before copying the logs, to log everything
+- ci/android: increase the waiting time to stop the cuttlefish launcher
+- ci/android: bump CUTTLEFISH_BUILD_NUMBER
+- ci/android: use an x86_64_only cuttlefish image
+- ci/android: push /deqp-gles/mustpass/egl-main.txt.zst
+- ci/android: pass -vsock_guest_cid to launch_cvd
+- ci/android: move all dEQP handling in one place in cuttlefish-runner.sh
+- ci/android: add an android-deqp-runner.sh script
+- ci/android: add a job using android-cts instead of deqp-runner
+- ci/android: don't set EGL_PLATFORM on the host before launching cuttlefish
+- ci/android: increase the waiting time to stop the cuttlefish launcher
+- ci/android: factor out a generic android-runner.sh from cuttlefish-runner.sh
+- ci/android: remove some unnecessary adb commands from android-runner.sh
+- ci/android: check for ANGLE_TAG in android-deqp-runner.sh
+- ci/android: remove old mesa and ANGLE libraries before pushing new ones
+- ci/android: always push ANGLE libraries
+- ci/android: push also the intel vulkan driver
+- ci/android: handle ANGLE being installed under /system on Android 15+
+- ci/android: factor out GLES runtime version retrieval to a function
+- ci/android: only ship x86_64 artifacts in debian-android build job
+- ci/android: strip the artifacts of the debian-android job
+- meson: pass --no-pager to \`meson configure` command
+
+Ashley Smith (2):
+
+- panfrost: Reset syncobj after use to avoid kernel warnings
+- pan/bi: Enable ARB_shader_clock extension support
+
+Assadian, Navid (1):
+
+- amd/vpelib: More parameters to the segmentation process and introduce validation hook
+
+Autumn Ashton (5):
+
+- radv: Fix compute resolve rounding
+- radv: Enable fragmentShadingRateWithCustomSampleLocations
+- radv: Expose EXT_sample_locations everywhere
+- radv: Expose VK_SAMPLE_COUNT_1_BIT for sample position on GFX10+
+- ci/zink+radv: Add sample locations fails
+
+Bas Nieuwenhuizen (1):
+
+- radv: Move support check out of winsys.
+
+Benjamin Cheng (1):
+
+- d3d12/video_enc: Fix AV1 tile_info() coding
+
+Benjamin Lee (41):
+
+- panfrost: minor refactors in preparation for panvk 16-bit IO
+- panfrost: move handling for bifrost mediump lowering to pan_collect_varyings
+- panfrost: support 16-bit vertex attributes
+- panfrost: support 16-bit varyings
+- panvk: advertise storagePushConstant16 and storageInputOutput16
+- panvk: enable VK_KHR_depth_stencil_resolve
+- panvk: enable KHR_separate_depth_stencil_layouts
+- panvk: document missed extensions in new_features
+- panvk: implement VK_EXT_separate_stencil_usage
+- panfrost: remove NIR_PASS_V usage for noperspective lowering
+- meson: update wayland-protocols source_hash
+- panfrost: fix large int32->float16 conversions
+- panfrost: reorder lower_bit_size pass
+- panfrost: fix condition in bi_nir_is_replicated
+- panfrost/va: remove swizzle mod from LDEXP
+- panfrost: implement 16-bit ldexp
+- panvk: advertise shaderFloat16
+- panfrost: implement 16-bit pack/unpack intrinsics
+- panvk/csf: fix uninitialized read in utrace_clone_init_builder
+- panfrost/pps: fix omitting several counters
+- panfrost: fix libpan_v4 header include
+- panfrost/va: remove dead code for packing BRANCHZI.i16 lane mod
+- driconf: add uint64 type
+- panvk: add core mask driconf options
+- panfrost: add core mask driconf options
+- pan/va: add roundmode modifier to additional instructions
+- panfrost: implement float controls rounding mode
+- pan/va: preserve signed zero in f32->f16 conversions
+- pan/bi: refactor bi_instr_ftz to allow dontcare FTZ states
+- pan/bi: ignore ftz mode when scheduling int instructions
+- pan/bi: implement denorm behavior float controls
+- panvk/va: don't advertise independent denorm behavior
+- panvk: advertise VK_KHR_shader_float_controls
+- panvk: advertise VK_KHR_float_controls2
+- panfrost: define bi_swizzle alias values
+- panfrost: add bi_swizzle values for unused swizzles
+- panfrost/va: use 'lane' modifier for MKVEC.v2i8
+- panfrost: use bifrost instruction table for bi_lower_swizzle
+- panfrost/va: valhall-specific swizzle lowering
+- panvk: enable uniformAndStorageBuffer8BitAccess and storagePushConstant8
+- panvk: don't advertise VK_KHR_float_controls2 on bifrost
+
+Benjamin Otte (1):
+
+- lavapipe: Don't advertise support for multiplane drm formats
+
+Benjamin ROBIN (2):
+
+- util/disk_cache: Do not try to delete old cache if cache is disabled
+- docs: Update MESA_SHADER_CACHE_DIR env variable behavior
+
+Bo Hu (2):
+
+- gfxstream: Adding support for VK_KHR_global_priority extension
+- gfxstream: update code generator for simplified dep graph
+
+Boris Brezillon (29):
+
+- panvk: Don't clobber registers if the render pass was suspended
+- pan/decode: Fix the blend_count mask
+- panvk/csf: Don't free the resources twice when init_render_desc_ringbuf() fails
+- panvk: Initialize device virtual address space after the VM creation
+- vulkan/state: Fix input attachment map state initialization/copy
+- vk/pass: Add input attachment location info
+- vulkan/state: Fix default input attachment map values
+- panvk/jm: Don't force a preload if the previous batch didn't have draws
+- pan/bi: Allow depth/stencil tile buffer access using LD_TILE
+- pan/bi: Pass load_converted_output_pan target through a source
+- pan/bi: Pass an explicit sampleid to load_converted_output_pan
+- panvk/csf: Set invalidate_inherited_ctx only if the render pass is inherited
+- panvk: Re-order things in panvk_deserialize_shader()
+- panvk: Isolate CS specific bits in panvk_shader
+- panvk: Generate the earlyzs LUT at shader creation time
+- pan/earlyzs: Support the shader ZS read-only case and its optimization on v10+
+- panvk/jm: Move cmd_prepare_draw_sysvals() out of the layer loop
+- panvk: Support color attachment remapping
+- pan/bi: Introduce two intrinsics to support input attachment remapping
+- panvk: Optimize input attachment loads when we can
+- panvk: Skip BY_REGION barriers if we're in a render pass
+- panvk: Advertise KHR_dynamic_rendering_local_read support
+- pan/va: Support relaxed waits on read-only render targets
+- panvk/csf: Optimize read-only tile buffer access
+- panfrost: also consider z/s for tile-size
+- pan/earlyzs: Fix the read-only ZS optimization
+- panvk/csf: Pass less arguments to emit_vs_attrib()
+- panvk/csf: Fix instance attribute offseting
+- pan/format: Disable image storage on A8_UNORM
+
+Caio Oliveira (112):
+
+- intel/brw: Move fs_inst implementation code together
+- intel/brw: Rename fs_inst to brw_inst
+- intel/brw: Rename fs_inst_box to brw_inst_box
+- intel/brw: Move some larger functions from brw_inst.h to brw_inst.cpp
+- intel/brw: Remove brw_gs_compile struct
+- intel/brw: Rename file brw_fs_nir.cpp to brw_from_nir.cpp
+- intel/brw: Remove 'fs' prefix from brw_from_nir functions
+- anv: Add statistic for 'GRF registers' for Xe3+
+- intel/brw: Add brw_analysis.h
+- intel/brw: Use brw_analysis prefix for liveness analysis files
+- intel/brw: Use brw_analysis prefix for def analysis file
+- intel/brw: Use brw_analysis prefix for performance analysis files
+- intel/brw: Move idom_tree declaration to brw_analysis.h
+- intel/brw: Move analysis passes without own file to brw_analysis.cpp
+- intel/brw: Merge brw_ir_analysis.h into brw_analysis.h
+- intel/brw: Use brw prefix instead of namespace for dep analysis enum
+- intel/brw: Use brw prefix instead of namespace for analysis implementations
+- intel/brw: Remove 'using namespace brw' directives
+- intel/brw: Remove offsets and total_size from VGRF allocator
+- intel/brw: Pass fs_visitor around instead of the simple_allocator
+- intel/brw: Add functions to allocate VGRF space
+- intel/brw: Fold simple_allocator into the shader
+- intel/brw: Rename and move thread_payload types to own header
+- intel/brw: Merge brw_fs_visitor.cpp into brw_fs.cpp
+- intel/brw: Rename files brw_fs.cpp/h to brw_shader.cpp/h
+- intel/brw: Rename fs_visitor to brw_shader
+- intel/brw: Rename fs_copy_prop_dataflow to brw_copy_prop_dataflow
+- intel/brw: Rename a few remaining functions to remove fs prefix
+- intel/brw: Update outdated comments
+- intel/compiler: Use -Werror=vla
+- intel/brw: Use the builder DO() function in all places
+- intel/brw: Always have a (non-DO) block after a DO in the CFG
+- intel/brw: Don't need to repair CFG in brw_opt_combine_constants
+- brw: Reformat brw_gram.y and brw_lex.l
+- brw: Fix size in assembler when compacting
+- brw: Always verify EU compaction in debug mode
+- brw: Remove unused function
+- brw: Add block pointer in brw_inst
+- brw: Use brw_inst::block in Def analysis
+- brw: Use brw_inst::block in Combine Constants
+- brw: Use brw_inst::block in CSE
+- brw: Remove block parameter from brw_inst::remove()
+- brw: Simplify brw_builder "insert before inst" constructor
+- brw: Add explicit way to get an empty brw_builder
+- brw: Embed at_end() inside brw_builder(brw_shader \*) constructor
+- brw: Remove bblock_t parameters from various passes
+- brw: Make assembler strict about JIP and UIP order
+- brw: Add support for GOTO/JOIN in the assembler
+- brw: Rework label tracking in assembler
+- brw: Remove extra interface in brw_cfg types
+- brw: Remove dead code from control flow
+- brw: Add missing dependency classes to various passes
+- brw: Get the reference to brw_def_analysis only once in saturate propagation
+- brw: Move defs analysis back to its place in saturate propagation
+- brw: Simplify the test code for brw passes
+- brw: Add assembler support for DPAS
+- brw: Remove extra SHADER_OPCODE_FLOW emitted during NIR conversion
+- spirv: Update headers and metadata from latest Khronos commit
+- vulkan: Update XML and headers to 1.4.311
+- spirv: In SpecConstantOp handling don't adjust convert ops bit_size twice
+- brw: Fix decoding of 3-src destination stride in EU validation
+- brw: Allow generating destination with stride 2 in 3-src instructions
+- brw: Remove prefix gfx10 from enum types
+- brw: Make some integer check more explicit
+- brw: Add BRW_TYPE_BF for bfloat16
+- brw: Add BRW_TYPE_BF validation
+- brw: Consider bfloat16 in scoreboard
+- brw: Add EU assembler support for bfloat16
+- intel/executor: Add small example with bfloat
+- brw: Expand EU validation for DPAS
+- brw: Fix disassembler trying to decode 3src_hstride in Gfx9
+- brw: Remove brw_cfg::dump()
+- brw: Track num_instructions in a block
+- brw: Use block's num_instructions in scoreboard tests
+- brw: Track total_instructions in a shader
+- brw: Add analysis for block IP ranges
+- brw: Use brw_ip_ranges in passes
+- brw: Use brw_ip_ranges in scheduling / regalloc
+- brw: Use brw_ip_ranges in liveness analysis
+- brw: Remove adjust_block_ips and brw_inst::remove() with defer
+- intel/executor: Use getopt for command line arguments
+- intel/executor: Allow selecting a device to use
+- brw: Use control flow helpers in scoreboard tests
+- brw: Use SIMD16 shaders in scoreboard tests for Xe2+
+- brw: Stop setting SFID in scoreboard tests
+- brw: Return actual progress in brw_lower_scoreboard
+- brw: Add parser of SWSB annotations to use in tests
+- brw: Use new bld/exp style in scoreboard tests
+- brw: Remove HSW specific code from brw_compile_cs.cpp
+- brw: Add brw_builder::uniform()
+- brw: Fix invalid memory access in scoreboard test
+- brw: Fix memory leak in EU validation tests
+- intel/executor: Fix check for open() failure
+- brw: Properly handle cooperative matrices created with constants
+- spirv: Take a separate data_type when creating a new vtn_variable
+- brw: Add a few basic tests for register coalesce
+- brw: Clean up saturate propagation after non-defs version removal
+- brw: Add brw_range struct
+- brw: Use brw_range in IP ranges analysis
+- brw: Use brw_range when operating with live ranges
+- brw: Use brw_range to store VGRF ranges
+- brw: Use brw_range to store Vars ranges
+- brw: Use brw_range::last() to explicit get the last valid IP
+- brw: Make brw_range use half-open ranges
+- broadcom/ci: Skip test due to timeout
+- nir/load_store_vectorize: Skip new bit-sizes that are unaligned with high_offset
+- intel: Add intel_device_info::has_systolic
+- intel: Disable has_bfloat16 for MTL
+- brw: Allow DPAS with BF on Gfx125
+- brw: Update EU validation to allow packed BF mixed with packed F
+- intel/executor: Update bfloat example
+- intel/executor: Fix bfloat example for converting F to packed BF
+
+Caleb Callaway (3):
+
+- anv: add INTEL_DEBUG=rt_notrace
+- intel/compiler: fix lingering i965 references
+- intel/tools: fix 32b build for EU stall tool
+
+Casey Bowman (2):
+
+- vulkan/screenshot-layer: Add RGBA surface format support
+- vulkan/screenshot-layer: Correct queueFamilyIndex source
+
+Caterina Shablia (11):
+
+- panvk: enable imagelessFramebuffer
+- panvk: enable uniformBufferStandardLayout
+- nir: teach nir_lower_bit_size to handle ballot and ballot_relaxed
+- pan/bi: ensure src bit sizes of ballot{,_relaxed} and read_invocation
+- pan/bi: lower non-32-bit ballot{,_relaxed}
+- pan/bi: lower subgroups before lowering int64
+- panvk: enable subgroupExtendedTypes
+- panfrost: don't overwrite push uniforms and sysvals UBO with user's UBO
+- panfrost: update nr_uniform_buffers before dispatching XFB
+- panfrost: require buffer_count and pushed_words to be passed to panfrost_emit_const_buf
+- panfrost: move the comment closer to what it's about
+
+Charmaine Lee (1):
+
+- svga: remove tgsi semantic in shader compiler key
+
+Christian Gmeiner (20):
+
+- docs: Update perfetto with the latest status
+- docs: Update the list of drivers with CPU tracepoints
+- docs: Add perfetto driver specifics for V3D
+- etnaviv: isa: Add swizzle instruction
+- nir: Add bool return value to nir_lower_clip_halfz(..)
+- nir: Add bool return value to nir_lower_texcoord_replace(..)
+- etnaviv: nir: Return progress for etna_lower_alu(..)
+- etnaviv: nir: Return progress for etna_lower_io(..)
+- etnaviv: nir: Don't use deprecated NIR_PASS_V macro anymore.
+- zink/ntv: Only emit GeometryStreams cap if multiple streams are used
+- etnaviv/ci: Bring back GC7000
+- etnaviv/ci: Start using the revision number for GPU_VERSION
+- etnaviv/ci: Update flakes for gc7000-r6214
+- etnaviv/ci: Add gles2 run for GC3000
+- etnaviv/ci: Add missing rev to GC3000
+- etnaviv: rs: Factor out box alignment function
+- etnaviv: rs: Change param etna_get_rs_alignment_mask(..)
+- etnaviv: Add support for KHR_partial_update
+- mesa/formats: Add MESA_FORMAT_NV12
+- etnaviv: Add multi-planar YUV support
+
+Colin Marc (1):
+
+- vulkan/wsi: implement the Wayland color management protocol
+
+Collabora's Gfx CI Team (7):
+
+- Uprev Piglit to fc8179d319046f45346bcbcc5aaeabebdf151f03
+- Uprev Piglit to 04d901e49de6b650f9dceaf73220371273d87f73
+- Uprev Piglit to 708a9e365b18fdd881af989f75e1a6c1409cae8c
+- Uprev ANGLE to 1b34d2a18af12cc55a3bc74dd679c2937d10cc5c
+- Uprev ANGLE to 3818d37d5e94317f01810053b8f28c1f1e8b98e6
+- Uprev Piglit to 0ecdebb0f592
+- Uprev ANGLE to a3f2545f6bb3
+
+Connor Abbott (52):
+
+- tu: Constify frag_areas argument of tu_fdm_bin_apply_t
+- tu: Refactor fragment density map sampling
+- freedreno: Add VSC mask parameter to CP_SET_BIN_DATA5
+- tu: Implement bin merging for fragment density map
+- freedreno: Add a750+ "absolute" VSC bin mask
+- tu: Implement "absolute" bin mask on a750
+- tu: Make sure tiles being merged are adjacent
+- tu: Fix vertical tile merging check
+- tu: Fix static blend bandwidth calculation
+- tu: Remove useless prim_order state merging
+- ir3: Fix const allocation when parsing assembly
+- freedreno/decode: Push hostaddr->gpuaddr conversion into highlight_gpuaddr()
+- freedreno/crashdec: Use register for RB rptr
+- freedreno/crashdec: Handle hangs where the SQE is in RB
+- freedreno/crashdec: Fix and extend control reg dumping on a750
+- freedreno/crashdec: Dump CP_BV_SQE_UCODE_DBG
+- freedreno: Misc control registers updates
+- tu: Implement VK_KHR_maintenance7
+- tu: Plumb through VkMemoryBarrierAccessFlags3KHR
+- tu: Handle D32S8 -> R32 and R32 -> D32S8 copies
+- tu: Handle R8->D24S8 and D24S8->R8 copies
+- tu: Handle a pipelineStageCreationFeedbackCount of 0
+- ir3: Remove ir3_info::data
+- tu: Expose VK_KHR_maintenance8
+- compiler/shader_info: Better document require_full_quads
+- nir, compiler: Rename needs_quad_helper_invocations
+- compiler,nir: Gather needs_full_quad_helper_invocations info
+- ir3: Use needs_full_helper_invocations
+- tu: Fix binning_possible detection with bin merging
+- tu: Fix GMEM offset for multisample layered separate stencil
+- tu: Enable GMEM with layered rendering
+- tu: Fix size of frag_size_ir3 and frag_offset_ir3 driver params
+- tu: Fix reported FDM fragment size with multiview
+- tu: Fix layer_count with dynamic rendering + multiview
+- ir3: Split mad with scalar ALU
+- tu: Only allow power-of-two fragment areas
+- tu: Split out part of tiling config to vsc config
+- tu: Fix CmdClearAttachments with fragment density map
+- tu/fdm: Skip some patchpoints when binning
+- tu: Implement VK_QCOM_fragment_density_map_offset
+- vk/runtime: Use vk_command_buffer in renderpass wrappers
+- vk/runtime: Add common CmdEndRendering
+- tu: Implement VK_EXT_fragment_density_map_offset
+- ir3: Pass through access flags when lowering global accesses
+- nir/opt_preamble: Handle load_global_ir3
+- ir3: Move load/store vectorization to finalize
+- ir3: Vectorize shared memory loads/stores
+- tu: Fix flushing when using a staging buffer for copies
+- freedreno: Add compute_lb_size device info
+- freedreno/a6xx: Define CONSTANTRAMMODE
+- freedreno/a6xx, turnip: Set CONSTANTRAMMODE correctly
+- ir3: Take LB restriction on constlen into account on a7xx
+
+Corentin Noël (12):
+
+- venus/ci: Skip flaky test due to intermittent timeouts
+- ci: Update CrosVM and Virglrenderer
+- lavapipe: Remove doubly initialized features
+- lavapipe: Change lvp_cmd_type to anonymous enum
+- ci: Update CrosVM and Virglrenderer
+- virgl: nir: Don't use deprecated NIR_PASS_V macro anymore
+- nir: Add bool return value to nir_legacy_trivialize(..)
+- ntt: nir: Don't use deprecated NIR_PASS_V macro anymore
+- tnn: nir: Don't use deprecated NIR_PASS_V macro anymore
+- ci: Uprev virglrenderer to latest version on time
+- virgl: Close handle on resource info failure
+- virgl: Use drmCloseBufferHandle instead of calling dmIoctl directly
+
+Daniel Schürmann (43):
+
+- aco/isel: fix empty exec tracking for uniform branches
+- aco/isel: move cf_info into separate struct cf_context
+- aco/isel: rename cf_context::has_divergent_branch
+- aco/isel: use cf_context in if_context to restore cf information
+- aco/isel: use cf_context in loop_context to restore cf information
+- aco/isel: add and use exec_info::empty() helper
+- aco/isel: fix assumptions about potential empty exec mask in nested control flow
+- aco/isel: remove loop nest information from exec_info
+- aco/isel: track control flow divergence in loops more accurately
+- nir: make divergence information metadata
+- nir: require nir_metadata_divergence if needed
+- amd: switch to nir_metadata_divergence
+- intel: switch to nir_metadata_divergence
+- nouveau: switch to nir_metadata_divergence
+- nir: only print divergence information if metadata is valid
+- nir/serialize: don't serialize divergence information
+- nir/validate: validate divergence metadata
+- nir/print: print phi sources sorted by predecessor blocks
+- aco/scheduler: always respect min_waves on GFX10+
+- aco/scheduler: stop rounding down the target number of waves on GFX10+
+- aco: unify get_addr_sgpr_from_waves() and get_addr_vgpr_from_waves() into one function
+- aco/scheduler: keep track of RegisterDemand at UpwardsCursor::insert_idx
+- aco/scheduler: keep track of RegisterDemand at DownwardsCursor::insert_idx{_clause}
+- aco/scheduler: remove unused include of unordered_set
+- aco/insert_exec_mask: Don't immediately set exec to zero in break/continue blocks
+- aco/insert_exec_mask: don't restore exec in continue_or_break blocks
+- aco/lower_branches: allow other instructions after s_andn2 in break blocks
+- aco/ssa_elimination: insert parallelcopies for p_phi immediately before branch
+- aco/ssa_elimination: refactor scratch_sgpr handling
+- aco/ssa_elimination: create a single parallelcopy instruction for linear and logical phis
+- aco/assembler: Fix short jumps over chained branches
+- aco/assembler: Don't insert chained branches into otherwise empty blocks
+- aco/tests: add more tests for chained branches
+- zink: lower {demote|terminate}_if to CF after lowering point smooth
+- nir: remove nir_lower_discard_if_to_cf option
+- nir: set SYSTEM_VALUE_HELPER_INVOCATION read for nir_intrinsic_is_helper_invocation
+- zink: clean up HelperInvocation code emission
+- zink: enable CapabilityDemoteToHelperInvocation and extension only if required
+- aco/lower_branches: properly consider exec mask needs of branch targets
+- aco: don't assume that demote doesn't cause an empty exec mask
+- aco/insert_exec_mask: if applicable, use s_wqm to restore exec after divergent CF
+- aco/insert_exec_mask: don't disable dead quads on demote in divergent CF
+- aco: Remove empty exec skipping after demote
+
+Daniel Stone (29):
+
+- ci/vvl: Use appropriate level of parallelism
+- ci: Move common testing packages to test-base
+- ci: Move apitrace to test-base container
+- ci: Add debian/arm32_test-* images
+- ci: Build libdrm for Android host builds
+- ci/angle: Use native toolchain for builds
+- ci/zink: Expand flake definition on radv
+- ci: Update kernel for Panthor scheduling fixes
+- ci/panfrost: Move G610 testing to pre-merge
+- ci: Re-enable Collabora CI
+- docs/ci: Fix nginx caching instructions
+- ci/lava: Fail faster when getting results
+- etnaviv: Add missing build dependency on generated header
+- ci/amd: Add new radeonsi fail seen in the wild
+- ci/zink: Flake out sparse tests
+- ci: Add daniels to restricted-trace users
+- ci: Re-enable trace jobs with updated Piglit
+- ci: Move softpipe issue from fail to flake
+- ci/amd: Disable radv-fossils
+- ci/windows: Don't copy non-existent libglapi.dll
+- ci/panfrost: Split inherit definitions into -inc
+- ci: Reduce build job timeouts
+- ci/softpipe: Add timeouts to softpipe jobs
+- ci/llvmpipe: Add llvmpipe and lavapipe timeouts
+- ci/virgl: Add timeout to software jobs
+- ci/docs: Add timeout to doc build
+- ci/microsoft: Add job timeouts and pin Piglit to GSt
+- ci: Make all job timeouts explicit
+- doc/ci: Update nginx caching snippets
+
+Danylo Piliaiev (28):
+
+- u_trace: print tracepoint params in csv output
+- util: Make debug_dump_flags thread safe
+- util: Add dump_debug_control_string to dump debug_control
+- tu: Add gmem disable reason to renderpass tracepoint
+- tu: Add info about debug options to command buffer tracepoint
+- tu: Get correct src view when storing gmem attachment
+- freedreno/fdl: Log mutability when dumping layout
+- tu: Handle mismatched mutability when resolving from GMEM
+- tu/a6xx: Emit VSC addresses for each bin to restore after preemption
+- nir/nir_lower_multiview: Don't assert if load_deref doesn't have var
+- ir3: Set need_full_quad depending on info.fs.require_full_quads
+- tu: Be more granular in calculating whether blend state reads color
+- tu: Fix NULL deref in trace_end_render_pass
+- freedreno/regs: Rename BINNING bit to FS_DISABLE in a few regs
+- ir3: Detect empty fragment shaders
+- tu/a7xx: Bypass invoking empty FS for D/S-only draw calls
+- ir3: Detect FS that write only color without other side effects
+- tu: Disable FS in certain cases even if FS is not empty
+- tu/lrz: Improve LRZ around stencil tests and reads_dest cases
+- tu: Use EARLY_Z also for stencil tests
+- ir3: Fix shaders that write only color classified as empty
+- freedreno: Bump kernel uapi (linux 6.14)
+- freedreno,tu: Read and pass to compiler uche_trap_base
+- tu: Implement VK_KHR_shader_clock
+- freedreno/a6xx: Implement ARB_shader_clock
+- tu,freedreno: Don't fallback to LINEAR with DRM_FORMAT_MOD_QCOM_COMPRESSED
+- ir3: VARYING_SLOT_LAYER output is used for binning
+- tu: Fix disable_fs state update condition
+
+Dave Airlie (24):
+
+- radv/video: move encoder to using a buffer instead of an image
+- radv/video: calculate colloc buffer size for h264 B frames.
+- radv/video: add h264 b frame encoding support.
+- vulkan/wsi/x11: don't use update_region for damage if not created
+- nak: adjust latencies on fp16/64 instructions on Turing
+- nvk: enable float16 on turing.
+- loader/nouveau: load zink as the GL driver for turing and above.
+- radv/video: don't try and send events on UVD devices.
+- vulkan/video: add simple parameter retrieval wrappers
+- radv/video: convert to using common parameter wrappers.
+- anv/video: convert to common parameters retrieval code
+- anv/video: don't write to params if not set.
+- vulkan/video: add support for inline session paramters.
+- radv: expose VK_KHR_video_mainteance2
+- anv: expose VK_KHR_video_maintenance2
+- gallivm: check for avx512vbmi and tell LLVM the correct answer.
+- nak: add reads after setting writes
+- nak: Add an a_has_pred parameter to waw_latency
+- nak: Add Turing latency information
+- nak: Add Ampere and Ada latency information
+- nvk: update nvidia class header files.
+- nvk: add ADA compute class to nv_push_dump
+- nvk: add hopper support to nv_push_dump
+- nak: add F2FP to sm75 instr latencies
+
+David Rosca (64):
+
+- ac/vcn_dec: Fix AV1 film grain on VCN5
+- radeonsi/video: Avoid stream handle duplicates in PID namespace
+- frontends/va: Don't try to switch to protected buffer in EndPicture
+- frontends/va: Add CreateContext flag to enable protected context
+- frontends/va: Require protected context for VAProtectedSliceDataBuffer
+- frontends/va: Switch to graphics context when creating protected surface
+- radeonsi/vcn: Use texture instead of video buffer for DPB buffers
+- radeonsi/video: Fix creating video buffers with AMD_DEBUG=tmz
+- frontends/vdpau: Set H264 chroma_format_idc
+- radeonsi/vcn: Set correct chroma format for H264 decode
+- radeonsi/uvd: Set correct chroma format for H264 decode
+- ci/amd: Remove VAAPI skips
+- frontends/va: Use transfer stride and offset in DeriveImage
+- radv/video: Fix setting balanced preset for HEVC encode with SAO enabled
+- radv/video: Move IB header from begin/end to encode_video
+- radeonsi: Use gfx for TMZ buffer clears
+- winsys/amdgpu: Add assert for secure submissions on compute ring
+- frontends/vdpau: Use extra reference buffer for AV1 film grain
+- ac/surface: Only allow linear modifier for subsampled 422 formats
+- ac/surface: Allow DCC for multi-plane formats on GFX12
+- radeonsi/vcn: Fix chroma pitch for JPEG decode
+- radeonsi/video: Allocate video buffers with modifiers
+- radeonsi/vcn: Add UDT support for VCN5
+- radeonsi/vcn: Rework decode ref handling
+- radeonsi/video: Fix crash when creating buffers without modifiers support
+- frontends/va: Set AV1 max_width/height to surface size
+- frontends/vdpau: Set AV1 max_width/height to surface size
+- Revert "radeonsi/vcn: Limit size to target size in AV1 decode"
+- pipe: Remove PIPE_AV1_ENC_FRAME_TYPE_SHOW_EXISTING
+- radeonsi/vcn: Set all pic params for H264 encode references
+- radeonsi/vcn: Add radeon_enc_av1_picture_type
+- radeonsi/vcn: Support H264 encode weighted_bipred_idc
+- radeonsi/video: Remove mpeg12 shader decoder support
+- gallium/vl: Fix video buffer supported format check
+- Revert "frontends/vdpau: Alloc interlaced surface for interlaced pics"
+- frontends/vdpau: Fix creating deinterlace filter for interleaved buffers
+- frontends/va: Support A8R8G8B8 format for processing
+- frontends/va: Use ARGB as default fourcc for RGB32 RT format
+- frontends/va: Don't filter supported formats according to config RT format
+- gallium/vl: Return YUV plane order for single plane formats
+- radeonsi/video: Only allow 64K_S swizzle mode for VCN < 2.2
+- radeonsi/vce: Support old VCE firmware
+- radeonsi/video: Allow DCC 256B block size with drm minor >= 63
+- gallium/vl: Fix rotation with scaling for compute shaders
+- gallium/vl: Fix mirror with rotation for compute shaders
+- frontends/va: Don't ignore rotation and mirror for conversions to RGB
+- ac/parse_ib: Fix parsing output format on VCN5
+- ac/parse_ib: Parse VCN DYNAMIC_REFLIST_BUFFER
+- radv: Use radv_format_to_pipe_format instead of vk_format_to_pipe_format
+- radv: Add radv_format_description to remap 10/12bit formats to 16bit
+- radeonsi/vcn: Disable AV1 unidir compound with rate control
+- egl/x11: Fix swap interval setup
+- radv/video: Fix msg header total size
+- radv/video: Fix encode session info for VCN3+
+- radv/video: Use ac_vcn_enc_init_cmds
+- radv/video: Always enable B pictures for H264 encode
+- radeonsi/vpe: Don't try to flush cs from buffer_map
+- radeonsi/vcn: Don't try to flush cs from buffer_map
+- radeonsi/uvd,vce: Don't try to flush cs from buffer_map
+- radeonsi/video: Remove cs argument from si_video_resize_buffer
+- radeonsi/vpe: Use float division to get scaling ratio
+- radeonsi/vpe: Fix process_frame return value
+- radeonsi/vpe: Use studio range for YUV and full for RGB by default
+- radeonsi/vcn: Fix decode target index for H264 interlaced streams
+
+David Tobolik (1):
+
+- rusticl/feat: LinkOnce ODR
+
+Dmitry Baryshkov (4):
+
+- freedreno/registers: allow skipping the validation
+- meson: add freedreno (turnip) Vulkan to arm64 defaults
+- meson: disable SIMD blake optimisations on x32 host
+- mesa-clc: add an option to force inclusion of OpenCL headers
+
+Dmitry Osipenko (1):
+
+- virtio/vpipe: Correct vdrm_vpipe_connect() definition
+
+Dudemanguy (1):
+
+- treewide: remove unneeded executable bit in non-scripting files
+
+Dylan Baker (6):
+
+- intel: output a depfile with mesa_clc
+- iris: Correctly set NOS for geometry shader state changes
+- iris: fix handling of GL_*_VERTEX_CONVENTION
+- intel/tools: deduplicate zlib_inflate function
+- intel/tools: move ascii85_decode to common code
+- intel/decoder: free memory in error case
+
+Ella Stanforth (4):
+
+- v3d/compiler: Implement load_output
+- v3d: enable framebuffer fetch
+- v3d: Fix fbfetch with discards.
+- v3d/compiler: Fixup output types for all 8 outputs
+
+Emma Anholt (6):
+
+- mesa/ffvs: Skip doing redundant stores of .xyz when doing lighting calculation.
+- ci/anv: Enable testing with Vulkan video encode/decode.
+- docs: Drop some weird unhelpful text about DRI2.
+- egl: Apply autopep8.
+- egl: Retire NOK_swap_region support.
+- egl: Retire NV_post_sub_buffer support.
+
+Emmanuel Gil Peyrot (1):
+
+- panvk: Initialize out array with the correct length
+
+Eric Engestrom (159):
+
+- VERSION: bump to 25.1
+- docs: reset new_features.txt
+- docs: update calendar for 25.0.0-rc1
+- docs/android: drop libglapi.so now that it's gone
+- ci/cuttlefish: drop \`rm libglapi.so` now that it's no longer loaded
+- gfxstream: drop unnecessary semi-colons
+- gfxstream: fix signedness of shifts
+- gfxstream: drop dead variables
+- gfxstream: use \`range` variable for its intended purpose
+- gfxstream: mark unused variables as such
+- docs: update calendar for 25.0.0-rc2
+- llvmpipe/tests: include math.h for INFINITY
+- ci: don't run on tag pipelines
+- ci: drop redundant condition
+- ci: only trigger the CI for release managers when pushing to staging branch
+- ci: run containers builds on staging branches
+- ci/yaml-toml-shell-py-test: don't run on post-merge pipelines
+- ci/yaml-toml-shell-py-test: run on direct push pipelines
+- ci: finish sorting vars
+- ci: rename generate-env.sh to export-gitlab-job-env-for-dut.sh
+- docs: update calendar for 25.0.0-rc3
+- ci: debian-testing-ubsan is used by tests
+- llvmpipe/ci: drop fraction for asan tests that takes 1.5 min without fraction
+- docs: add release notes for 25.0.0
+- docs: add sha sum for 25.0.0
+- docs: update calendar for 25.0.0
+- docs: add release calendar for 25.0.x cycle
+- docs/releasing: fix "release schedule" subsections nesting
+- docs/release-calendar: add 25.1 branchpoint & rc dates
+- ci/alpine: pin the release to avoid random unexpected changes
+- ci/alpine: control wayland & wayland-protocols versions
+- ci: move shader-db test job from build jobs yaml to test jobs yaml
+- ci/build: remove a couple of unnecessary "override needs: to the same value"
+- ci/build: move .use-debian/x86_64_build out of the generic .meson-build and into the debian/x86_64 jobs
+- ci/build: split meson-build into build-for-tests and build-only
+- ci/build: add explicit build-for-tests or build-only to all jobs
+- ci/build: lower the delay to start build-only jobs
+- docs: update gitlab docs urls
+- vtn_bindgen2: keep the printf blob local to avoid LTO issues
+- lavapipe/ci: add vkd3d job
+- ci/build: build-test the dri2 code
+- ci/b2c: fix comment location
+- ci/b2c: explain better why we don't clone mesa
+- ci/b2c: use B2C_JOB_TEMPLATE directly
+- ci/b2c: set default value for B2C_MACHINE_REGISTRATION_IMAGE in the job
+- ci/b2c: set default value for B2C_TELEGRAF_IMAGE in the job
+- ci/b2c: set default value for B2C_KERNEL_CMDLINE_EXTRAS in the job
+- ci/b2c: split B2C_JOB_VOLUME_EXCLUSIONS in the jinja template
+- ci/b2c: rename IMAGE_UNDER_TEST to B2C_IMAGE_UNDER_TEST
+- ci/b2c: pass through all the B2C_* variable without renaming them
+- ci/b2c: pass through all the CI_* variables as well
+- ci/b2c: set the registry proxy from the job
+- ci/b2c: use more readable "long" argument names
+- v3d/ci: mark traces humus/AmbientAperture and humus/DynamicBranching3 as flaky
+- docs: update calendar for 25.0.1
+- docs: add release notes for 25.0.1
+- docs: add sha sum for 25.0.1
+- wsi/x11: drop misleading reference to anv in var names
+- meson: simplify video-codecs option parsing
+- ci/deqp: backport fix for dEQP-VK.binding_model.buffer_device_address.*
+- meson: announce that clover is deprecated (slated for removal)
+- lvp/ci: document fixed tests
+- lvp/ci: skip tests that are timing out (>1 min)
+- lvp/ci: fix sorting of flakes
+- lvp/ci: remove duplicate flakes (noticed after sorting)
+- lvp/ci: document flakes seen over the last week
+- freedreno/ci: document fixed test
+- freedreno/ci: document flakes seen over the last week
+- nvk/ci: fix sorting of flakes
+- nvk/ci: document flakes seen over the last week
+- zink+nvk/ci: document new failures
+- zink+nvk/ci: fix sorting of flakes
+- zink+nvk/ci: document flakes seen over the last week
+- radv/ci: document flakes seen over the last week
+- zink+radv/ci: fix sorting of flakes
+- zink+radv/ci: document flakes seen over the last week
+- ci: document http proxy bug & disable farms relying on it
+- ci/container: fix image tags comment in trampoline script
+- ci/init-stage2: document that only lava jobs upload results to s3
+- ci/build: no need to list all the files that will go into the uploaded artifact
+- ci/piglit: drop usage of s3cp for a simple download
+- ci: always abort if the curl download fails
+- ci/baremetal: make sure we can follow redirects on s3 downloads
+- ci: do a regular GET request for /done files, instead of HEAD
+- ci: replace broken s3cp command with a simple curl call
+- ci: bump image tags
+- ci: drop placeholder-job tags to allow jobs to run
+- ci: document new llvmpipe & softpipe failures since the migration
+- ci: run shader-db & zink-lvp on kvm runners
+- ci: disable llvmpipe & virgl traces jobs
+- meson: do not compile libisaspec unless used
+- meson: do not compile libblake3 unless used
+- meson: do not compile libmesa_util_sse41 unless used
+- pick-ui: clean up formatting
+- pick-ui: fix enum value in test expectation
+- pick-ui: add missing field in test expectation
+- pick-ui: rename s/out/commit_message/ variable to make its contents clearer
+- pick-ui: fix parsing of multiple \`backport-to:` lines
+- docs: update calendar for 25.0.2
+- docs: add release notes for 25.0.2
+- docs: add sha sum for 25.0.2
+- rpi/ci: disable traces jobs
+- ci: re-enable igalia (rpi) farm
+- ci: document who are the farm admins
+- docs: fix last references to gallium-drivers=swrast
+- ci: remove last uses of deprecated \`swrast` alias for softpipe+llvmpipe
+- meson: drop deprecated \`swrast` alias for softpipe+llvmpipe
+- meson: move special value \`all` out of the middle of the list
+- rpi5/ci: sort flakes
+- rpi5/ci: drop duplicate flakes
+- ci: bump apitrace version
+- ci: drop packet.net tag on git archive job
+- ci: move aarch64 tag to .use-debian/arm64_build
+- ci: move android's kvm requirement to .use-debian/x86_64_test-android
+- ci: add FDO_RUNNER_JOB_PRIORITY_TAG_* to control priority of generic freedesktop runners
+- docs: remove the last 24.3 releases
+- virgl: fix typo inverting a condition
+- docs: update calendar for 25.0.3
+- docs: add release notes for 25.0.3
+- docs: add sha sum for 25.0.3
+- ci/build: drop LTO from fedora build
+- ci: rename ci-tron priority tag to avoid conflict with the generic fdo runners
+- ci/fluster: use http proxy when checking for the vector files
+- ci/fluster: don't overwrite FLUSTER_VECTORS_HOST_PATH to a different meaning
+- radeonsi/ci: update expectations
+- radv/ci: update expectations
+- freedreno/ci: update expectations
+- nvk/ci: update expectations
+- lvp/ci: update expectations
+- zink+nvk/ci: update expectations
+- zink+radv/ci: update expectations
+- zink+tu/ci: update expectations
+- zink+anv/ci: document a bunch of flaky glx tests that have been preventing merges all day
+- docs/ci: replace deprecated \`pages` job with \`pages: true`
+- docs/ci: add link to the website preview for convenience
+- docs/ci: add comment explaining what that long rule actually does
+- docs/ci: split pre-merge & merge pipeline rules
+- docs/ci: follow convention of only running jobs by default for Marge
+- ci: fix image tags indentation
+- ci/deqp: fix vulkan video build
+- VERSION: bump for 25.1.0-rc1
+- .pick_status.json: Update to d5ad7981401c2393cac38fc3215e8bbb97de06b9
+- .pick_status.json: Update to 1bf8542490679fa2a244e27fb2b04bbc3d122f74
+- meson: remove duplicate \`deprecated` for \`gallium-xa` option
+- meson: remove duplicate \`deprecated` for \`power8` option
+- .pick_status.json: Update to 5f3a3740dcc6d243f2ef14138fb1c09bcbb9b5fd
+- pick-ui: make \`Backport-to: 25.0` backport to 25.0 \*and more recent release branches*
+- .pick_status.json: Update to dd3e1190a2bdbc6b996152510407adb9a8cb5618
+- pick-ui: add missing dependency
+- [25.1 only] ci: don't treat misleading-indentation warnings are error on alpine
+- VERSION: bump for 25.1.0-rc2
+- .pick_status.json: Update to 3493500abb78a4dc22aba14840bba5c777fde745
+- .pick_status.json: Update to eeffb4e674d10db9aefebeca91c2d87c1676b81e
+- VERSION: bump for 25.1.0-rc3
+- .pick_status.json: Update to 615d0c9669595adf114a705f5b8ee88277aa99f2
+- .pick_status.json: Update to 7f0de1a51212881c9a7614327bf3e1fbc9784ddb
+- ci: drop tracking of removed folder
+- .pick_status.json: Update to c434050a0088ec3f07d63fd1019aea541632faed
+- .pick_status.json: Update to 84b9c281fe82dd66f2552687cecb61a8e22809d0
+
+Eric R. Smith (7):
+
+- panfrost: avoid potential divide by 0 calculating timer_resolution
+- panfrost: fix YUV center information for 422
+- panfrost: fix backward propagation of values in loops
+- panfrost: use an accessor function to read from bi_opcode_props
+- panfrost: consider xfb shader when calculating thread local storage size
+- panfrost,lima: use index size in panfrost minmax_cache
+- panfrost: fix transaction elimination crc valid calculation
+
+Erico Nunes (2):
+
+- ci: re-enable lima farm
+- panvk: disable VK_EXT_image_drm_format_modifier for arch < 10
+
+Erik Faye-Lund (57):
+
+- panvk: fix line-rasterization of bifrost
+- panvk: report strictLines as true
+- panvk/ci: add back incorrectly removed crash
+- pan/ci: add flaky tests to the flake-list
+- pan/ci: add fail from llvm 19 upgrade
+- pan/ci: add a couple of common flakes
+- panvk: correct number of read bytes for dynamic buffers
+- meson: rename meson_options.txt
+- panvk: report passing the VK CTS
+- panvk: rename helper
+- mesa/main: wire up glapi bits for EXT_multi_draw_indirect
+- pan/bi: use unreachable instead of DBG + assert
+- pan/bi: remove unused debug output
+- pan/genxml: rename field
+- panfrost: respect pipe_rasterizer_state::line_rectangular
+- panvk: disable shaderFloat16 on bifrost
+- docs/features: add missing panvk feature
+- docs/features: add VK_EXT_hdr_metadata
+- panvk: fix extension requirement
+- panvk: rework how we deal with extension-reqs
+- panvk: expose VK_KHR_display
+- panvk: expose EXT_display_control
+- panvk: correct VkPhysicalDeviceProperties::deviceName
+- panvk: enable KHR_line_rasterization support
+- panvk: add basic driconf infrastructure
+- panfrost: avoid accidental aliasing
+- panfrost: fix overflow-debugging
+- panfrost: use real array for panfrost_emit_plane
+- panvk: check for texture-compression support
+- panvk: expose textureCompressionBC when supported
+- mesa/main: fix regression in extension-checking
+- panvk/ci: disable some more slow tests
+- docs/features: update panvk support
+- panfrost: fixup typo in 16x sample-pattern
+- panfrost: correct tile-buffer size for some v7 GPUs
+- panvk/ci: move timeouts to crash
+- panfrost: properly align value
+- panfrost: allocate tile-buffer for dummy render-targets
+- panfrost: disable tile-pipelining when needed
+- panfrost: add color-attachment and msaa helpers
+- panvk: enable 8x and 16x msaa when supported
+- panvk: enable sampledImageIntegerSampleCounts for all MSAA formats
+- nir/lower_tex: use texture_mask instead of shifting on use
+- nir/lower_tex: avoid undefined-behavior
+- panvk: set shared_addr_format
+- panvk: enable KHR_spirv_1_4 on v10+
+- panvk: claim official conformance on v10
+- docs/panfrost: use anonymous hyperlinks
+- panvk: enable dualSrcBlend
+- docs/panvk: fixup extension support
+- docs/panvk: remove disabled extension
+- docs/panvk: fixup docs around float controls
+- docs/panvk: add VK\_-prefix for extension name
+- docs/panvk: document ycbr in terms of extensions
+- docs/panvk: document EXT extension aswell
+- docs/panvk: add missing new features
+- panvk: support vulkan 1.2 on v10+
+
+Ernst Persson (1):
+
+- intel/vulkan: Add bvh build dependency
+
+Faith Ekstrand (165):
+
+- nvk,nak: Only use u64 texture handles with codegen
+- nvk: Only pass sampler handles when needed
+- nak: Add support for bound and cbuf textures
+- nak: Optimize bindless to cbuf textures on Volta+
+- nak: Fix cbuf textures
+- nak: Stop setting .EF on tex ops
+- nak: Rename MemEvictionPriority::Unchanged to LastUse
+- nak: Add more MemEvictionPriorities
+- nak: Print .dc for OpTld4::z_cmpr
+- nak: Add MemEvictionPriorities to tex ops
+- nvk: Fix scissor bounds
+- nvk: Fix a typo in a comment
+- nak/repair_ssa: Use a worklist for get_ssa_or_phi()
+- nvk: Rename nvk_descriptor_set::mapped_ptr
+- nvk: Respect VK_DESCRIPTOR_POOL_CREATE_HOST_ONLY_BIT_EXT
+- nvk: Implement descriptorBufferPushDescriptors
+- nvk: Pull shaders from the state command buffer in nvk_cmd_process_cmds()
+- nvk: Handle shader==NULL in nvk_cmd_upload_qmd()
+- nvk: Allow sparse loads on EDB buffers
+- nak: Handle sparse texops with unused color destinations
+- nvk: Use suld for EDB uniform texel buffers
+- nvk: Align UBO/SSBO addresses down rather than up
+- nak: Use suld.constant when ACCESS_CAN_REORDER is set
+- nvk: Use suld.constant for EDB uniform texel buffers
+- nvk: Constify instance and pdev pointers
+- ci: Remove some NVK vkd3d fails
+- nak: Only use suld.constant on Ampere+
+- nak: Use MemScope::GPU instead of MemScop::System
+- zink: Use the correct array size for signal_values[]
+- zink: Use persistent semaphores for PIPE_FD_TYPE_SYNCOBJ
+- nvk/nvkmd: Fix logging of VA bind addresses
+- nvk: Don't bind a fragment shading rate image pre-Turing
+- nvk: Do not set INVALIDATE_SKED_CACHES pre-MaxwellB
+- nak: Handle tex ops with only one source
+- nak/nir: Don't provide dummy backend2 tex srcs
+- nvk: Fix indentation in begin_end_query()
+- nouveau/class_parser: Make strided element functions const
+- nak/qmd: Drop some unnecessary .try_into().unwrap()
+- nak/qmd: Add a nak_get_qmd_cbuf_desc_layout() helper
+- nvk: Handle pre-Turing dispatch indirect commands
+- nvk: Only support deviceGeneratedCommandsMultiDrawIndirectCount on Turing+
+- nvk: Only support compute shader derivatives on Turing+
+- nak/nir: Re-materialize load_const instructions in use blocks
+- nvk/image: Prefer vk_image values over pCreateInfo
+- nvk/image: Drop some unneeded initializers
+- nvk: Fix capitalization of statistics
+- nak: Fix NAK_DEBUG=spill for large FS outputs
+- nak: Handle any->Mem parallel copies
+- nak: Add a new ConstTracker struct
+- nak: Don't spill/fill const values
+- compiler/rust: Add u_printf_info to the rust bindings
+- nir: Add a get_io_index_src() helper
+- nir: Add a nir_opt_tex_skip_helpers optimization
+- nak: Set .NODEP on tex ops based on nir_opt_tex_skip_helpers()
+- zink: Don't present to Wayland surfaces asynchronously
+- zink: Revert "zink: enable single-plane modifiers for generic 2D exports"
+- egl/dri2: Rework get_wl_surface_proxy()
+- egl/wayland: Pass the original wl_surface to kopper
+- util/box: Add a intersect_2d helper
+- iris: Use pipe_box helpers for damage calculations
+- zink: Use pipe_box helpers for damage calculations
+- vulkan: Add device address helpers to vk_buffer
+- nvk: Use the new buffer device address infrastructure
+- panvk: Use the new buffer device address infrastructure
+- hk: Use the new buffer device address infrastructure
+- vulkan/meta: Use vk_buffer.device_address directly
+- zink: Set needs_barrier after transitioning to QUEUE_FAMILY_FOREIGN
+- zink: Check queue families when binding image resources
+- spirv: OpAsmTargetINTEL is untyped
+- spirv: Update the JSON and headers
+- vulkan: Update XML and headers to 1.4.309
+- nouveau/winsys: Stop asserting that imported BOs are aligned
+- nvk: Allow rendering to linear images with unaligned strides
+- nil: Relax alignment requirements for linear images
+- nil: Split linear and tiled image creation
+- nvk,nil: Stop panicing in image creation
+- vtn: Support cooperative matrices in OpConstantNull
+- loader/nouveau: Fix the comment in nouveau_zink_predicate()
+- egl/x11: Re-order an if statement
+- egl/kopper: Update the EGLSurface size after kopperSwapBuffers()
+- nak: Insert the annotation in the right spot in assign_regs
+- nak: Don't insert empty OpParCopy in assign_regs
+- nak: Always copy sources when handling vec/pack/mov ops
+- nak: Fix a SM check for OpPCnt
+- nak: Check num_regs(UGPR) instead of SM version
+- nak: Turing starts at SM73
+- nouveau/headers: Refactor class_parser
+- nouveau/headers: Drop unused Rust constants
+- nouveau/headers: Drop double-underscore from Rust names
+- nouveau/headers: Re-use Rust method types when possible
+- nvk: Reduce the size of nvk_image_view_capture
+- nvk: Free owned_gart_mem correctly
+- nvk: Fix a Volta check
+- nvk: Disable VK_EXT_post_depth_coverage on Maxwell A and earlier
+- nvk: Allocate QMDs from a heap on Maxwell A and earlier
+- nvk: Disable VK_EXT_device_generated_commands on Maxwell A and earlier
+- nvk: Don't set filterMinmax properties prior to Maxwell B
+- nvk: Disable sparse buffer binding prior to Maxwell B
+- nouveau/mme/fermi: Don't allow STATE and EMIT on the same op
+- nvk: Use the right sample mask for 8x/4pass on Maxwell A
+- nvk/nvkmd: Add a concept of incomplete pushes
+- nvk: Mark the push before an indirect push as incomplete
+- nak: hsetp2 and dsetp are slower on Volta
+- nvk: Bump the conformance version to 1.4.1.3
+- vulkan/wsi: Signal buffer memory object when blitting
+- venus: Assume wsi_mem->base_bo != NULL
+- venus: Don't report global priorities if globalPriorityQuery is unsupported
+- venus: Only claim modifiers in WSI if the host driver supports it
+- venus: Set wsi_device::supports_scanout = false
+- compiler/rust: Add a nir_alu_type wrapper
+- compiler/rust: Add more NIR intrinsic getters
+- nak: Implement nir_intrinsic_convert_alu_types
+- nak/nir: Use correct rounding for fp64 -> fp16 conversions
+- nak,nir: Generalize nak_nir_split_64bit_conversions and move it to NIR
+- nak: Move some calc_instr_deps items to a new file
+- nak: Box our RegTrackers
+- nak: Improve WS abstractions in hw_runner
+- nak: Add a QMD heap to hw_runner
+- nak: Disable lea64 and f2fp.pack_ab tests pre-Volta
+- nvk: Disable vulkanMemoryModel on Kepler and earlier
+- nvk: Use max_image_dimension for maxFramebufferWidth/Height
+- nvk: Disable 32k images on Pascal A
+- nak: Move has_fixed_latency to Op
+- nak: Add and use a ShaderModel::needs_scoreboard() helper
+- nak: Add latency helpers to ShaderModel and use them
+- nak: Move SM70 encoding and legalize to a separate file
+- nak: Move exec_latency into the per-SM files
+- nak: Move latency information into the per-SM files
+- nak: Move sched_common.rs to reg_tracker.rs
+- nak: Add GPU generation helpers
+- nak: Use is_volta() instead of sm == 70
+- nak: Put the cycle count assert behind a debug flag
+- nak: Handle delays > 15
+- nak: Add an Op::no_scoreboard() helper
+- intel/compiler: Use nir_split_conversions()
+- nak: Add a ChannelMask type
+- nak: Add support for suld/st.b
+- nak,nir: Add an image_load_raw_nv intrinsic
+- nak: Use suld.b on Kepler if we have a format
+- nak: Allow predicates in nir_intrinsic_as_uniform
+- nak: Add a NAK_DEBUG=panic option
+- nvk: Call vk_device_finish() last in nvk_DestroyDevice()
+- nvk/nvkmd: Check the correct flag for the Kepler GART workaround
+- nil: Multiply by array_stride_B instead of adding
+- nak/hw_tests: Feed predicate/carry sources with 0/1 data
+- nak: Add a plop2 test
+- nak: Add False and True to IntCmpOp
+- nak: Lower texture inputs for Kepler B
+- nak/legalize: Add a helper for lowering ineg
+- nak: Add stubs for Kepler B
+- nak: Add stubs for Fermi and Kepler A
+- nak: Move some legalization helpers from sm50 to common code
+- nak/sm50: Add zero_reg() and true_reg() helpers
+- nak/sm70: Add zero_reg() and true_reg() helpers
+- nak: Get rid of RegRef::zero
+- nvk: Disable VK_EXT_descriptor_buffer pre-Maxwell
+- nak/qmd: Rework cbuf size suffix handling
+- nak/qmd: Add support for shifted cbuf addresses
+- nak/qmd: Add QMD version 4.0 for Hopper
+- nvk: Handle shifted QMD cbuf addrs in indirect command processing
+- nak/legalize: Take a RegFile in copy_alu_src_and_lower_fmod
+- nak/legalize: Take a RegFile in copy_alu_src_and_lower_ineg()
+- nak/sm70: Fix the bit74_75_ar_mod assert
+- nvk: Maxwell+ is now conformant
+- nak: Set lower_pack_64_4x16
+
+Felix DeGrood (9):
+
+- vk/overlay-layer: fix regression in non-control pathway
+- intel/brw: support for dumping shader line numbers
+- anv: add INTEL_DEBUG=shaders-lineno
+- iris: add INTEL_DEBUG=shaders-lineno
+- drm-uapi: add eu_stall uapi
+- intel/perf: remove unnused argument from xe_perf_stream_read_error
+- intel/perf: add eu stall sampling support
+- util: add hash functions for u64 data type
+- intel/tools: create intel_monitor for sampling eu stalls
+
+GKraats (2):
+
+- x11: give error messages if Xorg only supports DRI2 and mesa only DRI3
+- EGL: legacy-x11=dri2 should support hardware driver
+
+Ganesh Belgur Ramachandra (1):
+
+- amd: use 128B compression for scanout images when drm.minor <63
+
+Georg Lehmann (83):
+
+- nir/lower_poly_line_smooth: don't emit control flow
+- nir/lower_poly_line_smooth: only smooth first color target
+- nir/lower_poly_line_smooth: support partial store_output
+- radv: remove radv_should_lower_poly_line_smooth
+- radv: inline radv_nir_lower_poly_line_smooth
+- nir/lower_poly_line_smooth: don't reject fp16
+- nir/lower_poly_line_smooth: use intrinsics_pass
+- nir/opt_move: don't move into critical sections
+- ac/nir/lower_ps: move exports after packing alu
+- nir/print: print large floats as mantissa + exponent
+- nir: range analysis for ffract
+- nir: fix range analysis for frcp
+- nir: fix frsq range analysis
+- nir: improve fsqrt range analysis
+- nir/opt_algebraic: optimize ffract(ffract(a))
+- nir/peephole_select: support demote for non CF HW
+- nir/peephole_select: handle demote and terminate in nir_opt_collapse_if
+- nir/peephole_select: don't special case nir_opt_collapse_if + limit = ~0
+- nir/peephole_select: don't include nir_search_helpers.h
+- nir/peephole_select: add options struct
+- nir/peephole_select: add option to allow discard without ~0 limit
+- nir/peephole_select: don't completely ignore ifs with dont_flatten
+- nir: replace nir_opt_conditional_discard with nir_opt_peephole_select
+- radv: remove separate discard peephole select
+- nir/opt_algebraic: optimize b2f(a != 0) * a
+- nir/search_helpers: look through vecs in is_only_used_as_float
+- nir/search_helpers: check tex source type in is_only_used_as_float
+- nir/builder: add nir_shader_phi_pass
+- nir/opt_phi_precision: use nir_shader_phi_pass
+- nir/opt_remove_phis: use nir_shader_phi_pass
+- aco/insert_exec: fix continue_or_break on gfx6-7
+- nir: add a pass to optimize phis to 1bit
+- nir/opt_algebraic: optimize ineg(a) == ineg(b)
+- nir/opt_algebraic: optimize ineg(a) == #b
+- nir/opt_algebraic: 0 >= a -> 0 == a
+- nir/opt_algebraic: optimize DXBC boolean bcsel
+- nir/opt_algebraic: optimize more boolean bcsel with constants
+- nir/opt_algebraic: optimize dxbc boolean not
+- nir/opt_algebraic: optimize constant shift of DXBC booleans
+- nir/opt_algebraic: optimize b2i(a) != -b2i(b)
+- radv: use nir_opt_phi_to_bool
+- nir/opt_varyings: clean up nir_progress usage
+- radv/nir_apply_pipeline_layout: clean up progress handling
+- radv/nir_lower_ray_queries: use nir_foreach_function_impl
+- nir/opt_algebraic: optimize bit_count(a) != 0
+- nir/opt_algebraic: optimize bcsel of b2f and constants
+- nir/opt_algebraic: optimize b2i/b2f comparision with non 0/1 constants
+- nir/opt_algebraic: optimize ~a == ~b and ~a == #b
+- nir/opt_algebraic: push comparisons with constants into bcsel with constant
+- nir/opt_algebraic: optimize more ine/ieq(umin(b2i, ), 0)
+- nir/opt_algebraic: optimize d3d a ? b : 0
+- aco/optimizer: delete combine_and_subbrev
+- radv: remove outdated vectorize TODO
+- ac/nir/mem_access_bit_sizes: split unaligned vec3 lds access to allow more read2/write2
+- aco/opt_postRA: split try_optimize_scc_nocompare in two functions
+- aco/opt_postRA: allow try_optimize_scc_nocompare for all instructions
+- aco/opt_postRA: remove scc != 0 with multiple uses
+- aco/opt_postRA: remove scc == 0 for more opcodes
+- aco/isel: use s_mul_i32 instead of s_cselect_b32 for a ? b : 0
+- radv: enable invariant geom for DOOM(2016)
+- radv: add dcc_decompress_gfx11 in radv_graphics_state_key
+- ac/nir/lower_ps_late: consider dcc decompression for null exports
+- radv/gfx10+: remove null exports if discard isn't used
+- aco: don't assume that v_interp_mov_f32 flushes denorms
+- aco/gfx11.5: remove vinterp ddx/ddy path
+- aco/validate: fix scalar source validation for DPP and gfx11+ VINTERP
+- nir/opt_algebraic: create ubfe from (a & mask) >> c
+- aco/ra: disallow vcc definitions for pseudo scalar trans instrs
+- nir: add option to keep mul24_relaxed
+- aco: implement mul24_relaxed
+- ac/llvm: support mul24_relaxed
+- ac/nir: set has_mul24_relaxed
+- aco/insert_exec: reset exec temporary after combined p_demote + p_end_wqm
+- spirv: clamp/sign-extend non 32bit ldexp exponents
+- aco/gfx9+: use d16 global/scratch/buffer loads
+- spirv: fix cooperative matrix by value function params
+- aco/gfx10: simpler solution to avoid store instructions in clauses
+- aco: form mixed MTBUF/MUBUF clauses
+- nir/opt_algebraic: optimize open coded ffract
+- nir/opt_algebraic: disable fsat(a + 1.0) opt if a can be NaN
+- aco: set opsel_hi to 1 for WMMA
+- aco/insert_exec: only restore wqm mask after control flow if necessary
+- aco/insert_exec: reset temporary when recreating wqm mask from exact mask
+
+Gert Wollny (1):
+
+- r600/sfn: gather info and set lowering 64 bit after nir_lower_io
+
+Giovanni Mascellani (2):
+
+- llvmpipe: Remove an outdated comment about subclassing pipe_screen.
+- lvp: Remove some dead code.
+
+Guilherme Gallo (30):
+
+- ci: Properly clean up rustup
+- ci: Remove cargo symlink workaround
+- ci/android: add missing pre/post build scripts
+- ci: setup-test-env: Prefer functions over aliases
+- ci: add _error_msg for internal messaging
+- ci: add support for structural tagging
+- ci: copy structural tag files to rootfs
+- ci/angle: add structured tag check to ANGLE build time
+- ci/angle: test-time structured tag checks
+- ci/angle: condense angle variables in one job
+- ci/angle: remove USE_ANGLE variable
+- ci/docs: add structured tagging documentation
+- ci/lava: Drop the repeating quotes on lava-test-case
+- ci/lava: Propagate errors in SSH tests
+- ci/lava: xtrace the lava_job_submitter call
+- ci/lava: Add U-Boot action timeout for rockchip DUTs
+- ci/lava: Properly detect VMWARE farm
+- ci: Specify the FARM variable for DUT jobs
+- ci: Simplify LAVA farm detection
+- ci/lava: Remove depthcharge-start timeout
+- ci/lava: Split boot action into deploy and boot
+- ci/lava: Tweak timeouts
+- ci/lava: Don't print empty lines when changing sections
+- Revert "ci: setup-test-env: Prefer functions over aliases"
+- ci/bin: update_tag: improve tag load
+- ci/update_tag: fix linter errors
+- ci/lava: Fix LAVA lima jobs
+- ci/lava: Fix LAVA lima jobs
+- ci/lava: Fetch kernel modules from overlay
+- ci: Add some unit tests for the duration field
+
+Gurchetan Singh (5):
+
+- gallium: drop const qualifier on return type
+- lavapipe: use quotes instead of angle bracket
+- gfxstream: check device exists before using it
+- gfxstream: refactor device initialization
+- gfxstream: follow the semantics desired by distro VK loader
+
+Hans-Kristian Arntzen (3):
+
+- radv: Always allow sparse on normal GFX/COMPUTE/DMA queues.
+- radv: Repurpose radv_legacy_sparse_binding drirc
+- radv: Always set 0 dispatch offset for indirect CS.
+
+Hyunjun Ko (12):
+
+- anv: Fix to set CDEF flter flag correctly for AV1 decoding
+- anv/video: clean-up duplicated code.
+- dri: fix a build error
+- kopper: implement to get sync values.
+- anv: fix maxDpbSlots and maxActiveReferencePictures for AV1 decoding.
+- anv: Add one more flag of VideoCapability for encoding.
+- anv: Do not support the tiling of DRM modifier if DECODE_DST
+- anv/ci: remove some expected failures of dEQP-VK.video.formats.*
+- vulkan/video: Do byte-alignment when building a h264 slice header
+- anv: Add stdSyntaxFlag values for h264/5 encoders
+- anv: Move rateControlMode to the video session.
+- anv: Use vk_video_derive_h265_scaling_list
+
+Iago Toral Quiroga (9):
+
+- v3dv: implement sync debug option
+- v3dv: serialize jobs after any barrier when debug sync is set
+- v3dv: fix missing access bit flag when checking for texel buffer reads
+- mesa: fix RGBA_SIGNED_COMPONENTS for lowered signed luminance
+- v3dv: fix crash on 32-bit builds
+- v3dv: rename v3dv_cmd_buffer_merge_barrier_state
+- v3dv: make cmd_buffer_serialize_job_if_needed take a barrier state
+- v3dv: improve handling of trailing barriers
+- pan/va: fix FAU validation
+
+Ian Romanick (38):
+
+- iris: Add missing nir_metadata_preserve in iris_lower_storage_image_derefs
+- crocus: Add missing nir_metadata_preserve in crocus_lower_storage_image_derefs
+- iris: Use nir_shader_intrinsics_pass in iris_lower_storage_image_derefs
+- crocus: Use nir_shader_intrinsics_pass in crocus_lower_storage_image_derefs
+- brw/copy: Fix handling of offset in extract_imm
+- brw/copy: Use extract_imm in try_constant_propagate_value
+- brw/copy: Allow constant propagation of some 64-bit integers
+- nir/algebraic: More (a == 0 || a == 1 || ...) patterns
+- nir/algebraic: Optimize zero comparisons of umax or umin
+- nir/algebraic: Simplify equality comparisons of b2T with 1 or 0
+- nir/algebraic: Undistribute b2i from logic-ops
+- brw/print: Don't let SHADER_OPCODE_FLOW affect indentation
+- brw: Fix typo in comment
+- brw/nir: Lower fsign again after last call to brw_nir_optimize
+- brw/opt: Move non-SSA register accounting after first brw_opt_split_virtual_grfs
+- brw: Add basic infrastructure for load_reg pseudo op
+- brw/copy: Prepare copy_propagation for load_reg
+- brw/coalesce: Prepare brw_opt_register_coalesce for load_reg
+- brw/algebraic: Constant folding for BROADCAST and SHUFFLE
+- brw: Add passes to generate and lower load_reg
+- brw/sat: Convert tests to use load_reg
+- brw/sat: Eliminate non-defs saturate propagation
+- brw/opt: Don't call brw_opt_copy_propagation before brw_lower_load_reg
+- brw/nir: Fix source handling of nir_intrinsic_load_barycentric_at_offset
+- brw/nir: Eliminate default parameter to get_nir_src
+- brw/algebraic: Optimize derivative of convergent value
+- brw/copy: Refactor source modifier type checking
+- brw/copy: Copy prop -X into Y&1
+- brw/nir: Optimize b2f(not(X)) using logical operations instead of arithmetic
+- brw/nir: Allow b2f(not(X)) optimization on Gfx12.5+
+- brw/nir: Use offset() for all uses of offs in emit_pixel_interpolater_alu_at_offset
+- nir/algebraic: Allow fmin(a,a) optimization when flush denorm to zero is not set
+- brw/algebraic: Clear condition modifier on optimized SEL instruction
+- brw/algebraic: Don't optimize float SEL.CMOD to MOV
+- elk/algebraic: Clear condition modifier on optimized SEL instruction
+- elk/algebraic: Don't optimize float SEL.CMOD to MOV
+- brw/cmod: Fix some errors when propagating from CMP to ADD.SAT
+- brw/cmod: Don't propagate from CMP to possible Inf + (-Inf)
+
+Ivan A. Melnikov (1):
+
+- gallium/radeon: Make sure radeonsi PCI IDs are also included
+
+Ivan Avdeev (2):
+
+- radv: add experimental support for AMD BC-250 board
+- radv,radeonsi: disable compute queue for BC250
+
+Iván Briano (2):
+
+- anv: handle REMAINING_LAYERS in host image copy cases
+- brw: make HALT instruction act as barrier in new CSE pass
+
+James Hogan (8):
+
+- glsl: Expose gl_ViewID_OVR back to GLSL 1.30
+- mesa: Fix multiview attachment completeness check
+- mesa: Fix FramebufferTextureMultiviewOVR num_views check
+- mesa: Consider NumViews to reuse FBO attachments
+- mesa: Handle GL_FRAMEBUFFER_INCOMPLETE_VIEW_TARGETS_OVR
+- mesa: Check views don't exceed GL_MAX_ARRAY_TEXTURE_LAYERS
+- mesa: OVR_multiview framebuffer attachment parameters
+- mesa: Handle getting GL_MAX_VIEWS_OVR
+
+Jan Alexander Steffens (heftig) (1):
+
+- gfxstream: Use proper log format for 32-bit Vulkan
+
+Janne Grunau (8):
+
+- hk: Replace alloca with malloc in queue_submit
+- hk: Use rowPitch from VkImageDrmFormatModifierExplicitCreateInfoEXT
+- venus: Do not use instance pointer before NULL check
+- venus: virtgpu: Require stable wire format
+- asahi: build asahi_clc for -Dtools=asahi
+- asahi: Drop unnecessary idep_mesaclc dependency
+- panfrost: build panfrost_compile for -Dtools=panfrost
+- ci: Switch cross-builds to '-D tools=panfrost'
+
+Jason Macnak (6):
+
+- gfxstream: Move snapshot decoder replay into VkDecoderGlobalState
+- gfxstream: Remove unused handling mappers
+- gfxstream: Move the handle replay buffer into BoxedHandleManager
+- gfxstream: Remove duplicated boxed handle func declarations
+- gfxstream: Update variable names to avoid -Wshadow error
+- gfxstream: Remove extra dispatch variable
+
+Jeongik Cha (1):
+
+- gfxstream: Add AHARDWAREBUFFER_FORMAT_B8G8R8A8_UNORM in android_format_is_yuv
+
+Jesse Natalie (2):
+
+- meson: Enable /Zc:preprocessor for MSVC
+- CI/Windows: Update container deps
+
+Job Noorman (46):
+
+- freedreno/drm-shim: enable raytracing
+- ir3: fix emitting descriptor prefetches at end of preamble
+- ir3: add braces around complex if/else block
+- ir3/ra: handle phis with preferred regs first
+- ir3/parser: add helper to generate syntax errors based on gen
+- ir3/isa: fix (dis)asm of ldg.a/stg.a on a6xx
+- ir3: don't create SRC2 for isam without .v
+- ir3/legalize: use (sy) for ray_intersection WAR hazards
+- ir3/lower_tess: make all NIR passes report progress
+- ir3: don't use deprecated NIR_PASS_V anymore
+- ir3: reformat after previous commit
+- ir3/opt_prefetch_descriptors: fix crash after nir_progress rewrite
+- ir3: add reformatting commits to .git-blame-ignore-revs
+- nir/lower_phis_to_scalar: remove unused mem_ctx
+- nir/lower_phis_to_scalar: use nir_builder API where possible
+- nir/lower_phis_to_scalar: don't create moves for undef sources
+- nir/lower_subgroups: use build_cluster_mask for quad mask
+- ir3/ra: prevent reusing parent interval of reloaded sources
+- ir3: clear instruction uses when cloned
+- ir3/sched: unblock a0.x/a1.x after last use
+- ir3: add ir3_cursor_current_block helper
+- ir3/cse: add support for mov a0.x/a1.x
+- ir3: remove hash table for a1.x
+- ir3: add helper to create STC
+- ir3: fix false dependencies of rpt instructions
+- ir3/sched: handle dependencies between stc and const reads
+- ir3: split immediate state from rest of const state
+- ir3: make const_imm_index_to_reg helper public
+- ir3: fix max const size calculation for the binning pass
+- ir3: lower immediates to const regs in preamble on a7xx
+- ir3: keep inputs at start block when creating empty preamble
+- ir3/legalize: fix off-by-one error in kill_sched
+- ir3/legalize: take wrmask into account for delay updates
+- ir3: don't sync every TCS/GEOM block
+- ir3: run opt_if after opt_vectorize
+- ir3: make shpe a terminator
+- ir3/ra: assign interval offsets to new defs after shared RA
+- ir3: add ir3_aggressive_coalesce helper
+- ir3/ra: create merge sets for splits/collects inserted for shared RA
+- ir3/opt_preamble: take alias.rt into account for rewrite cost
+- ir3: remove spaces in shader stats
+- ir3/cp: add option to disable immediate to const lowering
+- ir3/cp: ignore alias sources for sam.s2en
+- ir3: run cp after ir3_imm_const_to_preamble
+- ir3/ra: add helper for getting a dst interval
+- ir3/ra: ignore phis handled by shared RA
+
+John Anthony (2):
+
+- panvk: Avoid division by zero for vkCmdCopyQueryPoolResults
+- panvk: Enable VK_EXT_direct_mode_display
+
+Jon Hunter (1):
+
+- freedreno/registers: Fix gen_header.py for older python3 versions
+
+Jordan Justen (5):
+
+- intel/dev: Add BMG PCI IDs (0xe210, 0xe215, 0xe216)
+- intel/dev: Stop checking hwconfig values at driver runtime
+- tools/intel_dev_info: Print hwconfig discrepancies
+- intel/dev: Ignore hwconfig difference due to WA 18040209780
+- intel/dev: Add BMG 0xe211 PCI ID
+
+Jose Fonseca (1):
+
+- glapi: Make _GLAPI_EXPORT a no-op on Windows.
+
+Jose Maria Casanova Crespo (3):
+
+- v3dv/ci: add new flakes
+- glapi: import noop_array and public stubs earlier.
+- v3dv: avoid TFU reading unmapped pages beyond the end of the buffers
+
+José Roberto de Souza (20):
+
+- intel: Initialize upper 32bits of drm_xe_sync.handle
+- intel/dev: Improve max_cs_threads documentation
+- intel/dev: Call intel_device_info_update_after_hwconfig() from common code
+- intel/common: Retry GEM_CONTEXT_CREATE when PXP have not finished initialization
+- anv: Remove protected memory support from compute queue
+- intel: Sync xe_drm.h
+- anv: Move code adding protected memory type to common code
+- anv: Add support to create protected bo and protected exec_queue in Xe KMD
+- iris: Add support to create protected bo and protected exec_queue in Xe KMD
+- intel: Add function to check if PXP is supported in Xe KMD
+- iris: Replace BO_ALLOC_* macros by a enum
+- intel/hwconfig: Sync hwconfig with IGT
+- intel/hwconfig: Remove ignored intel_hwconfigs from apply_hwconfig_item()
+- intel/dev/xe3: Set max_slices and max_subslices_per_slice using hwconfig
+- intel/perf: Update intel_perf to match xe_drm.h
+- drm-uapi: Sync xe_drm.h
+- intel: Program XY_FAST_COLOR_BLT::Destination Mocs for gfx12
+- intel: Fix the MOCS values in XY_FAST_COLOR_BLT for Xe2+
+- intel: Fix the MOCS values in XY_BLOCK_COPY_BLT for Xe2+
+- intel/tools: Fix batch buffer decoder
+
+Juan A. Suarez Romero (31):
+
+- broadcom/compiler: move stores to the end of shader
+- Revert "st/mesa: move VS & TES output stores to the end before unlowering IO"
+- broadcom/ci: add new failures/flakes
+- v3dv: take into account GS when enabling line smooth
+- v3dv/ci: disable rpi5 job
+- vulkan: don't leak debug utils label name
+- v3dv: duplicate key for texel_buffer cache
+- vc4/ci: update expected results
+- broadcom/simulator: use string copy instead of memcpy
+- vc4/ci: update expected results
+- v3dv/ci: Skip tests causing OOM
+- Revert "v3dv/ci: disable rpi5 job"
+- v3d/v3dv/vc4: review all expected timeouts
+- v3dv: remove src_format from blit render pass creation
+- v3dv: don't batch regions with different depth offsets
+- v3dv: include depth offset on image view creation
+- vc4: check instruction before setting flags
+- v3dv: asserts struct is always non null
+- v3dv: check dynamic offset output
+- v3dv: asserts push constants data is valid
+- vc4: initialize register
+- vc4: add assertion on constant_fold
+- vc4: assert there are sources when emitting texture
+- broadcom/cle: assert attribute has a value
+- vc4: use safe iterator to remove instructions
+- broadcom/compiler: use safe iterator to remove instructions
+- broadcom/compiler: don't use VLA on emit alu
+- broadcom/compiler: initialize register
+- v3dv: don't check if DRM device is master
+- v3d(v)/ci: update expected results
+- ci: include duration in the CustomLogger
+
+Julia Zhang (5):
+
+- vulkan: handle device memory report requests
+- radv: add import and export handle_type in radv_alloc_memory
+- radv: add obj_id to radeon_winsys_bo
+- radv: emit device memory report for device memory events
+- radv: advertise VK_EXT_device_memory_report
+
+Jung-uk Kim (1):
+
+- FreeBSD: Disable support for "-mtls-dialect" for FreeBSD
+
+Juston Li (3):
+
+- anv: xe: fully initialize drm_xe_sync addr/handle union
+- iris: xe: fully initialize drm_xe_sync addr/handle union
+- wsi/common: android: disable KHR_present_[wait/id]
+
+K900 (1):
+
+- meson: support building with system libgbm
+
+Karmjit Mahil (3):
+
+- loader/wayland: Fix missing timespec.h include
+- tu: Fix Perfetto build error with vk_buffer
+- tu: Fix segfault in fail_submit KGSL path
+
+Karol Herbst (49):
+
+- ci/windows: Bump Vulkan SDK for SPIRV-Tools
+- clc: use SetUseHighestVersion when linking spirvs
+- mesa_clc: drop spirv version workaround
+- rusticl/mem: set bind flags for gl imports
+- rusticl/mesa: add PipeContext::device_reset_status
+- rusticl/queue: check device error status
+- clc: bump SPIR-V target to 1.6
+- rusticl/kernel: call nir_lower_variable_initializers earlier
+- rusticl: support SPIR-V 1.5 and 1.6
+- rusticl/mem: do not apply offset with in copy_image_to_buffer
+- rusticl/mesa: add buffer and texture variant for resource_copy_region
+- rusticl/mem: Buffer::copy_to_image layering
+- rusticl/mem: Image::copy_to_buffer layering
+- rusticl/mem: Image::copy_to_image layering
+- rusticl/mem: Image::write layering
+- rusticl/mem: accelerate Buffer::copy_rect
+- rusticl/mem: accelerate Buffer::write_rect
+- rusticl/mem: set num_samples and num_mip_levels to 0 when importing from GL
+- rusticl/platform: advertise all extensions supported by all devices
+- rusticl/util: add missing comment and assert to char_arr_to_cstr
+- intel/brw, lp: enable lower_pack_64_4x16
+- nir: Do not eliminate dead writes to shared memory in called functions.
+- rusticl/program: implement CL_INVALID_PROGRAM_EXECUTABLE check in clGetProgramInfo
+- rusticl/program: pass options by reference
+- rusticl/program: loop over all devices inside Program::build
+- rusticl/program: rework build_nirs so it only touches devices we care about
+- rusticl/program: fix building kernels
+- rusticl/program: simplify active_kernels check
+- rusticl/kernel: rename CSOWrapper to SharedCSOWrapper
+- rusticl/queue: make it unncessary to keep QueueContext Send
+- rusticl/queue: cache bound CSO
+- rusticl/mesa: remove Sync from PipeContext
+- nir/serialize: fix decoding of is_return and is_uniform
+- vtn: Support the UniformDecoration capability.
+- zink: don't apply the map_offset when mapping a staging resource in zink_buffer_map
+- iris: remove all clover support code
+- freedreno: remove all clover support code
+- llvmpipe: remove all clover support code
+- gallium: stop filling ir_target in various drivers
+- gallium: stop using PIPE_BIND_COMPUTE_RESOURCE in drivers
+- gallium: stop implementing set_compute_resources in various drivers
+- nouveau: ignore req_input_mem
+- rusticl/device: fix panic when disabling 3D image write support
+- nir_lower_mem_access_bit_sizes: fix negative chunk offsets
+- nak: fix handling of delays > 15
+- r600: fix r600_buffer_from_user_memory for rusticl
+- iris: parse global bindings for every gen
+- iris/xe: fix compute shader start address
+- iris/xe: take the grids variable_shared_mem into account
+
+Kenneth Graunke (37):
+
+- brw: Drop unused defines
+- brw: Eliminate fs_inst::shadow_compare
+- brw: Replace fs_inst::pi_noperspective with a logical control source
+- brw: Drop FB_WRITE_LOGICAL_SRC_DST_DEPTH source
+- brw: Replace fs_inst::last_rt with a logical control source
+- brw: Replace fs_inst::target field with logical FB read/write sources
+- brw: Use correct builder size for MEMORY_FENCE/INTERLOCK virtual opcodes
+- brw: Change destination of memory fences to UD type
+- brw: Eliminate the BTI source from MEMORY_FENCE/INTERLOCK opcodes
+- brw: Add latencies for HDC/RC memory fences
+- brw: Lower MEMORY_FENCE and INTERLOCK in lower_logical_sends
+- brw: Drop INTERPOLATE_AT mlen handling from size_read()
+- brw: Drop unnecessary mlen/header_size on virtual GET_BUFFER_SIZE op
+- nir: Eliminate dead writes to shared memory at the end of the program
+- brw: Rename shared function enums for clarity
+- isl: Delete redundant "use separate stencil?" check
+- isl: Drop compile time "use separate stencil" checks.
+- intel: Delete devinfo->must_use_separate_stencil
+- intel: Delete devinfo->has_surface_tile_offset
+- intel: Move devinfo->has_negative_rhw_bug into the elk compiler
+- intel: Move devinfo->has_compr4 into the elk compiler
+- intel/dev: Set minimum HS URB entries to 0.
+- intel/dev: Set max_wm_threads to 0 in the Gfx9+ devinfo structs
+- intel/dev: Rework device info macros for Gfx8+
+- intel/dev: Set a higher minimum number of URB entries for GS
+- intel: Use devinfo->urb.min_entries[GS and TCS] for setting URB configs
+- intel: Move unlit centroid workaround into the elk compiler
+- intel/decoder: Decode compute shaders in EXECUTE_INDIRECT_DISPATCH
+- brw: Make a helper to emit UNDEF for temporaries containing small types
+- brw: Emit UNDEF as needed in SSA-style builder helpers
+- brw: Skip unnecessary UNDEFs for comparisons
+- brw: Use a smaller type for masked sub-32-bit shift values
+- brw: Avoid regioning restrictions for u2u16/i2i16 narrowing conversions
+- brw: Track the largest VGRF size in liveness analysis
+- brw: Use live->max_vgrf_size in register coalescing
+- brw: Use live->max_vgrf_size in pre-RA scheduling
+- brw: Don't assert about MAX_VGRF_SIZE in brw_opt_split_virtual_grfs()
+
+Kenny Levinsen (1):
+
+- device-select: Support linux-dmabuf feedback
+
+Kevin Chuang (2):
+
+- anv/bvh: Fix encoder handling sparse buffer
+- anv/bvh: Fix copy shader handling sparse buffer
+
+Konstantin (1):
+
+- nir/tests: Do not rely on __LINE__
+
+Konstantin Seurer (68):
+
+- nir: Stop using instructions for debug info
+- spirv: Handle NonSemantic.Shader.DebugInfo.100
+- nir: Add variable debug info to instructions
+- nir/lower_vars_to_ssa: Annotate defs with variable names
+- vulkan: Stop using strings for BVH build pipeline keys
+- vulkan/meta: Remove object types from vk_meta_object_key_type
+- vulkan/meta: Stop using strings for meta keys
+- hk: Stop using strings or common key types for meta keys
+- radv/meta: Stop using strings for meta keys
+- lavapipe: Fix maintainance7 descriptor set limits
+- vulkan/cmd_queue: Simplify freeing cmd_queue entries
+- vulkan/cmd_queue: Add VK_CMD_TYPE_COUNT
+- vulkan/radix_sort: Stop force-unrolling loops
+- gallivm: Remove loop limiting
+- lavapipe: Implement some functions required by the common BVH framework
+- lavapipe: Use the common BVH framework
+- radv: Optimize fs builtins using static gfx state
+- gallivm: Split nir prepasses into aos/soa
+- gallivm/nir/aos: Remove the dependency on lp_bld_nir.c
+- gallivm/nir/soa: Remove the dependency on lp_bld_nir.c
+- gallivm/nir/soa: Lower bools to i1
+- gallivm/nir/soa: Implement robusst uniform loads without controlflow
+- gallivm/nir/soa: Select more IO to gather/scatter intrinsics
+- lavapipe: Move nir passes to a new directory
+- lavapipe: Lower descriptor sets in NIR
+- lavapipe: Initialize the compiler options of the noop fs
+- llvmpipe: Do not use coroutines when they are unnecessary
+- nir: Rename in-bounds-agx to in-bounds
+- nir: Do not emit amul if it is unsupported
+- lavapipe: Optimize buffer robustness
+- gallivm/nir/soa: Do not lower vectors to llvm arrays
+- nir/divergence_analysis: Handle load_const_buf_base_addr_lvp
+- gallivm/nir/soa: Use divergence analysis
+- lavapipe: Lower push constants in NIR
+- gallivm: Only guard tex/image ops if the exec mask can be zero
+- gallivm/nir/soa: Skip bounds checking for in-bounds access
+- gallivm/nir/soa: Properly skip empty else branches
+- lavapipe: Remove uniform inlining
+- vulkan: Add utilities for triggering renderdoc captures
+- radv: Lower ray query vars to structs
+- radv: Implement multidimensional ray query arrays
+- llvmpipe: Skip draw_mesh if the ms did not write gl_Position
+- nir: Test nir_minimize_call_live_states
+- nir/sweep: Fix handling instructions with debug info
+- nir/print: Do not print debug information when gathering it
+- gallivm: Create a debug builder and add GALLIVM_DEBUG=symbols
+- llvmpipe: Annotate functions with debug information
+- gallivm: Handle nir_instr_debug_info
+- gallivm: Emit debug info for definitions
+- gallivm: Add a debug variable for the exec mask
+- gallivm: Run nir_lower_load_const_to_scalar
+- lavapipe: Enable debug information if GALLIVM_DEBUG=symbols is set
+- radv/meta: Change the return type of get_r32g32b32_format to VkFormat
+- ci: Do not build hk on alpine
+- asahi: Only require IOKit for tooling
+- hk: Fix building without the gallium driver
+- spirv: Emit code for NonSemantic.DebugPrintf if supported
+- nir: Turn the format string index into a const index
+- radv: Handle nir_intrinsic_printf
+- clc: Print errors when initializing clang fails
+- clc: Allow bitfields
+- clc,libcl: Clean up CL includes
+- radv: Fix rayTracingPositionFetch with multiple geometies
+- lavapipe: Prefetch 56 bytes of node data during ray traversal
+- lavapipe: Run nir optimizations on ray tracing pipelines
+- lavapipe: pre-load tmax
+- lavapipe: Do not emit aabb handling if no isec shader is used
+- radv: Return VK_ERROR_INCOMPATIBLE_DRIVER for unsupported devices
+
+Lakshman Chandu Kondreddy (1):
+
+- freedreno: Add support for Adreno623 GPU
+
+Lars-Ivar Hesselberg Simonsen (9):
+
+- panfrost: Do not evaluate_per_sample for non-MSAA
+- Revert "panfrost: remove is_blit flag"
+- Revert "panfrost: fix hang by using MALI_PIXEL_KILL_WEAK_EARLY in color preload"
+- panvk: Set missing shader_modifies_coverage flag
+- panfrost: Use RUN_COMPUTE over RUN_COMPUTE_INDIRECT
+- panvk: Use RUN_COMPUTE over RUN_COMPUTE_INDIRECT
+- vulkan/wsi/wayland: Avoid duplicate colorspace entry
+- panvk: Add barrier for interleaved ZS copy cmds
+- vk/sync: Fix execution only barriers
+
+Leder, Brendan Steve (1):
+
+- amd/vpelib: Reformat index variables and update enum
+
+Leonard Göhrs (2):
+
+- etnaviv/ci: add pengutronix LAVA lab with one i.MX8MP device
+- ci: re-enable pengutronix farm
+
+LingMan (2):
+
+- meson: Update pest subproject family
+- meson: Sync subproject version numbers in \`packagefiles` with their \`.wrap` equivalents
+
+Lionel Landwerlin (137):
+
+- anv: fixup missing compiler dependency on tests
+- intel: move internal shader compile to vtn_bindgen2
+- compiler: drop vtn_bindgen
+- intel_clc: remove NIR output support
+- spirv: remove spirv_library_to_nir_builder
+- brw: fixup scoreboarding for find_live_channels
+- anv: reuse helper for compute push constants
+- anv: increase general state pool
+- anv: track the first 2MB of unused VA
+- anv: use heap size to program generate state heap
+- anv: add a helper for getting gfx push constant addresses
+- brw/anv: rework push constants for mesh/task shaders
+- brw: enable A64 pulling of push constants
+- anv: use A64 messages for push constants loads on Gfx12.5+
+- nir: add a high precision conversion unorm->float
+- anv: add source hashes for BVH building shaders
+- vulkan/wsi: propagate protected swapchain to images
+- vulkan: allow support for protected surfaces
+- anv: support protected surfaces with display platform
+- anv,driconf: Add sampler coordinate precision workaround for Dynasty Warriors
+- genxml: make component packing an array
+- genxml: add convenience dwords for packing components
+- brw: fix indentation
+- brw: remove nr_attribute_slots from vs_prog_data
+- brw: port vs input to lower_64bit_to_32_new
+- brw: update vulkan max attribute limit
+- brw: add a max HW vertices attribute limit
+- brw: enable vertex fetching component packing
+- blorp: emit 3DSTATE_VF
+- anv: disable VF statistics for memcpy
+- anv: enable vertex fetching component packing
+- anv: ensure Wa_16012775297 interacts correctly with Wa_18020335297
+- brw: use meaningful io locations for system values
+- brw: add support for no VF input slot compaction
+- brw: add documentation about slot compaction & component packing
+- brw: fix component packing starting index
+- anv: move RT stage bits to main header
+- anv: move reg_mask push constant field to gfx
+- anv: hold a prepacked COMPUTE_WALKER instruction on CS pipelines
+- anv: make gfx state flushing available externally
+- anv: make compute state flush helper visible
+- runtime: sort push constant layouts
+- anv: avoid memory type changes with INTEL_DEBUG=noccs
+- anv/ci/adl: update fail expectation for video
+- anv: fixup compute walker storage length
+- nir: add options to lower only some image atomics to global
+- brw: factor out base prog_data setting
+- brw: store source_hash in prog_data
+- anv: switch to use brw's prog_data source_hash
+- isl: report tiling address swizzles
+- isl: add usage for software detiling
+- isl: centralize supported tilings in a single function
+- isl: select a tiling for shader detiling
+- isl: add support for R64 storage image lowering
+- isl: add a helper to report what dimensions a tiling supports
+- nir: track lowered image intrinsics to globals
+- brw: include UGM fence when TGM + lowered image->global
+- brw: add support for 64bit storage images load/store
+- brw: add support for texel address lowering
+- anv: rename compressed format emulation helpers
+- anv: add mapping for VBO formats in format mapping
+- anv: add a is_sparse for image format support checks
+- u_trace: pass tracepoint flags to the read_timestamp callback
+- intel/ds: rework RT tracepoints
+- anv: fix missing 3DSTATE_PS:Kernel0MaximumPolysperThread programming
+- brw: optimize load payload with immediate headers
+- brw: avoid setting up the sampler header bits when unused
+- spirv: fix racy build
+- vulkan/runtime: ensure robustness state is fully initialized
+- vulkan/runtime: pass robustness state to preprocess vfunc
+- vulkan/runtime: add a multialloc vk_shader allocator
+- vulkan/runtime: store flags on descriptor set layouts
+- anv/iris: centralize TBIMR drirc
+- iris: remove duplicate TessellationDistributionMode programming
+- anv/iris: add drirc keys to disable VF/TE distribution
+- anv/apply_layout: split binding table building into its own function
+- intel/genxml: add a genX RT include header
+- genxml: simplify genX_rt_pack.h
+- brw: make intel_shader_enums.h opencl importable
+- anv/brw: move INTEL_MSAA_* flag computation to the compiler
+- anv: break down Wa_16014912113 in need/apply parts
+- anv: fixup indentation around Wa_16014912113
+- brw: avoid calling lower_indirect_derefs multiple times
+- anv: fill runtime buffer device_address field
+- anv: move index buffer entry point out of genX code
+- anv: move vertex buffer storage to 64bit address + mocs
+- anv: move xfb buffer storage to 64bit address + mocs
+- anv: track protection on anv_address
+- anv: use addresses for buffer<->image copies
+- anv: simplify internal blorp helper
+- anv: fix non page aligned descriptor bindings on <Gfx12.0
+- lavapipe: fill buffer address
+- vulkan/runtime: rely on vk_buffer::device_address
+- brw: fix spilling for Xe2+
+- brw: ensure VUE header writes in HS/DS/GS stages
+- anv: Set limit_trig_input_range option for Company of Heroes 3
+- anv: avoid early lower of the fp64 code
+- blorp: assert that shaders don't spill
+- blorp: relax depth/stencil<->color copy restriction
+- vulkan: add helper for color/depth-stencil capable formats
+- anv: relax depth/stencil<->color copy restrictions
+- anv: fix end of pipe timestamp query writes
+- anv: disable replication when we don't have both VS/FS stages
+- brw: always write the VUE header
+- anv: limit implict write with drirc
+- nir: add support for lowering non uniform texture offsets
+- elk: stop using intel_nir_lower_texture
+- brw: don't lower tg4 offsets without LOD
+- intel: move lower_texture to brw
+- brw: move texture offset packing to NIR
+- anv: enable non uniform texture offset lowering
+- anv: wire VkAccessFlagBits3KHR flags in internal helpers
+- anv: expose VK_KHR_maintenance8 support
+- intel/genxml: remove ISA fields
+- intel/genxml: add more engine tagging on instructions
+- intel/genxml: fixup engine filtering
+- intel/genxml: define post-sync operations for MI_FLUSH_DW
+- intel/genxml: add MI_FLUSH_DW to blitter engine
+- anv/genxml: use special genX video pack files
+- anv/hasvk: consider timeline semaphore support stable
+- docs: remove unused env variable
+- anv/hasvk: sort out debug options
+- anv: consolidate environment variables
+- anv: add shader-hash debug option
+- brw: fix shuffle with scalar/uniform index
+- anv: relax restriction on variable count descriptors
+- anv: fix self dependency computation
+- brw: fix Wa_22013689345 emission
+- iris: update Wa_1607156449 to use WA infrastructure
+- anv: update Wa_1607156449 to use WA infrastructure
+- intel/dev: remove ADLN references
+- anv: remove ALWAYS_INLINE from globally visible functions
+- anv/iris: implement Wa_18040903259
+- anv: use companion batch for operations with HIZ/STC_CCS destination
+- anv: force fragment shader execution when occlusion queries are active
+- intel: fix null render target setup logic
+- brw: add pre ray trace intrinsic moves
+
+Lorenzo Rossi (8):
+
+- nvk: fix preprocess buffer alignment
+- nvk: Fix MSAA sparse residency lowering crash
+- nir: support shared atomics in nir_lower_atomics
+- nvk, nak: Implement shaderSharedInt64Atomics
+- nak: Fold bool-int-bool conversions
+- nak: Flatten AttrAccess into instructions
+- nak: Fix SM50 rounding-mode encoding edge-case
+- nak: Simplify shl64 lowering on Maxwell
+
+Loïc Minier (1):
+
+- freedreno: check if GPU supported in fd_pipe_new2
+
+Loïc Molinari (5):
+
+- perfetto: Let MESA_TRACE_FUNC() take printf-like format arguments
+- panfrost: Add CPU traces
+- pan/kmod: Add drmIoctl() wrapper pan_kmod_ioctl() with CPU trace
+- docs: Add Panfrost to the list of drivers with CPU traces
+- mesa: Add CPU traces
+
+Lucas Fryzek (4):
+
+- anv: Release correct bo for RT scratch
+- vulkan/runtime: Add object type to DMR API
+- anv: Implement VK_EXT_device_memory_report
+- anv: Expose VK_EXT_device_memory_report
+
+Lucas Stach (19):
+
+- etnaviv: drm: fix instruction limit for cores with instruction cache
+- etnaviv: drop double masking in etna_emit_load_state
+- etnaviv: split large multi-state updates into multiple batches
+- etnaviv: emit PS start and end PC states only on shader changes
+- etnaviv: correct and rename shader range register check
+- etnaviv: replace open-coded shifts in shader range registers with macros
+- etnaviv: place FS right behind VS in unified instruction memory
+- etnaviv: allow larger shaders with unified instruction memory
+- kmsro: look for graphics capable screen as renderonly device
+- etnaviv: rs: fix slow/fast clear transitions
+- etnaviv/ci: remove dEQP-GLES2.functional.polygon_offset.default_enable fail
+- etnaviv: fix ETNA_MESA_DEBUG=no_early_z
+- etnaviv: Update headers from rnndb
+- etnaviv: enable forwarding ZW fragcoord components from RA to SH
+- etnaviv/ci: remove fragcoord related fails on GC7000
+- etnaviv: use pipe_resource in etna_resource_status
+- etnaviv: split PIPE_BUFFER resources from other types of resources
+- include: update GL headers from the registry
+- etnaviv: add context flush sw query
+
+Ludvig Lindau (1):
+
+- panvk: Get flush_id once per submit
+
+Maaz Mombasawala (3):
+
+- svga: Add all tgsi double instructions for shader codegen checks
+- nir: Add option to preserve double immediates in tgsi shader.
+- svga: Check float type when emitting atomic instructions
+
+MaciejDziuban (3):
+
+- vulkan: handle use_default_scaling_matrix_mask in h264 decoder
+- vulkan: Add default scaling lists for H265
+- radv: Use vk_video_derive_h265_scaling_list
+
+Marek Olšák (128):
+
+- amd: drop support for LLVM 15, 16, 17
+- ci/debian-ppc64el: don't build AMD drivers due to having only LLVM 15
+- gallium,st/mesa: allow reporting compile failures from create_vs/fs/.._state
+- nine: change the vtxbuf dirty mask to bool
+- nine: always update vertex buffers after updating vertex elements
+- nine: remove unused last_vtxbuf_count
+- nine: bind exactly the number of vertex buffers as vertex elements need
+- cso_context: add cso_get_vertex_elements_for_bind, letting the caller bind it
+- gallium/u_threaded,st/mesa: add a merged set_vertex_elements_and_buffers call
+- radeonsi: add assertion requiring binding vertex elements before vertex_buffers
+- radeonsi: require that count in set_vertex_buffers matches vertex elements state
+- radeonsi: don't set num_vertex_buffers and don't unbind in set_vertex_buffers
+- radeonsi: simplify bind_vertex_elements due to being before set_vertex_buffers
+- radeonsi: print why draws are rejected
+- util: remove glthread enablement from app profiles
+- mesa: don't build st_format_test on Windows
+- glapi: remove dead code
+- glapi: inline functions or use equivalent alternatives
+- glapi: don't export always-private functions
+- mesa: remove a glapi workaround for Mesa 10.5 and older
+- glapi: fix build dependencies by putting all xml/py files into a single list
+- glapi: remove support for dynamically-registered functions
+- glapi: use an assertion in SET_by_offset instead of doing nothing
+- glapi: clarify the meaning of static_data.functions
+- glapi: remove check_table tests
+- glapi: generate static offsets from the list of GL functions automatically
+- glapi: remove unused functions from dispatch tables
+- glapi: move legacy imaging functions to the end of dispatch tables
+- glapi: verify that aliased functions don't have entries in dispatch tables
+- glapi: just use _gloffset_COUNT_ everywhere, which is always the function count
+- glthread: handle glFlush with HasExternallySharedImages more efficiently
+- glthread: rename scripts to match the names of generated files
+- glapi: disable python escape sequences in strings that use invalid ones
+- glapi: use static_data.libgl_public_functions directly
+- glapi: remove is_static_entry_point wrapper
+- glapi: inline entry_current_get()
+- glx: don't call GL functions directly, use the current dispatch instead
+- glx: fix hardcoded use of dispatch table index in glAreTexturesResidentEXT
+- glx: stop exporting GL functions from libGLX_mesa.so
+- glx: make it more obvious what libglapi_bridge is
+- glapi: remove unused python code
+- mesa: allocate GLmatrix aligned to 16 bytes
+- Remove osmesa
+- gallium/u_blitter: remove UTIL_BLITTER_ATTRIB_COLOR, use a constant buffer
+- gallium/u_blitter: change blitter_attrib from union to struct
+- meson: never use static glapi because shared glapi is also static and better
+- glx/xlib: switch glapi from static to shared (which is also static)
+- meson: remove with_shared_glapi variable (it's always true)
+- glapi: remove static glapi (it's dead code now)
+- glapi: remove duplicated generated header glapitable.h
+- glx: fix build with -Dlegacy-x11=dri2
+- egl: use the current dispatch to execute glFlush instead of get_proc_address
+- glapi: remove extension definitions that will likely never be implemented
+- ac/gpu_info: use max_good_cu_per_sa for computation of max_scratch_waves
+- ac,radeonsi: don't set num_slots/src/dest_type/write_mask when they're set automatically
+- Revert "ac/nir: clamp vertex color outputs in the right place"
+- ac/nir/cull: extract a helper calling accept_func
+- ac/nir/ngg: add an option to skip viewport-based culling
+- ac/cmdbuf: split meta_*_policy to dcc and htile variables
+- ac/cmdbuf: rework CB/DB cache controls for better perf
+- winsys/amdgpu: don't use 32-bit address space for IBs
+- radeonsi: use si_is_buffer_idle everywhere
+- radeonsi: move buffer reallocation to a separate function
+- radeonsi: enable NGG culling when the shader writes the viewport index
+- radeonsi: enable Z/S caching in GL2 by default except FurMark
+- radeonsi: use the restrict keyword for draw parameters
+- radeonsi: lower IO only if io_lowered == false
+- radeonsi: reflect blitter VS in si_context::num_vertex_elements
+- radeonsi: don't cull front/back faces in the hw if the shader culls them
+- ac,radeonsi: define all SDMA DCC fields & use them, enable compressed writes
+- radeonsi: remove clover support
+- glx: don't generate indirect GLX dispatch for ARB_imaging functions
+- glapi: make a separate copy of entry.c for each lib
+- glapi: replace mapi_func type with identical _glapi_proc
+- glapi: simplify codegen macros
+- glapi: merge all shared-glapi source files into one .c file
+- glapi: remove unused _mesa_glapi_Dispatch
+- glx: add a test to verify exported symbols
+- glapi: get the list of public GL functions from libgl-symbols.txt
+- glx: remove the hack that forced exporting GL functions from libGL
+- glapi: remove the GLAPI_PREFIX macro, just use gl as the function prefix
+- glapi: simplify headers of generated files
+- glapi: simplify mapi_abi.py
+- glapi: rename dispatch stubs to use function names instead of numbers
+- glapi: remove noop_generic callbacks
+- glapi: remove the option to set the nop handler
+- mesa: move dispatch.h and marshal_generated.h generation to glapi/gen
+- mesa: inline main/meson.build
+- glx: stop exporting EXT_texture_object functions from libGLX_mesa.so
+- glapi: fix x86 32-bit asm dispatch regression
+- amd: update addrlib
+- amd/addrlib: remove the DCC page fault workaround
+- ac/nir/cull: cull small prims using a point-triangle intersection test
+- glsl: return failure from gl_nir_validate_first_and_last_interface_explicit_locations
+- glsl: return failure from varying_matches_assign_locations
+- glsl: return failure from remove_unused_io_vars
+- glsl: stop calling nir_opt_combine_stores (redundant with nir_opt_vectorize_io)
+- glsl: remove a deprecated comment about nir_compact_varyings
+- glsl: always return true at the end of link_varyings
+- glsl: move code after link_varyings into link_varyings
+- st/mesa: don't do nir_remove_dead_variables on in/out twice
+- nir/opt_algebraic: lower 16-bit imul_high & umul_high
+- ac: define physical VGPRs for fake hw overrides
+- ac/nir/cull: rename skip_viewport_culling -> skip_viewport_state_culling
+- ac/nir/cull: always do frustum culling, skip only small prim culling
+- ac/surface: remove 64K_2D modifier with 64B max compressed blocks for gfx12
+- radeonsi: work around a primitive restart bug on gfx10-10.3
+- radeonsi: always use ACO callbacks to scalarize/vectorize 16-bit ALU
+- radeonsi: expose 16-bit NIR types for ALU, MEM, and LDS (no inputs/outputs)
+- radeonsi/ci: update gfx11 failures
+- radeonsi/ci: don't run GTF tests (they have been removed from glcts)
+- radeonsi: lower load/store bit sizes before load/store vectorization
+- radeonsi: add a VOP3P swizzle requirement for 16-bit packed math
+- radeonsi/ci: add gfx12 failures and flakes
+- radeonsi: make si_shader_selector::main_shader_part_* an iterable union
+- radeonsi: add ACO-specific main shader parts
+- winsys/amdgpu: don't add VM_ALWAYS_VALID buffers into the BO list
+- radeonsi: determine VM_ALWAYS_VALID accurately
+- ac/gpu_info: increase the attribute ring size for gfx12
+- ac/gpu_info: remove has_tmz_support function
+- ac/gpu_info: add payload_entry_size into ac_task_info
+- ac/gpu_info: add 256 to payload_entry_size to increase future task shader perf
+- ac/nir: set X=0 for task->mesh shader dispatch when Y or Z is 0
+- ac/surface: make gfx12_estimate_size reusable by gfx6
+- ac/surface: select 3D tile mode without overallocating too much for gfx6-8
+- radeonsi: always scalarize shared memory instructions
+- radeonsi: use nir_opt_shrink_vectors
+- radv: fix incorrect patch_outputs_read for TCS with dynamic state
+
+Mark Collins (4):
+
+- tu/kgsl: Remove zero CB queue submission fast path
+- tu/kgsl: Revert "Remove zero CB queue submission fast path"
+- tu/kgsl: Fix KGSL syncobj lifetime in no CB submit
+- ir3/a7xx: Add post-RA pass to track liveness and insert (last)
+
+Martin Krastev (7):
+
+- svga/ci: disable vmware farm
+- svga/ci: enable vmware farm
+- svga/ci: enable vmware farm
+- svga/ci: enable vmware farm
+- svga/ci: update EXTERNAL_KERNEL_TAG to new kernel
+- svga/ci: disable vmware farm
+- docs/svga: Add steps how to get VMware Workstation Pro on Linux
+
+Martin Roukala (né Peres) (42):
+
+- ci: fix the artifact name
+- ci: be explicit about the fact HW jobs do not need linter artifacts
+- ci/test/b2c: do not download the debian/\*_test-(gl|vk) artifacts
+- ci-templates: update to the latest upstream version
+- ci/build-deqp: delegate the deqp main commit check to github
+- ci/test: add arm32 b2c jobs
+- ci/debian/test-vk: remove software-properties-common
+- ci/debian/test-vk: trim down the container on a per-arch basis
+- ci/image-tags: bump the debian base tag
+- ci/b2c: add support for diskless DUTs
+- ci/b2c: de-duplicate the download of install.tar
+- etnaviv/ci: convert from baremetal to CI-Tron
+- ci: re-enable austriancoder's farm
+- zink/ci: use the debian-built-testing for nvk
+- zink/ci: update the radv expectations
+- radv/ci: bump tahiti's cpu cores
+- radv/ci: update expectations
+- freedreno/ci: update expectations
+- ci/b2c: fix the S3 artifact for amd64 manual vk/gl
+- radv/ci: document more Tahiti VKCTS flakes
+- turnip/ci: re-introduce the \`multiviewport` flakes
+- zink/ci: mark query-rgba-signed-components as fixed on more platforms
+- zink/ci: document more RADV flakes
+- radv/ci: add testing on RAPHAEL
+- radv/ci: reduce Renoir concurrency in vkcts
+- radv/ci: set a tight timeout on vkcts-navi31
+- radv/ci: document more flakes
+- zink/ci: document more radv flakes
+- zink/ci: document more GA106 flakes
+- zink/ci: increase the a750 job's timeout to 18 minutes
+- radv/ci: mark a whole subset of tests as flaky on tahiti
+- zink/ci: document more RADV flakes
+- zink/ci: document more NVK GA106 flakes
+- ci/b2c: allow jobs to opt-in into the new mars setup command
+- radv/ci: opt-in the new mars setup command
+- etnaviv/ci: opt-in the new mars setup command
+- nvk/ci: opt-in the new mars setup command
+- freedreno/ci: opt-in the new mars setup command
+- i915g/ci: opt-in the new mars setup command
+- r300g/ci: opt-in the new mars setup command
+- radv/ci: reduce the timeout of vkcts-tahiti to a more sensible time
+- radv/ci: add hawaii to CI
+
+Mary Guillemard (95):
+
+- panfrost: Fix group priorities in drm-shim
+- panfrost: Fix PROGRESS_LOAD destination register
+- pan/bi: Properly encode LEA_BUF_IMM
+- pan/bi: Remove shift lanes invalid encodings
+- pan/bi: Fix invalid CLPER encoding
+- pan/bi: Remove b3210 from valid swizzle
+- pan/bi: Use 2D dimension with TEX_FETCH with CUBE on Valhall
+- pan/decode: Fix indirect branch calculation for 64-bit
+- panfrost: Properly name CSF instruction UMIN32 source 0
+- panvk: Disallow unknown GPU models early in physical device init
+- pan/genxml: Stop using "constant" for struct fields in xml defs
+- pan/genxml: Rework gen_pack.py to support OpenCL
+- panfrost: Add base of OpenCL C infrastructure
+- bi: Optimize scratch access
+- panvk: Integrate libpan
+- panfrost: Integrate libpan in gallium driver
+- panvk: Add create_shader_from_binary
+- panvk: Move TLS preparation logic to cmd_dispatch_prepare_tls
+- panvk: Expose calculate_task_axis_and_increment on CSF
+- panvk: Implement precomp dispatch
+- panfrost: Implement precomp dispatch on Gallium
+- panfrost,panvk: Wire printf and abort support
+- ci: Transition to precomp-compiler
+- ci: Enable mesa-clc and precomp-compiler on debian-arm32
+- pan/bi: Fix scratch access optimization
+- panvk: Switch JM copy queries to CLC
+- panvk: Switch JM clear queries to CLC
+- pan/bi: Document removed instructions on v11
+- pan/bi: Do not run bi_fuse_small_int_to_f32 on v11+
+- pan/bi: Disallow dst swizzle optimization in case of conversion
+- pan/bi: Add round mode modifier to FADD
+- pan/bi: Stop using V2F32_TO_V2F16 on Valhall
+- pan/bi: Lower SWZ.v4i8 to multiple MKVEC.v2i8 on v11+
+- pan/bi: Stop using S16_TO_F32 in nir_texop_lod computation on v11+
+- pan/bi: Stop using V2F16_TO_V2S16 for barycentric_at_offset on v11+
+- pan/bi: Lower removed instructions in algebraic on v11+
+- pan/bi: Lower FROUND.v2s16 in nir_lower_bit_size on v11+
+- pan/bi: Lower hadd on v11+
+- pan/bi: Handle LD_VAR_BUF_IMM encoding changes on v11+
+- pan/bi: Properly extract primitive facing on v11+
+- pan/genxml: Define RUN_IDVS staging registers in an enum
+- panfrost: Remove write to TSD_3 in Gallium driver
+- pan/genxml: Define RUN_COMPUTE staging registers in an enum
+- pan/genxml: Define RUN_FRAGMENT staging registers in an enum
+- panfrost: Rework cs_sr_regXX to be a macro
+- panfrost: Switch Gallium driver to use cs_sr_regXX
+- panfrost: Use CSIF info for CSF registers count
+- panfrost: Avoid hard crash when major arch is unknown
+- panfrost: Rename CSF MOVE into MOVE48
+- panfrost: Fix FLUSH_CACHE2 other definition
+- panfrost: Rename CS ADD_IMMEDIATEXX to ADD_IMMXX
+- pan/genxml: Use DCD Flags in Draw struct on v9+
+- pan/bi: Disallow FAU special page 3 and WARP_ID on message instructions
+- pan/bi: Add unit tests for FAU special page 3 and WARP_ID
+- pan/bi: Run nir_lower_bit_size after algebraic
+- pan/bi: Run bifrost_nir_lower_algebraic_late while there is progress
+- pan/bi: Lower FREXPE.v2f16 and FREXPM.v2f16 on v11+
+- pan/bi: Fix out of range access in bi_instr_replicates
+- pan/bi: Ensure we select b0 with halfswizzle in va_lower_constants
+- nir: Add Panfrost specific shader_output intrinsic
+- pan/bi: Use shader_output intrinsic for IDVS
+- pan/bi: Add support for IDVS2 on Avalon
+- pan/bi: Lower IADD.v4s8 in algebraic on v11+
+- pan/bi: Allow no_psiz variant with IDVS2
+- pan/genxml: Rename UMIN32 opcode to COMPARE_SELECT32
+- pan/genxml: Add v12 definition
+- pan/genxml: Add v13 definition
+- pan/genxml: Build libpanfrost_decode for v12
+- pan/genxml: Build libpanfrost_decode for v13
+- pan/lib: Build for v12
+- pan/lib: Build for v13
+- pan/clc: Build for v12
+- pan/clc: Build for v13
+- panvk: Support 64x64 meta tile size for v12 in cmd_preload_render_area_border
+- pan/lib: Adapt CRC calculation to align to 64x64 on v12+
+- panfrost: Disable hierarchy levels based on multiple of tile_size
+- panvk: Use spd variant instead of pos_points when checking for vs shader presence
+- pan/earlyzs: Default to FORCE_EARLY for ZS update on v11+
+- panvk: Implement Z/S dependency tracking on v11+
+- panvk: Add v12 support
+- panvk: Add v13 support
+- panfrost: Add v12 support to the Gallium driver
+- panfrost: Add v13 support to the Gallium driver
+- panfrost/ci: Add Mali-G720 current expectations
+- panfrost/ci: Add Mali-G725 current expectations
+- panfrost: Advertize Mali-G720 support
+- panfrost: Advertize Mali-G725 support
+- panfrost: Update the release note to mention G720/G725 addition
+- panvk: Fix inverted ZS read flags in DCD2 on v11+
+- panfrost: Take tiler memory budget into account in pan_select_tiler_hierarchy_mask
+- panvk: reset dyn_bufs map count to 0 in create_copy_table
+- panvk: Take rasterization sample into account in indirect draw on v10+
+- panvk: Take resource index in valhall_lower_get_ssbo_size
+- pan/bi: Properly lower add/sub with saturation on v11+
+- pan/genxml: Fix inverted logic on nr_regs
+
+Matt Turner (22):
+
+- gallium: Fix typos
+- glsl: Fix typos
+- glx: Fix typos
+- intel: Fix typos
+- mapi: Fix typos
+- vulkan: Fix typos
+- gallium: Return NULL, not false, from functions returning pointers
+- nir: Return NULL, not false, from functions returning pointers
+- iris: Initialize pointer with NULL, not false
+- intel/compiler: Use FALLTHROUGH
+- glsl: Use FALLTHROUGH
+- glsl: Add missing break
+- intel/compiler: Use unreachable instead of assert(!"...")
+- intel/isl: Use unreachable instead of assert(!"...")
+- anv: Use unreachable instead of assert(!"...")
+- hasvk: Use unreachable instead of assert(!"...")
+- intel/decoder: Remove assert(!"...") in recoverable condition
+- intel/compiler: Add missing breaks
+- intel/compiler: Use correct enum type
+- iris: Remove ignored qualifier
+- intel/isl: Remove ignored qualifier
+- anv: Remove ignored qualifier
+
+Maíra Canal (4):
+
+- v3dv: VK_EXT_acquire_drm_display doesn't require a DRM master fd
+- v3dv: don't overwrite the primary fd if it's already set
+- broadcom/simulator: Expose V3D revision number in the simulator interface
+- broadcom/simulator: Fix Indirect CSD jobs for V3D 7.1.6+
+
+Mel Henning (31):
+
+- nvk: Use hw support for instancing on PASCAL_B+
+- nak/opt_copy_prop: Fix IAdd3 overflow check
+- nak/opt_copy_prop: Add force_alu_src_type
+- nak/opt_copy_prop: Force alu src for IAdd2X/IAdd3X
+- driconf: force_vk_vendor on Deep Rock Galactic+NVK
+- nak: Add OpLea
+- nak,nir: Add 32-bit nir_op_lea_nv and use it
+- nak: Add OpLeaX
+- nak,nir: Add 64-bit lea_nv
+- nouveau/mme: Print ip in mme_tu104_dump
+- nak: Add static cycle count statistic
+- nak: Add an occupancy statistic
+- nak/spill_values: Make Spill take &mut self
+- nak: Add spill/fill statistics
+- nvk: Don't zero imported memory
+- nvk: Add NVK_DEBUG=trash_memory
+- vulkan: Relax bda assert for zero-size buffers
+- nak: Add a simple postpass instruction scheduler
+- nak: Calc static cycle count in instr_sched
+- nak: Assert instr_sched matches calc_instr_deps
+- nak/instr_sched: Barriers activate after 2 cycles
+- nvk: SET_PS_{REGISTER,WARP}_WATERMARKS
+- nvk: Support blackwell in max_warps_per_mp_for_sm
+- nak/spill_values: Spill constants across edges if needed
+- nak: Handle idp4 ureg latencies
+- nvk: SET_STATISTICS_COUNTER at start of meta_begin
+- nvk: Override render enable for blits and resolves
+- wsi/headless: Override finish_create
+- nak: Remove hfma2 src 1 modifiers
+- nak: Add Src::is_unmodified() helper
+- nak: Check that swizzles are none
+
+Mi, Yanfeng (2):
+
+- anv: Support putting image base address and image params in surface state
+- anv: add emulated 64bit integer storage support
+
+Michael Cheng (5):
+
+- anv: Fix missing Perfetto trace for as build
+- Revert "anv: Fix missing Perfetto trace for as build"
+- vulkan : Pass in number of tlas/blas being built
+- anv: Change as_build to show num tlas/blas
+- vulkan: add leaves and ir_leaves sizes to encode for utrace.
+
+Michel Dänzer (1):
+
+- egl/glx/sw: Check xcb_query_extension_reply return value for MIT-SHM
+
+Mike Blumenkrantz (97):
+
+- zink: emit SpvCapabilityDemoteToHelperInvocation for IsHelperInvocation
+- zink: implement ops for KHR_shader_subgroup
+- aux/trace: trace tex2d_from_buf for samplers/images
+- gallium: add a pipe_tex2d_from_buf struct
+- rusticl: stop clearing shader images after every dispatch
+- zink: also refcount needs_present from frontbuffer flush
+- zink: delete some old DGC remnants
+- zink: guard rebar check against fallback heap detection
+- ac/surface: always allow LINEAR modifier for color formats
+- radv: fix error reporting for VkExternalMemoryTypeFlagBitsKHR
+- radv: stop blocking non-2D import/export ops
+- radv: print stringname for VkExternalMemoryHandleTypeFlagBits error
+- driconf: move a glthread viewperf option to global
+- driconf: add GL_EXT_shader_image_load_store for viewperf to fix crashing
+- zink: only enable unsynchronized_texture_subdata with HIC
+- zink: never try to oom flush during unsync texture upload
+- zink: apply layer/depth to clear handling
+- zink: wait on tc fence before checking for fd semaphore
+- zink: handle buffer import/export
+- zink: verify that adding a dmabuf bind actually chooses a modifier
+- zink: support cl_gl_sharing if dmabuf is supported
+- egl/x11: delete some dri2 remnants
+- zink: force cached mem for streaming uploads
+- zink: always fully unwrap contexts
+- zink: use a separate ralloc ctx for zink_program objects
+- zink: put zink_program::reference on separate cacheline
+- dri: delete INVALIDATE extension
+- zink: enable single-plane modifiers for generic 2D exports
+- zink: clamp UBO sizes instead of asserting
+- anv: support all dimensions of image for LINEAR dmabufs
+- aux/trace: truncate descriptor unbinds
+- zink: always check submit_count to disambiguate when checking/waiting
+- zink: don't reset all batch states when stalling
+- zink: alloc bo ids for non-slab bos too
+- zink: explicitly check usage in buffer barriers
+- svga/ci: disable vmware farm
+- llvmpipe: pass layer count to rast clear
+- gallium: fix pipe_framebuffer_state::view_mask
+- mesa: add error handling for OVR_multiview
+- mesa: avoid creating incomplete surfaces when multiview goes out of range
+- zink: improve precision on changes to depth bias between draws
+- zink: delete zink_batch_state::ref_lock
+- zink: split set_vertex_buffers to avoid conditionals
+- zink: start using ctx->vertex_state_changed again
+- zink: use VKCTX for vertex buffer binds and delete unused screen local
+- zink: only add fb surf refs on unbind
+- radv: rewrite radv_get_line_mode() conditional
+- radv: store num_attributes to shader info
+- radv: store vertex prolog simple input check to cmdbuf on vs bind
+- radv: roll line topology dynamic state changes into existing rast samples flag
+- radv: eliminate a memset in radv_get_vbo_info()
+- radv: inline some vertex descriptor functions
+- radv: split out dynamic vertex input descriptor writing
+- radv: move non_trivial_format calc to dynamic VI bind
+- radv: get vbo info directly into dgc upload
+- radv: don't unnecessarily flag prolog recalc when binding VBOs
+- zink: disable reordering on compute contexts
+- zink: extract some shader image resource binding code
+- zink: extract some samplerview bind/unbind code
+- zink: support crazy CL buffer-to-texture extension
+- st/drawpixels: move sv unref out to callers
+- gallium: eliminate frontend refcounting from samplerviews
+- gallium: make pipe_sampler_view::reference non-atomic
+- mesa: remove st_sampler_view::private_refcount
+- aux/trace: set sampler_view_release pointer
+- gallium: delete tests
+- util/tests: move u_half_test into half_float_test
+- gallium: delete u_cache
+- meson: add i915 to 'all' build for gallium-drivers
+- egl/x11: always expose EXT_swap_buffers_with_damage
+- egl: delete invalidate_available flag
+- egl: move _EGLDisplay DriverData association into dri2_display_create
+- egl: hoist dri2 display creation up a level
+- egl/x11: split out dri2 init entirely
+- egl: move kopper detection to display creation
+- egl/x11: hoist up dri2_get_xcb_connection call
+- egl/x11: simplify a kopper check on init
+- egl/x11: hoist up swrast/zink driver_name setting
+- egl/x11: hoist and document dri3_x11_connect() during init
+- egl: delete dri2_egl_driver_fail
+- egl/x11: consolidate LIBGL_DRI3_DISABLE use on init
+- egl/x11: unify swrast/kopper/dri3 paths a bit
+- gallium: delete pipe_surface::width and pipe_surface::height
+- zink: fix refcounting of zink_surface objects
+- zink: block streaming cached uploads on unsynchronized/persistent maps
+- zink: implement unsynchronized staging uploads for buffers
+- zink: block inferred loading for swrast
+- gallium/util: check nr_samples in pipe_surface_equal()
+- tu: check for valid descriptor set when binding descriptors
+- meson: deprecate gallium-nine
+- meson: deprecate gallium-xa
+- zink: don't set shared block stride without KHR_workgroup_memory_explicit_layout
+- zink: stop setting ArrayStride on image arrays
+- zink: use implicit stride in ntv for temp vars
+- ci: update VVL to current week
+- zink: verify that surface exists when adding implicit feedback loop
+- egl: fix sw fallback rejection in non-sw EGL_PLATFORM=device
+
+Mohamed Ahmed (7):
+
+- nvk: Add NVK_MAX_IMAGE_PLANES for images
+- nvk: Add NVK_MAX_SAMPLER_PLANES for samplers
+- nil: Use multiplanar init_info during image creation
+- nil: Force smallest block size for images meant for Vulkan Video
+- nvk: Set NIL_IMAGE_USAGE_VIDEO_BIT for images meant for video usage
+- nil: Add an API to clamp max image alignment
+- nvk: Implement VK_MESA_image_alignment_control
+
+Mykhailo Skorokhodov (1):
+
+- drirc/anv: force_vk_vendor=-1 for Drive Beyond Horizons
+
+Natalie Vock (30):
+
+- vulkan/bvh: Move leaf builder code to header
+- vulkan/bvh: Add option to override leaf builder SPIR-Vs
+- vulkan/bvh: Add optional fine-grained instance node bounds calculation
+- radv/bvh, vulkan/bvh: Move AccelerationStructureInstance to vk_build_helpers
+- radv/bvh: Remove unused build_instance helper
+- radv/bvh: Prefix RADV-specific node functions with radv\_
+- radv/bvh: Add custom leaf node builder
+- mailmap: Update my name
+- radv/rt: Don't allocate the traversal shader in a capture/replay range
+- aco/ra: Use iterators for linear VGPR copy extraction
+- aco/ra: Use struct for parallelcopies
+- aco/ra: Add option to skip renaming for parallelcopies
+- aco/ra: Handle temps fixed to different regs in different operands
+- aco/tests: Add tests for precolored operands in different regs
+- aco/ra: Assert operands only clear their own id
+- radv/rt: Limit monolithic pipelines to 50 stages
+- radv/rt: Guard leaf encoding by leaf node count
+- radv/rt: Flush L2 after writing internal node offset on GFX12
+- ac/llvm: Don't use getTriple() on LLVM21+
+- aco: Add get_temp_reg_changes helper
+- aco/spill: Invert reloads map
+- aco: Add RegisterDemand(Temp) constructor
+- aco/spill: Allow spilling live-through operands
+- radv/rt: Flush CP writes from the common BVH framework with INV_L2 on GFX12
+- vulkan/bvh: Move first PLOC task_count fetch inside PHASE
+- aco: Fix RT VGPR limit on Navi31/32, GFX11.5, GFX12
+- aco: Make private_segment_buffer/scratch_offset per-resume
+- radv: Add radv_emulate_rt drirc and enable for Indiana Jones TGC
+- radv: Add radv_enable_float16_gfx8 drirc and enable for Indiana Jones TGC
+- radv/ci: Test FP16 for GFX8
+
+Nikita Popov (2):
+
+- clover: Don't include libclc headers
+- clover: Fix MSVC build
+
+Nikolas Zimmermann (1):
+
+- etnaviv: drm: Add DRM_RDWR permissions to drmPrimeHandleToFD() call.
+
+Olivia Lee (1):
+
+- panfrost: allow promoting sysval UBO to push constants
+
+Patrick Lerda (27):
+
+- r600: fix r600_init_shader_caps() has_atomics issue
+- r600: fix evergreen_emit_vertex_buffers() related cl regression
+- r600: fix cayman sfn_nir_legalize_image_load_store ssa dominance
+- r600: prepare the lds constant buffer to be shared
+- r600: implement a conformant gl_VertexID with base offset
+- r600: fix the indirect draw 8-bits path
+- r600: fix emit_image_size() range base compatibility
+- r600: update evergreen_convert_border_color()
+- r600: update cayman_convert_border_color()
+- r600: fix cayman main non-deterministic behavior problem
+- r600: update the software fp64 support
+- radeonsi: fix clear_depth_stencil refcnt imbalance
+- r600: move stores to the end of shader when required
+- r600: fix clear_depth_stencil refcnt imbalance
+- r600: fix textures with swizzles limited to zero and one
+- r600: implement EXT_window_rectangles
+- r600: remove deprecated NIR_PASS_V
+- r600: fallback to util_blitter_draw_rectangle when required
+- r600: fix pa_su_vtx_cntl rounding mode
+- r600: fix points clipping
+- r600: enable ARB_compute_variable_group_size
+- r600: clean up not used fields detected by clang
+- i915: fix i915_set_vertex_buffers() related refcnt imbalance and remove redundancies
+- i915: fix slab_create() related memory leaks
+- i915: fix nir_to_tgsi() related memory leak
+- i915: fix draw_create_fragment_shader() related memory leak
+- mesa_interface: fix legacy dri2 compatibility
+
+Patrick Nicolas (1):
+
+- radv/video: Add low latency encoding
+
+Paul Gofman (1):
+
+- radv/amdgpu: Fix hash key in radv_amdgpu_winsys_destroy().
+
+Paulo Zanoni (10):
+
+- brw: increase brw_reg::subnr size to 6 bits
+- brw: don't always set cond_modifier on parsed assembly instructions
+- brw: don't mark instructions read from text assembly as compacted
+- brw: add instructions missing from is_control_flow()
+- brw: extend the NOP+WHILE workaround
+- drirc/anv: DiggingGame.exe needs force_vk_vendor=-1
+- intel/i915: restrict the RAM size restrictions to Anv
+- anv/xe: detect the newer xe.ko memory reporting model and act accordingly
+- anv: restore the old behavior of up to 75% of RAM for the system heap
+- anv: add ANV_SYS_MEM_LIMIT for debugging system memory restrictions
+
+Pavel Ondračka (22):
+
+- i915/ci: use debian-build-testing instead of debian-testing
+- r300: remove some dead code in redeon_program_alu
+- r300: do not limit maximum TEX group for R300/R400
+- r300: copy propagate constant swizzles
+- ci: fix debian-build-testing BUILDTYPE
+- ci: disable LTO for nightly debian-build-testing
+- i915/ci: update expectations
+- i915: rework shader compile failures reporting
+- mesa: properly signal report_compile_error to drivers
+- nine: set pipe_shader_state.report_compile_errors
+- r300: stop reporting compile failures in finalize_nir
+- r300: forward all compile failures to state tracker
+- r300: do not include newline in the error messages
+- r300,i915: update CI expectations
+- r300: fix temps counting for shader-db stats
+- r300/ci: add dEQP job with RADEON_DEBUG=notcl
+- r300: remove usage of NIR_PASS_V
+- r300: fix INV and BIAS presubtract on R300/R400
+- r300: remove finalize_nir
+- r300: remove support for tgsi_texcoord
+- r300: fix crash when creating surfaces
+- r300/ci: update expectations
+
+Peyton Lee (6):
+
+- radeonsi/vpe: check reduction ratio
+- radeonsi/vpe: support geometric scaling
+- amd/gmlib: add gmlib for radeonsi
+- radeonsi/vpe: vpe support tonemapping
+- radeonsi/vpe: vpe support hdr input
+- radeonsi/vpe: fix background issue
+
+Philipp Zabel (3):
+
+- etnaviv/ml: Drop duplicated function reorder_for_hw_depthwise()
+- etnaviv/ml: Fix padding input/output tensor zero points
+- teflon: Log (un)supported operations
+
+Pierre-Eric Pelloux-Prayer (16):
+
+- radeonsi: update si_need_gfx_cs_space upper bound
+- winsys/amdgpu: treat cs overflow as context lost
+- radeonsi: disable dcc when external shader stores are used
+- tc: add missing TC_SENTINEL for TC_END_BATCH
+- mesa/st: call _mesa_glthread_finish before _mesa_make_current
+- tc: flag closed batches
+- st/mesa: fix nir_load_per_vertex_input parameter
+- radeonsi: cache u_trace_perfetto_active value
+- radeonsi: tag perfetto conditions as unlikely
+- radeonsi: add pid/tid to the vk_queue_submit event
+- radeonsi: guard perfetto support with ifdef in si_draw
+- ac/nir: fix nir_metadata value of ac_nir_lower_image_opcodes
+- radeonsi/video: require has_image_opcodes for full modifier support
+- radeonsi: use composed swizzle in cdna_emu_make_image_descriptor
+- winsys/amdgpu: disable VM_ALWAYS_VALID
+- radeonsi: fix potential use after free in si_set_debug_callback
+
+Pohsiang (John) Hsu (7):
+
+- d3d12: fix incorrect IsRefUsedByCurrentPic marking for P Frame
+- d3d12: log all the field of dpb buffer for better diagnostic, cosmetic space removal
+- d3d12: initialize ReconstructedPicTexture
+- d3d12: fix start code prevention in write_sei_nalu()
+- d3d12: fix d3d12_video_nalu_writer_h264::write_slice_svc_prefix
+- d3d12: use log2_max_pic_order_cnt_lsb_minus from upper layer
+- d3d12: use log2_max_pic_order_cnt_lsb_minus4 from upper layer for h264
+
+Qiang Yu (78):
+
+- lavapipe: fix min_vertex_pipeline_param
+- gallium: fix ddebug and noop screen caps init
+- gallium,clover: add compute caps used by clover only
+- r600: init compute caps without ir_type param
+- radeonsi: init compute caps without ir_type param
+- gallium,mesa: remove ir_type param when get_compute_param
+- gallium: add pipe_shader_caps and pipe_compute_caps
+- gallium: copy shader and compute caps for ddebug/noop/trace
+- tgsi: add tgsi_exec_init_shader_caps
+- gallivm: add gallivm_init_shader_caps
+- draw: add draw_init_shader_caps
+- agx: init shader and compute caps
+- crocus: init shader and compute caps
+- d3d12: init shader and compute caps
+- etnaviv: init shader caps
+- freedreno: init shader and compute caps
+- i915: init shader caps
+- iris: init shader and compute caps
+- lima: init shader caps
+- llvmpipe: init shader and compute caps
+- nouveau/nv30: init shader caps
+- nouveau/nv50: init shader and compute caps
+- nouveau/nvc0: init shader and compute caps
+- panfrost: init shader and compute caps
+- r300: init shader caps
+- r600: init shader and compute caps
+- radeonsi: init shader and compute caps
+- softpipe: init shader and compute caps
+- svga: init shader and compute caps
+- tegra: init shader and compute caps
+- v3d: init shader and compute caps
+- vc4: init shader caps
+- virgl: init shader and compute caps
+- zink: init shader and compute caps
+- nine: GET_SHADER_CAP use pipe_shader_caps
+- lavapipe: change min shader param to use pipe_shader_caps
+- gallium,mesa: replace get_shader_param with pipe_shader_caps access
+- clover: replace get_compute_param with pipe_compute_caps
+- gallium,mesa: replace get_compute_param with pipe_compute_caps
+- rusticl: replace get_shader_param with pipe_shader_caps
+- rusticl: replace get_compute_param with pipe_compute_caps
+- asahi: remove shader and compute get param
+- crocus: remove shader and compute get param
+- d3d12: remove shader and compute get param
+- etnaviv: remove shader get param
+- freedreno: remove shader and compute get param
+- i915: remove shader get param
+- iris: remove shader and compute get param
+- lima: remove shader get param
+- llvmpipe: remove shader and compute get param
+- nouveau/nv30: remove shader get param
+- nouveau/nv50: remove shader and compute get param
+- nouveau/nvc0: remove shader and compute get param
+- panfrost: remove shader and compute get param
+- r300: remove shader get param
+- r600: remove shader and compute get param
+- radeonsi: remove shader and compute get param
+- softpipe: remove shader and compute get param
+- svga: remove shader and compute get param
+- tegra: remove shader and compute get param
+- v3d: remove shader and compute get param
+- vc4: remove shader get param
+- virgl: remove shader and compute get param
+- zink: remove shader and compute get param
+- gallium/aux: remove aux shader param get function
+- gallium: remove screen shader and compute get param callback
+- doc,src: replace doc and comments for shader and compute cap
+- ac/surface: fix radv import dmabuf from radeonsi
+- gallium/ddebug: add missing modifier callback
+- radeonsi: fix has_non_uniform_tex_access info
+- radeonsi,util: add more usage for AMD_FORCE_SHADER_USE_ACO
+- radeonsi: fix GravityMark corruption when use aco
+- egl: decouple dmabuf import/export cap from xserver support
+- dri: dmabuf cap does not rely on winsys multibuffer support
+- glx/egl/x11: fix x11_dri3_check_multibuffer
+- kopper: remove unused function definition
+- dri,egl,glx: remove redundant usage of HAVE_X11_DRM
+- llvmpipe/ci: change for oes_egl_image_external_essl3
+
+Rebecca Mckeever (27):
+
+- pan/format: Use HW version to determine siting for YUV 422 formats
+- pan/texture: Only use plane_chroma_2p for chroma planes
+- vk/meta: Extend copy/fill/update helpers to support YCbCr
+- util/hash_table: Add _mesa_hash_table_u64_replace()
+- panvk: Allow a 32-bit binding value in desc id key and use 64-bit keys
+- panvk: Move single-plane views of multiplane formats to pview.planes[0]
+- panvk: Change immutable_samplers to panvk_sampler **
+- panvk: Create helper function for sampler descriptor emission
+- panvk: Update panvk_get_desc_stride prototype
+- panvk: Move mali_texture_packed structs in panvk_image_view to a union
+- panvk: Use multiple sampler planes and one texture descriptor per plane
+- panvk: Fix assertion in is_disjoint()
+- panvk: Add YCbCr sampler NIR lowering pass
+- panvk: Split get_format_properties into format features helper functions
+- panvk: Report formats not supported by HW as unsupported
+- panvk: Enable YCbCr support for v10+
+- vk/image: Add vk_image_can_be_aliased_to_yuv_plane() helper
+- panvk: Use vk_image_can_be_aliased_to_yuv_plane() helper
+- panvk: Allow 3-byte formats
+- panfrost: Add BI_OPCODE_WMASK to bi_instr_uses_helpers
+- panvk: Enable VK_KHR_shader_subgroup_uniform_control_flow for v10+
+- panvk: Enable VK_KHR_shader_maximal_reconvergence for v10+
+- panvk: Enable VK_KHR_shader_quad_control for v10+
+- panvk: Add STORAGE_IMAGE_BIT feature for formats supporting sampled images
+- panvk: Enable shaderStorageImageExtendedFormats
+- panvk: Remove lower_tg4_broadcom_swizzle from panvk_preprocess_nir()
+- panvk: Support shaderImageGatherExtended
+
+Renato Pereyra (1):
+
+- perfetto/android: align datasource names with tooling expectations
+
+Rhys Perry (41):
+
+- nir,aco,radv: add align_mul/offset to buffer_amd intrinsics
+- nir/opt_offsets: don't check NUW for unswizzled buffer_amd
+- ac/nir/ngg: update bit_sizes_int
+- nir/load_store_vectorize: handle load_buffer_amd/store_buffer_amd
+- ac/nir: set memory_modes for lowered TES input loads
+- radv: don't use bit_sizes_int to skip nir_lower_bit_size
+- radv: move nir_opt_shrink_vectors later
+- radv: DCE before nir_opt_shrink_vectors
+- nir/load_store_vectorize: fix sorting of vectors in add_to_entry_key
+- nir/algebraic: optimize ishl(iadd(iadd(a, #b), c), #d)
+- radv: vectorize descriptor loads
+- radv: vectorize lowered shader IO
+- nir/use_dominance: invalidate nir_metadata_instr_index
+- nir/opt_move: invalidate nir_metadata_instr_index
+- nir/lower_io_arrays_to_elements: invalidate metadata
+- nir/find_array_copies: invalidate nir_metadata_instr_index
+- nir/linking_helpers: invalidate metadata in nir_link_opt_varyings
+- radv/rt: correctly preserve metadata in move_rt_instructions
+- nir: add NIR_DEBUG=extended_validation
+- nir: add NIR_DEBUG=invalidate_metadata
+- nir/validate: assert that if condition dominates use
+- aco: validate operands fixed to definitions
+- aco/ra: reverse renaming of operands outside update_renames
+- aco/ra: unconditionally call undo_renames
+- radeonsi: fix invalidation of metadata in si_nir_lower_abi
+- ac/nir: don't cross swizzle elements when vectorizing buffer_amd intrinsic
+- ac/nir: set higher alignment for some swizzled store_buffer_amd
+- ac/nir: fix tess factor optimization when workgroup barriers are reduced
+- aco: insert dependency waits in certain situations
+- radv: improve radv_get_max_waves for multi-wave workgroups with LDS
+- radv: don't assume WGP mode in radv_get_max_waves
+- amd/drm-shim: add gfx1201
+- aco/ra: fix free register counting when moving variables
+- radv/winsys: increase gfx12 vgprs for null winsys
+- radv/winsys: set gart_page_size for null winsys
+- radv/winsys: set has_distributed_tess for null winsys
+- aco/gfx12: don't use second VALU for VOPD's OPX if there is a WaR
+- aco: combine VALU lanemask hazard into VALUMaskWriteHazard
+- aco/gfx11: create waitcnt for workgroup vmem barriers
+- aco: fix get_temp_reg_changes with clobbered operands
+- aco: swap the correct v_mov_b32 if there are two of them
+
+Rob Clark (17):
+
+- freedreno+tu: Add new virtgpu caps
+- tu: Suballoc VkEvent BOs
+- tu: Don't emit SP_PS_2D_WINDOW_OFFSET on a6xx
+- tc: Add missing tc_set_driver_thread()
+- freedreno: Wait for imported syncobj fences to be available
+- ci: Re enable fd-farm
+- freedreno/ci: Disable traces job until piglit is fixed
+- ci: Re enable fd-farm
+- ir3: Comment re-indent
+- tu/vdrm: Fix userspace fence cmds
+- tu: Avoid extraneous set_iova
+- tu: Add some func traces
+- util: Add drmSyncobj shim
+- panvk: Remove dependency on vk_device::drm_fd
+- vulkan: Use syncobj shim
+- virtio/vdrm: Add vtest backend
+- tu: vdrm vtest support
+
+Robert Mader (4):
+
+- llvmpipe: Take offset into account when importing dmabufs
+- llvmpipe: Free dummy_dmabuf on shutdown
+- gallivm: Re-add check for passmgr before disposing it
+- meson: Bump minimum version to 1.3.0
+
+Rohan Garg (7):
+
+- anv: refactor add_aux_surface_if_supported to use a common variable
+- anv,blorp,isl: handle compressed CPS surfaces through the depth stencil hw
+- anv: CPB surfaces that are used as color attachments or for stores cannot be compressed
+- anv: no need to handle transitions for CPB surfaces
+- anv: separate fast clear handling for compressed CPS
+- isl: enable CPB compression
+- anv: re enable compression for CPS surfaces on platforms other than Xe
+
+Roland Scheidegger (3):
+
+- llvmpipe: don't assert on exceeding if_stack size
+- llvmpipe: Fix overflow issues calculating loop iterations for aniso
+- llvmpipe: Fix alpha-to-coverage without dithering
+
+Ruijing Dong (1):
+
+- radeonsi/vcn: vcn5 roi fix
+
+Ryan Mckeever (5):
+
+- pan/format: Update format flags to follow HW spec
+- pan/format: Add PAN_BIND_STORAGE_IMAGE flag
+- panvk: Enable KHR_format_feature_flags2 and use them
+- panvk: shaderStorageImageReadWithoutFormat support
+- panvk: shaderStorageImageWriteWithoutFormat support
+
+Sagar Ghuge (12):
+
+- intel/genxml: Update BLEND_STATE_ENTRY structure
+- anv: Enable simpleFloatBlendEnable on Xe3+
+- iris: Enable simpleFloatBlendEnable on Xe3+
+- blorp: Enable SimpleFloatBlendEnable on Xe3+
+- intel/compiler: Drop primitive leaf desc load code
+- anv: Exclude non-standard block shapes on Xe2+
+- intel/compiler: Zero out the header for texel fetch
+- anv: CPS LOD Compensation Enable is deprecated on Xe2+
+- intel/compiler: Add support for MSAA typed load/store messages
+- intel/compiler: Lower sample index into coord for MSRT messages
+- intel/compiler: Don't lower 64bit data memory access on LSC
+- intel/compiler: Fix stackIDs on Xe2+
+
+Samuel Pitoiset (227):
+
+- ac,radv,radeonsi: add new GFX12_DCC_WRITE_COMPRESS_DISABLE tiling flag
+- radv/meta: add missing pipeline lookups
+- radv/nir: update radv_nir_opt_tid for derivative group quads
+- radv: implement derivative group quads on GFX12
+- radv: advertise computeDerivativeGroupQuads on GFX12
+- radv/meta: stop using string keys also for DGC and query objects
+- util/disk_cache: add a new helper to create a disk cache
+- vulkan/runtime: allow to use a different disk cache
+- radv: fix caching on-demand meta shaders
+- radv: fix adding the BO to cmdbuf list when starting conditional rendering
+- radv: fix fetching draw vertex data from counter buffers with transform feedback
+- radv: remove redundant drawCount == 0 for indirect mesh/task draws
+- radv: use radv_indirect_dispatch() more
+- radv: rework passing dispatch info via radv_dispatch_info
+- radv: rework passing draw info via radv_draw_info
+- radv: do not keep track of the streamout binding buffer
+- nir: adjust number of components for cmat_muladd_amd
+- radv/nir: add a struct for parameters to cooperative matrix lowering
+- radv/nir: add cooperative matrix lowering for GFX12
+- radv: advertise VK_KHR_cooperative_matrix on GFX12
+- radv/meta: use BDA for query resolves
+- radv/meta: compute the destination addr earlier for query resolves
+- radv/meta: simplify creating buffers for R32G32B32 operations
+- radv: remove unused device memory init/finish helpers
+- radv/video: pass addr to send_cmd()
+- radv/rmv: pass addr to log_resource_bind_locked()
+- radv: pass addr to radv_copy_buffer()
+- radv: rename radv_buffer::bo_va to addr
+- radv: compute radv_buffer::addr at bind time
+- radv: use radv_buffer::addr more
+- radv/video: fix missing image offset when computing VA
+- radv/meta: use BDA for clear HTILE mask
+- radv/meta: use BDA for copying VRS rates to HTILE
+- radv: use BDA for the uploaded parameters with DGC
+- radv: simplify determining VBO size
+- radv/meta: remove the heuristic that prefers CP DMA for GTT BOs
+- radv/meta: disable conditional rendering for fill/update buffer operations
+- radv/meta: inline copy_buffer()
+- radv: rename fill/copy memory helpers
+- radv/meta: add radv_{copy,fill,update}_memory() helpers
+- radv: compute VBO addr at bind time
+- radv: stop relying on VkBuffer for VBO
+- ac/gpu_info: add gfx12_supports_dcc_write_compress_disable
+- radv: add initial DCC support on GFX12
+- vulkan: add descriptor buffer support to compute astc decoder
+- radv/meta: switch to descriptor buffers
+- radv: remove radv_buffer_{init,finish}() helpers
+- radv: remove radv_buffer_view_{init,finish}() helpers
+- radv: fix adding the VRS image BO to the cmdbuf list on GFX11
+- radv/meta: add BOs to cmdbuf list earlier for image copy operations
+- radv/meta: pass the buffer addr to SDMA image buffer copy operations
+- radv/meta: use radv_copy_memory() instead of radv_copy_buffer()
+- radv/meta: remove the buffer dependency for image copy operations
+- radv: stop using image binding offset when exporting BO metadata
+- radv: remove redundant zero initialization when creating images
+- radv: rename radv_image::bindings::bo_va to addr
+- radv: compute radv_image::bindings::addr at bind time
+- radv: use radv_image::bindings::addr more
+- radv: fix adding the BO for unaligned SDMA copies to the cmdbuf list
+- vulkan: constify vk_acceleration_structure_get_va()
+- radv: use radv_CmdDispatchIndirect() in the accel struct path
+- radv/meta: use radv_copy_memory() for the FMASK copy
+- radv: use radv_copy_memory() for accel structure updates
+- radv/meta: inline radv_copy_buffer()
+- radv/meta: rename image<->buffer copies helpers
+- radv/video: fix adding the query pool BO to the cmdbuf list
+- radv: stop computing the UUID using the physical device cache key
+- radv: fix missing SQTT barriers for fbfetch color/depth decompressions
+- radv: reserve bits explicitly for cache key structs
+- vulkan: filter duplicate pNext struct at device creation
+- radv: replace radv_image::shareable by vk_image::external_handle_types
+- radv: remove meaningless TODOs in radv_GetDeviceImageMemoryRequirements()
+- radv: handle OOM error properly when selecting image modifier
+- radv/meta: inline radv_meta_get_view_layer()
+- radv/meta: remove useless assertion in when copy VRS to HTILE
+- radv: check HTILE compression for depth/stencil images per level
+- radv: enable DCC fast clears for 8bpp/16bpp on GFX11
+- radv: fix re-emitting fragment output state when resetting gfx pipeline state
+- docs: add missing RADV_PERFTEST=video_encode description
+- radv: fix trap handler exception options
+- radv: use radv_emulate_rt() more
+- radv: remove redundant radv_instance::drirc::rt_wave64
+- docs: adjust NGG culling options description
+- spirv: move workarounds to an inner struct in spirv_to_nir_options
+- spirv/tests: initialize compiler options in constructor
+- spirv/tests: add a test for NonSemantic.DebugBreak
+- spirv/tests: add a test for force_ssbo_non_uniform
+- spirv/tests: add a test for force_tex_non_uniform
+- spirv/tests: add a test for lower_terminate_to_discard
+- ci: update VKCTS main to ba86fb95004331f2cf571dd9adefe2458290ee11
+- radv: switch to device address from vk_buffer
+- ci/b2c: fix passing B2C_* variables
+- radv/ci: re-enable ET2C emulation testing on non-native GPUs
+- radv: add RADV_DEBUG=pso_history
+- ac,radv: add a workaround for a hw bug with primitive restart on GFX10-GFX10.3
+- radv/ci: enable RADV_PERFTEST=video_{decode,encode} on few GFX9+ GPUs
+- aco/tests: use GFX1201 instead of GFX1200
+- radv/winsys: use real info for GFX12 in the null winsys
+- radv: fix a GPU hang with inherited rendering and HiZ/HiS on GFX1201
+- radv/amdgpu: fix device deduplication
+- meson: add build-radv-tests option
+- ci: enable build-radv-tests for debian-clang and debian-vulkan
+- radv/winsys: enable has_timeline_syncobj for the null winsys
+- radv: add a small framework for RADV specific tests
+- radv/tests: add a test to verify that pipelineCacheUUID is invariant
+- radv/tests: add a test to verify that pipeline hash matches RGP<->Fossilize
+- radv/tests: add few tests that verify drirc options
+- radv: update conformance version
+- aco: do not apply OMOD/CLAMP for pseudo scalar trans instrs
+- radv/ci: enable RADV_PERFTEST=video_decode,video_encode on TAHITI,HAWAII and POLARIS10
+- ac/rgp: few fixes for GFX11.5
+- ac/rgp: add GFX12 definitions
+- ac/rgp: bump version to 1.6
+- ac/rgp: bump instrumentation API version to 1.5
+- ac/sqtt: fix registers programming for GFX12
+- radv: enable RGP on GFX12
+- radv: emit a dummy PS state for noop FS on GFX12
+- radv: track redundant register writes for PA_SC_HISZ_CONTROL on GFX12
+- radv: fix creating pipeline binary from the traversal shader
+- radv: use radv_sdma_emit_nop() more
+- radv: add more SDMA emit helpers
+- radv: add a helper to know whether compute queue is enabled
+- radv: remove meaningless comment when resetting SQTT trace
+- radv: add a helpers to know whether video decode/encode queues are enabled
+- docs: update documentation for RADV_PERFTEST=video_decode,video_encode
+- radv: fix bpe for the stencil aspect of depth/stencil copies on transfer queue
+- radv: fix compresed depth/stencil copies on transfer queue
+- radv: remove useless parameter to radv_sdma_get_buf_surf()
+- radv: cleanup passing the aspect mask for SDMA operations
+- radv: remove radv_force_pstate_peak_gfx11_dgpu=true for Helldivers 2
+- radv: use PM4 for setting specific graphics registers in the preamble
+- radv/meta: fix color<->depth/stencil image copies
+- radv/video: use a pointer to write the total task size
+- radv/video: rework command buffer emission
+- ci: uprev vkd3d-proton to 078f07f588c849c52fa21c8cfdd1c201465b1932
+- radv/ci: remove vkcts-navi21-llvm-valve completely
+- radv/ci: remove radv-stoney-flakes.txt
+- radv/ci: drop aco suffix for CI files
+- radv/ci: rename radv-gfx1200 to radv-gfx1201
+- radv/ci: delete empty radv-hawaii-skips.txt
+- radv: replace radeon_set_reg_seq by a macro
+- radv: switch all emit helpers to macros
+- radv: move the optimized context reg macros with other similar ones
+- radv: rework radeon_set_uconfig_perfctr_reg_seq to use amd_ip_type
+- radv: add new helper to emit PKT3_EVENT_WRITE for sampling queries
+- radv: add radeon_event_write() macros
+- radv/ci: fix renaming the VKCTS job for tahiti
+- radv: rework the shader pointer emit as macros
+- radv: apply some cosmetic changes for future begin/end CS sequences
+- radv: add a helper to emit indirect buffer for draws/dispatches
+- radv: add a helper to emit SPM muxsel
+- radv: slightly change the COND_EXEC for sampling performance counters
+- radv: use radv_cs_write_data_imm() more
+- radv: add more helpers to start/stop perfcounters
+- radv/video: slightly change radv_vcn_sq_header()
+- radv: add a helper to emit a PKT3_COPY_DATA with an immediate
+- radv: add a helper to emit PM4 commands to a CS
+- radv: skip FCE for comp-to-single fast clears with DCC MSAA
+- radv: rework radv_fast_clear_flush_image_inplace()
+- radv: add radv_fmask_color_expand()
+- radv: rework radv_handle_color_image_transition()
+- radv: inline radv_fast_clear_flush_image_inplace()
+- radv: make sure to always decompress FMASK before expanding it
+- radv: disable TC-compatible CMASK with {FMASK,DCC}_DECOMPRESS
+- ac,radv,radeonsi: use PM4 for shadowed registers
+- radv: do not trigger FCE or FMASK decompress on compute queue
+- radv: add queue family assertions when doing decompression passes
+- radv: remove useless use of radv_image_use_comp_to_single()
+- radv: only enable HTILE for depth/stencil attachment images
+- radv: rework command buffer emission with begin/end sequences
+- radv: switch back radeon_cmdbuf to use 32-bit counters
+- radv/ci: stop skipping one memory test due to timeouts
+- radv/ci: remove all skips for STONEY
+- ac/surface: fix selecting preferred alignments for HiZ/HiS on GFX12
+- Revert "radv: program SAMPLE_MASK_TRACKER_WATERMARK optimally for GFX11 APUs"
+- Revert "radeonsi/gfx11: program SAMPLE_MASK_TRACKER_WATERMARK optimally for APUs"
+- radv: fix ignoring conditional rendering with vkCmdResolveImage()
+- radv: add new helper to suspend/resume user conditional rendering
+- radv: rework suspend/resume user conditional rendering
+- ac,radv: remove has_scheduled_fence_dependency
+- ac/gpu_info: bump required DRM minor version to 3.42.0 (kernel 5.15+)
+- radv: remove useless FDCC_ENABLE bitfield clear on GFX12
+- radv: tidy up radv_emit_raster_state()
+- radv: restore DB_DFSM_CONTROL properly when POPS isn't used
+- radv: tidy up radv_emit_db_shader_control()
+- radv: split framebuffer color state emission for GFX12
+- radv: split framebuffer depth/stencil state emission for GFX12
+- radv: split null framebuffer state emission for GFX12
+- radv: stop emitting CB_FDCC_CONTROL to zero on GFX11-GFX11.5
+- radv: do not emit the VRS surface VA when it's not enabled
+- radv: add a fuction to emit the VRS surface on GFX11
+- radv: determine if HiZ/HiS is enabled earlier on GFX12
+- radv: add a workaround for buggy HiZ/HiS on GFX12
+- radv: apply the workaround for buggy HiZ/HiS on GFX12 for DGC
+- radv: add before/after draw functions for DGC
+- radv: move emitting raster and depth/stencil state slightly earlier
+- radv: emit conservative raster mode as part of the MSAA state
+- radv: configure COVERAGE_TO_SHADER_SELECT only if conservative rast is enabled
+- radv: track more MSAA related register writes
+- radv: regroup emitting all MSAA states in one function
+- radv: add clip rects state bit for emitting discard rectangles
+- radv: remove an old workaround for D3D9 with DXVK 2.3.0 and older
+- radv: move the disable_trunc_coord drirc at instance/pdev level
+- radv: move emitting more fb registers when rendering begins
+- radv: use consecutive registers for PA_SC_WINDOW_SCISSOR_{TL,BR}
+- radv: track redundant DB_RENDER_OVERRRIDE register writes on GFX12
+- radv: reduce the number of emitted DWORDS for MSAA 8x user sample locs
+- radv: tidy up radv_emit_raster_state()
+- radv: tidy up radv_emit_hw_ngg()
+- radv: add macros for paired context registers on GFX12
+- radv: use paired context regs when optimal on GFX12
+- radv: only enable DCC for invisible VRAM on GFX12
+- ci: update VKCTS main to 76c1572eaba42d7ddd9bb8eb5788e52dd932068e
+- radv: allocate the SPM BO in GTT for faster readback
+- radv: print more error messages during SPM initialization
+- ac/perfcounter: add support for GFX12
+- radv/sdma: simplify configuring the number of uncompressed DCC blocks
+- radv/sdma: use SDMA5_DCC_xxx bitfields
+- radv/sdma: remove redundant check for compression when getting metadata
+- radv/sdma: use the correct helper to get the number type field
+- radv/sdma: add a new flag to know if the surface is compressed
+- radv/sdma: add support for compression on GFX12
+- radv: set radv_disable_dcc=true for WWE 2k23
+- radv: fix re-emitting VRS state when rendering begins
+- radv: do not clear unwritten color attachments with dual-source blending
+- radv: disable SINGLE clear codes to workaround a hw bug with DCC on GFX11
+- radv: fix GPU hangs with image copies for ASTC/ETC2 formats on transfer queue
+
+Saroj Kumar (2):
+
+- mesa: Add GL_EXT_protected_textures support
+- radeonsi: Move buffer descriptor slot to the beginning
+
+Sasha Finkelstein (1):
+
+- vtn_bindgen2: Fix memory corruption
+
+Serdar Kocdemir (6):
+
+- gfxstream: Track more fence functions on host
+- gfxstream: Add VK_KHR_multiview support
+- gfxstream: track pipeline layouts on decoder
+- gfxstream: wrap semaphore functions on the host
+- gfxstream: Add dispatcher validity checks
+- gfxstream: Wrap vkEnumerateInstanceExtensionProperties for host
+
+Sergi Blanch Torne (8):
+
+- ci: disable Collabora's farm due to maintenance
+- Revert "ci: disable Collabora's farm due to maintenance"
+- ci: typo in debian-android in .build-for-tests-jobs
+- ci: disable Collabora's farm due to maintenance
+- Revert "ci: disable Collabora's farm due to maintenance"
+- ci: disable Collabora's farm due to maintenance
+- Revert "ci: disable Collabora's farm due to maintenance"
+- Uprev Piglit to ebdf60e0d4b0dc23e79373cb923fdee023eb3b2b
+
+Sergii Ushakov (1):
+
+- gfxstream: Emulate DMABUF with OPAQUE_FD
+
+Seán de Búrca (8):
+
+- rusticl/mem: don't write more supported image formats than requested
+- rusticl/mem: don't create svm_pointers slice from null raw pointer
+- rusticl/mem: use cl_slice::from_raw_parts in place of std::slice
+- rusticl: rename CheckedPtr::copy_checked to match primitive method
+- rusticl: mark CheckedPtr::write_checked as unsafe
+- rusticl: add debug assertions to avoid truncating casts
+- rusticl: correct calculation of maximum allocation size
+- rusticl: cap max alloc size to i32 to avoid overflowing gallium
+
+Sil Vilerino (13):
+
+- d3d12: Fix HEVC range extension pic params validation
+- pipe: Add profiles for HEVC 422 8/10b and 444 10b
+- d3d12: Add support for Y210, Y410, YUY2 and HEVC 422 8/10b, HEVC 444 10b profiles
+- d3d12: Add NULL initialization for d3d12_video_enc::m_pVideoTexArrayDPBPool
+- d3d12: Add some missing members initialization for d3d12_video_buffer
+- d3d12: Increase DPB video texture array pool size for async queue depth
+- d3d12: Fix array of texture DPB cap detection
+- d3d12: Fix warning 4305 truncation from type1 to type2
+- nir.h: Fix warning C4800 forcing value to bool 'true' or 'false'
+- u_thread.h: Fix warning C4800 forcing value to bool 'true' or 'false'
+- d3d12: Fix warning C4800 forcing value to bool 'true' or 'false'
+- d3d12: Enable warnings C4056, C4305, C4351, C4756, C4800, C4291, C4020, C4624, C4309, C5105, C4024, C4189
+- d3d12: Cache the texture array cap requirement in encoder creation for calls to d3d12_video_create_dpb_buffer
+
+Simon Ser (9):
+
+- gbm: fix get_back_bo() failure with gbm_surface and implicit modifiers
+- pvr: replace dup() with os_dupfd_cloexec()
+- freedreno: replace dup() with os_dupfd_cloexec()
+- iris: replace dup() with os_dupfd_cloexec()
+- lavapipe: replace dup() with os_dupfd_cloexec()
+- venus: replace dup() with os_dupfd_cloexec()
+- panvk: replace dup() with os_dupfd_cloexec()
+- libsync: replace dup() with os_dupfd_cloexec()
+- vulkan/wsi/x11: replace dup() with os_dupfd_cloexec()
+
+Stéphane Cerveau (2):
+
+- anv: fix error code in GetPhysicalDeviceVideoFormatProperties
+- radv: video: rework maxActiveReferenceSlot/MaxDpbSlots
+
+Sushma Venkatesh Reddy (1):
+
+- intel/tools: Improve memory allocation failure handling in aubinator_error_decode_xe
+
+Sviatoslav Peleshko (3):
+
+- anv: Add full subgroups workaround for the shaders that use shared memory
+- drirc: Apply assume_full_subgroups_with_shared_memory to Resident Evil 2
+- vulkan/wsi/headless: Remove unnecessary wsi_configure_image()
+
+Tapani Pälli (25):
+
+- intel/genxml/anv: fix the layout of call stack handler struct
+- intel/dev: reduce warning noise from urb settings
+- intel/common: fix mi_builder_test issue
+- anv: handle non-wsi images in anv_layout_to_aux_state
+- anv: tighten condition for changing barrier layouts
+- anv: apply cache flushes on pipeline select with gfx20
+- iris: wait for imported fences to be available in iris_fence_await
+- intel/compiler: add a spec note about L1WT types being uncached
+- iris: remove dead code that cannot get hit anymore
+- intel/dev: update mesa_defs.json from internal database
+- anv: restrict TessellationDistributionLevel for Wa_16025857284
+- iris: restrict TessellationDistributionLevel for Wa_16025857284
+- intel/dev: reduce warning noise from urb settings II
+- isl: add usage field to isl_buffer_fill_state_info
+- iris: pass down buffer usage for isl_buffer_fill_state
+- anv: pass down buffer usage for isl_buffer_fill_state
+- isl/iris/anv: setup L1CacheControl based on surface and buffer usage
+- compiler/glsl: check that bias is not used outside fragment stage
+- intel/dev: update mesa_defs.json from internal database
+- mesa: clamp texbuf query size to MAX_TEXTURE_BUFFER_SIZE
+- mesa: various fixes for ClearTexImage/ClearTexSubImage
+- iris: force reallocate on eglCreateImage with GFX >= 20
+- iris: make sure to not mix compressed vs non-compressed
+- anv: put parenthesis to the set_sampler_size equation
+- intel/dev: update mesa_defs.json from internal database
+
+Taras Pisetskyi (1):
+
+- anv,driconf: Add sampler coordinate precision workaround for EVE Online
+
+Thomas H.P. Andersen (1):
+
+- nvk: use a valid allocation scope
+
+Tim Keller (1):
+
+- dril: Check for null config in dril_target.c
+
+Timothy Arceri (14):
+
+- util/disk_cache: dont create multidisk cache dir if unused
+- util/u_idalloc: fix util_idalloc_sparse_alloc_range()
+- ci: move llvmpipe fails to flakes
+- mesa: fix reuse of deleted buffer object
+- mesa: fix reuse of deleted texture object
+- mesa: fix potential race condition in with TexObjects
+- mesa: fix reuse of deleted sampler object
+- mesa: fix potential race conditions in with FrameBuffers
+- mesa: fix potential race condition in with RenderBuffers
+- mesa: fix potential race condition in with ATIShaders
+- mesa: fix potential race condition in with Programs
+- nir: fix uniform cloning helper
+- glsl: fix regression in ubo cloning
+- util/driconf: add force_gl_depth_component_type_int workaround
+
+Timur Kristóf (94):
+
+- radv: Move buffer related NIR meta shaders to radv_meta_nir.c
+- radv: Move blit NIR shaders to radv_meta_nir.c
+- radv: Move blit2d NIR shaders to radv_meta_nir.c
+- radv: Move buffer-image copy and clear NIR shaders to radv_meta_nir.c
+- radv: Move clear NIR shaders to radv_meta_nir.c
+- radv: Move VRS HTILE copy NIR shader to radv_meta_nir.c
+- radv: Move DCC retile NIR shader to radv_meta_nir.c
+- radv: Move expand depth stencil NIR shader to radv_meta_nir.c
+- radv: Move DCC decompress NIR shader to radv_meta_nir.c
+- radv: Move FMASK copy NIR shader to radv_meta_nir.c
+- radv: Move FMASK expand NIR shader to radv_nir_meta.c
+- radv: Move resolve NIR compute shaders to radv_meta_nir.c
+- radv: Move resolve NIR fragment shaders to radv_meta_nir.c
+- radv: Move resolve NIR fs to radv_meta_nir.c
+- radv: Move NIR helpers from radv_meta.c to radv_meta_nir.c
+- radv: Move NIR specific function declarations to radv_meta_nir.h
+- radv: Rename get_global_ids to radv_meta_nir_get_global_ids.
+- radv: Add missing copyright info to radv_meta_buffer.c
+- util/enum_operators: Don't define anything for OpenCL
+- nir: Add struct names where they were missing.
+- nir: Add missing extern "C" to nir_defines.h
+- nir: Add forward declarations of relevant structs to nir_defines.h
+- nir: Move some enums and structs to nir_defines.h
+- nir: Move nir_tcs_info to separate file.
+- nir: Move nir_shader_compiler_options to separate file.
+- nir: Don't include full nir.h in nir_xfb_info.h
+- nir: Don't include the full nir.h when not necessary.
+- spirv: Don't include full nir.h in nir_spirv.h
+- vk: Don't include full nir.h in headers.
+- glsl: Don't include full nir.h where not necessary.
+- ac/nir: Don't include nir.h in headers anymore.
+- ac/nir: Move surface related NIR functions to separate file.
+- aco: Don't include nir.h in aco_interface.h anymore.
+- ac: Don't include full nir.h anymore.
+- radv: Add missing includes and remove unnecessary NIR includes.
+- hk: Don't include full nir.h in hk_shader.h
+- zink: Don't include full nir.h where not necessary.
+- ttn: Don't include full nir.h where not necessary.
+- nak: Don't include full nir.h in nak.h
+- nvk: Don't include full nir.h in nvk_shader.h
+- nir: Don't include xxhash.h in nir.h, only where it is used.
+- nir: Don't include bitscan.h in nir.h, it's not actually used.
+- nir: Don't include u_printf.h in nir.h, only where necessary.
+- nir: Don't include u_format.h in nir.h, it's not actually used.
+- nir: Remove struct keyword from nir.h where possible.
+- nir: Add comment to indicate that NIR_PASS_V is deprecated.
+- nir: Add bool return value to nir_fixup_deref_modes.
+- nir: Add bool return value to nir_fixup_deref_types.
+- nir: Don't use deprecated NIR_PASS_V macro anymore.
+- radv: Stop using deprecated NIR_PASS_V with core NIR passes.
+- radv: Add bool return value to radv_nir_lower_abi.
+- radv: Add bool return value to radv_nir_apply_pipeline_layout.
+- radv: Add bool return value to ray tracing NIR lowerings.
+- ac/nir: Add bool return value to ac_nir_lower_ls_outputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_hs_inputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_hs_outputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_tes_inputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_es_outputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_gs_inputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_task_outputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_mesh_inputs_to_mem.
+- ac/nir: Add bool return value to ac_nir_lower_legacy_vs.
+- ac/nir: Add bool return value to ac_nir_lower_legacy_gs.
+- ac/nir/ngg: Add bool return value to ac_nir_lower_ngg_nogs.
+- ac/nir/ngg: Add bool return value to ac_nir_lower_ngg_gs.
+- ac/nir/ngg: Add bool return value to ac_nir_lower_ngg_mesh.
+- radv: Don't use deprecated NIR_PASS_V macro for AMD common NIR passes.
+- compiler/clc: Stop using deprecated NIR_PASS_V macro.
+- vulkan/runtime: Don't use deprecated NIR_PASS_V macro.
+- hk: Don't use deprecated NIR_PASS_V macro anymore.
+- glsl: Don't use deprecated NIR_PASS_V macro anymore.
+- nak: Don't use deprecated NIR_PASS_V macro anymore.
+- nvk: Don't use deprecated NIR_PASS_V macro anymore.
+- radv: Use flush postamble on GFX7 with different flags.
+- ac/nir/ngg: Run copy propagation.
+- ac/nir/ngg: Improve reuse of position value.
+- ac/nir/ngg: Remove inputs_needed_by_*
+- ac/nir/ngg: Prepare deferred shader part before adding culling code.
+- ac/nir/ngg: Gather info about what the deferred shader part uses.
+- ac/nir/ngg: Use deferred info for compacted arguments.
+- ac/nir/ngg: Remove cleanup_culling_shader_after_dce.
+- nir/xfb: Preserve some xfb information when gathering from intrinsics.
+- nir/opt_varyings: Fix assertion when deduplicating TCS outputs.
+- radv: Use buffers_written mask when gathering XFB info.
+- radv: Call nir_opt_undef too after nir_opt_varyings.
+- radv: Remove radv_streamout_info::num_outputs.
+- nir/print: Fix variable mode for arrayed output load intrinsics.
+- radv: Add radv_foreach_stage to ForEachMacros again.
+- radv: Inline radv_graphics_shaders_link_varyings_{first/second}.
+- radv: Refactor loops in radv_graphics_shaders_link_varyings.
+- radv: Move preparation and fixup to separate loops in varying optimization.
+- radv: Don't call nir_opt_varyings a second time when unnecessary.
+- radv: Clear dirty flag for MSAA state after emitting it.
+- radv: Clear dirty flag for clip rects state after emitting it.
+
+Tomeu Vizoso (4):
+
+- egl/surfaceless: Only choose drivers that expose the graphics capability
+- kopper: Explicitly choose zink
+- etnaviv/ml: Use etna_buffer_resource instead of etna_resource
+- etnaviv: Release screen->dummy_desc_reloc.bo
+
+Trigger Huang (2):
+
+- radeonsi: Fix perfcounter start event in si_pc_emit_start
+- radeonsi: Change program seqnece for perf counters
+
+Valentine Burley (84):
+
+- amd/ci: Revert to 6.6 kernel on Raven
+- zink/ci: Add a fraction for zink-venus-lvp
+- khronos-update: Update ANDROID guards in vk_android_native_buffer.h
+- zink/ci: Make zink-venus-lvp-full a nightly job
+- ci/intel-gpu-freq: Add Xe support
+- ci: Use new kernel with Intel Xe driver
+- ci/lava: Allow passing extra cmdline arguments
+- intel/ci: Drop redundant BOOT_METHOD variables
+- intel/ci: Add newer i915/ADL-P firmware to rootfs
+- intel/ci: Load Xe instead of i915 on ADL
+- intel/dev: Provide a toggle to avoid warnings about unsupported devices
+- intel/ci: Use INTEL_XE_IGNORE_EXPERIMENTAL_WARNING to reduce warnings
+- intel/ci: Update expectations for Xe
+- amd/ci: Fix fraction for radv-stoney-angle-full
+- ci/android: Don't build desktop GL CTS
+- ci/lava: Don't build VK-main for arm64
+- ci: Allow building ANGLE for multiple platforms
+- ci/android: Build and use ANGLE
+- ci/android: Check ANGLE version
+- ci: Move debian-android up to the build-for-tests stage
+- freedreno/ci: Unify naming for a306 jobs
+- zink/ci: Rename a618 suite and expectation files
+- ci/angle: Rework building ANGLE (again)
+- ci/lava: Build ANGLE for arm64
+- ci/android: Add build section for Cuttlefish
+- ci/angle: Use lld-19 for linking ANGLE
+- intel/ci: Fix manual rules for ANGLE jobs
+- ci/angle: Uprev ANGLE
+- ci: Update expectations from latest nightly
+- turnip/ci: Add nightly ANGLE jobs on a618 and a660
+- ci/container: Include ANGLE in the arm64 test-gl container
+- turnip/ci: Rename valve-freedreno-turnip-manual-rules
+- turnip/ci: Add a nightly ANGLE job on a750
+- radv/ci: Don't start X11 for ANGLE
+- anv/ci: Don't start X11 for ANGLE
+- ci: Simplify downloading kernel for crosvm
+- ci: Don't download the kernel image in lava_build.sh
+- intel/ci: Update GuC firmware for ADL-S and ADL-N
+- ci: Use new kernel that supports more Mediatek devices
+- anv/ci: Update expectations from latest nightly
+- intel/ci: Honor device-specific FDO_CI_CONCURRENT variables
+- intel/ci: Add brask and nissa
+- anv/ci: Migrate anv-adl-angle job to brask
+- intel/ci: Migrate intel-adl-cl and intel-adl-skqp to nissa
+- anv/ci: Increase parallelism of zink-anv-adl
+- lavapipe: Update driverVersion
+- anv/ci: Remove fixed test from xfails
+- zink/ci: Run more traces on Tiger Lake
+- zink/ci: Add trace testing on Alder Lake
+- anv/ci: Append -vk suffix to VKCTS job names
+- ci: Update kernel to include i.MX8MP dtb
+- panforst/ci: Migrate the G57 GL job to MT8195
+- panfrost/ci: Add a Piglit job on G57
+- panfrost/ci: Shorten Piglit job names
+- panfrost/ci: Pin g610-gl job to 4GB DUTs
+- tu: Switch to device address from vk_buffer
+- ci: Enable Perfetto in debian-no-libdrm for Turnip build testing
+- zink/ci: Work around recent OOM issues in zink-anv-adl
+- ci/deqp: Delete more uncompressed caselist files
+- ci: Add missing kvm runner tags
+- ci/android: Don't delete ninja after building LLVM
+- ci/android: Keep the LLVM install when rebuilding
+- ci/android: Update to LLVM 19 for Android
+- ci/android: Temporarily disable building llvmpipe
+- radv/ci: Delete obsolete vkcts-stoney-valve job
+- amd/ci: Rename AMD jobs to follow unified naming convention
+- ci: Disable the Google freedreno farm
+- panvk/ci: Migrate the G52 VK job to MT8186
+- ci: Make it possible to use ANGLE traces on other architectures
+- radv/ci: Update ANGLE version used for traces
+- ci/android: Remove platform-tools from test-android container
+- ci/android: Add section for downloading Android CTS
+- ci/container: Disable debian/arm32_test-vk container
+- ci/container: Remove double build sections in test-* containers
+- ci/container: Move calling strip-rootfs.sh to common scripts
+- ci/android: Add build section for uninstalling build software
+- ci/container: Drop unnecessary variables for image paths
+- intel/ci: Convert iris-kbl-piglit to deqp-runner suite
+- ci/piglit: Drop redundant PIGLIT_PROFILES variable
+- ci/piglit: Consolidate HWCI_TEST_SCRIPT for piglit traces
+- ci/piglit: Remove piglit-runner.sh script
+- ci/piglit: Consolidate identical skip lists for X11 and gbm
+- ci/lava: Consolidate piglit trace job definitions
+- zink/ci: Work around recent OOM issues in zink-anv-tgl
+
+Vasily Khoruzhick (20):
+
+- lima: ppir: handle ffma in the backend
+- lima: ppir: improve readability of ppir represantation dump
+- lima: ppir: fixup src node when replacing src for select and load_reg
+- lima: ppir: print index of the node that breaks node_to_instr
+- lima: ppir: fix diassembling atan and combiner codegen definition
+- lima: ppir: assert on unexpected pipeline dest for fmul and vmul
+- lima: ppir: add codegen for mov and mul on combiner unit
+- lima: ppir: use combiner unit for mul
+- lima: ppir: duplicate fneg and fabs if its source is an intrinsic
+- lima: ppir: fix regalloc bugs
+- lima: ppir: assign an index for discard block
+- lima: ppir: introduce an optimizer
+- lima: ppir: try scheduling root nodes into the same instruction
+- lima: ci: update deqp CI expectations
+- lima: ppir: add compactification pass
+- lima: ppir: reuse uniform load in instruction if possible
+- lima: ppir: reuse load_temp/store_temp nodes if possible
+- lima: ppir: assign actual index to discard block
+- lima: ppir: optimize branches
+- lima: ppir: try inserting nodes into successor instr for uncond branch
+
+Vignesh Raman (2):
+
+- s3_upload: improve url validation and error message
+- ci: Uprev kernel to 6.14
+
+Visan, Tiberiu (2):
+
+- amd/vpelib: Fix studio range
+- amd/vpelib: Apply normalization for full range
+
+Vlad Zahorodnii (3):
+
+- egl/wayland: Damage whole surface using wl_surface_damage_buffer()
+- vulkan/wsi/wayland: Damage whole surface using wl_surface_damage_buffer()
+- vulkan/wsi/wayland: Document why wl_surface_damage() code path ignores provided damage
+
+Xaver Hugl (6):
+
+- increase required wayland-protocols version to 1.41
+- vulkan/wsi: implement support for VK_EXT_hdr_metadata on Wayland
+- vulkan/wsi: handle the compositor not supporting extended target volume better
+- vulkan/wsi: don't use sRGB if the compositor doesn't support it
+- vulkan/wsi: validate HDR metadata to not cause protocol errors
+- vulkan/wsi: warn once when HDR metadata is skipped because of protocol errors
+
+Yinjie Yao (2):
+
+- gallium/pipe: Increase hevc max slice to 600
+- frontends/va: Handle properly when decoding more slices than limit
+
+Yiwei Zhang (124):
+
+- venus: scrub disallowed ycbcr features for rgba10x6
+- venus: further sanitize image props for rgba10x6
+- venus: refactor more to image format props sanitization
+- venus: enable VK_EXT_external_memory_acquire_unmodified if needed
+- venus: use dedicated allocation for ANB image memory import
+- venus: emulate a second graphics queue on Android
+- venus: sync venus protocol for below extensions
+- venus: group private data together with other 1.3 exts
+- venus: fix to handle pipeline flags2 from maint5
+- venus: support VK_EXT_blend_operation_advanced
+- venus: refactor to share more codes between pipeline state fillings
+- venus: support VK_EXT_sample_locations
+- venus: fix sampler locations feats and props scrub
+- venus: sync protocol to v1.3.302
+- Support 5 more promoted extensions
+- venus: fix maintenance5 props init and create flags2
+- venus: drop unused codes
+- venus: sync protocol for v1.4.307 release and update promoted entries
+- venus: updated to use core types for promoted extensions
+- venus: support VK_KHR_shader_subgroup_rotate
+- venus: support VK_KHR_shader_float_controls2
+- venus: support VK_EXT_pipeline_protected_access
+- venus: support VK_EXT_pipeline_robustness
+- venus: support VK_KHR_map_memory2
+- venus: support VK_KHR_global_priority
+- venus: support VK_KHR_dynamic_rendering_local_read
+- venus: a few tiny naming fixes
+- venus: support VK_KHR_maintenance6
+- venus: update second queue emulation for 1.4 requirement
+- venus: deprecate a few useless micros
+- venus: advertise 1.4 support
+- venus: fix 2 entry points from maint6
+- venus: fix sample location info validity
+- venus: limit second queue emulation to android framework
+- venus: temporarily disable 1.4 support
+- venus: suppress a few -Wmaybe-uninitialized
+- venus: drop unnecessary struct
+- venus: use sharing_mode from common vk_image
+- venus: fix image format cache miss with AHB usage query
+- venus: sync latest protocol v3 support for host copy
+- venus: extend image format cache for host copy props
+- venus: implement host image copy commands
+- vulkan/util: clean up copy_property and fix for setter
+- venus: enable VK_EXT_host_image_copy support
+- venus: re-enable 1.4 support
+- venus: align on wsi frontends support
+- venus: support wsi maintenance1 extensions
+- venus: sync protocol for the passthrough extensions
+- venus: added passthrough extension support - Part I
+- venus: added passthrough extension support - Part II
+- venus: added passthrough extension support - Part III
+- venus: added passthrough extension support - Part IV
+- venus: added passthrough extension support - Part V
+- venus: relax the requirement for sync2
+- venus: fix an obsolete protocol sync earlier
+- venus: fix a memory corruption in query records recycle
+- venus: sync protocol for ray tracing support
+- venus: add a debug option for ray tracing support
+- venus: support VK_KHR_deferred_host_operations
+- venus: add stubs for accel struct host commands
+- venus: implement VK_KHR_acceleration_structure - Part I
+- venus: implement VK_KHR_acceleration_structure - Part II
+- venus: implement VK_KHR_acceleration_structure - Part III
+- venus: enable VK_KHR_acceleration_structure
+- venus: support VK_KHR_ray_query
+- venus: prepare push template for ray tracing pipeline
+- venus: implement VK_KHR_ray_tracing_pipeline commands
+- venus: enable VK_KHR_ray_tracing_pipeline
+- venus: support VK_KHR_ray_tracing_position_fetch
+- venus: support VK_KHR_ray_tracing_maintenance1
+- lavapipe: set availability bit for accel struct host queries
+- lavapipe: fix accel struct device query copy
+- venus: use common memory report implementation
+- venus: fix to ignore dstSet for push descriptor
+- venus: extend async descriptor set alloc coverage
+- venus: relax 2 assertions for prime blit path
+- venus: sync protocol support for maint7
+- venus: sync protocol for accel struct indirect build encoding fix
+- pan/kmod: set DRM_RDWR for exported dma-bufs
+- venus: drop vn_call usage on apis without any returns
+- venus: sync latest protocol for more extension support
+- venus: add a few more trivial extensions
+- venus: support VK_EXT_filter_cubic
+- venus: support VK_EXT_legacy_dithering
+- venus: support VK_EXT_depth_bias_control
+- venus: support VK_EXT_depth_clamp_control
+- venus: support VK_EXT_attachment_feedback_loop_dynamic_state
+- venus: support VK_EXT_nested_command_buffer
+- venus: default to passthrough ray tracing support
+- venus: add a new debug option to revive memory budget support
+- venus: properly enable display platform extensions
+- venus: back out display control
+- venus: support VK_EXT_debug_report
+- venus: sync latest protocol for 2 more extensions
+- venus: support VK_EXT_pipeline_library_group_handles
+- venus: support VK_EXT_image_sliced_view_of_3d
+- panvk: disable VK_KHR_shader_quad_control
+- panvk: fix dependency for EXT_display_control
+- vulkan: update ALLOWED_ANDROID_VERSION for api level 34
+- vulkan: update ALLOWED_ANDROID_VERSION for api level 35
+- venus: rename common vk object base member to vk
+- venus: explicitly get vn_device from vk_device
+- venus: use common vk_command_pool
+- venus: use vk_command_pool internals
+- venus: use common vk_command_buffer
+- venus: use vk_command_buffer internals
+- venus: use common cmd pool_link
+- docs: demote VK_KHR_shader_relaxed_extended_instruction
+- venus: fix unexpected ring alive status expire upon owner thread switch
+- venus: fix ahb usage caching
+- venus: fix maint4 multi-planar memory requirements
+- venus: improve image memory requirement cache for image aliasing
+- venus: enable VK_EXT_debug_utils
+- virgl/venus/vtest: align capset and protocol with virglrenderer
+- panvk/csf: rework cache flush reduction
+- panvk: fix memory requirement query for aliased disjoint image
+- venus: support VK_KHR_maintenance7
+- venus: sync latest protocol
+- venus: support VK_EXT_buffer_device_address
+- venus: support VK_KHR_shader_relaxed_extended_instruction
+- venus: refactor format properties cache to be extensible
+- venus: support VK_EXT_multisampled_render_to_single_sampled
+- docs: update venus driver page
+- venus: fix missing renderer destructions
+
+Yogesh Mohan Marimuthu (7):
+
+- winsys/amdgpu: do not use rcs->csc
+- winsys/amdgpu: make csc context as array
+- winsys/amdgpu: amdgpu_cs_context is csc, amdgpu_cs is acs
+- winsys/radeon: struct radeon_cmdbuf is rcs instead of cs for consistency
+- winsys/amdgpu: same_queue variable should be set if there is only one queue
+- winsys/amdgpu: userqueue multi ctx jobs are guaranteed to be in sequence
+- winsys/amdgpu: userq non imported fence can be ignored for same ip_type
+
+Yurii Kolesnykov (1):
+
+- Get rid of 5 remaining references to glapitable.h
+
+Zan Dobersek (11):
+
+- tu/a750: invalidate vertex state before CP_DRAW_INDIRECT_MULTI
+- tu: make tu_debug_flags enum 64-bit
+- tu: use query index when retrieving performance query iovas
+- tu: performance query result writes must use dedicated union type
+- tu/a7xx: disable preemption during performance query measurement
+- freedreno: add common implementation of perfcntr-based derived counters
+- tu: support exposing derived counters through VK_KHR_performance_query
+- tu: fix zero-index perfcntr collection for derived counters
+- tu: disable logic operations for float and sRGB formats
+- freedreno/registers: add useful A6XX_SP_TP_MODE_CNTL bitfields
+- tu: allow D3D-compatible texture coordinate rounding
+
+Zhao, Jiali (1):
+
+- amd/vpelib: Fix studio output CSC
+
+forbiddenlake (2):
+
+- docs: Fix HTML build with Sphinx 8.2
+- ci/alpine: upgrade sphinx and hawkmoth to the latest versions
+
+irql-notlessorequal (7):
+
+- hasvk: Fix non-functioning version override.
+- elk: ensure VUE header writes in HS/DS/GS stages
+- elk: always write the VUE header
+- hasvk: Pre-plumbing needed for VK_KHR_maintenance5
+- hasvk: Implement VkPipelineCreateFlags2KHR support
+- hasvk: Implement VK calls and formats.
+- hasvk: Advertise VK_KHR_maintenance5
+
+lcagustini (1):
+
+- panvk: Advertise support for VK_EXT_border_color_swizzle
+
+liuqiang (1):
+
+- intel/brw: Remove redundant condition in components_read()
+
+llyyr (1):
+
+- vulkan/wsi/wayland: initialize surface colorspace with PASS_THROUGH_EXT
+
+sarbes (1):
+
+- lima: add genxml for texture descriptor

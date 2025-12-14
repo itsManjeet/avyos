@@ -1,0 +1,90 @@
+# Note: skips lists for CI are just a list of lines that, when
+# non-zero-length and not starting with '#', will regex match to
+# delete lines from the test list.  Be careful.
+
+# still timing out in llvm jit
+dEQP-VK.pipeline.monolithic.blend.dual_source.format.r16_unorm.states.color_1ms1a_cc_max_alpha_1msa_1mca_sub-color_o_1mdc_max_alpha_1mda_1ms1c_rsub-color_sas_da_max_alpha_1msa_1msc_add-color_sc_1msc_add_alpha_sas_1ms1a_rsub
+dEQP-VK.pipeline.monolithic.blend.format.r16_unorm.states.color_sas_sa_min_alpha_ca_1mda_max-color_1mdc_dc_add_alpha_1mda_sas_rsub-color_sas_1mca_max_alpha_1mca_1mcc_min-color_o_1msa_rsub_alpha_dc_da_min
+dEQP-VK.pipeline.pipeline_library.blend.dual_source.format.r16_unorm.states.color_1ms1a_cc_max_alpha_1msa_1mca_sub-color_o_1mdc_max_alpha_1mda_1ms1c_rsub-color_sas_da_max_alpha_1msa_1msc_add-color_sc_1msc_add_alpha_sas_1ms1a_rsub
+dEQP-VK.pipeline.pipeline_library.blend.dual_source.format.r16_unorm.states.color_z_s1c_min_alpha_1mcc_s1c_rsub-color_ca_1mca_add_alpha_cc_1ms1a_min-color_ca_1ms1c_rsub_alpha_sa_sas_min-color_1ms1c_s1a_add_alpha_1mda_1ms1a_min
+dEQP-VK.pipeline.pipeline_library.blend.format.r16_unorm.states.color_sas_sa_min_alpha_ca_1mda_max-color_1mdc_dc_add_alpha_1mda_sas_rsub-color_sas_1mca_max_alpha_1mca_1mcc_min-color_o_1msa_rsub_alpha_dc_da_min
+
+dEQP-VK.graphicsfuzz.spv-stable-pillars-O-op-select-to-op-phi
+dEQP-VK.graphicsfuzz.spv-composites
+
+# These tests started hitting timeouts when we upgraded LLVM from v11 to 13
+dEQP-VK.pipeline.fast_linked_library.blend.dual_source.format.r16_unorm.states.color_1ms1a_cc_max_alpha_1msa_1mca_sub-color_o_1mdc_max_alpha_1mda_1ms1c_rsub-color_sas_da_max_alpha_1msa_1msc_add-color_sc_1msc_add_alpha_sas_1ms1a_rsub
+dEQP-VK.pipeline.fast_linked_library.blend.format.r16_unorm.states.color_sas_sa_min_alpha_ca_1mda_max-color_1mdc_dc_add_alpha_1mda_sas_rsub-color_sas_1mca_max_alpha_1mca_1mcc_min-color_o_1msa_rsub_alpha_dc_da_min
+dEQP-VK.graphicsfuzz.spv-stable-maze-flatten-copy-composite
+
+# Those tests time out reliably
+dEQP-VK.graphicsfuzz.spv-stable-pillars-volatile-nontemporal-store
+
+# timing out in llvm jit
+dEQP-VK.ray_query.advanced.null_as.tese.aabbs
+dEQP-VK.ray_query.advanced.null_as.tese.triangles
+dEQP-VK.ray_query.watertightness.nomiss.tesc.aabbs
+dEQP-VK.ray_query.watertightness.nomiss.tesc.triangles
+dEQP-VK.ray_query.watertightness.nomiss.tese.aabbs
+dEQP-VK.ray_query.watertightness.nomiss.tese.triangles
+dEQP-VK.ray_query.watertightness.nomiss.vert.aabbs
+dEQP-VK.ray_query.watertightness.nomiss.vert.triangles
+dEQP-VK.ray_query.watertightness.singlehit.tesc.triangles
+dEQP-VK.ray_query.watertightness.singlehit.tese.triangles
+dEQP-VK.ray_query.watertightness.singlehit.vert.triangles
+
+dEQP-VK.ray_query.builtin.flow.tesc.aabbs
+dEQP-VK.ray_query.builtin.flow.tesc.triangles
+dEQP-VK.ray_query.builtin.flow.tese.aabbs
+dEQP-VK.ray_query.builtin.flow.tese.triangles
+dEQP-VK.ray_query.builtin.instancecustomindex.tesc.aabbs
+dEQP-VK.ray_query.builtin.instancecustomindex.tesc.triangles
+dEQP-VK.ray_query.builtin.instancecustomindex.tese.aabbs
+dEQP-VK.ray_query.builtin.instancecustomindex.tese.triangles
+dEQP-VK.ray_query.builtin.instanceid.tesc.triangles
+dEQP-VK.ray_query.builtin.primitiveid.tesc.aabbs
+dEQP-VK.ray_query.builtin.primitiveid.tese.triangles
+
+dEQP-VK.ray_tracing_pipeline.misc.recursiveTraces_AABB_12
+dEQP-VK.ray_tracing_pipeline.misc.recursiveTraces_AABB_14
+dEQP-VK.ray_tracing_pipeline.misc.recursiveTraces_AABB_15
+dEQP-VK.ray_tracing_pipeline.misc.recursiveTraces_tri_14
+
+# These take just under 60sec to run, and sometimes go over and timeout
+dEQP-VK.binding_model.descriptor_buffer.multiple.graphics_frag_buffers2_sets4_imm_samplers
+dEQP-VK.binding_model.descriptor_buffer.multiple.graphics_vert_buffers8_sets1
+
+dEQP-VK.mesh_shader.ext.misc.many_task_work_groups_y
+dEQP-VK.mesh_shader.ext.misc.many_task_work_groups_z
+
+# https://gitlab.khronos.org/Tracker/vk-gl-cts/-/issues/5117
+dEQP-VK.image.host_image_copy.*
+
+# Times out since a commit in the range 6006588a...edcad250
+dEQP-VK.api.descriptor_pool.repeated_free_reset_long
+
+# Trying to allocate all the memory we can is not a great idea on shared runners.
+dEQP-VK.api.device_init.create_instance_device_intentional_alloc_fail.basic
+
+# Times out
+dEQP-VK.memory.allocation.basic.percent_1.reverse.count_12
+dEQP-VK.rasterization.primitives_multisample_4_bit.static_stipple.bresenham_line_strip_wide
+dEQP-VK.ray_query.builtin.instanceid.tese.aabbs
+dEQP-VK.ray_query.builtin.instanceid.tesc.aabbs
+dEQP-VK.ray_query.builtin.instanceid.tese.triangles
+dEQP-VK.sparse_resources.buffer.transfer.rebind.buffer_size_2_20
+dEQP-VK.sparse_resources.device_group_image_sparse_binding.multiple_sparse_memory_bind.2d.r64ui.11_137_1
+dEQP-VK.sparse_resources.image_sparse_binding.multiple_sparse_image_opaque_memory_bind_info.1d.r64i.1024_1_1
+dEQP-VK.synchronization2.op.single_queue.fence.write_fill_buffer_read_ubo_texel_tess_eval.buffer_16384
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_blit_image_read_image_vertex.image_64x64x8_r32_sfloat
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_blit_image_read_copy_image_to_buffer.image_128_r32_uint
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_copy_buffer_to_image_read_blit_image.image_128_r32_uint
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_image_fragment_read_copy_image_to_buffer.image_128x128_r16_uint
+dEQP-VK.synchronization2.timeline_semaphore.device_host.write_image_tess_control_read_image_vertex.image_128x128_r32g32b32a32_sfloat
+dEQP-VK.tessellation.invariance.outer_edge_symmetry.triangles_fractional_odd_spacing_ccw
+dEQP-VK.tessellation.misc_draw.fill_overlap_quads_equal_spacing_draw_indirect
+dEQP-VK.tessellation.misc_draw.fill_overlap_triangles_equal_spacing_draw_indirect
+dEQP-VK.tessellation.shader_input_output.tess_level_inner_1_tes
+dEQP-VK.tessellation.tesscoord.triangles_equal_spacing_execution_mode_in_tesc
+dEQP-VK.texture.explicit_lod.2d.sizes.128x128_linear_linear_mipmap_linear_clamp
+nir-stress=dEQP-VK.ray_query.builtin.instanceid.tese.triangles

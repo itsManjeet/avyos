@@ -1,0 +1,66 @@
+
+BasedOnStyle: InheritParentConfig
+DisableFormat: false
+
+ColumnLimit: 132
+SortIncludes: true
+
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+
+PenaltyExcessCharacter: 75
+
+AlwaysBreakTemplateDeclarations: Yes
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 3
+IndentCaseLabels: true
+
+BreakBeforeTernaryOperators: false 
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterNamespace: true
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: true
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+FixNamespaceComments: true
+KeepEmptyLinesAtTheStartOfBlocks: true
+
+AlwaysBreakAfterReturnType: TopLevel
+
+BinPackArguments: false
+BinPackParameters: false
+Cpp11BracedListStyle: false
+
+SpaceAfterCStyleCast: true
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: true
+SpacesInContainerLiterals: true
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false
+SpacesBeforeTrailingComments: 3
+SpacesInAngles: false
+SpacesInParentheses: true
+SpacesInSquareBrackets: false
+SpacesInCStyleCastParentheses: false
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceInEmptyParentheses: false
+SpaceInEmptyBlock: true
+
+MaxEmptyLinesToKeep: 3

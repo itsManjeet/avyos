@@ -1,0 +1,22 @@
+# 60s timeout
+KHR-GL46.copy_image.functional
+KHR-GL46.gpu_shader_fp64.fp64.varyings
+KHR-GL46.texture_swizzle.smoke
+
+# 60s timeout (flake)
+KHR-GL46.gpu_shader_fp64.builtin.inverse_dmat4
+
+# 300s timeout
+dEQP-VK.spirv_assembly.instruction.compute.spirv_ids_abuse.lots_ids
+dEQP-VK.spirv_assembly.instruction.graphics.spirv_ids_abuse.lots_ids_frag
+dEQP-VK.spirv_assembly.instruction.graphics.spirv_ids_abuse.lots_ids_geom
+dEQP-VK.spirv_assembly.instruction.graphics.spirv_ids_abuse.lots_ids_tessc
+dEQP-VK.spirv_assembly.instruction.graphics.spirv_ids_abuse.lots_ids_tesse
+dEQP-VK.spirv_assembly.instruction.graphics.spirv_ids_abuse.lots_ids_vert
+
+# 60s timeout (flake)
+dEQP-VK.subgroups.clustered.graphics.subgroupclusteredmul_i64vec4
+
+# timing out in a flaky manner
+# seen first time on this job https://gitlab.freedesktop.org/mesa/mesa/-/jobs/76191050
+dEQP-VK.subgroups.clustered.compute.subgroupclusteredmax_u64vec4_requiredsubgroupsize

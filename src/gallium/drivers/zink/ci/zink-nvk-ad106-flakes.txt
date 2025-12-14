@@ -1,0 +1,62 @@
+dEQP-GLES3.functional.lifetime.delete_bound.framebuffer
+
+KHR-GL46.shader_image_load_store.basic-allFormats-storeGeometryStages
+KHR-GL46.shader_image_load_store.basic-allTargets-loadStoreCS
+
+spec@!opengl 1.0@gl-1.0-front-invalidate-back
+spec@!opengl 1.1@teximage-colors gl_luminance12_alpha4.*
+spec@!opengl 1.1@teximage-colors gl_luminance16.*
+spec@arb_gpu_shader_fp64@execution@built-in-functions@fs-op-mult-dmat2x4-dvec2
+spec@arb_gpu_shader_int64@execution@built-in-functions@fs-op-mod-int64_t-int64_t
+spec@arb_gpu_shader_int64@execution@built-in-functions@fs-op-sub-u64vec3-u64vec3
+spec@arb_gpu_shader_int64@execution@built-in-functions@vs-op-mult-u64vec2-uint64_t
+spec@arb_gpu_shader_int64@execution@built-in-functions@vs-op-sub-int64_t-i64vec3
+spec@arb_shader_image_load_store@coherency
+spec@arb_shader_image_load_store@coherency@Tessellation evaluation-Fragment shader/'volatile' qualifier coherency test/256x256
+spec@arb_shader_precision@gs-op-assign-div-vec3-float
+spec@arb_shader_precision@fs-op-assign-sub-float-float
+spec@arb_tessellation_shader@execution@built-in-functions@tcs-all-bvec3
+spec@arb_tessellation_shader@execution@built-in-functions@tcs-op-assign-add-mat3x4-float
+spec@arb_tessellation_shader@execution@built-in-functions@tcs-op-assign-add-uvec3-uvec3
+spec@arb_tessellation_shader@execution@built-in-functions@tcs-op-mult-mat3x2-mat4x3
+spec@ext_framebuffer_multisample@clip-and-scissor-blit 2 msaa
+spec@ext_framebuffer_multisample@clip-and-scissor-blit 4 msaa
+spec@ext_framebuffer_multisample@clip-and-scissor-blit 8 msaa
+spec@ext_framebuffer_multisample@line-smooth 6
+spec@ext_framebuffer_multisample@line-smooth 8
+spec@ext_framebuffer_multisample@point-smooth 6
+spec@ext_framebuffer_multisample@point-smooth 8
+spec@ext_framebuffer_multisample@polygon-smooth 6
+spec@ext_framebuffer_multisample@polygon-smooth 8
+spec@arb_texture_multisample@texelfetch@6-gs-isampler2dmsarray
+spec@ext_texture_srgb@texwrap formats
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8- NPOT
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8- swizzled
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8_ALPHA8
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8_ALPHA8- NPOT
+spec@ext_texture_srgb@texwrap formats@GL_SLUMINANCE8_ALPHA8- swizzled
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8- NPOT
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8- swizzled
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8_ALPHA8
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8_ALPHA8- NPOT
+spec@ext_texture_srgb@texwrap formats@GL_SRGB8_ALPHA8- swizzled
+spec@arb_vertex_attrib_64bit@execution@unused-sub-dvec4-02
+spec@glsl-4.00@execution@built-in-functions@fs-refract-dvec3-dvec3-double
+spec@glsl-4.00@execution@built-in-functions@vs-op-mult-dvec3-dmat4x3
+spec@glsl-1.10@execution@built-in-functions@vs-refract-vec4-vec4-float
+spec@glsl-1.20@execution@vs-outerproduct-const-mat2-ivec
+spec@glsl-1.30@execution@built-in-functions@fs-op-div-uint-uvec2
+spec@glsl-1.50@execution@built-in-functions@gs-op-assign-bitor-ivec2-ivec2
+spec@glsl-1.50@execution@built-in-functions@gs-op-ne-mat4-mat4
+spec@glsl-1.50@execution@built-in-functions@gs-outerproduct-vec3-vec4
+spec@glsl-4.00@execution@built-in-functions@fs-op-mult-dmat3-double
+spec@glsl-4.00@execution@built-in-functions@gs-op-sub-dvec3-dvec3
+spec@glsl-4.00@execution@built-in-functions@vs-op-add-dmat4x3-double
+spec@glsl-4.00@execution@inout@vs-out-fs-in-s1-float@5-dmat3x2
+spec@glsl-4.00@execution@inout@vs-out-fs-in-s1-vec3-dmat2x3
+spec@glsl-4.10@execution@conversion@frag-conversion-implicit-mat4x3-dmat4x3-zero-sign
+spec@glsl-es-3.00@execution@built-in-functions@const-packsnorm2x16
+spec@nv_half_float@attribs-half-float
+spec@nv_primitive_restart@primitive-restart-draw-mode-polygon

@@ -1,0 +1,14 @@
+[[piglit]]
+piglit_folder = "/piglit"
+profile = "quick_gl"
+process_isolation = true
+
+# Smoke test AFBC-P
+[[piglit]]
+piglit_folder = "/piglit"
+profile = "quick_gl"
+process_isolation = true
+include = [ "spec@.*texture" ]
+prefix = "afbcp-"
+  [piglit.env]
+  PAN_MESA_DEBUG = "forcepack"

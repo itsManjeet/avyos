@@ -1,0 +1,110 @@
+# Native Windows docker builds
+#
+# Unlike the above Linux-based builds - including MinGW builds which
+# cross-compile for Windows - which use the freedesktop ci-templates, we
+# cannot use the same scheme here. As Windows lacks support for
+# Docker-in-Docker, and Podman does not run natively on Windows, we have
+# to open-code much of the same ourselves.
+#
+# This is achieved by first running in a native Windows shell instance
+# (host PowerShell) in the container stage to build and push the image,
+# then in the build stage by executing inside Docker.
+
+.windows-docker-msvc:
+  variables:
+    MESA_IMAGE: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${MESA_IMAGE_TAG}"
+    MESA_UPSTREAM_IMAGE: "$CI_REGISTRY/$FDO_UPSTREAM_REPO/$MESA_IMAGE_PATH:${MESA_IMAGE_TAG}"
+  extends:
+    - .windows-docker-tags
+
+.windows_container_build:
+  inherit:
+    default: [retry]
+  extends:
+    - .container
+    - .windows-docker-msvc
+    - .windows-shell-tags
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.microsoft-farm-container-rules, rules]
+    - !reference [.container-rules, rules]
+  variables:
+    GIT_STRATEGY: fetch  # we do actually need the full repository though
+    MESA_BASE_IMAGE: None
+  before_script: null  # remove .container before_script as it's unix-only
+  script:
+    - .\.gitlab-ci\windows\mesa_container.ps1 $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD $MESA_IMAGE $MESA_UPSTREAM_IMAGE ${DOCKERFILE} ${MESA_BASE_IMAGE}
+
+windows_msvc:
+  inherit:
+    default: [retry]
+  extends:
+    - .windows_container_build
+  variables:
+    MESA_IMAGE_PATH: &windows_msvc_image_path "windows/x86_64_msvc"
+    MESA_IMAGE_TAG: ${WINDOWS_X64_MSVC_TAG}
+    DOCKERFILE: Dockerfile_msvc
+    MESA_BASE_IMAGE: "mcr.microsoft.com/windows/server:ltsc2022"
+
+windows_build_msvc:
+  inherit:
+    default: [retry]
+  extends:
+    - .windows_container_build
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.microsoft-farm-rules, rules]
+    - !reference [.container-rules, rules]
+  variables:
+    MESA_IMAGE_PATH: &windows_build_image_path "windows/x86_64_build"
+    MESA_IMAGE_TAG: &windows_build_image_tag ${WINDOWS_X64_MSVC_TAG}--${WINDOWS_X64_BUILD_TAG}
+    DOCKERFILE: Dockerfile_build
+    MESA_BASE_IMAGE_PATH: *windows_msvc_image_path
+    MESA_BASE_IMAGE: "$CI_REGISTRY_IMAGE/${MESA_BASE_IMAGE_PATH}:${WINDOWS_X64_MSVC_TAG}"
+  timeout: 2h 30m  # LLVM takes ages
+  needs:
+    - job: windows_msvc
+      optional: true
+
+windows_test_msvc:
+  inherit:
+    default: [retry]
+  extends:
+    - .windows_container_build
+  rules:
+    - !reference [.common-rules, rules]
+    - !reference [.microsoft-farm-rules, rules]
+    - !reference [.container-rules, rules]
+  variables:
+    MESA_IMAGE_PATH: &windows_test_image_path "windows/x86_64_test"
+    MESA_IMAGE_TAG: &windows_test_image_tag ${WINDOWS_X64_MSVC_TAG}--${WINDOWS_X64_TEST_TAG}
+    DOCKERFILE: Dockerfile_test
+    MESA_BASE_IMAGE_PATH: *windows_msvc_image_path
+    MESA_BASE_IMAGE: "$CI_REGISTRY_IMAGE/${MESA_BASE_IMAGE_PATH}:${WINDOWS_X64_MSVC_TAG}"
+  timeout: 2h 30m
+  needs:
+    - job: windows_msvc
+      optional: true
+
+.use-windows_build_msvc:
+  inherit:
+    default: [retry]
+  extends: .windows-docker-msvc
+  image: "$MESA_IMAGE"
+  variables:
+    MESA_IMAGE_PATH: *windows_build_image_path
+    MESA_IMAGE_TAG: *windows_build_image_tag
+  needs:
+    - job: sanity
+      optional: true
+    - job: windows_build_msvc
+      optional: true
+
+.use-windows_test_msvc:
+  inherit:
+    default: [retry]
+  extends: .windows-docker-msvc
+  image: "$MESA_IMAGE"
+  variables:
+    MESA_IMAGE_PATH: *windows_test_image_path
+    MESA_IMAGE_TAG: *windows_test_image_tag

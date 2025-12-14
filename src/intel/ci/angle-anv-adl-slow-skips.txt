@@ -1,0 +1,2 @@
+# Slow test that may hit 60s timeout pre-merge, but passes otherwise
+KHR-GLES31.core.tessellation_shader.vertex.vertex_ordering

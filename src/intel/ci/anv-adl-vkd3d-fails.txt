@@ -1,0 +1,8 @@
+test_fence_wait_robustness,Crash
+test_sampler_rounding,Fail
+# Undefined behavior not supported unless EXT_descriptor_buffer is
+# used or running on Gfx12.5+ where we don't do descriptor indirection
+# (prior generations have a descriptor heap too small 64MB)
+test_undefined_read_typed_buffer_as_untyped_dxbc,Fail
+test_undefined_read_typed_buffer_as_untyped_dxil,Fail
+test_line_rasterization,Fail

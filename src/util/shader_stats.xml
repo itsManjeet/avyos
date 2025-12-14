@@ -1,0 +1,123 @@
+<shaderdb>
+   <isa name="Adreno">
+      <stat name="Max Waves Per Core" display="MaxWaves" more="better" type="u16">Maximum number of simultaneous waves per core.</stat>
+      <stat name="Instruction Count" display="Inst">Total number of IR3 instructions in the final generated shader executable.</stat>
+      <stat name="Code size">Total number of dwords in the final generated shader executable.</stat>
+      <stat name="NOPs Count" display="NOPs">Number of NOP instructions in the final generated shader executable.</stat>
+      <stat name="MOV Count" display="MOV">Number of MOV instructions in the final generated shader executable.</stat>
+      <stat name="COV Count" display="COV">Number of COV instructions in the final generated shader executable.</stat>
+      <stat name="Registers used" display="Full" type="u16">Number of registers used in the final generated shader executable.</stat>
+      <stat name="Half-registers used" display="Half" type="u16">Number of half-registers used in the final generated shader executable.</stat>
+      <stat name="Last interpolation instruction" display="Last-baryf">The instruction where varying storage in Local Memory is released</stat>
+      <stat name="Last helper instruction" display="Last-helper">The instruction where helper invocations are killed</stat>
+      <stat name="Instructions with SS sync bit" display="(ss)">SS bit is set for instructions which depend on a result of long instructions to prevent RAW hazard.</stat>
+      <stat name="Instructions with SY sync bit" display="(sy)">SY bit is set for instructions which depend on a result of loads from global memory to prevent RAW hazard.</stat>
+      <stat name="Estimated cycles stalled on SS" display="(ss)-stall">A better metric to estimate the impact of SS syncs.</stat>
+      <stat name="Estimated cycles stalled on SY" display="(sy)-stall">A better metric to estimate the impact of SY syncs.</stat>
+      <stat name="cat# instructions" display="cat#" count="8">Number of cat# instructions.</stat>
+      <stat name="STP Count" display="STPs">Number of STore Private instructions in the final generated shader executable.</stat>
+      <stat name="LDP Count" display="LDPs">Number of LoaD Private instructions in the final generated shader executable.</stat>
+      <stat name="Preamble Instruction Count" display="Preamble inst">Total number of IR3 instructions in the preamble.</stat>
+      <stat name="Early preamble" display="Early-preamble" type="bool">Whether the preamble will be executed early.</stat>
+   </isa>
+
+   <isa name="AGX2">
+      <stat name="Instructions" display="Instrs">Instruction count</stat>
+      <stat name="ALU">Estimated ALU cycle count</stat>
+      <stat name="FSCIB">Estimated F16/F32/SCIB cycle count</stat>
+      <stat name="IC">Estimated IC cycle count</stat>
+      <stat name="Code size">Binary size in bytes</stat>
+      <stat name="GPRs" type="u16">Number of 16-bit GPRs</stat>
+      <stat name="Uniforms" type="u16">Number of 16-bit uniform registers</stat>
+      <stat name="Scratch">Scratch size per thread in bytes</stat>
+      <stat name="Threads" more="better" type="u16">Maximum number of threads in flight on a compute unit</stat>
+      <stat name="Loops">Number of hardware loops</stat>
+      <stat name="Spills">Number of spill (stack store) instructions</stat>
+      <stat name="Fills">Number of fill (stack load) instructions</stat>
+      <stat name="Preamble instructions" display="Preamble inst">Preamble instruction count</stat>
+    </isa>
+
+   <family name="Pan">
+     <isa name="Midgard">
+        <stat name="Instructions" display="Inst">Instruction count</stat>
+        <stat name="Bundles">Instruction bundles</stat>
+        <stat name="Registers" type="u16">Register usage in vec4s</stat>
+        <stat name="Threads" more="better" type="u16">Maximum number of threads in flight on a compute unit</stat>
+        <stat name="Quadwords">Binary size in quadwords</stat>
+        <stat name="Loops">Number of hardware loops</stat>
+        <stat name="Spills">Number of spill instructions</stat>
+        <stat name="Fills">Number of fill instructions</stat>
+     </isa>
+
+     <isa name="Bifrost">
+        <stat name="Instructions" display="Instrs">Instruction count</stat>
+        <stat name="Tuples">Tuple count</stat>
+        <stat name="Clauses">Clause count</stat>
+        <stat name="Cycles" type="float">Estimated normalized cycles</stat>
+        <stat name="Arithmetic" display="Arith" type="float">Estimated normalized arithmetic cycles</stat>
+        <stat name="Texture" display="T" type="float">Estimated normalized Texture cycles</stat>
+        <stat name="Load/store" display="LDST" type="float">Estimated normalized Load/Store cycles</stat>
+        <stat name="Varying" display="V" type="float">Estimated normalized Varying cycles</stat>
+        <stat name="Preloads" type="u16">Preload count</stat>
+        <stat name="Threads" more="better" type="u16">Maximum number of threads in flight on a compute unit</stat>
+        <stat name="Code size">Binary size in bytes</stat>
+        <stat name="Loops">Number of hardware loops</stat>
+        <stat name="Spills">Number of spill instructions</stat>
+        <stat name="Fills">Number of fill instructions</stat>
+     </isa>
+
+     <isa name="Valhall">
+        <stat name="Instructions" display="Instrs">Instruction count</stat>
+        <stat name="Cycles" type="float">Estimated normalized cycles</stat>
+        <stat name="FMA" type="float">Estimated normalized FMA (Fused Multiply-Add) cycles</stat>
+        <stat name="CVT" type="float">Estimated normalized CVT (ConVerT) cycles</stat>
+        <stat name="SFU" type="float">Estimated normalized SFU (Special Function Unit) cycles</stat>
+        <stat name="Varying" display="V" type="float">Estimated normalized Varying cycles</stat>
+        <stat name="Texture" display="T" type="float">Estimated normalized Texture cycles</stat>
+        <stat name="Load/store" display="LS" type="float">Estimated normalized Load/Store cycles</stat>
+        <stat name="Code size">Binary size in bytes</stat>
+        <stat name="Threads" more="better" type="u16">Maximum number of threads in flight on a compute unit</stat>
+        <stat name="Loops">Number of hardware loops</stat>
+        <stat name="Spills">Number of spill instructions</stat>
+        <stat name="Fills">Number of fill instructions</stat>
+     </isa>
+   </family>
+
+   <isa name="VideoCore VI">
+      <stat name="Instruction Count" display="Instrs">Number of QPU instructions</stat>
+      <stat name="Thread Count" more="better">Number of QPU threads dispatched</stat>
+      <stat name="Spill Size">Size of the spill buffer in bytes</stat>
+      <stat name="TMU Spills" display="Spills">Number of times a register was spilled to memory</stat>
+      <stat name="TMU Fills" display="Fills">Number of times a register was filled from memory</stat>
+      <stat name="QPU Read Stalls" display="Read Stalls">Number of cycles the QPU stalls for a register read dependency</stat>
+   </isa>
+
+   <isa name="AMD">
+      <stat name="Driver pipeline hash" display="DriverHash" hash="true" type="u64">Driver pipeline hash used by RGP</stat>
+      <stat name="SGPRs">Number of SGPR registers allocated per subgroup</stat>
+      <stat name="VGPRs">Number of VGPR registers allocated per subgroup</stat>
+      <stat name="Spilled SGPRs" display="SpillSGPRs">Number of SGPR registers spilled per subgroup</stat>
+      <stat name="Spilled VGPRs" display="SpillVGPRs">Number of VGPR registers spilled per subgroup</stat>
+      <stat name="Code size" display="CodeSize">Code size in bytes</stat>
+      <stat name="LDS size" display="LDS">LDS size in bytes per workgroup</stat>
+      <stat name="Scratch size" display="Scratch">Private memory in bytes per subgroup</stat>
+      <stat name="Subgroups per SIMD" display="MaxWaves" more="better">The maximum number of subgroups in flight on a SIMD unit</stat>
+      <stat name="Combined inputs" display="Inputs">Number of input slots reserved for the shader (including merged stages)</stat>
+      <stat name="Combined outputs" display="Outputs">Number of output slots reserved for the shader (including merged stages)</stat>
+      <stat name="Hash" hash="true">CRC32 hash of code and constant data</stat>
+      <stat name="Instructions" display="Instrs">Instruction count</stat>
+      <stat name="Copies">Copy instructions created for pseudo-instructions</stat>
+      <stat name="Branches">Branch instructions</stat>
+      <stat name="Latency">Issue cycles plus stall cycles</stat>
+      <stat name="Inverse Throughput" display="InvThroughput">Estimated busy cycles to execute one wave</stat>
+      <stat name="VMEM Clause" display="VClause">Number of VMEM clauses (includes 1-sized clauses)</stat>
+      <stat name="SMEM Clause" display="SClause">Number of SMEM clauses (includes 1-sized clauses)</stat>
+      <stat name="Pre-Sched SGPRs" display="PreSGPRs">SGPR usage before scheduling</stat>
+      <stat name="Pre-Sched VGPRs" display="PreVGPRs">VGPR usage before scheduling</stat>
+      <stat name="VALU">Number of VALU instructions</stat>
+      <stat name="SALU">Number of SALU instructions</stat>
+      <stat name="VMEM">Number of VMEM instructions</stat>
+      <stat name="SMEM">Number of SMEM instructions</stat>
+      <stat name="VOPD" more="better">Number of VOPD instructions</stat>
+   </isa>
+</shaderdb>

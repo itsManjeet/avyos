@@ -1,0 +1,4 @@
+__glx_Main
+MesaGLInteropGLXExportObject
+MesaGLInteropGLXFlushObjects
+MesaGLInteropGLXQueryDeviceInfo

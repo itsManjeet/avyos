@@ -1,0 +1,77 @@
+KHR-GL46.es_31_compatibility.shader_storage_buffer_object.advanced-matrix-vsfs
+KHR-GL46.es_31_compatibility.shader_storage_buffer_object.advanced-unsizedArrayLength-cs-std140-matR-pad
+KHR-GL46.es_31_compatibility.shader_storage_buffer_object.basic-stdLayout-case2-vs
+KHR-GL46.shading_language_420pack.initializer_list_initializer_array_matrix_list_cols_2_rows_3
+KHR-GL46.shading_language_420pack.initializer_list_initializer_array_matrix_list_cols_4_rows_2
+KHR-GL46.shading_language_420pack.initializer_list_initializer_array_vector_ctr_cols_1_rows_3
+KHR-GL46.shading_language_420pack.initializer_list_initializer_matrix_cols_3_rows_3
+KHR-GL46.shading_language_420pack.initializer_list_initializer_matrix_rows_cols_2_rows_4
+KHR-GL46.shading_language_420pack.initializer_list_initializer_unsized_array_matrix_cols_4_rows_2
+KHR-GL46.shading_language_420pack.initializer_list_initializer_unsized_array_struct_cols_1_rows_4
+KHR-GL46.sparse_buffer_tests.BufferStorageTest
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_array_rg8_snorm
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_array_rgb565
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_array_rgba8
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_r16ui
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_rg16ui
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_rg8
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_rg8ui
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_rgba16f
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_2d_rgba8ui
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_3d_r11f_g11f_b10f
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_cube_map_r32i
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_cube_map_rg32ui
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_cube_map_rgba8_snorm
+KHR-GL46.sparse_texture_tests.SparseTextureCommitment_texture_rectangle_rgb565
+
+dEQP-GLES3.functional.draw_buffers_indexed.random.max_implementation_draw_buffers.2
+dEQP-GLES31.functional.draw_base_vertex.draw_elements_base_vertex.triangle_strip.instanced_attributes
+dEQP-GLES31.functional.draw_base_vertex.draw_elements_instanced_base_vertex.base_vertex.index_neg_int
+dEQP-GLES31.functional.draw_base_vertex.draw_elements_instanced_base_vertex.line_strip.instanced_attributes
+dEQP-GLES31.functional.draw_base_vertex.draw_range_elements_base_vertex.points.single_attribute
+dEQP-GLES31.functional.draw_base_vertex.draw_range_elements_base_vertex.triangles.multiple_attributes
+
+glx@glx-buffer-age
+glx@glx-multi-context-ib-1
+glx@glx-swap-singlebuffer
+glx@glx-visuals-stencil
+
+spec@ext_texture_array@copyteximage 1d_array samples=2
+spec@ext_texture_array@copyteximage 1d_array samples=4
+spec@ext_texture_array@copyteximage 1d_array samples=6
+spec@ext_texture_array@copyteximage 1d_array samples=8
+spec@ext_texture_array@copyteximage 2d_array samples=2
+spec@ext_texture_array@copyteximage 2d_array samples=4
+spec@ext_texture_array@copyteximage 2d_array samples=6
+spec@ext_texture_array@copyteximage 2d_array samples=8
+spec@arb_texture_cube_map@copyteximage cube samples=2
+spec@arb_texture_cube_map@copyteximage cube samples=4
+spec@arb_texture_cube_map@copyteximage cube samples=6
+spec@arb_texture_cube_map@copyteximage cube samples=8
+spec@arb_texture_rectangle@copyteximage rect samples=2
+spec@arb_texture_rectangle@copyteximage rect samples=4
+spec@arb_texture_rectangle@copyteximage rect samples=6
+spec@arb_texture_rectangle@copyteximage rect samples=8
+spec@arb_texture_stencil8@draw
+
+spec@arb_shader_image_load_store@coherency
+spec@arb_shader_image_load_store@shader-mem-barrier
+spec@arb_shader_image_load_store@shader-mem-barrier@Fragment shader/'coherent' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Fragment shader/'coherent' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Fragment shader/'volatile' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Fragment shader/'volatile' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Geometry shader/'coherent' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Geometry shader/'volatile' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation control shader/'coherent' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation control shader/'coherent' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation control shader/'volatile' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation control shader/'volatile' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation evaluation shader/'coherent' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation evaluation shader/'coherent' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation evaluation shader/'volatile' qualifier memory barrier test/modulus=16
+spec@arb_shader_image_load_store@shader-mem-barrier@Tessellation evaluation shader/'volatile' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Vertex shader/'coherent' qualifier memory barrier test/modulus=64
+spec@arb_shader_image_load_store@shader-mem-barrier@Vertex shader/'volatile' qualifier memory barrier test/modulus=64
+spec@arb_shader_storage_buffer_object@execution@ssbo-atomiccompswap-int
+
+spec@glsl-4.30@execution@built-in-functions@cs-op-selection-bool-bvec4-bvec4

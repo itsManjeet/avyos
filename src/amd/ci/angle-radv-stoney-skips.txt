@@ -1,0 +1,8 @@
+# ANGLE throws this warning
+# "Unimplemented: CopyImageSubData(../../src/libANGLE/renderer/vulkan/vk_helpers.cpp:6562"
+# which is "// No support for emulated compressed formats."
+#
+# ANGLE doesn't plan on implementing it, given that Android insists on VK having ASTC support
+# anyway, so ANGLE-on-RADV is going to need either support inside radv (unlikely) or a compat
+# layer.
+dEQP-GLES31.functional.copy_image.*astc.*

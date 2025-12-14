@@ -1,0 +1,77 @@
+[[deqp]]
+deqp = "/deqp-gles/modules/gles2/deqp-gles2"
+caselists = ["/deqp-gles/mustpass/gles2-main.txt"]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-visibility=hidden"
+]
+version_check = "GL ES 3.1.*git"
+renderer_check = "softpipe"
+
+[[deqp]]
+deqp = "/deqp-gles/modules/gles3/deqp-gles3"
+caselists = ["/deqp-gles/mustpass/gles3-main.txt"]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-visibility=hidden"
+]
+
+[[deqp]]
+deqp = "/deqp-gles/modules/gles31/deqp-gles31"
+caselists = ["/deqp-gles/mustpass/gles31-main.txt"]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-visibility=hidden"
+]
+
+[[deqp]]
+deqp = "/deqp-gles/external/openglcts/modules/glcts"
+caselists = [
+    "/deqp-gles/mustpass/gles2-khr-main.txt",
+    "/deqp-gles/mustpass/gles3-khr-main.txt",
+    "/deqp-gles/mustpass/gles31-khr-main.txt",
+]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-visibility=hidden"
+]
+
+# Note that KHR-GL3* test sets include all tests from the previous
+# version, so we only need to run one test list (unlike dEQP-GLES,
+# where the test sets are separate).
+# CTS enables GPU reset detection by default, which requires
+# KHR_robustness support.
+# Since this extension isn't implemented, disable it using
+# "--deqp-terminate-on-device-lost=disable".
+[[deqp]]
+deqp = "/deqp-gl/external/openglcts/modules/glcts"
+caselists = [
+    "/deqp-gl/mustpass/gl33-main.txt",
+]
+deqp_args = [
+    "--deqp-surface-width=256",
+    "--deqp-surface-height=256",
+    "--deqp-surface-type=pbuffer",
+    "--deqp-gl-config-name=rgba8888d24s8ms0",
+    "--deqp-terminate-on-device-lost=disable",
+    "--deqp-visibility=hidden"
+]
+
+[[piglit]]
+piglit_folder = "/piglit"
+# We use "gpu" to skip running glslparser tests, with the assumption that
+# they're covered by the llvmpipe run.
+profile = "gpu"
+process_isolation = true

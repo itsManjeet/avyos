@@ -1,0 +1,11 @@
+# First test run details: https://gallo.pages.freedesktop.org/-/mesa/-/jobs/78930621/artifacts/results/test_result.html
+
+## First run result==fail
+
+x86_64 CtsGraphicsTestCases android.graphics.cts.VulkanFeaturesTest#testVulkanHardwareFeatures
+
+### Must support the core Vulkan 1.1
+x86_64 CtsGraphicsTestCases android.graphics.cts.VulkanFeaturesTest#testVulkanApplicationBinaryInterfaceRequirements
+
+### no support for ABP 2021
+x86_64 CtsGraphicsTestCases android.graphics.cts.VulkanFeaturesTest#testAndroidBaselineProfile2021Support

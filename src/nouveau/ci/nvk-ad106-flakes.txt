@@ -1,0 +1,14 @@
+dEQP-VK.api.info.vulkan1p2.feature_bits_influence
+dEQP-VK.api.external.semaphore.sync_fd.export_multiple_times_temporary
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.shader_layer.tessellation_shader_256
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.shader_layer.vertex_shader_256
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.shader_layer.tessellation_shader_256
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.shader_layer.vertex_shader_256
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.shader_layer.tessellation_shader_256
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.shader_layer.vertex_shader_256
+dEQP-VK.draw.renderpass.shader_layer.tessellation_shader_256
+dEQP-VK.draw.renderpass.shader_layer.vertex_shader_256
+dEQP-VK.dynamic_rendering.primary_cmd_buff.suballocation.multisample_resolve.layers_3.*
+dEQP-VK.renderpass2.suballocation.multisample_resolve.layers_3.*
+dEQP-VK.renderpass.suballocation.multisample_resolve.layers_3.*
+dEQP-VK.synchronization.basic.timeline_semaphore.chain

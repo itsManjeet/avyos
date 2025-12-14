@@ -1,0 +1,6 @@
+[wrap-file]
+directory = libc-0.2.168
+source_url = https://crates.io/api/v1/crates/libc/0.2.168/download
+source_filename = libc-0.2.168.tar.gz
+source_hash = 5aaeb2981e0606ca11d79718f8bb01164f1d6ed75080182d3abf017e6d244b6d
+patch_directory = libc

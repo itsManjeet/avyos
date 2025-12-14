@@ -1,0 +1,17 @@
+# RADV_PERFTEST=transfer_queue failures
+dEQP-VK.api.copy_and_blit.copy_commands2.image_to_image_transfer_queue.array.array_to_array_whole_mipmap_s8_uint,Fail
+dEQP-VK.api.copy_and_blit.copy_commands2.resolve_image.whole_copy_before_resolving_transfer.2_bit,Fail
+dEQP-VK.api.copy_and_blit.copy_commands2.resolve_image.whole_copy_before_resolving_transfer.4_bit,Fail
+dEQP-VK.api.copy_and_blit.copy_commands2.resolve_image.whole_copy_before_resolving_transfer.8_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.whole_copy_before_resolving_transfer.2_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.whole_copy_before_resolving_transfer.4_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.whole_copy_before_resolving_transfer.8_bit,Fail
+dEQP-VK.api.copy_and_blit.dedicated_allocation.resolve_image.whole_copy_before_resolving_transfer.2_bit,Fail
+dEQP-VK.api.copy_and_blit.dedicated_allocation.resolve_image.whole_copy_before_resolving_transfer.4_bit,Fail
+dEQP-VK.api.copy_and_blit.dedicated_allocation.resolve_image.whole_copy_before_resolving_transfer.8_bit,Fail
+
+# Video failures (needs firmware updates).
+dEQP-VK.video.synchronization.decode_h264.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization.decode_h265.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization2.decode_h264.basic.event.device_set_reset,Fail
+dEQP-VK.video.synchronization2.decode_h265.basic.event.device_set_reset,Fail

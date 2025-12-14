@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<genxml>
+  <enum name="Texel Format">
+    <value name="L8" value="0x09"/>
+    <value name="A8" value="0x0a"/>
+    <value name="I8" value="0x0b"/>
+    <value name="BGR_565" value="0x0e"/>
+    <value name="BGRA_5551" value="0x0f"/>
+    <value name="BGRA_4444" value="0x10"/>
+    <value name="L8A8" value="0x11"/>
+    <value name="L16" value="0x12"/>
+    <value name="A16" value="0x13"/>
+    <value name="I16" value="0x14"/>
+    <value name="RGB_888" value="0x15"/>
+    <value name="RGBA_8888" value="0x16"/>
+    <value name="RGBX_8888" value="0x17"/>
+    <value name="ETC1_RGB8" value="0x20"/>
+    <value name="L16_FLOAT" value="0x22"/>
+    <value name="A16_FLOAT" value="0x23"/>
+    <value name="I16_FLOAT" value="0x24"/>
+    <value name="L16A16_FLOAT" value="0x25"/>
+    <value name="R16G16B16A16_FLOAT" value="0x26"/>
+    <value name="Z24X8" value="0x2c"/>
+    <value name="R16G16B16_FLOAT" value="0x2f"/>
+    <!-- This format is only used for depth/stencil reload -->
+    <value name="Z24S8_RLD" value="0x32"/>
+  </enum>
+  <enum name="Texture Range">
+    <value name="UNORM" value="0"/>
+    <value name="SNORM HALF" value="1"/>
+    <value name="SNORM" value="2"/>
+    <value name="UNORM INVERTED" value="3"/>
+  </enum>
+  <enum name="Sampler Dimension">
+    <value name="1D" value="0"/>
+    <value name="2D" value="1"/>
+    <value name="3D" value="2"/>
+  </enum>
+  <enum name="Mipfilter">
+    <value name="Nearest" value="0"/>
+    <value name="Linear" value="3"/>
+  </enum>
+  <enum name="Tex Wrap">
+    <value name="Repeat" value="0"/>
+    <value name="Clamp To Edge" value="1"/>
+    <value name="Clamp" value="2"/>
+    <value name="Clamp To Border" value="3"/>
+    <value name="Mirror Repeat" value="4"/>
+    <value name="Mirror Clamp To Edge" value="5"/>
+    <value name="Mirror Clamp" value="6"/>
+    <value name="Mirror Clamp To Border" value="7"/>
+  </enum>
+  <enum name="Texture Layout">
+    <value name="Linear" value="0"/>
+    <value name="Tiled" value="3"/>
+  </enum>
+  <enum name="Polygon Tile Size">
+    <value name="1x1" value="0"/>
+    <value name="2x2" value="1"/>
+    <value name="4x4" value="2"/>
+  </enum>
+  <struct name="Texture Descriptor" size="64">
+    <field name="Texel Format" start="0:0" size="6" type="Texel Format"/>
+    <field name="Reverse Component Order" start="0:6" size="1" type="bool"/>
+    <field name="Swap RB" start="0:7" size="1" type="bool"/>
+    <field name="Range" start="0:8" size="2" type="Texture Range"/>
+    <field name="Has Signed Components" start="0:10" size="1" type="bool"/>
+    <field name="Unknown 0" start="0:11" size="5" type="hex"/>
+    <field name="Stride" start="0:16" size="15" type="uint"/>
+    <field name="Unknown 1" start="0:31" size="8" type="hex"/>
+    <field name="Unnorm Coords" start="1:7" size="1" type="bool"/>
+    <field name="Unknown 2" start="1:8" size="1" type="bool"/>
+    <field name="Cube Map" start="1:9" size="1" type="bool"/>
+    <field name="Sampler Dim" start="1:10" size="2" type="Sampler Dimension"/>
+    <field name="Min Lod" start="1:12" size="8" type="ulod"/>
+    <field name="Max Lod" start="1:20" size="8" type="ulod"/>
+    <field name="Lod Bias" start="1:28" size="9" type="slod"/>
+    <field name="Unknown 3" start="2:5" size="3" type="hex"/>
+    <field name="Has Stride" start="2:8" size="1" type="bool"/>
+    <field name="Mipfilter" start="2:9" size="2" type="Mipfilter"/>
+    <field name="Min Img Filter Nearest" start="2:11" size="1" type="bool"/>
+    <field name="Mag Img Filter Nearest" start="2:12" size="1" type="bool"/>
+    <field name="Wrap S" start="2:13" size="3" type="Tex Wrap"/>
+    <field name="Wrap T" start="2:16" size="3" type="Tex Wrap"/>
+    <field name="Wrap R" start="2:19" size="3" type="Tex Wrap"/>
+    <field name="Width" start="2:22" size="13" type="uint"/>
+    <field name="Height" start="3:3" size="13" type="uint"/>
+    <field name="Depth" start="3:16" size="13" type="uint"/>
+    <field name="Border Red" start="3:29" size="16" type="unorm16"/>
+    <field name="Border Green" start="4:13" size="16" type="unorm16"/>
+    <field name="Border Blue" start="4:29" size="16" type="unorm16"/>
+    <field name="Border Alpha" start="5:13" size="16" type="unorm16"/>
+    <field name="Unknown 4" start="5:29" size="16" type="hex"/>
+    <field name="Layout" start="6:13" size="2" type="Texture Layout"/>
+    <field name="Unknown 5" start="6:15" size="15" type="hex"/>
+    <field name="Mip 0" start="6:30" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 1" start="7:24" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 2" start="8:18" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 3" start="9:12" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 4" start="10:6" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 5" start="11:0" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 6" start="11:26" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 7" start="12:20" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 8" start="13:14" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 9" start="14:8" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Mip 10" start="15:2" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Unknown 6" start="15:28" size="4" type="hex"/>
+  </struct>
+  <struct name="Clear Value 8bpc Color" size="4">
+    <field name="Red" start="0" size="8" type="unorm8"/>
+    <field name="Green" start="8" size="8" type="unorm8"/>
+    <field name="Blue" start="16" size="8" type="unorm8"/>
+    <field name="Alpha" start="24" size="8" type="unorm8"/>
+  </struct>
+  <struct name="Clear Value 16bpc Color" size="8">
+    <field name="Red" start="0:0" size="16" type="unorm16"/>
+    <field name="Green" start="0:16" size="16" type="unorm16"/>
+    <field name="Blue" start="1:0" size="16" type="unorm16"/>
+    <field name="Alpha" start="1:16" size="16" type="unorm16"/>
+  </struct>
+  <struct name="Tilebuffer Channel Layout" size="2">
+    <field name="Red" start="0" size="4" type="uint"/>
+    <field name="Green" start="4" size="4" type="uint"/>
+    <field name="Blue" start="8" size="4" type="uint"/>
+    <field name="Alpha" start="12" size="4" type="uint"/>
+  </struct>
+  <struct name="PP Frame" size="92">
+    <field name="PLBU Array Address" start="0:3" size="29" type="uint" modifier="shr(3)"/>
+    <field name="Render Address" start="1:6" size="26" type="uint" modifier="shr(6)"/>
+    <field name="Vertex Address" start="2:6" size="26" type="uint" modifier="shr(6)"/>
+    <field name="FP16 Tilebuffer" start="3:0" size="1" type="bool"/>
+    <field name="Early Z" start="3:1" size="1" type="bool"/>
+    <field name="Early Z 1 Disable" start="3:3" size="1" type="bool"/>
+    <field name="Early Z 2 Disable" start="3:4" size="1" type="bool"/>
+    <field name="Origin Lower Left" start="3:5" size="1" type="bool"/>
+    <field name="Quad Cover Summation" start="3:6" size="1" type="bool"/>
+    <field name="Clear Value Depth" start="4:0" size="24" type="uint"/>
+    <field name="Clear Value Stencil" start="5:0" size="8" type="uint"/>
+    <field name="Clear Value 16bpc Color" start="6:0" size="64" type="Clear Value 16bpc Color"/>
+    <field name="Clear Value 8bpc Color 0" start="6:0" size="32" type="Clear Value 8bpc Color"/>
+    <field name="Clear Value 8bpc Color 1" start="7:0" size="32" type="Clear Value 8bpc Color"/>
+    <field name="Clear Value 8bpc Color 2" start="8:0" size="32" type="Clear Value 8bpc Color"/>
+    <field name="Clear Value 8bpc Color 3" start="9:0" size="32" type="Clear Value 8bpc Color"/>
+    <field name="Bounding Box Right" start="10:0" size="14" type="uint" modifier="minus(1)"/>
+    <field name="Bounding Box Left" start="10:16" size="4" type="uint"/>
+    <field name="Bounding Box Bottom" start="11:0" size="14" type="uint" modifier="minus(1)"/>
+    <field name="Fragment Stack Address" start="12:6" size="26" type="hex" modifier="shr(6)"/>
+    <field name="Fragment Stack Size" start="13:0" size="16" type="uint"/>
+    <field name="Fragment Stack Pointer Initial Value" start="13:16" size="16" type="hex"/>
+    <field name="Origin X" start="16:0" size="16" type="uint"/>
+    <field name="Origin Y" start="17:0" size="16" type="uint" modifier="minus(1)"/>
+    <field name="Subpixel Specifier" start="18:0" size="8" type="uint"/>
+    <field name="Tiebreak Mode" start="19:0" size="2" type="uint"/>
+    <field name="Polygon Tile Amount X" start="20:0" size="6" type="uint"/>
+    <field name="Polygon Tile Amount Y" start="20:16" size="6" type="uint"/>
+    <field name="Polygon Tile Size" start="20:28" size="2" type="Polygon Tile Size"/>
+    <field name="Scale Points and Lines" start="21:0" size="1" type="bool"/>
+    <field name="Scale Dithering Matrix" start="21:1" size="1" type="bool"/>
+    <field name="Scale Fragcoord" start="21:2" size="1" type="bool"/>
+    <field name="Scale Derivatives" start="21:3" size="1" type="bool"/>
+    <field name="Flip Sprites" start="21:8" size="1" type="bool"/>
+    <field name="Flip Dithering Matrix" start="21:9" size="1" type="bool"/>
+    <field name="Flip Fragcoord" start="21:10" size="1" type="bool"/>
+    <field name="Flip Derivatives" start="21:11" size="1" type="bool"/>
+    <field name="Scale Factor X" start="21:16" size="3" type="uint"/>
+    <field name="Scale Factor Y" start="21:20" size="3" type="uint"/>
+    <field name="Tilebuffer Channel Layout" start="22:0" size="16" type="Tilebuffer Channel Layout"/>
+  </struct>
+</genxml>

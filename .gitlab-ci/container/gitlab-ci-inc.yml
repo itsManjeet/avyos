@@ -1,0 +1,113 @@
+# Docker image tag helper templates
+
+.incorporate-templates-commit:
+  variables:
+    FDO_DISTRIBUTION_TAG: "${MESA_IMAGE_TAG}--${MESA_TEMPLATES_COMMIT}"
+
+.incorporate-base-tag+templates-commit:
+  variables:
+    FDO_BASE_IMAGE: "${CI_REGISTRY_IMAGE}/${MESA_BASE_IMAGE}:${MESA_BASE_TAG}--${MESA_TEMPLATES_COMMIT}"
+    FDO_DISTRIBUTION_TAG: "${MESA_IMAGE_TAG}--${MESA_BASE_TAG}--${MESA_TEMPLATES_COMMIT}"
+
+.set-image:
+  extends:
+    - .incorporate-templates-commit
+  variables:
+    MESA_IMAGE: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${FDO_DISTRIBUTION_TAG}"
+  image: "$MESA_IMAGE"
+
+.set-image-base-tag:
+  extends:
+    - .set-image
+    - .incorporate-base-tag+templates-commit
+  variables:
+    MESA_IMAGE: "$CI_REGISTRY_IMAGE/${MESA_IMAGE_PATH}:${FDO_DISTRIBUTION_TAG}"
+
+.container:
+  stage: container
+  timeout: 1h
+  extends:
+    - .container-rules
+    - .incorporate-templates-commit
+  tags:
+    - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
+  before_script:
+    - !reference [default, before_script]
+    # Undoing the `eval "$S3_JWT_FILE_SCRIPT"` from the default before_script,
+    # because container_job_trampoline.sh and fdo_cntr_export.sh both need it.
+    - S3_JWT=$(cat "${S3_JWT_FILE}")
+    - export S3_JWT_FILE_SCRIPT="echo -n '${S3_JWT}' > '${S3_JWT_FILE}' && S3_JWT_FILE_SCRIPT= && unset CI_JOB_JWT S3_JWT"
+  variables:
+    FDO_REPO_SUFFIX: $CI_JOB_NAME
+    FDO_DISTRIBUTION_EXEC: 'bash .gitlab-ci/container/container_job_trampoline.sh "${CI_JOB_NAME}"'
+    # no need to pull the whole repo to build the container image
+    GIT_STRATEGY: none
+    CI_BUILD_COMPONENTS: "$CI_BUILD_COMPONENTS_ANDROID_CTS $CI_BUILD_COMPONENTS_ANGLE $CI_BUILD_COMPONENTS_CROSVM $CI_BUILD_COMPONENTS_FLUSTER $CI_BUILD_COMPONENTS_PIGLIT $CI_BUILD_COMPONENTS_VKD3D_PROTON"
+
+.container-builds-angle:
+  variables:
+    ANGLE_TAG: "${CONDITIONAL_BUILD_ANGLE_TAG}"
+    CI_BUILD_COMPONENTS_ANGLE: angle
+
+.container-builds-crosvm:
+  variables:
+    CROSVM_TAG: "${CONDITIONAL_BUILD_CROSVM_TAG}"
+    CI_BUILD_COMPONENTS_CROSVM: crosvm
+
+.container-builds-fluster:
+  variables:
+    FLUSTER_TAG: "${CONDITIONAL_BUILD_FLUSTER_TAG}"
+    CI_BUILD_COMPONENTS_FLUSTER: fluster
+
+.container-builds-piglit:
+  variables:
+    PIGLIT_TAG: "${CONDITIONAL_BUILD_PIGLIT_TAG}"
+    CI_BUILD_COMPONENTS_PIGLIT: piglit
+
+.container-builds-vkd3d-proton:
+  variables:
+    VKD3D_PROTON_TAG: "${CONDITIONAL_BUILD_VKD3D_PROTON_TAG}"
+    CI_BUILD_COMPONENTS_VKD3D_PROTON: vkd3d-proton
+
+.container-builds-android-cts:
+  variables:
+    ANDROID_CTS_TAG: "${CONDITIONAL_BUILD_ANDROID_CTS_TAG}"
+    CI_BUILD_COMPONENTS_ANDROID_CTS: android-cts
+
+.container-builds-android:
+  extends:
+    - .container-builds-android-cts
+    - .container-builds-angle
+
+.container-builds-arm32:
+  extends:
+    - .container-builds-piglit
+
+.container-builds-base:
+  extends:
+    - .container-builds-crosvm
+
+.container-builds-gl:
+  extends:
+    - .container-builds-angle
+    - .container-builds-piglit
+
+.container-builds-video:
+  extends:
+    - .container-builds-fluster
+
+.container-builds-vk:
+  extends:
+    - .container-builds-piglit
+    - .container-builds-vkd3d-proton
+
+# Export the container rootfs and upload it to S3
+.export-container:
+  variables:
+    FDO_DISTRIBUTION_PACKAGES: zstd
+    FDO_DISTRIBUTION_POST_EXEC: 'bash .gitlab-ci/container/fdo_cntr_export.sh'
+
+.use-base-image:
+  extends:
+    - .container
+    - .incorporate-base-tag+templates-commit

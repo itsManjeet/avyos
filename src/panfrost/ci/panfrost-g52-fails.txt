@@ -1,0 +1,526 @@
+glx@glx_arb_sync_control@swapbuffersmsc-divisor-zero,Fail
+glx@glx-make-current,Fail
+glx@glx-multi-window-single-context,Fail
+glx@glx-swap-pixmap-bad,Fail
+shaders@glsl-max-varyings,Fail
+shaders@glsl-max-varyings >max_varying_components,Fail
+shaders@point-vertex-id divisor,Fail
+shaders@point-vertex-id gl_instanceid divisor,Fail
+shaders@point-vertex-id gl_instanceid,Fail
+shaders@point-vertex-id gl_vertexid divisor,Fail
+shaders@point-vertex-id gl_vertexid,Fail
+shaders@point-vertex-id gl_vertexid gl_instanceid divisor,Fail
+shaders@point-vertex-id gl_vertexid gl_instanceid,Fail
+spec@arb_base_instance@arb_base_instance-drawarrays,Fail
+spec@arb_point_sprite@arb_point_sprite-mipmap,Fail
+spec@arb_shader_texture_lod@execution@arb_shader_texture_lod-texgradcube,Fail
+spec@arb_shader_texture_lod@execution@arb_shader_texture_lod-texgrad,Fail
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *gradarb 2drect,Crash
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *gradarb 2drectshadow,Crash
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drect,Crash
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drect_projvec4,Crash
+spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drectshadow,Crash
+spec@arb_texture_buffer_object@formats (fs- arb),Crash
+spec@arb_texture_buffer_object@formats (vs- arb),Crash
+spec@arb_texture_buffer_object@texture-buffer-size-clamp,Crash
+spec@arb_texture_float@fbo-alphatest-formats,Crash
+spec@arb_texture_float@fbo-blending-formats,Crash
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R16I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R16_SNORM,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R32I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R8I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R8_SNORM,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16F,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16_SNORM,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG32F,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG32I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG8I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG8_SNORM,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10_A2,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10_A2UI,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB16I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB16_SNORM,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB32I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB4,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB8,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB8I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB9_E5,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16F,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA32F,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA32I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA4,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA8,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA8I,Fail
+spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_SRGB8_ALPHA8,Fail
+spec@arb_texture_rectangle@tex-miplevel-selection gl2:texture() 2drect,Crash
+spec@arb_texture_rectangle@tex-miplevel-selection gl2:texture() 2drectshadow,Crash
+spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drect,Crash
+spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drect_projvec4,Crash
+spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drectshadow,Crash
+spec@arb_texture_rg@fbo-blending-formats,Fail
+spec@arb_texture_rg@fbo-blending-formats@GL_R8,Fail
+spec@arb_texture_rg@fbo-blending-formats@GL_RG8,Fail
+spec@arb_texture_rg@fbo-blending-formats@GL_RG,Fail
+spec@arb_transform_feedback_instanced@draw-auto instanced,Fail
+spec@egl 1.4@eglterminate then unbind context,Fail
+spec@egl_chromium_sync_control@conformance@eglGetSyncValuesCHROMIUM_msc_and_sbc_test,Fail
+spec@egl_chromium_sync_control@conformance,Fail
+spec@egl_khr_gl_image@egl_khr_gl_renderbuffer_image-clear-shared-image gl_depth_component24,Fail
+spec@egl_khr_gl_image@egl_khr_gl_renderbuffer_image-clear-shared-image gl_rgba,Fail
+spec@egl_khr_surfaceless_context@viewport,Fail
+spec@egl_mesa_configless_context@basic,Fail
+spec@ext_base_instance@arb_base_instance-drawarrays_gles3,Fail
+spec@ext_framebuffer_blit@fbo-blit-check-limits,Fail
+spec@ext_framebuffer_object@fbo-blending-format-quirks,Fail
+spec@ext_framebuffer_object@fbo-blending-formats,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_ALPHA4,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_ALPHA8,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_ALPHA,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_INTENSITY4,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_INTENSITY8,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_INTENSITY,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE4_ALPHA4,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE4,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE8_ALPHA8,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE8,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE_ALPHA,Fail
+spec@ext_framebuffer_object@fbo-blending-formats@GL_LUMINANCE,Fail
+spec@ext_transform_feedback2@draw-auto,Fail
+spec@ext_transform_feedback@builtin-varyings gl_clipdistance,Fail
+spec@ext_transform_feedback@change-size base-shrink,Fail
+spec@ext_transform_feedback@change-size offset-shrink,Fail
+spec@ext_transform_feedback@change-size range-grow,Fail
+spec@ext_transform_feedback@change-size range-shrink,Fail
+spec@ext_transform_feedback@interleaved-attribs,Fail
+spec@ext_transform_feedback@intervening-read output,Fail
+spec@ext_transform_feedback@intervening-read prims_written,Fail
+spec@ext_transform_feedback@max-varyings,Fail
+spec@ext_transform_feedback@order elements lines,Fail
+spec@ext_transform_feedback@order elements points,Fail
+spec@ext_transform_feedback@order elements triangles,Fail
+spec@ext_transform_feedback@overflow-edge-cases,Fail
+spec@ext_transform_feedback@position-readback-bufferbase-discard,Fail
+spec@ext_transform_feedback@position-readback-bufferbase,Fail
+spec@ext_transform_feedback@position-readback-bufferoffset-discard,Fail
+spec@ext_transform_feedback@position-readback-bufferoffset,Fail
+spec@ext_transform_feedback@position-readback-bufferrange-discard,Fail
+spec@ext_transform_feedback@position-readback-bufferrange,Fail
+spec@ext_transform_feedback@position-render-bufferbase-discard,Fail
+spec@ext_transform_feedback@position-render-bufferbase,Fail
+spec@ext_transform_feedback@position-render-bufferoffset-discard,Fail
+spec@ext_transform_feedback@position-render-bufferoffset,Fail
+spec@ext_transform_feedback@position-render-bufferrange-discard,Fail
+spec@ext_transform_feedback@position-render-bufferrange,Fail
+spec@ext_transform_feedback@query-primitives_written-bufferrange-discard,Fail
+spec@ext_transform_feedback@query-primitives_written-bufferrange,Fail
+spec@ext_transform_feedback@separate-attribs,Fail
+spec@ext_transform_feedback@tessellation line_loop flat_first,Fail
+spec@ext_transform_feedback@tessellation line_loop flat_last,Fail
+spec@ext_transform_feedback@tessellation line_loop monochrome,Fail
+spec@ext_transform_feedback@tessellation line_loop smooth,Fail
+spec@ext_transform_feedback@tessellation line_strip flat_first,Fail
+spec@ext_transform_feedback@tessellation line_strip flat_last,Fail
+spec@ext_transform_feedback@tessellation line_strip monochrome,Fail
+spec@ext_transform_feedback@tessellation line_strip smooth,Fail
+spec@ext_transform_feedback@tessellation polygon monochrome,Fail
+spec@ext_transform_feedback@tessellation polygon smooth,Fail
+spec@ext_transform_feedback@tessellation quads flat_first,Fail
+spec@ext_transform_feedback@tessellation quads flat_last,Fail
+spec@ext_transform_feedback@tessellation quads monochrome,Fail
+spec@ext_transform_feedback@tessellation quads smooth,Fail
+spec@ext_transform_feedback@tessellation quad_strip flat_first,Fail
+spec@ext_transform_feedback@tessellation quad_strip flat_last,Fail
+spec@ext_transform_feedback@tessellation quad_strip monochrome,Fail
+spec@ext_transform_feedback@tessellation quad_strip smooth,Fail
+spec@ext_transform_feedback@tessellation quad_strip wireframe,Fail
+spec@ext_transform_feedback@tessellation quads wireframe,Fail
+spec@ext_transform_feedback@tessellation triangle_fan flat_first,Fail
+spec@ext_transform_feedback@tessellation triangle_fan flat_last,Fail
+spec@ext_transform_feedback@tessellation triangle_fan monochrome,Fail
+spec@ext_transform_feedback@tessellation triangle_fan smooth,Fail
+spec@ext_transform_feedback@tessellation triangle_fan wireframe,Fail
+spec@ext_transform_feedback@tessellation triangle_strip flat_first,Fail
+spec@ext_transform_feedback@tessellation triangle_strip flat_last,Fail
+spec@ext_transform_feedback@tessellation triangle_strip monochrome,Fail
+spec@ext_transform_feedback@tessellation triangle_strip smooth,Fail
+spec@ext_transform_feedback@tessellation triangle_strip wireframe,Fail
+spec@glsl-1.10@execution@varying-packing@simple float array,Fail
+spec@glsl-1.10@execution@varying-packing@simple float arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple float separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x3 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x3 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x3 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x4 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x4 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat2x4 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x2 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x2 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x2 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x4 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x4 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat3x4 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x2 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x2 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x2 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x3 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x3 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple mat4x3 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec2 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec2 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec2 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec3 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec3 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec3 separate,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec4 array,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec4 arrays_of_arrays,Fail
+spec@glsl-1.10@execution@varying-packing@simple vec4 separate,Fail
+spec@glsl-1.30@execution@tex-miplevel-selection texture() 2drect,Crash
+spec@glsl-1.30@execution@tex-miplevel-selection texture() 2drectshadow,Crash
+spec@khr_texture_compression_astc@miptree-gles srgb-fp,Fail
+spec@khr_texture_compression_astc@miptree-gles srgb-fp@sRGB decode full precision,Fail
+spec@khr_texture_compression_astc@miptree-gl srgb-fp,Fail
+spec@khr_texture_compression_astc@miptree-gl srgb-fp@sRGB decode full precision,Fail
+spec@khr_texture_compression_astc@sliced-3d-miptree-gles srgb-fp,Fail
+spec@khr_texture_compression_astc@sliced-3d-miptree-gles srgb-fp@sRGB decode full precision,Fail
+spec@khr_texture_compression_astc@sliced-3d-miptree-gl srgb-fp,Fail
+spec@khr_texture_compression_astc@sliced-3d-miptree-gl srgb-fp@sRGB decode full precision,Fail
+spec@!opengl 1.0@gl-1.0-edgeflag-const,Fail
+spec@!opengl 1.0@gl-1.0-edgeflag,Fail
+spec@!opengl 1.0@gl-1.0-edgeflag-quads,Fail
+spec@!opengl 1.0@gl-1.0-no-op-paths,Fail
+spec@!opengl 1.0@rasterpos,Crash
+spec@!opengl 1.1@linestipple@Factor 2x,Fail
+spec@!opengl 1.1@linestipple@Factor 3x,Fail
+spec@!opengl 1.1@linestipple,Fail
+spec@!opengl 1.1@linestipple@Line loop,Fail
+spec@!opengl 1.1@linestipple@Line strip,Fail
+spec@!opengl 1.1@linestipple@Restarting lines within a single Begin-End block,Fail
+spec@!opengl 1.1@line-smooth-stipple,Fail
+spec@!opengl 1.1@longprim,Crash
+spec@!opengl 1.1@polygon-mode-facing,Fail
+spec@!opengl 1.1@polygon-mode,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 0: Expected white pixel on bottom edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 0: Expected white pixel on left edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 0: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 0: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 1: Expected blue pixel in center,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 1: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 1: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 2: Expected blue pixel in center,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 2: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 2: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 3: Expected white pixel on bottom edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 3: Expected white pixel on left edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 3: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 3: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 4: Expected white pixel on bottom edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 4: Expected white pixel on left edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 4: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 4: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 5: Expected blue pixel in center,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 5: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 5: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 6: Expected blue pixel in center,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 6: Expected white pixel on right edge,Fail
+spec@!opengl 1.1@polygon-mode-offset@config 6: Expected white pixel on top edge,Fail
+spec@!opengl 1.1@polygon-mode-offset,Fail
+spec@!opengl 1.1@streaming-texture-leak,Crash
+spec@!opengl 2.0@gl-2.0-edgeflag,Fail
+spec@!opengl 2.0@gl-2.0-edgeflag-immediate,Fail
+spec@!opengl 2.1@pbo,Fail
+spec@!opengl 2.1@pbo@test_polygon_stip,Fail
+spec@!opengl 2.1@polygon-stipple-fs,Fail
+spec@!opengl 3.0@gl_vertexid used with glmultidrawarrays,Fail
+spec@!opengl 3.1@primitive-restart-xfb flush,Fail
+spec@!opengl 3.1@primitive-restart-xfb generated,Fail
+spec@!opengl 3.1@primitive-restart-xfb written,Fail
+spec@!opengl es 3.0@gles-3.0-transform-feedback-uniform-buffer-object,Fail
+
+afbcp-spec@arb_shader_texture_lod@execution@arb_shader_texture_lod-texgradcube,Fail
+afbcp-spec@arb_shader_texture_lod@execution@arb_shader_texture_lod-texgrad,Fail
+afbcp-spec@arb_shader_texture_lod@execution@tex-miplevel-selection *gradarb 2drect,Fail
+afbcp-spec@arb_shader_texture_lod@execution@tex-miplevel-selection *gradarb 2drectshadow,Fail
+afbcp-spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drect,Fail
+afbcp-spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drect_projvec4,Fail
+afbcp-spec@arb_shader_texture_lod@execution@tex-miplevel-selection *projgradarb 2drectshadow,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb),Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA16,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA16F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA16I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA16UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA32F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA32I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA32UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA8I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_ALPHA8UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_INTENSITY32F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_INTENSITY8,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_INTENSITY8I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE16_ALPHA16,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE32F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE8,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE8I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA16F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA16I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA16UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA32F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA32I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA32UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA8I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (fs- arb)@GL_LUMINANCE_ALPHA8UI_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@formats (vs- arb),Fail
+afbcp-spec@arb_texture_buffer_object@formats (vs- arb)@GL_INTENSITY32F_ARB,Fail
+afbcp-spec@arb_texture_buffer_object@formats (vs- arb)@GL_INTENSITY8I_EXT,Fail
+afbcp-spec@arb_texture_buffer_object@texture-buffer-size-clamp,Crash
+afbcp-spec@arb_texture_float@fbo-alphatest-formats,Crash
+afbcp-spec@arb_texture_float@fbo-blending-formats,Crash
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R16I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R16_SNORM,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R32I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R8I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_R8_SNORM,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16F,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG16_SNORM,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG32F,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG32I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG8I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RG8_SNORM,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10_A2,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10_A2UI,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB10,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB16I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB16_SNORM,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB32I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB4,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB8,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB8I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGB9_E5,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16F,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA16I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA32F,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA32I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA4,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA8,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_RGBA8I,Fail
+afbcp-spec@arb_texture_multisample@arb_texture_multisample-dsa-texelfetch@Texture type: GL_SRGB8_ALPHA8,Fail
+afbcp-spec@arb_texture_rectangle@tex-miplevel-selection gl2:texture() 2drect,Fail
+afbcp-spec@arb_texture_rectangle@tex-miplevel-selection gl2:texture() 2drectshadow,Fail
+afbcp-spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drect,Crash
+afbcp-spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drect_projvec4,Crash
+afbcp-spec@arb_texture_rectangle@tex-miplevel-selection gl2:textureproj 2drectshadow,Crash
+afbcp-spec@arb_texture_rg@fbo-blending-formats,Fail
+afbcp-spec@arb_texture_rg@fbo-blending-formats@GL_R8,Fail
+afbcp-spec@arb_texture_rg@fbo-blending-formats@GL_RG8,Fail
+afbcp-spec@arb_texture_rg@fbo-blending-formats@GL_RG,Fail
+afbcp-spec@glsl-1.30@execution@tex-miplevel-selection texture() 2drect,Fail
+afbcp-spec@glsl-1.30@execution@tex-miplevel-selection texture() 2drectshadow,Fail
+afbcp-spec@khr_texture_compression_astc@miptree-gles srgb-fp,Fail
+afbcp-spec@khr_texture_compression_astc@miptree-gles srgb-fp@sRGB decode full precision,Fail
+afbcp-spec@khr_texture_compression_astc@miptree-gl srgb-fp,Fail
+afbcp-spec@khr_texture_compression_astc@miptree-gl srgb-fp@sRGB decode full precision,Fail
+afbcp-spec@khr_texture_compression_astc@sliced-3d-miptree-gles srgb-fp,Fail
+afbcp-spec@khr_texture_compression_astc@sliced-3d-miptree-gles srgb-fp@sRGB decode full precision,Fail
+afbcp-spec@khr_texture_compression_astc@sliced-3d-miptree-gl srgb-fp,Fail
+afbcp-spec@khr_texture_compression_astc@sliced-3d-miptree-gl srgb-fp@sRGB decode full precision,Fail
+
+# uprev Piglit in Mesa
+afbcp-spec@ext_image_dma_buf_import@ext_image_dma_buf_import-refcount-multithread,Crash
+spec@!opengl 1.1@dlist-fdo31590,Crash
+spec@ext_image_dma_buf_import@ext_image_dma_buf_import-refcount-multithread,Crash
+
+# Piglit tests require too much precision in alpha-to-coverage higher sample-counts
+spec@ext_framebuffer_multisample@alpha-to-coverage-dual-src-blend 6,Fail
+spec@ext_framebuffer_multisample@alpha-to-coverage-dual-src-blend 8,Fail
+spec@ext_framebuffer_multisample@alpha-to-coverage-no-draw-buffer-zero 6,Fail
+spec@ext_framebuffer_multisample@alpha-to-coverage-no-draw-buffer-zero 8,Fail
+spec@ext_framebuffer_multisample@draw-buffers-alpha-to-coverage 6,Fail
+spec@ext_framebuffer_multisample@draw-buffers-alpha-to-coverage 8,Fail
+spec@ext_framebuffer_multisample@sample-alpha-to-coverage 6 color,Fail
+spec@ext_framebuffer_multisample@sample-alpha-to-coverage 8 color,Fail
+
+# CTS bug: https://gitlab.khronos.org/Tracker/vk-gl-cts/-/issues/5695
+KHR-GLES31.core.texture_storage_multisample.APIDependencies.renderbuffer_storage_multisample_invalid_samples_argument_for_integer_internalformats,Fail
+
+# physical device and device needs more robustness in allocation handling
+dEQP-VK.api.object_management.max_concurrent.device,Fail
+dEQP-VK.api.object_management.max_concurrent.device_group,Fail
+
+# CTS bug, see https://gitlab.khronos.org/Tracker/vk-gl-cts/-/issues/5296
+dEQP-VK.api.device_init.create_device_unsupported_features.protected_memory_features,Fail
+
+# CTS bug, works fine if Vulkan 1.1 is forced
+dEQP-VK.api.device_init.create_device_global_priority.basic,Fail
+dEQP-VK.api.device_init.create_device_global_priority_khr.basic,Fail
+dEQP-VK.api.device_init.create_device_global_priority_query.basic,Fail
+dEQP-VK.api.device_init.create_device_global_priority_query_khr.basic,Fail
+
+# CmdDrawIndirect not supported yet
+dEQP-VK.api.command_buffers.many_indirect_draws_on_secondary,Crash
+
+dEQP-VK.device_group.afr,Fail
+dEQP-VK.device_group.afr_dedicated,Fail
+dEQP-VK.device_group.afr_sys,Fail
+dEQP-VK.device_group.sfr,Fail
+dEQP-VK.device_group.sfr_dedicated,Fail
+dEQP-VK.device_group.sfr_sys,Fail
+
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.renderpass.indexed_draw.draw_instanced_indexed_triangle_strip_with_alloc_offset,Fail
+
+dEQP-VK.memory.pipeline_barrier.host_write_index_buffer.1024,Fail
+dEQP-VK.memory.pipeline_barrier.host_write_index_buffer.1048576,Fail
+dEQP-VK.memory.pipeline_barrier.host_write_index_buffer.65536,Fail
+dEQP-VK.memory.pipeline_barrier.host_write_index_buffer.8192,Fail
+
+
+# New with vk_clear
+dEQP-VK.api.copy_and_blit.dedicated_allocation.resolve_image.whole_copy_before_resolving_no_cab.4_bit,Fail
+dEQP-VK.api.copy_and_blit.dedicated_allocation.resolve_image.copy_with_regions_before_resolving.4_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.whole_copy_before_resolving_no_cab.4_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.whole_copy_before_resolving_no_cab.4_bit_bind_offset,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.copy_with_regions_before_resolving.4_bit,Fail
+dEQP-VK.api.copy_and_blit.core.resolve_image.copy_with_regions_before_resolving.4_bit_bind_offset,Fail
+dEQP-VK.api.copy_and_blit.copy_commands2.resolve_image.whole_copy_before_resolving_no_cab.4_bit,Fail
+dEQP-VK.api.copy_and_blit.copy_commands2.resolve_image.copy_with_regions_before_resolving.4_bit,Fail
+
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.2_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.2_secondary_2_primary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.2_secondary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_2_primary_secondary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_2_secondary_2_primary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_2_secondary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_primary_secondary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_secondary_2_primary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.contents_secondary_primary_cmdbuffers_resuming,Fail
+dEQP-VK.dynamic_rendering.primary_cmd_buff.basic.single_cmdbuffer_resuming,Fail
+
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.complete_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.partial_secondary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_list_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_minus_one_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_offset_negative_large_with_bind_offset_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_alloc_offset,Fail
+dEQP-VK.draw.dynamic_rendering.primary_cmd_buff.indexed_draw.draw_instanced_indexed_triangle_strip_with_bind_offset_with_alloc_offset,Fail
+
+# CTS bug, see https://gitlab.khronos.org/Tracker/vk-gl-cts/-/issues/5700
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb_linear,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb_minalign,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb_minalign_linear,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb_linear,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb_minalign,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb_minalign_linear,Fail
+
+# CTS bug, see https://github.com/KhronosGroup/VK-GL-CTS/issues/523
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb_minalign_uniform,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.b8g8r8_srgb_minalign_uniform_linear,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb_minalign_uniform,Fail
+dEQP-VK.image.load_store.without_any_format.buffer.r8g8b8_srgb_minalign_uniform_linear,Fail
+
+dEQP-VK.rasterization.rasterization_order_attachment_access.depth.samples_1.multi_draw_barriers,Crash
+dEQP-VK.rasterization.rasterization_order_attachment_access.depth.samples_4.multi_draw_barriers,Crash
+dEQP-VK.rasterization.rasterization_order_attachment_access.stencil.samples_1.multi_draw_barriers,Crash
+dEQP-VK.rasterization.rasterization_order_attachment_access.stencil.samples_4.multi_draw_barriers,Crash

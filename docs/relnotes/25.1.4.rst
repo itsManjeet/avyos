@@ -1,0 +1,233 @@
+Mesa 25.1.4 Release Notes / 2025-06-18
+======================================
+
+Mesa 25.1.4 is a bug fix release which fixes bugs found since the 25.1.3 release.
+
+Mesa 25.1.4 implements the OpenGL 4.6 API, but the version reported by
+glGetString(GL_VERSION) or glGetIntegerv(GL_MAJOR_VERSION) /
+glGetIntegerv(GL_MINOR_VERSION) depends on the particular driver being used.
+Some drivers don't support all the features required in OpenGL 4.6. OpenGL
+4.6 is **only** available if requested at context creation.
+Compatibility contexts may report a lower version depending on each driver.
+
+Mesa 25.1.4 implements the Vulkan 1.4 API, but the version reported by
+the apiVersion property of the VkPhysicalDeviceProperties struct
+depends on the particular driver being used.
+
+SHA checksums
+-------------
+
+::
+
+    SHA256: 164872a5e792408aa72fecd52b7be6409724c4ad81700798675a7d801d976704  mesa-25.1.4.tar.xz
+    SHA512: b97a0fa185181e86ea39bf71a6031edf9e9477378aba2c1ff6dbe88399cc9f7dc728591b49918c0dccb170dce11335b2b8fa015c7b7495f2e166b295d47fd343  mesa-25.1.4.tar.xz
+
+
+New features
+------------
+
+- None
+
+
+Bug fixes
+---------
+
+- vkGetPhysicalDeviceImageFormatProperties2 not correctly implemented for VK_FORMAT_G8_B8R8_2PLANE_420_UNORM + VK_IMAGE_CREATE_EXTENDED_USAGE_BIT
+- anv, bmg: Striped pattern on ground in Heroes of Valor
+- rusticl: Assertion failed for ACO and stuck for LLVM (radeonsi)
+- New Mesa drivers failing to launch some flatpak apps
+- [ANV][LNL/BMG] - The Last of Us™ Part II Remastered (2531310) - Multicolored dots present on some objects
+- Oddworld: Strangers Wrath bad shading on NPC chickens
+- RADV: Unimplemented instrinsic instr when creating a pipeline with a task shader
+- FTBFS LLVM21 CLC error: no matching function for call to ‘clang::TextDiagnosticPrinter
+- v3d crashes on Raspberry Pi 5 if no monitor connected
+- [ANV][LNL] - Sid Meier's Civilization VII (1295660) - Linux version hangs when starting the "Graphics Benchmark".
+- Steam game recording on Intel ANV resulting in green corrupted image due to bug with VK_FORMAT_G8_B8R8_2PLANE_420_UNORM rendering
+
+
+Changes
+-------
+
+Alyssa Rosenzweig (2):
+
+- agx: fix sample_mask packing overflow
+- hk: fix texture state count
+
+Ashley Smith (1):
+
+- panfrost: Fix shader_clock support for v6+
+
+Boris Brezillon (3):
+
+- pan/afrc: Fix pan_format_supports_afrc()
+- pan/afrc: Let's not pretend we support AFRC(YUV)
+- pan/afrc: Reject AFRC(compressed)
+
+Calder Young (2):
+
+- anv: Support render to aspect other than IMAGE_ASPECT_COLOR_BIT
+- anv: Support multi-planar formats in anv_formats_are_compatible
+
+Connor Abbott (2):
+
+- tu: Make sure to re-emit viewports if per_view_viewport changes
+- tu: Re-emit viewports/scissors when has_fdm changes
+
+Dave Airlie (1):
+
+- Revert "hasvk/elk: stop turning load_push_constants into load_uniform"
+
+David Rosca (1):
+
+- radeonsi/vcn: Fix encoding multiple tiles with recent VCN4 firmwares
+
+Emma Anholt (1):
+
+- u_trace: Fix payload refcounting in u_trace_clone_append().
+
+Eric Engestrom (4):
+
+- docs: add sha sum for 25.1.3
+- .pick_status.json: Update to 034ac06c64caaf6ec19b3e45426de004dd46c4d0
+- .pick_status.json: Mark dca392b119d6898844e5e0e92fb4a4d833ef3c4e as denominated
+- [25.1 only] anv+zink/ci: skip blender-demo-cube_diorama.trace on tgl because it's highly flaky
+
+Erik Faye-Lund (3):
+
+- panfrost: do not double-insert shader into hash-table
+- panfrost: plug leak of modifier conversion shaders
+- Revert "mesa: limit number of error raised by invalid GL_TEXTURE_MAX_ANISOTROPY_EXT"
+
+Faith Ekstrand (1):
+
+- nil: Don't use Fermi bits in the Maxwell null descriptor
+
+Georg Lehmann (2):
+
+- radv: don't accidentally expose samplerFilterMinmax through Vulkan 1.2
+- aco: do not use v_cvt_pk_u8_f32 for f2u8
+
+Janne Grunau (1):
+
+- gallium/dril: Add entrypoint for apple (asahi) kms driver
+
+Job Noorman (2):
+
+- Revert "ir3: optimize SSBO offset shifts for nir_opt_offsets"
+- ir3/lower_io_offsets: set progress when scalarizing UAV loads
+
+Jonathan Gray (2):
+
+- util: fix OpenBSD/powerpc64 build
+- intel/dev: update BMG device names
+
+Jordan Justen (1):
+
+- intel/dev: Update names for BMG G31 PCI IDs
+
+Jose Maria Casanova Crespo (2):
+
+- v3d: Only apply TLB load invalidation on first job after FB state update
+- v3d: Force job submit if the number of attached BOs is over 2048
+
+Juan A. Suarez Romero (1):
+
+- vc4: free RA interference graph on failure
+
+Karol Herbst (4):
+
+- clc: use new createTargetMachine overload with llvm-21
+- clc: fix DiagnosticOptions related build failure with llvm-21
+- ac/nir: fix unaligned single component load/stores
+- rusticl/image: fix sub-buffer images
+
+Lars-Ivar Hesselberg Simonsen (1):
+
+- panvk: Skip barrier QFOT if src_qfi equals dst_qfi
+
+Lionel Landwerlin (6):
+
+- anv: fix pool allocation failure reporting
+- anv: fix R64 format support reporting
+- anv: pass image usage/flags to anv_get_image_format_features2
+- anv: report color/storage features on YCbCr images with EXTENDED_USAGE
+- ci/zink: add the same glx\@glx-tfp flake on ADL
+- ci/zink: add validation error
+
+Lucas Stach (2):
+
+- etnaviv: use direct BLT/RS blit hook for internal copies
+- etnaviv: use most recent shadow of resources as blit source/target
+
+Mary Guillemard (1):
+
+- pan/lib: Rewrite npot divisor algorithm
+
+Mel Henning (2):
+
+- zink: Return NULL on vkCreateInstance failure
+- zink: Handle null instance in 2nd create_screen
+
+Mike Blumenkrantz (5):
+
+- nir/lower_to_scalar: fix opt_varying with output reads
+- zink: update renderdoc layer string for android
+- zink: emulated alpha formats do not require mutable
+- util/box: make u_box_test_intersection_2d() consistent with other funcs
+- tc: fix zsbuf rp info persistence across fb states
+
+Natalie Vock (1):
+
+- radv/rt: Avoid encoding infinities in box node coords
+
+Patrick Lerda (2):
+
+- r600: index_bias should be forced to zero for all indirect draw calls
+- r600: handle cayman border color sint formats
+
+Pierre-Eric Pelloux-Prayer (1):
+
+- ac/llvm: rework component trimming in visit_tex
+
+Rhys Perry (6):
+
+- aco: set vmem_types for args_pending_vmem
+- aco/gfx12: fix VALUReadSGPRHazard with carry-out
+- ac/nir: run nir_lower_vars_to_ssa after nir_lower_task_shader
+- ac/nir: create lowered inverse_ballot
+- ac/llvm: fix overloading of intrinsic names
+- ac/llvm: convert to integer after reductions
+
+Rob Clark (1):
+
+- freedreno/a6xx: Fix buffer clears
+
+Russell Greene (1):
+
+- radeonsi: vpe: fix noisy false error
+
+Samuel Pitoiset (5):
+
+- radv/meta: fix using the wrong pipeline layout for ASTC decoding
+- radv: make sure to zero-initialize image view descriptors
+- radv: fix 3-plane formats with descriptor buffers
+- ac/surface: fix aliasing DCC tilings with HiZ info on GFX12
+- radv: fix 1x user sample locations on GFX10+
+
+Tapani Pälli (2):
+
+- drirc: toggle on intel_storage_cache_policy_wt for tlou2
+- drirc: toggle filter addr rounding for Heroes Of Valor
+
+Timothy Arceri (1):
+
+- mesa: get correct src address for transferOps
+
+Yiwei Zhang (6):
+
+- venus: force sw wsi path on nv proprietary
+- lvp: fix wsi platform swapchain image bind
+- venus: fix maint7 layered vk props query
+- v3dv: fix swapchain bind info look up
+- anv: use narrow range to match up with mesa EGL
+- hasvk: use narrow range to match up with mesa EGL

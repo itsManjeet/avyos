@@ -1,0 +1,42 @@
+From 067676253ad11846f420087d30021629f3c43382 Mon Sep 17 00:00:00 2001
+From: Valentine Burley <valentine.burley@collabora.com>
+Date: Fri, 11 Apr 2025 16:51:08 +0200
+Subject: Revert "Add missing context deletion"
+
+This reverts commit 195ee2c99d3174e738506cc86828766805c0ede9.
+---
+ .../modules/gles31/es31cComputeShaderTests.cpp        | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/external/openglcts/modules/gles31/es31cComputeShaderTests.cpp b/external/openglcts/modules/gles31/es31cComputeShaderTests.cpp
+index 4c7349e59..ece33929d 100644
+--- a/external/openglcts/modules/gles31/es31cComputeShaderTests.cpp
++++ b/external/openglcts/modules/gles31/es31cComputeShaderTests.cpp
+@@ -721,11 +721,6 @@ class LongRunningComputeFenceTest : public ComputeShaderBase
+         glDeleteProgram(m_program2);
+         glDeleteBuffers(2, &m_buffer);
+ 
+-        // Delete shared context and keep default context set
+-        delete m_sharedContext;
+-        m_sharedContext = NULL;
+-        m_context.getRenderContext().makeCurrent();
+-
+         return NO_ERROR;
+     }
+ };
+@@ -910,12 +905,6 @@ class LongRunningPersistentSSBOComputeTest : public ComputeShaderBase
+     {
+         glDeleteBuffers(2, &m_buffer);
+         m_dataLoadStore = NULL;
+-
+-        // Delete shared context and keep default context set
+-        delete m_sharedContext;
+-        m_sharedContext = NULL;
+-        m_context.getRenderContext().makeCurrent();
+-
+         return NO_ERROR;
+     }
+ };
+-- 
+2.45.2
+

@@ -1,0 +1,137 @@
+/*
+ * Copyright © 2023 Valve Corporation.
+ * SPDX-License-Identifier: MIT
+ */
+
+/* Try to fold a shared -> non-shared mov into the instruction producing the
+ * shared src. We do this aggresively, even if there are other uses of the
+ * source, on the assumption that the "default" state should be non-shared and
+ * we should be able to fold the other sources eventually.
+ */
+
+#include "util/ralloc.h"
+
+#include "ir3.h"
+
+static bool
+try_shared_folding(struct ir3_instruction *mov, void *mem_ctx)
+{
+   if (mov->opc != OPC_MOV)
+      return false;
+
+   if ((mov->dsts[0]->flags & IR3_REG_SHARED) ||
+       !(mov->srcs[0]->flags & IR3_REG_SHARED))
+      return false;
+
+   struct ir3_instruction *src = ssa(mov->srcs[0]);
+   if (!src)
+      return false;
+
+   if (mov->cat1.dst_type != mov->cat1.src_type) {
+      /* Check if the conversion can be folded into the source by ir3_cf */
+      bool can_fold;
+      type_t output_type = ir3_output_conv_type(src, &can_fold);
+      if (!can_fold || output_type != TYPE_U32)
+         return false;
+      foreach_ssa_use (use, src) {
+         if (use->opc != OPC_MOV ||
+             use->cat1.src_type != mov->cat1.src_type ||
+             use->cat1.dst_type != mov->cat1.dst_type)
+            return false;
+      }
+   }
+
+   if (src->opc == OPC_META_PHI) {
+      struct ir3_block *block = src->block;
+      for (unsigned i = 0; i < block->predecessors_count; i++) {
+         struct ir3_block *pred = block->predecessors[i];
+         if (src->srcs[i]->def) {
+            struct ir3_instruction *pred_mov =
+               ir3_instr_create_at(ir3_before_terminator(pred), OPC_MOV, 1, 1);
+            __ssa_dst(pred_mov)->flags |= (src->srcs[i]->flags & IR3_REG_HALF);
+            unsigned src_flags = IR3_REG_SSA | IR3_REG_SHARED |
+               (src->srcs[i]->flags & IR3_REG_HALF);
+            ir3_src_create(pred_mov, INVALID_REG, src_flags)->def =
+               src->srcs[i]->def;
+            pred_mov->cat1.src_type = pred_mov->cat1.dst_type =
+               (src_flags & IR3_REG_HALF) ? TYPE_U16 : TYPE_U32;
+
+            _mesa_set_remove_key(src->srcs[i]->def->instr->uses, src);
+            _mesa_set_add(src->srcs[i]->def->instr->uses, pred_mov);
+            src->srcs[i]->def = pred_mov->dsts[0];
+         }
+         src->srcs[i]->flags &= ~IR3_REG_SHARED;
+      }
+   } else if (opc_cat(src->opc) == 2 && src->srcs_count >= 2) {
+      /* cat2 vector ALU instructions cannot have both shared sources */
+      if ((src->srcs[0]->flags & (IR3_REG_SHARED | IR3_REG_CONST)) &&
+          (src->srcs[1]->flags & (IR3_REG_SHARED | IR3_REG_CONST)))
+         return false;
+   } else if (opc_cat(src->opc) == 3) {
+      /* cat3 vector ALU instructions cannot have src1 shared */
+      if (src->srcs[1]->flags & IR3_REG_SHARED)
+         return false;
+   } else if (src->opc == OPC_LDC) {
+      src->flags &= ~IR3_INSTR_U;
+   } else if (src->opc == OPC_MOV) {
+      /* This catches cases like:
+       * cov.f32f16 sssa_1, c0.x
+       * mov.u16u16 ssa_2, sssa_1
+       * The cov can directly write to a non-shared reg.
+       */
+   } else {
+      return false;
+   }
+
+   /* Remove IR3_REG_SHARED from the original destination, which should make the
+    * mov trivial so that it can be cleaned up later by copy prop.
+    */
+   src->dsts[0]->flags &= ~IR3_REG_SHARED;
+   mov->srcs[0]->flags &= ~IR3_REG_SHARED;
+
+   /* Insert a copy to shared for uses other than this move instruction. */
+   struct ir3_instruction *shared_mov = NULL;
+   foreach_ssa_use (use, src) {
+      if (use == mov)
+         continue;
+
+      if (!shared_mov) {
+         struct ir3_builder build =
+            ir3_builder_at(ir3_after_instr_and_phis(src));
+         shared_mov = ir3_MOV(&build, src, mov->cat1.src_type);
+         shared_mov->dsts[0]->flags |= IR3_REG_SHARED;
+         shared_mov->uses = _mesa_pointer_set_create(mem_ctx);
+      }
+
+      for (unsigned i = 0; i < use->srcs_count; i++) {
+         if (use->srcs[i]->def == src->dsts[0])
+            use->srcs[i]->def = shared_mov->dsts[0];
+      }
+      _mesa_set_add(shared_mov->uses, use);
+   }
+
+   return true;
+}
+
+bool
+ir3_shared_fold(struct ir3 *ir)
+{
+   void *mem_ctx = ralloc_context(NULL);
+   bool progress = false;
+
+   ir3_find_ssa_uses(ir, mem_ctx, false);
+
+   /* Folding a phi can push the mov up to its sources, so iterate blocks in
+    * reverse to try and convert an entire phi-web in one go.
+    */
+   foreach_block_rev (block, &ir->block_list) {
+      foreach_instr_safe (instr, &block->instr_list) {
+         progress |= try_shared_folding(instr, mem_ctx);
+      }
+   }
+
+   ralloc_free(mem_ctx);
+
+   return progress;
+}
+
