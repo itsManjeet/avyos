@@ -1,0 +1,14 @@
+make: Philips Consumer Electronics Company
+model: Philips UHDTV
+serial: 0x01010101
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=yes
+EOTF tSDR=yes, tHDR=no, PQ=yes, HLG=yes
+default color primaries:
+    red: 0.678, 0.321
+  green: 0.266, 0.674
+   blue: 0.145, 0.048
+default white: 0.312, 0.328
+default gamma: 2.20
+signal colorimetry: BT2020_YCC BT2020_RGB

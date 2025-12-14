@@ -1,0 +1,60 @@
+--- ref
++++ di
+@@ -56,7 +56,6 @@
+   Supports YCbCr 4:2:2
+   Native detailed modes: 0
+   HDMI Forum EDID Extension Override Data Block:
+-    EDID Extension Block Count: 2
+   Video Data Block:
+     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.500000 MHz
+     VIC   4:  1280x720    60.000000 Hz  16:9     45.000 kHz     74.250000 MHz
+@@ -102,16 +101,6 @@
+     DSC Max Slices: up to 8 slices and up to (340 MHz/Ksliceadjust) pixel clock per slice
+     DSC Max Fixed Rate Link: 3 and 6 Gbps per lane on 3 lanes, 6, 8 and 10 Gbps on 4 lanes
+     Maximum number of bytes in a line of chunks: 12288
+-  Vendor-Specific Data Block (AMD), OUI 00-00-1A:
+-    Version: 3
+-    Feature Caps: 0x07
+-    Minimum Refresh Rate: 48 Hz
+-    Maximum Refresh Rate: 240 Hz
+-    Flags 1.x: 0xe9 (MCCS)
+-    Flags 2.x: 0x80
+-    Maximum luminance: 96 (400.000 cd/m^2)
+-    Minimum luminance: 1 (0.000 cd/m^2)
+-    Unknown: 0x4b 0x02
+   HDR Static Metadata Data Block:
+     Electro optical transfer functions:
+       Traditional gamma - SDR luminance range
+@@ -120,7 +109,6 @@
+       Static metadata type 1
+     Desired content max luminance: 96 (400.000 cd/m^2)
+     Desired content max frame-average luminance: 75 (253.810 cd/m^2)
+-    Desired content min luminance: 0 (0.000 cd/m^2)
+   YCbCr 4:2:0 Capability Map Data Block:
+     VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
+   Vendor-Specific Video Data Block (HDR10+), OUI 90-84-8B:
+@@ -134,21 +122,12 @@
+     DTD 3:  2560x1440  119.997589 Hz  16:9    182.996 kHz    497.750000 MHz (598 mm x 336 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+                  Vfront    3 Vsync   5 Vback   77 Vpol N
+-Checksum: 0x4e  Unused space in Extension Block: 4 bytes
++Checksum: 0x4e
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 16 and the first DTD are not identical. Is this intended?
+-  Video Capability Data Block: Set Selectable YCbCr Quantization to avoid interop issues.
+-  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
+-  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
+-
+ Failures:
+ 
+-EDID:
+-  Base EDID: HDMI Forum EDID Extension Override Data Block specified 2 extension block(s), but found 1 extension block(s).
+-
++Block 1, CTA-861 Extension Block:
++  Vendor-Specific Data Block (HDMI Forum), OUI C4-5D-D8: VRRmax < 100.
+ EDID conformity: FAIL

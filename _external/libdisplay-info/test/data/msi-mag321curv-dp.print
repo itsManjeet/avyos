@@ -1,0 +1,14 @@
+make: Microstep
+model: MAG321CURV
+serial: DA2A019360041
+HDR static metadata:
+luminance 0.000000-366.801605, maxFALL 366.801605
+metadata type1=yes
+EOTF tSDR=yes, tHDR=yes, PQ=yes, HLG=no
+default color primaries:
+    red: 0.640, 0.330
+  green: 0.300, 0.600
+   blue: 0.150, 0.060
+default white: 0.313, 0.329
+default gamma: 2.20
+signal colorimetry: BT2020_cYCC BT2020_YCC BT2020_RGB

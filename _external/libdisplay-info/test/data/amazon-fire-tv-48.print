@@ -1,0 +1,14 @@
+make: PNP(AMZ)
+model: FireTV
+serial: 0x00000001
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=yes
+EOTF tSDR=yes, tHDR=yes, PQ=yes, HLG=yes
+default color primaries:
+    red: 0.640, 0.340
+  green: 0.300, 0.690
+   blue: 0.138, 0.038
+default white: 0.282, 0.297
+default gamma: 2.20
+signal colorimetry: BT2020_cYCC BT2020_YCC BT2020_RGB

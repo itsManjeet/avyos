@@ -1,0 +1,14 @@
+make: LG Electronics
+model: ITE6604
+serial: 0x01010101
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.640, 0.341
+  green: 0.287, 0.610
+   blue: 0.146, 0.069
+default white: 0.285, 0.293
+default gamma: 2.20
+signal colorimetry:

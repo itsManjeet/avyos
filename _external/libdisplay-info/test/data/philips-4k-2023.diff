@@ -1,0 +1,58 @@
+--- ref
++++ di
+@@ -93,8 +93,6 @@
+     DTS-HD:
+       Max channels: 8
+       Supported sample rates (kHz): 192 176.4 96 88.2 48 44.1
+-      Supports DTS:X
+-      Audio Format Code dependent value: 0x07
+     MAT (MLP):
+       Max channels: 8
+       Supported sample rates (kHz): 48
+@@ -103,7 +101,6 @@
+     DTS-HD:
+       Max channels: 8
+       Supported sample rates (kHz): 192 176.4 96 88.2 48 44.1
+-      Audio Format Code dependent value: 0x01
+   Speaker Allocation Data Block:
+     FL/FR - Front Left/Right
+   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+@@ -113,7 +110,6 @@
+     DC_Y444
+     Maximum TMDS clock: 340 MHz
+     Extended HDMI video details:
+-      Base EDID image size is aspect ratio
+       HDMI VICs:
+         HDMI VIC 1:  3840x2160   30.000000 Hz  16:9     67.500 kHz    297.000000 MHz
+         HDMI VIC 2:  3840x2160   25.000000 Hz  16:9     56.250 kHz    297.000000 MHz
+@@ -162,26 +158,12 @@
+     Application Version: 1
+     Full Frame Peak Luminance Index: 0
+     Peak Luminance Index: 0
+-  Vendor-Specific Audio Data Block (Dolby), OUI 00-D0-46:
+-    Version: 1 (7 bytes)
+-    Height speaker zone present
+-    Surround speaker zone present
+-    Center speaker zone present
+-Checksum: 0x28  Unused space in Extension Block: 5 bytes
++Checksum: 0x28
+ 
+ ----------------
+ 
+-Warnings:
++Failures:
+ 
+-Block 0, Base EDID:
+-  Vendor & Product Identification: The serial number is one of the known dummy values, it should probably be set to 0.
+ Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 118 and the first DTD are not identical. Is this intended?
+-  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
+-EDID:
+-  Base EDID: Some timings are out of range of the Monitor Ranges:
+-    Vertical Freq: 24.000 - 120.000 Hz (Monitor: 48.000 - 120.000 Hz)
+-    Horizontal Freq: 15.625 - 270.000 kHz (Monitor: 15.000 - 70.000 kHz)
+-    Maximum Clock: 1188.000 MHz (Monitor: 600.000 MHz)
+-
+-EDID conformity: PASS
++  Vendor-Specific Video Data Block (HDR10+), OUI 90-84-8B: Peak luminance index 0 is reserved.
++EDID conformity: FAIL

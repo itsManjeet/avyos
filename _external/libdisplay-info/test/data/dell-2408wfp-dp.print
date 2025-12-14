@@ -1,0 +1,14 @@
+make: Dell Inc.
+model: DELL 2408WFP
+serial: G283H8BI21MS
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.674, 0.319
+  green: 0.188, 0.706
+   blue: 0.148, 0.064
+default white: 0.313, 0.329
+default gamma: 2.20
+signal colorimetry:

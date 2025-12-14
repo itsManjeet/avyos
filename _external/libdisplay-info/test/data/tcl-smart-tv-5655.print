@@ -1,0 +1,14 @@
+make: Technical Concepts Ltd
+model: TCL SMART TV
+serial: 0x00011011
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.625, 0.340
+  green: 0.280, 0.595
+   blue: 0.155, 0.070
+default white: 0.283, 0.298
+default gamma: 2.20
+signal colorimetry:

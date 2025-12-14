@@ -1,0 +1,65 @@
+--- ref
++++ di
+@@ -52,8 +52,6 @@
+ ----------------
+ 
+ Block 1, Block Map Extension Block:
+-  Block   2: CTA-861 Extension Block
+-  Block   3: CTA-861 Extension Block
+ Checksum: 0x0c
+ 
+ ----------------
+@@ -111,13 +109,12 @@
+     CE scan behavior: Always Underscanned
+   Video Format Preference Data Block:
+     VTDB   1
+-    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
+-    VIC 114:  3840x2160   48.000000 Hz  16:9    108.000 kHz    594.000000 MHz
++    VIC  97
++    VIC 114
+     DTD   1
+     DTD   3
+-    DMT 0x48
+-    VTDB   2
+-    RID 7@60p
++    T8VTDB
++    VTDB   1
+   YCbCr 4:2:0 Capability Map Data Block:
+     VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
+   YCbCr 4:2:0 Video Data Block:
+@@ -127,14 +124,9 @@
+                   Hfront    8 Hsync  32 Hback   40 Hpol P
+                   Vfront   48 Vsync   8 Vback    6 Vpol N
+   DisplayID Type VIII Video Timing Data Block:
+-    DMT 0x48:  1920x1200  119.908612 Hz  16:10   152.404 kHz    317.000000 MHz (RB)
+   DisplayID Type X Video Timing Data Block:
+-    VTDB 2:  5120x1440   50.000000 Hz  32:9     73.700 kHz    383.240000 MHz (RBv3, aspect 32:9, no 3D stereo)
+   Video Format Data Block:
+-    RID 7@30p:  3840x1080   30.000000 Hz  32:9     33.000 kHz    134.112000 MHz
+-    RID 7@60p:  3840x1080   60.000000 Hz  32:9     67.200 kHz    268.800000 MHz
+   Native Video Resolution Data Block:
+-    VTDB   1
+   Detailed Timing Descriptors:
+     DTD 2:  3840x2160   59.996625 Hz  16:9    133.312 kHz    533.250000 MHz (960 mm x 540 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+@@ -152,15 +144,14 @@
+   Native detailed modes: 1
+   Detailed Timing Descriptors:
+     DTD 3:  1280x720    59.855126 Hz  16:9     44.772 kHz     74.500000 MHz (analog composite, sync-on-green, 960 mm x 540 mm)
+-                 Hfront   64 Hsync 128 Hback  192 Hpol N
+-                 Vfront    3 Vsync   5 Vback   20 Vpol N
+-Checksum: 0xef  Unused space in Extension Block: 105 bytes
++                 Hfront   64 Hsync 128 Hback  192
++                 Vfront    3 Vsync   5 Vback   20
++Checksum: 0xef
+ 
+ ----------------
+ 
+ Failures:
+ 
+-EDID:
+-  CTA-861: The maximum HDMI TMDS clock is 600000 kHz, but one or more video timings go up to 693264 kHz.
+-
++Block 2, CTA-861 Extension Block:
++  Video Format Preference Data Block: using reserved Short Video Reference value 166.
+ EDID conformity: FAIL

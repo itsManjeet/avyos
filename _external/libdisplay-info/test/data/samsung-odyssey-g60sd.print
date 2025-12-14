@@ -1,0 +1,14 @@
+make: Samsung Electric Company
+model: Odyssey G60SD
+serial: HNAX300071
+HDR static metadata:
+luminance 0.000000-400.000000, maxFALL 253.810196
+metadata type1=yes
+EOTF tSDR=yes, tHDR=no, PQ=yes, HLG=no
+default color primaries:
+    red: 0.697, 0.297
+  green: 0.236, 0.720
+   blue: 0.144, 0.056
+default white: 0.312, 0.329
+default gamma: 2.20
+signal colorimetry: BT2020_YCC BT2020_RGB

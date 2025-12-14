@@ -1,0 +1,28 @@
+--- ref
++++ di
+@@ -98,23 +98,12 @@
+     DTD 4:  2560x1600   59.971589 Hz  16:10    98.713 kHz    268.500000 MHz (597 mm x 336 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+                  Vfront    3 Vsync   6 Vback   37 Vpol N
+-Checksum: 0x90  Unused space in Extension Block: 40 bytes
++Checksum: 0x90
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 1 and the first DTD are not identical. Is this intended?
+-EDID:
+-  Base EDID: Some timings are out of range of the Monitor Ranges:
+-    Horizontal Freq: 28.125 - 135.000 kHz (Monitor: 30.000 - 160.000 kHz)
+-
+ Failures:
+ 
+-Block 0, Base EDID:
+-  Basic Display Parameters & Features: sRGB is signaled, but the chromaticities do not match.
+ Block 1, CTA-861 Extension Block:
+-  Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop issues.
+-
++  Video Data Block: Unknown VIC 0.
+ EDID conformity: FAIL
