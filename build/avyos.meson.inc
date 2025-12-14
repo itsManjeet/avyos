@@ -14,6 +14,7 @@ CONFIGURE_ARGS	?= \
 	--sysconfdir=/config \
 	--libdir=/lib \
 	--libexecdir=/lib \
+	--datarootdir=/data \
 	--datadir=/data
 
 EXTRA_CONFIGURE_ARGS    += --cross-file ${.OBJDIR}/avyos.${TARGET_TRIPLET}-meson.txt

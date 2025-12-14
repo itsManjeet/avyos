@@ -16,6 +16,7 @@ CONFIGURE_ARGS	?= \
 	--libdir=/lib \
 	--libexecdir=/lib \
 	--datadir=/data \
+	--datarootdir=/data \
 	--host=${HOST_TRIPLET} \
 	--build=${TARGET_TRIPLET} \
 	--target=${TARGET_TRIPLET}
