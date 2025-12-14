@@ -8,7 +8,8 @@ wayland_protocols_version = meson.project_version()
 
 fs = import('fs')
 
-dep_scanner = dependency('wayland-scanner', native: true)
+# AVYOS: TODO fix wayland-scanner hack
+# dep_scanner = dependency('wayland-scanner', native: true)
 
 stable_protocols = [
 	'presentation-time',
@@ -80,7 +81,7 @@ pkgconfig_configuration.set('abs_top_srcdir', wayland_protocols_srcdir)
 pkgconfig_configuration.set('PACKAGE', 'wayland-protocols')
 pkgconfig_configuration.set('WAYLAND_PROTOCOLS_VERSION', wayland_protocols_version)
 
-pkg_install_dir = join_paths(get_option('datadir'), 'pkgconfig')
+pkg_install_dir = join_paths(get_option('libdir'), 'pkgconfig')
 configure_file(
 	input: 'wayland-protocols.pc.in',
 	output: 'wayland-protocols.pc',
