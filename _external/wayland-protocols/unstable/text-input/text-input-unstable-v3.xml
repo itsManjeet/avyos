@@ -89,16 +89,15 @@
         Requests text input on the surface previously obtained from the enter
         event.
 
-        This request must be issued every time the active text input changes
+        This request must be issued every time the focused text input changes
         to a new one, including within the current surface. Use
         zwp_text_input_v3.disable when there is no longer any input focus on
         the current surface.
 
         Clients must not enable more than one text input on the single seat
         and should disable the current text input before enabling the new one.
-        At most one instance of text input may be in enabled state per instance,
-        Requests to enable the another text input when some text input is active
-        must be ignored by compositor.
+        Requests to enable a text input when another text input is enabled
+        on the same seat must be ignored by compositor.
 
         This request resets all state associated with previous enable, disable,
         set_surrounding_text, set_text_change_cause, set_content_type, and
@@ -422,9 +421,14 @@
         The serial number reflects the last state of the zwp_text_input_v3
         object known to the compositor. The value of the serial argument must
         be equal to the number of commit requests already issued on that object.
+
         When the client receives a done event with a serial different than the
-        number of past commit requests, it must proceed as normal, except it
-        should not change the current state of the zwp_text_input_v3 object.
+        number of past commit requests, it must proceed with evaluating and
+        applying the changes as normal, except it should not change the current
+        state of the zwp_text_input_v3 object. All pending state requests
+        (set_surrounding_text, set_content_type and set_cursor_rectangle) on
+        the zwp_text_input_v3 object should be sent and committed after
+        receiving a zwp_text_input_v3.done event with a matching serial.
       </description>
       <arg name="serial" type="uint"/>
     </event>

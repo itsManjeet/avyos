@@ -1,4 +1,5 @@
 prefix=@prefix@
+includedir=@includedir@
 datarootdir=@datarootdir@
 pkgdatadir=${pc_sysrootdir}${datarootdir}/@PACKAGE@
 
