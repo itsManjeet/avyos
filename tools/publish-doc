@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+
+tag="$1"
+case $tag in
+	-h|--help)
+		echo "Usage: $0 <tag>"
+		echo "Builds the libevdev documentation and rsyncs it to the freedesktop.org server."
+		echo ""
+		echo "Options:"
+		echo "  tag ... the tag to build (default: master)"
+		exit 0
+		;;
+	1*)
+		# Helper so we can run it with the numerical tag only, tags
+		# are all prefixed with libevdev
+		tag="libevdev-$tag"
+		;;
+	**)
+		;;
+esac
+tag=${tag:-master}
+
+dir=$(mktemp -d --tmpdir='' libevdev-doc.XXX)
+git clone --depth 1 --branch "$tag" https://gitlab.freedesktop.org/libevdev/libevdev.git "$dir"
+pushd $dir
+builddir=_doc_build
+rm -rf "$builddir"
+meson setup "$builddir"
+ninja -C "$builddir"
+
+# Strip libevdev- prefix from the tag and replace master with latest, whichever applies
+htmldir=${tag/#libevdev-/}
+htmldir=${htmldir/master/latest}
+rsync --delete -avz "$builddir/html/" freedesktop.org:/srv/www.freedesktop.org/www/software/libevdev/doc/${htmldir}
+popd

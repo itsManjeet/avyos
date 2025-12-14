@@ -1,0 +1,486 @@
+{# You're looking at the template here, so you can ignore the below
+   warning. This is the right file to edit #}
+########################################
+#                                      #
+# THIS FILE IS GENERATED, DO NOT EDIT  #
+#                                      #
+########################################
+
+.templates_sha: &template_sha e195d80f35b45cc73668be3767b923fd76c70ed5 # see https://docs.gitlab.com/ee/ci/yaml/#includefile
+
+include:
+  - project: 'freedesktop/ci-templates'
+    ref: *template_sha
+    file:
+  {% for distribution in distributions|map(attribute='name')|unique()|sort() %}
+      - '/templates/{{distribution}}.yml'
+  {% endfor %}
+      - '/templates/ci-fairy.yml'
+
+stages:
+  - prep             # rebuild the container images if there is a change
+  - build            # for actually building and testing things in a container
+  - VM               # for running the test suite in a VM
+  - autotools        # distribution builds with autotools
+  - meson            # distribution builds with meson
+  - tarballs         # tarball builds
+  - container_clean  # clean up unused container images
+  - merge-check      # check for a merge request
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+variables:
+  # The upstrem repository we will check for images
+  FDO_UPSTREAM_REPO: libevdev/libevdev
+  GIT_DEPTH: 1
+  MESON_BUILDDIR: 'build dir'
+
+.default_artifacts:
+  artifacts:
+    paths:
+      - _build/test/test-suite.log
+      - $MESON_BUILDDIR/meson-logs/
+    expire_in: 1 week
+    when: always
+    reports:
+      junit: $MESON_BUILDDIR/*junit*.xml
+
+.autotools_build:
+  extends:
+    - .default_artifacts
+  script:
+    - mkdir _build
+    - pushd _build > /dev/null
+    - ../autogen.sh --disable-silent-rules $CONFIGURE_FLAGS
+    - make
+    - make check
+    - if ! [[ -z "$MAKE_ARGS" ]]; then make $MAKE_ARGS; fi
+    - popd > /dev/null
+  variables:
+    LIBEVDEV_SKIP_ROOT_TESTS: 1
+
+.meson_build:
+  extends:
+    - .default_artifacts
+  script:
+    - .gitlab-ci/meson-build.sh --run-test
+  variables:
+    MESON_TEST_ARGS: '--no-suite=needs-uinput'
+
+{# Generate templates for every distribution/version combination we want, any
+  job can then just extends: .name:version and the images will sort
+  themselves out. #}
+{% for distro in distributions %}
+{% for version in distro.versions %}
+.{{distro.name}}:{{version}}:
+  extends: .fdo.distribution-image@{{distro.name}}
+  variables:
+    FDO_DISTRIBUTION_TAG: '{{distro.tag}}'
+    FDO_DISTRIBUTION_VERSION: '{{version}}'
+
+{% endfor %}
+{% endfor %}
+
+
+#################################################################
+#                                                               #
+#                          prep stage                           #
+#                                                               #
+#################################################################
+
+# Re-generate the CI script and make sure it's the one currently checked in
+# If this job fails, re-generate the gitlab-ci.yml script, see
+# $SRCDIR/.gitlab-ci/generate-gitlab-ci.py
+#
+check-ci-script:
+  extends:
+    - .fdo.ci-fairy
+  stage: prep
+  script:
+    - ci-fairy generate-template --verify && exit 0 || true
+    - echo "Committed gitlab-ci.yml differs from generated gitlab-ci.yml. Please verify"
+    - exit 1
+
+#
+# Verify that commit messages are as expected, signed-off, etc.
+#
+
+check-commit:
+  extends:
+    - .fdo.ci-fairy
+  stage: prep
+  script:
+    - ci-fairy -vv check-commits --junit-xml=results.xml && exit 0 || true
+    - echo "Error checking the commit message format. Please verify"
+    - exit 1
+  except:
+    - master@libevdev/libevdev
+  variables:
+    GIT_DEPTH: 100
+  artifacts:
+    reports:
+      junit: results.xml
+
+#
+# Verify that the merge request has the allow-collaboration checkbox ticked
+#
+
+check-merge-request:
+  extends:
+    - .fdo.ci-fairy
+  stage: merge-check
+  script:
+    - ci-fairy check-merge-request --require-allow-collaboration --junit-xml=results.xml
+  artifacts:
+    when: on_failure
+    reports:
+      junit: results.xml
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+
+{% for distro in distributions %}
+.{{ distro.name }}.packages:
+  variables:
+    FDO_DISTRIBUTION_PACKAGES: '{{ ' '.join(distro.packages)}}'
+
+{% endfor %}
+
+{% for distro in distributions %}
+{% for version in distro.versions %}
+
+# Pulls in the container from upstream or rebuilds it if missing
+{{ distro.name }}:{{ version }}@container-prep:
+  extends:
+    - .{{ distro.name }}:{{ version }}
+    - .{{ distro.name}}.packages
+    - .fdo.container-build@{{ distro.name }}
+  stage: prep
+  variables:
+    GIT_STRATEGY: none
+
+{% endfor %}
+{% endfor %}
+
+#################################################################
+#                                                               #
+#                   container clean stage                       #
+#                 run during the clean stage                    #
+#                                                               #
+#################################################################
+
+#
+# This stage will look for the container images we currently have in
+# the registry and will remove any that are not tagged with the provided
+# $container_image:$tag
+.container-clean:
+  extends:
+    - .fdo.ci-fairy
+  stage: container_clean
+  script:
+    # Go to your Profile, Settings, Access Tokens
+    # Create a personal token with 'api' scope, copy the value.
+    # Go to CI/CD, Schedules, schedule a new monthly job (or edit the existing one)
+    # Define a variable of type File named AUTHFILE. Content is that token
+    # value.
+    - ci-fairy -v --authfile $AUTHFILE delete-image
+            --repository $FDO_DISTRIBUTION_NAME/$FDO_DISTRIBUTION_VERSION
+            --exclude-tag $FDO_DISTRIBUTION_TAG
+  dependencies: []
+  allow_failure: true
+  only:
+    - schedules
+
+{% for distro in distributions %}
+{% for version in distro.versions %}
+### {{ distro.name }} {{ version }}
+{{ distro.name }}:{{ version }}@container-clean:
+  extends:
+    - .{{ distro.name }}:{{ version }}
+    - .container-clean
+  needs: ["{{distro.name}}:{{version}}@container-prep"]
+
+{% endfor %}
+{% endfor %}
+
+#################################################################
+#                                                               #
+#                       build stage                             #
+#                                                               #
+#################################################################
+
+.autotools-build@template:
+  extends:
+    - .autotools_build
+  stage: build
+  dependencies: []
+  variables:
+    MAKE_ARGS: "distcheck"
+
+.meson-build@template:
+  extends:
+    - .meson_build
+  stage: build
+  dependencies: []
+
+{% for distro in distributions %}
+{% for version in distro.versions %}
+
+{{ distro.name }}:{{ version }}@autotools-build:
+  extends:
+    - .{{ distro.name }}:{{ version }}
+    - .autotools-build@template
+  stage: autotools
+  {# Where we have extra_variables defined, add them to the list #}
+  {% if distro.build is defined and distro.build.extra_variables is defined %}
+  variables:
+    {% for key, value in distro.build.extra_variables.items() %}
+    {{ key }}: {{ value }}
+    {% endfor %}
+  {% endif %}
+  needs: ['{{ distro.name }}:{{ version }}@container-prep']
+
+{% if not distro.build is defined or distro.build.meson|default(True) %}
+{{ distro.name }}:{{ version }}@meson-build:
+  extends:
+    - .{{ distro.name }}:{{ version }}
+    - .meson-build@template
+  stage: meson
+  {# Where we have extra_variables defined, add them to the list #}
+  {% if distro.build is defined and distro.build.extra_variables is defined %}
+  variables:
+    {% for key, value in distro.build.extra_variables.items() %}
+    {{ key }}: {{ value }}
+    {% endfor %}
+  {% endif %}
+  needs: ['{{ distro.name }}:{{ version }}@container-prep']
+{% endif %}
+
+{% endfor %}
+{% endfor %}
+
+# Build argument tests
+#
+# We only run the build option combinations on one image
+# because they're supposed to fail equally on all
+{% set custom_build_distro = distributions|selectattr("name", "equalto", "fedora")|first() %}
+.fedora-custom-build@autotools-template:
+  extends:
+    - .{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}
+    - .autotools-build@template
+  stage: build
+  needs: ['{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}@container-prep']
+
+no-valgrind:autotools:
+  extends: .fedora-custom-build@autotools-template
+  before_script:
+    - dnf remove -y valgrind
+
+no-check:autotools:
+  extends: .fedora-custom-build@autotools-template
+  before_script:
+    - dnf remove -y check check-devel
+
+no-doxygen:autotools:
+  extends: .fedora-custom-build@autotools-template
+  before_script:
+    - dnf remove -y doxygen
+  variables:
+    MAKE_ARGS: ''  # disable distcheck, requires doxygen
+
+# doxygen is required for distcheck
+no-doxygen-check-valgrind:autotools:
+  extends: .fedora-custom-build@autotools-template
+  before_script:
+    - dnf remove -y doxygen valgrind check check-devel
+  variables:
+    MAKE_ARGS: ''  # disable distcheck, requires doxygen
+
+no-nm:autotools:
+  extends: .fedora-custom-build@autotools-template
+  before_script:
+    - mv /usr/bin/nm /usr/bin/nm.moved
+
+enable-gcov:autotools:
+  extends: .fedora-custom-build@autotools-template
+  variables:
+    CONFIGURE_FLAGS: "--enable-gcov"
+
+.fedora-custom-build@meson-template:
+  extends:
+    - .{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}
+    - .meson-build@template
+  stage: build
+  needs: ['{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}@container-prep']
+
+no-valgrind:meson:
+  extends: .fedora-custom-build@meson-template
+  before_script:
+    - dnf remove -y valgrind
+
+no-check:meson:
+  extends: .fedora-custom-build@meson-template
+  before_script:
+    - dnf remove -y check check-devel
+  variables:
+    MESON_ARGS: -Dtests=disabled
+
+# doxygen is required for dist
+no-doxygen:meson:
+  extends: .fedora-custom-build@meson-template
+  before_script:
+    - dnf remove -y doxygen
+  variables:
+    MESON_ARGS: -Ddocumentation=disabled
+    NINJA_ARGS: ''
+
+# doxygen is required for dist
+no-doxygen-check-valgrind:meson:
+  extends: .fedora-custom-build@meson-template
+  before_script:
+    - dnf remove -y doxygen valgrind check check-devel
+  variables:
+    MESON_ARGS: -Dtests=disabled -Ddocumentation=disabled
+    NINJA_ARGS: ''
+
+enable-gcov:meson:
+  extends: .fedora-custom-build@meson-template
+  variables:
+    MESON_ARGS: '-Dcoverity=true'
+
+scan-build:meson:
+  extends: .fedora-custom-build@meson-template
+  variables:
+    NINJA_ARGS: 'scan-build'
+
+static-build:meson:
+  extends: .fedora-custom-build@meson-template
+  script:
+    - meson "$MESON_BUILDDIR" --default-library=static --prefix=$PWD/prefix-meson/
+    - ninja -C "$MESON_BUILDDIR" install
+    - ls -l $PWD/prefix-meson/lib64/libevdev.a
+
+soname:
+  extends:
+    - .{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}
+  stage: build
+  script:
+  - ./autogen.sh --prefix=$PWD/prefix-autotools/
+  - make install
+  - ls -l $PWD/prefix-autotools/lib/libevdev.so.2.3.0
+  - meson "$MESON_BUILDDIR" --prefix=$PWD/prefix-meson/
+  - ninja -C "$MESON_BUILDDIR" install
+  - ls -l $PWD/prefix-meson/lib64/libevdev.so.2.3.0
+  needs: ['{{custom_build_distro.name}}:{{custom_build_distro.versions|first()}}@container-prep']
+
+#################################################################
+#                                                               #
+#                          VM stage                             #
+#                                                               #
+#################################################################
+
+.check_tainted: &check_tainted |
+  # make sure the kernel is not tainted
+  if [[ "$(/app/vmctl exec cat /proc/sys/kernel/tainted)" -gt 0 ]];
+  then
+    echo tainted kernel ;
+    exit 1 ;
+  fi
+
+# build on the host, then run a systemd service to execute the test suite
+# inside the qemu VM handled by b2c
+.build-in-b2c@template:
+  extends:
+    - .default_artifacts
+  tags:
+    - kvm
+  variables:
+    MESON_BUILDDIR: build_dir
+    B2C_KERNEL: {{ b2c.kernel }}
+    B2C_IMAGE: $FDO_DISTRIBUTION_IMAGE
+    B2C_COMMAND: .gitlab-ci/start-in-systemd.sh
+  script:
+    # first build in the host container
+    - .gitlab-ci/meson-build.sh --skip-test
+
+    # pull b2c
+    - curl -L -o /app/boot2container https://gitlab.freedesktop.org/gfx-ci/boot2container/-/raw/{{b2c.version}}/vm2c.py
+    - chmod +x /app/boot2container
+
+    # runs the test suite only
+    - /app/boot2container
+
+{% for distro in distributions if distro.use_for_qemu_tests %}
+{% set version = "{}".format(distro.versions|last()) %}
+qemu:meson:
+  stage: VM
+  extends:
+    - .fdo.distribution-image@{{distro.name}}
+    - .{{distro.name}}:{{version}}
+    - .build-in-b2c@template
+  needs:
+    - "{{distro.name}}:{{version}}@container-prep"
+
+qemu:meson:valgrind:
+  extends:
+    - qemu:meson
+  variables:
+    MESON_TEST_ARGS: '--setup=valgrind'
+
+{% endfor %}
+
+{% for distro in distributions if distro.use_for_tarball_tests %}
+{% set version = "{}".format(distro.versions|last()) %}
+meson-from-tarball:
+  extends:
+    - .{{distro.name}}:{{version}}
+  stage: tarballs
+  script:
+    - export INSTALLDIR="$PWD/_inst"
+    - mkdir _build
+    - pushd _build > /dev/null
+    - ../autogen.sh --disable-silent-rules $CONFIGURE_FLAGS
+    - make
+    - make dist
+    - popd > /dev/null
+    - mkdir -p _tarball_dir
+    - tar xf _build/libevdev-*.tar.xz -C _tarball_dir
+    - pushd _tarball_dir/libevdev-*/ > /dev/null
+    - meson "$MESON_BUILDDIR" --prefix="$INSTALLDIR"
+    - meson test -C "$MESON_BUILDDIR" --no-suite="needs-uinput"
+    - ninja -C "$MESON_BUILDDIR" install
+    - popd > /dev/null
+    - ls -lR $INSTALLDIR
+  needs: ['{{distro.name}}:{{version}}@container-prep']
+
+autotools-from-tarball:
+  extends:
+    - .{{distro.name}}:{{version}}
+  stage: tarballs
+  script:
+    - export INSTALLDIR="$PWD/_inst"
+    - meson "$MESON_BUILDDIR"
+    - meson dist -C "$MESON_BUILDDIR" --no-tests
+    - mkdir -p _tarball_dir
+    - tar xf "$MESON_BUILDDIR"/meson-dist/libevdev-*.xz -C _tarball_dir
+    - pushd _tarball_dir/libevdev-*/ > /dev/null
+    - mkdir _build
+    - pushd _build > /dev/null
+    - ../autogen.sh --disable-silent-rules --prefix="$INSTALLDIR" $CONFIGURE_FLAGS
+    - make
+    - make install
+    - make distcheck
+    - popd > /dev/null
+    - popd > /dev/null
+    - ls -lR $INSTALLDIR
+  variables:
+    LIBEVDEV_SKIP_ROOT_TESTS: 1
+
+  needs: ['{{distro.name}}:{{version}}@container-prep']
+{% endfor %}

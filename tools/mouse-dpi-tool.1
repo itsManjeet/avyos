@@ -1,0 +1,18 @@
+.TH MOUSE-DPI-TOOL "1"
+.SH NAME
+mouse-dpi-tool \- mouse resolution estimation tool
+.SH SYNOPSIS
+.BR mouse-dpi-tool " <\fIevdev device\fP>"
+.SH DESCRIPTION
+.B mouse-dpi-tool
+reads relative events (mouse movement events) and calculates the
+distance covered and maximum frequency of the incoming events.
+Combined with a measurement of the actual distance physically covered,
+this allows the mouse's resolution to be estimated.
+.PP
+Some mouse devices provide dynamic frequencies, it is
+recommended to measure multiple times to obtain the highest value.
+.PP
+.SH OPTIONS
+.B mouse-dpi-tool
+accepts no options.
