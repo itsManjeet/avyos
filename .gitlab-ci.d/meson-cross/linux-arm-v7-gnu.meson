@@ -1,0 +1,6 @@
+[binaries]
+c = 'gcc'
+ar = 'ar'
+strip = 'strip'
+pkg-config = 'pkg-config'
+exe_wrapper = ['qemu-arm', '-cpu', 'max']

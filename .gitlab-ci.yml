@@ -1,0 +1,35 @@
+#
+# This is the GitLab CI configuration file for the mainstream pixman project:
+# https://gitlab.freedesktop.org/pixman/pixman/-/pipelines
+#
+spec:
+  inputs:
+    active_target_pattern:
+      description:
+        Regular expression to match the target for which the job should be
+        activated. This is used to enable or disable specific targets.
+      default: /linux-.*|windows-.*/
+      type: string
+    runner_tag_amd64:
+      description:
+        Regular x86_64 runner without any special features (a fleeting runner on
+        FDO infrastructure).
+      default: ""
+      type: string
+    runner_tag_qemu:
+      description: A runner with QEMU and binfmt.
+      default: kvm
+      type: string
+    runner_tag_arm64:
+      description: ARM64 runner.
+      default: aarch64
+      type: string
+---
+
+include:
+  - local: '/.gitlab-ci.d/pixman-project.yml'
+    inputs:
+      active_target_pattern: $[[ inputs.active_target_pattern ]]
+      runner_tag_amd64: $[[ inputs.runner_tag_amd64 ]]
+      runner_tag_qemu: $[[ inputs.runner_tag_qemu ]]
+      runner_tag_arm64: $[[ inputs.runner_tag_arm64 ]]

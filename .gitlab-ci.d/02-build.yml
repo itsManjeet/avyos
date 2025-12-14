@@ -1,0 +1,102 @@
+# Build stage
+#
+# This stage builds pixman with enabled coverage for all supported
+# architectures.
+#
+# Some targets don't support atomic profile update, so to decrease the number of
+# gcov errors, they need to be built without OpenMP (single threaded) by adding
+# `-Dopenmp=disabled` Meson argument.
+spec:
+  inputs:
+    runner_tag_amd64:
+    runner_tag_qemu:
+    runner_tag_arm64:
+---
+
+variables:
+  # Used in test stage as well.
+  BUILD_DIR: build-${TOOLCHAIN}
+
+# Applicable to all build targets.
+
+include:
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-386
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-amd64
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-arm-v5
+      # Disable coverage, as the tests take too long to run with a single thread.
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_arm64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-arm-v7
+      runner_tag: $[[ inputs.runner_tag_arm64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-arm64-v8
+      runner_tag: $[[ inputs.runner_tag_arm64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-mips
+      toolchain: [gnu]  # TODO: https://gitlab.freedesktop.org/pixman/pixman/-/issues/105
+      qemu_cpu: 74Kf
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-mips64le
+      qemu_cpu: Loongson-3A4000
+      runner_tag: $[[ inputs.runner_tag_qemu ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-mipsel
+      toolchain: [gnu]  # TODO: https://gitlab.freedesktop.org/pixman/pixman/-/issues/105
+      qemu_cpu: 74Kf
+      # Disable coverage, as the tests take too long to run with a single thread.
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_qemu ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-ppc
+      qemu_cpu: g4
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-ppc64
+      qemu_cpu: power9
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-ppc64le
+      qemu_cpu: power10
+      runner_tag: $[[ inputs.runner_tag_qemu ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: linux-riscv64
+      qemu_cpu: rv64
+      runner_tag: $[[ inputs.runner_tag_qemu ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: windows-686
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: windows-amd64
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_amd64 ]]
+  - local: .gitlab-ci.d/templates/build.yml
+    inputs:
+      target: windows-arm64-v8
+      toolchain: [llvm]  # GNU toolchain doesn't seem to support Windows on ARM.
+      enable_gnu_coverage: false
+      runner_tag: $[[ inputs.runner_tag_arm64 ]]
