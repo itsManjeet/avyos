@@ -1,7 +1,7 @@
 .TOPDIR ?= ../..
 include ${.TOPDIR}/build/avyos.defaults.inc
 
-DISTDIR := ${.TOPDIR}/_external/mpc
+DISTDIR := ${.TOPDIR}/_external/mpfr
 HOST_BUILD := 1
 
 EXTRA_CONFIGURE_ARGS += \
