@@ -23,6 +23,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+#include "../config.h"
 
 #define _GNU_SOURCE
 
@@ -33,7 +34,6 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <dlfcn.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <fcntl.h>
@@ -44,32 +44,20 @@
 #include "test-runner.h"
 #include "wayland-os.h"
 
+extern int (*wl_socket)(int domain, int type, int protocol);
+extern int (*wl_fcntl)(int fildes, int cmd, ...);
+extern ssize_t (*wl_recvmsg)(int socket, struct msghdr *message, int flags);
+extern int (*wl_epoll_create1)(int flags);
+
 static int fall_back;
 
-static int (*real_socket)(int, int, int);
-static int wrapped_calls_socket;
+static int wrapped_calls_socket = 0;
+static int wrapped_calls_fcntl = 0;
+static int wrapped_calls_recvmsg = 0;
+static int wrapped_calls_epoll_create1 = 0;
 
-static int (*real_fcntl)(int, int, ...);
-static int wrapped_calls_fcntl;
-
-static ssize_t (*real_recvmsg)(int, struct msghdr *, int);
-static int wrapped_calls_recvmsg;
-
-static int (*real_epoll_create1)(int);
-static int wrapped_calls_epoll_create1;
-
-static void
-init_fallbacks(int do_fallbacks)
-{
-	fall_back = do_fallbacks;
-	real_socket = dlsym(RTLD_NEXT, "socket");
-	real_fcntl = dlsym(RTLD_NEXT, "fcntl");
-	real_recvmsg = dlsym(RTLD_NEXT, "recvmsg");
-	real_epoll_create1 = dlsym(RTLD_NEXT, "epoll_create1");
-}
-
-__attribute__ ((visibility("default"))) int
-socket(int domain, int type, int protocol)
+static int
+socket_wrapper(int domain, int type, int protocol)
 {
 	wrapped_calls_socket++;
 
@@ -78,11 +66,11 @@ socket(int domain, int type, int protocol)
 		return -1;
 	}
 
-	return real_socket(domain, type, protocol);
+	return socket(domain, type, protocol);
 }
 
-__attribute__ ((visibility("default"))) int
-fcntl(int fd, int cmd, ...)
+static int
+fcntl_wrapper(int fd, int cmd, ...)
 {
 	va_list ap;
 	int arg;
@@ -112,13 +100,13 @@ fcntl(int fd, int cmd, ...)
 	}
 
 	if (has_arg) {
-		return real_fcntl(fd, cmd, arg);
+		return fcntl(fd, cmd, arg);
 	}
-	return real_fcntl(fd, cmd);
+	return fcntl(fd, cmd);
 }
 
-__attribute__ ((visibility("default"))) ssize_t
-recvmsg(int sockfd, struct msghdr *msg, int flags)
+static ssize_t
+recvmsg_wrapper(int sockfd, struct msghdr *msg, int flags)
 {
 	wrapped_calls_recvmsg++;
 
@@ -127,11 +115,11 @@ recvmsg(int sockfd, struct msghdr *msg, int flags)
 		return -1;
 	}
 
-	return real_recvmsg(sockfd, msg, flags);
+	return recvmsg(sockfd, msg, flags);
 }
 
-__attribute__ ((visibility("default"))) int
-epoll_create1(int flags)
+static int
+epoll_create1_wrapper(int flags)
 {
 	wrapped_calls_epoll_create1++;
 
@@ -141,7 +129,17 @@ epoll_create1(int flags)
 		return -1;
 	}
 
-	return real_epoll_create1(flags);
+	return epoll_create1(flags);
+}
+
+static void
+init_fallbacks(int do_fallbacks)
+{
+	fall_back = do_fallbacks;
+	wl_fcntl = fcntl_wrapper;
+	wl_socket = socket_wrapper;
+	wl_recvmsg = recvmsg_wrapper;
+	wl_epoll_create1 = epoll_create1_wrapper;
 }
 
 static void
@@ -237,10 +235,12 @@ setup_marshal_data(struct marshal_data *data)
 	assert(socketpair(AF_UNIX,
 			  SOCK_STREAM | SOCK_CLOEXEC, 0, data->s) == 0);
 
-	data->read_connection = wl_connection_create(data->s[0]);
+	data->read_connection = wl_connection_create(data->s[0],
+						     WL_BUFFER_DEFAULT_MAX_SIZE);
 	assert(data->read_connection);
 
-	data->write_connection = wl_connection_create(data->s[1]);
+	data->write_connection = wl_connection_create(data->s[1],
+						      WL_BUFFER_DEFAULT_MAX_SIZE);
 	assert(data->write_connection);
 }
 
@@ -323,7 +323,13 @@ do_os_wrappers_recvmsg_cloexec(int n)
 	struct marshal_data data;
 
 	data.nr_fds_begin = count_open_fds();
+#if HAVE_BROKEN_MSG_CMSG_CLOEXEC
+	/* We call the fallback directly on FreeBSD versions with a broken
+	 * MSG_CMSG_CLOEXEC, so we don't call the local recvmsg() wrapper. */
+	data.wrapped_calls = 0;
+#else
 	data.wrapped_calls = n;
+#endif
 
 	setup_marshal_data(&data);
 	data.nr_fds_conn = count_open_fds();

@@ -97,7 +97,9 @@
       in the environment). Beginning in Wayland 1.15, implementations can
       optionally support server socket endpoints located at arbitrary
       locations in the filesystem by setting <emphasis>WAYLAND_DISPLAY</emphasis>
-      to the absolute path at which the server endpoint listens.
+      to the absolute path at which the server endpoint listens. The socket may
+      also be provided through file descriptor inheritance, in which case
+      <emphasis>WAYLAND_SOCKET</emphasis> is set.
     </para>
     <para>
       Every message is structured as 32-bit words; values are represented in the
@@ -149,9 +151,11 @@
 	  <term>string</term>
 	  <listitem>
 	    <para>
-	      Starts with an unsigned 32-bit length, followed by the
-	      string contents, including terminating null byte, then padding
-	      to a 32-bit boundary.
+	      Starts with an unsigned 32-bit length (including null terminator),
+	      followed by the UTF-8 encoded string contents, including
+	      terminating null byte, then padding to a 32-bit boundary. A null
+	      value is represented with a length of 0. Interior null bytes are
+	      not permitted.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -159,7 +163,7 @@
 	  <term>object</term>
 	  <listitem>
 	    <para>
-	      32-bit object ID.
+	      32-bit object ID. A null value is represented with an ID of 0.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -193,6 +197,21 @@
 	  </listitem>
 	</varlistentry>
       </variablelist>
+    </para>
+    <para>
+      The protocol does not specify the exact position of the ancillary data
+      in the stream, except that the order of file descriptors is the same as
+      the order of messages and <code>fd</code> arguments within messages on
+      the wire.
+    </para>
+    <para>
+      In particular, it means that any byte of the stream, even the message
+      header, may carry the ancillary data with file descriptors.
+    </para>
+    <para>
+      Clients and compositors should queue incoming data until they have
+      whole messages to process, as file descriptors may arrive earlier
+      or later than the corresponding data bytes.
     </para>
   </section>
   <xi:include href="ProtocolInterfaces.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
@@ -296,9 +315,10 @@
       reserved to represent a null or non-existent object.
 
       For efficiency purposes, the IDs are densely packed in the sense that
-      the ID N will not be used until N-1 has been used.  Any ID allocation
-      algorithm that does not maintain this property is incompatible with
-      the implementation in libwayland.
+      the ID N will not be used until N-1 has been used. This ordering is
+      not merely a guideline, but a strict requirement, and there are
+      implementations of the protocol that rigorously enforce this rule,
+      including the ubiquitous libwayland.
     </para>
   </section>
   <section id="sect-Protocol-Compositor">

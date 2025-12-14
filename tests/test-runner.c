@@ -22,6 +22,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+#include "../config.h"
 
 #define _GNU_SOURCE
 
@@ -36,10 +37,15 @@
 #include <dlfcn.h>
 #include <errno.h>
 #include <limits.h>
+#include <signal.h>
 #include <sys/ptrace.h>
+#ifdef HAVE_SYS_PROCCTL_H
+#include <sys/procctl.h>
+#elif defined(HAVE_SYS_PRCTL_H)
 #include <sys/prctl.h>
 #ifndef PR_SET_PTRACER
 # define PR_SET_PTRACER 0x59616d61
+#endif
 #endif
 
 #include "test-runner.h"
@@ -174,7 +180,7 @@ set_xdg_runtime_dir(void)
 	xrd_env = getenv("XDG_RUNTIME_DIR");
 	/* if XDG_RUNTIME_DIR is not set in environ, fallback to /tmp */
 	assert((snprintf(xdg_runtime_dir, PATH_MAX, "%s/wayland-tests-XXXXXX",
-			 xrd_env ? xrd_env : "/tmp") < PATH_MAX)
+			 (xrd_env && xrd_env[0] == '/') ? xrd_env : "/tmp") < PATH_MAX)
 		&& "test error: XDG_RUNTIME_DIR too long");
 
 	assert(mkdtemp(xdg_runtime_dir) && "test error: mkdtemp failed");
@@ -194,7 +200,7 @@ static void
 rmdir_xdg_runtime_dir(void)
 {
 	const char *xrd_env = getenv("XDG_RUNTIME_DIR");
-	assert(xrd_env && "No XDG_RUNTIME_DIR set");
+	assert(xrd_env && xrd_env[0] == '/' && "No XDG_RUNTIME_DIR set");
 
 	/* rmdir may fail if some test didn't do clean up */
 	if (rmdir(xrd_env) == -1)
@@ -226,6 +232,21 @@ stderr_reset_color(void)
  * Returns: 1 if a debugger is confirmed present; 0 if no debugger is
  * present or if it can't be determined.
  */
+#if defined(HAVE_SYS_PROCCTL_H) && defined(PROC_TRACE_STATUS)
+static int
+is_debugger_attached(void)
+{
+	int rc;
+	int status;
+	rc = procctl(P_PID, getpid(), PROC_TRACE_STATUS, &status);
+	if (rc == -1) {
+		perror("procctl");
+		return 0;
+	}
+	/* -1=tracing disabled, 0=no debugger attached, >0=pid of debugger. */
+	return status > 0;
+}
+#elif defined(HAVE_SYS_PRCTL_H)
 static int
 is_debugger_attached(void)
 {
@@ -287,13 +308,21 @@ is_debugger_attached(void)
 
 	return rc;
 }
+#else
+static int
+is_debugger_attached(void)
+{
+	/* 0=debugger can't be determined */
+	return 0;
+}
+#endif
 
 int main(int argc, char *argv[])
 {
 	const struct test *t;
 	pid_t pid;
 	int total, pass;
-	siginfo_t info;
+	int info;
 
 	if (isatty(fileno(stderr)))
 		is_atty = 1;
@@ -336,37 +365,32 @@ int main(int argc, char *argv[])
 		if (pid == 0)
 			run_test(t); /* never returns */
 
-		if (waitid(P_PID, pid, &info, WEXITED)) {
+		if (waitpid(pid, &info, 0) == -1) {
 			stderr_set_color(RED);
-			fprintf(stderr, "waitid failed: %s\n",
+			fprintf(stderr, "waitpid failed: %s\n",
 				strerror(errno));
 			stderr_reset_color();
 
 			abort();
 		}
 
-		switch (info.si_code) {
-		case CLD_EXITED:
-			if (info.si_status == EXIT_SUCCESS)
+		if (WIFEXITED(info)) {
+			if (WEXITSTATUS(info) == EXIT_SUCCESS)
 				success = !t->must_fail;
 			else
 				success = t->must_fail;
 
 			stderr_set_color(success ? GREEN : RED);
 			fprintf(stderr, "test \"%s\":\texit status %d",
-				t->name, info.si_status);
+				t->name, WEXITSTATUS(info));
 
-			break;
-		case CLD_KILLED:
-		case CLD_DUMPED:
+		} else if (WIFSIGNALED(info)) {
 			if (t->must_fail)
 				success = 1;
 
 			stderr_set_color(success ? GREEN : RED);
 			fprintf(stderr, "test \"%s\":\tsignal %d",
-				t->name, info.si_status);
-
-			break;
+				t->name, WTERMSIG(info));
 		}
 
 		if (success) {

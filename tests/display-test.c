@@ -24,6 +24,7 @@
  * SOFTWARE.
  */
 
+#define _GNU_SOURCE
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -923,7 +924,7 @@ TEST(versions)
 }
 
 static void
-check_error_on_destroyed_object(void *data)
+check_error_on_destroyed_object(void)
 {
 	struct client *c;
 	struct wl_seat *seat;
@@ -1005,9 +1006,16 @@ registry_handle_filtered(void *data, struct wl_registry *registry,
 	}
 }
 
+static void
+registry_handle_remove_filtered(void *data, struct wl_registry *registry,
+				uint32_t id)
+{
+	assert(false);
+}
+
 static const struct wl_registry_listener registry_listener_filtered = {
 	registry_handle_filtered,
-	NULL
+	registry_handle_remove_filtered,
 };
 
 static void
@@ -1035,10 +1043,62 @@ TEST(filtered_global_is_hidden)
 		      1, d, bind_data_offer);
 	wl_display_set_global_filter(d->wl_display, global_filter, NULL);
 
-	client_create_noarg(d, get_globals);
+	client_create(d, get_globals, NULL);
 	display_run(d);
 
 	wl_global_destroy(g);
+
+	display_destroy(d);
+}
+
+static void
+get_dynamic_globals(void)
+{
+	struct client *c = client_connect();
+	struct wl_registry *registry;
+
+	registry = wl_display_get_registry(c->wl_display);
+	wl_registry_add_listener(registry, &registry_listener_filtered, NULL);
+	wl_display_roundtrip(c->wl_display);
+
+	/* Wait for the server to create a new global */
+	assert(stop_display(c, 1) >= 0);
+
+	/* Check that we don't see it */
+	wl_display_roundtrip(c->wl_display);
+
+	/* Wait for the server to remove that global */
+	assert(stop_display(c, 1) >= 0);
+
+	/* Check that we don't get a global_remove event */
+	wl_display_roundtrip(c->wl_display);
+
+	wl_registry_destroy(registry);
+	client_disconnect_nocheck(c);
+}
+
+TEST(filtered_dynamic_global_is_hidden)
+{
+	struct display *d;
+	struct wl_global *g;
+
+	d = display_create();
+	wl_display_set_global_filter(d->wl_display, global_filter, NULL);
+
+	/* Create a client and let it enumerate the globals */
+	client_create_noarg(d, get_dynamic_globals);
+	display_run(d);
+
+	/* Dynamically create a new global */
+	g = wl_global_create(d->wl_display, &wl_data_offer_interface,
+			     1, d, bind_data_offer);
+
+	display_resume(d);
+
+	/* Dynamically remove the global */
+	wl_global_destroy(g);
+
+	display_resume(d);
 
 	display_destroy(d);
 }
@@ -1146,7 +1206,7 @@ static const struct wl_registry_listener zombie_fd_registry_listener = {
 };
 
 static void
-zombie_client(void *data)
+zombie_client(void)
 {
 	struct client *c = client_connect();
 	struct wl_registry *registry;
@@ -1316,7 +1376,7 @@ static const struct wl_registry_listener double_zombie_fd_registry_listener = {
 };
 
 static void
-double_zombie_client(void *data)
+double_zombie_client(void)
 {
 	struct client *c = client_connect();
 	struct wl_registry *registry;
@@ -1376,7 +1436,7 @@ static const struct wl_registry_listener bind_interface_mismatch_registry_listen
 };
 
 static void
-registry_bind_interface_mismatch_client(void *data)
+registry_bind_interface_mismatch_client(void)
 {
 	struct client *c = client_connect();
 	struct wl_registry *registry;
@@ -1432,6 +1492,10 @@ send_overflow_client(void *data)
 	char tmp = '\0';
 	int sock, optval = 16384;
 
+	/* By default, client buffers are now unbounded, set a limit to cause
+	 * an overflow, otherwise the client buffers will grow indefinitely. */
+	wl_display_set_max_buffer_size(c->wl_display, 4096);
+
 	/* Limit the send buffer size for the display socket to guarantee
 	 * that the test will cause an overflow. */
 	sock = wl_display_get_fd(c->wl_display);
@@ -1445,6 +1509,7 @@ send_overflow_client(void *data)
 	 * within <=4096 iterations. */
 	for (i = 0; i < 1000000; i++) {
 		noop_request(c);
+		fprintf(stderr, "Send loop %i\n", i);
 		err = wl_display_get_error(c->wl_display);
 		if (err)
 			break;
@@ -1454,9 +1519,9 @@ send_overflow_client(void *data)
 	 * check verifies that the initial/final FD counts are the same */
 	assert(write(pipes[1], &tmp, sizeof(tmp)) == (ssize_t)sizeof(tmp));
 
-	/* Expect an error */
+	/* Expect an error - ring_buffer_ensure_space() returns E2BIG */
 	fprintf(stderr, "Send loop failed on try %d, err = %d, %s\n", i, err, strerror(err));
-	assert(err == EAGAIN);
+	assert(err == EAGAIN || err == E2BIG);
 
 	client_disconnect_nocheck(c);
 }
@@ -1533,7 +1598,7 @@ static const struct wl_registry_listener global_remove_before_registry_listener 
 };
 
 static void
-global_remove_before_client(void *data)
+global_remove_before_client(void)
 {
 	struct client *c = client_connect();
 	struct wl_registry *registry;
@@ -1583,7 +1648,7 @@ static const struct wl_registry_listener global_remove_after_registry_listener =
 };
 
 static void
-global_remove_after_client(void *data)
+global_remove_after_client(void)
 {
 	struct client *c = client_connect();
 	struct wl_registry *registry;
@@ -1627,5 +1692,95 @@ TEST(global_remove)
 
 	wl_global_destroy(global);
 
+	display_destroy(d);
+}
+
+static void
+dispatch_single_read_events(struct wl_display *d)
+{
+	if (wl_display_prepare_read(d) < 0) {
+		return;
+	}
+
+	int ret = 0;
+	do {
+		ret = wl_display_flush(d);
+	} while (ret < 0 && (errno == EINTR || errno == EAGAIN));
+	assert(ret >= 0);
+
+	struct pollfd pfd[1];
+	pfd[0].fd = wl_display_get_fd(d);
+	pfd[0].events = POLLIN;
+
+	do {
+		ret = poll(pfd, 1, -1);
+	} while (ret < 0 && errno == EINTR);
+	assert(ret > 0);
+
+	wl_display_read_events(d);
+}
+
+static void
+dispatch_single_client(void)
+{
+	struct client *c = client_connect();
+
+	assert(wl_display_dispatch_pending_single(c->wl_display) == 0);
+
+	struct wl_registry *registry = wl_display_get_registry(c->wl_display);
+
+	dispatch_single_read_events(c->wl_display);
+
+	// [1815110.061] {Default Queue} wl_registry#3.global(1, "test", 1)
+	assert(wl_display_dispatch_pending_single(c->wl_display) == 1);
+
+	dispatch_single_read_events(c->wl_display);
+
+	// [1815110.067] {Default Queue} wl_registry#3.global(2, "wl_seat", 1)
+	assert(wl_display_dispatch_pending_single(c->wl_display) == 1);
+
+	// No more events
+	assert(wl_display_dispatch_pending_single(c->wl_display) == 0);
+
+	wl_registry_destroy(registry);
+
+	client_disconnect(c);
+}
+
+TEST(dispatch_single)
+{
+	struct display *d = display_create();
+
+	struct wl_global *global = wl_global_create(d->wl_display,
+						    &wl_seat_interface,
+						    1, d, bind_seat);
+
+	client_create_noarg(d, dispatch_single_client);
+
+	display_run(d);
+
+	wl_global_destroy(global);
+
+	display_destroy(d);
+}
+
+static void
+terminate_display(void *arg)
+{
+	struct wl_display *wl_display = arg;
+	wl_display_terminate(wl_display);
+}
+
+TEST(no_source_terminate)
+{
+	struct display *d;
+	struct wl_event_loop *loop;
+
+	d = display_create();
+	loop = wl_display_get_event_loop(d->wl_display);
+
+	wl_event_loop_add_idle(loop, terminate_display, d->wl_display);
+
+	display_run(d);
 	display_destroy(d);
 }

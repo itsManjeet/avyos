@@ -1,4 +1,4 @@
-What is Wayland?
+# Wayland
 
 Wayland is a project to define a protocol for a compositor to talk to
 its clients as well as a library implementation of the protocol.  The
@@ -17,10 +17,6 @@ protocol does not handle rendering, which is one of the features that
 makes wayland so simple.  All clients are expected to handle rendering
 themselves, typically through cairo or OpenGL.
 
-The weston compositor is a reference implementation of a wayland
-compositor and the weston repository also includes a few example
-clients.
-
 Building the wayland libraries is fairly simple, aside from libffi,
 they don't have many dependencies:
 
@@ -29,6 +25,6 @@ they don't have many dependencies:
     $ meson build/ --prefix=PREFIX
     $ ninja -C build/ install
 
-where PREFIX is where you want to install the libraries.  See
-https://wayland.freedesktop.org for more complete build instructions
-for wayland, weston, xwayland and various toolkits.
+where PREFIX is where you want to install the libraries.
+
+See https://wayland.freedesktop.org for documentation.

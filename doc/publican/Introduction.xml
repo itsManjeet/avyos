@@ -87,7 +87,7 @@
     </para>
     <para>
       Overall, the philosophy of Wayland is to provide clients with a way to
-      manage windows and how their contents is displayed.  Rendering is left
+      manage windows and how their contents are displayed.  Rendering is left
       to clients, and system wide memory management interfaces are used to
       pass buffer handles between clients and the compositing manager.
     </para>

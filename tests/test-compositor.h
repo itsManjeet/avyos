@@ -25,6 +25,7 @@
 
 #include <stdint.h>
 #include <unistd.h>
+#include <stdatomic.h>
 
 #include "wayland-server.h"
 #include "wayland-client.h"
@@ -39,13 +40,16 @@ struct client_info {
 	int pipe;
 	pid_t pid;
 	int exit_code;
+	int kill_code;
 
 	struct wl_list link;
 	void *data; /* for arbitrary use */
+	int log_fd;
 };
 
 struct display {
 	struct wl_display *wl_display;
+	struct wl_global *test_global;
 
 	struct wl_list clients;
 	uint32_t clients_no;
@@ -64,7 +68,7 @@ struct client {
 	struct wl_display *wl_display;
 	struct test_compositor *tc;
 
-	int display_stopped;
+	atomic_bool display_stopped;
 };
 
 struct client *client_connect(void);
@@ -88,6 +92,7 @@ void noop_request(struct client *);
  */
 struct display *display_create(void);
 void display_destroy(struct display *d);
+void display_destroy_expect_signal(struct display *d, int signum);
 void display_run(struct display *d);
 
 /* This function posts the display_resumed event to all waiting clients,
@@ -104,11 +109,26 @@ void display_post_resume_events(struct display *d);
  * it then reruns the display. */
 void display_resume(struct display *d);
 
+/* The file descriptor containing the client log. This is only valid in the
+ * test client processes. */
+extern int client_log_fd;
 
 struct client_info *client_create_with_name(struct display *d,
 					    void (*client_main)(void *data),
 					    void *data,
 					    const char *name);
 #define client_create(d, c, data) client_create_with_name((d), (c), data, (#c))
+static inline void noarg_cb(void *data)
+{
+	void (*cb)(void) = data;
+	cb();
+}
+static inline struct client_info *client_create_with_name_noarg(struct display *d,
+								void (*client_main)(void),
+								const char *name)
+{
+	return client_create_with_name(d, noarg_cb, client_main, name);
+}
+
 #define client_create_noarg(d, c) \
-	client_create_with_name((d), (void(*)(void *)) (c), NULL, (#c))
+	client_create_with_name_noarg((d), (c), (#c))

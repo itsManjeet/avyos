@@ -25,15 +25,28 @@
 
 #define _GNU_SOURCE
 
+#include "../config.h"
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 #include <sys/epoll.h>
+#include <sys/mman.h>
+#include <sys/un.h>
+#ifdef HAVE_SYS_UCRED_H
+#include <sys/ucred.h>
+#endif
 
-#include "../config.h"
 #include "wayland-os.h"
+
+/* used by tests */
+int (*wl_fcntl)(int fildes, int cmd, ...) = fcntl;
+int (*wl_socket)(int domain, int type, int protocol) = socket;
+ssize_t (*wl_recvmsg)(int socket, struct msghdr *message, int flags) = recvmsg;
+int (*wl_epoll_create1)(int flags) = epoll_create1;
 
 static int
 set_cloexec_or_close(int fd)
@@ -43,11 +56,11 @@ set_cloexec_or_close(int fd)
 	if (fd == -1)
 		return -1;
 
-	flags = fcntl(fd, F_GETFD);
+	flags = wl_fcntl(fd, F_GETFD);
 	if (flags == -1)
 		goto err;
 
-	if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == -1)
+	if (wl_fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == -1)
 		goto err;
 
 	return fd;
@@ -62,28 +75,72 @@ wl_os_socket_cloexec(int domain, int type, int protocol)
 {
 	int fd;
 
-	fd = socket(domain, type | SOCK_CLOEXEC, protocol);
+	fd = wl_socket(domain, type | SOCK_CLOEXEC, protocol);
 	if (fd >= 0)
 		return fd;
 	if (errno != EINVAL)
 		return -1;
 
-	fd = socket(domain, type, protocol);
+	fd = wl_socket(domain, type, protocol);
 	return set_cloexec_or_close(fd);
 }
+
+#if defined(__FreeBSD__)
+int
+wl_os_socket_peercred(int sockfd, uid_t *uid, gid_t *gid, pid_t *pid)
+{
+	socklen_t len;
+	struct xucred ucred;
+
+	len = sizeof(ucred);
+	if (getsockopt(sockfd, SOL_LOCAL, LOCAL_PEERCRED, &ucred, &len) < 0 ||
+	    ucred.cr_version != XUCRED_VERSION)
+		return -1;
+	*uid = ucred.cr_uid;
+	*gid = ucred.cr_gid;
+#if HAVE_XUCRED_CR_PID
+	/* Since https://cgit.freebsd.org/src/commit/?id=c5afec6e895a */
+	*pid = ucred.cr_pid;
+#else
+	*pid = 0;
+#endif
+	return 0;
+}
+#elif defined(SO_PEERCRED)
+int
+wl_os_socket_peercred(int sockfd, uid_t *uid, gid_t *gid, pid_t *pid)
+{
+	socklen_t len;
+#if defined(__OpenBSD__)
+	struct sockpeercred ucred;
+#else
+	struct ucred ucred;
+#endif
+
+	len = sizeof(ucred);
+	if (getsockopt(sockfd, SOL_SOCKET, SO_PEERCRED, &ucred, &len) < 0)
+		return -1;
+	*uid = ucred.uid;
+	*gid = ucred.gid;
+	*pid = ucred.pid;
+	return 0;
+}
+#else
+#error "Don't know how to read ucred on this platform"
+#endif
 
 int
 wl_os_dupfd_cloexec(int fd, int minfd)
 {
 	int newfd;
 
-	newfd = fcntl(fd, F_DUPFD_CLOEXEC, minfd);
+	newfd = wl_fcntl(fd, F_DUPFD_CLOEXEC, minfd);
 	if (newfd >= 0)
 		return newfd;
 	if (errno != EINVAL)
 		return -1;
 
-	newfd = fcntl(fd, F_DUPFD, minfd);
+	newfd = wl_fcntl(fd, F_DUPFD, minfd);
 	return set_cloexec_or_close(newfd);
 }
 
@@ -96,7 +153,7 @@ recvmsg_cloexec_fallback(int sockfd, struct msghdr *msg, int flags)
 	int *fd;
 	int *end;
 
-	len = recvmsg(sockfd, msg, flags);
+	len = wl_recvmsg(sockfd, msg, flags);
 	if (len == -1)
 		return -1;
 
@@ -121,14 +178,23 @@ recvmsg_cloexec_fallback(int sockfd, struct msghdr *msg, int flags)
 ssize_t
 wl_os_recvmsg_cloexec(int sockfd, struct msghdr *msg, int flags)
 {
+#if HAVE_BROKEN_MSG_CMSG_CLOEXEC
+	/*
+	 * FreeBSD had a broken implementation of MSG_CMSG_CLOEXEC between 2015
+	 * and 2021, so we have to use the non-MSG_CMSG_CLOEXEC fallback
+	 * directly when compiling against a version that does not include the
+	 * fix (https://cgit.freebsd.org/src/commit/?id=6ceacebdf52211).
+	 */
+#pragma message("Using fallback directly since MSG_CMSG_CLOEXEC is broken.")
+#else
 	ssize_t len;
 
-	len = recvmsg(sockfd, msg, flags | MSG_CMSG_CLOEXEC);
+	len = wl_recvmsg(sockfd, msg, flags | MSG_CMSG_CLOEXEC);
 	if (len >= 0)
 		return len;
 	if (errno != EINVAL)
 		return -1;
-
+#endif
 	return recvmsg_cloexec_fallback(sockfd, msg, flags);
 }
 
@@ -138,7 +204,7 @@ wl_os_epoll_create_cloexec(void)
 	int fd;
 
 #ifdef EPOLL_CLOEXEC
-	fd = epoll_create1(EPOLL_CLOEXEC);
+	fd = wl_epoll_create1(EPOLL_CLOEXEC);
 	if (fd >= 0)
 		return fd;
 	if (errno != EINVAL)
@@ -164,4 +230,33 @@ wl_os_accept_cloexec(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
 
 	fd = accept(sockfd, addr, addrlen);
 	return set_cloexec_or_close(fd);
+}
+
+/*
+ * Fallback function for operating systems that don't implement
+ * mremap(MREMAP_MAYMOVE).
+ */
+void *
+wl_os_mremap_maymove(int fd, void *old_data, ssize_t *old_size,
+		     ssize_t new_size, int prot, int flags)
+{
+	void *result;
+
+	/* Make sure any pending write is flushed. */
+	if (msync(old_data, *old_size, MS_SYNC) != 0)
+		return MAP_FAILED;
+
+	/* We could try mapping a new block immediately after the current one
+	 * with MAP_FIXED, however that is not guaranteed to work and breaks
+	 * on CHERI-enabled architectures since the data pointer will still
+	 * have the bounds of the previous allocation.
+	 */
+	result = mmap(NULL, new_size, prot, flags, fd, 0);
+	if (result == MAP_FAILED)
+		return MAP_FAILED;
+
+	if (munmap(old_data, *old_size) == 0)
+		*old_size = 0;
+
+	return result;
 }

@@ -51,7 +51,7 @@ static const char *
 require_xdg_runtime_dir(void)
 {
 	char *val = getenv("XDG_RUNTIME_DIR");
-	assert(val && "set $XDG_RUNTIME_DIR to run this test");
+	assert(val && val[0] == '/' && "set $XDG_RUNTIME_DIR to run this test");
 
 	return val;
 }

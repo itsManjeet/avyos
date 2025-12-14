@@ -1011,8 +1011,8 @@ wl_display_sync(struct wl_display *wl_display)
 {
 	struct wl_proxy *callback;
 
-	callback = wl_proxy_marshal_constructor((struct wl_proxy *) wl_display,
-			 WL_DISPLAY_SYNC, &wl_callback_interface, NULL);
+	callback = wl_proxy_marshal_flags((struct wl_proxy *) wl_display,
+			 WL_DISPLAY_SYNC, &wl_callback_interface, wl_proxy_get_version((struct wl_proxy *) wl_display), 0, NULL);
 
 	return (struct wl_callback *) callback;
 }
@@ -1029,8 +1029,8 @@ wl_display_get_registry(struct wl_display *wl_display)
 {
 	struct wl_proxy *registry;
 
-	registry = wl_proxy_marshal_constructor((struct wl_proxy *) wl_display,
-			 WL_DISPLAY_GET_REGISTRY, &wl_registry_interface, NULL);
+	registry = wl_proxy_marshal_flags((struct wl_proxy *) wl_display,
+			 WL_DISPLAY_GET_REGISTRY, &wl_registry_interface, wl_proxy_get_version((struct wl_proxy *) wl_display), 0, NULL);
 
 	return (struct wl_registry *) registry;
 }
@@ -1142,8 +1142,8 @@ wl_registry_bind(struct wl_registry *wl_registry, uint32_t name, const struct wl
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor_versioned((struct wl_proxy *) wl_registry,
-			 WL_REGISTRY_BIND, interface, version, name, interface->name, version, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_registry,
+			 WL_REGISTRY_BIND, interface, version, 0, name, interface->name, version, NULL);
 
 	return (void *) id;
 }
@@ -1258,8 +1258,8 @@ wl_compositor_create_surface(struct wl_compositor *wl_compositor)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_compositor,
-			 WL_COMPOSITOR_CREATE_SURFACE, &wl_surface_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_compositor,
+			 WL_COMPOSITOR_CREATE_SURFACE, &wl_surface_interface, wl_proxy_get_version((struct wl_proxy *) wl_compositor), 0, NULL);
 
 	return (struct wl_surface *) id;
 }
@@ -1274,8 +1274,8 @@ wl_compositor_create_region(struct wl_compositor *wl_compositor)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_compositor,
-			 WL_COMPOSITOR_CREATE_REGION, &wl_region_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_compositor,
+			 WL_COMPOSITOR_CREATE_REGION, &wl_region_interface, wl_proxy_get_version((struct wl_proxy *) wl_compositor), 0, NULL);
 
 	return (struct wl_region *) id;
 }
@@ -1338,8 +1338,8 @@ wl_shm_pool_create_buffer(struct wl_shm_pool *wl_shm_pool, int32_t offset, int32
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_shm_pool,
-			 WL_SHM_POOL_CREATE_BUFFER, &wl_buffer_interface, NULL, offset, width, height, stride, format);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_shm_pool,
+			 WL_SHM_POOL_CREATE_BUFFER, &wl_buffer_interface, wl_proxy_get_version((struct wl_proxy *) wl_shm_pool), 0, NULL, offset, width, height, stride, format);
 
 	return (struct wl_buffer *) id;
 }
@@ -1356,10 +1356,8 @@ wl_shm_pool_create_buffer(struct wl_shm_pool *wl_shm_pool, int32_t offset, int32
 static inline void
 wl_shm_pool_destroy(struct wl_shm_pool *wl_shm_pool)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shm_pool,
-			 WL_SHM_POOL_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_shm_pool);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shm_pool,
+			 WL_SHM_POOL_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shm_pool), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -1373,8 +1371,8 @@ wl_shm_pool_destroy(struct wl_shm_pool *wl_shm_pool)
 static inline void
 wl_shm_pool_resize(struct wl_shm_pool *wl_shm_pool, int32_t size)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shm_pool,
-			 WL_SHM_POOL_RESIZE, size);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shm_pool,
+			 WL_SHM_POOL_RESIZE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shm_pool), 0, size);
 }
 
 #ifndef WL_SHM_ERROR_ENUM
@@ -1734,8 +1732,8 @@ wl_shm_create_pool(struct wl_shm *wl_shm, int32_t fd, int32_t size)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_shm,
-			 WL_SHM_CREATE_POOL, &wl_shm_pool_interface, NULL, fd, size);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_shm,
+			 WL_SHM_CREATE_POOL, &wl_shm_pool_interface, wl_proxy_get_version((struct wl_proxy *) wl_shm), 0, NULL, fd, size);
 
 	return (struct wl_shm_pool *) id;
 }
@@ -1819,10 +1817,8 @@ wl_buffer_get_version(struct wl_buffer *wl_buffer)
 static inline void
 wl_buffer_destroy(struct wl_buffer *wl_buffer)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_buffer,
-			 WL_BUFFER_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_buffer);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_buffer,
+			 WL_BUFFER_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_buffer), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifndef WL_DATA_OFFER_ERROR_ENUM
@@ -2015,8 +2011,8 @@ wl_data_offer_get_version(struct wl_data_offer *wl_data_offer)
 static inline void
 wl_data_offer_accept(struct wl_data_offer *wl_data_offer, uint32_t serial, const char *mime_type)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_offer,
-			 WL_DATA_OFFER_ACCEPT, serial, mime_type);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_offer,
+			 WL_DATA_OFFER_ACCEPT, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_offer), 0, serial, mime_type);
 }
 
 /**
@@ -2041,8 +2037,8 @@ wl_data_offer_accept(struct wl_data_offer *wl_data_offer, uint32_t serial, const
 static inline void
 wl_data_offer_receive(struct wl_data_offer *wl_data_offer, const char *mime_type, int32_t fd)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_offer,
-			 WL_DATA_OFFER_RECEIVE, mime_type, fd);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_offer,
+			 WL_DATA_OFFER_RECEIVE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_offer), 0, mime_type, fd);
 }
 
 /**
@@ -2053,10 +2049,8 @@ wl_data_offer_receive(struct wl_data_offer *wl_data_offer, const char *mime_type
 static inline void
 wl_data_offer_destroy(struct wl_data_offer *wl_data_offer)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_offer,
-			 WL_DATA_OFFER_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_data_offer);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_offer,
+			 WL_DATA_OFFER_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_offer), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -2077,8 +2071,8 @@ wl_data_offer_destroy(struct wl_data_offer *wl_data_offer)
 static inline void
 wl_data_offer_finish(struct wl_data_offer *wl_data_offer)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_offer,
-			 WL_DATA_OFFER_FINISH);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_offer,
+			 WL_DATA_OFFER_FINISH, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_offer), 0);
 }
 
 /**
@@ -2119,8 +2113,8 @@ wl_data_offer_finish(struct wl_data_offer *wl_data_offer)
 static inline void
 wl_data_offer_set_actions(struct wl_data_offer *wl_data_offer, uint32_t dnd_actions, uint32_t preferred_action)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_offer,
-			 WL_DATA_OFFER_SET_ACTIONS, dnd_actions, preferred_action);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_offer,
+			 WL_DATA_OFFER_SET_ACTIONS, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_offer), 0, dnd_actions, preferred_action);
 }
 
 #ifndef WL_DATA_SOURCE_ERROR_ENUM
@@ -2344,8 +2338,8 @@ wl_data_source_get_version(struct wl_data_source *wl_data_source)
 static inline void
 wl_data_source_offer(struct wl_data_source *wl_data_source, const char *mime_type)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_source,
-			 WL_DATA_SOURCE_OFFER, mime_type);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_source,
+			 WL_DATA_SOURCE_OFFER, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_source), 0, mime_type);
 }
 
 /**
@@ -2356,10 +2350,8 @@ wl_data_source_offer(struct wl_data_source *wl_data_source, const char *mime_typ
 static inline void
 wl_data_source_destroy(struct wl_data_source *wl_data_source)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_source,
-			 WL_DATA_SOURCE_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_data_source);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_source,
+			 WL_DATA_SOURCE_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_source), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -2382,8 +2374,8 @@ wl_data_source_destroy(struct wl_data_source *wl_data_source)
 static inline void
 wl_data_source_set_actions(struct wl_data_source *wl_data_source, uint32_t dnd_actions)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_source,
-			 WL_DATA_SOURCE_SET_ACTIONS, dnd_actions);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_source,
+			 WL_DATA_SOURCE_SET_ACTIONS, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_source), 0, dnd_actions);
 }
 
 #ifndef WL_DATA_DEVICE_ERROR_ENUM
@@ -2408,7 +2400,7 @@ struct wl_data_device_listener {
 	 * which will subsequently be used in either the data_device.enter
 	 * event (for drag-and-drop) or the data_device.selection event
 	 * (for selections). Immediately following the
-	 * data_device_data_offer event, the new data_offer object will
+	 * data_device.data_offer event, the new data_offer object will
 	 * send out data_offer.offer events to describe the mime types it
 	 * offers.
 	 * @param id the new data_offer object
@@ -2614,8 +2606,8 @@ wl_data_device_destroy(struct wl_data_device *wl_data_device)
 static inline void
 wl_data_device_start_drag(struct wl_data_device *wl_data_device, struct wl_data_source *source, struct wl_surface *origin, struct wl_surface *icon, uint32_t serial)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_device,
-			 WL_DATA_DEVICE_START_DRAG, source, origin, icon, serial);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_device,
+			 WL_DATA_DEVICE_START_DRAG, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_device), 0, source, origin, icon, serial);
 }
 
 /**
@@ -2629,8 +2621,8 @@ wl_data_device_start_drag(struct wl_data_device *wl_data_device, struct wl_data_
 static inline void
 wl_data_device_set_selection(struct wl_data_device *wl_data_device, struct wl_data_source *source, uint32_t serial)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_device,
-			 WL_DATA_DEVICE_SET_SELECTION, source, serial);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_device,
+			 WL_DATA_DEVICE_SET_SELECTION, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_device), 0, source, serial);
 }
 
 /**
@@ -2641,10 +2633,8 @@ wl_data_device_set_selection(struct wl_data_device *wl_data_device, struct wl_da
 static inline void
 wl_data_device_release(struct wl_data_device *wl_data_device)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_data_device,
-			 WL_DATA_DEVICE_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_data_device);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_data_device,
+			 WL_DATA_DEVICE_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_data_device), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifndef WL_DATA_DEVICE_MANAGER_DND_ACTION_ENUM
@@ -2747,8 +2737,8 @@ wl_data_device_manager_create_data_source(struct wl_data_device_manager *wl_data
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_data_device_manager,
-			 WL_DATA_DEVICE_MANAGER_CREATE_DATA_SOURCE, &wl_data_source_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_data_device_manager,
+			 WL_DATA_DEVICE_MANAGER_CREATE_DATA_SOURCE, &wl_data_source_interface, wl_proxy_get_version((struct wl_proxy *) wl_data_device_manager), 0, NULL);
 
 	return (struct wl_data_source *) id;
 }
@@ -2763,8 +2753,8 @@ wl_data_device_manager_get_data_device(struct wl_data_device_manager *wl_data_de
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_data_device_manager,
-			 WL_DATA_DEVICE_MANAGER_GET_DATA_DEVICE, &wl_data_device_interface, NULL, seat);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_data_device_manager,
+			 WL_DATA_DEVICE_MANAGER_GET_DATA_DEVICE, &wl_data_device_interface, wl_proxy_get_version((struct wl_proxy *) wl_data_device_manager), 0, NULL, seat);
 
 	return (struct wl_data_device *) id;
 }
@@ -2828,8 +2818,8 @@ wl_shell_get_shell_surface(struct wl_shell *wl_shell, struct wl_surface *surface
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_shell,
-			 WL_SHELL_GET_SHELL_SURFACE, &wl_shell_surface_interface, NULL, surface);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_shell,
+			 WL_SHELL_GET_SHELL_SURFACE, &wl_shell_surface_interface, wl_proxy_get_version((struct wl_proxy *) wl_shell), 0, NULL, surface);
 
 	return (struct wl_shell_surface *) id;
 }
@@ -3099,8 +3089,8 @@ wl_shell_surface_destroy(struct wl_shell_surface *wl_shell_surface)
 static inline void
 wl_shell_surface_pong(struct wl_shell_surface *wl_shell_surface, uint32_t serial)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_PONG, serial);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_PONG, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, serial);
 }
 
 /**
@@ -3115,8 +3105,8 @@ wl_shell_surface_pong(struct wl_shell_surface *wl_shell_surface, uint32_t serial
 static inline void
 wl_shell_surface_move(struct wl_shell_surface *wl_shell_surface, struct wl_seat *seat, uint32_t serial)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_MOVE, seat, serial);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_MOVE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, seat, serial);
 }
 
 /**
@@ -3131,8 +3121,8 @@ wl_shell_surface_move(struct wl_shell_surface *wl_shell_surface, struct wl_seat 
 static inline void
 wl_shell_surface_resize(struct wl_shell_surface *wl_shell_surface, struct wl_seat *seat, uint32_t serial, uint32_t edges)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_RESIZE, seat, serial, edges);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_RESIZE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, seat, serial, edges);
 }
 
 /**
@@ -3145,8 +3135,8 @@ wl_shell_surface_resize(struct wl_shell_surface *wl_shell_surface, struct wl_sea
 static inline void
 wl_shell_surface_set_toplevel(struct wl_shell_surface *wl_shell_surface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_TOPLEVEL);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_TOPLEVEL, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0);
 }
 
 /**
@@ -3163,8 +3153,8 @@ wl_shell_surface_set_toplevel(struct wl_shell_surface *wl_shell_surface)
 static inline void
 wl_shell_surface_set_transient(struct wl_shell_surface *wl_shell_surface, struct wl_surface *parent, int32_t x, int32_t y, uint32_t flags)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_TRANSIENT, parent, x, y, flags);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_TRANSIENT, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, parent, x, y, flags);
 }
 
 /**
@@ -3207,8 +3197,8 @@ wl_shell_surface_set_transient(struct wl_shell_surface *wl_shell_surface, struct
 static inline void
 wl_shell_surface_set_fullscreen(struct wl_shell_surface *wl_shell_surface, uint32_t method, uint32_t framerate, struct wl_output *output)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_FULLSCREEN, method, framerate, output);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_FULLSCREEN, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, method, framerate, output);
 }
 
 /**
@@ -3237,8 +3227,8 @@ wl_shell_surface_set_fullscreen(struct wl_shell_surface *wl_shell_surface, uint3
 static inline void
 wl_shell_surface_set_popup(struct wl_shell_surface *wl_shell_surface, struct wl_seat *seat, uint32_t serial, struct wl_surface *parent, int32_t x, int32_t y, uint32_t flags)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_POPUP, seat, serial, parent, x, y, flags);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_POPUP, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, seat, serial, parent, x, y, flags);
 }
 
 /**
@@ -3266,8 +3256,8 @@ wl_shell_surface_set_popup(struct wl_shell_surface *wl_shell_surface, struct wl_
 static inline void
 wl_shell_surface_set_maximized(struct wl_shell_surface *wl_shell_surface, struct wl_output *output)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_MAXIMIZED, output);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_MAXIMIZED, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, output);
 }
 
 /**
@@ -3284,8 +3274,8 @@ wl_shell_surface_set_maximized(struct wl_shell_surface *wl_shell_surface, struct
 static inline void
 wl_shell_surface_set_title(struct wl_shell_surface *wl_shell_surface, const char *title)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_TITLE, title);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_TITLE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, title);
 }
 
 /**
@@ -3301,8 +3291,8 @@ wl_shell_surface_set_title(struct wl_shell_surface *wl_shell_surface, const char
 static inline void
 wl_shell_surface_set_class(struct wl_shell_surface *wl_shell_surface, const char *class_)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_shell_surface,
-			 WL_SHELL_SURFACE_SET_CLASS, class_);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_shell_surface,
+			 WL_SHELL_SURFACE_SET_CLASS, NULL, wl_proxy_get_version((struct wl_proxy *) wl_shell_surface), 0, class_);
 }
 
 #ifndef WL_SURFACE_ERROR_ENUM
@@ -3457,10 +3447,8 @@ wl_surface_get_version(struct wl_surface *wl_surface)
 static inline void
 wl_surface_destroy(struct wl_surface *wl_surface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_surface);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -3509,8 +3497,8 @@ wl_surface_destroy(struct wl_surface *wl_surface)
 static inline void
 wl_surface_attach(struct wl_surface *wl_surface, struct wl_buffer *buffer, int32_t x, int32_t y)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_ATTACH, buffer, x, y);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_ATTACH, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, buffer, x, y);
 }
 
 /**
@@ -3541,8 +3529,8 @@ wl_surface_attach(struct wl_surface *wl_surface, struct wl_buffer *buffer, int32
 static inline void
 wl_surface_damage(struct wl_surface *wl_surface, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_DAMAGE, x, y, width, height);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_DAMAGE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, x, y, width, height);
 }
 
 /**
@@ -3586,8 +3574,8 @@ wl_surface_frame(struct wl_surface *wl_surface)
 {
 	struct wl_proxy *callback;
 
-	callback = wl_proxy_marshal_constructor((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_FRAME, &wl_callback_interface, NULL);
+	callback = wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_FRAME, &wl_callback_interface, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, NULL);
 
 	return (struct wl_callback *) callback;
 }
@@ -3623,8 +3611,8 @@ wl_surface_frame(struct wl_surface *wl_surface)
 static inline void
 wl_surface_set_opaque_region(struct wl_surface *wl_surface, struct wl_region *region)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_SET_OPAQUE_REGION, region);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_SET_OPAQUE_REGION, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, region);
 }
 
 /**
@@ -3656,8 +3644,8 @@ wl_surface_set_opaque_region(struct wl_surface *wl_surface, struct wl_region *re
 static inline void
 wl_surface_set_input_region(struct wl_surface *wl_surface, struct wl_region *region)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_SET_INPUT_REGION, region);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_SET_INPUT_REGION, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, region);
 }
 
 /**
@@ -3684,8 +3672,8 @@ wl_surface_set_input_region(struct wl_surface *wl_surface, struct wl_region *reg
 static inline void
 wl_surface_commit(struct wl_surface *wl_surface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_COMMIT);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_COMMIT, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0);
 }
 
 /**
@@ -3724,8 +3712,8 @@ wl_surface_commit(struct wl_surface *wl_surface)
 static inline void
 wl_surface_set_buffer_transform(struct wl_surface *wl_surface, int32_t transform)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_SET_BUFFER_TRANSFORM, transform);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_SET_BUFFER_TRANSFORM, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, transform);
 }
 
 /**
@@ -3758,8 +3746,8 @@ wl_surface_set_buffer_transform(struct wl_surface *wl_surface, int32_t transform
 static inline void
 wl_surface_set_buffer_scale(struct wl_surface *wl_surface, int32_t scale)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_SET_BUFFER_SCALE, scale);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_SET_BUFFER_SCALE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, scale);
 }
 
 /**
@@ -3801,8 +3789,8 @@ wl_surface_set_buffer_scale(struct wl_surface *wl_surface, int32_t scale)
 static inline void
 wl_surface_damage_buffer(struct wl_surface *wl_surface, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_surface,
-			 WL_SURFACE_DAMAGE_BUFFER, x, y, width, height);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_surface,
+			 WL_SURFACE_DAMAGE_BUFFER, NULL, wl_proxy_get_version((struct wl_proxy *) wl_surface), 0, x, y, width, height);
 }
 
 #ifndef WL_SEAT_CAPABILITY_ENUM
@@ -3967,8 +3955,8 @@ wl_seat_get_pointer(struct wl_seat *wl_seat)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_seat,
-			 WL_SEAT_GET_POINTER, &wl_pointer_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_seat,
+			 WL_SEAT_GET_POINTER, &wl_pointer_interface, wl_proxy_get_version((struct wl_proxy *) wl_seat), 0, NULL);
 
 	return (struct wl_pointer *) id;
 }
@@ -3989,8 +3977,8 @@ wl_seat_get_keyboard(struct wl_seat *wl_seat)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_seat,
-			 WL_SEAT_GET_KEYBOARD, &wl_keyboard_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_seat,
+			 WL_SEAT_GET_KEYBOARD, &wl_keyboard_interface, wl_proxy_get_version((struct wl_proxy *) wl_seat), 0, NULL);
 
 	return (struct wl_keyboard *) id;
 }
@@ -4011,8 +3999,8 @@ wl_seat_get_touch(struct wl_seat *wl_seat)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_seat,
-			 WL_SEAT_GET_TOUCH, &wl_touch_interface, NULL);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_seat,
+			 WL_SEAT_GET_TOUCH, &wl_touch_interface, wl_proxy_get_version((struct wl_proxy *) wl_seat), 0, NULL);
 
 	return (struct wl_touch *) id;
 }
@@ -4026,10 +4014,8 @@ wl_seat_get_touch(struct wl_seat *wl_seat)
 static inline void
 wl_seat_release(struct wl_seat *wl_seat)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_seat,
-			 WL_SEAT_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_seat);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_seat,
+			 WL_SEAT_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_seat), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifndef WL_POINTER_ERROR_ENUM
@@ -4095,16 +4081,6 @@ enum wl_pointer_axis {
  * from a "finger" source may be in a smooth coordinate space with
  * kinetic scrolling whereas a "wheel" source may be in discrete steps
  * of a number of lines.
- *
- * The "continuous" axis source is a device generating events in a
- * continuous coordinate space, but using something other than a
- * finger. One example for this source is button-based scrolling where
- * the vertical motion of a device is converted to scroll events while
- * a button is held down.
- *
- * The "wheel tilt" axis source indicates that the actual device is a
- * wheel but the scroll event is not caused by a rotation but a
- * (usually sideways) tilt of the wheel.
  */
 enum wl_pointer_axis_source {
 	/**
@@ -4117,10 +4093,20 @@ enum wl_pointer_axis_source {
 	WL_POINTER_AXIS_SOURCE_FINGER = 1,
 	/**
 	 * continuous coordinate space
+	 *
+	 * A device generating events in a continuous coordinate space,
+	 * but using something other than a finger. One example for this
+	 * source is button-based scrolling where the vertical motion of a
+	 * device is converted to scroll events while a button is held
+	 * down.
 	 */
 	WL_POINTER_AXIS_SOURCE_CONTINUOUS = 2,
 	/**
 	 * a physical wheel tilt
+	 *
+	 * Indicates that the actual device is a wheel but the scroll
+	 * event is not caused by a rotation but a (usually sideways) tilt
+	 * of the wheel.
 	 * @since 6
 	 */
 	WL_POINTER_AXIS_SOURCE_WHEEL_TILT = 3,
@@ -4506,8 +4492,8 @@ wl_pointer_destroy(struct wl_pointer *wl_pointer)
 static inline void
 wl_pointer_set_cursor(struct wl_pointer *wl_pointer, uint32_t serial, struct wl_surface *surface, int32_t hotspot_x, int32_t hotspot_y)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_pointer,
-			 WL_POINTER_SET_CURSOR, serial, surface, hotspot_x, hotspot_y);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_pointer,
+			 WL_POINTER_SET_CURSOR, NULL, wl_proxy_get_version((struct wl_proxy *) wl_pointer), 0, serial, surface, hotspot_x, hotspot_y);
 }
 
 /**
@@ -4522,10 +4508,8 @@ wl_pointer_set_cursor(struct wl_pointer *wl_pointer, uint32_t serial, struct wl_
 static inline void
 wl_pointer_release(struct wl_pointer *wl_pointer)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_pointer,
-			 WL_POINTER_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_pointer);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_pointer,
+			 WL_POINTER_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_pointer), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifndef WL_KEYBOARD_KEYMAP_FORMAT_ENUM
@@ -4753,10 +4737,8 @@ wl_keyboard_destroy(struct wl_keyboard *wl_keyboard)
 static inline void
 wl_keyboard_release(struct wl_keyboard *wl_keyboard)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_keyboard,
-			 WL_KEYBOARD_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_keyboard);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_keyboard,
+			 WL_KEYBOARD_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_keyboard), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -4997,10 +4979,8 @@ wl_touch_destroy(struct wl_touch *wl_touch)
 static inline void
 wl_touch_release(struct wl_touch *wl_touch)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_touch,
-			 WL_TOUCH_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_touch);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_touch,
+			 WL_TOUCH_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_touch), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #ifndef WL_OUTPUT_SUBPIXEL_ENUM
@@ -5282,10 +5262,8 @@ wl_output_destroy(struct wl_output *wl_output)
 static inline void
 wl_output_release(struct wl_output *wl_output)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_output,
-			 WL_OUTPUT_RELEASE);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_output);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_output,
+			 WL_OUTPUT_RELEASE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_output), WL_MARSHAL_FLAG_DESTROY);
 }
 
 #define WL_REGION_DESTROY 0
@@ -5334,10 +5312,8 @@ wl_region_get_version(struct wl_region *wl_region)
 static inline void
 wl_region_destroy(struct wl_region *wl_region)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_region,
-			 WL_REGION_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_region);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_region,
+			 WL_REGION_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_region), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -5348,8 +5324,8 @@ wl_region_destroy(struct wl_region *wl_region)
 static inline void
 wl_region_add(struct wl_region *wl_region, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_region,
-			 WL_REGION_ADD, x, y, width, height);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_region,
+			 WL_REGION_ADD, NULL, wl_proxy_get_version((struct wl_proxy *) wl_region), 0, x, y, width, height);
 }
 
 /**
@@ -5360,8 +5336,8 @@ wl_region_add(struct wl_region *wl_region, int32_t x, int32_t y, int32_t width, 
 static inline void
 wl_region_subtract(struct wl_region *wl_region, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_region,
-			 WL_REGION_SUBTRACT, x, y, width, height);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_region,
+			 WL_REGION_SUBTRACT, NULL, wl_proxy_get_version((struct wl_proxy *) wl_region), 0, x, y, width, height);
 }
 
 #ifndef WL_SUBCOMPOSITOR_ERROR_ENUM
@@ -5417,10 +5393,8 @@ wl_subcompositor_get_version(struct wl_subcompositor *wl_subcompositor)
 static inline void
 wl_subcompositor_destroy(struct wl_subcompositor *wl_subcompositor)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subcompositor,
-			 WL_SUBCOMPOSITOR_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_subcompositor);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subcompositor,
+			 WL_SUBCOMPOSITOR_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subcompositor), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -5439,8 +5413,8 @@ wl_subcompositor_get_subsurface(struct wl_subcompositor *wl_subcompositor, struc
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) wl_subcompositor,
-			 WL_SUBCOMPOSITOR_GET_SUBSURFACE, &wl_subsurface_interface, NULL, surface, parent);
+	id = wl_proxy_marshal_flags((struct wl_proxy *) wl_subcompositor,
+			 WL_SUBCOMPOSITOR_GET_SUBSURFACE, &wl_subsurface_interface, wl_proxy_get_version((struct wl_proxy *) wl_subcompositor), 0, NULL, surface, parent);
 
 	return (struct wl_subsurface *) id;
 }
@@ -5520,10 +5494,8 @@ wl_subsurface_get_version(struct wl_subsurface *wl_subsurface)
 static inline void
 wl_subsurface_destroy(struct wl_subsurface *wl_subsurface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_DESTROY);
-
-	wl_proxy_destroy((struct wl_proxy *) wl_subsurface);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_DESTROY, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), WL_MARSHAL_FLAG_DESTROY);
 }
 
 /**
@@ -5549,8 +5521,8 @@ wl_subsurface_destroy(struct wl_subsurface *wl_subsurface)
 static inline void
 wl_subsurface_set_position(struct wl_subsurface *wl_subsurface, int32_t x, int32_t y)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_SET_POSITION, x, y);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_SET_POSITION, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), 0, x, y);
 }
 
 /**
@@ -5575,8 +5547,8 @@ wl_subsurface_set_position(struct wl_subsurface *wl_subsurface, int32_t x, int32
 static inline void
 wl_subsurface_place_above(struct wl_subsurface *wl_subsurface, struct wl_surface *sibling)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_PLACE_ABOVE, sibling);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_PLACE_ABOVE, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), 0, sibling);
 }
 
 /**
@@ -5588,8 +5560,8 @@ wl_subsurface_place_above(struct wl_subsurface *wl_subsurface, struct wl_surface
 static inline void
 wl_subsurface_place_below(struct wl_subsurface *wl_subsurface, struct wl_surface *sibling)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_PLACE_BELOW, sibling);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_PLACE_BELOW, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), 0, sibling);
 }
 
 /**
@@ -5612,8 +5584,8 @@ wl_subsurface_place_below(struct wl_subsurface *wl_subsurface, struct wl_surface
 static inline void
 wl_subsurface_set_sync(struct wl_subsurface *wl_subsurface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_SET_SYNC);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_SET_SYNC, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), 0);
 }
 
 /**
@@ -5642,8 +5614,8 @@ wl_subsurface_set_sync(struct wl_subsurface *wl_subsurface)
 static inline void
 wl_subsurface_set_desync(struct wl_subsurface *wl_subsurface)
 {
-	wl_proxy_marshal((struct wl_proxy *) wl_subsurface,
-			 WL_SUBSURFACE_SET_DESYNC);
+	wl_proxy_marshal_flags((struct wl_proxy *) wl_subsurface,
+			 WL_SUBSURFACE_SET_DESYNC, NULL, wl_proxy_get_version((struct wl_proxy *) wl_subsurface), 0);
 }
 
 #ifdef  __cplusplus

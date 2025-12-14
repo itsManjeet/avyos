@@ -50,7 +50,7 @@ setup(int *s)
 
 	assert(socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, s) == 0);
 
-	connection = wl_connection_create(s[0]);
+	connection = wl_connection_create(s[0], WL_BUFFER_DEFAULT_MAX_SIZE);
 	assert(connection);
 
 	return connection;
@@ -183,9 +183,11 @@ setup_marshal_data(struct marshal_data *data)
 {
 	assert(socketpair(AF_UNIX,
 			  SOCK_STREAM | SOCK_CLOEXEC, 0, data->s) == 0);
-	data->read_connection = wl_connection_create(data->s[0]);
+	data->read_connection = wl_connection_create(data->s[0],
+						     WL_BUFFER_DEFAULT_MAX_SIZE);
 	assert(data->read_connection);
-	data->write_connection = wl_connection_create(data->s[1]);
+	data->write_connection = wl_connection_create(data->s[1],
+						      WL_BUFFER_DEFAULT_MAX_SIZE);
 	assert(data->write_connection);
 }
 
@@ -245,9 +247,6 @@ TEST(connection_marshal)
 	marshal(&data, "n", 12, &object);
 	assert(data.buffer[2] == object.id);
 
-	marshal(&data, "?n", 12, NULL);
-	assert(data.buffer[2] == 0);
-
 	array.data = (void *) text;
 	array.size = sizeof text;
 	marshal(&data, "a", 20, &array);
@@ -281,6 +280,25 @@ expected_fail_marshal(int expected_error, const char *format, ...)
 }
 
 static void
+marshal_send(struct marshal_data *data, const char *format, ...)
+{
+	struct wl_closure *closure;
+	static const uint32_t opcode = 4444;
+	static struct wl_object sender = { NULL, NULL, 1234 };
+	struct wl_message message = { "test", format, NULL };
+	va_list ap;
+
+	va_start(ap, format);
+	closure = wl_closure_vmarshal(&sender, opcode, ap, &message);
+	va_end(ap);
+
+	assert(closure);
+	assert(wl_closure_send(closure, data->write_connection) == 0);
+
+	wl_closure_destroy(closure);
+}
+
+static void
 expected_fail_marshal_send(struct marshal_data *data, int expected_error,
 			   const char *format, ...)
 {
@@ -305,7 +323,6 @@ TEST(connection_marshal_nullables)
 {
 	struct marshal_data data;
 	struct wl_object object;
-	struct wl_array array;
 	const char text[] = "curry";
 
 	setup_marshal_data(&data);
@@ -317,21 +334,12 @@ TEST(connection_marshal_nullables)
 	marshal(&data, "?o", 12, NULL);
 	assert(data.buffer[2] == 0);
 
-	marshal(&data, "?a", 12, NULL);
-	assert(data.buffer[2] == 0);
-
 	marshal(&data, "?s", 12, NULL);
 	assert(data.buffer[2] == 0);
 
 	object.id = 55293;
 	marshal(&data, "?o", 12, &object);
 	assert(data.buffer[2] == object.id);
-
-	array.data = (void *) text;
-	array.size = sizeof text;
-	marshal(&data, "?a", 20, &array);
-	assert(data.buffer[2] == array.size);
-	assert(memcmp(&data.buffer[3], text, array.size) == 0);
 
 	marshal(&data, "?s", 20, text);
 	assert(data.buffer[2] == sizeof text);
@@ -394,7 +402,7 @@ demarshal(struct marshal_data *data, const char *format,
 	struct wl_closure *closure;
 	struct wl_map objects;
 	struct wl_object object = { NULL, &func, 0 };
-	int size = msg[1];
+	int size = msg[1] >> 16;
 
 	assert(write(data->s[1], msg, size) == size);
 	assert(wl_connection_read(data->read_connection) == size);
@@ -417,39 +425,41 @@ TEST(connection_demarshal)
 
 	data.value.u = 8000;
 	msg[0] = 400200;	/* object id */
-	msg[1] = 12;		/* size = 12, opcode = 0 */
+	msg[1] = 12 << 16;		/* size = 12, opcode = 0 */
 	msg[2] = data.value.u;
 	demarshal(&data, "u", msg, (void *) validate_demarshal_u);
 
 	data.value.i = -557799;
 	msg[0] = 400200;
-	msg[1] = 12;
+	msg[1] = 12 << 16;
 	msg[2] = data.value.i;
 	demarshal(&data, "i", msg, (void *) validate_demarshal_i);
 
 	data.value.s = "superdude";
 	msg[0] = 400200;
-	msg[1] = 24;
+	msg[1] = 24 << 16;
 	msg[2] = 10;
+	msg[3 + msg[2]/4] = 0;
 	memcpy(&msg[3], data.value.s, msg[2]);
 	demarshal(&data, "s", msg, (void *) validate_demarshal_s);
 
 	data.value.s = "superdude";
 	msg[0] = 400200;
-	msg[1] = 24;
+	msg[1] = 24 << 16;
 	msg[2] = 10;
+	msg[3 + msg[2]/4] = 0;
 	memcpy(&msg[3], data.value.s, msg[2]);
 	demarshal(&data, "?s", msg, (void *) validate_demarshal_s);
 
 	data.value.i = wl_fixed_from_double(-90000.2390);
 	msg[0] = 400200;
-	msg[1] = 12;
+	msg[1] = 12 << 16;
 	msg[2] = data.value.i;
 	demarshal(&data, "f", msg, (void *) validate_demarshal_f);
 
 	data.value.s = NULL;
 	msg[0] = 400200;
-	msg[1] = 12;
+	msg[1] = 12 << 16;
 	msg[2] = 0;
 	demarshal(&data, "?s", msg, (void *) validate_demarshal_s);
 
@@ -553,6 +563,24 @@ expected_fail_demarshal(struct marshal_data *data, const char *format,
 	assert(errno == expected_error);
 }
 
+TEST(connection_demarshal_null_strings)
+{
+	struct marshal_data data;
+	uint32_t msg[3];
+
+	setup_marshal_data(&data);
+
+	data.value.s = NULL;
+	msg[0] = 400200;	/* object id */
+	msg[1] = 12 << 16;	/* size = 12, opcode = 0 */
+	msg[2] = 0;		/* string length = 0 */
+	demarshal(&data, "?s", msg, (void *) validate_demarshal_s);
+
+	expected_fail_demarshal(&data, "s", msg, EINVAL);
+
+	release_marshal_data(&data);
+}
+
 /* These tests are verifying that the demarshaling code will gracefully handle
  * clients lying about string and array lengths and giving values near
  * UINT32_MAX. Before fixes f7fdface and f5b9e3b9 this test would crash on
@@ -632,6 +660,46 @@ TEST(connection_marshal_too_big)
 	setup_marshal_data(&data);
 
 	expected_fail_marshal_send(&data, E2BIG, "s", big_string);
+
+	release_marshal_data(&data);
+	free(big_string);
+}
+
+TEST(connection_marshal_big_enough)
+{
+	struct marshal_data data;
+	char *big_string = malloc(5000);
+
+	assert(big_string);
+
+	memset(big_string, ' ', 4999);
+	big_string[4999] = '\0';
+
+	setup_marshal_data(&data);
+	wl_connection_set_max_buffer_size(data.write_connection, 5120);
+
+	marshal_send(&data, "s", big_string);
+
+	release_marshal_data(&data);
+	free(big_string);
+}
+
+TEST(connection_marshal_unbounded_boundary_size)
+{
+	/* A string of length 8178 requires a buffer size of exactly 2^13. */
+	struct marshal_data data;
+	char *big_string = malloc(8178);
+	assert(big_string);
+
+	memset(big_string, ' ', 8177);
+	big_string[8177] = '\0';
+
+	setup_marshal_data(&data);
+
+	/* Set the max size to 0 (unbounded). */
+	wl_connection_set_max_buffer_size(data.write_connection, 0);
+
+	marshal_send(&data, "s", big_string);
 
 	release_marshal_data(&data);
 	free(big_string);
