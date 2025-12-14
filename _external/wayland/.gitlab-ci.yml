@@ -1,0 +1,81 @@
+.templates_sha: &template_sha 290b79e0e78eab67a83766f4e9691be554fc4afd # see https://docs.gitlab.com/ee/ci/yaml/#includefile
+
+
+include:
+  # Debian container builder template
+  - project: 'freedesktop/ci-templates'
+    ref: *template_sha
+    file: '/templates/debian.yml'
+  # ci-fairy template
+  - project: 'freedesktop/ci-templates'
+    ref: *template_sha
+    file: '/templates/ci-fairy.yml'
+
+
+stages:
+  - review
+  - prep
+  - build
+
+
+variables:
+  DEBIAN_PACKAGES: 'build-essential pkg-config libexpat1-dev libffi-dev libxml2-dev doxygen graphviz xmlto xsltproc docbook-xsl python3-pip python3-setuptools ninja-build'
+  DEBIAN_EXEC: 'pip3 install meson==0.52.1'
+  # these tags should be updated each time the list of packages is updated
+  # changing these will force rebuilding the associated image
+  # Note: these tags have no meaning and are not tied to a particular
+  # wayland version
+  DEBIAN_TAG: '2020-12-14.0'
+  FDO_UPSTREAM_REPO: wayland/wayland
+
+
+.debian.buster:
+  variables:
+    FDO_DISTRIBUTION_PACKAGES: $DEBIAN_PACKAGES
+    FDO_DISTRIBUTION_TAG: $DEBIAN_TAG
+    FDO_DISTRIBUTION_VERSION: 'buster'
+    FDO_DISTRIBUTION_EXEC: $DEBIAN_EXEC
+
+
+check-commit:
+  extends:
+    - .fdo.ci-fairy
+  stage: review
+  script:
+    - ci-fairy check-commits --signed-off-by --junit-xml=results.xml
+  variables:
+    GIT_DEPTH: 100
+  artifacts:
+    reports:
+      junit: results.xml
+
+
+debian:buster@container-prep:
+  extends:
+    - .debian.buster
+    - .fdo.container-build@debian
+  stage: prep
+  variables:
+    GIT_STRATEGY: none
+
+
+build-native:
+  extends:
+    - .debian.buster
+    - .fdo.distribution-image@debian
+  stage: build
+  script:
+  - export BUILD_ID="wayland-$CI_JOB_NAME_$CI_COMMIT_SHA-$CI_JOB_ID"
+  - export PREFIX="$(pwd)/prefix-$BUILD_ID"
+  - export BUILDDIR="$(pwd)/build-$BUILD_ID"
+  - mkdir "$BUILDDIR" "$PREFIX"
+  - cd "$BUILDDIR"
+  - meson --prefix="$PREFIX" -Dicon_directory=/usr/share/X11/icons ..
+  - ninja -k0 test
+  - ninja clean
+  artifacts:
+    name: wayland-meson-$CI_COMMIT_SHA-$CI_JOB_ID
+    when: always
+    paths:
+    - build-meson/meson-logs
+    - prefix-*
