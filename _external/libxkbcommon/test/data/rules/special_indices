@@ -1,0 +1,98 @@
+! model         = keycodes
+  my_model      = my_keycodes
+  *             = default_keycodes
+
+! layout[single] variant    = symbols // valid
+  layout_a       my_variant = a+extra_variant
+
+! layout[single] = symbols
+  layout_a       = A
+
+! layout        = symbols
+  layout_b      = B
+  layout_c      = C:%i // valid, but unusual
+  layout_d      = D
+  layout_e      = E
+  *             = %l[%i]%(v[%i]) // valid, but unusual
+
+! layout[first] = symbols
+  layout_a      = a:1
+  layout_b      = b:1
+  layout_c      = c:1
+  layout_d      = d:%i // valid, but unusual
+  layout_e      = e:1
+  *             = %l[%i]%(v[%i]) // valid, cannot be easily expressed otherwise
+
+! layout[first] = symbols
+  layout_e      = %+l // different output if single or multiple layouts
+
+! layout[later] = symbols
+  layout_a      = +x:%i
+  layout_b      = +y:%i
+  *             = +%l[%i]%(v[%i]):%i
+
+! layout[any]   = symbols
+  layout_c      = +z:%i
+
+! layout[any] variant[any] = symbols
+  *           extra        = +foo:%i|bar:%i
+
+! layout[1] variant = symbols // invalid mapping
+  *         *       = +AAA:%i
+
+! layout variant[1] = symbols // invalid mapping
+  *      *          = +BBB:%i
+
+! layout[1] variant[2] = symbols // invalid mapping
+  *         *          = +CCC:%i
+
+! layout[any] variant = symbols // invalid mapping
+  *           *       = +DDD:%i
+
+! layout variant[any] = symbols // invalid mapping
+  *      *            = +EEE:%i
+
+! layout[any] variant[1] = symbols // invalid mapping
+  *           *          = +FFF:%i
+
+! layout[any] variant[first] = symbols // invalid mapping
+  *           *              = +GGG:%i
+
+! model         = types
+  my_model      = my_types
+  *             = default_types
+
+! model         = compat
+  my_model      = my_compat
+  *             = default_compat
+
+! option        = symbols
+  my_option     = +extra_option
+
+// Used to check that special indices merge the KcCGST values in the
+// expected order.
+! layout[any] option   = symbols
+  layout_c    option_2 = +HHH:%i
+  layout_b    option_1 = +III:%i
+  // should be skipped (no explicit merge mode) and
+  // should not interact with other rules
+  layout_b    option_2 = skip
+  layout_b    option_3 = +JJJ:%i
+  layout_c    option_1 = +KKK:%i
+
+! layout[first] option   = compat symbols
+  *             option_1 = skip1  skip
+  *             option_2 = skip2  +LLL
+
+! layout[later] option   = symbols compat
+  layout_c      option_2 = +MMM:%i skip1
+  layout_c      option_1 = +NNN:%i skip2
+  layout_b      option_1 = +OOO:%i skip3
+
+// Invalid %i (no layout nor variant): always discarded
+! model         = symbols
+  *             = +invalid:%i
+
+// Invalid %i (no layout nor variant): always discarded
+! option        = symbols
+  *             = +invalid-too:%i

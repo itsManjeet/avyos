@@ -1,0 +1,91 @@
+xkb_symbols "pc105-pure-virtual-modifiers" {
+
+    key <ESC>  {	[ Escape		]	};
+
+    // The extra key on many European keyboards:
+    key <LSGT> {	[ less, greater, bar, brokenbar ] };
+
+    // The following keys are common to all layouts.
+    key <BKSL> {	[ backslash,	bar	]	};
+    key <SPCE> {	[ 	 space		]	};
+
+    include "srvr_ctrl(fkey2vt)"
+    include "pc(editing)"
+    include "keypad(x11)"
+
+    key <BKSP> {	[ BackSpace, BackSpace	]	};
+
+    key  <TAB> {	[ Tab,	ISO_Left_Tab	]	};
+    key <RTRN> {	[ Return		]	};
+
+    key <CAPS> {	[ Caps_Lock		]	};
+    key <NMLK> {	[ Num_Lock 		]	};
+
+    key <LFSH> {	[ Shift_L		]	};
+    key <LCTL> {	[ Control_L		]	};
+    key <LWIN> {	[ Super_L		]	};
+
+    key <RTSH> {	[ Shift_R		]	};
+    key <RCTL> {	[ Control_R		]	};
+    key <RWIN> {	[ Super_R		]	};
+    key <MENU> {	[ Menu			]	};
+
+    // Fake keys for virtual<->real modifiers mapping:
+    key <LVL3> {	[ ISO_Level3_Shift	]	};
+    key <MDSW> {	[ Mode_switch 		]	};
+
+    key <ALT>  {	[ NoSymbol, Alt_L	]	};
+    key <LALT> { [ Alt_L, Meta_L ] };
+    key <RALT> { type[Group1] = "TWO_LEVEL",
+                 symbols[Group1] = [ Alt_R, Meta_R ] };
+
+    key <META> {	[ NoSymbol, Meta_L	]	};
+
+    key <SUPR> {	[ NoSymbol, Super_L	]	};
+
+    key <HYPR> {	[ NoSymbol, Hyper_L	]	};
+    // End of modifier mappings.
+
+    key <OUTP> { [ XF86Display ] };
+    key <KITG> { [ XF86KbdLightOnOff ] };
+    key <KIDN> { [ XF86KbdBrightnessDown ] };
+    key <KIUP> { [ XF86KbdBrightnessUp ] };
+};
+
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "pc105" {
+    include "pc(pc105-pure-virtual-modifiers)"
+
+    // Beginning of modifier mappings.
+    modifier_map Shift  { Shift_L, Shift_R };
+    modifier_map Lock   { Caps_Lock };
+    modifier_map Control{ Control_L, Control_R };
+    modifier_map Mod1   { <META>, Alt_L, Alt_R, Meta_L, Meta_R };
+    modifier_map Mod2   { Num_Lock };
+    modifier_map Mod4   { <SUPR>, <HYPR>, Super_L, Super_R };
+    modifier_map Mod5   { <LVL3>, <MDSW> };
+};
+
+hidden partial alphanumeric_keys
+xkb_symbols "editing" {
+    key <PRSC> {
+	type= "PC_ALT_LEVEL2",
+	symbols[Group1]= [ Print, Sys_Req ]
+    };
+    key <SCLK> {	[  Scroll_Lock		]	};
+    key <PAUS> {
+	type= "PC_CONTROL_LEVEL2",
+	symbols[Group1]= [ Pause, Break ]
+    };
+    key  <INS> {	[  Insert		]	};
+    key <HOME> {	[  Home			]	};
+    key <PGUP> {	[  Prior		]	};
+    key <DELE> {	[  Delete		]	};
+    key  <END> {	[  End			]	};
+    key <PGDN> {	[  Next			]	};
+
+    key   <UP> {	[  Up			]	};
+    key <LEFT> {	[  Left			]	};
+    key <DOWN> {	[  Down			]	};
+    key <RGHT> {	[  Right		]	};
+};

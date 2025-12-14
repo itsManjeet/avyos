@@ -1,0 +1,68 @@
+// NOTE: This file has been generated automatically by “{{script}}”.
+//       Do not edit manually!
+#pragma once
+
+#include "config.h"
+
+#include <stdint.h>
+
+/*
+ * Macro sorcery: PREPEND_MESSAGE_ID enables the log functions to format messages
+ * with the message ID only if the ID is not 0 (XKB_LOG_MESSAGE_NO_ID).
+ * This avoid checking the ID value at run time.
+ *
+ * The trick resides in CHECK_ID:
+ * • CHECK_ID(0) expands to:
+ *   ‣ SECOND(MATCH0, WITH_ID, unused)
+ *   ‣ SECOND(unused,WITHOUT_ID, WITH_ID, unused)
+ *   ‣ WITHOUT_ID
+ * • CHECK_ID(123) expands to:
+ *   ‣ SECOND(MATCH123, WITH_ID, unused)
+ *   ‣ WITH_ID
+*/
+#define EXPAND(...)              __VA_ARGS__ /* needed for MSVC compatibility */
+
+#define JOIN_EXPAND(a, b)        a##b
+#define JOIN(a, b)               JOIN_EXPAND(a, b)
+
+#define SECOND_EXPAND(a, b, ...) b
+#define SECOND(...)              EXPAND(SECOND_EXPAND(__VA_ARGS__))
+
+#define MATCH0                   unused,WITHOUT_ID
+#define CHECK_ID(value)          SECOND(JOIN(MATCH, value), WITH_ID, unused)
+
+#define FORMAT_MESSAGE_WITHOUT_ID(id, fmt) fmt
+#define FORMAT_MESSAGE_WITH_ID(id, fmt)    "[XKB-%03d] " fmt, id
+#define PREPEND_MESSAGE_ID(id, fmt) JOIN(FORMAT_MESSAGE_, CHECK_ID(id))(id, fmt)
+
+/**
+ * Set of verbosity levels
+ */
+enum xkb_log_verbosity {
+    XKB_LOG_VERBOSITY_SILENT = -1,
+    XKB_LOG_VERBOSITY_MINIMAL = 0,
+    XKB_LOG_VERBOSITY_BRIEF = 1,
+    XKB_LOG_VERBOSITY_DETAILED = 5,
+    XKB_LOG_VERBOSITY_VERBOSE = 10,
+    XKB_LOG_VERBOSITY_COMPREHENSIVE = 11,
+    XKB_LOG_VERBOSITY_DEFAULT = XKB_LOG_VERBOSITY_MINIMAL,
+};
+
+/**
+ * Special case when no message identifier is defined.
+ */
+#define XKB_LOG_MESSAGE_NO_ID 0
+
+/**
+ * @name Codes of the log messages
+ */
+enum xkb_message_code {
+    _XKB_LOG_MESSAGE_MIN_CODE = {{ entries[0].code }},
+    {% for entry in entries %}
+    /** {{ entry.description }} */
+    {{ entry.message_code_constant }} = {{ entry.code }},
+    {% endfor %}
+    _XKB_LOG_MESSAGE_MAX_CODE = {{ entries[-1].code }}
+};
+
+typedef uint32_t xkb_message_code_t;

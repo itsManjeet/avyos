@@ -1,0 +1,80 @@
+xkb_keymap {
+xkb_keycodes {
+	minimum = 1;
+	maximum = 255;
+	<>                   = 1;
+	indicator 1 = "1";
+	indicator 2 = "2";
+};
+
+xkb_types {
+	type "ONE_LEVEL" {
+		modifiers= none;
+	};
+};
+
+xkb_compatibility {
+	interpret.useModMapMods= AnyLevel;
+	interpret.repeat= False;
+	interpret a+AnyOfOrNone(all) {
+		action= SetGroup(group=32);
+	};
+	interpret b+AnyOfOrNone(all) {
+		action= SetGroup(group=-32);
+	};
+	interpret c+AnyOfOrNone(all) {
+		action= SetGroup(group=+32);
+	};
+	indicator "1" {
+		groups= 0x80000000;
+	};
+	indicator "2" {
+		groups= 0x7fffffff;
+	};
+};
+
+xkb_symbols {
+	name[1]="1";
+	name[4]="4";
+	name[5]="5";
+	name[8]="8";
+	name[32]="32";
+
+	key <>                   {
+		groupsRedirect= 32,
+		symbols[1]= [               a ],
+		symbols[2]= [               a ],
+		symbols[3]= [               a ],
+		symbols[4]= [               b ],
+		symbols[5]= [               c ],
+		symbols[6]= [               a ],
+		symbols[7]= [               a ],
+		symbols[8]= [               d ],
+		symbols[9]= [               a ],
+		symbols[10]= [               a ],
+		symbols[11]= [               a ],
+		symbols[12]= [               a ],
+		symbols[13]= [               a ],
+		symbols[14]= [               a ],
+		symbols[15]= [               a ],
+		symbols[16]= [               a ],
+		symbols[17]= [               a ],
+		symbols[18]= [               a ],
+		symbols[19]= [               a ],
+		symbols[20]= [               a ],
+		symbols[21]= [               a ],
+		symbols[22]= [               a ],
+		symbols[23]= [               a ],
+		symbols[24]= [               a ],
+		symbols[25]= [               a ],
+		symbols[26]= [               a ],
+		symbols[27]= [               a ],
+		symbols[28]= [               a ],
+		symbols[29]= [               a ],
+		symbols[30]= [               a ],
+		symbols[31]= [               a ],
+		symbols[32]= [               e ]
+	};
+};
+
+};

@@ -1,0 +1,117 @@
+name: linux
+
+on:
+  push:
+    branches:
+      - master
+      - 'releases/**'
+  pull_request:
+    branches:
+      - master
+      - 'releases/**'
+
+# Set permissions at the job level.
+permissions: {}
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        compiler: [clang, gcc]
+        sanitizers: ['sanitizers', 'no sanitizer']
+        exclude:
+          - compiler: clang
+            sanitizers: sanitizers
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          # Jinja2 is needed for merge-modes tests
+          python -m pip install --upgrade meson PyYAML ruff Jinja2
+          sudo apt update
+          sudo apt install -y \
+            locales tzdata \
+            doxygen libxcb-xkb-dev valgrind ninja-build \
+            libwayland-dev wayland-protocols bison graphviz libicu-dev \
+            ${{ matrix.sanitizers == 'sanitizers' && 'libasan8 libubsan1' || '' }}
+          # Generate locale for tests
+          sudo locale-gen fr_FR.UTF-8
+      - name: Install xkeyboard-config
+        run: |
+          # Install master version of xkeyboard-config, in order to ensure
+          # its latest version works well with xkbcommon.
+          # HACK: We use meson to install, while it would be cleaner
+          #       to create a proper package to install or use some PPA.
+          pushd ~
+          git clone --depth=1 https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config.git
+          pushd "xkeyboard-config"
+          BUILDDIR=build
+          # xkeyboard-config 2.45+ uses symlinks for legacy unversioned files,
+          # but meson cannot overwrite < 2.45 which used regular files and directories.
+          rm /usr/share/pkgconfig/xkeyboard-config.pc
+          rm -r /usr/share/X11/xkb
+          meson setup $BUILDDIR -Dprefix=/usr
+          meson install -C $BUILDDIR
+          popd
+          popd
+      - name: Create custom locale for testing
+        run: |
+          # The locale name must be kept in sync with the Compose test
+          sudo localedef -i en_US -f UTF-8 xx_YY.UTF-8
+      - name: Setup
+        run: |
+          # -gdwarf-4 - see https://github.com/llvm/llvm-project/issues/56550.
+          CFLAGS='-gdwarf-4 -fno-omit-frame-pointer' \
+              meson setup -Dbuildtype=debugoptimized -Denable-docs=true -Denable-cool-uris=true \
+                          $MESON_EXTRA_FLAGS \
+                          build
+        env:
+          CC: ${{ matrix.compiler }}
+          # Use sanitizers only if not using Valgrind
+          MESON_EXTRA_FLAGS: ${{ matrix.sanitizers == 'sanitizers' && '-Db_sanitize=address,undefined' || '' }}
+      - name: Build
+        run: |
+          meson compile -C build
+      - name: Test
+        # Use a specific non-US locale
+        run:
+          LC_ALL=fr_FR.UTF-8 meson test -C build --print-errorlogs
+      - name: Test with valgrind
+        if: matrix.sanitizers != 'sanitizers'
+        # Use a specific non-US locale
+        run: |
+          LC_ALL=fr_FR.UTF-8 meson test -C build --print-errorlogs --setup=valgrind \
+                                                 --no-suite python-tests
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test logs
+          path: |
+            build/meson-logs/
+      - name: Ensure doxygen version is correct
+        run: |
+            doxygen --version > version.txt
+            echo "1.9.6" >> version.txt
+            if [ $(sort -V version.txt | tail -n1) != "1.9.6" ]; then
+                echo "Doxygen version 1.9.6 or earlier expected, see #347"
+                exit 1
+            fi
+      - name: Store doxygen docs for use by the pages workflow
+        uses: actions/upload-artifact@v4
+        if: success() && matrix.compiler == 'gcc' && matrix.sanitizers == 'sanitizers'
+        with:
+          name: doxygen-docs
+          path: |
+            build/html/
+      - name: Ruff format
+        run:
+          ruff format --line-length=88 --check --diff .
