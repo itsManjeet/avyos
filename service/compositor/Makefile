@@ -6,10 +6,10 @@ SOURCES		 = dwl.c util.c
 
 CPPFLAGS	+= -DVERSION=\"0.0.1\"
 CPPFLAGS	+= -DWLR_USE_UNSTABLE -D_POSIX_C_SOURCE=200809L -I ${.CURDIR} -I ${.OBJDIR}
-CPPFLAGS	+= -I ${SYSROOT_PATH}/include/wlroots-0.18
+CPPFLAGS	+= -I ${SYSROOT_PATH}/include/wlroots-0.20
 CPPFLAGS	+= -I ${SYSROOT_PATH}/include/pixman-1
 
-LIBRARIES	+= wlroots-0.18
+LIBRARIES	+= wlroots-0.20
 LIBRARIES	+= wayland-server
 LIBRARIES	+= xkbcommon
 LIBRARIES	+= input

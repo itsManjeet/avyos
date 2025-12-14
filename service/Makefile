@@ -1,6 +1,6 @@
 .TOPDIR ?= ..
 include ${.TOPDIR}/build/avyos.defaults.inc
 
-SUBDIR := shell udev
+SUBDIR := compositor shell udev
 
 include ${.TOPDIR}/build/avyos.subdir.inc
