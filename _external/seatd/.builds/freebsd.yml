@@ -1,0 +1,20 @@
+image: freebsd/latest
+packages:
+   - meson
+sources:
+   - https://git.sr.ht/~kennylevinsen/seatd
+tasks:
+   - prepare: |
+      meson setup -Dlibseat-seatd=enabled -Dlibseat-builtin=enabled -Dlibseat-logind=disabled build seatd
+   - build: |
+      ninja -C build
+   - unittest: |
+      ninja -C build test
+   - smoketest: |
+      rm -rf build
+      meson setup -Db_lundef=false -Db_sanitize=address -Dlibseat-seatd=enabled -Dlibseat-builtin=enabled -Dexamples=enabled -Dlibseat-logind=disabled build seatd
+      ninja -C build
+      sudo ninja -C build install
+      timeout -s KILL 30s sudo ./build/seatd-launch -l debug -- ./build/simpletest /dev/input/event0
+   - smoketest-builtin: |
+      timeout -s KILL 30s sudo LIBSEAT_BACKEND=builtin ./build/simpletest /dev/input/event0
