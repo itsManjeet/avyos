@@ -1,0 +1,79 @@
+# Copyright 2022-2025 Free Software Foundation, Inc.
+
+# This file is part of GDB.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test showing the "amdgpu precise-memory" setting.
+
+load_lib rocm.exp
+
+require allow_hipcc_tests
+
+standard_testfile .cpp
+
+if {[build_executable "failed to prepare" $testfile $srcfile {debug hip}]} {
+    return
+}
+
+proc do_test { } {
+    clean_restart $::binfile
+
+    with_rocm_gpu_lock {
+	if ![runto_main] {
+	    return
+	}
+
+	gdb_test "show amdgpu precise-memory" \
+	    "AMDGPU precise memory access reporting is off \\(currently disabled\\)." \
+	    "show precise-memory setting in CLI before"
+
+	# Assume precise-memory is available, unless GDB reports otherwise.
+	gdb_test_multiple "set amdgpu precise-memory on" "" {
+	    -re -wrap "warning: AMDGPU precise memory access reporting could not be enabled\\." {
+		set cli_effective_value "disabled"
+		pass $gdb_test_name
+	    }
+	    -re -wrap "^" {
+		set cli_effective_value "enabled"
+		pass $gdb_test_name
+	    }
+	}
+
+	gdb_test "show amdgpu precise-memory" \
+	    "AMDGPU precise memory access reporting is on \\(currently ${cli_effective_value}\\)\\." \
+	    "show precise-memory setting in CLI after"
+
+	if { $cli_effective_value eq "disabled" } {
+	    return
+	}
+
+	# Get to the beginning of the GPU kernel without precise memory enabled.
+	with_test_prefix "goto gpu code" {
+	    gdb_test_no_output "set amdgpu precise-memory off"
+	    gdb_breakpoint "kernel" allow-pending
+	    gdb_test "continue" "Thread ${::decimal}.* hit Breakpoint .*"
+	    gdb_test_no_output "set amdgpu precise-memory on"
+	}
+
+	# If precise-memory is available, run until a SIGSEGV is reported.  At
+	# that point, the PC should point to the s_nop instruction (the one
+	# following the one which caused the memory violation).
+	gdb_test "continue" "Thread ${::decimal}\[^\r\n\]* received signal SIGSEGV, Segmentation fault.*"
+
+	gdb_test "x/i \$pc" "=> ${::hex} <_Z6kernelv\\+${::decimal}>:\[ \t\]+s_nop\[ \t\]+0"
+    }
+}
+
+do_test

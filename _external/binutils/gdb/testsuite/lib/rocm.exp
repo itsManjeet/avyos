@@ -1,0 +1,178 @@
+# Copyright (C) 2019-2025 Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Support library for testing ROCm (AMD GPU) GDB features.
+
+# ROCM_PATH is used by hipcc as well.
+if {[info exists ::env(ROCM_PATH)]} {
+    set rocm_path $::env(ROCM_PATH)
+} else {
+    set rocm_path "/opt/rocm"
+}
+
+# Act as a drop-in replacement for "remote_exec host"
+# that logs the failures.
+
+proc log_host_exec { cmd } {
+    set result [remote_exec host "$cmd"]
+    set exit_status [lindex $result 0]
+    if {$exit_status != 0} {
+	# -1 indicates that $cmd could not be executed at all.
+	if {$exit_status == -1} {
+	    verbose -log "Cannot execute $cmd."
+	} else {
+	    verbose -log "$cmd returned an error."
+	}
+    }
+
+    return $result
+}
+
+# Detect available AMDGPU devices.
+#
+# Return a list of GPU devices that do exist on the system.
+# The list will be empty when there's no GPU or the execution
+# of rocm_agent_enumerator does not succeed.  It is up to the
+# caller of this procedure that what should happen when an empty
+# list is returned.
+
+gdb_caching_proc find_amdgpu_devices {} {
+    global rocm_path
+    set hip_gpu_devices [list]
+    set enumerator "rocm_agent_enumerator"
+    set targets ""
+
+    # Try the PATH first
+    set result [log_host_exec "$enumerator"]
+    if {[lindex $result 0] == 0} {
+	set targets [lindex $result 1]
+    } else {
+	# Now try the ROCM_PATH
+	set result [log_host_exec "$rocm_path/bin/$enumerator"]
+	if {[lindex $result 0] == 0} {
+	    set targets [lindex $result 1]
+	}
+    }
+
+    if {$targets != ""} {
+	foreach dev $targets {
+	    # Ignore the 'gfx000' device which identifies the host.
+	    if {$dev != "gfx000"} {
+		lappend hip_gpu_devices $dev
+	    }
+	}
+    }
+
+    return $hip_gpu_devices
+}
+
+# Get the list of GPU targets to compile for.
+#
+# If HCC_AMDGPU_TARGET is set in the environment, use it.
+# Otherwise, consider the devices available on the system.
+
+proc hcc_amdgpu_targets {} {
+    # First, look for HCC_AMDGPU_TARGET (same env var hipcc uses).
+    if {[info exists ::env(HCC_AMDGPU_TARGET)]} {
+	# We don't verify the contents of HCC_AMDGPU_TARGET.
+	# That's the toolchain's job.
+	return [split $::env(HCC_AMDGPU_TARGET) ","]
+    }
+
+    return [find_amdgpu_devices]
+}
+
+gdb_caching_proc allow_hipcc_tests {} {
+    # Only the native target supports ROCm debugging.  E.g., when
+    # testing against GDBserver, there's no point in running the ROCm
+    # tests.
+    if {[target_info gdb_protocol] != ""} {
+	return {0 "remote debugging"}
+    }
+
+    if {![istarget "*-linux*"]} {
+	return {0 "target platform is not Linux"}
+    }
+
+    # Ensure that GDB is built with amd-dbgapi support.
+    set output [remote_exec host $::GDB "$::INTERNAL_GDBFLAGS --configuration"]
+    if { [string first "--with-amd-dbgapi" $output] == -1 } {
+	return {0 "amd-dbgapi not supported"}
+    }
+
+    # Check if there's any GPU device to run the tests on.
+    set devices [find_amdgpu_devices]
+    if {[llength $devices] == 0} {
+	return {0 "no suitable amdgpu targets found"}
+    }
+
+    # Check if we have a working hipcc compiler available.
+    # TARGETS won't be empty, because there's at least one GPU device.
+    set targets [hcc_amdgpu_targets]
+    set flags [list hip additional_flags=--offload-arch=[join $targets ","]]
+    if {![gdb_simple_compile hipprobe {
+	    #include <hip/hip_runtime.h>
+	    __global__ void
+	    kern () {}
+
+	    int
+	    main ()
+	    {
+		kern<<<1, 1>>> ();
+		if (hipDeviceSynchronize () != hipSuccess)
+		  return -1;
+		return 0;
+	    }
+	} executable $flags]} {
+	return {0 "failed to compile hip program"}
+    }
+
+    return 1
+}
+
+# The lock file used to ensure that only one GDB has access to the GPU
+# at a time.
+set gpu_lock_filename gpu-parallel.lock
+
+# Run body under the GPU lock.  Also calls gdb_exit before releasing
+# the GPU lock.
+
+proc with_rocm_gpu_lock { body } {
+    with_lock $::gpu_lock_filename {uplevel 1 $body}
+
+    # In case BODY returned early due to some testcase failing, and
+    # left GDB running, debugging the GPU.
+    gdb_exit
+}
+
+# Return true if all the devices support debugging multiple processes
+# using the GPU.
+
+proc hip_devices_support_debug_multi_process {} {
+    set unsupported_targets \
+	{gfx900 gfx906 gfx908 gfx1010 gfx1011 gfx1012 gfx1030 gfx1031 gfx1032}
+
+    set targets [find_amdgpu_devices]
+    if { [llength $targets] == 0 } {
+	return 0
+    }
+
+    foreach target $targets {
+	if { [lsearch -exact $unsupported_targets $target] != -1 } {
+	    return 0
+	}
+    }
+    return 1
+}

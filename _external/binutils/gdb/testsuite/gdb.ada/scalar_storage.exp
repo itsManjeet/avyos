@@ -1,0 +1,74 @@
+# Copyright 2019-2025 Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Test that range types with scalar storage order are handled
+# properly.
+
+load_lib "ada.exp"
+
+require allow_ada_tests
+
+standard_ada_testfile storage
+
+# Compilation here will fail with gnat-llvm, because at the moment it
+# does not support Scalar_Storage_Order.  However, if that is ever
+# implemented, we want the test to start working.  So, we examine the
+# output before deciding if this is a real failure.
+set output [gdb_compile_ada_1 "${srcfile}" "${binfile}" executable debug]
+if {$output != ""} {
+    if {[regexp "error: reverse storage order .* not supported by LLVM" $output]} {
+	unsupported "scalar storage order not supported"
+    } else {
+	# Otherwise issue the fail.
+	gdb_compile_test $srcfile $output
+    }
+    # Either way we're not running this test.
+    return
+}
+
+clean_restart ${testfile}
+
+set bp_location [gdb_get_line_number "START" ${testdir}/storage.adb]
+if {![runto "storage.adb:$bp_location"]} {
+  return
+}
+
+set re "value => 126, another_value => 12, color => green"
+
+# This requires a compiler fix that is in GCC 14.
+set have_xfail [expr ![gnat_version_compare >= 14]]
+set re_color "(red|green|blue|$decimal)"
+set re_xfail \
+    "value => $decimal, another_value => $decimal, color => $re_color"
+
+set re_pre [string_to_regexp " = ("]
+set re_post [string_to_regexp ")"]
+set re $re_pre$re$re_post
+set re_xfail $re_pre$re_xfail$re_post
+
+foreach var { V_LE V_BE } {
+    gdb_test_multiple "print $var" "" {
+	-re -wrap $re {
+	    pass $gdb_test_name
+	}
+	-re -wrap $re_xfail {
+	    if { $have_xfail } {
+		xfail $gdb_test_name
+	    } else {
+		fail $gdb_test_name
+	    }
+	}
+    }
+}
