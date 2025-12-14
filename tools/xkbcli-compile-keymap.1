@@ -1,0 +1,122 @@
+.Dd June 4, 2024
+.Dt XKBCLI\-COMPILE\-KEYMAP 1
+.Os
+.
+.Sh NAME
+.Nm "xkbcli\-compile\-keymap"
+.Nd compile an X Keyboard keymap
+.
+.Sh SYNOPSIS
+.Nm
+.Op Ar options
+.Op Ar KEYMAP_PATH
+.
+.Sh DESCRIPTION
+.Nm
+compiles and prints a keymap based on the given options.
+.
+.Bl -tag -width Ds
+.It Ar KEYMAP_PATH
+Path to a keymap file, or
+.Dq \-
+to read the standard input
+.
+.It Fl \-help
+Print help and exit
+.
+.It Fl \-verbose
+Enable verbose debugging output
+.
+.It Fl \-test
+Test compilation but do not print the keymap
+.
+.It Fl \-rmlvo
+Print the full RMLVO with the defaults filled in for missing elements
+in YAML format
+.
+.It Fl \-kccgst
+Print a keymap which only includes the KcCGST component names instead
+of the full keymap
+.
+.It Fl \-kccgst-yaml
+Print the KcCGST component names in YAML format.
+.
+.It Fl \-modmaps
+Print real and virtual key modmaps and modifiers encodings in YAML format.
+.
+.It Fl \-include Ar PATH
+Add the given path to the include path list.
+This option is order\-dependent, include paths given first are searched first.
+If an include path is given, the default include path list is not used.
+Use
+.Fl \-include\-defaults
+to add the default include paths.
+.
+.It Fl \-include\-defaults
+Add the default set of include directories.
+This option is order-dependent, include paths given first are searched first.
+.
+.It Fl \-input\-format Ar keymap_format
+The keymap format (numeric or label, e.g.\&
+.Dq v1 )
+for parsing
+.
+.It Fl \-output\-format Ar keymap_format
+The keymap format (numeric or label, e.g.\&
+.Dq v1 )
+for serializing
+.
+.It Fl \-format Ar keymap_format
+The keymap format (numeric or label, e.g.\&
+.Dq v1 )
+for both parsing and serializing
+.
+.It Fl \-no\-pretty
+Disable pretty-printing for keymap serialization.
+.
+.It Fl \-drop\-unused
+Disable unused bits serialization.
+.
+.It Fl \-keymap Oo Ar PATH Oc , Fl \-from\-xkb Oo Ar PATH Oc
+Load the XKB keymap from a file, ignore RMLVO options. If
+.Ar PATH
+is empty or
+.Dq \- ,
+read the stdin.
+.
+.It Fl \-rules Ar rules
+The XKB ruleset
+.
+.It Fl \-model Ar model
+The XKB model
+.
+.It Fl \-layout Ar layout
+The XKB layout
+.
+.It Fl \-variant Ar variant
+The XKB layout variant
+.
+.It Fl \-options Ar options
+The XKB options
+.
+.It Fl \-enable\-environment\-names
+Allow to set the default RMLVO values via the following environment variables:
+.Bl -dash -compact -hang
+.It
+.Ev XKB_DEFAULT_RULES
+.It
+.Ev XKB_DEFAULT_MODEL
+.It
+.Ev XKB_DEFAULT_LAYOUT
+.It
+.Ev XKB_DEFAULT_VARIANT
+.It
+.Ev XKB_DEFAULT_OPTIONS
+.El
+Note that this option may affect the default values of the previous options.
+.
+.El
+.
+.Sh SEE ALSO
+.Xr xkbcli 1 ,
+.Lk https://xkbcommon.org "The libxkbcommon online documentation"

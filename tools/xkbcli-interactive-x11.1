@@ -1,0 +1,95 @@
+.Dd June 4, 2024
+.Dt XKBCLI\-INTERACTIVE\-X11 1
+.Os
+.
+.Sh NAME
+.Nm "xkbcli\-interactive\-x11"
+.Nd interactive debugger for X Keyboard keymaps
+.
+.Sh SYNOPSIS
+.Nm
+.Op Ar options
+.
+.Sh DESCRIPTION
+.Nm
+is a commandline tool to interactively debug XKB keymaps by listening to X11 events.
+.
+.Pp
+This requires an X server to be running.
+.
+.Pp
+Press the
+.Aq Escape
+key to exit.
+.
+.Pp
+This is a debugging tool, its behavior or output is not guaranteed to be stable.
+.
+.Bl -tag -width Ds
+.It Fl \-help
+Print help and exit
+.
+.It Fl \-local\-state
+Enable local state handling and ignore modifiers/layouts state updates
+from the X11 server.
+.
+.It Fl \-legacy\-state\-api Op Ar =true|false
+Use the legacy state API instead of the state event API.
+.
+.It Fl \-controls Ar controls
+Enable or disable controls. It implies
+.Fl \-local\-state
+and
+.Fl \-legacy\-state\-api=false
+\&.
+.Ar controls
+is a comma-separated-list of the following entries:
+.Bl -tag -compact -hang
+.It Ar sticky-keys
+Enable sticky-keys accessibility feature
+.It Ar latch-to-lock
+Enable latch-to-lock option for sticky-keys
+.It Ar latch-simultaneous
+Relax the strict tapping sequence requirement operating key latches.
+.El
+Each entry may be preceded by
+.Ar \-
+or
+.Ar \+
+in order to respectively enable or disable the corresponding control.
+.
+.It Fl \-keymap Oo Ar PATH Oc
+Load the XKB keymap from a file instead of the keymap from the compositor.
+It implies
+.Fl \-local\-state
+\&. If
+.Ar PATH
+is empty or
+.Dq \- ,
+read the stdin.
+.
+.It Fl \-format Ar keymap_format
+Specify the keymap format (numeric or label, e.g.\&
+.Dq v1 )
+.
+.It Fl \-enable\-compose
+Enable Compose functionality
+.
+.It Fl \-verbose
+Enable verbose debugging output
+.
+.It Fl 1, \-uniline
+Enable uniline event output
+.
+.It Fl \-multiline
+Enable multiline event output
+.
+.It Fl \-no-state-report
+Do not report state changes
+.El
+.
+.Sh SEE ALSO
+.Xr xkbcli 1 ,
+.Xr xkbcli\-interactive\-evdev 1 ,
+.Xr xkbcli\-interactive\-wayland 1 ,
+.Lk https://xkbcommon.org "The libxkbcommon online documentation"

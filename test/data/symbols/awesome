@@ -1,0 +1,34 @@
+default alphanumeric_keys modifier_keys function_keys alternate_group
+xkb_symbols "awesome" {
+    include "us"
+
+    name[Group1]= "My Awesome Layout";
+
+    key <AE02> { [ 2, at,          Page_Up,    Page_Up     ] };
+    key <AE03> { [ 3, numbersign,  Page_Down,  Page_Down   ] };
+
+    key <AD01> { [ {q, a, b},  Q,  Escape,     Escape      ] };
+    key <AD02> { [ w,  W,          Home,       Home        ] };
+    key <AD03> {
+        type="THREE_LEVEL",
+        symbols=[ e,  {E, F},      Up]
+    };
+    key <AD04> { [ r,  R,          End,        End         ] };
+    key <AD05> { [ t,  T,          Tab,        Tab         ] };
+
+    // Unknown keysyms
+    key <AD06> { [{notAKeysym, ydiaeresis}, {thisEither, norThis} ] };
+
+    key <AC01> { [ a,  A,          Return,     Return      ] };
+    key <AC02> { [ s,  S,          Left] };
+    key <AC03> { [ d,  D,          Down] };
+    key <AC04> { [ f,  F,          Right] };
+    key <AC05> { [ g,  G,          BackSpace,  BackSpace   ] };
+
+    key <AB05> { [ b,  B,          Delete,     Delete      ] };
+
+    key <LCTL> {
+        symbols[1] = [ {Control_L,                  ISO_Next_Group     } ],
+        actions[1] = [ {SetMods(modifiers=Control), SetGroup(group=+1) } ]
+    };
+};

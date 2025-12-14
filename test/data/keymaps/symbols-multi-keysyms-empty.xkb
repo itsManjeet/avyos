@@ -1,0 +1,232 @@
+xkb_keymap {
+xkb_keycodes {
+	minimum = 8;
+	maximum = 255;
+	<10>                 = 10;
+	<11>                 = 11;
+	<12>                 = 12;
+	<13>                 = 13;
+	<14>                 = 14;
+	<15>                 = 15;
+	<16>                 = 16;
+	<17>                 = 17;
+	<18>                 = 18;
+	<19>                 = 19;
+	<20>                 = 20;
+	<21>                 = 21;
+	<22>                 = 22;
+	<23>                 = 23;
+	<30>                 = 30;
+	<31>                 = 31;
+	<32>                 = 32;
+	<33>                 = 33;
+	<34>                 = 34;
+	<35>                 = 35;
+	<36>                 = 36;
+	<37>                 = 37;
+	<38>                 = 38;
+	<39>                 = 39;
+};
+
+xkb_types "basic_extra" {
+	virtual_modifiers NumLock=0x100,Alt=0x200,LevelThree=0x400;
+
+	type "ONE_LEVEL" {
+		modifiers= none;
+		level_name[1]= "Any";
+	};
+	type "TWO_LEVEL" {
+		modifiers= Shift;
+		map[Shift]= 2;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+	};
+	type "ALPHABETIC" {
+		modifiers= Shift+Lock;
+		map[Shift]= 2;
+		map[Lock]= 2;
+		level_name[1]= "Base";
+		level_name[2]= "Caps";
+	};
+	type "FOUR_LEVEL" {
+		modifiers= Shift+LevelThree;
+		map[Shift]= 2;
+		map[LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+		level_name[3]= "Alt Base";
+		level_name[4]= "Shift Alt";
+	};
+	type "FOUR_LEVEL_ALPHABETIC" {
+		modifiers= Shift+Lock+LevelThree;
+		map[Shift]= 2;
+		map[Lock]= 2;
+		map[LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		map[Lock+LevelThree]= 4;
+		map[Shift+Lock+LevelThree]= 3;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+		level_name[3]= "Alt Base";
+		level_name[4]= "Shift Alt";
+	};
+	type "FOUR_LEVEL_SEMIALPHABETIC" {
+		modifiers= Shift+Lock+LevelThree;
+		map[Shift]= 2;
+		map[Lock]= 2;
+		map[LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		map[Lock+LevelThree]= 3;
+		preserve[Lock+LevelThree]= Lock;
+		map[Shift+Lock+LevelThree]= 4;
+		preserve[Shift+Lock+LevelThree]= Lock;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+		level_name[3]= "Alt Base";
+		level_name[4]= "Shift Alt";
+	};
+	type "FOUR_LEVEL_MIXED_KEYPAD" {
+		modifiers= Shift+NumLock+LevelThree;
+		map[NumLock]= 2;
+		map[Shift]= 2;
+		map[LevelThree]= 3;
+		map[NumLock+LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		map[Shift+NumLock+LevelThree]= 4;
+		level_name[1]= "Base";
+		level_name[2]= "Number";
+		level_name[3]= "Alt Base";
+		level_name[4]= "Shift Alt";
+	};
+	type "FOUR_LEVEL_X" {
+		modifiers= Shift+Control+Alt+LevelThree;
+		map[LevelThree]= 2;
+		map[Shift+LevelThree]= 3;
+		map[Control+Alt]= 4;
+		level_name[1]= "Base";
+		level_name[2]= "Alt Base";
+		level_name[3]= "Shift Alt";
+		level_name[4]= "Ctrl+Alt";
+	};
+	type "SEPARATE_CAPS_AND_SHIFT_ALPHABETIC" {
+		modifiers= Shift+Lock+LevelThree;
+		map[Shift]= 2;
+		map[Lock]= 4;
+		preserve[Lock]= Lock;
+		map[LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		map[Lock+LevelThree]= 3;
+		preserve[Lock+LevelThree]= Lock;
+		map[Shift+Lock+LevelThree]= 3;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+		level_name[3]= "AltGr Base";
+		level_name[4]= "Shift AltGr";
+	};
+	type "FOUR_LEVEL_PLUS_LOCK" {
+		modifiers= Shift+Lock+LevelThree;
+		map[Shift]= 2;
+		map[LevelThree]= 3;
+		map[Shift+LevelThree]= 4;
+		map[Lock]= 5;
+		map[Shift+Lock]= 2;
+		map[Lock+LevelThree]= 3;
+		map[Shift+Lock+LevelThree]= 4;
+		level_name[1]= "Base";
+		level_name[2]= "Shift";
+		level_name[3]= "Alt Base";
+		level_name[4]= "Shift Alt";
+		level_name[5]= "Lock";
+	};
+};
+
+xkb_compatibility {
+	virtual_modifiers NumLock=0x100,Alt=0x200,LevelThree=0x400;
+
+	interpret.useModMapMods= AnyLevel;
+	interpret.repeat= False;
+	interpret 1+AnyOfOrNone(all) {
+		action= NoAction();
+	};
+	interpret 2+AnyOfOrNone(all) {
+		action= NoAction();
+	};
+	interpret 3+AnyOfOrNone(all) {
+		action= SetMods(modifiers=none);
+	};
+	interpret 4+AnyOfOrNone(all) {
+		action= {SetMods(modifiers=none), SetGroup(group=1)};
+	};
+};
+
+xkb_symbols {
+	key <12>                 {
+		repeat= No,
+		symbols[1]= [                       NoSymbol ],
+		actions[1]= [       SetMods(modifiers=Shift) ]
+	};
+	key <13>                 {
+		repeat= No,
+		symbols[1]= [                       NoSymbol ],
+		actions[1]= [       SetMods(modifiers=Shift) ]
+	};
+	key <14>                 {
+		type= "TWO_LEVEL",
+		symbols[1]= [        NoSymbol,        NoSymbol ]
+	};
+	key <15>                 {
+		type= "TWO_LEVEL",
+		symbols[1]= [        NoSymbol,        NoSymbol ]
+	};
+	key <16>                 {	[               a,               A ] };
+	key <17>                 {	[               a,               A ] };
+	key <18>                 {
+		type= "FOUR_LEVEL_SEMIALPHABETIC",
+		symbols[1]= [               a,               A,        NoSymbol,        NoSymbol ]
+	};
+	key <19>                 {
+		type= "FOUR_LEVEL_SEMIALPHABETIC",
+		symbols[1]= [               a,               A,        NoSymbol,        NoSymbol ]
+	};
+	key <20>                 {	[               a,               A,              ae,        NoSymbol ] };
+	key <21>                 {	[               a,               A,              ae,        NoSymbol ] };
+	key <22>                 {	[               a,               A,              ae,              AE ] };
+	key <23>                 {	[               a,               A,              ae,              AE ] };
+	key <32>                 {
+		repeat= No,
+		symbols[1]= [                              a ],
+		actions[1]= [                     NoAction() ]
+	};
+	key <33>                 {
+		repeat= No,
+		symbols[1]= [                              a ],
+		actions[1]= [                     NoAction() ]
+	};
+	key <34>                 {
+		type= "TWO_LEVEL",
+		repeat= No,
+		symbols[1]= [                       NoSymbol,                       NoSymbol ],
+		actions[1]= [                     NoAction(),                     NoAction() ]
+	};
+	key <35>                 {
+		type= "TWO_LEVEL",
+		repeat= No,
+		symbols[1]= [                       NoSymbol,                       NoSymbol ],
+		actions[1]= [                     NoAction(),                     NoAction() ]
+	};
+	key <38>                 {
+		type= "FOUR_LEVEL_SEMIALPHABETIC",
+		repeat= No,
+		symbols[1]= [                       NoSymbol,                       NoSymbol,                       NoSymbol,                       NoSymbol ],
+		actions[1]= [                     NoAction(),                     NoAction(),                     NoAction(),                     NoAction() ]
+	};
+	key <39>                 {
+		type= "FOUR_LEVEL_SEMIALPHABETIC",
+		repeat= No,
+		symbols[1]= [                       NoSymbol,                       NoSymbol,                       NoSymbol,                       NoSymbol ],
+		actions[1]= [                     NoAction(),                     NoAction(),                     NoAction(),                     NoAction() ]
+	};
+};
+
+};

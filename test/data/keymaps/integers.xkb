@@ -1,0 +1,33 @@
+xkb_keymap {
+xkb_keycodes {
+	minimum = 1;
+	maximum = 255;
+	<>                   = 1;
+	indicator 32 = "xxx";
+};
+
+xkb_types {
+	type "ONE_LEVEL" {
+		modifiers= none;
+	};
+};
+
+xkb_compatibility {
+	interpret.useModMapMods= AnyLevel;
+	interpret.repeat= False;
+	interpret VoidSymbol+AnyOfOrNone(none) {
+		repeat= True;
+	};
+};
+
+xkb_symbols {
+	key <>                   {
+		repeat= No,
+		symbols[1]= [                       NoSymbol ],
+		actions[1]= [              MovePtr(x=0,y=+0) ],
+		symbols[2]= [                       NoSymbol ],
+		actions[2]= [           MovePtr(x=2,y=32766) ]
+	};
+};
+
+};
