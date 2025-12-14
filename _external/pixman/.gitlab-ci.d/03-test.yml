@@ -1,0 +1,138 @@
+# Test stage
+#
+# This stage executes the test suite for pixman for all architectures in
+# different configurations. Build and test is split, as some architectures can
+# have different QEMU configuration or have multiple supported pixman backends,
+# which are executed as job matrix.
+#
+# Mind that `PIXMAN_ENABLE` variable in matrix runs does nothing, but it looks
+# better in CI to indicate what is actually being tested.
+#
+# Some emulated targets are really slow or cannot be run in multithreaded mode
+# (mipsel, arm-v5). Thus coverage reporting is disabled for them.
+spec:
+  inputs:
+    runner_tag_amd64:
+    runner_tag_qemu:
+    runner_tag_arm64:
+---
+
+variables:
+  # Used in summary stage as well.
+  COVERAGE_BASE_DIR: coverage
+  COVERAGE_OUT: ${COVERAGE_BASE_DIR}/${CI_JOB_ID}
+  TEST_NAME: ""  # Allow to specify a set of tests to run with run variables.
+
+include:
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-386
+      toolchain: [gnu]  # TODO LLVM issue: https://gitlab.freedesktop.org/pixman/pixman/-/issues/106
+      pixman_disable:
+        - "sse2 ssse3"  # Testing "mmx"
+        - "mmx ssse3"  # Testing "sse2"
+        - "mmx sse2"  # Testing "ssse3"
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-amd64
+      pixman_disable:
+        - ""
+        - "fast"
+        - "wholeops"
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-arm-v5
+      toolchain: [gnu]  # TODO: https://gitlab.freedesktop.org/pixman/pixman/-/issues/107
+      pixman_disable: ["arm-neon"] # Test only arm-simd.
+      timeout: 3h
+      test_timeout_multiplier: 40
+      runner_tag: "$[[ inputs.runner_tag_arm64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-arm-v7
+      runner_tag: "$[[ inputs.runner_tag_arm64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-arm64-v8
+      runner_tag: "$[[ inputs.runner_tag_arm64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-mips
+      toolchain: [gnu]  # TODO: Add llvm once the build is fixed.
+      qemu_cpu: [74Kf]
+      job_name_prefix: "."
+      job_name_suffix: ":failing"
+      allow_failure: true  # Some tests seem to fail.
+      retry: 0
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-mips64le
+      toolchain: [gnu]  # TODO: https://gitlab.freedesktop.org/pixman/pixman/-/issues/108
+      qemu_cpu: [Loongson-3A4000]
+      runner_tag: "$[[ inputs.runner_tag_qemu ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-mipsel
+      toolchain: [gnu]  # TODO: Add llvm once the build is fixed.
+      qemu_cpu: [74Kf]
+      timeout: 2h
+      runner_tag: "$[[ inputs.runner_tag_qemu ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-ppc
+      qemu_cpu: [g4]
+      timeout: 2h
+      test_timeout_multiplier: 30
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-ppc64
+      qemu_cpu: [power9]
+      timeout: 2h
+      test_timeout_multiplier: 30
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-ppc64le
+      qemu_cpu: [power10]
+      runner_tag: "$[[ inputs.runner_tag_qemu ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: linux-riscv64
+      qemu_cpu:
+        # Test on target without RVV (verify no autovectorization).
+        - rv64,v=false
+        # Test correctness for different VLENs.
+        - rv64,v=true,vext_spec=v1.0,vlen=128,elen=64
+        - rv64,v=true,vext_spec=v1.0,vlen=256,elen=64
+        - rv64,v=true,vext_spec=v1.0,vlen=512,elen=64
+        - rv64,v=true,vext_spec=v1.0,vlen=1024,elen=64
+      runner_tag: "$[[ inputs.runner_tag_qemu ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: windows-686
+      pixman_disable:
+        # The same as for linux-386.
+        - "sse2 ssse3"
+        - "mmx ssse3"
+        - "mmx sse2"
+      retry: 2
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: windows-amd64
+      pixman_disable:
+        # The same as for linux-amd64.
+        - ""
+        - "fast"
+        - "wholeops"
+      runner_tag: "$[[ inputs.runner_tag_amd64 ]]"
+  - local: .gitlab-ci.d/templates/test.yml
+    inputs:
+      target: windows-arm64-v8
+      toolchain: [llvm]
+      runner_tag: "$[[ inputs.runner_tag_arm64 ]]"
+      retry: 2
