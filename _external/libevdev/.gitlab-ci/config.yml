@@ -1,0 +1,125 @@
+# This file contains the configuration for the gitlab ci.
+# See the .gitlab-ci/generate-gitlab-ci.py file for more info
+#
+
+# We're happy to rebuild all containers when one changes.
+.default_tag: &default_tag '2024-11-25.0'
+
+distributions:
+  - name: fedora
+    tag: *default_tag
+    use_for_tarball_tests: true
+    # only one distro for qemu tests
+    use_for_qemu_tests: true
+    versions:
+      - '40'
+      - '41'
+    packages:
+      - git
+      - gcc
+      - gcc-c++
+      - meson
+      - automake
+      - autoconf
+      - libtool
+      - make
+      - pkgconfig
+      - python3
+      - check-devel
+      - valgrind
+      - binutils
+      - doxygen
+      - xz
+      - clang-analyzer
+      # below packages are for the qemu runs, so optional
+      - systemd-udev
+      - qemu-img
+      - qemu-system-x86-core
+      - qemu-system-aarch64-core
+      - jq
+      - python3-click
+      - python3-rich
+  - name: ubuntu
+    tag: *default_tag
+    versions:
+      - '24.10'
+    packages:
+      - git
+      - gcc
+      - g++
+      - meson
+      - automake
+      - autoconf
+      - libtool
+      - make
+      - pkg-config
+      - python3
+      - check
+      - valgrind
+      - binutils
+      - doxygen
+      - xz-utils
+  - name: debian
+    tag: *default_tag
+    versions:
+      - 'stable'
+      - 'sid'
+    packages:
+      - git
+      - gcc
+      - g++
+      - meson
+      - automake
+      - autoconf
+      - libtool
+      - make
+      - pkg-config
+      - python3
+      - check
+      - valgrind
+      - binutils
+      - doxygen
+      - xz-utils
+  - name: arch
+    tag: *default_tag
+    versions:
+      - 'rolling'
+    packages:
+      - git
+      - gc
+      - meson
+      - automake
+      - autoconf
+      - libtool
+      - make
+      - pkgconfig
+      - python3
+      - check
+      - valgrind
+      - binutils
+      - doxygen
+  - name: alpine
+    tag: *default_tag
+    versions:
+      - 'latest'
+    packages:
+      - git
+      - gcc
+      - g++
+      - meson
+      - automake
+      - autoconf
+      - libtool
+      - make
+      - pkgconfig
+      - python3
+      - check-dev
+      - valgrind
+      - binutils
+      - doxygen
+      - xz
+      - linux-headers
+
+b2c:
+  version: 2ff65156ba67fa8a0c309a4fc16c5df1a88a3844
+  kernel: https://gitlab.freedesktop.org/api/v4/projects/libevdev%2Fhid-tools/packages/generic/kernel-x86_64/v6.5/bzImage
