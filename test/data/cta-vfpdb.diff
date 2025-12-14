@@ -1,0 +1,28 @@
+--- ref
++++ di
+@@ -78,23 +78,8 @@
+     DTD 3:  2560x1440   59.950550 Hz  16:9     88.787 kHz    241.500000 MHz (600 mm x 340 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+                  Vfront    3 Vsync   5 Vback   33 Vpol N
+-Checksum: 0x05  Unused space in Extension Block: 54 bytes
++Checksum: 0x05
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 95 and the first DTD are not identical. Is this intended?
+-  Video Capability Data Block: Set Selectable YCbCr Quantization to avoid interop issues.
+-EDID:
+-  CTA-861: Native progressive resolution of 1920x1080 is smaller than the max preferred progressive resolution 3840x2160.
+-
+-Failures:
+-
+-Block 1, CTA-861 Extension Block:
+-  Detailed Timing Descriptor #2: Mismatch of image size 800x450 mm vs display size 600x340 mm.
+-EDID:
+-  Base EDID: The DTD max image size is 800x450mm, which is larger than the display size 600.0x340.0mm.
+-
+-EDID conformity: FAIL
++EDID conformity: PASS

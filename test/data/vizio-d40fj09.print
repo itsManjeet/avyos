@@ -1,0 +1,14 @@
+make: VIZIO, Inc
+model: D40f-J09
+serial: {null}
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.640, 0.330
+  green: 0.290, 0.600
+   blue: 0.150, 0.060
+default white: 0.280, 0.290
+default gamma: 2.20
+signal colorimetry:

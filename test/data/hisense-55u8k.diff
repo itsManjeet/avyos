@@ -1,0 +1,77 @@
+--- ref
++++ di
+@@ -90,12 +90,9 @@
+     DTS-HD:
+       Max channels: 8
+       Supported sample rates (kHz): 192 176.4 96 88.2 48 44.1
+-      Supports DTS:X
+-      Audio Format Code dependent value: 0x07
+     DTS-HD:
+       Max channels: 8
+       Supported sample rates (kHz): 192 176.4 96 88.2 48 44.1
+-      Audio Format Code dependent value: 0x01
+   Video Capability Data Block:
+     YCbCr quantization: Selectable (via AVI YQ)
+     RGB quantization: Selectable (via AVI Q)
+@@ -111,7 +108,6 @@
+     BT2020cYCC
+     BT2020YCC
+     BT2020RGB
+-    Gamut Boundary Description Metadata Profile P0
+   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+     Source physical address: 3.0.0.0
+     Supports_AI
+@@ -141,8 +137,6 @@
+     Supports Auto Low-Latency Mode
+     VRRmin: 48 Hz
+     VRRmax: 144 Hz
+-  Vendor-Specific Video Data Block, OUI 62-41-DA:
+-    01                                              '.'
+   Vendor-Specific Video Data Block (Dolby), OUI 00-D0-46:
+     Version: 2 (12 bytes)
+     Supports YUV422 12 bit
+@@ -167,41 +161,18 @@
+     VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
+     VIC  64:  1920x1080  100.000000 Hz  16:9    112.500 kHz    297.000000 MHz
+     VIC 118:  3840x2160  120.000000 Hz  16:9    270.000 kHz   1188.000000 MHz
+-    SVD Index 21 is out of range
+-    SVD Index 22 is out of range
+-    SVD Index 23 is out of range
+-    SVD Index 24 is out of range
+   Vendor-Specific Video Data Block (HDR10+), OUI 90-84-8B:
+     Application Version: 1
+     Full Frame Peak Luminance Index: 0
+     Peak Luminance Index: 0
+-  Vendor-Specific Data Block (AMD), OUI 00-00-1A:
+-    Version: 2
+-    Feature Caps: 0x01
+-    Minimum Refresh Rate: 48 Hz
+-    Maximum Refresh Rate: 144 Hz
+-    Flags 1.x: 0x00
+-    Flags 2.x: 0x00
+-    Maximum luminance: 0 (50.000 cd/m^2)
+-    Minimum luminance: 0 (0.000 cd/m^2)
+-    Unknown: 0x00 0x00
+-Checksum: 0xac  Unused space in Extension Block: 1 byte
++Checksum: 0xac
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  IT Video Formats are overscanned by default, but normally this should be underscanned.
+-  Video Data Block: For improved preferred timing interoperability, set 'Native detailed modes' to 1.
+-  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
+-  Vendor-Specific Video Data Block, OUI 62-41-DA: Unknown OUI 62-41-DA.
+-  YCbCr 4:2:0 Capability Map Data Block: Some YCbCr 4:2:0 timings are invalid for HDMI 2.1 (which requires an RGB timings pixel rate >= 590 MHz).
+-
+ Failures:
+ 
+ Block 1, CTA-861 Extension Block:
+   Video Capability Data Block: IT video formats are always underscanned, but bit 7 of Byte 3 of the CTA-861 Extension header is set to overscanned.
+-  YCbCr 4:2:0 Capability Map Data Block: Max index 24 > 19 (#SVDs).
+-
++  Colorimetry Data Block: Reserved bits MD0-MD3 must be 0.
++  Vendor-Specific Video Data Block (HDR10+), OUI 90-84-8B: Peak luminance index 0 is reserved.
+ EDID conformity: FAIL

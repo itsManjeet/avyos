@@ -1,0 +1,41 @@
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.4
+  Vendor & Product Identification:
+    Manufacturer: MEI
+    Model: 38562
+    Model year: 2015
+  Basic Display Parameters & Features:
+    Digital display
+    Bits per primary color channel: 8
+    DisplayPort interface
+    Maximum image size: 31 cm x 17 cm
+    Gamma: 2.20
+    Supported color formats: RGB 4:4:4
+    First detailed timing includes the native pixel format and preferred refresh rate
+  Color Characteristics:
+    Red  : 0.6416, 0.3183
+    Green: 0.2949, 0.6083
+    Blue : 0.1533, 0.0605
+    White: 0.3134, 0.3291
+  Established Timings I & II: none
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  2560x1440   59.999068 Hz  16:9     91.979 kHz    257.540000 MHz (309 mm x 173 mm)
+                 Hfront   88 Hsync  32 Hback  120 Hpol P
+                 Vfront   28 Vsync   5 Vback   60 Vpol P
+    DTD 2:  2560x1440   47.999925 Hz  16:9     91.968 kHz    257.510000 MHz (309 mm x 173 mm)
+                 Hfront   88 Hsync  32 Hback  120 Hpol P
+                 Vfront   28 Vsync   5 Vback  443 Vpol P
+    Display Range Limits:
+      Monitor ranges (Range Limits Only): 46-62 Hz V, 89-94 kHz H, max dotclock 260 MHz
+    Alphanumeric Data String: 'VVX14T058J10'
+Checksum: 0x09
+
+----------------
+
+Warnings:
+
+Block 0, Base EDID:
+  Missing Display Product Name.
+
+EDID conformity: PASS

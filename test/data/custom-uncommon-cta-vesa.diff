@@ -1,0 +1,26 @@
+--- ref
++++ di
+@@ -106,21 +106,8 @@
+     DTD 2:  3840x2160   59.996625 Hz  16:9    133.312 kHz    533.250000 MHz (960 mm x 652 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+                  Vfront    3 Vsync   5 Vback   54 Vpol P
+-Checksum: 0x78  Unused space in Extension Block: 48 bytes
++Checksum: 0x78
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: For improved preferred timing interoperability, set 'Native detailed modes' to 1.
+-  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
+-
+-Failures:
+-
+-Block 1, CTA-861 Extension Block:
+-  Detailed Timing Descriptor #2: Mismatch of image size 960x652 mm vs display size 960x540 mm.
+-EDID:
+-  Base EDID: The DTD max image size is 960x652mm, which is larger than the display size 960.0x540.0mm.
+-
+-EDID conformity: FAIL
++EDID conformity: PASS

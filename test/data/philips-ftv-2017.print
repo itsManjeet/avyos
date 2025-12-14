@@ -1,0 +1,14 @@
+make: Philips Consumer Electronics Company
+model: Philips FTV
+serial: {null}
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.637, 0.330
+  green: 0.272, 0.593
+   blue: 0.144, 0.066
+default white: 0.276, 0.278
+default gamma: 2.20
+signal colorimetry:

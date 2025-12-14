@@ -1,0 +1,14 @@
+make: ViewSonic Corporation
+model: VP2768 Series
+serial: UY5171500307
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.640, 0.330
+  green: 0.300, 0.600
+   blue: 0.150, 0.060
+default white: 0.313, 0.329
+default gamma: 2.20
+signal colorimetry:

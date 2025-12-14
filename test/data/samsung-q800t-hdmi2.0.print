@@ -1,0 +1,14 @@
+make: Samsung Electric Company
+model: SAMSUNG
+serial: 0x01000E00
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=yes
+EOTF tSDR=yes, tHDR=no, PQ=yes, HLG=yes
+default color primaries:
+    red: 0.670, 0.314
+  green: 0.271, 0.645
+   blue: 0.152, 0.054
+default white: 0.281, 0.284
+default gamma: 2.20
+signal colorimetry:

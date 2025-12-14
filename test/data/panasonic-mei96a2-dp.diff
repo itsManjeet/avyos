@@ -1,0 +1,12 @@
+--- ref
++++ di
+@@ -33,9 +33,4 @@
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 0, Base EDID:
+-  Missing Display Product Name.
+-
+ EDID conformity: PASS

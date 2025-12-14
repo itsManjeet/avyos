@@ -1,0 +1,14 @@
+make: LG Electronics
+model: E2441
+serial: 0x00009F69
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.633, 0.351
+  green: 0.335, 0.608
+   blue: 0.145, 0.058
+default white: 0.313, 0.329
+default gamma: 2.20
+signal colorimetry:

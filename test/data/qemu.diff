@@ -1,0 +1,31 @@
+--- ref
++++ di
+@@ -60,26 +60,12 @@
+     VIC  89:  2560x1080   50.000000 Hz  64:27    56.250 kHz    185.625000 MHz
+     VIC  31:  1920x1080   50.000000 Hz  16:9     56.250 kHz    148.500000 MHz
+     VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
+-  Detailed Timing Descriptors:
+-    Dummy Descriptor:
+-    Dummy Descriptor:
+-    Dummy Descriptor:
+-    Dummy Descriptor:
+-    Dummy Descriptor:
+-    Dummy Descriptor:
+-Checksum: 0x2f  Unused space in Extension Block: 8 bytes
++Checksum: 0x2f
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  IT Video Formats are overscanned by default, but normally this should be underscanned.
+-  Video Data Block: VIC 125 and the first DTD are not identical. Is this intended?
+-
+ Failures:
+ 
+ Block 1, CTA-861 Extension Block:
+-  Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop issues.
+-
++  Padding: Contains non-zero bytes.
+ EDID conformity: FAIL

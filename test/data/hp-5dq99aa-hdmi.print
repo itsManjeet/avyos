@@ -1,0 +1,14 @@
+make: HP Inc.
+model: HP 27 QD
+serial: CN49120J6N
+HDR static metadata:
+luminance 0.000093-603.665771, maxFALL 351.250427
+metadata type1=yes
+EOTF tSDR=yes, tHDR=yes, PQ=yes, HLG=no
+default color primaries:
+    red: 0.665, 0.326
+  green: 0.289, 0.644
+   blue: 0.149, 0.051
+default white: 0.313, 0.329
+default gamma: 2.20
+signal colorimetry: BT2020_cYCC BT2020_YCC BT2020_RGB

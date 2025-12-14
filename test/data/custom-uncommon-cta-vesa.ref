@@ -1,0 +1,126 @@
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.3
+  Vendor & Product Identification:
+    Manufacturer: LNX
+    Model: 4660
+    Made in: week 34 of 2016
+  Basic Display Parameters & Features:
+    Digital display
+    Maximum image size: 96 cm x 54 cm
+    Gamma: 2.20
+    Undefined display color type
+    Default (sRGB) color space is primary color space
+    First detailed timing is the preferred timing
+  Color Characteristics:
+    Red  : 0.6396, 0.3300
+    Green: 0.2998, 0.5996
+    Blue : 0.1503, 0.0595
+    White: 0.3125, 0.3291
+  Established Timings I & II:
+    DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.175000 MHz
+    DMT 0x05:   640x480    72.808802 Hz   4:3     37.861 kHz     31.500000 MHz
+    DMT 0x06:   640x480    75.000000 Hz   4:3     37.500 kHz     31.500000 MHz
+    DMT 0x08:   800x600    56.250000 Hz   4:3     35.156 kHz     36.000000 MHz
+    DMT 0x09:   800x600    60.316541 Hz   4:3     37.879 kHz     40.000000 MHz
+    DMT 0x0a:   800x600    72.187572 Hz   4:3     48.077 kHz     50.000000 MHz
+    DMT 0x0b:   800x600    75.000000 Hz   4:3     46.875 kHz     49.500000 MHz
+    DMT 0x10:  1024x768    60.003840 Hz   4:3     48.363 kHz     65.000000 MHz
+    DMT 0x11:  1024x768    70.069359 Hz   4:3     56.476 kHz     75.000000 MHz
+    DMT 0x12:  1024x768    75.028582 Hz   4:3     60.023 kHz     78.750000 MHz
+    DMT 0x24:  1280x1024   75.024675 Hz   5:4     79.976 kHz    135.000000 MHz
+  Standard Timings:
+    DMT 0x07:   640x480    85.008312 Hz   4:3     43.269 kHz     36.000000 MHz
+    DMT 0x0c:   800x600    85.061274 Hz   4:3     53.674 kHz     56.250000 MHz
+    DMT 0x23:  1280x1024   60.019740 Hz   5:4     63.981 kHz    108.000000 MHz
+    DMT 0x20:  1280x960    60.000000 Hz   4:3     60.000 kHz    108.000000 MHz
+    DMT 0x2a:  1400x1050   59.978442 Hz   4:3     65.317 kHz    121.750000 MHz
+    DMT 0x2f:  1440x900    59.887445 Hz  16:10    55.935 kHz    106.500000 MHz
+    DMT 0x33:  1600x1200   60.000000 Hz   4:3     75.000 kHz    162.000000 MHz
+    DMT 0x3a:  1680x1050   59.954250 Hz  16:10    65.290 kHz    146.250000 MHz
+  Detailed Timing Descriptors:
+    DTD 1:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz (960 mm x 540 mm)
+                 Hfront  176 Hsync  88 Hback  296 Hpol P
+                 Vfront    8 Vsync  10 Vback   72 Vpol P
+    Display Range Limits:
+      Monitor ranges (GTF): 24-85 Hz V, 24-135 kHz H, max dotclock 600 MHz
+    Display Product Name: 'hdmi-4k-600'
+    Dummy Descriptor:
+  Extension blocks: 1
+Checksum: 0x1d
+
+----------------
+
+Block 1, CTA-861 Extension Block:
+  Revision: 3
+  Underscans IT Video Formats by default
+  Basic audio support
+  Supports YCbCr 4:4:4
+  Supports YCbCr 4:2:2
+  Native detailed modes: 0
+  Video Data Block:
+    VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
+  Audio Data Block:
+    Linear PCM:
+      Max channels: 2
+      Supported sample rates (kHz): 48 44.1 32
+      Supported sample sizes (bits): 24 20 16
+  Video Capability Data Block:
+    YCbCr quantization: Selectable (via AVI YQ)
+    RGB quantization: Selectable (via AVI Q)
+    PT scan behavior: Always Underscanned
+    IT scan behavior: Always Underscanned
+    CE scan behavior: Always Underscanned
+  VESA Display Transfer Characteristics Data Block:
+    White transfer characteristics: 6 33 77 129 192 252 348 415 490 598 666 796 873 932 998 1023
+  VESA Video Display Device Data Block:
+    Interface Type: DisplayPort 2 channels
+    Interface Standard Version: 1.1
+    Content Protection Support: DPCP
+    Minimum Clock Frequency: 0 MHz
+    Maximum Clock Frequency: 0 MHz
+    Device Native Pixel Format: 2560x1600
+    Aspect Ratio: 1.60
+    Default Orientation: Landscape
+    Rotation Capability: Can rotate 90 degrees clockwise
+    Zero Pixel Location: Upper Left
+    Scan Direction: Fast Scan is on the Major (Long) Axis and Slow Scan is on the Minor Axis
+    Subpixel Information: Five sub-pixels, RGB + 2 additional colors
+    Horizontal and vertical dot/pixel pitch: 0.24 x 0.24 mm
+    Dithering: Spatial and Temporal
+    Direct Drive: No
+    Overdrive not recommended
+    Deinterlacing: No
+    Audio Support: Yes
+    Separate Audio Inputs Provided: No
+    Audio Input Override: No
+    Audio Delay: 6 ms
+    Frame Rate/Mode Conversion: Double Buffering
+    Frame Rate Range: 60 fps +/- 15 fps
+    Color Bit Depth: 8 @ interface, 8 @ display
+    Additional Primary Chromaticities:
+      Primary 4:   0.1455, 0.2890
+      Primary 5:   0.4921, 0.4658
+    Response Time White -> Black: 12 ms
+    Overscan: 5% x 7%
+  Detailed Timing Descriptors:
+    DTD 2:  3840x2160   59.996625 Hz  16:9    133.312 kHz    533.250000 MHz (960 mm x 652 mm)
+                 Hfront   48 Hsync  32 Hback   80 Hpol P
+                 Vfront    3 Vsync   5 Vback   54 Vpol P
+Checksum: 0x78  Unused space in Extension Block: 48 bytes
+
+----------------
+
+Warnings:
+
+Block 1, CTA-861 Extension Block:
+  Video Data Block: For improved preferred timing interoperability, set 'Native detailed modes' to 1.
+  Video Capability Data Block: S_PT is equal to S_IT and S_CE, so should be set to 0 instead.
+
+Failures:
+
+Block 1, CTA-861 Extension Block:
+  Detailed Timing Descriptor #2: Mismatch of image size 960x652 mm vs display size 960x540 mm.
+EDID:
+  Base EDID: The DTD max image size is 960x652mm, which is larger than the display size 960.0x540.0mm.
+
+EDID conformity: FAIL

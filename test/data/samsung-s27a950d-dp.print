@@ -1,0 +1,14 @@
+make: Samsung Electric Company
+model: S27A950D
+serial: {null}
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=no
+EOTF tSDR=yes, tHDR=no, PQ=no, HLG=no
+default color primaries:
+    red: 0.649, 0.338
+  green: 0.289, 0.609
+   blue: 0.146, 0.070
+default white: 0.312, 0.329
+default gamma: 2.20
+signal colorimetry:

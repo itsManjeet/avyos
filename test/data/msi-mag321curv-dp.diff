@@ -1,0 +1,51 @@
+--- ref
++++ di
+@@ -120,7 +120,6 @@
+     BT2020cYCC
+     BT2020YCC
+     BT2020RGB
+-    Gamut Boundary Description Metadata Profile P0
+   YCbCr 4:2:0 Capability Map Data Block:
+     VIC  97:  3840x2160   60.000000 Hz  16:9    135.000 kHz    594.000000 MHz
+     VIC  96:  3840x2160   50.000000 Hz  16:9    112.500 kHz    594.000000 MHz
+@@ -133,7 +132,6 @@
+       Static metadata type 1
+     Desired content max luminance: 92 (366.802 cd/m^2)
+     Desired content max frame-average luminance: 92 (366.802 cd/m^2)
+-    Desired content min luminance: 0 (0.000 cd/m^2)
+   Detailed Timing Descriptors:
+     DTD 2:  2560x1440   59.950550 Hz  16:9     88.787 kHz    241.500000 MHz (700 mm x 390 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+@@ -144,30 +142,12 @@
+     DTD 4:  1280x768    59.870228 Hz   5:3     47.776 kHz     79.500000 MHz (700 mm x 390 mm)
+                  Hfront   64 Hsync 128 Hback  192 Hpol N
+                  Vfront    3 Vsync   7 Vback   20 Vpol P
+-Checksum: 0x4a  Unused space in Extension Block: 5 bytes
++Checksum: 0x4a
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 0, Base EDID:
+-  Vendor & Product Identification: The serial number is one of the known dummy values, it should probably be set to 0.
+-  Display Range Limits: GTF support is deprecated in EDID 1.4.
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 1 and the first DTD are not identical. Is this intended?
+-  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
+-EDID:
+-  Base EDID: Some timings are out of range of the Monitor Ranges:
+-    Vertical Freq: 24.000 - 75.062 Hz (Monitor: 40.000 - 60.000 Hz)
+-    Horizontal Freq: 27.000 - 135.000 kHz (Monitor: 135.000 - 135.000 kHz)
+-
+ Failures:
+ 
+-Block 0, Base EDID:
+-  Basic Display Parameters & Features: sRGB is signaled, but the chromaticities do not match.
+ Block 1, CTA-861 Extension Block:
+-  Vendor-Specific Data Block (HDMI), OUI 00-0C-03: The HDMI Specification requires EDID 1.3 instead of 1.4.
+-  HDMI VIC Codes must have their CTA-861 VIC equivalents in the VSB.
+-  Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop issues.
+-
++  Colorimetry Data Block: Reserved bits MD0-MD3 must be 0.
+ EDID conformity: FAIL

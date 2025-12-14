@@ -1,0 +1,148 @@
+include:
+  - project: 'freedesktop/ci-templates'
+    ref: 3f37cc0e461f5b0c815409bf6f55759f26a74e9c
+    file:
+      - '/templates/ci-fairy.yml'
+      - '/templates/alpine.yml'
+
+# When updating the prepare-container step, make sure to bump
+# FDO_DISTRIBUTION_TAG, otherwise the container won't get rebuilt.
+# To force a rebuild of the container, use:
+# $ git push -f -o ci.variable="FDO_FORCE_REBUILD=1"
+variables:
+  FDO_UPSTREAM_REPO: 'emersion/libdisplay-info'
+  FDO_DISTRIBUTION_TAG: '2025-01-20.0'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_PIPELINE_SOURCE == 'push'
+
+stages:
+  - "Contribution checks"
+  - "Prepare container"
+  - "Build and test"
+  - "Publish"
+
+check-mr:
+  extends: .fdo.ci-fairy
+  stage: "Contribution checks"
+  script:
+   - ci-fairy check-commits --signed-off-by
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+      when: always
+    - when: never
+
+prepare-container:
+  extends: .fdo.container-build@alpine@x86_64
+  stage: "Prepare container"
+  variables:
+    V4L_UTILS_COMMIT: 1316a80455ef70889bea89491f37cd69170f3ee7
+    FDO_BASE_IMAGE: alpine:latest
+    FDO_DISTRIBUTION_PACKAGES: |
+      build-base clang compiler-rt meson make git gcovr py3-pygments go hwdata
+      perl argp-standalone gettext-dev linux-headers
+    FDO_DISTRIBUTION_EXEC: |
+      grep $V4L_UTILS_COMMIT ./subprojects/v4l-utils.wrap >/dev/null || \
+        (echo "Keep v4l-utils.wrap and CI in sync!" && exit 1)
+      git clone https://git.linuxtv.org/v4l-utils.git
+      cd v4l-utils
+      git checkout $V4L_UTILS_COMMIT
+      meson setup build/ \
+        -Dauto_features=disabled \
+        -Dv4l-plugins=false \
+        -Dv4l-wrappers=false \
+        -Dv4l2-compliance-libv4l=false \
+        -Dv4l2-ctl-libv4l=false \
+        -Dv4l2-ctl-stream-to=false
+      ninja -C build/
+      ninja -C build/ install
+      cd ..
+      rm -rf edid-decode
+
+      go install git.sr.ht/~emersion/gyosu@latest
+      mv ~/go/bin/gyosu /usr/bin/
+      rm -rf ~/go
+  rules:
+    - when: on_success
+
+testing-check:
+  extends: .fdo.distribution-image@alpine
+  stage: "Build and test"
+  script:
+   - |
+     # Check if the origin of all test EDIDs is documented
+     for f in ./test/data/*.edid; do
+       grep -q "^$(basename ${f%.edid})\s" ./test/data/README.md ||
+         (echo "$f not in README.md" && exit 1)
+     done
+     # Check if the test references checked in the repo match what we have in CI
+     meson setup build/
+     ninja -C build/ gen-test-data
+     git diff --quiet ||
+       (echo "Checked in reference output does not match generated reference output" && exit 1)
+  rules:
+    - when: on_success
+
+build-gcc:
+  extends: .fdo.distribution-image@alpine
+  stage: "Build and test"
+  script:
+    - CC=gcc meson setup build/ --fatal-meson-warnings -Dwerror=true -Db_coverage=true
+    - ninja -C build/
+    - ninja -C build/ test
+    - ninja -C build/ -j1 coverage-xml coverage-html
+  artifacts:
+    when: always
+    paths:
+      - build/meson-logs/
+    reports:
+      junit: build/meson-logs/testlog.junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/meson-logs/coverage.xml
+  rules:
+    - when: on_success
+
+build-clang:
+  extends: .fdo.distribution-image@alpine
+  stage: "Build and test"
+  script:
+    - CC=clang meson setup build/ --fatal-meson-warnings -Dwerror=true -Db_sanitize=address,undefined -Db_lundef=false
+    - ninja -C build/
+    - UBSAN_OPTIONS=halt_on_error=1 ninja -C build/ test
+  artifacts:
+    when: always
+    paths:
+      - build/meson-logs/
+    reports:
+      junit: build/meson-logs/testlog.junit.xml
+  rules:
+    - when: on_success
+
+build-docs:
+  extends: .fdo.distribution-image@alpine
+  stage: "Build and test"
+  script:
+    - gyosu -I$PWD/include/ -fexported-symbols='di_*'
+      -ffile-prefix-map=$PWD/include/= -fsite-name=libdisplay-info
+      -o public $PWD/include/libdisplay-info/
+  artifacts:
+    paths:
+      - public/
+  rules:
+    - when: on_success
+
+pages:
+  extends: .fdo.distribution-image@alpine
+  stage: "Publish"
+  script:
+    - "true"
+  artifacts:
+    paths:
+      - public/
+  rules:
+    - if: '$CI_PROJECT_PATH == "emersion/libdisplay-info" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
+    - when: never

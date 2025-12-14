@@ -1,0 +1,40 @@
+--- ref
++++ di
+@@ -72,12 +72,6 @@
+     PT scan behavior: Always Underscanned
+     IT scan behavior: Always Underscanned
+     CE scan behavior: Supports both over- and underscan
+-  Vendor-Specific Data Block (AMD), OUI 00-00-1A:
+-    Version: 1
+-    Feature Caps: 0x01
+-    Minimum Refresh Rate: 46 Hz
+-    Maximum Refresh Rate: 75 Hz
+-    Flags 1.x: 0xed (MCCS)
+   Colorimetry Data Block:
+     BT2020cYCC
+     BT2020YCC
+@@ -105,23 +99,12 @@
+     DTD 5:  1920x1080   74.972503 Hz  16:9     83.894 kHz    174.500000 MHz (597 mm x 339 mm)
+                  Hfront   48 Hsync  32 Hback   80 Hpol P
+                  Vfront    3 Vsync   5 Vback   31 Vpol N
+-Checksum: 0xa3  Unused space in Extension Block: 10 bytes
++Checksum: 0xa3
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 0, Base EDID:
+-  Vendor & Product Identification: The serial number is one of the known dummy values, it should probably be set to 0.
+-Block 1, CTA-861 Extension Block:
+-  Video Data Block: VIC 16 and the first DTD are not identical. Is this intended?
+-  Video Capability Data Block: Set Selectable YCbCr Quantization to avoid interop issues.
+-  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
+-  Display Product Serial Number is set, so the Serial Number in the Base EDID should be 0.
+-
+ Failures:
+ 
+ Block 1, CTA-861 Extension Block:
+   Video Capability Data Block: Set Selectable RGB Quantization to avoid interop issues.
+-
+ EDID conformity: FAIL

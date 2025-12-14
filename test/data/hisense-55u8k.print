@@ -1,0 +1,14 @@
+make: Hisense Electric Co., Ltd.
+model: HISENSE
+serial: 0x676C626C
+HDR static metadata:
+luminance 0.000000-0.000000, maxFALL 0.000000
+metadata type1=yes
+EOTF tSDR=yes, tHDR=no, PQ=yes, HLG=yes
+default color primaries:
+    red: 0.702, 0.282
+  green: 0.231, 0.688
+   blue: 0.146, 0.054
+default white: 0.312, 0.329
+default gamma: 2.20
+signal colorimetry: BT2020_cYCC BT2020_YCC BT2020_RGB

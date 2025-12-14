@@ -1,0 +1,135 @@
+--- ref
++++ di
+@@ -62,16 +62,13 @@
+     DTD 6:  3840x2160   47.951737 Hz  16:9    134.696 kHz    528.010000 MHz (699 mm x 393 mm)
+                  Hfront    8 Hsync  32 Hback   40 Hpol P
+                  Vfront   59 Vsync   8 Vback  582 Vpol N
+-Checksum: 0x01  Unused space in Extension Block: 58 bytes
++Checksum: 0x01
+ 
+ ----------------
+ 
+ Block 2, DisplayID Extension Block:
+   Version: 1.2
+-  Extension Count: 0
+   Display Product Type: Extension Section
+-  ContainerID Data Block:
+-    Container ID: dfde542f-1339-444b-ad7d-7071d131bff8
+   Display Parameters Data Block (0x01):
+     Image size: 699.4 mm x 393.4 mm
+     Display native pixel format: 6016x3384
+@@ -81,9 +78,6 @@
+     Aspect ratio: 1.78
+     Dynamic bpc native: 12
+     Dynamic bpc overall: 12
+-  Vendor-Specific Data Block (0x7f) (Apple), OUI 00-10-FA:
+-    Type: 4, Version: 1
+-    00 00                                           '..'
+   Tiled Display Topology Data Block (0x12):
+     Capabilities:
+       Behavior if it is the only tile: Image is scaled to fit the entire tiled display
+@@ -95,11 +89,6 @@
+     Tiled Display Manufacturer/Vendor ID: APP
+     Tiled Display Product ID Code: 44591
+     Tiled Display Serial Number: 621612546
+-  Vendor-Specific Data Block (0x7e) (VESA), OUI 3A-02-92:
+-    Data Structure Type: DP
+-    Default Colorspace and EOTF Handling: Native as specified in the Display Parameters DB
+-    Number of Pixels in Hor Pix Cnt Overlapping an Adjacent Panel: 0
+-    Multi-SST Operation: Not Supported
+   Video Timing Modes Type 1 - Detailed Timings Data Block:
+     DTD:  3840x2160   59.999545 Hz  16:9    134.699 kHz    528.020000 MHz (aspect 16:9, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   40 Hpol P
+@@ -107,14 +96,12 @@
+     DTD:  3008x3384   59.999726 Hz   0:0    210.959 kHz    648.910000 MHz (aspect undefined, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   28 Hpol P
+                Vfront  118 Vsync   8 Vback    6 Vpol N
+-  Checksum: 0x8c
+ Checksum: 0x90
+ 
+ ----------------
+ 
+ Block 3, DisplayID Extension Block:
+   Version: 1.2
+-  Extension Count: 0
+   Video Timing Modes Type 1 - Detailed Timings Data Block:
+     DTD:  2560x2880   59.999451 Hz   0:0    179.578 kHz    481.270000 MHz (aspect undefined, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   80 Hpol P
+@@ -131,14 +118,12 @@
+     DTD:  2560x2880   47.951349 Hz   0:0    179.530 kHz    481.140000 MHz (aspect undefined, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   80 Hpol P
+                Vfront  850 Vsync   8 Vback    6 Vpol N
+-  Checksum: 0x93
+ Checksum: 0x90
+ 
+ ----------------
+ 
+ Block 4, DisplayID Extension Block:
+   Version: 1.2
+-  Extension Count: 0
+   Video Timing Modes Type 1 - Detailed Timings Data Block:
+     DTD:  3008x3384   59.999726 Hz   0:0    210.959 kHz    648.910000 MHz (aspect undefined, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   28 Hpol P
+@@ -155,14 +140,12 @@
+     DTD:  3008x3384   47.951701 Hz   0:0    210.940 kHz    648.850000 MHz (aspect undefined, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   28 Hpol P
+                Vfront 1001 Vsync   8 Vback    6 Vpol N
+-  Checksum: 0x7e
+ Checksum: 0x90
+ 
+ ----------------
+ 
+ Block 5, DisplayID Extension Block:
+   Version: 1.2
+-  Extension Count: 0
+   Video Timing Modes Type 1 - Detailed Timings Data Block:
+     DTD:  5120x2880   59.999614 Hz  16:9    179.579 kHz    933.810000 MHz (aspect 16:9, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   40 Hpol P
+@@ -179,14 +162,12 @@
+     DTD:  5120x2880   47.951594 Hz  16:9    179.531 kHz    933.560000 MHz (aspect 16:9, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   40 Hpol P
+                Vfront  850 Vsync   8 Vback    6 Vpol N
+-  Checksum: 0x0a
+ Checksum: 0x90
+ 
+ ----------------
+ 
+ Block 6, DisplayID Extension Block:
+   Version: 1.2
+-  Extension Count: 0
+   Video Timing Modes Type 1 - Detailed Timings Data Block:
+     DTD:  6016x3384   59.999899 Hz  16:9    210.960 kHz   1286.010000 MHz (aspect 16:9, no 3D stereo, preferred)
+                Hfront    8 Hsync  32 Hback   40 Hpol P
+@@ -203,30 +184,13 @@
+     DTD:  6016x3384   47.951798 Hz  16:9    210.940 kHz   1285.890000 MHz (aspect 16:9, no 3D stereo)
+                Hfront    8 Hsync  32 Hback   40 Hpol P
+                Vfront 1001 Vsync   8 Vback    6 Vpol N
+-  Checksum: 0xb4
+ Checksum: 0x90
+ 
+ ----------------
+ 
+-Warnings:
+-
+-Block 1, CTA-861 Extension Block:
+-  Colorimetry Data Block: Set the sRGB colorimetry bit to avoid interop issues.
+-Block 2, DisplayID Extension Block:
+-  Vendor-Specific Data Block (0x7f) (Apple), OUI 00-10-FA: Expected PNP ID but found OUI.
+-
+ Failures:
+ 
+-Block 1, CTA-861 Extension Block:
+-  Required 640x480p60 timings are missing in the established timings and the SVD list (VIC 1).
+-  Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop issues.
+ Block 2, DisplayID Extension Block:
+-  DisplayID Base Block has no product type.
+-  Expected 0 DisplayID Extension Block, but got 4.
+-  ContainerID Data Block: Use of DisplayID v2.0 tag for DisplayID v1.2.
+-  Vendor-Specific Data Block (0x7f) (Apple), OUI 00-10-FA: Endian-ness (le) of OUI is different than expected (be).
+-  Vendor-Specific Data Block (0x7e) (VESA), OUI 3A-02-92: Use of DisplayID v2.0 tag for DisplayID v1.2.
+-EDID:
+-  DisplayID: Missing DisplayID Product Identification Data Block.
+-
++  Unknown DisplayID Data Block (0x29, length 16)
++  Unknown DisplayID Data Block (0x7e, length 5)
+ EDID conformity: FAIL
