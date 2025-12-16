@@ -1,0 +1,10 @@
+{
+    "exec-start": "/service/compositor",
+    "restart": true,
+    "environ": [
+        "XDG_RUNTIME_DIR=/cache"
+    ],
+    "depends": [
+        "udev"
+    ]
+}

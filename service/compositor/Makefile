@@ -20,6 +20,9 @@ PRE_TARGETS	+= ${.OBJDIR}/wlr-layer-shell-unstable-v1-protocol.h
 PRE_TARGETS	+= ${.OBJDIR}/wlr-output-power-management-unstable-v1-protocol.h
 PRE_TARGETS	+= ${.OBJDIR}/xdg-shell-protocol.h
 
+POST_TARGETS += $(addprefix ${SYSROOT_PATH}/config/services.d/,${SERVICE}@.service)
+POST_TARGETS += $(addprefix ${SYSROOT_PATH}/config/services.d/,${SERVICE}@tty0.service)
+
 include ${.TOPDIR}/build/avyos.cc.inc
 
 ${.OBJDIR}/cursor-shape-v1-protocol.h:
@@ -37,3 +40,10 @@ ${.OBJDIR}/wlr-output-power-management-unstable-v1-protocol.h:
 ${.OBJDIR}/xdg-shell-protocol.h:
 	wayland-scanner server-header \
 		${SYSROOT_PATH}/data/wayland-protocols/stable/xdg-shell/xdg-shell.xml $@
+
+${SYSROOT_PATH}/config/services.d/%: ${.CURDIR}/%
+	@mkdir -p $(dir $@)
+	cp $< $@
+
+${SYSROOT_PATH}/config/services.d/compositor@tty0.service: ${SYSROOT_PATH}/config/services.d/compositor@.service
+	ln -sv $(notdir $<) $@

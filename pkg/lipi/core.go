@@ -300,6 +300,16 @@ func builtinOsEnviron(args []Value) (Value, error) {
 	}
 }
 
+func builtinOsChdir(args []Value) (Value, error) {
+	if err := CheckArgs("os:chdir", args, []checker{
+		HasExactCount(1),
+		OfKinds(StringKind),
+	}); err != nil {
+		return nil, err
+	}
+	return nil, os.Chdir(args[0].(string))
+}
+
 func builtinWrite(args []Value) (Value, error) {
 	if err := CheckArgs("write", args, []checker{
 		HasAtleast(1),
@@ -522,6 +532,7 @@ func registerBuiltins(scope *Scope) {
 		"os:exec":     builtinOsExec,
 		"os:environ":  builtinOsEnviron,
 		"os:list-dir": builtinOsListDir,
+		"os:chdir":    builtinOsChdir,
 		"map:at":      builtinMapAt,
 		"map:set":     builtinMapSet,
 		"map:len":     builtinMapLen,

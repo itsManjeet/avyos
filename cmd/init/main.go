@@ -47,6 +47,7 @@ func main() {
 		"TERM":            "linux",
 		"XDG_DATA_DIRS":   "/data",
 		"XDG_CONFIG_DIRS": "/config",
+		"TMPDIR":          "/cache",
 	} {
 		os.Setenv(k, v)
 	}

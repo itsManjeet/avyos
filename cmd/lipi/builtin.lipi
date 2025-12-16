@@ -11,3 +11,8 @@
               (write 1 "{name}{isdir} ")))
           files)
         (write 1 "\n")))))
+
+; cd to a directory 
+(define (cd . path)
+  (let ((dir (if (nil? path) (os:environ "HOME") (car path))))
+    (os:chdir dir)))

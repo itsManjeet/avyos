@@ -26,8 +26,7 @@ EXTRA_CONFIGURE_ARGS += 						\
 	--disable-libsanitizer
 
 POST_INSTALL_COMMANDS	+= 								\
-	cp ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/lib/*.so*	\
-	   ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/lib64/*.so*	\
+	cp ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/lib64/*.so*	\
 	   ${SYSROOT_PATH}/lib/
 
 include ${.TOPDIR}/build/avyos.autotools.inc
