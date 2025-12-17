@@ -1,0 +1,57 @@
+# -*- conf -*-
+# Alacritty
+
+[colors]
+cursor = 181818 56d8c9
+background= 181818
+foreground= d8d8d8
+
+#black
+regular0=    181818
+
+#red
+regular1=   ac4242
+
+#green
+regular2=    90a959
+
+#yellow
+regular3=   f4bf75
+
+#blue
+regular4=   6a9fb5
+
+#magenta
+regular5=   aa759f
+
+#cyan
+regular6=   75b5aa
+
+#white/grey
+regular7=   d8d8d8
+
+
+
+#grey/black
+bright0=     6b6b6b
+
+#red
+bright1=    c55555
+
+#green
+bright2=    aac474
+
+#yellow
+bright3=    feca88
+
+#blue
+bright4=    82b8c8
+
+#pink
+bright5=    c28cb8
+
+#cyan
+bright6=    93d3c3
+
+#grey
+bright7=    f8f8f8

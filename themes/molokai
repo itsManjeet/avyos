@@ -1,0 +1,23 @@
+# -*- conf -*-
+# Molokai
+# Based on zhou13's at https://github.com/zhou13/molokai-terminal/blob/master/xterm/Xresources
+
+[colors]
+background=1B1D1E
+foreground=CCCCCC
+regular0=1B1D1E
+regular1=FF0044
+regular2=82B414
+regular3=FD971F
+regular4=266C98
+regular5=AC0CB1
+regular6=AE81FF
+regular7=CCCCCC
+bright0=808080
+bright1=F92672
+bright2=A6E22E
+bright3=E6DB74
+bright4=7070F0
+bright5=D63AE1
+bright6=66D9EF
+bright7=F8F8F2

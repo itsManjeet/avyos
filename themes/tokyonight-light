@@ -1,0 +1,25 @@
+# -*- conf -*-
+
+# Reference: https://github.com/tokyo-night/tokyo-night-vscode-theme/blob/master/themes/tokyo-night-light-color-theme.json
+
+[colors]
+background=d6d8df
+foreground=343b58
+regular0=343b58
+regular1=8c4351
+regular2=33635c
+regular3=8f5e15
+regular4=2959aa
+regular5=7b43ba
+regular6=006c86
+regular7=707280
+bright0=343b58
+bright1=8c4351
+bright2=33635c
+bright3=8f5e15
+bright4=2959aa
+bright5=7b43ba
+bright6=006c86
+bright7=707280
+
+jump-labels=343b58 e19d37 # brighter yellow than regular3

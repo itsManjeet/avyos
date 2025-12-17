@@ -1,0 +1,48 @@
+# -*- conf -*-
+# Selenized dark
+
+[colors]
+cursor = 103c48 53d6c7
+background= 103c48
+foreground= adbcbc
+
+regular0=   184956
+regular1=   fa5750
+regular2=   75b938
+regular3=   dbb32d
+regular4=   4695f7
+regular5=   f275be
+regular6=   41c7b9
+regular7=   72898f
+
+bright0=    2d5b69
+bright1=    ff665c
+bright2=    84c747
+bright3=    ebc13d
+bright4=    58a3ff
+bright5=    ff84cd
+bright6=    53d6c7
+bright7=    cad8d9
+
+[colors2]
+cursor=fbf3db 00978a
+background= fbf3db
+foreground= 53676d
+
+regular0=   ece3cc
+regular1=   d2212d
+regular2=   489100
+regular3=   ad8900
+regular4=   0072d4
+regular5=   ca4898
+regular6=   009c8f
+regular7=   909995
+
+bright0=    d5cdb6
+bright1=    cc1729
+bright2=    428b00
+bright3=    a78300
+bright4=    006dce
+bright5=    c44392
+bright6=    00978a
+bright7=    3a4d53
