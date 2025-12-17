@@ -1,0 +1,101 @@
+# -*- yaml -*-
+
+steps:
+  - name: setup
+    when:
+      - event: [manual, pull_request]
+      - event: [push, tag]
+        branch: [master, releases/*]
+    image: alpine:latest
+    commands:
+      - apk add git
+      - mkdir -p subprojects && cd subprojects
+      - git clone https://codeberg.org/dnkl/tllist.git
+      - cd ..
+
+  - name: codespell
+    when:
+      - event: [manual, pull_request]
+      - event: [push, tag]
+        branch: [master, releases/*]
+    image: alpine:latest
+    commands:
+      - apk add python3
+      - apk add py3-pip
+      - python3 -m venv codespell-venv
+      - source codespell-venv/bin/activate
+      - pip install codespell
+      - codespell README.md CHANGELOG.md *.c *.h fcft/*.h doc/*.scd
+
+  - name: x64
+    when:
+      - event: [manual, pull_request]
+      - event: [push, tag]
+        branch: [master, releases/*]
+    depends_on: [setup]
+    image: alpine:latest
+    commands:
+      - apk update
+      - apk add musl-dev linux-headers meson ninja gcc scdoc
+      - apk add pixman-dev freetype-dev fontconfig-dev harfbuzz-dev
+      - apk add utf8proc-dev wayland-dev wayland-protocols
+      - apk add git
+      - apk add check-dev
+      - apk add ttf-hack font-noto-emoji
+
+      # Debug
+      - mkdir -p bld/debug-x64
+      - cd bld/debug-x64
+      - meson setup --buildtype=debug -Drun-shaping=enabled -Dtest-text-shaping=true -Dexamples=true ../..
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
+
+      # Release
+      - mkdir -p bld/release-x64
+      - cd bld/release-x64
+      - meson setup --buildtype=release -Drun-shaping=enabled  -Dtest-text-shaping=true -Dexamples=true ../../
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
+
+      # no text shaping
+      - apk del harfbuzz harfbuzz-dev
+      - mkdir -p bld/debug-x64-no-text-shaping
+      - cd bld/debug-x64-no-text-shaping
+      - meson setup --buildtype=debug -Dgrapheme-shaping=disabled -Drun-shaping=disabled -Dtest-text-shaping=false ../..
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
+
+  - name: x86
+    when:
+      - event: [manual, pull_request]
+      - event: [push, tag]
+        branch: [master, releases/*]
+    depends_on: [setup]
+    image: i386/alpine:latest
+    commands:
+      - apk update
+      - apk add musl-dev linux-headers meson ninja gcc scdoc
+      - apk add pixman-dev freetype-dev fontconfig-dev harfbuzz-dev
+      - apk add utf8proc-dev wayland-dev wayland-protocols
+      - apk add git
+      - apk add check-dev
+      - apk add ttf-hack font-noto-emoji
+
+      # Debug
+      - mkdir -p bld/debug-x86
+      - cd bld/debug-x86
+      - meson setup --buildtype=debug -Drun-shaping=enabled  -Dtest-text-shaping=true -Dexamples=true ../..
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
+
+      # Release
+      - mkdir -p bld/release-x86
+      - cd bld/release-x86
+      - meson setup --buildtype=release -Drun-shaping=enabled  -Dtest-text-shaping=true -Dexamples=true ../../
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..

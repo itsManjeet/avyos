@@ -1,0 +1,45 @@
+image: freebsd/latest
+packages:
+  - meson
+  - ninja
+  - pkgconf
+  - scdoc
+  - freetype2
+  - fontconfig
+  - harfbuzz
+  - pixman
+  - utf8proc
+  - wayland
+  - wayland-protocols
+  - check
+  - hack-font
+  - noto-emoji
+
+sources:
+  - https://codeberg.org/dnkl/tllist.git
+  - https://codeberg.org/dnkl/fcft.git
+
+# triggers:
+#   - action: email
+#     condition: failure
+#     to: <committer>
+
+tasks:
+  - subprojects: |
+      mkdir -p fcft/subprojects
+      ln -s ../../tllist fcft/subprojects/tllist
+  - debug: |
+      mkdir -p bld/debug
+      meson setup --buildtype=debug -Drun-shaping=enabled -Dtest-text-shaping=true -Dexamples=true fcft bld/debug
+      ninja -C bld/debug -k0
+      meson test -C bld/debug --print-errorlogs
+  - debug-no-text-shaping: |
+      mkdir -p bld/no-text-shaping
+      meson setup --buildtype=debug -Dgrapheme-shaping=disabled -Drun-shaping=disabled -Dtest-text-shaping=false fcft bld/no-text-shaping
+      ninja -C bld/no-text-shaping -k0
+      meson test -C bld/no-text-shaping --print-errorlogs
+  - release: |
+      mkdir -p bld/release
+      meson setup --buildtype=minsize -Drun-shaping=enabled -Dtest-text-shaping=true -Dexamples=true fcft bld/release
+      ninja -C bld/release -k0
+      meson test -C bld/release --print-errorlogs
