@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+top_srcdir=${top_srcdir:-..}
+top_builddir=${top_builddir:-..}
+${top_srcdir}/doc/check-missing-doc.py ${top_srcdir} ${top_builddir}

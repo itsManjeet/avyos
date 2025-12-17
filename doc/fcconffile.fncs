@@ -1,0 +1,16 @@
+/* Copyright (C) 2025 fontconfig Authors
+ * SPDX-License-Identifier: HPND
+ */
+@RET@       FcChar8 *
+@FUNC@      FcConfigFileGenerate
+@TYPE1@     FcConfig *                  @ARG1@      config
+@TYPE2@     FcPattern *                 @ARG2@      pat
+@TYPE3@     const FcChar8 *             @ARG3@      font_path
+@PURPOSE@   Generate a configuration for fonts at the given font path
+@DESC@
+Generate a configuration in XML format for fonts at the given
+<parameter>font_path</parameter>. <parameter>pat</parameter> pattern
+to correct and filter font metadata. The supported parameter is
+`family', `genericfamily', and `lang' at this moment.
+@SINCE@     2.18.0
+@@
