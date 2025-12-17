@@ -1,0 +1,27 @@
+# -*- conf -*-
+# this foot theme is based on alacritty iterm theme:
+# https://github.com/alacritty/alacritty-theme/blob/master/themes/iterm.toml
+
+[colors]
+foreground=fffbf6
+background=101421
+
+## Normal/regular colors (color palette 0-7)
+regular0=2e2e2e  # black
+regular1=eb4129  # red
+regular2=abe047  # green
+regular3=f6c744  # yellow
+regular4=47a0f3  # blue
+regular5=7b5cb0  # magenta
+regular6=64dbed  # cyan
+regular7=e5e9f0  # white
+
+## Bright colors (color palette 8-15)
+bright0=565656   # bright black
+bright1=ec5357   # bright red
+bright2=c0e17d   # bright green
+bright3=f9da6a   # bright yellow
+bright4=49a4f8   # bright blue
+bright5=a47de9   # bright magenta
+bright6=99faf2   # bright cyan
+bright7=ffffff   # bright white
