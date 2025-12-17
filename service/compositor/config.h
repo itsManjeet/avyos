@@ -119,7 +119,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/cmd/busybox", "sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[] = { "/apps/terminal", NULL };
+static const char *termcmd[] = { "/cmd/foot", "/cmd/lipi", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 
 static const Key keys[] = {
