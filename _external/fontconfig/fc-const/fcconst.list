@@ -1,0 +1,82 @@
+# const             available object        value
+thin                FC_WEIGHT               FC_WEIGHT_THIN
+extralight          FC_WEIGHT               FC_WEIGHT_EXTRALIGHT
+ultralight          FC_WEIGHT               FC_WEIGHT_EXTRALIGHT
+demilight           FC_WEIGHT               FC_WEIGHT_DEMILIGHT
+semilight           FC_WEIGHT               FC_WEIGHT_DEMILIGHT
+light               FC_WEIGHT               FC_WEIGHT_LIGHT
+book                FC_WEIGHT               FC_WEIGHT_BOOK
+regular             FC_WEIGHT               FC_WEIGHT_REGULAR
+normal              FC_WEIGHT               FC_WEIGHT_NORMAL
+medium              FC_WEIGHT               FC_WEIGHT_MEDIUM
+demibold            FC_WEIGHT               FC_WEIGHT_DEMIBOLD
+semibold            FC_WEIGHT               FC_WEIGHT_DEMIBOLD
+bold                FC_WEIGHT               FC_WEIGHT_BOLD
+extrabold           FC_WEIGHT               FC_WEIGHT_EXTRABOLD
+ultrabold           FC_WEIGHT               FC_WEIGHT_EXTRABOLD
+black               FC_WEIGHT               FC_WEIGHT_BLACK
+heavy               FC_WEIGHT               FC_WEIGHT_HEAVY
+extrablack          FC_WEIGHT               FC_WEIGHT_EXTRABLACK
+ultrablack          FC_WEIGHT               FC_WEIGHT_ULTRABLACK
+
+roman               FC_SLANT                FC_SLANT_ROMAN
+italic              FC_SLANT                FC_SLANT_ITALIC
+oblique             FC_SLANT                FC_SLANT_OBLIQUE
+
+ultracondensed	    FC_WIDTH                FC_WIDTH_ULTRACONDENSED
+extracondensed      FC_WIDTH                FC_WIDTH_EXTRACONDENSED
+condensed           FC_WIDTH                FC_WIDTH_CONDENSED
+semicondensed       FC_WIDTH                FC_WIDTH_SEMICONDENSED
+normal              FC_WIDTH                FC_WIDTH_NORMAL
+semiexpanded        FC_WIDTH                FC_WIDTH_SEMIEXPANDED
+expanded            FC_WIDTH                FC_WIDTH_EXPANDED
+extraexpanded       FC_WIDTH                FC_WIDTH_EXTRAEXPANDED
+ultraexpanded       FC_WIDTH                FC_WIDTH_ULTRAEXPANDED
+
+proportional        FC_SPACING              FC_SPACING_PROPORTIONAL
+dual                FC_SPACING              FC_SPACING_DUAL
+mono                FC_SPACING              FC_SPACING_MONO
+charcell            FC_SPACING              FC_SPACING_CHARCELL
+
+unknown             FC_RGBA                 FC_RGBA_UNKNOWN
+rgb                 FC_RGBA                 FC_RGBA_RGB
+bgr                 FC_RGBA                 FC_RGBA_BGR
+vrgb                FC_RGBA                 FC_RGBA_VRGB
+vbgr                FC_RGBA                 FC_RGBA_VBGR
+none                FC_RGBA                 FC_RGBA_NONE
+
+hintnone            FC_HINT_STYLE           FC_HINT_NONE
+hintslight          FC_HINT_STYLE           FC_HINT_SLIGHT
+hintmedium          FC_HINT_STYLE           FC_HINT_MEDIUM
+hintfull            FC_HINT_STYLE           FC_HINT_FULL
+
+antialias           FC_ANTIALIAS            FcTrue
+hinting             FC_HINTING              FcTrue
+verticallayout      FC_VERTICAL_LAYOUT      FcTrue
+autohint            FC_AUTOHINT             FcTrue
+globaladvance       FC_GLOBAL_ADVANCE       FcTrue
+outline             FC_OUTLINE              FcTrue
+scalable            FC_SCALABLE             FcTrue
+minspace            FC_MINSPACE             FcTrue
+embolden            FC_EMBOLDEN             FcTrue
+embeddedbitmap      FC_EMBEDDED_BITMAP      FcTrue
+decorative          FC_DECORATIVE           FcTrue
+
+lcdnone             FC_LCD_FILTER           FC_LCD_NONE
+lcddefault          FC_LCD_FILTER           FC_LCD_DEFAULT
+lcdlight            FC_LCD_FILTER           FC_LCD_LIGHT
+lcdlegacy           FC_LCD_FILTER           FC_LCD_LEGACY
+
+serif               FC_GENERIC_FAMILY       FC_FAMILY_SERIF
+sans-serif          FC_GENERIC_FAMILY       FC_FAMILY_SANS
+monospace           FC_GENERIC_FAMILY       FC_FAMILY_MONO
+cursive             FC_GENERIC_FAMILY       FC_FAMILY_CURSIVE
+fantasy             FC_GENERIC_FAMILY       FC_FAMILY_FANTASY
+system-ui           FC_GENERIC_FAMILY       FC_FAMILY_SYSTEM_UI
+ui-serif            FC_GENERIC_FAMILY       FC_FAMILY_UI_SERIF
+ui-sans-serif       FC_GENERIC_FAMILY       FC_FAMILY_UI_SANS
+ui-monospace        FC_GENERIC_FAMILY       FC_FAMILY_UI_MONO
+ui-rounded          FC_GENERIC_FAMILY       FC_FAMILY_UI_ROUNDED
+emoji               FC_GENERIC_FAMILY       FC_FAMILY_EMOJI
+math                FC_GENERIC_FAMILY       FC_FAMILY_MATH
+fangsong            FC_GENERIC_FAMILY       FC_FAMILY_FANGSONG
