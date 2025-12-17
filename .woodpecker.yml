@@ -1,0 +1,21 @@
+steps:
+  build:
+    image: alpine:latest
+    when: { branch: master }
+    commands:
+      - apk update
+      - apk add musl-dev meson ninja gcc
+
+      - mkdir -p bld/debug
+      - cd bld/debug
+      - meson --buildtype=debug ../..
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
+
+      - mkdir -p bld/release
+      - cd bld/release
+      - meson --buildtype=release ../..
+      - ninja -v -k0
+      - ninja -v test
+      - cd ../..
