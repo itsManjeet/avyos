@@ -1,0 +1,22 @@
+option('svg-backend', type: 'combo', choices: ['none', 'nanosvg'],
+       value: 'nanosvg',
+       description: 'enables support for SVG glyphs (none: disable, nanosvg: bundled)')
+option('system-nanosvg', type: 'feature', value: 'disabled',
+       description: 'use system\'s nanosvg instead of the bundled version')
+option(
+    'docs', type: 'feature',
+    description: 'Build and install documentation (man pages, readme, changelog, license etc).')
+option(
+    'grapheme-shaping', type: 'feature',
+    description: 'enables shaping of individual grapheme clusters')
+option(
+    'run-shaping', type: 'feature',
+    description: 'enables shaping of whole text runs. Imples -Dgrapheme-shaping=enabled')
+
+# Test-related options
+option('test-text-shaping', type: 'boolean', value: false,
+       description: 'include text shaping tests (requires an emoji font to be installed)')
+
+
+option('examples', type: 'boolean', value: false,
+       description: 'build a Wayland example program')
