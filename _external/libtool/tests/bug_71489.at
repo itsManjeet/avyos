@@ -1,0 +1,418 @@
+# bug_71489.at test local version of installed program is used
+
+#   Copyright (C) 2024 Free Software Foundation, Inc.
+#
+#   This file is part of GNU Libtool.
+#
+# GNU Libtool is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of
+# the License, or (at your option) any later version.
+#
+# GNU Libtool is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GNU Libtool.  If not, see <https://www.gnu.org/licenses/>.
+####
+## --------------------- ##
+##      Bug testing      ##
+## --------------------- ##
+
+AT_BANNER([Testing bug 71489:])
+
+AT_SETUP([Use local version])
+
+AT_KEYWORDS([bug_71489])
+
+# Create root test directory.
+top_dir=test71489_1
+mkdir $top_dir
+top_dir=$(cd $top_dir; pwd)
+
+# Create the libtool library that the program will depend on.
+lib=$top_dir/lib
+mkdir $lib
+
+# Create the external library. This is a very simple autotools program, which
+# contains one function.
+AT_DATA([[$lib/Makefile.am]],
+[[
+lib_LTLIBRARIES = libltb1.la
+libltb1_la_SOURCES = libltb1.c
+libltb1_la_CPPFLAGS=-I$(top_srcdir)
+]])
+
+AT_DATA([["$lib/libltb1.c"]],
+[[
+#include <stdio.h>
+
+void
+ltb_version (void)
+{
+  printf ("ltbug: %s\n", LTBUG_ID);
+}
+]])
+
+# Create src directory, which is linked to the library created above.
+src=$top_dir/src
+mkdir $src
+
+AT_DATA([["$src/Makefile.am"]],
+[[
+bin_PROGRAMS = ltb1
+ltb1_SOURCES = main.c
+ltb1_LDFLAGS = $(CF_LIB_FLAGS)
+ltb1_LDADD = ../lib/libltb1.la
+AM_CPPFLAGS = -I$(top_srcdir)
+]])
+
+AT_DATA([["$src/main.c"]],
+[[
+#include <ltb1.h>
+
+int
+main (int argc, char **argv)
+{
+  ltb_version ();
+  return 0;
+}
+]])
+
+# Create root autotools files and code.
+AT_DATA([["$top_dir/Makefile.am"]],
+[[
+ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = lib src
+noinst_HEADERS = ltb1.h
+EXTRA_DIST = test.sh
+]])
+
+AT_DATA([["$top_dir/configure.ac"]],
+[[
+AC_PREREQ([2.69])
+AC_INIT([ltbug], ]AT_PACKAGE_VERSION[, ]AT_PACKAGE_BUGREPORT[)AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+
+AM_INIT_AUTOMAKE([foreign])
+
+# Checks for programs.
+AC_PROG_CC
+LT_PREREQ([2.4.6])
+LT_INIT
+
+AC_ARG_VAR([LTBUG_ID],[Identifier of the bug case])
+if test -z "$LTBUG_ID"; then
+  LTBUG_ID=local
+fi
+AC_DEFINE_UNQUOTED([LTBUG_ID],["$LTBUG_ID"],
+ [Text string identifying the library])
+
+AC_SUBST([CF_LIB_FLAGS],['-L$(libdir) -Wl,-rpath -Wl,$(libdir)'])
+
+AC_CONFIG_FILES([Makefile lib/Makefile src/Makefile])
+
+AC_OUTPUT
+]])
+
+AT_DATA([["$top_dir/ltb1.h"]],
+[[
+extern void ltb_version (void);
+extern void ltb2_version (void);
+]])
+
+echo "Running autoreconf on project directory"
+(
+    cd $top_dir
+    pwd
+    LT_AT_LIBTOOLIZE([--install])
+    LT_AT_AUTORECONF([-i])
+)
+
+# Create two directories, one which has the local copy and one which has
+# the installed copy.
+mkdir build_inst build_local prefix_dir
+
+prefix=$(cd prefix_dir; pwd)
+
+echo "Building and installing library"
+(
+    cd build_inst
+    LT_AT_CONFIGURE([--prefix=$prefix  LTBUG_ID='installed'], [$top_dir/configure])
+    LT_AT_MAKE([])
+    LT_AT_MAKE([install])
+)
+
+echo "Building local copy of the project"
+(
+    cd build_local
+    LT_AT_CONFIGURE([--prefix=$prefix], [$top_dir/configure])
+    LT_AT_MAKE([])
+    LT_AT_MAKE([install])
+)
+
+# Although we have installed ltbug, we still expect that we are using the local version.
+cat > expout <<EOF
+ltbug: local
+EOF
+
+case $host_os in
+mingw* | windows*)
+  awk '{printf ("%s\r\n", [$]0);}' < expout > expout.t && mv -f expout.t expout
+  ;;
+cygwin*)
+  awk '{printf ("%s\n", [$]0);}' < expout > expout.t && mv -f expout.t expout
+  ;;
+esac
+
+build_local/src/ltb1 > stdout
+
+echo "Comparing expout to the build binary"
+AT_CHECK([cmp -s stdout expout], [0])
+
+rm -rf $top_dir $lib $src build_inst build_local prefix_dir
+
+# Test local version of installed program is used with external library.
+
+# Create root test directory.
+top_dir=test71489_2
+mkdir $top_dir
+top_dir=$(cd $top_dir; pwd)
+
+ext_lib_dir=$top_dir/ltb2dep
+ltb2=$top_dir/ltb2
+
+# Create ltb2 directory. This will contain two libraries,
+# liba and libb. liba will depend on an external libtool library.
+mkdir $ltb2
+
+# Create the directory which will contain the external dependency liba relies on.
+mkdir $ext_lib_dir
+
+# Create the external library. This is a very simple autotools program, which
+# contains one function.
+AT_DATA([[$ext_lib_dir/configure.ac]],
+[[
+AC_PREREQ([2.69])
+AC_INIT([libltb2dep], ]AT_PACKAGE_VERSION[, ]AT_PACKAGE_BUGREPORT[)
+AC_CONFIG_SRCDIR([main.c])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+
+AM_INIT_AUTOMAKE([foreign])
+
+AC_PROG_CC
+LT_PREREQ([2.4.6])
+LT_INIT
+
+AC_ARG_VAR([LTBUG_ID],[Identifier of the bug case])
+if test -z "$LTBUG_ID"; then
+  LTBUG_ID="local version"
+fi
+AC_DEFINE_UNQUOTED([LTBUG_ID],["$LTBUG_ID"],
+ [Text string identifying the library])
+
+AC_CONFIG_FILES([Makefile])
+
+AC_OUTPUT
+]])
+
+
+AT_DATA([["$ext_lib_dir/Makefile.am"]],
+[[
+lib_LTLIBRARIES = libltb2dep.la
+libltb2dep_la_SOURCES = main.c
+]])
+
+AT_DATA([["$ext_lib_dir/main.c"]],
+[[
+#include <stdio.h>
+void
+dummy (void)
+{
+}
+]])
+
+# Create liba, which is linked to the external library created above.
+mkdir "$ltb2/liba"
+
+AT_DATA([["$ltb2/liba/Makefile.am"]],
+[[
+lib_LTLIBRARIES = libltb2a.la
+libltb2a_la_SOURCES = libltb2a.c
+libltb2a_la_LIBADD = -L$(libdir) -lltb2dep
+]])
+
+# Print out the flag LTBUG_ID. This will show if we are using the installed version
+# of this library or the local version.
+AT_DATA([["$ltb2/liba/libltb2a.c"]],
+[[
+#include <stdio.h>
+void
+ltb2a_version (void)
+{
+  printf ("ltb2a: %s\n", LTBUG_ID);
+}
+]])
+
+# Create libb, which is NOT linked to the external library.
+mkdir "$ltb2/libb"
+
+AT_DATA([["$ltb2/libb/Makefile.am"]],
+[[
+lib_LTLIBRARIES = libltb2b.la
+libltb2b_la_SOURCES = libltb2b.c
+]])
+
+# The same as for libltb2a.c. Print out the LTBUG_ID flag and see if the local or
+# installed version is used.
+AT_DATA([["$ltb2/libb/libltb2b.c"]],
+[[
+#include <stdio.h>
+void
+ltb2b_version (void)
+{
+  printf ("ltb2b: %s\n", LTBUG_ID);
+}
+]])
+
+mkdir $ltb2/src
+
+AT_DATA([["$ltb2/src/Makefile.am"]],
+[[
+bin_PROGRAMS = ltb2
+ltb2_SOURCES = main.c
+ltb2_LDADD = ../liba/libltb2a.la ../libb/libltb2b.la
+AM_CPPFLAGS = -I$(top_srcdir)
+]])
+
+# Create a program which outputs the version, local or installed, for both
+# liba and libb.
+AT_DATA([["$ltb2/src/main.c"]],
+[[
+#include <ltb2.h>
+int
+main (int argc, char **argv)
+{
+  ltb2a_version ();
+  ltb2b_version ();
+  return 0;
+}
+]])
+
+AT_DATA([["$ltb2/Makefile.am"]],
+[[
+ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = liba libb src
+noinst_HEADERS = ltb2.h
+]])
+
+AT_DATA([["$ltb2/configure.ac"]],
+[[
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.69])
+AC_INIT([ltb2], ]AT_PACKAGE_VERSION[, ]AT_PACKAGE_BUGREPORT[)
+
+AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+
+AM_INIT_AUTOMAKE([foreign])
+
+AC_PROG_CC
+LT_PREREQ([2.4.6])
+LT_INIT
+
+AC_ARG_VAR([LTBUG_ID],[Identifier of the bug case])
+if test -z "$LTBUG_ID"; then
+  LTBUG_ID=local
+fi
+AC_DEFINE_UNQUOTED([LTBUG_ID],["$LTBUG_ID"],
+ [Text string identifying the library])
+
+AC_CONFIG_FILES([Makefile liba/Makefile libb/Makefile src/Makefile])
+
+AC_OUTPUT
+]])
+
+AT_DATA([["$ltb2/ltb2.h"]],
+[[
+extern void ltb2a_version (void);
+extern void ltb2b_version (void);
+]])
+
+echo "Running autoreconf on dependency library and project directory"
+(
+    cd $ext_lib_dir
+    LT_AT_LIBTOOLIZE([--install])
+    LT_AT_AUTORECONF([-i])
+    cd -
+    cd $ltb2
+    LT_AT_LIBTOOLIZE([--install])
+    LT_AT_AUTORECONF([-i])
+)
+
+mkdir build_dep build_inst build_local prefix_dir
+
+prefix=$(cd prefix_dir; pwd)
+
+echo "Building dependency library"
+(
+    cd build_dep
+    LT_AT_CONFIGURE([--prefix=$prefix], [$ext_lib_dir/configure])
+    LT_AT_MAKE([])
+    LT_AT_MAKE([install])
+)
+
+echo "Building and installing project"
+(
+    cd build_inst
+    LT_AT_CONFIGURE([--prefix=$prefix LTBUG_ID='installed'], [$ltb2/configure])
+    LT_AT_MAKE([])
+    LT_AT_MAKE([install])
+)
+
+echo "Building local copy of the project"
+(
+    cd build_local
+    LT_AT_CONFIGURE([--prefix=$prefix], [$ltb2/configure])
+    LT_AT_MAKE([])
+
+    case $host_os in
+    openbsd*)
+      build_local_dir=$(pwd)
+      AT_CHECK(
+      [
+        $LIBTOOL --reorder-cache="$build_local_dir/liba/.libs:$build_local_dir/libb/.libs"
+      ], 0, ignore, ignore);;
+    *) ;;
+    esac
+)
+
+# Although we have installed ltb2, we still expect that we are using the local
+# version of ltb2a and ltb2b.
+cat > expout <<EOF
+ltb2a: local
+ltb2b: local
+EOF
+
+case $host_os in
+mingw* | windows*)
+  awk '{printf ("%s\r\n", [$]0);}' < expout > expout.t && mv -f expout.t expout
+  ;;
+cygwin*)
+  awk '{printf ("%s\n", [$]0);}' < expout > expout.t && mv -f expout.t expout
+  ;;
+esac
+
+build_local/src/ltb2 > stdout
+
+echo "Comparing expout to the build binary"
+AT_CHECK([cmp -s stdout expout], [0])
+
+AT_CLEANUP
