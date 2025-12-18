@@ -1,5 +1,8 @@
 {
     "stage": "pre-init",
-    "exec-start": "/service/udev listen -trigger",
-    "restart": true
+    "exec-start": "/service/udev listen",
+    "restart": true,
+    "depends": [
+        "connect"
+    ]
 }

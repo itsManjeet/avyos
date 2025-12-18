@@ -16,6 +16,8 @@ all: ${.OBJDIR}/.build-done
 ${.OBJDIR}/.build-done: ${DISTDIR}/Makefile
 	${MAKE} ${KERNEL_BUILD_ARGS} mrproper
 	${MAKE} ${KERNEL_BUILD_ARGS} headers
-	${MAKE} ${KERNEL_BUILD_ARGS} headers_install INSTALL_HDR_PATH=${SYSROOT_PATH}
+	${MAKE} ${KERNEL_BUILD_ARGS} headers_install INSTALL_HDR_PATH=${SYSTEM_PATH}
 	
 	@touch $@
+
+compile_db:

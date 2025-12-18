@@ -10,7 +10,7 @@ EXTRA_CONFIGURE_ARGS += 						\
 	--build=${HOST_TRIPLET}						\
 	--host=${HOST_TRIPLET}						\
 	--libexecdir=${TOOLCHAIN_PATH}/lib 			\
-	--with-sysroot=${SYSROOT_PATH}				\
+	--with-sysroot=${SYSTEM_PATH}				\
 	--with-local-prefix=/ 						\
 	--with-native-system-header-dir="/include"	\
 	--with-gmp=${TOOLCHAIN_PATH}				\
@@ -26,7 +26,7 @@ EXTRA_CONFIGURE_ARGS += 						\
 	--disable-libsanitizer
 
 POST_INSTALL_COMMANDS	+= 								\
-	cp ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/lib64/*.so*	\
-	   ${SYSROOT_PATH}/lib/
+	cp ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/lib/*.so*	\
+	   ${SYSTEM_PATH}/lib/
 
 include ${.TOPDIR}/build/avyos.autotools.inc

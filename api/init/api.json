@@ -1,0 +1,32 @@
+{
+    "object": {
+        "id": 1,
+        "name": "Init"
+    },
+    "events": [
+        {
+            "id": 2,
+            "name": "List",
+            "input": {
+                "type": "string",
+                "name": "filter"
+            },
+            "output": {
+                "type": "[]string",
+                "name": "services"
+            }
+        },
+        {
+            "id": 3,
+            "name": "Status",
+            "input": {
+                "type": "string",
+                "name": "service"
+            },
+            "output": {
+                "type": "string",
+                "name": "status"
+            }
+        }
+    ]
+}

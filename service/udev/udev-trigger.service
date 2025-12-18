@@ -1,0 +1,8 @@
+{
+    "kind": "oneshot",
+    "stage": "init",
+    "exec-start": "udev trigger -wait",
+    "depends": [
+        "udev"
+    ]
+}

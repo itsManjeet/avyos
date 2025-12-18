@@ -1,0 +1,47 @@
+package {{.Package}}
+
+import "avyos.dev/pkg/connect"
+
+const (
+	ObjectId = {{.Spec.Object.Id}}
+{{- range .Spec.Events}}
+	{{.Name}}Event = {{.Id}}
+{{- end}}
+)
+
+type {{.Spec.Object.Name}} struct {
+	conn *connect.Connection
+}
+
+func New{{.Spec.Object.Name}}() (*{{.Spec.Object.Name}}, error) {
+	conn, err := connect.SystemBus()
+	if err != nil {
+		return nil, err
+	}
+	return &{{.Spec.Object.Name}}{conn}, nil
+}
+
+{{range .Spec.Events}}
+func (o *{{$.Spec.Object.Name}}) {{.Name}}({{.Input.Name}} {{.Input.Type}}) ({{.Output.Type}}, error) {
+{{- if .Input.Type}}
+	req, err := connect.Encode({{.Input.Name}})
+	if err != nil {
+		return {{if .Output.Type}}nil, {{end}}err
+	}
+
+	resp, err := o.conn.Call(ObjectId, {{.Name}}Event, req)
+{{- else}}
+	resp, err := o.conn.Call(ObjectId, {{.Name}}Event, nil)
+{{- end}}
+
+	if err != nil {
+		return {{if .Output.Type}}nil, {{end}}err
+	}
+
+{{- if .Output.Type}}
+	return connect.Decode[{{.Output.Type}}](resp)
+{{- else}}
+	return nil
+{{- end}}
+}
+{{end}}

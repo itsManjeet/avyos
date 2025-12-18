@@ -7,8 +7,8 @@ export AR						:= ${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-ar
 export STRIP					:= ${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-strip
 export RANLIB					:= ${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-ranlib
 
-export PKG_CONFIG_SYSROOT_DIR	:= ${SYSROOT_PATH}
-export PKG_CONFIG_LIBDIR		:= ${SYSROOT_PATH}/lib/pkgconfig:${SYSROOT_PATH}/data/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR	:= ${SYSTEM_PATH}
+export PKG_CONFIG_LIBDIR		:= ${SYSTEM_PATH}/lib/pkgconfig:${SYSTEM_PATH}/data/pkgconfig
 
 ifeq (${GOARCH},amd64)
 export CFLAGS					+= -march=x86-64

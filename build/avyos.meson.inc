@@ -17,7 +17,7 @@ CONFIGURE_ARGS	?= \
 	--datadir=/data
 
 EXTRA_CONFIGURE_ARGS    += --cross-file ${.OBJDIR}/avyos.${TARGET_TRIPLET}-meson.txt
-DESTDIR			?= ${SYSROOT_PATH}
+DESTDIR			?= ${SYSTEM_PATH}
 
 ifeq (${GOARCH},amd64)
 MESON_CPU = "x86_64"
@@ -39,8 +39,8 @@ strip = '${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-strip'
 pkg-config = 'pkg-config'
 
 [properties]
-sys_root = '${SYSROOT_PATH}'
-pkg_config_libdir = '${SYSROOT_PATH}/lib/pkgconfig'
+sys_root = '${SYSTEM_PATH}'
+pkg_config_libdir = '${SYSTEM_PATH}/lib/pkgconfig'
 
 [host_machine]
 system = 'linux'
@@ -89,6 +89,8 @@ clean:
 
 distclean:
 	rm -rf ${.OBJDIR}
+
+compile_db:
 
 include ${.TOPDIR}/build/avyos.sources.inc
 

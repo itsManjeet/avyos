@@ -20,21 +20,21 @@ package main
 import "slices"
 
 func shutdown() error {
-	isShuttingDown = true
+	su.isShuttingDown = true
 
 	revStages := slices.Clone(stages)
 	slices.Reverse(revStages)
 
-	foreachService(func(s *Service) {
+	su.foreach(func(s *Service) {
 		if s.Stage == "service" {
-			s.Stop(journal)
+			s.Stop(su.journal)
 		}
 	})
 
 	for _, st := range revStages {
-		foreachService(func(s *Service) {
+		su.foreach(func(s *Service) {
 			if s.Stage == st {
-				s.Stop(journal)
+				s.Stop(su.journal)
 			}
 		})
 	}

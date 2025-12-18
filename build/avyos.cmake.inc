@@ -18,7 +18,7 @@ CONFIGURE_ARGS	?= \
 	-D CMAKE_INSTALL_DOCDIR=/data/doc \
 	-D CMAKE_INSTALL_DATADIR=/data
 EXTRA_CONFIGURE_ARGS    += -DCMAKE_TOOLCHAIN_FILE=${.OBJDIR}/avyos.${TARGET_TRIPLET}.cmake
-DESTDIR			?= ${SYSROOT_PATH}
+DESTDIR			?= ${SYSTEM_PATH}
 
 define AVYOS_TOOLCHAIN_FILE
 set(CMAKE_SYSTEM_NAME Linux)
@@ -31,7 +31,7 @@ set(CMAKE_LINKER		${TOOLCHAIN_PATH}/bin/${TARGET_TRIPLET}-ld)
 
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-set(CMAKE_SYSROOT       "${SYSROOT_PATH}")
+set(CMAKE_SYSROOT       "${SYSTEM_PATH}")
 
 set(CMAKE_C_FLAGS		"${CFLAGS}")
 set(CMAKE_CXX_FLAGS		"${CXXFLAGS}")
@@ -83,6 +83,8 @@ clean:
 
 distclean:
 	rm -rf ${.OBJDIR}
+
+compile_db:
 
 include ${.TOPDIR}/build/avyos.sources.inc
 

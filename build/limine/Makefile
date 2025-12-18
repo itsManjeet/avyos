@@ -25,3 +25,5 @@ ${TOOLCHAIN_PATH}/bin/limine: ${DISTDIR}/limine.c
 ${TOOLCHAIN_PATH}/share/limine/%: ${DISTDIR}/%
 	@mkdir -p $(dir $@)
 	cp -a $< $@
+
+compile_db:

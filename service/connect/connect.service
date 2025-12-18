@@ -1,0 +1,5 @@
+{
+    "stage": "pre-init",
+    "exec-start": "/service/connect",
+    "restart": true
+}

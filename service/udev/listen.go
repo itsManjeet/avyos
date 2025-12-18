@@ -2,10 +2,7 @@ package main
 
 import (
 	"flag"
-	"io/fs"
 	"log"
-	"os"
-	"path/filepath"
 	"runtime"
 	"syscall"
 
@@ -13,12 +10,13 @@ import (
 )
 
 const (
-	EventBufferSize = 64 * 1024
+	EventBufferSize = 1024 * 1024 * 8
+	MaxJobQueue     = 256
+	ObjectID        = 2
 )
 
 func listen(args []string) error {
 	f := flag.NewFlagSet("listen", flag.ContinueOnError)
-	trigger := f.Bool("trigger", false, "trigger kernel events")
 
 	if err := f.Parse(args); err != nil {
 		return err
@@ -33,6 +31,8 @@ func listen(args []string) error {
 	}
 	defer syscall.Close(fd)
 
+	syscall.SetsockoptInt(fd, syscall.SOL_SOCKET, syscall.SO_RCVBUF, 8*1024*1024)
+
 	if err := syscall.Bind(fd, &syscall.SockaddrNetlink{
 		Family: syscall.AF_NETLINK,
 		Groups: 1,
@@ -42,19 +42,9 @@ func listen(args []string) error {
 	}
 
 	buf := make([]byte, EventBufferSize)
-	pool := job.NewJobPool(runtime.NumCPU(), 256)
 
-	if *trigger {
-		go func() {
-			filepath.Walk("/sys", func(path string, info fs.FileInfo, err error) error {
-				if err != nil || info.IsDir() || filepath.Base(path) != "uevent" {
-					return err
-				}
-				_ = os.WriteFile(path, []byte("add\n"), 0644)
-				return nil
-			})
-		}()
-	}
+	u := &udev{jobs: job.NewJobPool(runtime.NumCPU(), MaxJobQueue)}
+	go StartService(u)
 
 	for {
 		n, _, err := syscall.Recvfrom(fd, buf, 0)
@@ -63,6 +53,9 @@ func listen(args []string) error {
 			continue
 		}
 		ev := Parse(buf[:n])
-		pool.Submit(ev)
+
+		u.mutex.Lock()
+		u.jobs.Submit(ev)
+		u.mutex.Unlock()
 	}
 }

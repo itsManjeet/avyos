@@ -20,7 +20,7 @@ CONFIGURE_ARGS	?= \
 	--host=${HOST_TRIPLET} \
 	--build=${TARGET_TRIPLET} \
 	--target=${TARGET_TRIPLET}
-DESTDIR         ?= ${SYSROOT_PATH}
+DESTDIR         ?= ${SYSTEM_PATH}
 endif
 
 all: ${.OBJDIR}/.install-done
@@ -64,6 +64,8 @@ clean:
 
 distclean:
 	rm -rf ${.OBJDIR}
+
+compile_db:
 
 include ${.TOPDIR}/build/avyos.sources.inc
 

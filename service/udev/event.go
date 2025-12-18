@@ -48,8 +48,8 @@ func Parse(data []byte) *Event {
 }
 
 func (e *Event) Run() error {
-	fmt.Printf("UDEV: ACTION=%s SUBSYSTEM=%s DEVICE=%s ENVIRON=%v\n",
-		e.Action, e.Subsystem, e.Device, e.Environ)
+	// fmt.Printf("UDEV: ACTION=%s SUBSYSTEM=%s DEVICE=%s ENVIRON=%v\n",
+	// 	e.Action, e.Subsystem, e.Device, e.Environ)
 
 	var err error
 	switch e.Action {

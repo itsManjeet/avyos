@@ -25,11 +25,10 @@ HOST_TRIPLET			:= $(shell gcc -dumpmachine)
 .RELDIR					:= $(shell realpath --relative-to=${.TOPDIR} ${.CURDIR})
 
 TOOLCHAIN_PATH 			:= ${.BUILDDIR}/toolchain
-SYSROOT_PATH			:= ${TOOLCHAIN_PATH}/${TARGET_TRIPLET}/sysroot
+SYSTEM_PATH				:= ${.BUILDDIR}/system
 IMAGES_PATH				:= ${.BUILDDIR}/images
 
 SOURCES_PATH			:= ${.TOPDIR}/_out/sources
-
 
 export PATH				:= ${TOOLCHAIN_PATH}/bin:${PATH}
 

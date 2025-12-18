@@ -12,10 +12,6 @@ var (
 	}
 )
 
-func init() {
-
-}
-
 func main() {
 	flag.Parse()
 

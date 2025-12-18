@@ -5,21 +5,21 @@ CXXSTD				?= 23
 SHARED				?= 1
 
 ifdef LIBRARY
-TARGET				:= ${SYSROOT_PATH}/lib/lib${LIBRARY}
+TARGET				:= ${SYSTEM_PATH}/lib/lib${LIBRARY}
 ifeq (${SHARED}, 1)
 TARGET				:= $(addsuffix .so,${TARGET})
 else
 TARGET				:= $(addsuffix .a,${TARGET})
 endif
-POST_TARGETS 		+= $(addprefix ${SYSROOT_PATH}/include/${HEADERS_PREFIX}/,${HEADERS})
+POST_TARGETS 		+= $(addprefix ${SYSTEM_PATH}/include/${HEADERS_PREFIX}/,${HEADERS})
 LDFLAGS				+= "-Wl,-soname,lib${LIBRARY}.so"
 else ifdef COMMAND
-TARGET 				:= ${SYSROOT_PATH}/cmd/${COMMAND}
+TARGET 				:= ${SYSTEM_PATH}/cmd/${COMMAND}
 CFLAGS				+= -fPIE
 CXXFLAGS			+= -fPIE
 LDFLAGS				+= -fPIE -pie
 else ifdef SERVICE
-TARGET 				:= ${SYSROOT_PATH}/service/${SERVICE}
+TARGET 				:= ${SYSTEM_PATH}/service/${SERVICE}
 CFLAGS				+= -fPIE
 CXXFLAGS			+= -fPIE
 LDFLAGS				+= -fPIE -pie
@@ -54,7 +54,7 @@ $(error "Invalid CXX STANDARD -std=${CXXSTD}")
 endif
 
 ifdef LIBRARIES
-LIBRARIES_TARGET	 = $(addsuffix .so, $(addprefix ${SYSROOT_PATH}/lib/lib,${LIBRARIES}))
+LIBRARIES_TARGET	 = $(addsuffix .so, $(addprefix ${SYSTEM_PATH}/lib/lib,${LIBRARIES}))
 LDFLAGS				+= $(addprefix -l,${LIBRARIES})
 endif
 
@@ -117,7 +117,7 @@ ${.OBJDIR}/%.gcm: ${.CURDIR}/%.ixx
 	@mkdir -p $(dir $@)
 	cd ${.OBJDIR} && ${CXX} -c ${CXXFLAGS} -fmodules ${CXXFLAGS.$(notdir $<)} ${CPPFLAGS} ${CPPFLAGS.$(notdir $<)} $< -o $@
 
-${SYSROOT_PATH}/include/${HEADERS_PREFIX}/%.h: ${.CURDIR}/%.h
+${SYSTEM_PATH}/include/${HEADERS_PREFIX}/%.h: ${.CURDIR}/%.h
 	install -D $< $@
 
 ${TARGET}:
@@ -132,12 +132,12 @@ clean:
 	rm -f ${TARGET} ${OBJECTS} ${GENERATED_FILES}
 
 compile_db:
-	@for c in ${SOURCES} ; do \
-		jq --argjson obj \
-		"{\"directory\": \"$(abspath .)\", \"command\": \"${CC} -c ${CFLAGS} ${CPPFLAGS} $$c\", \"file\": \"$(abspath .)/$$c\"}" \
-			'. += [$$obj]' \
-			${.BUILDDIR}/compile_commands.json > ${.BUILDDIR}/compile_commands.json.tmp && \
-				mv ${.BUILDDIR}/compile_commands.json.tmp ${.BUILDDIR}/compile_commands.json; \
-	done
+# 	@for c in ${SOURCES} ; do \
+# 		jq --argjson obj \
+# 		"{\"directory\": \"$(abspath .)\", \"command\": \"${CC} -c ${CFLAGS} ${CPPFLAGS} $$c\", \"file\": \"$(abspath .)/$$c\"}" \
+# 			'. += [$$obj]' \
+# 			${.BUILDDIR}/compile_commands.json > ${.BUILDDIR}/compile_commands.json.tmp && \
+# 				mv ${.BUILDDIR}/compile_commands.json.tmp ${.BUILDDIR}/compile_commands.json; \
+# 	done
 
 .PHONY: all clean install compile_db

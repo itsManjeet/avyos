@@ -1,5 +1,6 @@
 (clear)
-(write 1 "Welcome to avyos
+(define (welcome-message) 
+    (do (write 1 "Welcome to avyos
 
 avyos is an experimental operating system distribution.
 Things may be incomplete, unstable, or break unexpectedly.
@@ -11,4 +12,32 @@ it is NOT a Unix/POSIX-compatible shell.
 Commands are evaluated as expressions, not programs.
 Read the docs, explore carefully, and expect sharp edges.
 
+Basic Commands:
+    (ls \"dir\")                - List directory contents
+    (read \"path/to/file\")     - Read file contents
+    (write fd \"data\")         - Write data to file descriptor
+    (cd \"dir\")                - Change directory
+
+To run system commands, use:
+(<system-command> \"str-args1\" \"str-arg2\"...)
+For example
+    (ping \"avyos.org\") or (sleep 10)
+
 Have fun hacking.\n\n")
+    (if (eq? (os:environ "WAYLAND_DISPLAY") "")
+        #N
+        (write 1 "You reached till WAYLAND session!!.
+
+You can use following shortcut:
+  ALT + Return      - Launch terminal
+  ALT + Q           - Close focused window
+  ALT + Shift + Q   - Close Session
+
+  ALT + Mouse 1     - Move window
+  ALT + Mouse 2     - Resize window\n
+"
+        )
+    ))
+)
+
+(welcome-message)

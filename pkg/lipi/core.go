@@ -115,6 +115,16 @@ func builtinDiv(args []Value) (Value, error) {
 	return result, nil
 }
 
+func builtinEq(args []Value) (Value, error) {
+	if err := CheckArgs("eq?", args, []checker{
+		HasExactCount(2),
+	}); err != nil {
+		return nil, err
+	}
+
+	return IsEqual(args[0], args[1]), nil
+}
+
 func builtinCar(args []Value) (Value, error) {
 	if err := CheckArgs("car", args, []checker{
 		HasExactCount(1),
@@ -508,6 +518,7 @@ func registerBuiltins(scope *Scope) {
 		"-":           builtinSub,
 		"*":           builtinMul,
 		"/":           builtinDiv,
+		"eq?":         builtinEq,
 		"car":         builtinCar,
 		"cdr":         builtinCdr,
 		"cons":        builtinCons,

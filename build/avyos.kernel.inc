@@ -14,7 +14,7 @@ all: ${.OBJDIR}/.install-done
 
 ${.OBJDIR}/.install-done: ${.OBJDIR}/.build-done
 	cp ${.OBJDIR}/$(shell make ${KERNEL_MAKE_ARGS} -s image_name) ${IMAGES_PATH}/kernel.img
-	${MAKE} ${KERNEL_MAKE_ARGS} INSTALL_MOD_PATH=${SYSROOT_PATH}/ INSTALL_MOD_STRIP=1 modules_install
+	${MAKE} ${KERNEL_MAKE_ARGS} INSTALL_MOD_PATH=${SYSTEM_PATH}/ INSTALL_MOD_STRIP=1 modules_install
 	touch $@
 
 ${.OBJDIR}/.configure-done: ${KERNEL_SOURCE}/Makefile ${KERNEL_CONFIG}
@@ -30,5 +30,7 @@ ${.OBJDIR}/.build-done: ${.OBJDIR}/.configure-done
 	${MAKE} ${KERNEL_MAKE_ARGS} bzImage modules
 	touch $@
 
-reset-build:
+clean:
 	rm -rf ${.OBJDIR}/.*-done ${.OBJDIR}/.config
+
+compile_db:

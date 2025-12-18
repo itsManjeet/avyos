@@ -26,14 +26,15 @@ import (
 	"time"
 )
 
-var (
+type Supervisor struct {
+	mutex          sync.Mutex
 	services       []*Service
-	waitGroup      sync.WaitGroup
-	journal        *os.File
+	wg             sync.WaitGroup
 	isShuttingDown bool
-)
+	journal        *os.File
+}
 
-func loadServices(path string) error {
+func (su *Supervisor) loadServices(path string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Printf("failed to read services path %s: %v", path, err)
@@ -53,14 +54,14 @@ func loadServices(path string) error {
 		}
 
 		if !service.isTemplate {
-			services = append(services, service)
+			su.services = append(su.services, service)
 		}
 	}
 	return nil
 }
 
-func getService(id string) *Service {
-	for _, service := range services {
+func (su *Supervisor) get(id string) *Service {
+	for _, service := range su.services {
 		if service.Name == id {
 			return service
 		}
@@ -68,15 +69,15 @@ func getService(id string) *Service {
 	return nil
 }
 
-func foreachService(f func(s *Service)) {
-	for _, service := range services {
+func (su *Supervisor) foreach(f func(s *Service)) {
+	for _, service := range su.services {
 		f(service)
 	}
 }
-func triggerStage(stage string) {
+func (su *Supervisor) trigger(stage string) {
 	var stageWaitGroup sync.WaitGroup
 
-	foreachService(func(s *Service) {
+	su.foreach(func(s *Service) {
 		if s.Stage != stage {
 			return
 		}
@@ -85,24 +86,24 @@ func triggerStage(stage string) {
 		go func(s *Service) {
 			defer stageWaitGroup.Done()
 
-			if err := waitForDepends(s); err != nil {
+			if err := su.waitForDepends(s); err != nil {
 				log.Printf("dependencies not met for %s: %v", s.Name, err)
 				s.State = Failed
 				return
 			}
 
-			runService(s)
+			su.run(s)
 		}(s) // Capture s properly
 	})
 
 	stageWaitGroup.Wait()
 }
 
-func runService(s *Service) {
+func (su *Supervisor) run(s *Service) {
 	for {
 		log.Printf("Starting service: %s", s.Name)
 
-		if err := s.Start(journal); err != nil {
+		if err := s.Start(su.journal); err != nil {
 			log.Printf("failed to start %s: %v", s.Name, err)
 			s.State = Failed
 			if !s.Restart {
@@ -129,15 +130,15 @@ func runService(s *Service) {
 			return
 		}
 
-		waitGroup.Add(1)
-		go monitorDaemonService(s)
+		su.wg.Add(1)
+		go su.monitor(s)
 
 		break
 	}
 }
 
-func monitorDaemonService(s *Service) {
-	defer waitGroup.Done()
+func (su *Supervisor) monitor(s *Service) {
+	defer su.wg.Done()
 
 	for {
 		if s.Process == nil {
@@ -155,14 +156,14 @@ func monitorDaemonService(s *Service) {
 			s.State = Finished
 		}
 
-		if isShuttingDown || !s.Restart {
+		if su.isShuttingDown || !s.Restart {
 			break
 		}
 
 		log.Printf("restarting daemon service %s", s.Name)
 		time.Sleep(1 * time.Second)
 
-		if err := s.Start(journal); err != nil {
+		if err := s.Start(su.journal); err != nil {
 			log.Printf("failed to restart %s: %v", s.Name, err)
 			s.State = Failed
 			break
@@ -172,14 +173,14 @@ func monitorDaemonService(s *Service) {
 	}
 }
 
-func waitForDepends(s *Service) error {
+func (su *Supervisor) waitForDepends(s *Service) error {
 	if len(s.Depends) == 0 {
 		return nil
 	}
 
 	var deps []*Service
 	for _, name := range s.Depends {
-		dep := getService(name)
+		dep := su.get(name)
 		if dep == nil {
 			return fmt.Errorf("missing required dependency %s", name)
 		}

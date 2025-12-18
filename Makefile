@@ -6,6 +6,7 @@ SUBDIR	 = build lib
 endif
 
 SUBDIR	+= cmd service config data
+SUBDIR	+= apps
 SUBDIR	+= init
 SUBDIR	+= device
 

@@ -18,21 +18,27 @@
 package main
 
 import (
-	"bufio"
+	"fmt"
 	"log"
+	"net"
 	"os"
 	"path/filepath"
-	"strconv"
-	"strings"
+	"time"
+
+	"avyos.dev/pkg/connect"
 )
 
 const (
 	JournalPath  = "/cache/log/journal"
 	ServicesPath = "/config/services.d"
+
+	SocketDelay = 10
+	SocketRetry = 10
 )
 
 var (
 	stages = []string{"pre-init", "init", "post-init"}
+	su     Supervisor
 )
 
 func startup() error {
@@ -44,84 +50,53 @@ func startup() error {
 		}
 	}
 
-	ensureRequiredDirs()
-
 	var err error
-	journal, err = os.OpenFile(JournalPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	su.journal, err = os.OpenFile(JournalPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		journal = os.Stdout
+		su.journal = os.Stdout
 	} else {
-		log.SetOutput(journal)
+		log.SetOutput(su.journal)
 	}
 
-	loadServices(ServicesPath)
+	su.loadServices(ServicesPath)
+
+	connectService := su.get("connect")
+	if connectService != nil {
+		su.run(connectService)
+	}
+
+	waitForSocket()
+
+	go func() {
+		for {
+			if err := startInitServer(&Init{su: &su}); err != nil {
+				if su.isShuttingDown {
+					return
+				}
+				fmt.Printf("[INIT]: failed to connect to system bus = %v\n", err)
+				time.Sleep(time.Millisecond * SocketDelay)
+			}
+		}
+	}()
 
 	for _, stage := range stages {
-		triggerStage(stage)
+		su.trigger(stage)
 	}
 
-	triggerStage("service")
+	su.trigger("service")
 
-	waitGroup.Wait()
+	su.wg.Wait()
 	return nil
 }
 
-func ensureRequiredDirs() {
-	const (
-		USERNAME_FIELD int = iota
-		X_FIELD
-		UID_FIELD
-		GID_FIELD
-		COMMENT_FIELD
-		HOME_DIR_FIELD
-		SHELL_FIELD
-	)
-
-	file, err := os.OpenFile("/etc/passwd", os.O_RDONLY, 0)
-	if err == nil {
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			line := scanner.Text()
-			user := strings.Split(line, ":")
-			if len(user) != 7 {
-				continue
-			}
-			username := user[USERNAME_FIELD]
-			homedir := user[HOME_DIR_FIELD]
-			// shell := user[SHELL_FIELD]
-			uid, err := strconv.Atoi(user[UID_FIELD])
-			if err != nil {
-				log.Printf("invalid user id for %s, %s", username, user[UID_FIELD])
-				continue
-			}
-
-			gid, err := strconv.Atoi(user[GID_FIELD])
-			if err != nil {
-				log.Printf("invalid groupd id for %s, %s", username, user[GID_FIELD])
-				continue
-			}
-
-			if _, err := os.Stat(homedir); err != nil {
-				if err := os.MkdirAll(filepath.Dir(homedir), 0755); err != nil {
-					log.Printf("failed to create homedir %s for %s %v", homedir, user, err)
-					continue
-				}
-
-				if err := os.Mkdir(homedir, 0750); err != nil {
-					log.Printf("failed to create homedir %s for %s %v", homedir, user, err)
-					continue
-				}
-
-				if err := os.Chown(homedir, uid, gid); err != nil {
-					log.Printf("failed to chown homedir %s for %s %v", homedir, user, err)
-					continue
-				}
-			}
+func waitForSocket() {
+	for i := 0; i < SocketRetry; i++ {
+		c, err := net.Dial("unix", connect.SystemBusPath)
+		if err == nil {
+			c.Close()
+			log.Println("[INIT]: bus socket is ready")
+			return
 		}
-	}
-	defer file.Close()
-
-	for _, dir := range []string{"services", "log"} {
-		_ = os.MkdirAll(filepath.Join("/cache", dir), 0755)
+		time.Sleep(SocketDelay * time.Millisecond)
 	}
 }

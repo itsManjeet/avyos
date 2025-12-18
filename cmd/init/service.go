@@ -290,10 +290,9 @@ func (s *Service) setupTTY(cmd *exec.Cmd) error {
 			cmd.SysProcAttr.Ctty = int(s.tty.Fd())
 			cmd.SysProcAttr.Setctty = true
 		}
-
 	} else {
-		cmd.Stdout = journal
-		cmd.Stderr = journal
+		cmd.Stdout = su.journal
+		cmd.Stderr = su.journal
 	}
 	return nil
 }

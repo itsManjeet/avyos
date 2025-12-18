@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 
 	"avyos.dev/pkg/lipi"
@@ -31,8 +32,11 @@ func init() {
 func main() {
 	flag.Parse()
 
-	lipi.Eval(builtinLipi)
+	registerBusyboxCommands()
+	registerSystemCommands()
+
 	lipi.Global.Set("clear", lipi.Process(builtinClear))
+	lipi.Eval(builtinLipi)
 
 	if !skipInit {
 		source, err := os.ReadFile(InitLipiPath)
@@ -146,4 +150,58 @@ func isBalanced(s string) bool {
 		}
 	}
 	return len(stack) == 0
+}
+
+func registerBusyboxCommands() {
+	output, err := exec.Command("busybox", "--list").CombinedOutput()
+	if err != nil {
+		return
+	}
+
+	for _, b := range strings.Split(string(output), "\n") {
+		if b != "" {
+			lipi.Global.Set(lipi.Symbol(b), getBusyboxFunc(b))
+		}
+	}
+}
+
+func registerSystemCommands() {
+	for _, path := range strings.Split(os.Getenv("PATH"), ":") {
+		dir, err := os.ReadDir(path)
+		if err != nil {
+			continue
+		}
+		for _, bin := range dir {
+			lipi.Global.Set(lipi.Symbol(bin.Name()), getBuiltinFunc(bin.Name()))
+		}
+	}
+}
+
+func getBusyboxFunc(id string) lipi.Process {
+	return func(args []lipi.Value) (lipi.Value, error) {
+		cmdArgs := make([]string, 0, len(args)+1)
+		cmdArgs = append(cmdArgs, id)
+		for _, arg := range args {
+			cmdArgs = append(cmdArgs, lipi.ToString(arg))
+		}
+		cmd := exec.Command("busybox", cmdArgs...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Stdin = os.Stdin
+		return nil, cmd.Run()
+	}
+}
+
+func getBuiltinFunc(id string) lipi.Process {
+	return func(args []lipi.Value) (lipi.Value, error) {
+		cmdArgs := make([]string, 0, len(args))
+		for _, arg := range args {
+			cmdArgs = append(cmdArgs, lipi.ToString(arg))
+		}
+		cmd := exec.Command(id, cmdArgs...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Stdin = os.Stdin
+		return nil, cmd.Run()
+	}
 }

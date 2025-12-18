@@ -14,9 +14,9 @@ BUSYBOX_MAKE_ARGS	+= ARCH=${BUSYBOX_ARCH} CROSS_COMPILE=${TARGET_TRIPLET}-
 
 MERGE_CONFIG_SH		 = ${.TOPDIR}/_external/linux/scripts/kconfig/merge_config.sh
 
-all: ${SYSROOT_PATH}/cmd/busybox
+all: ${SYSTEM_PATH}/cmd/busybox
 
-${SYSROOT_PATH}/cmd/busybox: ${.OBJDIR}/busybox
+${SYSTEM_PATH}/cmd/busybox: ${.OBJDIR}/busybox
 	install -D -m 755 $< $@
 
 ${.OBJDIR}/busybox: ${.OBJDIR}/.config

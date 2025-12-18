@@ -1,0 +1,13 @@
+// User implementation for {{.Spec.Object.Name}}.
+// This file will NOT be regenerated.
+
+package {{.Package}}
+
+type {{.Spec.Object.Name}} struct {
+}
+
+{{range .Spec.Events}}
+func (s *{{$.Spec.Object.Name}}) {{.Name}}({{.Input.Name}} {{.Input.Type}}) ({{.Output.Type}}, error) {
+	panic("{{.Name}} not implemented")
+}
+{{end}}

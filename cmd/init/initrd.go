@@ -30,10 +30,10 @@ import (
 )
 
 var (
-	errors     []string
-	rootfs     string
-	rootfsType string
-	live       bool
+	initrdErrors []string
+	rootfs       string
+	rootfsType   string
+	live         bool
 )
 
 func isInsideInitramfs() bool {
@@ -49,16 +49,28 @@ func ensureRealRootfs() {
 	safeCall("mount(devtmpfs)", syscall.Mount("devtmpfs", "/dev", "devtmpfs", syscall.MS_NOSUID, "mode=0755"))
 
 	safeCall("mkdir(proc)", os.MkdirAll("/proc", 0755))
-	safeCall("mount(proc)", syscall.Mount("proc", "/proc", "proc", syscall.MS_NOSUID|syscall.MS_NOEXEC|syscall.MS_NODEV, ""))
+	safeCall(
+		"mount(proc)",
+		syscall.Mount("proc", "/proc", "proc", syscall.MS_NOSUID|syscall.MS_NOEXEC|syscall.MS_NODEV, ""),
+	)
 
 	safeCall("mkdir(sysfs)", os.MkdirAll("/sys", 0755))
-	safeCall("mount(sysfs)", syscall.Mount("sysfs", "/sys", "sysfs", syscall.MS_NOSUID|syscall.MS_NOEXEC|syscall.MS_NODEV, ""))
+	safeCall(
+		"mount(sysfs)",
+		syscall.Mount("sysfs", "/sys", "sysfs", syscall.MS_NOSUID|syscall.MS_NOEXEC|syscall.MS_NODEV, ""),
+	)
 
-	safeCall("mkdir(tmpfs)", os.MkdirAll("/run", 0755))
-	safeCall("mount(tmpfs)", syscall.Mount("tmpfs", "/run", "tmpfs", syscall.MS_NOSUID|syscall.MS_NODEV, "mode=0755"))
+	safeCall("mkdir(tmpfs)", os.MkdirAll("/cache/runtime", 0755))
+	safeCall(
+		"mount(tmpfs)",
+		syscall.Mount("tmpfs", "/cache/runtime", "tmpfs", syscall.MS_NOSUID|syscall.MS_NODEV, "mode=0755"),
+	)
 
 	safeCall("mkdir(devpts)", os.MkdirAll("/dev/pts", 0755))
-	safeCall("mount(devpts)", syscall.Mount("devpts", "/dev/pts", "devpts", syscall.MS_NOSUID|syscall.MS_NOEXEC, "mode=0620,gid=5"))
+	safeCall(
+		"mount(devpts)",
+		syscall.Mount("devpts", "/dev/pts", "devpts", syscall.MS_NOSUID|syscall.MS_NOEXEC, "mode=0620,gid=5"),
+	)
 
 	safeCall("mkdir(shm)", os.MkdirAll("/dev/shm", 0755))
 	safeCall("mount(shm)", syscall.Mount("tmpfs", "/dev/shm", "tmpfs", syscall.MS_NOSUID|syscall.MS_NODEV, "mode=1777"))
@@ -82,27 +94,46 @@ func ensureRealRootfs() {
 		}
 		log.Fatal("no root device present ", rootfs)
 	}
-	for _, dir := range []string{"/run/overlay", "/run/overlay/ro", "/run/overlay/rw", "/run/overlay/work", "/rootfs"} {
+	for _, dir := range []string{
+		"/cache/runtime/overlay",
+		"/cache/runtime/overlay/ro",
+		"/cache/runtime/overlay/rw",
+		"/cache/runtime/overlay/work",
+		"/rootfs",
+	} {
 		safeCall("mkdir("+dir+")", os.MkdirAll(dir, 0755))
 	}
 
 	var rootPath string
 	if live {
-		rootPath = "/run/iso"
+		rootPath = "/cache/runtime/iso"
 		safeCall("mkdir("+rootPath+")", os.MkdirAll(rootPath, 0755))
 	} else {
-		rootPath = "/run/overlay/ro"
+		rootPath = "/cache/runtime/overlay/ro"
 	}
 
 	safeCall("mount(rootfs)", syscall.Mount(rootfs, rootPath, rootfsType, syscall.MS_RDONLY, ""))
 	if live {
-		safeCall("mount(squashfs)", exec.Command("/cmd/busybox", "mount", filepath.Join(rootPath, "system.img"), "/run/overlay/ro").Run())
+		safeCall(
+			"mount(squashfs)",
+			exec.Command("/cmd/busybox", "mount", filepath.Join(rootPath, "system.img"), "/cache/runtime/overlay/ro").
+				Run(),
+		)
 	}
 
-	safeCall("mount(overlay)", syscall.Mount("overlay", "/rootfs", "overlay", 0, "lowerdir=/run/overlay/ro,upperdir=/run/overlay/rw,workdir=/run/overlay/work"))
+	safeCall(
+		"mount(overlay)",
+		syscall.Mount(
+			"overlay",
+			"/rootfs",
+			"overlay",
+			0,
+			"lowerdir=/cache/runtime/overlay/ro,upperdir=/cache/runtime/overlay/rw,workdir=/cache/runtime/overlay/work",
+		),
+	)
 	ensureStage("prepare real rootfs")
 
-	for _, fs := range []string{"proc", "sys", "dev", "run"} {
+	for _, fs := range []string{"proc", "sys", "dev", "cache/runtime"} {
 		safeCall("mkdir("+fs+")", os.MkdirAll("/rootfs/"+fs, 0755))
 		safeCall("mount("+fs+")", syscall.Mount("/"+fs, "/rootfs/"+fs, "", syscall.MS_MOVE, ""))
 	}
@@ -118,13 +149,13 @@ func ensureRealRootfs() {
 
 func safeCall(msg string, err error) {
 	if err != nil {
-		errors = append(errors, fmt.Sprintf("%s: %v", msg, err))
+		initrdErrors = append(initrdErrors, fmt.Sprintf("%s: %v", msg, err))
 	}
 }
 
 func ensureStage(stage string) {
-	if errors != nil {
-		ensure.Foreach(errors, func(msg string) error {
+	if initrdErrors != nil {
+		ensure.Foreach(initrdErrors, func(msg string) error {
 			log.Println(msg)
 			return nil
 		})

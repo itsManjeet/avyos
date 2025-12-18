@@ -5,6 +5,6 @@
         "XDG_RUNTIME_DIR=/cache"
     ],
     "depends": [
-        "udev"
+        "udev-trigger"
     ]
 }

@@ -1,7 +1,7 @@
 .TOPDIR ?= ..
 include ${.TOPDIR}/build/avyos.defaults.inc
 
-SUBDIR  = autoconf automake
+SUBDIR  = autoconf automake libtool
 
 SUBDIR += kernel-headers
 SUBDIR += gmp mpfr mpc
@@ -14,6 +14,7 @@ $(error "unsupported crt ${CRT}")
 endif
 
 SUBDIR += gcc
+SUBDIR += gperf
 SUBDIR += limine
 SUBDIR += wayland-scanner
 

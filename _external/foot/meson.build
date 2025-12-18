@@ -160,10 +160,11 @@ fcft = dependency('fcft', version: ['>=3.3.1', '<4.0.0'], fallback: 'fcft')
 
 wayland_protocols_datadir = wayland_protocols.get_variable('pkgdatadir')
 
-wscanner = dependency('wayland-scanner', native: true)
-wscanner_prog = find_program(
-  wscanner.get_variable('wayland_scanner'), native: true)
-
+# AVYOS wayland-scanner hack
+# wscanner = dependency('wayland-scanner', native: true)
+# wscanner_prog = find_program(
+#   wscanner.get_variable('wayland_scanner'), native: true)
+wscanner_prog = find_program('wayland-scanner')
 wl_proto_headers = []
 wl_proto_src = []
 wl_proto_xml = [

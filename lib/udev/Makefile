@@ -8,9 +8,9 @@ HEADERS		 = libudev.h
 CPPFLAGS	+= -D_XOPEN_SOURCE=700
 CSTD		 = 99
 
-POST_TARGETS += ${SYSROOT_PATH}/lib/pkgconfig/libudev.pc
+POST_TARGETS += ${SYSTEM_PATH}/lib/pkgconfig/libudev.pc
 
 include ${.TOPDIR}/build/avyos.cc.inc
 
-${SYSROOT_PATH}/lib/pkgconfig/libudev.pc: ${.CURDIR}/libudev.pc
+${SYSTEM_PATH}/lib/pkgconfig/libudev.pc: ${.CURDIR}/libudev.pc
 	install -v -D -m 0644 $< $@
