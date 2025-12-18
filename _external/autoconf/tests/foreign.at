@@ -1,0 +1,236 @@
+#							-*- Autotest -*-
+
+AT_BANNER([Compatibility with external tools and macros.])
+
+# Copyright (C) 2000-2007, 2009-2017, 2020-2023 Free Software
+# Foundation, Inc.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+## --------- ##
+## Libtool.  ##
+## --------- ##
+
+AT_SETUP([Libtool])
+
+# Skip this test if there is no libtoolize.
+AT_CHECK([libtoolize --version || exit 77],
+	 [ignore], [ignore], [ignore])
+# Modern Libtool has further tests for compatibility with older autoconf;
+# from the Autoconf side, we will merely assume newer libtool.
+AT_CHECK([[
+case `libtoolize --version |
+      sed -n '/^.* \([0-9][0-9.a-z]*\)$/{
+		s//\1/
+		p
+		q
+	}'` in
+  0.*    ) exit 77;;
+  1.*    ) exit 77;;
+esac]],
+	 [ignore], [ignore], [ignore])
+
+# Using a configure.ac, have libtoolize confess where libtool.m4 is.
+AT_DATA([configure.ac],
+[[AC_INIT
+# State that we explicitly want auxiliary files here, so libtoolize
+# won't pollute files outside the test directory.
+AC_CONFIG_AUX_DIR([.])
+AC_PROG_LIBTOOL
+]])
+AT_CHECK([LC_ALL=C libtoolize -i], [0], [stdout], [ignore])
+
+# Some broken libtoolize fail to install a functional config.guess.
+AT_CHECK([LC_ALL=C ./config.guess || exit 77], [], [ignore], [ignore])
+
+# Make sure at-path contains something valid, and let the test suite
+# display it when verbose.  And fail, skipping would too easily hide
+# problems.
+AT_CHECK([sed -n ["s,^[^']*[\`']\\(/[^']*\\)'.*,\\1,p"] stdout], [0], [stdout])
+AT_CHECK([test -f "`sed -n 1p stdout`"])
+
+# Older libtoolize installed everything but install-sh...
+AT_CHECK([test -f install-sh || touch install-sh])
+
+# Build the concatenation of libtool.m4 and configure.ac.
+AT_CHECK([[sed 's/.*/m4''_include([&])/' stdout]], [0], [stdout])
+AT_CHECK([mv stdout aclocal.m4])
+cat >configure.ac <<_EOF
+AC_INIT
+AC_CONFIG_AUX_DIR([.])
+AC_CANONICAL_SYSTEM
+AC_PROG_LIBTOOL
+_EOF
+
+# FIXME: Once Libtool really fixed, stop ignoring stderr.
+AT_CHECK_AUTOCONF([], [], [], [ignore])
+
+# Ignore stderr, because ltconfig always loads the cache, which is
+# /dev/null, and some shells choke on this.  For instance with Bash
+# 2.05, you get:
+#
+#   loading cache /dev/null within ltconfig
+#   ./ltconfig: .: /dev/null: not a regular file
+#
+# But the script executes properly.
+AT_CHECK_CONFIGURE([], [], [], [ignore])
+
+AT_CLEANUP
+
+
+AT_SETUP([shtool])
+
+AT_DATA([configure.ac],
+[[AC_INIT([shtool test], [1.0])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_PATH_PROG([SHTOOL], [shtool], [false])
+AC_PROG_INSTALL
+AC_SUBST([ac_install_sh])
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+]])
+
+AT_DATA([Makefile.in],
+[[SHTOOL = @SHTOOL@
+# fake these, so that we use shtool wherever possible.
+INSTALL_PROGRAM = $(ac_install_sh)
+INSTALL_DATA = $(ac_install_sh) -m 644
+prefix = @prefix@
+ac_install_sh = @ac_install_sh@
+
+install:
+	$(INSTALL_PROGRAM) file1 $(prefix)/file1
+	$(INSTALL_DATA) file2 $(prefix)/file2
+
+copy-shtool:
+	test '$(SHTOOL)' != false
+	cp '$(SHTOOL)' build-aux
+]])
+
+: >file1
+: >file2
+chmod +x file1
+mkdir build-aux inst
+instdir=`pwd`/inst
+AT_CHECK_AUTOCONF
+cp "$abs_top_srcdir/build-aux/install-sh" build-aux
+AT_CHECK_CONFIGURE
+AT_SKIP_IF([grep 'SHTOOL = false' Makefile > /dev/null 2>&1])
+
+AT_CHECK_MAKE([copy-shtool])
+AT_CHECK([test -s build-aux/shtool])
+
+# AC_PROG_INSTALL should pick up shtool from build-aux, even though
+# we're forcing AC_PATH_PROG not to find it on the host system.
+rm -f build-aux/install-sh
+AT_CHECK_CONFIGURE([--prefix="$instdir" ac_cv_path_SHTOOL=false])
+AT_CHECK([grep '^ac_install_sh = .*shtool install -c' Makefile], [], [ignore])
+AT_CHECK_MAKE([install])
+AT_CHECK([test -f inst/file1 && test -f inst/file2 && test -x inst/file1])
+
+AT_CLEANUP
+
+AT_SETUP([AX_PROG_CC_FOR_BUILD])
+
+cp "$abs_top_srcdir/build-aux/install-sh" \
+   "$abs_top_srcdir/build-aux/config.guess" \
+   "$abs_top_srcdir/build-aux/config.sub" .
+
+# The Autoconf Macro Archive's AX_PROG_CC_FOR_BUILD invokes AC_PROG_CC
+# twice, with a whole bunch of shell variables renamed at the m4 level
+# the second time.  Git commit 18c140b50b0619454d4da50d58a318cc257d580a
+# broke this usage and the breakage went unnoticed for *eight years*.
+
+cp "$abs_top_srcdir/tests/data/ax_prog_cc_for_build_v18.m4" \
+   aclocal.m4
+
+AT_DATA([configure.ac],
+[[AC_INIT([foo], [1.0])
+AX_PROG_CC_FOR_BUILD
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+]])
+
+AT_DATA([Makefile.in],
+[[CC = @CC@
+CC_FOR_BUILD = @CC_FOR_BUILD@
+]])
+
+AT_CHECK_AUTOCONF
+AT_CHECK_CONFIGURE
+
+AT_CHECK([grep '^CC = ..*$' Makefile > /dev/null 2>&1])
+AT_CHECK([grep '^CC_FOR_BUILD = ..*$' Makefile > /dev/null 2>&1])
+
+AT_CLEANUP
+
+AT_SETUP([AX_PROG_CXX_FOR_BUILD])
+
+cp "$abs_top_srcdir/build-aux/install-sh" \
+   "$abs_top_srcdir/build-aux/config.guess" \
+   "$abs_top_srcdir/build-aux/config.sub" .
+
+# The Autoconf Macro Archive's AX_PROG_CXX_FOR_BUILD invokes AC_PROG_CXX
+# twice, with a whole bunch of shell variables renamed at the m4 level
+# the second time.  This usage was never broken (unlike with AC_PROG_CC)
+# but it seems sensible to make sure it doesn't *get* broken.
+
+cat "$abs_top_srcdir/tests/data/ax_prog_cc_for_build_v18.m4" \
+    "$abs_top_srcdir/tests/data/ax_prog_cxx_for_build_v3.m4" \
+   > aclocal.m4
+
+AT_DATA([configure.ac],
+[[AC_INIT([foo], [1.0])
+AX_PROG_CXX_FOR_BUILD
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
+]])
+
+AT_DATA([Makefile.in],
+[[CXX = @CXX@
+CXX_FOR_BUILD = @CXX_FOR_BUILD@
+]])
+
+AT_CHECK_AUTOCONF
+AT_CHECK_CONFIGURE
+
+AT_CHECK([grep '^CXX = ..*$' Makefile > /dev/null 2>&1])
+AT_CHECK([grep '^CXX_FOR_BUILD = ..*$' Makefile > /dev/null 2>&1])
+
+AT_CLEANUP
+
+
+AT_SETUP([gnulib-std-gnu11.m4])
+
+# Gnulib's std-gnu11.m4 (last significant change 2016-03-15) overrides
+# most but not all of the internal macros used by AC_PROG_CC and AC_PROG_CXX.
+# Commit 131d8c69f31dc6fc8dc93abe1096d52d1fe19fd3 changed the calling
+# convention of _AC_C_STD_TRY, causing configure scripts that load
+# std-gnu11.m4 to have shell syntax errors.
+
+cp "$abs_top_srcdir/tests/data/gnulib_std_gnu11_2020_08_17.m4" \
+   aclocal.m4
+
+AT_DATA([configure.ac],
+[[AC_INIT([foo], [1.0])
+AC_PROG_CC
+AC_PROG_CXX
+AC_OUTPUT
+]])
+
+AT_CHECK_AUTOCONF
+AT_CHECK_CONFIGURE
+
+AT_CLEANUP
