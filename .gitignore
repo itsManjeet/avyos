@@ -2,4 +2,5 @@
 configure~
 config.h.in~
 config.h~
+config.in~
 autom4te.cache/
