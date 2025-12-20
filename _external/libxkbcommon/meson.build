@@ -450,7 +450,7 @@ pkgconfig.generate(
     filebase: 'xkbcommon',
     version: meson.project_version(),
     description: 'XKB API common to servers and clients',
-    variables: pkgconfig_variables,
+    #variables: pkgconfig_variables,
 )
 
 

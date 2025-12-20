@@ -70,7 +70,7 @@ int __lookup_serv(struct service buf[static MAXSERVS], const char *name, int pro
 	size_t l = strlen(name);
 
 	unsigned char _buf[1032];
-	FILE _f, *f = __fopen_rb_ca("/etc/services", &_f, _buf, sizeof _buf);
+	FILE _f, *f = __fopen_rb_ca("/config/net/services", &_f, _buf, sizeof _buf);
 	if (!f) switch (errno) {
 	case ENOENT:
 	case ENOTDIR:

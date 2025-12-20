@@ -1,0 +1,22 @@
+texinfo
+automake
+m4
+build-essential
+flex
+bison
+bc
+rsync
+libtool
+golang # >= 1.25
+texlive-binaries
+meson ninja-build
+libexpat1-dev
+pkg-config
+cmake
+python3-mako
+python3-yaml
+libelf-dev
+libssl-dev
+mtools
+parted
+squashfs-tools

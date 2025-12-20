@@ -80,7 +80,7 @@ int getspnam_r(const char *name, struct spwd *sp, char *buf, size_t size, struct
 		return errno = ERANGE;
 
 	/* Protect against truncation */
-	if (snprintf(path, sizeof path, "/etc/tcb/%s/shadow", name) >= sizeof path)
+	if (snprintf(path, sizeof path, "/config/tcb/%s/shadow", name) >= sizeof path)
 		return errno = EINVAL;
 
 	fd = open(path, O_RDONLY|O_NOFOLLOW|O_NONBLOCK|O_CLOEXEC);
@@ -96,7 +96,7 @@ int getspnam_r(const char *name, struct spwd *sp, char *buf, size_t size, struct
 	} else {
 		if (errno != ENOENT && errno != ENOTDIR)
 			return errno;
-		f = fopen("/etc/shadow", "rbe");
+		f = fopen("/config/shadow", "rbe");
 		if (!f) {
 			if (errno != ENOENT && errno != ENOTDIR)
 				return errno;

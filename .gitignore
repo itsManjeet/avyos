@@ -1,4 +1,5 @@
 /_out
 configure~
 config.h.in~
+config.h~
 autom4te.cache/

@@ -27,7 +27,7 @@ int __getpw_a(const char *name, uid_t uid, struct passwd *pw, char **buf, size_t
 
 	pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &cs);
 
-	f = fopen("/etc/passwd", "rbe");
+	f = fopen("/config/passwd", "rbe");
 	if (!f) {
 		rv = errno;
 		goto done;

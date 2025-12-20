@@ -47,7 +47,7 @@ static void reverse_hosts(char *buf, const unsigned char *a, unsigned scopeid, i
 	char line[512], *p, *z;
 	unsigned char _buf[1032], atmp[16];
 	struct address iplit;
-	FILE _f, *f = __fopen_rb_ca("/etc/hosts", &_f, _buf, sizeof _buf);
+	FILE _f, *f = __fopen_rb_ca("/config/net/hosts", &_f, _buf, sizeof _buf);
 	if (!f) return;
 	if (family == AF_INET) {
 		memcpy(atmp+12, a, 4);
@@ -88,7 +88,7 @@ static void reverse_services(char *buf, int port, int dgram)
 	unsigned long svport;
 	char line[128], *p, *z;
 	unsigned char _buf[1032];
-	FILE _f, *f = __fopen_rb_ca("/etc/services", &_f, _buf, sizeof _buf);
+	FILE _f, *f = __fopen_rb_ca("/config/net/services", &_f, _buf, sizeof _buf);
 	if (!f) return;
 	while (fgets(line, sizeof line, f)) {
 		if ((p=strchr(line, '#'))) *p++='\n', *p=0;

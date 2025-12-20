@@ -30,6 +30,6 @@ IMAGES_PATH				:= ${.BUILDDIR}/images
 
 SOURCES_PATH			:= ${.TOPDIR}/_out/sources
 
-export PATH				:= ${TOOLCHAIN_PATH}/bin:${PATH}
+export PATH				:= ${TOOLCHAIN_PATH}/bin:${PATH}:/usr/sbin
 
 $(shell mkdir -p ${.OBJDIR})

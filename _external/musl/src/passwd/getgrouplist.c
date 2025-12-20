@@ -43,7 +43,7 @@ int getgrouplist(const char *user, gid_t gid, gid_t *groups, int *ngroups)
 	}
 	fclose(f);
 
-	f = fopen("/etc/group", "rbe");
+	f = fopen("/config/group", "rbe");
 	if (!f && errno != ENOENT && errno != ENOTDIR)
 		goto cleanup;
 

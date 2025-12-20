@@ -6,7 +6,7 @@ project(
   ['c', 'cpp'],
   version : files('VERSION'),
   license : 'MIT',
-  meson_version : '>= 1.4.0',
+  meson_version : '>= 1.3.0',
   default_options : [
     'buildtype=debugoptimized',
     'b_ndebug=if-release',

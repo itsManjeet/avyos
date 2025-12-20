@@ -18,7 +18,7 @@ int __get_resolv_conf(struct resolvconf *conf, char *search, size_t search_sz)
 	conf->attempts = 2;
 	if (search) *search = 0;
 
-	f = __fopen_rb_ca("/etc/resolv.conf", &_f, _buf, sizeof _buf);
+	f = __fopen_rb_ca("/config/net/resolv.conf", &_f, _buf, sizeof _buf);
 	if (!f) switch (errno) {
 	case ENOENT:
 	case ENOTDIR:

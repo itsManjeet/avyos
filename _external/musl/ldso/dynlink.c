@@ -1138,9 +1138,9 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
 					prefix_len = 0;
 				}
 				char etc_ldso_path[prefix_len + 1
-					+ sizeof "/etc/ld-musl-" LDSO_ARCH ".path"];
+					+ sizeof "/config/ld-musl-" LDSO_ARCH ".path"];
 				snprintf(etc_ldso_path, sizeof etc_ldso_path,
-					"%.*s/etc/ld-musl-" LDSO_ARCH ".path",
+					"%.*s/config/ld-musl-" LDSO_ARCH ".path",
 					(int)prefix_len, prefix);
 				fd = open(etc_ldso_path, O_RDONLY|O_CLOEXEC);
 				if (fd>=0) {
@@ -1157,7 +1157,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
 					sys_path = "";
 				}
 			}
-			if (!sys_path) sys_path = "/lib:/usr/local/lib:/usr/lib";
+			if (!sys_path) sys_path = "/lib";
 			fd = path_open(name, sys_path, buf, sizeof buf);
 		}
 		pathname = buf;

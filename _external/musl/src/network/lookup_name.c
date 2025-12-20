@@ -52,7 +52,7 @@ static int name_from_hosts(struct address buf[static MAXADDRS], char canon[stati
 	size_t l = strlen(name);
 	int cnt = 0, badfam = 0, have_canon = 0;
 	unsigned char _buf[1032];
-	FILE _f, *f = __fopen_rb_ca("/etc/hosts", &_f, _buf, sizeof _buf);
+	FILE _f, *f = __fopen_rb_ca("/config/net/hosts", &_f, _buf, sizeof _buf);
 	if (!f) switch (errno) {
 	case ENOENT:
 	case ENOTDIR:

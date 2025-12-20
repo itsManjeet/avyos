@@ -10,7 +10,7 @@ extern "C" {
 
 #include <bits/alltypes.h>
 
-#define	SHADOW "/etc/shadow"
+#define	SHADOW "/config/shadow"
 
 struct spwd {
 	char *sp_namp;

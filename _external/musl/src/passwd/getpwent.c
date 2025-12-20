@@ -16,7 +16,7 @@ weak_alias(setpwent, endpwent);
 struct passwd *getpwent()
 {
 	struct passwd *res;
-	if (!f) f = fopen("/etc/passwd", "rbe");
+	if (!f) f = fopen("/config/passwd", "rbe");
 	if (!f) return 0;
 	__getpwent_a(f, &pw, &line, &size, &res);
 	return res;
