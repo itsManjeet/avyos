@@ -14,7 +14,8 @@ all: ${.OBJDIR}/.install-done
 
 ${.OBJDIR}/.install-done: ${.OBJDIR}/.build-done
 	mkdir -p ${IMAGES_PATH}
-	cp ${.OBJDIR}/$(shell ${MAKE} --no-print-directory ${KERNEL_MAKE_ARGS} -s image_name) ${IMAGES_PATH}/kernel.img
+	KERNEL_IMAGE="$$( ${MAKE} ${KERNEL_MAKE_ARGS} --no-print-directory -s image_name )" && \
+		cp ${.OBJDIR}/$$KERNEL_IMAGE ${IMAGES_PATH}/kernel.img
 	${MAKE} ${KERNEL_MAKE_ARGS} INSTALL_MOD_PATH=${SYSTEM_PATH}/ INSTALL_MOD_STRIP=1 modules_install
 	touch $@
 
