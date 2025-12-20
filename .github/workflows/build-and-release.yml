@@ -6,8 +6,8 @@ on:
   pull_request:
 
 jobs:
-  golangci:
-    name: lint
+  build:
+    name: build
     runs-on: self-hosted
     strategy:
       matrix:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Build
-        run: GOARCH=${{matrix.arch}} make -j$(nproc)
+        run: GOARCH=${{matrix.arch}} CACHE_PATH=${{ secrets.CACHE_PATH }} make -j$(nproc)
       
       - name: Compress Image
-        run: zstd -19 _out/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img
+        run: zstd -19 ${{ secrets.CACHE_PATH }}/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img

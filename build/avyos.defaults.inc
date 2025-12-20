@@ -19,7 +19,8 @@ endif
 TARGET_TRIPLET			:= ${GOARCH}-${GOOS}-${CRT}
 HOST_TRIPLET			:= $(shell gcc -dumpmachine)
 
-.BUILDDIR				:= ${.TOPDIR}/_out/${TARGET_TRIPLET}
+CACHE_PATH              ?= ${.TOPDIR}/_out
+.BUILDDIR				:= ${CACHE_PATH}/${TARGET_TRIPLET}
 
 .OBJDIR					:= ${.CURDIR:${.TOPDIR}/%=${.BUILDDIR}/%}
 .RELDIR					:= $(shell realpath --relative-to=${.TOPDIR} ${.CURDIR})
@@ -28,7 +29,7 @@ TOOLCHAIN_PATH 			:= ${.BUILDDIR}/toolchain
 SYSTEM_PATH				:= ${.BUILDDIR}/system
 IMAGES_PATH				:= ${.BUILDDIR}/images
 
-SOURCES_PATH			:= ${.TOPDIR}/_out/sources
+SOURCES_PATH			:= ${CACHE_PATH}/sources
 
 export PATH				:= ${TOOLCHAIN_PATH}/bin:${PATH}:/usr/sbin
 
