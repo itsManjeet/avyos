@@ -9,8 +9,8 @@
 #if ENABLE_FEATURE_SECURETTY && !ENABLE_PAM
 int FAST_FUNC is_tty_secure(const char *short_tty)
 {
-	char *buf = (char*)"/etc/securetty"; /* any non-NULL is ok */
-	parser_t *parser = config_open2("/etc/securetty", fopen_for_read);
+	char *buf = (char*)"/config/securetty"; /* any non-NULL is ok */
+	parser_t *parser = config_open2("/config/securetty", fopen_for_read);
 	while (config_read(parser, &buf, 1, 1, "# \t", PARSE_NORMAL)) {
 		if (strcmp(buf, short_tty) == 0)
 			break;

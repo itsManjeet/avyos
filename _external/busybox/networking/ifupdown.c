@@ -1174,7 +1174,7 @@ static int execute_all(struct interface_defn_t *ifd, const char *opt)
 	/* 'opt' is always short, the longest value is "post-down".
 	 * Can use on-stack buffer instead of xasprintf'ed one.
 	 */
-	char buf[sizeof("run-parts /etc/network/if-%s.d")
+	char buf[sizeof("run-parts /config/network/if-%s.d")
 		+ sizeof("post-down")
 		/*paranoia:*/ + 8
 	];
@@ -1193,7 +1193,7 @@ static int execute_all(struct interface_defn_t *ifd, const char *opt)
 	 * complains, and this message _is_ annoyingly visible.
 	 * Don't "fix" this (unless newer Debian does).
 	 */
-	sprintf(buf, "run-parts /etc/network/if-%s.d", opt);
+	sprintf(buf, "run-parts /config/network/if-%s.d", opt);
 	return doit(buf);
 }
 
@@ -1371,7 +1371,7 @@ int ifupdown_main(int argc UNUSED_PARAM, char **argv)
 	int (*cmds)(struct interface_defn_t *);
 	struct interfaces_file_t *defn;
 	llist_t *target_list = NULL;
-	const char *interfaces = "/etc/network/interfaces";
+	const char *interfaces = "/config/network/interfaces";
 	bool any_failures = 0;
 
 	INIT_G();

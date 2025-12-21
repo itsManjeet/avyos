@@ -221,7 +221,7 @@ int nameif_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int nameif_main(int argc UNUSED_PARAM, char **argv)
 {
 	ethtable_t *clist = NULL;
-	const char *fname = "/etc/mactab";
+	const char *fname = "/config/mactab";
 	int ctl_sk;
 	ethtable_t *ch;
 	parser_t *parser;

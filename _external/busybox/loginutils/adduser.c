@@ -189,7 +189,7 @@ int adduser_main(int argc UNUSED_PARAM, char **argv)
 	char *p;
 	unsigned opts;
 	char *uid;
-	const char *skel = "/etc/skel";
+	const char *skel = "/config/skel";
 
 	/* got root? */
 	if (geteuid()) {

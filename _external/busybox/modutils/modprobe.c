@@ -654,8 +654,8 @@ int modprobe_main(int argc UNUSED_PARAM, char **argv)
 	if (G.probes == NULL)
 		return EXIT_SUCCESS;
 
-	read_config("/etc/modprobe.conf");
-	read_config("/etc/modprobe.d");
+	read_config("/config/modprobe.conf");
+	read_config("/config/modprobe.d");
 	if (ENABLE_FEATURE_MODUTILS_SYMBOLS && G.need_symbols)
 		read_config("modules.symbols");
 	load_modules_dep();

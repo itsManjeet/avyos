@@ -10,3 +10,7 @@ EXTRA_CONFIGURE_ARGS += \
     --enable-pax_emutramp
 
 include ${.TOPDIR}/build/avyos.autotools.inc
+
+${DISTDIR}/configure: ${DISTDIR}/configure.ac
+	cd ${DISTDIR} && \
+		autoreconf -fiv

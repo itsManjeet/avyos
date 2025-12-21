@@ -2412,7 +2412,7 @@ static NOINLINE void ntp_init(char **argv)
 		parser_t *parser;
 		char *token[3 + 2*ENABLE_FEATURE_NTP_AUTH];
 
-		parser = config_open("/etc/ntp.conf");
+		parser = config_open("/config/ntp.conf");
 		while (config_read(parser, token, 3 + 2*ENABLE_FEATURE_NTP_AUTH, 1, "# \t", PARSE_NORMAL)) {
 			if (strcmp(token[0], "server") == 0 && token[1]) {
 # if ENABLE_FEATURE_NTP_AUTH
@@ -2428,7 +2428,7 @@ static NOINLINE void ntp_init(char **argv)
 				continue;
 			}
 			bb_error_msg("skipping %s:%u: unimplemented command '%s'",
-				"/etc/ntp.conf", parser->lineno, token[0]
+				"/config/ntp.conf", parser->lineno, token[0]
 			);
 		}
 		config_close(parser);

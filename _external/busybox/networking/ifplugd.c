@@ -159,7 +159,7 @@ struct globals {
 	G.delay_down     = 5; \
 	G.iface          = "eth0"; \
 	G.api_mode       = "a"; \
-	G.script_name    = "/etc/ifplugd/ifplugd.action"; \
+	G.script_name    = "/config/ifplugd/ifplugd.action"; \
 } while (0)
 
 
