@@ -3,11 +3,13 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
   pull_request:
 
 jobs:
   build:
-    name: build
+    if: github.event_name != 'pull_request'
     runs-on: self-hosted
     strategy:
       matrix:
@@ -16,7 +18,36 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Build
-        run: GOARCH=${{matrix.arch}} CACHE_PATH=${{ secrets.CACHE_PATH }} make -j$(nproc)
+        run: |
+          GOARCH=${{matrix.arch}} \
+          CACHE_PATH=${{ secrets.CACHE_PATH }} \
+            make -j$(nproc)
       
       - name: Compress Image
-        run: zstd -19 ${{ secrets.CACHE_PATH }}/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img
+        run: |
+          zstd -19 \
+            ${{ secrets.CACHE_PATH }}/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img \
+            -o avyos-${{matrix.arch}}.img.zst
+      
+      - name: Determine release name
+        id: release
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "name=${{ github.ref_name }}-continuous" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}-continuous" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create / Update Release and Upload Artifact
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.release.outputs.name }}
+          tag_name: ${{ steps.release.outputs.tag }}
+          prerelease: ${{ github.ref_type != 'tag' }}
+          allowUpdates: true
+          files: |
+            avyos-${{ matrix.arch }}.img.zst
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
