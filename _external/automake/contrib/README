@@ -1,0 +1,23 @@
+This is the 'contrib' directory of the GNU Automake distribution.
+
+Here you'll find additions to the Automake base distribution, in the form of
+makefile fragments, m4 macros, scripts, documentation, et cetera: additions
+that might be handy to many users, but (for one reason or another) are not
+deemed appropriate for inclusion into the Automake core.
+
+There are several reasons that a feature might be kept in contrib:
+
+  1. The long-term usefulness of the feature is debatable and uncertain;
+     real-world testing is necessary to prove or disprove its usefulness,
+     before the feature can be committed into the Automake core (as doing so
+     too early would later force us to continue support for
+     backward-compatibility, even if the feature proved flawed or fails to
+     attract widespread use).
+
+  2. The APIs or overall design of the feature are still unstable, and need
+     testing to iron out warts and usability bugs, or uncover potential flaws.
+
+  3. The feature was an historical one, mostly obsolete but still used in the
+     wild.  We want to deprecate it and remove it from the Automake core, but
+     cannot remove it altogether, for the sake of the existing usage, so it
+     gets moved to contrib.

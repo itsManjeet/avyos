@@ -1,0 +1,1175 @@
+# Romanian translation for m4.
+# Traducere în limba română pentru m4.
+# Copyright (C) 2003, 2022, 2025 Free Software Foundation, Inc.
+# Acest fişier este distribuit sub aceeaşi licenţă ca şi pachetul m4.
+# This file is distributed under the same license as the m4 package.
+#
+# Laurentiu Buzdugan <buzdugan@voyager.net>, 2003.
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2022, 2025.
+#
+# Cronologia traducerii fișierului „m4”:
+# Traducerea inițială, făcută de LB, pentru versiunea m4 1.4o (rebotezată 1.4.0), apr-2033.
+# Actualizare a mesajelor, de la fișierul „m4-1.4.18d.pot”.
+# Actualizare a codării caracteror, la codarea de caractere UTF-8.
+# Actualizare a diacriticelor de la „cu sedilă” la „cu virgulă”.
+# Actualizare a algoritmului formelor de plural (de la „două” la „trei”).
+# NU și a mesajelor traduse (acestea au rămas neschimbate).
+# Eliminare a mesajelor ce-au dispărut în ultima versiune.
+# Actualizări realizate de Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 15.01.2022.
+# Actualizare a traducerii pentru versiunea 1.4.18d, făcută de R-GC, feb-2022.
+# Actualizare a traducerii pentru versiunea 1.4.19.60, făcută de R-GC, apr-2025.
+# Actualizare a traducerii pentru versiunea Y, făcută de X, Z(luna/anul).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4.19.60\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2025-04-13 18:19+0200\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
+"Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 3.5\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr ""
+"nu se poate găsi un director temporar, încercați să definiți variabila "
+"$TMPDIR"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "nu se poate crea un director temporar utilizând șablonul „%s”"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "nu se poate elimina directorul temporar %s"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "eroare la închiderea fișierului"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "eroare de scriere"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "eroare de program"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "debordare de stivă"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "nu se poate elimina fișierul temporar %s"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Eroare de sistem necunoscută"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "subprocesul %s a eșuat"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: opțiunea „%s%s” este ambiguă\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: opțiunea „%s%s” este ambiguă; posibilități:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: opțiune nerecunoscută „%s%s”\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: opțiunea „%s%s” nu permite un argument\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: opțiunea „%s%s” necesită un argument\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: opțiune nevalidă -- „%c”\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: opțiunea necesită un argument -- „%c”\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "memorie epuizată"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "nu s-a putut înregistra directorul de lucru curent"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "întoarcerea la directorul de lucru inițial a eșuat"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle a eșuat"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "nu se poate restaura fd %d: dup2 a eșuat"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "„"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "”"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Succes"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Nici o potrivire"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Expresie regulată nevalidă"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Caracter de colaționare nevalid"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Nume de clasă de caracter nevalid"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Bară oblică inversă la sfârșit"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Referință anterioară nevalidă"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "[, [^, [:, [., sau [= fără pereche"
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "( sau \\( fără pereche"
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "\\{ fără pereche"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Conținut nevalid al \\{\\}"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Sfârșit de interval nevalid"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Memorie epuizată"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Expresie regulată precedentă nevalidă"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Sfârșit prematur al expresiei regulate"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Expresie regulată prea lungă"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr ") sau \\) fără pereche"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Nu există o expresie regulată anterioară"
+
+# R-GC, scrie:
+# - http://en.wikipedia.org/wiki/SIGHUP
+# aici, la sfîrșitul articolului, explicația/moti-
+# vația pentru traducerea aleasă.
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Deconectare/Terminare anormală(Hangup)"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Întrerupere"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Termină"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Instrucțiune ilegală"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Capturare punct de întrerupere/traseul(execuției)"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Renuțare"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Excepție de virgulă mobilă"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Omorât"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Eroare de magistrală de date(bus)"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Eroare de segmentare"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Conductă(pipe) întreruptă"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Ceas cu alarmă"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Terminat"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Condiție In/Ieș urgentă"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Oprit (semnal)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Stopat"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Continuare"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "Procesul-copil a terminat"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Oprit (intrare tty)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Oprit (ieșire tty)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "In/Ieș posibilă"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "S-a depășit limita de timp CPU"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "S-a depășit limita de dimensiune a fișierului"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "Cronometrul virtual a expirat"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "Cronometrul de creare a profilului a expirat"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Fereastră schimbată"
+
+# R-GC, scrie:
+# la sugestia lui DȘ, am schimbat stilul de marcare de la „»«”, la „«»”.
+# Stilul folosit anterior, era pentru a diferenția
+# marcarea șirurilor de comenzi, eventual
+# acompaniate de opțiunile lor, de marcarea unor lucruri diferite de acestea.
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Semnalul «1» definit de utilizator"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Semnalul «2» definit de utilizator"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "Detectare EMT"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Apel de sistem greșit"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Eroare de stivă"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Cerere de informații"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Pană de curent"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Resursă pierdută"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "nu se poate crea conducta"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Semnal în timp real %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Semnal necunoscut %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "Împachetat de %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "Împachetat de %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Licența GPLv3+: GNU GPL versiunea 3 sau mai mare <%s>.\n"
+"Acesta este software liber: sunteți liber să îl modificați și să îl "
+"redistribuiți.\n"
+"NU există NICIO GARANȚIE, în măsura permisă de lege.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Scris de %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Scris de %s și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Scris de %s, %s și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, %s, și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, %s, %s, și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, și %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Scris de %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, și alții.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "Raportați erorile la: %s\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "Raportați erorile %s la: %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Pagina oficială a %s: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "Ajutor general utilizând software GNU: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "subprocesul %s"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "subprocesul %s a primit semnalul fatal %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "nu se poate afișa ieșirea formatată"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence: expresie regulată greșită „%s”: %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr "se trunchiază definiția macrocomenzii „%s” la INT_MAX octeți"
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "Avertisment: definiția lui „%s” conține secvența „%s”"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr ""
+"eroare la verificarea cu --warn-macro-sequence pentru macrocomanda „%s”"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "Avertisment: prea puține argumente pentru funcția încorporată „%s”"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr "Avertisment: exces de argumente pentru funcția încorporată „%s”"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "șir gol tratat ca 0 în funcția încorporată „%s”"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "argument nenumeric în funcția încorporată „%s”"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "spații inițiale ignorate în funcția încorporată „%s”"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "s-a detectat depășire numerică în funcția încorporată „%s”"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "Avertisment: %s: nume de macrocomandă nevalid ignorat"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "macrocomandă nedefinită „%s”"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "funcția încorporată nedefinită „%s”"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr ""
+"funcția încorporată „%s” (solicitată de fișierul înghețat) nu este suportată"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "Avertisment: prea puține argumente pentru funcția încorporată „%s”"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "nu se poate rula comanda „%s”"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "nu se poate citi conducta"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "baza %d este în afara intervalului în funcția încorporată „%s”"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "lățime negativă pentru funcția încorporată „%s”"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "eroare la anularea deviației „%s”"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "nu se poate anula deviația „%s”"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "nu se poate deschide „%s”"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: nu se poate crea fișierul temporar „%s”"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "se recomandă să utilizați în schimb «mkstemp»"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "starea de ieșire în afara intervalului: „%d”"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Modul de depanare: opțiuni de depanare incorecte: „%s”"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "nu se poate configura fișierul de depanare „%s”"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "Avertisment: „\\0” va dispărea, utilizați în schimb „\\&” în înlocuiri"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "Avertisment: sub-expresia %d nu este prezentă"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "Avertisment: caracterul final „\\” este ignorat în înlocuire"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "expresie regulată greșită: „%s”: %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "eroare la compararea expresiei regulate „%s”"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "expresie regulată greșită: „%s”: %s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "eroare la scrierea în fluxul de depanare"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "Atenție: se recomandă ==, nu =, pentru operatorul de egalitate"
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "expresie greșită în evaluarea (lipsește paranteza din dreapta): %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "expresie greșită în evaluarea: %s"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "expresie greșită în evaluarea (intrare greșită): %s"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "expresie greșită în evaluarea (prea multe intrări): %s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "operator nevalid în evaluarea: %s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "împărțire la zero în evaluarea: %s"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "rest când se împarte la 0 în evaluarea: %s"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "exponent negativ în evaluarea: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "șir gol tratat ca 0"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "argument nenumeric %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "spații inițiale ignorate"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "s-a detectat depășire numerică"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "Avertisment: specificator nerecunoscut în „%s”"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "nu se poate crea starea de înghețare"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "se aștepta un avans de linie în fișierul înghețat"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "se aștepta caracterul „%c” în fișierul înghețat"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "depășire întreg în fișierul înghețat"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "sfârșit prematur al fișierului înghețat"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "nu se poate deschide %s"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+"versiunea fișierului înghețat %d este mai mare decât cea maximă acceptată de "
+"1"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr ""
+"fișier înghețat formatat necorespunzător, se aștepta directiva de versiune"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "fișier înghețat formatat necorespunzător"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "nu se poate citi starea înghețată"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "eroare de citire"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "eroare la citirea fișierului"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "Avertisment: sfârșitul fișierului este tratat ca linie nouă"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "EROARE: sfârșit de fișier în comentariu"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "EROARE: sfârșit de fișier în șir"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "René Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "Încercați «%s --help» pentru informații suplimentare."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Utilizare: %s [OPȚIUNE]... [FIȘIER]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"Procesează macrocomenzi în FIȘIERe. Dacă nu există FIȘIER sau dacă\n"
+"FIȘIER este „-”, se citește intrarea standard.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Argumentele obligatorii sau opționale pentru opțiunile lungi sunt de "
+"asemenea\n"
+"obligatorii sau opționale pentru opțiunile scurte corespunzătoare.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"Modul de lucru:\n"
+"      --help                   afișează acest ajutor și iese\n"
+"      --version                afișează informații despre versiune și iese\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings         opțiune unică: avertismentele devin erori; "
+"opțiune\n"
+"                               dublă(--fatal-warnings --fatal-warnings) "
+"oprește\n"
+"                               la prima eroare\n"
+"  -i, --interactive            nu utilizează memoria tampon pentru ieșire, "
+"ignoră\n"
+"                               întreruperile\n"
+"  -P, --prefix-builtins        adăugă prefixul „m4_” tuturor funcțiilor "
+"încorporate\n"
+"  -Q, --quiet, --silent        suprimă unele avertismente ale funcțiilor "
+"încorporate\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=EXPREG]\n"
+"                               avertizează dacă definiția macrocomenzii se\n"
+"                               potrivește cu expresia regulată (implicit "
+"%s)\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=EXPREG     utilizează această expresie regulată pentru "
+"sintaxa\n"
+"                               numelui macrocomenzii\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"Opțiuni preprocesor:\n"
+"  -D, --define=NUME[=VALOARE]  definește NUME(le) ca având VALOARE(a) sau "
+"gol\n"
+"  -I, --include=DIRECTOR       caută, de asemenea, fișierele încorporate în "
+"acest\n"
+"                               DIRECTOR\n"
+"  -s, --synclines              generează linii „#NR linie \"FIȘIER\"”\n"
+"  -U, --undefine=NUME          elimină funcția încorporată cu acest NUME\n"
+
+#: src/m4.c:255
+#, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"Restricții:\n"
+"  -g, --gnu                    suprascrie -G pentru a reactiva extensiile "
+"GNU\n"
+"  -G, --traditional            elimină toate extensiile GNU\n"
+"  -H, --hashsize=NR_PRIM       stabilește dimensiunea tabelului pentru "
+"simboluri\n"
+"                               [implicit NR_PRIM=%d]\n"
+"  -L, --nesting-limit=NUMĂR    modifică limita de adăugări la intrare, la "
+"acest\n"
+"                               NUMĂR de ori, 0 - limita este dezactivată "
+"[%d]\n"
+
+# R-GC, scrie:
+# traducerile făcute de Alexander Shopov
+# (echipa bulgară) și de Benno Schulenberg
+# (echipa olandeză) pentru acest mesaj, în
+# special, dar și celelalte făcute pentru
+# mesajele de opțiuni ale «m4», m-au ajutat
+# mult să „plăsmuiesc”, traducerile făcute
+# în română ale acestor mesaje.
+# Mulțumesc, băieți!
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"Fișiere de stare congelată:\n"
+"  -F, --freeze-state=FIȘIER    salvează starea actuală „o îngheață” în "
+"FIȘIER\n"
+"                               la sfârșitul lucrării\n"
+"  -R, --reload-state=FIȘIER    reîncarcă starea salvată „înghețată” din "
+"FIȘIER la\n"
+"                               începutul lucrării\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"Depanare:\n"
+"  -d, --debug=[FANIOANE]       stabilește nivelul de depanare (nici un "
+"FANION im-\n"
+"                               plică „aeq”)\n"
+"      --debugfile[=FIȘIER]     redirecționează depanarea și urmărirea "
+"ieșirii către\n"
+"                               FIȘIER (implicită este ieșirea de eroare "
+"standard,\n"
+"                               ignorată cu un argument gol)\n"
+"  -l, --arglength=NUMĂR        restricționează dimensiunea macrocomenzii de "
+"urmărire\n"
+"  -t, --trace=NUME             urmărește NUME când acesta este definit\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+"FANIOANE este oricare dintre:\n"
+"  a   afișează argumentele reale\n"
+"  c   arată înainte de colectare, după colectare și după apel\n"
+"  e   arată expansiunea\n"
+"  f   afișează numele fișierului de intrare curent\n"
+"  i   afișează modificările fișierelor de intrare\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   indică numărul curent al liniei de intrare\n"
+"  p   afișează rezultatele căutărilor de căi\n"
+"  q   citează valorile dacă este necesar (cu fanionul „a” sau „e”)\n"
+"  t   urmărește toate apelurile macro, nu doar cele cu „traceon”\n"
+"  x   afișează un id unic de macrocomandă (util cu fanionul „c”)\n"
+"  V   toate fanioanele de mai sus la un loc (V = a c e ... q t x)\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"Dacă este definită, variabila de mediu „M4PATH” este o listă de directoare\n"
+"(separate prin două puncte) care vor fi căutate după cele date la opțiunea „-"
+"I”.\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"Starea de ieșire este 0 pentru succes, 1 pentru eșec, 63 pentru\n"
+"nepotrivirea versiunii fișierului înghețat sau orice valoare ce-a\n"
+"fost transmisă macrocomenzii m4exit.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "eroare internă detectată; raportați această eroare la <%s>"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "avertisment: «m4 -%c» poate să fie eliminată într-o versiune viitoare"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "avertisment: «m4 %s» este depreciat"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "opțiuni de depanare greșite: „%s”"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "avertisment: «m4 -e» este depreciată, utilizați „-i” în schimb"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "stderr(ieșirea standard de erori)"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "EROARE: sfârșitul fișierului în lista de argumente"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"limita recursiunii %d a fost depășită; utilizați -L<NUMĂR> pentru a o schimba"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "nu se poate curăța fișierul temporar pentru deviere"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "nu se poate crea fișierul temporar pentru deviere"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "nu se poate face o „căutare” într-o deviere"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "nu se poate închide fișierul temporar pentru deviere"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "EROARE: nu se poate salva devierea în fișierul temporar"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "Eroare la copierea fișierului introdus"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "eroare la citirea fișierului introdus"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "nu se poate obține starea de deviere"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "devierea este prea mare"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "imposibil de afișat mesajul de eroare"

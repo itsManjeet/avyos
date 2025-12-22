@@ -1,0 +1,171 @@
+#! /bin/sh
+# Copyright (C) 2025 Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# TAP support:
+#  - The Automake TAP driver has an option that instructs it to prefix the
+#    test script's stderr with a given string.
+
+. test-init.sh
+plan_ later
+
+dumpf() (
+    set +x
+    diag_string_='#' diag_ "####### Contents of $1:"
+    diag_ <$1
+    diag_string_='#' diag_ "#######"
+)
+
+cat >Makefile.am <<END || bailout_ "failed to create Makefile.am"
+TESTS = all.test
+END
+dumpf Makefile.am
+
+. tap-setup.sh
+
+# Tests without --stderr-prefix.  Historically, the TAP driver has not added
+# a final newline to either stdout or stderr if the test program did not write
+# one itself, so that is not tested here.
+
+cat >all.test <<END || bailout_ "failed to create all.test"
+#!/bin/sh
+echo 1..2
+echo ok 1
+echo 'Bail out!' >&2
+echo ok 2
+END
+chmod a+x all.test || bailout_ "failed to make all.test executable"
+
+# Test without --stderr-prefix, without --merge.
+command_ok_ "no merge, no prefix: make check passes" -- \
+    run_make -O AM_TEST_LOG_DRIVER_FLAGS= check
+dumpf all.log
+command_ok_ "no merge, no prefix: result counts are correct" -- \
+    count_test_results total=2 pass=2 fail=0 xpass=0 xfail=0 skip=0 error=0
+command_ok_ "no merge, no prefix: stderr in log" -- \
+    grep -q '^Bail out!$' all.log
+
+# Test without --stderr-prefix, with --merge.
+command_ok_ "--merge: make check fails" -- \
+    run_make -e FAIL AM_TEST_LOG_DRIVER_FLAGS=--merge check
+dumpf all.log
+# Don't bother checking the counts -- they're meaningless due to the merged
+# stderr "corrupting" the TAP output.  It is sufficient to just test that
+# `make check' returned non-zero.
+command_ok_ "--merge: stderr in log" -- \
+    grep -q '^Bail out!$' all.log
+
+
+# Tests with --stderr-prefix.  If the final stderr line does not have a
+# terminating newline, the TAP driver should still print the line with the
+# prefix; a newline is also added to avoid "corrupting" the final prefixed
+# stderr line with a subsequent stdout line in the log.
+
+cat >all.test <<END || bailout_ "failed to create all.test"
+#!/bin/sh
+echo 1..2
+echo ok 1
+echo 'Bail out!' >&2
+echo ok 2
+printf %s 'final stderr line without newline terminator' >&2
+echo "# This comment is written to stdout after the newline-less stderr line"
+echo "# to ensure that a stdout line written after the final stderr line does"
+echo "# not get written to the same line in the log as the final stderr line."
+END
+chmod a+x all.test || bailout_ "failed to make all.test executable"
+
+# Included in the prefix:
+#   1. quadrigraph for # (@%:@)
+#   2. literal # (difficult to include in a Makefile variable, but easy to
+#      pass in a command-line make variable assignment)
+#   3. a string that expands to @%:@ (quadrigraph for #) after quadrigraph
+#      replacement, accomplished by embedding a quadrigraph for the empty
+#      string inside the quadrigraph for #
+# The end result should be: ##@%:@
+PFXFLAG='--stderr-prefix "@%:@#@%@&t@:@ "'
+
+# Test with --stderr-prefix, without --merge.
+command_ok_ "$PFXFLAG: make check passes" -- \
+    run_make -O AM_TEST_LOG_DRIVER_FLAGS="$PFXFLAG" check
+dumpf all.log
+command_ok_ "$PFXFLAG: result counts are correct" -- \
+    count_test_results total=2 pass=2 fail=0 xpass=0 xfail=0 skip=0 error=0
+command_ok_ "$PFXFLAG: prefixed stderr in log" -- \
+    grep -q '^##@%:@ Bail out!$' all.log
+command_ok_ "$PFXFLAG: missing final newline is added" -- \
+    grep -q '^##@%:@ final stderr line without newline terminator$' all.log
+
+# Test with --stderr-prefix, with --merge.
+command_ok_ "$PFXFLAG --merge: make check passes" -- \
+    run_make -O AM_TEST_LOG_DRIVER_FLAGS="$PFXFLAG --merge" check
+dumpf all.log
+command_ok_ "$PFXFLAG --merge: result counts are correct" -- \
+    count_test_results total=2 pass=2 fail=0 xpass=0 xfail=0 skip=0 error=0
+command_ok_ "$PFXFLAG --merge: prefixed stderr in log" -- \
+    grep -q '^##@%:@ Bail out!$' all.log
+# Note: When --stderr-prefix is enabled, the TAP driver intentionally waits to
+# read a complete line before writing it to the log.  This reduces the chances
+# of mixing stderr and stdout in a single log line.  If you look at the log
+# for this test, the final stderr line appears last despite being written by
+# the test program before the stderr comment lines.  This is because the TAP
+# driver patiently waited for a newline that never came.
+command_ok_ "$PFXFLAG --merge: missing final newline is added" -- \
+    grep -q '^##@%:@ final stderr line without newline terminator$' all.log
+
+
+# Test preserved stdout/stderr ordering.  The sleeps between writes are
+# necessary because stdout and stderr are independent and thus inherently race
+# with each other.  (The kernel can wake up the two downstream reader threads
+# in the opposite order from the upstream writes.  Or, if the TAP driver was
+# changed to use select or poll, the upstream writer can write to both streams
+# before the kernel wakes up the one downstream reader.)
+PFXFLAG='--stderr-prefix "# "'
+desc="$PFXFLAG --merge stdout/stderr ordering"
+cat >all.test <<END || bailout_ "failed to create all.test"
+#!/bin/sh
+echo '1..1'
+$sleep
+echo 'stderr 1' >&2
+$sleep
+echo 'ok 1'
+$sleep
+echo 'stderr 2' >&2
+END
+chmod a+x all.test || bailout_ "failed to make all.test executable"
+
+check_log_line_order() {
+  {
+    grep -xe "$1" all.log
+    grep -xe "$2" all.log
+    sed -n -e '/^\('"$1"'\)$/,${/^\('"$2"'\)$/p}' all.log | grep -xe "$2"
+  } >&2  # Write to stderr in case $1 or $2 looks like a TAP directive.
+}
+
+command_ok_ "$desc: make check passes" -- \
+  run_make -O AM_TEST_LOG_DRIVER_FLAGS="$PFXFLAG --merge" check
+dumpf all.log
+command_ok_ "$desc: result counts are correct" -- \
+  count_test_results total=1 pass=1 fail=0 xpass=0 xfail=0 skip=0 error=0
+command_ok_ "$desc: '1..1' before 'stderr 1'" -- \
+  check_log_line_order '1\.\.1' '# stderr 1'
+command_ok_ "$desc: 'stderr 1' before 'ok 1'" -- \
+  check_log_line_order '# stderr 1' 'ok 1'
+command_ok_ "$desc: 'ok 1' before 'stderr 2'" -- \
+  check_log_line_order 'ok 1' '# stderr 2'
+
+
+plan_ now
+
+:

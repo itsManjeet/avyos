@@ -1,0 +1,1180 @@
+# Dutch translations for GNU m4.
+# Copyright (C) 2025 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+#
+# « On ne peut pas avoir et le beurre, et l'argent du beurre,
+# et le sourire de la crémière. »
+#
+# Tijs van Bakel <smoke@casema.net>, 2000.
+# Benno Schulenberg <vertaling@coevern.nl>, 2007, 2021, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4.19.60\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2025-04-13 16:15+0200\n"
+"Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
+"Language-Team: Dutch <vertaling@vrijschrift.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "kan geen tijdelijke map vinden; zet $TMPDIR"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "kan met sjabloon '%s' geen tijdelijke map aanmaken"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "kan tijdelijke map '%s' niet verwijderen"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "fout bij sluiten van bestand"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "schrijffout"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "**programmafout**"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "stack-overloop"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "kan tijdelijk bestand %s niet verwijderen"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Onbekende systeemfout"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "subproces %s is mislukt"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: optie '%s%s' is niet eenduidig\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: optie '%s%s' is niet eenduidig; mogelijkheden zijn:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: onbekende optie '%s%s'\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: optie '%s%s' staat geen argument toe\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: optie '%s%s' vereist een argument\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: ongeldige optie -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: optie vereist een argument -- '%c'\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "onvoldoende geheugen beschikbaar"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "kan de huidige werkmap niet vastleggen"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "kan niet terugkeren naar de oorspronkelijke werkmap"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle() is mislukt"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "kan bestandsdescriptor %d niet herstellen: dup2() is mislukt"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "‘"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "’"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Gelukt"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Geen overeenkomsten"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Ongeldige reguliere expressie"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Ongeldig samengesteld teken"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Ongeldige tekenklassenaam"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Backslash aan het eind"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Ongeldige terugverwijzing"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "Ongepaarde [, [^, [:, [., of [="
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "Ongepaarde ( of \\("
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "Ongepaarde \\{"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Ongeldige inhoud van \\{\\}"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Ongeldig bereikeinde"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Onvoldoende geheugen beschikbaar"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Ongeldige voorafgaande reguliere expressie"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Voortijdig einde van reguliere expressie"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Reguliere expressie is te groot"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "Ongepaarde ) of \\)"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Geen eerdere reguliere expressie"
+
+# Vroeger ging dit over het afsluiten van een modemverbinding,
+# tegenwoordig over het afsluiten van een pseudoterminal.
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Opgehangen"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Onderbroken"
+
+# Verleden tijd, "Afgesloten", net als de andere actiesignaalnamen.
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Afgesloten"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Ongeldige instructie"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Traceer/breekpunt-instructie"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Afgebroken"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Drijvendekomma-berekeningsfout"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Geëlimineerd"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Busfout"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Segmentatiefout"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Gebroken pijp"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Timersignaal"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Beëindigd"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Urgente in-/uitvoertoestand"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Gepauzeerd (signaal)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Gepauzeerd"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Doorgegaan"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "Dochter is afgesloten"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Gepauzeerd (terminalinvoer)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Gepauzeerd (terminaluitvoer)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "In-/uitvoer is mogelijk"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "Limiet op processortijd is overschreden"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "Limiet op bestandsgrootte is overschreden"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "Virtuele timer is verlopen"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "Timer voor analyse is verlopen"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Venster is veranderd"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Gebruikergedefinieerd signaal 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Gebruikergedefinieerd signaal 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "EMT-instructie"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Onjuiste systeemaanroep"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Stack-fout"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Verzoek om informatie"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Stroomstoring"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Hulpbron verloren"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "kan geen pijp aanmaken"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Realtime-signaal %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Onbekend signaal %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "In pakketvorm gebracht door %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "In pakketvorm gebracht door %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Dit is vrije software: u mag het vrijelijk wijzigen en verder verspreiden.\n"
+"De precieze licentie is GPL-3+: GNU General Public License versie 3 of "
+"later.\n"
+"Zie <%s> voor de volledige (Engelse) tekst.\n"
+"Deze software kent GEEN GARANTIE, voor zover de wet dit toestaat.\n"
+"\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Geschreven door %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Geschreven door %s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Geschreven door %s, %s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s\n"
+"en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s, %s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s, %s, %s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s, %s, %s, %s\n"
+"en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s en %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Geschreven door %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s en anderen.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr ""
+"Rapporteer gebreken in het programma aan %s;\n"
+"meld fouten in de vertaling aan <vertaling@vrijschrift.org>.\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr ""
+"Rapporteer gebreken in het programma '%s' aan <%s>;\n"
+"meld fouten in de vertaling aan <vertaling@vrijschrift.org>.\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Webpagina van %s: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "Algemene hulp bij gebruik van GNU-software: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "subproces %s"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "subproces %s ontving het fatale signaal %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "kan geen opgemaakte uitvoer aanmaken"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence: foutieve reguliere expressie '%s': %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr "definitie van macro '%s' is afgekapt op INT_MAX bytes"
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "Waarschuwing: definitie van '%s' bevat sequentie '%s'"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "fout bij controleren van --warn-macro-sequence voor macro '%s'"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "Waarschuwing: te weinig argumenten voor ingebouwde functie '%s'"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr ""
+"Waarschuwing: overbodige argumenten voor ingebouwde functie '%s' worden "
+"genegeerd"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "lege tekenreeks is behandeld als 0 in ingebouwde functie '%s'"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "niet-numeriek argument van ingebouwde functie '%s'"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "leidende witruimte wordt genegeerd in ingebouwde functie '%s'"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "numerieke overloop gedetecteerd in ingebouwde functie '%s'"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "Waarschuwing: %s: ongeldige macronaam wordt genegeerd"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "ongedefinieerde macro '%s'"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "ongedefinieerde ingebouwde functie '%s'"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr ""
+"ingebouwde functie '%s' (gevraagd door bevroren bestand) wordt niet "
+"ondersteund"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "Waarschuwing: kan ingebouwde functie '%s' niet samenvoegen"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "kan opdracht '%s' niet uitvoeren"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "kan pijp niet lezen"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "grondtal %d valt buiten bereik in ingebouwde functie '%s'"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "negatieve breedte voor ingebouwde functie '%s'"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "fout bij terugbuigen van '%s'"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "kan '%s' niet terugbuigen"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "kan '%s' niet openen"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: kan tijdelijk bestand '%s' niet aanmaken"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "gebruik van 'mkstemp' wordt aangeraden"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "afsluitwaarde valt buiten bereik: '%d'"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Foutieve debug-opties: '%s'"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "kan debug-bestand '%s' niet instellen"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "Waarschuwing: \\0 zal verdwijnen; gebruik liever \\& in vervangingen"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "Waarschuwing: subexpressie %d bestaat niet"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "Waarschuwing: een \\ aan het eind van een vervanging wordt genegeerd"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "foutieve reguliere expressie '%s': %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "fout bij vergelijken van reguliere expressie '%s'"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "foutieve reguliere expressie '%s': %s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "fout bij schrijven naar debug-stroom"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "Waarschuwing: als gelijkheidsoperator wordt == aangeraden, niet ="
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "foutieve expressie in 'eval' (ontbrekend sluithaakje): %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "foutieve expressie in 'eval': %s"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "foutieve expressie in 'eval' (foutieve invoer): %s"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "foutieve expressie in 'eval' (overvloedige invoer): %s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "ongeldige operator in 'eval': %s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "deling door nul in 'eval': %s"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "modulo nul in 'eval': %s"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "negatieve exponent in 'eval': %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "lege tekenreeks is behandeld als 0"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "niet-numeriek argument %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "leidende witruimte wordt genegeerd"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "numerieke overloop gedetecteerd"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "Waarschuwing: onbekende stuurcode in '%s'"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "kan geen bevroren toestand creëren"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "een regeleindeteken werd verwacht in bevroren bestand"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "teken '%c' werd verwacht in bevroren bestand"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "geheelgetaloverloop in bevroren bestand"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "voortijdig einde van bevroren bestand"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "kan '%s' niet openen"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+"versienummer %d van bevroren bestand is groter dan wat ondersteund wordt (1)"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr "foutief gevormd bevroren bestand, versiedirectief werd verwacht"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "foutief gevormd bevroren bestand"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "kan bevroren toestand niet lezen"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "fout bij lezen"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "fout bij lezen van bestand"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "Waarschuwing: einde van bestand wordt behandeld as regeleindeteken"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "FOUT: bestandseinde in commentaar"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "FOUT: bestandseinde in tekenreeks"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "René Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "Typ '%s --help' voor meer informatie."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Gebruik:  %s [OPTIE]... [BESTAND]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"Macros in bestanden verwerken.  Als er geen BESTAND gegeven is,\n"
+"of als BESTAND '-' is, wordt van standaardinvoer gelezen.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Een argument dat verplicht of optioneel is voor een lange optie, is dat\n"
+"ook voor de overeenkomstige korte optie.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"Werkingsmodus:\n"
+"      --help                   deze hulptekst tonen en stoppen\n"
+"      --version                versie-informatie tonen en stoppen\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings         enkele optie: waarschuwingen worden fouten;\n"
+"                                 dubbele optie: stoppen bij de eerste fout\n"
+"  -i, --interactive            uitvoer niet bufferen, interrupts negeren\n"
+"  -P, --prefix-builtins        ingebouwde functies het voorvoegsel 'm4_' "
+"geven\n"
+"  -Q, --quiet, --silent        sommige waarschuwingen voor ingebouwde "
+"functies\n"
+"                                  onderdrukken\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               waarschuwen als macrodefinitie overeenkomt\n"
+"                                 met REGEXP (standaard %s)\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=REGEXP     deze reguliere expressie gebruiken voor\n"
+"                                 de syntax van macronamen\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"Voorbewerkingsopties:\n"
+"  -D, --define=NAAM[=WAARDE]   NAAM definiëren (met gegeven beginwaarde)\n"
+"  -I, --include=MAP            ook in deze map naar insluitbestanden zoeken\n"
+"  -s, --synclines              '#line NR \"BESTAND\"'-regels genereren\n"
+"  -U, --undefine=NAAM          ingebouwde functie met deze naam verwijderen\n"
+
+#: src/m4.c:255
+#, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"Begrenzingen:\n"
+"  -g, --gnu                    '-G' negeren en GNU-uitbreidingen "
+"inschakelen\n"
+"  -G, --traditional            alle GNU-uitbreidingen uitschakelen\n"
+"  -H, --hashsize=PRIEM         grootte van hash-tabel voor symbolen  [%d]\n"
+"  -L, --nesting-limit=GETAL    nestingsdiepte (0 voor onbegrensd)  [%d]\n"
+
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"Bevroren toestandsbestanden:\n"
+"  -F, --freeze-state=BESTAND   bij einde bevroren toestand in BESTAND "
+"opslaan\n"
+"  -R, --reload-state=BESTAND   bij begin bevroren toestand uit BESTAND "
+"inlezen\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"Debuggen:\n"
+"  -d, --debug[=OPTIES]         debug-niveau (geen OPTIES impliceert 'aeq')\n"
+"      --debugfile[=BESTAND]    debug- en trace-uitvoer omleiden naar "
+"BESTAND\n"
+"                                 (standaard is standaardfoutuitvoer,\n"
+"                                 weggooien bij een lege tekenreeks)\n"
+"  -l, --arglength=GETAL        trace-grootte van macro's beperken\n"
+"  -t, --trace=NAAM             NAAM tracen zodra deze gedefinieerd wordt\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+"OPTIES is één of meer van:\n"
+"  a   de werkelijke argumenten tonen\n"
+"  c   toestand vóór en na verzamelen van argumenten tonen, en na aanroep\n"
+"  e   expansies tonen\n"
+"  f   het huidige invoerbestand vermelden\n"
+"  i   wijzigingen in invoerbestanden tonen\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   het huidige regelnummer van de invoer vermelden\n"
+"  p   resultaten van pad-doorzoekingen tonen\n"
+"  q   waarden zonodig aanhalen (bij optie 'a' of 'e')\n"
+"  t   alle macro-aanroepen tracen, niet slechts die met 'traceon'\n"
+"  x   een uniek macro-nummer tonen (handig bij optie 'c')\n"
+"  V   alle bovenstaande opties samen\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"Omgevingsvariabele 'M4PATH' is, wanneer gedefinieerd, een lijst van mappen\n"
+"(gescheiden door dubbele punten) die doorzocht worden na die gegeven bij '-"
+"I'.\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"De afsluitwaarde is 0 voor succes, 1 voor fout, 63 voor niet-overeenkomende\n"
+"versie van bevroren bestand, of de waarde die aan 'm4exit' meegegeven werd.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "*Interne fout*.  Deze fout graag rapporteren aan <%s>."
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "waarschuwing: 'm4 -%c' kan verdwijnen in een toekomstige uitgave"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "waarschuwing: 'm4 %s' is verouderd"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "foutieve debug-opties: '%s'"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "waarschuwing: 'm4 -e' is verouderd; gebruik 'm4 -i'"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "standaardfoutuitvoer"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "FOUT: bestandseinde in argumentenlijst"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"recursiegrens %d is overschreden; gebruik -L<GETAL> om deze te veranderen"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "kan tijdelijk bestand voor afbuiging niet opschonen"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "kan geen tijdelijk bestand maken voor afbuiging"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "kan geen 'seek' doen binnen een afbuiging"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "kan tijdelijk bestand voor afbuiging niet sluiten"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "FOUT: kan afbuiging niet opslaan in tijdelijk bestand"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "fout bij kopiëren van ingevoegd bestand"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "fout bij lezen van ingevoegd bestand"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "kan status van afbuiging niet opvragen"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "afbuiging is te groot"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "kan foutmelding niet tonen"
+
+#~ msgid "Undefined name `%s'"
+#~ msgstr "Ongedefinieerde naam '%s'"
+
+#~ msgid "Cannot open %s"
+#~ msgstr "Kan %s niet openen"
+
+#~ msgid "Bad regular expression `%s': %s"
+#~ msgstr "Foutieve reguliere expressie '%s': %s"
+
+#~ msgid "`%s' from frozen file not found in builtin table!"
+#~ msgstr ""
+#~ "'%s' uit bevroren bestand niet gevonden in tabel van ingebouwde functies!"
+
+#~ msgid "Input reverted to %s, line %d"
+#~ msgstr "Invoer is teruggekeerd naar %s, regel %d"
+
+#~ msgid "Input read from %s"
+#~ msgstr "Invoer gelezen van %s"
+
+#~ msgid "NONE"
+#~ msgstr "GEEN"
+
+#~ msgid "ERROR: Stack overflow.  (Infinite define recursion?)"
+#~ msgstr "FOUT: Stapeloverloop.  (Oneindige recursie van 'define'?)"
+
+#~ msgid ""
+#~ "\n"
+#~ "Dynamic loading features:\n"
+#~ "  -m, --module-directory=DIRECTORY  add DIRECTORY to the module search "
+#~ "path\n"
+#~ "  -M, --load-module=MODULE          load dynamic MODULE from M4MODPATH\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Dynamisch laden:\n"
+#~ "  -m, --module-directory=MAP    deze map aan het modules-zoekpad "
+#~ "toevoegen\n"
+#~ "  -M, --load-module=MODULE      deze module laden, zoekend in M4MODPATH\n"
+
+#~ msgid "ERROR: failed to add search directory `%s'"
+#~ msgstr "FOUT: kan zoekmap '%s' niet toevoegen"
+
+#~ msgid "ERROR: failed to initialise modules: %s"
+#~ msgstr "FOUT: Kan modules niet initialiseren: %s"
+
+#~ msgid "ERROR: cannot find module: `%s'"
+#~ msgstr "FOUT: Kan module '%s' niet vinden"
+
+#~ msgid "ERROR: cannot close modules"
+#~ msgstr "FOUT: Kan modules niet sluiten"
+
+#~ msgid "Name `%s' is unknown\n"
+#~ msgstr "Naam '%s' is onbekend\n"

@@ -1,0 +1,1745 @@
+# Japanese messages for GNU m4.
+# Copyright (C) 2000, 2010 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+# Akiko Matsushita <matusita@sra.co.jp>, 1996.
+# Masahito Yamaga <yamaga@ipc.chiba-u.ac.jp>, 2002.
+# GOTO Masanori <gotom@debian.or.jp>, 2006.
+#  derived from the version by Yasuyuki Furukawa <yasu@on.cs.keio.ac.jp> 1998.
+#                              Jun Nishii <jun@flatout.org> 1999.
+#                              Daisuke Yamashita <yamad@mb.infoweb.ne.jp> 1999.
+# Yasuaki Taniguchi <yasuakit@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4o\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2011-10-23 08:32+0900\n"
+"Last-Translator: Yasuaki Taniguchi <yasuakit@gmail.com>\n"
+"Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "一時ディレクトリを作成できません。 $TMPDIR を設定してみてください"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "テンプレート \"%s\" を使用した一時ディレクトリを作成できません"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "一時ディレクトリ %s を削除できません"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "ファイルクローズエラー"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "書き込みエラー"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "プログラムエラー"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "スタックオーバーフロー"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "一時ファイル %s を削除できません"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "不明なシステムエラー"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s サブプロセスが失敗しました"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: オプション '%s%s' は曖昧です\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: オプション '%s%s' は曖昧です。次のものが可能です:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: オプション '%s%s' を認識できません\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: オプション '%s%s' は引数を取ることができません\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: オプション '%s%s' は引数が必要です\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: 無効なオプション -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: オプションには引数が必要です -- '%c'\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "メモリを使い果たしました"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "現在の作業ディレクトリを記録することができません"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "初期作業ディレクトリに戻るのに失敗しました"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle に失敗しました"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "ファイル記述子 (fd) %d をリストアできません: dup2 に失敗しました"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "`"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "'"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "成功です"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "一致しません"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "無効な正規表現です"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "無効な照合文字です"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "無効な文字クラス名です"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "終端のバックスラッシュ"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "無効な前方参照です"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "[、[^、[:、[.、または [= が不一致です"
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "( または \\( が不一致です"
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "\\{ が不一致です"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "\\{\\} の中身が無効です"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "無効な範囲終了です"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "メモリを使い果たしました"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "無効な前方正規表現です"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "正規表現が途中で終了しました"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "正規表現が大きすぎます"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr ") または \\) が不一致です"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "以前に正規表現がありません"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Hangup"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "割り込み"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "終了"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Illegal instruction"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Trace/breakpoint trap"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "中止"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "浮動小数点例外"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "強制終了"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "バスエラー"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Segmentation fault"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Broken pipe"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Alarm clock"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Terminated"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "緊急 I/O 状態"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "停止 (シグナル)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "停止"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "継続"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "子プロセス終了"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "停止 (tty 入力)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "停止 (tty 出力)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "I/O 可能"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "CPU時間制限を超過しました"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "ファイルサイズ制限を超過しました"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "仮想タイマーが終了しました"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "プロファイリングタイマーが終了しました"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Window が変更されました"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "ユーザー定義シグナル1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "ユーザー定義シグナル2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "EMT トラップ"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "間違ったシステムコール"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "スタックエラー"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "情報要求"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "電源エラー"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "リソースが無くなりました"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "パイプを作成できません"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "リアルタイムシグナル %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "不明なシグナル %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "パッケージ作成者: %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "パッケージ作成者: %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, fuzzy, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"\n"
+"ライセンス GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "作者 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "作者 %s および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "作者 %s、 %s、および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、 %s、および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、 %s、 %s、および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、 %s、 %s、 %s、\n"
+"および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、 %s、 %s、 %s、\n"
+"%s、および %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"作者 %s、 %s、 %s、\n"
+"%s、 %s、 %s、 %s、\n"
+"%s、 %s、 および他の方々。\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, fuzzy, c-format
+msgid "Report bugs to: %s\n"
+msgstr ""
+"\n"
+"バグを発見したら <%s> に報告して下さい。\n"
+"翻訳に関するバグは<translation-team-ja@lists.sourceforge.net>に報告してくださ"
+"い。\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "%s のバグは <%s> に報告してください。\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "%s のホームページ: <%s>\n"
+
+#: lib/version-etc.c:260
+#, fuzzy, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr ""
+"GNU ソフトウェアを使用する際の一般的なヘルプ: <http://www.gnu.org/gethelp/>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "%s 子プロセス"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "%s 子プロセスが致命的なシグナル %d を受信しました"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "書式設定を行った出力を実行することができません"
+
+#: src/builtin.c:264
+#, fuzzy, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "正規表現 `%s' に誤りがあります: %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr ""
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr ""
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr ""
+
+#: src/builtin.c:401
+#, fuzzy, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "警告： ビルトイン `%s' に対する引数が不足しています"
+
+#: src/builtin.c:407
+#, fuzzy, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr "警告： ビルトイン `%s' に対する引数が多すぎます (超過分は無視されます)"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, fuzzy, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "ビルトイン `%s' に非数字の引数が渡されています"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, fuzzy, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "ビルトイン `%s' に非数字の引数が渡されています"
+
+#: src/builtin.c:444
+#, fuzzy, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "ビルトイン `%s' に非数字の引数が渡されています"
+
+#: src/builtin.c:448
+#, fuzzy, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "ビルトイン `%s' に非数字の引数が渡されています"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, fuzzy, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "無効な文字です: メッセージは無視されました"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, fuzzy, c-format
+msgid "undefined macro `%s'"
+msgstr "`%s' という名前は定義されていません"
+
+#: src/builtin.c:836
+#, fuzzy, c-format
+msgid "undefined builtin `%s'"
+msgstr "`%s' という名前は定義されていません"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, fuzzy, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "%s: 入れ子になった条件はサポートされていません"
+
+#: src/builtin.c:932
+#, fuzzy, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "警告： ビルトイン `%s' に対する引数が不足しています"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, fuzzy, c-format
+msgid "cannot run command `%s'"
+msgstr "コマンド `%s' に対するパイプを開けません"
+
+#: src/builtin.c:1089
+#, fuzzy
+msgid "cannot read pipe"
+msgstr "パイプを作成できません"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr ""
+
+#: src/builtin.c:1149
+#, fuzzy, c-format
+msgid "negative width to builtin `%s'"
+msgstr "eval の出力桁数が負数になっています"
+
+#: src/builtin.c:1294
+#, fuzzy, c-format
+msgid "error undiverting `%s'"
+msgstr "\"%s\"の書込み中にエラーが発生しました"
+
+#: src/builtin.c:1298
+#, fuzzy, c-format
+msgid "cannot undivert `%s'"
+msgstr "%s を undivert できません"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "`%s'を開けません"
+
+#: src/builtin.c:1471
+#, fuzzy, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "一時ファイルを作成できません"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr ""
+
+#: src/builtin.c:1600
+#, fuzzy, c-format
+msgid "exit status out of range: `%d'"
+msgstr "計算結果は範囲外の値です"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "デバッグモード: 誤ったデバッグフラグです: `%s'"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, fuzzy, c-format
+msgid "cannot set debug file `%s'"
+msgstr "入力ファイル`%s'を開けません"
+
+#: src/builtin.c:2034
+#, fuzzy
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "警告: \\0 は廃止されます。置換の際には代わりに \\& を使用してください"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr ""
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr ""
+
+#: src/builtin.c:2132
+#, fuzzy, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "正規表現 `%s' に誤りがあります: %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, fuzzy, c-format
+msgid "error matching regular expression `%s'"
+msgstr "正規表現 `%s' の一致処理に失敗しました"
+
+#: src/builtin.c:2192 src/input.c:795
+#, fuzzy, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "正規表現 `%s' に誤りがあります: %s"
+
+#: src/debug.c:136 src/debug.c:157
+#, fuzzy
+msgid "error writing to debug stream"
+msgstr "\"%s\"の書込み中にエラーが発生しました"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr ""
+
+#: src/eval.c:539
+#, fuzzy, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "eval 中の計算式に誤りがあります (閉じる小括弧がありません): %s"
+
+#: src/eval.c:544
+#, fuzzy, c-format
+msgid "bad expression in eval: %s"
+msgstr "eval 中の計算式に誤りがあります: %s"
+
+#: src/eval.c:549
+#, fuzzy, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "eval 中の計算式に誤りがあります (誤った入力): %s"
+
+#: src/eval.c:554
+#, fuzzy, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "eval 中の計算式に誤りがあります (入力超過): %s"
+
+#: src/eval.c:558
+#, fuzzy, c-format
+msgid "invalid operator in eval: %s"
+msgstr "eval 中に 0 による除算があります: %s"
+
+#: src/eval.c:563
+#, fuzzy, c-format
+msgid "divide by zero in eval: %s"
+msgstr "eval 中に 0 による除算があります: %s"
+
+#: src/eval.c:567
+#, fuzzy, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "eval 中に 0 による剰余計算があります: %s"
+
+#: src/eval.c:571
+#, fuzzy, c-format
+msgid "negative exponent in eval: %s"
+msgstr "eval 中の計算式に誤りがあります: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr ""
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, fuzzy, c-format
+msgid "non-numeric argument %s"
+msgstr "%s に数字でない引数が渡されています"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr ""
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+#, fuzzy
+msgid "numeric overflow detected"
+msgstr "ビルトイン `%s' に非数字の引数が渡されています"
+
+#: src/format.c:309
+#, fuzzy, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "%s: `%c%s' は認識されないオプションです\n"
+
+#: src/freeze.c:157
+#, fuzzy
+msgid "unable to create frozen state"
+msgstr "サーバー上にプロセスを作成できません"
+
+#: src/freeze.c:168
+#, fuzzy
+msgid "expecting line feed in frozen file"
+msgstr "凍結ファイル内で改行が予期されます"
+
+#: src/freeze.c:170
+#, fuzzy, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "凍結ファイル内で文字 `%c' が予期されます"
+
+#: src/freeze.c:216
+#, fuzzy
+msgid "integer overflow in frozen file"
+msgstr "凍結ファイル内で改行が予期されます"
+
+#: src/freeze.c:258
+#, fuzzy
+msgid "premature end of frozen file"
+msgstr "凍結ファイルのファイル終端 (EOF) が早すぎます"
+
+#: src/freeze.c:271
+#, fuzzy, c-format
+msgid "cannot open %s"
+msgstr "`%s'を開けません"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr ""
+
+#: src/freeze.c:298
+#, fuzzy
+msgid "ill-formed frozen file"
+msgstr "不正な書式の凍結ファイルです"
+
+#: src/freeze.c:387
+#, fuzzy
+msgid "unable to read frozen state"
+msgstr "引数を解放できません"
+
+#: src/input.c:359
+#, fuzzy
+msgid "read error"
+msgstr "書き込みエラー"
+
+#: src/input.c:366
+#, fuzzy
+msgid "error reading file"
+msgstr "\"%s\"の読込み中にエラーが発生しました"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr ""
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr ""
+
+#: src/input.c:1023
+#, fuzzy
+msgid "ERROR: end of file in string"
+msgstr "エラー: 文字列内でファイル終端 (EOF) に達しました"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr ""
+
+#: src/m4.c:207
+#, fuzzy, c-format
+msgid "Try `%s --help' for more information."
+msgstr "詳しくは `%s --help' を実行して下さい。\n"
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "使用法: %s [OPTION]... [FILE]...\n"
+
+#: src/m4.c:214
+#, fuzzy
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"\n"
+"FILE が指定されていない場合および指定されたファイルが `-' の場合は\n"
+"        標準入力が読み込まれます。\n"
+
+#: src/m4.c:219
+#, fuzzy
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"長い形式のオプションで必須または任意の引数は、それに対応する短い形式のオプ"
+"ションでも同様に必須または任意です。"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=REGEXP     マクロ名の構文として正規表現 REGEXP\n"
+"                               を使用する\n"
+
+#: src/m4.c:247
+#, fuzzy
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"\n"
+"プリプロセッサ機能:\n"
+"  -I, --include=DIRECTORY      2番目のインクルードディレクトリとして "
+"DIRECTORY\n"
+"                               を検索する\n"
+"  -D, --define=NAME[=VALUE]    NAME の値を VALUE に設定する。省略した場合は\n"
+"                               空になる\n"
+"  -U, --undefine=NAME          NAME ビルトインを削除する\n"
+"  -s, --synclines              `#line NO \"FILE\"' 行を生成する\n"
+
+#: src/m4.c:255
+#, fuzzy, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"\n"
+"制限の制御:\n"
+"  -G, --traditional            全ての GNU 拡張を抑止する\n"
+"  -H, --hashsize=PRIME         シンボル検索のハッシュテーブルサイズを設定す"
+"る\n"
+"  -L, --nesting-limit=NUMBER   ネストの制限を人為的に NUMBER に変更する\n"
+
+#: src/m4.c:263
+#, fuzzy
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"\n"
+"凍結状態のファイル:\n"
+"   -F, --freeze-state=FILE      最後に指定された FILE を凍結状態にします。\n"
+"   -R, --reload-state=FILE      最初に指定された FILE から\n"
+"                                凍結された定義をロードします\n"
+
+#: src/m4.c:269
+#, fuzzy
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"\n"
+"デバッグ:\n"
+"  -d, --debug=[FLAGS]          デバッグレベルを設定する (FLAGS を指定しない\n"
+"                               場合は暗黙的に `aeq' となる)\n"
+"  -t, --trace=NAME             NAME が定義されたらトレースを行う\n"
+"  -l, --arglength=NUM          マクロのトレースサイズを NUM に制限する\n"
+"  -o, --error-output=FILE      デバッグとトレースの出力を FILE にリダイレ\n"
+"                               クトする\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr ""
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr ""
+
+#: src/m4.c:504
+#, fuzzy, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr ""
+"`egrep' という名前での起動は廃止予定です。代わりに `grep -E' を使用してくださ"
+"い。\n"
+
+#: src/m4.c:580
+#, fuzzy, c-format
+msgid "bad debug flags: `%s'"
+msgstr "不正なデバッグフラグ: `%s'"
+
+#: src/m4.c:586
+#, fuzzy, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr ""
+"`egrep' という名前での起動は廃止予定です。代わりに `grep -E' を使用してくださ"
+"い。\n"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "標準エラー出力"
+
+#: src/macro.c:199
+#, fuzzy
+msgid "ERROR: end of file in argument list"
+msgstr "エラー: 引数リスト内にファイルの終端記号があります。"
+
+#: src/macro.c:338
+#, fuzzy, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"エラー：再帰的定義のネストが指定された値 %d を超えています。\n"
+"        -L<数字> オプションを用いてネスト数の上限を増やして下さい。"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+#, fuzzy
+msgid "cannot clean temporary file for diversion"
+msgstr "エラー: divert のためのテンポラリファイルが作成できません。"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+#, fuzzy
+msgid "cannot create temporary file for diversion"
+msgstr "エラー: divert のためのテンポラリファイルが作成できません。"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+#, fuzzy
+msgid "cannot seek within diversion"
+msgstr ""
+"divert のためのファイルのステータスを得ることができません。\n"
+"        (stat できません。)"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+#, fuzzy
+msgid "cannot close temporary file for diversion"
+msgstr "エラー: divert のためのテンポラリファイルが作成できません。"
+
+#: src/output.c:484
+#, fuzzy
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "エラー: テンポラリファイルに divert すべき内容を write できません。"
+
+#: src/output.c:579
+#, fuzzy
+msgid "ERROR: copying inserted file"
+msgstr "エラー: 挿入されるべきファイルをコピー中です。"
+
+#: src/output.c:851
+#, fuzzy
+msgid "error reading inserted file"
+msgstr "エラー: 挿入されるべきファイルをリード中です。"
+
+#: src/output.c:1018
+#, fuzzy
+msgid "cannot stat diversion"
+msgstr ""
+"divert のためのファイルのステータスを得ることができません。\n"
+"        (stat できません。)"
+
+#: src/output.c:1022
+#, fuzzy
+msgid "diversion too large"
+msgstr "divert が大きすぎます"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "エラーメッセージを表示できません"
+
+#~ msgid "%s: option `%s' is ambiguous\n"
+#~ msgstr "%s: オプション `%s' は曖昧です\n"
+
+#~ msgid "%s: option `--%s' doesn't allow an argument\n"
+#~ msgstr "%s: オプション `--%s' は引数を取ることができません\n"
+
+#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
+#~ msgstr "%s: オプション `%c%s' は引数を取ることができません\n"
+
+#~ msgid "%s: option `%s' requires an argument\n"
+#~ msgstr "%s: オプション `%s' には引数が必要です\n"
+
+#~ msgid "%s: unrecognized option `--%s'\n"
+#~ msgstr "%s: --%s は認識されないオプションです\n"
+
+#, fuzzy
+#~ msgid "%s: unrecognized option `%c%s'\n"
+#~ msgstr "%s: --%s は認識されないオプションです\n"
+
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s: 不正なオプション -- %c\n"
+
+#~ msgid "%s: invalid option -- %c\n"
+#~ msgstr "%s: %c は無効なオプションです。\n"
+
+#~ msgid "%s: option requires an argument -- %c\n"
+#~ msgstr "%s: %c オプションには引数が必要です\n"
+
+#~ msgid "%s: option `-W %s' is ambiguous\n"
+#~ msgstr "%s: オプション '-W %s' は曖昧です\n"
+
+#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
+#~ msgstr "%s: オプション '-W %s' は引数を取ることができません\n"
+
+#~ msgid "Unmatched [ or [^"
+#~ msgstr "[ または [^ が不一致です"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in define_macro ()"
+#~ msgstr ""
+#~ "内部エラー：関数 define_macro () 内のトークンデータの種類に誤りがあります"
+
+#~ msgid "Undefined name %s"
+#~ msgstr "%s という名前は定義されていません"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table!"
+#~ msgstr "内部エラー：ビルトインテーブルにビルトインが見つかりません!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in m4_dumpdef ()"
+#~ msgstr ""
+#~ "内部エラー：関数 m4_dumpdef () 内のトークンデータの種類に誤りがあります"
+
+#, fuzzy
+#~ msgid "Undefined name `%s'"
+#~ msgstr "%s という名前は定義されていません"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in m4_defn ()"
+#~ msgstr "内部エラー：関数 m4_defn () 内のシンボルの種類に誤りがあります"
+
+#~ msgid "Radix in eval out of range (radix = %d)"
+#~ msgstr "eval の基数 ( %d 進法) の桁数が許容範囲外にあります"
+
+#~ msgid "Undefined syntax code %c"
+#~ msgstr "構文コード %c は定義されていません"
+
+#~ msgid "Cannot open %s"
+#~ msgstr "%s を開くことが出来ません"
+
+#~ msgid "Cannot set error file: %s"
+#~ msgstr "エラーファイルとして設定できません: %s"
+
+#, fuzzy
+#~ msgid "Bad regular expression `%s': %s"
+#~ msgstr "正規表現 `%s' に誤りがあります: %s"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table! (trace_pre ())"
+#~ msgstr ""
+#~ "内部エラー：ビルトインテーブルにビルトインが見つかりません! (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad token data type (trace_pre ())"
+#~ msgstr "内部エラー：トークンデータの種類に誤りがあります (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad error code in evaluate ()"
+#~ msgstr "内部エラー: evaluate () 内のエラーコードに誤りがあります"
+
+#~ msgid "INTERNAL ERROR: Bad comparison operator in cmp_term ()"
+#~ msgstr "内部エラー: cmp_term () 内の比較演算子に誤りがあります"
+
+#~ msgid "INTERNAL ERROR: Bad shift operator in shift_term ()"
+#~ msgstr "内部エラー: shift_term () 内のシフト演算子に誤りがあります"
+
+#~ msgid "INTERNAL ERROR: Bad operator in mult_term ()"
+#~ msgstr "内部エラー: mult_term () 内の演算子に誤りがあります"
+
+#~ msgid "INTERNAL ERROR: Built-in not found in builtin table!"
+#~ msgstr "内部エラー: ビルトインテーブルにビルトインが見つかりません!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in freeze_one_symbol ()"
+#~ msgstr ""
+#~ "内部エラー: freeze_one_symbol () 内のトークンデータの種類に誤りがあります"
+
+#~ msgid "`%s' from frozen file not found in builtin table!"
+#~ msgstr "凍結ファイルの `%s' がビルトインテーブル内にありません!"
+
+#~ msgid "Input reverted to %s, line %d"
+#~ msgstr "入力が %s へ戻されました (行 %d)"
+
+#~ msgid "Input read from %s"
+#~ msgstr "%s から入力を読み込みます"
+
+#~ msgid "INTERNAL ERROR: Recursive push_string!"
+#~ msgstr "内部エラー: 再帰的な push_string です!"
+
+#~ msgid "INTERNAL ERROR: Bad call to init_macro_token ()"
+#~ msgstr "内部エラー: init_macro_token () の誤った呼び出しです"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in next_char ()"
+#~ msgstr "内部エラー: next_char () 内で入力スタックが壊れました"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in peek_input ()"
+#~ msgstr "内部エラー: peek_input () 内で入力スタックが壊れました"
+
+#~ msgid "NONE"
+#~ msgstr "NONE"
+
+#~ msgid "ERROR: Stack overflow.  (Infinite define recursion?)"
+#~ msgstr ""
+#~ "エラー: スタックオーバーフローです。(無限に再帰定義をしていませんか?)"
+
+#~ msgid ""
+#~ "Mandatory or optional arguments to long options are mandatory or "
+#~ "optional\n"
+#~ "for short options too.\n"
+#~ "\n"
+#~ "Operation modes:\n"
+#~ "      --help                   display this help and exit\n"
+#~ "      --version                output version information and exit\n"
+#~ "  -e, --interactive            unbuffer output, ignore interrupts\n"
+#~ "  -E, --fatal-warnings         stop execution after first warning\n"
+#~ "  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+#~ "  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+#~ msgstr ""
+#~ "長い形式のオプションで必須または任意の引数は、それに対応する短い形式の\n"
+#~ "オプションでも同様に必須または任意です。\n"
+#~ "\n"
+#~ "操作モード:\n"
+#~ "      --help                   オプション一覧を出力し、終了する\n"
+#~ "      --version                バージョン情報を出力し、終了する\n"
+#~ "  -e, --interactive            出力バッファリングせず、割り込みを無視す"
+#~ "る\n"
+#~ "  -E, --fatal-warnings         最初の警告で実行を中止する\n"
+#~ "  -Q, --quiet, --silent        ビルトインのいくつかの警告を抑止する\n"
+#~ "  -P, --prefix-builtins        全てのビルトインに `m4_' という接頭辞を\n"
+#~ "                               強制的に付加する\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Dynamic loading features:\n"
+#~ "  -m, --module-directory=DIRECTORY  add DIRECTORY to the module search "
+#~ "path\n"
+#~ "  -M, --load-module=MODULE          load dynamic MODULE from M4MODPATH\n"
+#~ msgstr ""
+#~ "\n"
+#~ "動的ローディング機能:\n"
+#~ "  -m, --module-directory=DIRECTORY  モジュール検索パスに DIRECTORY を加え"
+#~ "る\n"
+#~ "  -M, --load-module=MODULE          M4MODPATH から動的に MODULE をロードす"
+#~ "る\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "FLAGS is any of:\n"
+#~ "  t   trace for all macro calls, not only traceon'ed\n"
+#~ "  a   show actual arguments\n"
+#~ "  e   show expansion\n"
+#~ "  q   quote values as necessary, with a or e flag\n"
+#~ "  c   show before collect, after collect and after call\n"
+#~ "  x   add a unique macro call id, useful with c flag\n"
+#~ "  f   say current input file name\n"
+#~ "  l   say current input line number\n"
+#~ "  p   show results of path searches\n"
+#~ "  i   show changes in input files\n"
+#~ "  V   shorthand for all of the above flags\n"
+#~ msgstr ""
+#~ "\n"
+#~ "FLAG は以下のいずれかです:\n"
+#~ "  t   全てのマクロ呼びだしをトレースする\n"
+#~ "       (traceon によるものに限定しない)\n"
+#~ "  a   実際の引数を表示する\n"
+#~ "  e   展開されたものを表示する\n"
+#~ "  q   `a' または `e' と共に用い、必要に応じて値を引用符で囲む\n"
+#~ "  c   訂正前と訂正後、呼出後に表示する\n"
+#~ "  x   そのマクロコールに固有の ID を追加する。\n"
+#~ "       `c' と組み合わせると役に立つ\n"
+#~ "  f   現在の入力ファイル名を表示する\n"
+#~ "  l   現在の入力行数を表示する\n"
+#~ "  p   パス検索の結果を表示する\n"
+#~ "  i   入力ファイルの変化を表示する\n"
+#~ "  V   上記すべての FLAG の短縮形\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <bug-m4@gnu.org>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "バグを発見したら <bug-m4@gnu.org> に報告して下さい。\n"
+#~ "翻訳に関するバグは<translation-team-ja@lists.sourceforge.net>に報告してく"
+#~ "ださい。\n"
+
+#~ msgid "ERROR: failed to add search directory `%s'"
+#~ msgstr "エラー: 検索ディレクトリ `%s' の追加に失敗しました"
+
+#~ msgid "ERROR: failed to add search directory `%s': %s"
+#~ msgstr "エラー: 検索ディレクトリ `%s' の追加に失敗しました: %s"
+
+#~ msgid " (options:"
+#~ msgstr " (オプション:"
+
+#~ msgid "INTERNAL ERROR: Bad code in deferred arguments"
+#~ msgstr "内部エラー：オプションの後処理で、不正コードが検出されました。"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_token ()"
+#~ msgstr "内部エラー：関数 expand_token () 内のトークンの種類が不正です。"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_argument ()"
+#~ msgstr "内部エラー：関数 expand_argument () のトークンの種類が不正です。"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in call_macro ()"
+#~ msgstr "内部エラー：関数 call_macro () 内のシンボルの種類が不正です。"
+
+#~ msgid "ERROR: failed to initialise modules: %s"
+#~ msgstr "ERROR: モジュールの初期化に失敗しました: %s"
+
+#~ msgid "ERROR: cannot find module: `%s'"
+#~ msgstr "ERROR: モジュールが見つかりません: `%s'"
+
+#~ msgid "ERROR: cannot find module: `%s': %s"
+#~ msgstr "ERROR: モジュールが見つかりません: `%s': %s"
+
+#~ msgid "ERROR: cannot close modules"
+#~ msgstr "ERROR: モジュールを閉じることが出来ません"
+
+#, fuzzy
+#~ msgid "ERROR: cannot cannot close modules: %s"
+#~ msgstr "ERROR: モジュールを閉じることができません: `%s'"
+
+#~ msgid "ERROR: cannot close module: `%s'"
+#~ msgstr "ERROR: モジュールを閉じることができません: `%s'"
+
+#, fuzzy
+#~ msgid "ERROR: cannot cannot close module: `%s': %s"
+#~ msgstr "ERROR: モジュールを閉じることができません: `%s'"
+
+#, fuzzy
+#~ msgid "ERROR: Cannot create temporary file for diversion"
+#~ msgstr "エラー: divert のためのテンポラリファイルが作成できません。"
+
+#, fuzzy
+#~ msgid "ERROR: Reading inserted file"
+#~ msgstr "エラー: 挿入されるべきファイルをコピー中です。"
+
+#~ msgid "Path search for `%s' found `%s'"
+#~ msgstr "`%s' というディレクトリから `%s' というファイルを見つけました。"
+
+#~ msgid "VMEM limit exceeded?\n"
+#~ msgstr "リソース値 RLIMIT_VMEM を超えていませんか？\n"
+
+#~ msgid ""
+#~ "Memory bounds violation detected (SIGSEGV).  Either a stack overflow\n"
+#~ "occurred, or there is a bug in "
+#~ msgstr ""
+#~ "メモリ (セグメンテーション違反) が検出されました。\n"
+#~ "            スタックがオーバーフローしている、あるいはバグが存在する\n"
+#~ "            可能性があります。"
+
+#~ msgid ".  Check for possible infinite recursion.\n"
+#~ msgstr ".  無限の再帰呼び出しが行われていないかどうかチェックして下さい。\n"
+
+#~ msgid "INTERNAL ERROR: Illegal mode to symbol_lookup ()"
+#~ msgstr "内部エラー： symbol_lookup () に対するモードが不正です"
+
+#~ msgid "Name `%s' is unknown\n"
+#~ msgstr "`%s' という名前は不明です\n"
+
+#~ msgid "ambiguous argument %s for %s"
+#~ msgstr "%2$s に対する引数 %1$s が曖昧です"
+
+#~ msgid "Valid arguments are:"
+#~ msgstr "有効な引数:"
+
+#~ msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
+#~ msgstr "ARGP_HELP_FMT: %s の値は %s の値以下です"
+
+#~ msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
+#~ msgstr "%.*s: ARGP_HELP_FMT パラメータには値が必要です"
+
+#~ msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
+#~ msgstr "%.*s: ARGP_HELP_FMT パラメータは正の値でなければいけません"
+
+#~ msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
+#~ msgstr "%.*s: 不明な ARGP_HELP_FMT パラメータ"
+
+#~ msgid "Garbage in ARGP_HELP_FMT: %s"
+#~ msgstr "ARGP_HELP_FMT 中にごみがあります: %s"
+
+#~ msgid "Usage:"
+#~ msgstr "使用法:"
+
+#~ msgid "  or: "
+#~ msgstr "または: "
+
+#~ msgid " [OPTION...]"
+#~ msgstr " [OPTION...]"
+
+#~ msgid "give this help list"
+#~ msgstr "このヘルプを表示する"
+
+#~ msgid "give a short usage message"
+#~ msgstr "短い使用方法を表示する"
+
+#~ msgid "NAME"
+#~ msgstr "名前"
+
+#~ msgid "set the program name"
+#~ msgstr "プログラム名を設定する"
+
+#~ msgid "SECS"
+#~ msgstr "SECS"
+
+#~ msgid "hang for SECS seconds (default 3600)"
+#~ msgstr "SECS 秒でハング (デフォルト 3600)"
+
+#~ msgid "print program version"
+#~ msgstr "プログラムのバージョンを表示する"
+
+#~ msgid "(PROGRAM ERROR) No version known!?"
+#~ msgstr "(プログラムエラー) 不明なバージョン!?"
+
+#~ msgid "%s: Too many arguments\n"
+#~ msgstr "%s: 引数が多すぎます\n"
+
+#~ msgid "(PROGRAM ERROR) Option should have been recognized!?"
+#~ msgstr "(プログラムエラー) オプションは認識されているべきです!?"
+
+#~ msgid "preserving permissions for %s"
+#~ msgstr "%s のパーミッションを保存しています"
+
+#~ msgid "error while opening \"%s\" for reading"
+#~ msgstr "\"%s\"を読込むため開いている際にエラーが発生しました"
+
+#~ msgid "cannot open backup file \"%s\" for writing"
+#~ msgstr "書込み用バックアップファイル\"%s\"を開くことができません"
+
+#~ msgid "error after reading \"%s\""
+#~ msgstr "\"%s\"の読込み後にエラーが発生しました"
+
+#~ msgid "fdopen() failed"
+#~ msgstr "fdopen()に失敗しました"
+
+#~ msgid "C# compiler not found, try installing pnet"
+#~ msgstr "C# コンパイラが見つりません。pnet をインストールしてみてください"
+
+#~ msgid "C# virtual machine not found, try installing pnet"
+#~ msgstr "C# 仮想マシンが見つかりません。pnet をインストールしてみてください"
+
+#~ msgid "regular empty file"
+#~ msgstr "通常の空ファイル"
+
+#~ msgid "regular file"
+#~ msgstr "通常ファイル"
+
+#~ msgid "directory"
+#~ msgstr "ディレクトリ"
+
+#~ msgid "block special file"
+#~ msgstr "ブロックスペシャルファイル"
+
+#~ msgid "character special file"
+#~ msgstr "キャラクタスペシャルファイル"
+
+#~ msgid "fifo"
+#~ msgstr "fifo"
+
+#~ msgid "symbolic link"
+#~ msgstr "シンボリックリンク"
+
+#~ msgid "socket"
+#~ msgstr "ソケット"
+
+#~ msgid "message queue"
+#~ msgstr "メッセージキュー"
+
+#~ msgid "semaphore"
+#~ msgstr "セマフォ"
+
+#~ msgid "shared memory object"
+#~ msgstr "共有メモリオブジェクト"
+
+#~ msgid "typed memory object"
+#~ msgstr "型付メモリオブジェクト"
+
+#~ msgid "weird file"
+#~ msgstr "不明なファイル"
+
+#~ msgid "Address family for hostname not supported"
+#~ msgstr "ホスト名に対する Address family がサポートされていません"
+
+#~ msgid "Temporary failure in name resolution"
+#~ msgstr "名前解決に一時的に失敗しました"
+
+#~ msgid "Bad value for ai_flags"
+#~ msgstr "ai_flags に対する誤った値です"
+
+#~ msgid "Non-recoverable failure in name resolution"
+#~ msgstr "名前解決でリカバリできない失敗が発生しました"
+
+#~ msgid "ai_family not supported"
+#~ msgstr "ai_family はサポートされていません"
+
+#~ msgid "Memory allocation failure"
+#~ msgstr "メモリ配置に失敗しました"
+
+#~ msgid "No address associated with hostname"
+#~ msgstr "ホスト名にアドレスが割り当てられていません"
+
+#~ msgid "Servname not supported for ai_socktype"
+#~ msgstr "ai_socktype に対して Servname がサポートされていません"
+
+#~ msgid "ai_socktype not supported"
+#~ msgstr "ai_socktype はサポートされていません"
+
+#~ msgid "System error"
+#~ msgstr "システムエラー"
+
+#~ msgid "Argument buffer too small"
+#~ msgstr "引数バッファが小さすぎます"
+
+#~ msgid "Processing request in progress"
+#~ msgstr "要求された処理は実行中です"
+
+#~ msgid "Request canceled"
+#~ msgstr "要求がキャンセルされました"
+
+#~ msgid "Request not canceled"
+#~ msgstr "要求がキャンセルされませんでした"
+
+#~ msgid "All requests done"
+#~ msgstr "すべての要求が完了しました"
+
+#~ msgid "Interrupted by a signal"
+#~ msgstr "シグナル割り込みが発生しました"
+
+#~ msgid "Parameter string not correctly encoded"
+#~ msgstr "パラメーター文字列が正しくエンコードされていません"
+
+#~ msgid "Unknown error"
+#~ msgstr "不明なエラー"
+
+#~ msgid "invalid source_version argument to compile_java_class"
+#~ msgstr "compile_java_class への source_version 引数が無効です"
+
+#~ msgid "invalid target_version argument to compile_java_class"
+#~ msgstr "compile_java_class への target_version 引数が無効です"
+
+#~ msgid "failed to create \"%s\""
+#~ msgstr "\"%s\" の作成に失敗しました"
+
+#~ msgid "error while writing \"%s\" file"
+#~ msgstr "\"%s\" ファイルの書き込み中にエラーが発生しました"
+
+#~ msgid "Java compiler not found, try installing gcj or set $JAVAC"
+#~ msgstr ""
+#~ "Java コンパイラが見つかりません。 gcj をインストールするか、またはt "
+#~ "$JAVAC を設定してみてください"
+
+#~ msgid "Java virtual machine not found, try installing gij or set $JAVA"
+#~ msgstr ""
+#~ "Java 仮想マシンが見つかりません。 gij をインストールするか、または $JAVA "
+#~ "を設定してみてください"
+
+#~ msgid "%s subprocess I/O error"
+#~ msgstr "%s サブプロセス I/O エラー"
+
+#~ msgid "cannot change permissions of %s"
+#~ msgstr "%s のパーミッションを変更できません"
+
+#~ msgid "cannot create directory %s"
+#~ msgstr "ディレクトリ %s を作成できません"
+
+#~ msgid "Failed to open /dev/zero for read"
+#~ msgstr "/dev/zeroを読込み用に開けません"
+
+#~ msgid "creation of reading thread failed"
+#~ msgstr "読み込みスレッドの作成に失敗しました"
+
+#~ msgid "cannot set up nonblocking I/O to %s subprocess"
+#~ msgstr "%s 子プロセスへ非ブロック I/O を設定できません"
+
+#~ msgid "communication with %s subprocess failed"
+#~ msgstr "%s 子プロセスとの通信に失敗しました"
+
+#~ msgid "write to %s subprocess failed"
+#~ msgstr "%s 子プロセスへの書き込みに失敗しました"
+
+#~ msgid "read from %s subprocess failed"
+#~ msgstr "%s 子プロセスからの読み込みに失敗しました"
+
+#~ msgid "subprocess %s terminated with exit code %d"
+#~ msgstr "子プロセス %s が終了コード %d で終了しました"
+
+#~ msgid "creation of threads failed"
+#~ msgstr "スレッドの作成に失敗しました"
+
+#~ msgid "%s subprocess terminated with exit code %d"
+#~ msgstr "%s 子プロセスが終了コード %d で終了しました"
+
+#~ msgid "^[yY]"
+#~ msgstr "^[yY]"
+
+#~ msgid "^[nN]"
+#~ msgstr "^[nN]"
+
+#~ msgid "setting permissions for %s"
+#~ msgstr "%s のパーミッションを設定します"
+
+#~ msgid "error writing to a closed pipe or socket"
+#~ msgstr "閉じたパイプまたはソケットへの書き込みでエラーが発生しました"
+
+#~ msgid "iconv function not usable"
+#~ msgstr "iconv 関数が使えません"
+
+#~ msgid "iconv function not available"
+#~ msgstr "iconv 関数が有効ではありません"
+
+#~ msgid "character out of range"
+#~ msgstr "範囲外の文字"
+
+#~ msgid "cannot convert U+%04X to local character set"
+#~ msgstr "U+%04X をローカル文字セットに変換できません"
+
+#~ msgid "cannot convert U+%04X to local character set: %s"
+#~ msgstr "U+%04X をローカル文字セット %s に変換できません"
+
+#~ msgid "invalid user"
+#~ msgstr "無効なユーザ"
+
+#~ msgid "invalid group"
+#~ msgstr "無効なグループ"
+
+#~ msgid "invalid spec"
+#~ msgstr "無効な指定"
+
+#~ msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+#~ msgstr "%s のホームページ: <http://www.gnu.org/software/%s/>\n"
+
+#~ msgid "stdin"
+#~ msgstr "標準入力"
+
+#~ msgid "stdout"
+#~ msgstr "標準出力"
+
+#~ msgid "unknown stream"
+#~ msgstr "不明なストリーム"
+
+#~ msgid "failed to reopen %s with mode %s"
+#~ msgstr "%s をモード %s で再度開くことに失敗しました"
+
+#~ msgid "string comparison failed"
+#~ msgstr "文字列の比較に失敗しました"
+
+#~ msgid "Set LC_ALL='C' to work around the problem."
+#~ msgstr "問題を回避するために LC_ALL='C' を指定してください."
+
+#~ msgid "The strings compared were %s and %s."
+#~ msgstr "比較した文字列は %s と %s です."
+
+#~ msgid "invalid %s%s argument `%s'"
+#~ msgstr "引数 `%3$s' に対して %1$s%2$s が無効です"
+
+#~ msgid "invalid suffix in %s%s argument `%s'"
+#~ msgstr "引数 `%3$s' に対して無効な接尾辞 %1$s%2$s です"
+
+#~ msgid "%s%s argument `%s' too large"
+#~ msgstr "引数 `%3$s' に対する %1$s%2$s が大きすぎます"
+
+#~ msgid "block size"
+#~ msgstr "ブロックサイズ"
+
+#~ msgid "%s exists but is not a directory"
+#~ msgstr "%s は存在しますがディレクトリではありません"
+
+#~ msgid "cannot change owner and/or group of %s"
+#~ msgstr "%s のオーナーとグループを変更できません"
+
+#~ msgid "cannot chdir to directory %s"
+#~ msgstr "ディレクトリ %s に移動できません"
+
+#~ msgid "cannot get the login group of a numeric UID"
+#~ msgstr "数字のUIDのログイングループを取得できません"
+
+#~ msgid ""
+#~ "\n"
+#~ "This is free software.  You may redistribute copies of it under the terms "
+#~ "of\n"
+#~ "the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.\n"
+#~ "There is NO WARRANTY, to the extent permitted by law.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "\n"
+#~ "本プログラムはフリーソフトウェアです. GNU一般公有使用許諾\n"
+#~ "<http://www.gnu.org/licenses/gpl.html> で定められた条項の下で本プログラ\n"
+#~ "ムのコピーを再配布できます. 適切な法が認る限りにおいて全くの無保証です.\n"
+#~ "\n"

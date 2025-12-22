@@ -23,7 +23,7 @@ CONFIGURE_ARGS	?= \
 DESTDIR         ?= ${SYSTEM_PATH}
 endif
 
-all: ${.OBJDIR}/.install-done
+all: ${PRE_TARGETS} ${.OBJDIR}/.install-done ${POST_TARGETS}
 
 ${.OBJDIR}/.configure-done: ${DISTDIR}/configure
 	cd ${.OBJDIR} && \

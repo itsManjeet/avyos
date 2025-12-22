@@ -38,7 +38,7 @@ see https://www.gnu.org/licenses/.
    */
 #undef GMP_MPARAM_H_SUGGEST
 
-/* Define to 1 if you have the `alarm' function. */
+/* Define to 1 if you have the 'alarm' function. */
 #undef HAVE_ALARM
 
 /* Define to 1 if alloca() works (via gmp-impl.h). */
@@ -61,47 +61,47 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if the compiler accepts gcc style __attribute__ ((noreturn)) */
 #undef HAVE_ATTRIBUTE_NORETURN
 
-/* Define to 1 if you have the `attr_get' function. */
+/* Define to 1 if you have the 'attr_get' function. */
 #undef HAVE_ATTR_GET
 
 /* Define to 1 if tests/libtests has calling conventions checking for the CPU
    */
 #undef HAVE_CALLING_CONVENTIONS
 
-/* Define to 1 if you have the `clock' function. */
+/* Define to 1 if you have the 'clock' function. */
 #undef HAVE_CLOCK
 
 /* Define to 1 if you have the `clock_gettime' function */
 #undef HAVE_CLOCK_GETTIME
 
-/* Define to 1 if you have the `cputime' function. */
+/* Define to 1 if you have the 'cputime' function. */
 #undef HAVE_CPUTIME
 
-/* Define to 1 if you have the declaration of `fgetc', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'fgetc', and to 0 if you don't.
    */
 #undef HAVE_DECL_FGETC
 
-/* Define to 1 if you have the declaration of `fscanf', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'fscanf', and to 0 if you don't.
    */
 #undef HAVE_DECL_FSCANF
 
-/* Define to 1 if you have the declaration of `optarg', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'optarg', and to 0 if you don't.
    */
 #undef HAVE_DECL_OPTARG
 
-/* Define to 1 if you have the declaration of `sys_errlist', and to 0 if you
+/* Define to 1 if you have the declaration of 'sys_errlist', and to 0 if you
    don't. */
 #undef HAVE_DECL_SYS_ERRLIST
 
-/* Define to 1 if you have the declaration of `sys_nerr', and to 0 if you
+/* Define to 1 if you have the declaration of 'sys_nerr', and to 0 if you
    don't. */
 #undef HAVE_DECL_SYS_NERR
 
-/* Define to 1 if you have the declaration of `ungetc', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'ungetc', and to 0 if you don't.
    */
 #undef HAVE_DECL_UNGETC
 
-/* Define to 1 if you have the declaration of `vfprintf', and to 0 if you
+/* Define to 1 if you have the declaration of 'vfprintf', and to 0 if you
    don't. */
 #undef HAVE_DECL_VFPRINTF
 
@@ -126,16 +126,16 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if you have the <float.h> header file. */
 #undef HAVE_FLOAT_H
 
-/* Define to 1 if you have the `getpagesize' function. */
+/* Define to 1 if you have the 'getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
-/* Define to 1 if you have the `getrusage' function. */
+/* Define to 1 if you have the 'getrusage' function. */
 #undef HAVE_GETRUSAGE
 
-/* Define to 1 if you have the `getsysinfo' function. */
+/* Define to 1 if you have the 'getsysinfo' function. */
 #undef HAVE_GETSYSINFO
 
-/* Define to 1 if you have the `gettimeofday' function. */
+/* Define to 1 if you have the 'gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
 /* Define to 1 if the compiler accepts gcc style __attribute__ ((visibility))
@@ -208,10 +208,10 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 iff we have a s390 with 64-bit registers.  */
 #undef HAVE_HOST_CPU_s390_zarch
 
-/* Define to 1 if the system has the type `intmax_t'. */
+/* Define to 1 if the system has the type 'intmax_t'. */
 #undef HAVE_INTMAX_T
 
-/* Define to 1 if the system has the type `intptr_t'. */
+/* Define to 1 if the system has the type 'intptr_t'. */
 #undef HAVE_INTPTR_T
 
 /* Define to 1 if you have the <inttypes.h> header file. */
@@ -229,28 +229,28 @@ see https://www.gnu.org/licenses/.
 #undef HAVE_LIMB_BIG_ENDIAN
 #undef HAVE_LIMB_LITTLE_ENDIAN
 
-/* Define to 1 if you have the `localeconv' function. */
+/* Define to 1 if you have the 'localeconv' function. */
 #undef HAVE_LOCALECONV
 
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
 
-/* Define to 1 if the system has the type `long double'. */
+/* Define to 1 if the system has the type 'long double'. */
 #undef HAVE_LONG_DOUBLE
 
-/* Define to 1 if the system has the type `long long'. */
+/* Define to 1 if the system has the type 'long long'. */
 #undef HAVE_LONG_LONG
 
 /* Define to 1 if you have the <machine/hal_sysinfo.h> header file. */
 #undef HAVE_MACHINE_HAL_SYSINFO_H
 
-/* Define to 1 if you have the `memset' function. */
+/* Define to 1 if you have the 'memset' function. */
 #undef HAVE_MEMSET
 
-/* Define to 1 if you have the `mmap' function. */
+/* Define to 1 if you have the 'mmap' function. */
 #undef HAVE_MMAP
 
-/* Define to 1 if you have the `mprotect' function. */
+/* Define to 1 if you have the 'mprotect' function. */
 #undef HAVE_MPROTECT
 
 /* Define to 1 each of the following for which a native (ie. CPU specific)
@@ -375,47 +375,47 @@ see https://www.gnu.org/licenses/.
 #undef HAVE_NATIVE_mpn_xor_n
 #undef HAVE_NATIVE_mpn_xnor_n
 
-/* Define to 1 if you have the `nl_langinfo' function. */
+/* Define to 1 if you have the 'nl_langinfo' function. */
 #undef HAVE_NL_LANGINFO
 
 /* Define to 1 if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
 
-/* Define to 1 if you have the `obstack_vprintf' function. */
+/* Define to 1 if you have the 'obstack_vprintf' function. */
 #undef HAVE_OBSTACK_VPRINTF
 
-/* Define to 1 if you have the `popen' function. */
+/* Define to 1 if you have the 'popen' function. */
 #undef HAVE_POPEN
 
-/* Define to 1 if you have the `processor_info' function. */
+/* Define to 1 if you have the 'processor_info' function. */
 #undef HAVE_PROCESSOR_INFO
 
 /* Define to 1 if <sys/pstat.h> `struct pst_processor' exists and contains
    `psp_iticksperclktick'. */
 #undef HAVE_PSP_ITICKSPERCLKTICK
 
-/* Define to 1 if you have the `pstat_getprocessor' function. */
+/* Define to 1 if you have the 'pstat_getprocessor' function. */
 #undef HAVE_PSTAT_GETPROCESSOR
 
-/* Define to 1 if the system has the type `ptrdiff_t'. */
+/* Define to 1 if the system has the type 'ptrdiff_t'. */
 #undef HAVE_PTRDIFF_T
 
-/* Define to 1 if the system has the type `quad_t'. */
+/* Define to 1 if the system has the type 'quad_t'. */
 #undef HAVE_QUAD_T
 
-/* Define to 1 if you have the `raise' function. */
+/* Define to 1 if you have the 'raise' function. */
 #undef HAVE_RAISE
 
-/* Define to 1 if you have the `read_real_time' function. */
+/* Define to 1 if you have the 'read_real_time' function. */
 #undef HAVE_READ_REAL_TIME
 
-/* Define to 1 if you have the `sigaction' function. */
+/* Define to 1 if you have the 'sigaction' function. */
 #undef HAVE_SIGACTION
 
-/* Define to 1 if you have the `sigaltstack' function. */
+/* Define to 1 if you have the 'sigaltstack' function. */
 #undef HAVE_SIGALTSTACK
 
-/* Define to 1 if you have the `sigstack' function. */
+/* Define to 1 if you have the 'sigstack' function. */
 #undef HAVE_SIGSTACK
 
 /* Tune directory speed_cyclecounter, undef=none, 1=32bits, 2=64bits) */
@@ -424,7 +424,7 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if you have the <sstream> header file. */
 #undef HAVE_SSTREAM
 
-/* Define to 1 if the system has the type `stack_t'. */
+/* Define to 1 if the system has the type 'stack_t'. */
 #undef HAVE_STACK_T
 
 /* Define to 1 if you have the <stdint.h> header file. */
@@ -436,13 +436,13 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define to 1 if the system has the type `std::locale'. */
+/* Define to 1 if the system has the type 'std::locale'. */
 #undef HAVE_STD__LOCALE
 
-/* Define to 1 if you have the `strchr' function. */
+/* Define to 1 if you have the 'strchr' function. */
 #undef HAVE_STRCHR
 
-/* Define to 1 if you have the `strerror' function. */
+/* Define to 1 if you have the 'strerror' function. */
 #undef HAVE_STRERROR
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -451,25 +451,25 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strnlen' function. */
+/* Define to 1 if you have the 'strnlen' function. */
 #undef HAVE_STRNLEN
 
-/* Define to 1 if you have the `strtol' function. */
+/* Define to 1 if you have the 'strtol' function. */
 #undef HAVE_STRTOL
 
-/* Define to 1 if you have the `strtoul' function. */
+/* Define to 1 if you have the 'strtoul' function. */
 #undef HAVE_STRTOUL
 
-/* Define to 1 if you have the `sysconf' function. */
+/* Define to 1 if you have the 'sysconf' function. */
 #undef HAVE_SYSCONF
 
-/* Define to 1 if you have the `sysctl' function. */
+/* Define to 1 if you have the 'sysctl' function. */
 #undef HAVE_SYSCTL
 
-/* Define to 1 if you have the `sysctlbyname' function. */
+/* Define to 1 if you have the 'sysctlbyname' function. */
 #undef HAVE_SYSCTLBYNAME
 
-/* Define to 1 if you have the `syssgi' function. */
+/* Define to 1 if you have the 'syssgi' function. */
 #undef HAVE_SYSSGI
 
 /* Define to 1 if you have the <sys/attributes.h> header file. */
@@ -517,10 +517,10 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
-/* Define to 1 if you have the `times' function. */
+/* Define to 1 if you have the 'times' function. */
 #undef HAVE_TIMES
 
-/* Define to 1 if the system has the type `uint_least32_t'. */
+/* Define to 1 if the system has the type 'uint_least32_t'. */
 #undef HAVE_UINT_LEAST32_T
 
 /* Define to 1 if you have the <unistd.h> header file. */
@@ -562,28 +562,28 @@ see https://www.gnu.org/licenses/.
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define as the return type of signal handlers (`int' or `void'). */
+/* Define as the return type of signal handlers ('int' or 'void'). */
 #undef RETSIGTYPE
 
-/* The size of `mp_limb_t', as computed by sizeof. */
+/* The size of 'mp_limb_t', as computed by sizeof. */
 #undef SIZEOF_MP_LIMB_T
 
-/* The size of `unsigned', as computed by sizeof. */
+/* The size of 'unsigned', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED
 
-/* The size of `unsigned long', as computed by sizeof. */
+/* The size of 'unsigned long', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED_LONG
 
-/* The size of `unsigned short', as computed by sizeof. */
+/* The size of 'unsigned short', as computed by sizeof. */
 #undef SIZEOF_UNSIGNED_SHORT
 
-/* The size of `void *', as computed by sizeof. */
+/* The size of 'void *', as computed by sizeof. */
 #undef SIZEOF_VOID_P
 
 /* Define to 1 if sscanf requires writable inputs */
 #undef SSCANF_WRITABLE_INPUT
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
@@ -645,11 +645,11 @@ see https://www.gnu.org/licenses/.
 /* Define to 1 if the assembler understands the mulx instruction */
 #undef X86_ASM_MULX
 
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
-   `char[]'. */
+/* Define to 1 if 'lex' declares 'yytext' as a 'char *' by default, not a
+   'char[]'. */
 #undef YYTEXT_POINTER
 
-/* Define to `__inline__' or `__inline' if that's what the C compiler
+/* Define to '__inline__' or '__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
 #undef inline
@@ -670,6 +670,6 @@ see https://www.gnu.org/licenses/.
 # define __restrict__
 #endif
 
-/* Define to empty if the keyword `volatile' does not work. Warning: valid
-   code using `volatile' can become incorrect without. Disable with care. */
+/* Define to empty if the keyword 'volatile' does not work. Warning: valid
+   code using 'volatile' can become incorrect without. Disable with care. */
 #undef volatile

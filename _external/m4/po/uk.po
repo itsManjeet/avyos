@@ -1,0 +1,1122 @@
+# Ukrainian translation for m4.
+# Copyright (C) 2021 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+#
+# Yuri Chornoivan <yurchor@ukr.net>, 2021, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: GNU m4 1.4.19.60\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2025-04-13 17:52+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.04.3\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "не вдалося знайти тимчасовий каталог, спробуйте встановити $TMPDIR"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "не вдалося створити тимчасовий каталог використовуючи шаблон \"%s\""
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "не вдалося усунути тимчасовий каталог %s"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "помилка закриття файлу"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "помилка запису"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "помилка програми"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "переповнення стосу"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "не вдалося усунути тимчасовий файл %s"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Невідома системна помилка"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "нащадок %s зазнав невдачі"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: параметр «%s%s» не є однозначним\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: неоднозначний параметр «%s%s»; можливі варіанти:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: невідомий параметр «%s%s»\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: додавання аргументів до параметра «%s%s» не передбачено\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: до параметра «%s%s» слід додати аргумент\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: Некоректний параметр -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: параметр вимагає аргументу -- '%c'\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "пам'ять вичерпано"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "не вдалося змінити поточний каталог"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "не вдалося зберегти поточний каталог"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "помилка _open_osfhandle"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "не вдалося відновити дескриптор %d: помилка dup2"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "`"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "'"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Успіх"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Брак збігів"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Некоректний формальний вираз"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Некоректний об'єднувальний символ"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Некоректна назва класу символів"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Зворотна похила риска наприкінці виразу"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Недійсне зворотнє посилання"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "Вираз без парних [, [^, [:, [. або [="
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "Незакрита ( або \\("
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "Незакрита \\{"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Некоректний вміст \\{\\}"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Некоректний кінець діапазону"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Пам'ять вичерпана"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Некоректний попередній формальний вираз"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Передчасне закінчення формального виразу"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Завеликий формальний вираз"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "Неузгоджена ) або \\)"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Не вказано попереднього формального виразу"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Відбій"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Переривання"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Вийти"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Недійсна інструкція"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Перехоплення трасування/контрольної точки"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Аварійне завершення"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Виняток операції з рухомою крапкою"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Знищено"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Помилка шини"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Помилка сегментації"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Розімкнений конвеєр"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Таймер"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Закінчено"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Екстрена ситуація вводу-виводу"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Припинення (сигнал)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Припинення"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Продовження"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "Нащадок завершився"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Припинення (ввід з консолі)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Припинення (вивід на консоль)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "Можливий ввід-вивід"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "Перевищення ліміту часу ЦП"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "Перевищення ліміту розміру файлів"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "Відлік віртуального таймера завершено"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "Відлік таймера профілювання завершено"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Вікно змінилося"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Визначений користувачем сигнал 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Визначений користувачем сигнал 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "Пастка EMT"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Некоректний системний виклик"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Збій стосу"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Запит інформації"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Аварія живлення"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Втрата засобу"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "не вдалося створити конвеєр"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Сигнал реального часу %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Невідомий сигнал %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "Пакет створив %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "Пакет створив %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Умови ліцензування викладено у GPLv3+: GNU GPL версії 3 або новішій, <%s>\n"
+"Це вільне програмне забезпечення: ви можете вільно змінювати і поширювати "
+"його.\n"
+"Вам не надається ЖОДНИХ ГАРАНТІЙ, окрім гарантій передбачених "
+"законодавством.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Автор: %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Автори: %s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Автори: %s, %s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, %s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, %s, %s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, %s, %s, %s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, %s, %s, %s,\n"
+"%s та %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Автори: %s, %s, %s\n"
+"%s, %s, %s, %s,\n"
+"%s, %s та інші.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "Про помилки звітуйте на %s\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "Про помилки у програмі %s звітуйте на %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "домашня сторінка %s: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr ""
+"Загальна довідкова інформація щодо використання програмного забезпечення "
+"GNU: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "нащадок процесу %s"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "підпроцес %s отримав фатальний сигнал %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "неможливо здійснити форматований вивід"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence: помилковий формальний вираз «%s»: %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr "обрізаємо визначення макросу «%s» до INT_MAX байтів"
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "Попередження: у визначенні «%s» міститься послідовність «%s»"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "помилка під час перевірки --warn-macro-sequence макросу «%s»"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "Попередження: замало аргументів для вбудованої «%s»"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr "Попередження: зайві аргументи до вбудованої «%s» проігноровано"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "порожній рядок, який обробляється як 0, у вбудованій «%s»"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "нечисловий аргумент вбудованої «%s»"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "проігноровано початкові пробіли у вбудованій «%s»"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "виявлено переповнення числового значення у вбудованій «%s»"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "Попередження: %s: проігноровано некоректну назву макросу"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "невизначений макрос «%s»"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "невизначена вбудована «%s»"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr ""
+"підтримки вбудованої «%s» із запитом із файла заморожування не передбачено"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "Попередження: не вдалося з'єднати вбудовану «%s»"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "не вдалося запустити команду «%s»"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "не вдалося прочитати конвеєр"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "основа %d у вбудованій «%s» поза припустимим діапазоном"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "від'ємна ширина у вбудованій «%s»"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "помилка під час спроби зведення «%s»"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "не вдалося виконати зведення «%s»"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "не вдалося відкрити «%s»"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: не вдалося створити тимчасовий файл «%s»"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "рекомендуємо скористатися mkstemp"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "стан виходу поза припустимим діапазоном: «%d»"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Діагностичний режим: помилкові прапорці діагностики: «%s»"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "не вдалося встановити діагностичний файл «%s»"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "Попередження: \\0 зникне, скористайтеся замість нього \\& у замінниках"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "Попередження: немає підвиразу %d"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "Попередження: завершальне \\ у заміннику буде проігноровано"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "помилковий формальний вираз: «%s»: %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "помилка під час встановлення відповідності формальному виразу «%s»"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "помилковий формальний вираз «%s»: %s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "помилка під час спроби запису до діагностичного потоку даних"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr ""
+"Попередження: рекомендуємо використовувати для оператора рівності ==, а не ="
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "помилковий вираз в eval (пропущено праву дужку): %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "помилковий вираз в eval: %s"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "помилковий вираз в eval (помилкові вхідні дані): %s"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "помилковий вираз в eval (зайві вхідні дані): %s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "некоректний оператор в eval: %s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "ділення на нуль в eval: %s"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "ділення націло на нуль в eval: %s"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "від'ємний степінь в eval: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "порожній рядок, який оброблено як 0"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "нечисловий аргумент %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "початкові пробіли проігноровано"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "виявлено переповнення числового значення"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "Попередження: нерозпізнаний специфікатор у «%s»"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "не вдалося створити заморожений стан"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "у файлі заморожування мало бути переведення рядка"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "у файлі заморожування мав бути символ «%c»"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "переповнення цілочисельного значення у файлі заморожування"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "передчасне завершення файла заморожування"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "не вдалося відкрити %s"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr "версія файла заморожування %d перевищує максимальну підтримувану, 1"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr ""
+"помилкове форматування файла заморожування, мала бути інструкція version"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "помилкове форматування файла заморожування"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "не вдалося прочитати стан заморожування"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "помилка під час читання"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "помилка під час зчитуванні файла"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "Попередження: символ кінця файла оброблено як символ нового рядка"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "ПОМИЛКА: символ кінця файла у коментарі"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "ПОМИЛКА: символ кінця файла у рядку"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "Rene' Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "Віддайте команду «%s --help», щоб дізнатися більше."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Користування: %s [ПАРАМЕТР]... [ФАЙЛ]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"Обробити макроси у ФАЙЛах. Якщо ФАЙЛ не вказано, або якщо ФАЙЛом є «-»,\n"
+"дані буде прочитано зі стандартного джерела.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Обов'язкові і додаткові аргументи до довгих форм запису параметрів є також\n"
+"обов'язковими для всіх відповідних скорочених форм запису.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"Режими роботи:\n"
+"      --help                   вивести ці довідкові дані і завершити роботу\n"
+"      --version                вивести дані щодо версії і завершити роботу\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings         один раз: попередження стають помилками,\n"
+"                                 двічі: зупинити на першій помилці\n"
+"  -i, --interactive            не буферизувати виведення, ігнорувати "
+"переривання\n"
+"  -P, --prefix-builtins        примусово використовувати префікс «m4_» для "
+"усіх вбудованих\n"
+"  -Q, --quiet, --silent        придушити деякі попередження для вбудованих\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=ФОРМАЛЬНИЙ_ВИРАЗ]\n"
+"                               попереджати, якщо визначення макросу "
+"відповідає виразу,\n"
+"                                 типове значення -- %s\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=ВИРАЗ     використати формальний вираз для синтаксису "
+"назви макросу\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"Можливості попередньої обробки:\n"
+"  -D, --define=НАЗВА[=ЗНАЧЕННЯ] визначити НАЗВУ як таку, що має ЗНАЧЕННЯ або "
+"порожню\n"
+"  -I, --include=КАТАЛОГ        дописати КАТАЛОГ до шляху включення\n"
+"  -s, --synclines              створювати рядки «#line ЧИСЛО \"ФАЙЛ\"»\n"
+"  -U, --undefine=НАЗВА         скасувати визначення НАЗВИ\n"
+
+#: src/m4.c:255
+#, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"Обмеження:\n"
+"  -g, --gnu                    перевизначити -G для уможливлення розширень "
+"GNU\n"
+"  -G, --traditional            придушити усі розширення GNU\n"
+"  -H, --hashsize=ОСНОВА        встановити розмір таблиці пошуку хешів [%d]\n"
+"  -L, --nesting-limit=ЧИСЛО    змінити рівень вкладеності, 0 -- без обмежень "
+"[%d]\n"
+
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"Файли стану заморожування:\n"
+"  -F, --freeze-state=ФАЙЛ      створити стан заморожування у файлі "
+"наприкінці\n"
+"  -R, --reload-state=ФАЙЛ      перезавантажити стан заморожування з ФАЙЛа на "
+"початку\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"Діагностика:\n"
+"  -d, --debug[=ПРАПОРЦІ]       встановити рівень діагностики (без ПРАПОРЦІв "
+"-- «aeq»)\n"
+"      --debugfile[=ФАЙЛ]       переспрямувати виведені діагностичні дані і "
+"трасування\n"
+"                                 до файла (типово stderr, відкинути, якщо "
+"вказано\n"
+"                                 порожній рядок)\n"
+"  -l, --arglength=ЧИСЛО        обмежити розмір трасування макросу\n"
+"  -t, --trace=НАЗВА            трасувати НАЗВА, якщо його визначено\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+"ПРАПОРЦІ:\n"
+"  a   показати справжні аргументи\n"
+"  c   показати до збирання, після збирання і після виклику\n"
+"  e   показати розгортання\n"
+"  f   вивести назву поточного файла вхідних даних\n"
+"  i   показати зміни у файлах вхідних даних\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   виводити поточний номер рядка вхідних даних\n"
+"  p   показувати результати для пошуків шляху\n"
+"  q   вказувати, що значення є обов'язковими, з прапорцем a або e\n"
+"  t   трасувати усі виклики макросів, не лише з traceon\n"
+"  x   додавати унікальний ідентифікатор виклику макросу, корисно із "
+"прапорцем c\n"
+"  V   скорочення для усіх вказаних вище прапорців\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"Якщо її визначено, змінна середовища M4PATH є списком відокремлених\n"
+"двокрапкою каталогів, які включено після будь-яких, вказаних з «-I».\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"Станом виходу є 0 для успіху, 1 для помилки, 63 для невідповідності версії\n"
+"файла заморожування або будь-яке значення, яке передано макросу m4exit.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr ""
+"виявлено внутрішню помилку; будь ласка, повідомте про цю ваду на адресу <%s>"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "попередження: «m4 -%c» може бути вилучено у наступних випусках"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "попередження: «m4 %s» є застарілим"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "помилкові прапорці діагностики: «%s»"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "попередження: «m4 -e» вважається застарілим, користуйтеся «-i»"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "stderr"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "ПОМИЛКА: символ кінця файла у списку аргументів"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"перевищено обмеження на кількість рекурсій у %d, скористайтеся -L<N>, щоб "
+"змінити обмеження"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "не вдалося спорожнити тимчасовий файл для відхилення"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "не вдалося створити тимчасовий файл для відхилення"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "не вдалося виконати позиціювання у відхиленні"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "не вдалося закрити тимчасовий файл для відхилення"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "ПОМИЛКА: не вдалося спорожнити відхилення для тимчасового файла"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "ПОМИЛКА: копіюємо вставлений файл"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "помилка під час спроби читання вставленого файла"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "не вдалося статистично обробити відхилення"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "надто велике відхилення"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "не вдалося вивести повідомлення про помилку"

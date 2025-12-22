@@ -2,6 +2,7 @@
 include ${.TOPDIR}/build/avyos.defaults.inc
 
 SUBDIR += go
+SUBDIR += autoconf automake libtool m4
 SUBDIR += kernel-headers
 SUBDIR += gmp mpfr mpc
 SUBDIR += binutils gcc-static

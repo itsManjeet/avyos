@@ -1,0 +1,1358 @@
+# m4 的简体中文翻译。
+# This file is distributed under the same license as the m4 package.
+# Copyright (C) 2003, 2008 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+# Wang Li <charles@linux.net.cn>, 2003.
+# LI Daobing <lidaobing@gmail.com>, 2008.
+# Boyuan Yang <073plan@gmail.com>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4.18d\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2021-05-13 15:07-0400\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "无法找到临时目录，尝试设置 $TMPDIR"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "无法使用模板“%s”创建临时目录"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "无法移除临时目录 %s"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "关闭文件出错"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "写错误"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "程序错误"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "栈溢出"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "无法移除临时文件 %s"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "未知的系统错误"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s 子进程失败"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s：选项“%s%s”有歧义\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s：选项“%s%s”有歧义；可能原因："
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s：无法识别的选项“%s%s”\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s：选项“%s%s”不允许带参数\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s：选项“%s%s”需要一个参数\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s：无效选项 -- “%c”\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s：选项需要一个参数 -- “%c”\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "内存耗尽"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "无法记录当前工作目录"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "无法返回起始工作目录"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle 失败"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "无法恢复文件描述符 %d：dup2 失败"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "‘"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "’"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "成功"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "无匹配"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "无效的正规表达式"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "无效的 collation 字符"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "无效的字符类名"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "末尾的反斜线"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "无效的向后引用"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "[, [^, [:, [.或[= 不匹配"
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "不匹配的 ( 或 \\("
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "不匹配的 \\{"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "\\{\\} 的内容无效"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "无效的范围结束"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "内存耗尽"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "无效的前置正规表达式"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "不完整的正规表达式"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "正规表达式过大"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "不匹配的 ) 或 \\)"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "没有上一个正规表达式"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "挂起"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "中断"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "退出"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "非法指令"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "追踪与中断点陷阱"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "已放弃"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "浮点数例外"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "已杀死"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "总线错误"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "段错误"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "断开的管道"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "闹钟"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "已终止"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "紧急的输入输出状态"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "停止（信号）"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "停止"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "继续"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "子进程已退出"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "停止 (tty 输入)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "停止 (tty 输出)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "I/O 可行"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "超出 CPU 时限"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "文件大小超出限制"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "虚拟计时器超时"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "测速评估用的计时器已过期"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "窗口已改变"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "用户定义信号 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "用户定义信号 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "EMT 陷阱"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "错误的系统调用"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "栈失效"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "信息请求"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "电源失效"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "资源丢失"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "无法创建管道"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "实时信号 %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "未知信号 %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "由 %s (%s) 打包\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "由 %s 打包\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"GPLv3+ 许可证: GNU 通用公共许可证第三版或更高版本 <%s>。\n"
+"这是自由软件: 您可自由更改并重新分发它。\n"
+"在法律所允许的范围内，不附带任何担保条款。\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "作者 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "作者 %s 和 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "作者 %s, %s 及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, 及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, %s, 及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, %s, %s, 及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, 及 %s。\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"作者 %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, 以及其他人。\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "请将错误报告给：%s。翻译问题请报告至 <i18n-zh@googlegroups.com>。\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "请将 %s 错误报告给: %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "%s 主页: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "GNU 软件的通用帮助: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "%s 子进程"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "%s 子进程收到了致命信号 %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "无法进行格式化输出"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence：错误的正规表达式“%s”：%s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr ""
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "警告：“%s”的定义包含序列“%s”"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "为宏“%s”检查 --warn-macro-sequence 时出错"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "警告：内置宏“%s”的参数不足"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr "警告：忽略内置宏“%s”的额外参数"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, fuzzy, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "内置宏“%s”的非数值参数"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, fuzzy, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "内置宏“%s”的非数值参数"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "在内置“%s”中忽略行首空白符号"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "在内置“%s”中探测到数值溢出"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "警告：%s：忽略无效的宏名称"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "未定义的宏“%s”"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "未定义的内置“%s”"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, fuzzy, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "%s: 不支持嵌套条件"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "警告：无法连接内置“%s”"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "无法运行命令“%s”"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "无法读取管道"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr ""
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "内置“%s”的负宽度"
+
+#: src/builtin.c:1294
+#, fuzzy, c-format
+msgid "error undiverting `%s'"
+msgstr "无法反转换 %s"
+
+#: src/builtin.c:1298
+#, fuzzy, c-format
+msgid "cannot undivert `%s'"
+msgstr "无法反转换 %s"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "无法打开“%s”"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s：无法创建临时文件“%s”"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "推荐使用 mkstemp 作为替代"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "退出状态码超出范围：“%d”"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "调试模式：错误的调试标志：“%s”"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "无法设置调试文件“%s”"
+
+#: src/builtin.c:2034
+#, fuzzy
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "警告：\\\\0 将消失，用 \\\\& 作为替代"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr ""
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr ""
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "错误的正规表达式“%s”：%s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "匹配正规表达式“%s”出错"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "错误的正规表达式“%s”：%s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "写入调试流出错"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "警告：推荐使用 == 而不是 = 作为相等操作符"
+
+#: src/eval.c:539
+#, fuzzy, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "求值错误的表达式 (缺少右括号)：%s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "求值中出现错误的表达式：%s"
+
+#: src/eval.c:549
+#, fuzzy, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "求值错误的表达式 (错误的输入)：%s"
+
+#: src/eval.c:554
+#, fuzzy, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "求值错误的表达式 (过多的输入)：%s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "求值中出现无效操作符：%s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "求值中出现除以零：%s"
+
+#: src/eval.c:567
+#, fuzzy, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "求值中按零取模：%s"
+
+#: src/eval.c:571
+#, fuzzy, c-format
+msgid "negative exponent in eval: %s"
+msgstr "求值错误的表达式：%s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr ""
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, fuzzy, c-format
+msgid "non-numeric argument %s"
+msgstr "%s 的非数值参数"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "已忽略行首空白字符"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "探测到数值溢出"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "警告：“%s”中无法识别的说明符"
+
+#: src/freeze.c:157
+#, fuzzy
+msgid "unable to create frozen state"
+msgstr "无法在服务器上创建进程"
+
+#: src/freeze.c:168
+#, fuzzy
+msgid "expecting line feed in frozen file"
+msgstr "在冻结文件中应为换行符"
+
+#: src/freeze.c:170
+#, fuzzy, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "在冻结文件中应为字符“%c”"
+
+#: src/freeze.c:216
+#, fuzzy
+msgid "integer overflow in frozen file"
+msgstr "整数溢出"
+
+#: src/freeze.c:258
+#, fuzzy
+msgid "premature end of frozen file"
+msgstr "不完整的冻结文件"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "无法打开 %s"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr ""
+
+#: src/freeze.c:298
+#, fuzzy
+msgid "ill-formed frozen file"
+msgstr "冻结文件的格式错误"
+
+#: src/freeze.c:387
+#, fuzzy
+msgid "unable to read frozen state"
+msgstr "无法释放参数"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "写错误"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "读取文件出错"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "警告：EOF 视为新行"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "错误：注释中的 EOF"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "错误：字符串中的 EOF"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "Rene' Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "尝试使用“%s --help”以获取更多信息。"
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "用法：%s [选项]... [文件]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"处理给定文件中的宏。如果未给定文件列表或“文件”为“-”，\n"
+"则从标准输入中读取。\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr "长选项的强制或可选参数对对应的短选项也是强制或可选的。\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"操作模式：\n"
+"      --help                   显示本帮助信息并退出\n"
+"      --version                输出版本信息并退出。\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr "  -W, --word-regexp=正规表达式      将“正规表达式”作为宏名的语法\n"
+
+#: src/m4.c:247
+#, fuzzy
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"\n"
+"预处理器特征：\n"
+"  -I, --include=目录           在此目录中搜索引入文件\n"
+"  -D, --define=名字[=值]       将“名字”的值定义为“值”或空\n"
+"  -U, --undefine=名字          删除内置宏“名字”\n"
+"  -s, --synclines              生成 “#line NO \"FILE\"” 行\n"
+
+#: src/m4.c:255
+#, fuzzy, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"\n"
+"限止控制：\n"
+"  -G, --traditional            关闭所有 GNU 扩展\n"
+"  -H, --hashsize=PRIME         设置符号搜索杂凑表的大小\n"
+"  -L, --nesting-limit=NUMBER   改变手工嵌套限制\n"
+
+#: src/m4.c:263
+#, fuzzy
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"\n"
+"冻结状态文件：\n"
+"  -F, --freeze-state=文件      在结束时在“文件”中生成冻结状态\n"
+"  -R, --reload-state=文件      在启动是从“文件”中重新装入冻结状态\n"
+
+#: src/m4.c:269
+#, fuzzy
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"\n"
+"调试：\n"
+"  -d, --debug=[标志]           设定调试级别 (无“标志”表示“aeq”)\n"
+"  -t, --trace=名字             在定义了“名字”的时候跟踪它\n"
+"  -l, --arglength=长度         限止宏跟踪大小\n"
+"  -o, --error-output=文件      重定向调试和跟踪输出\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "探测到内部错误：请将本问题报告至 <%s>"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "警告：“m4 -%c”可能在未来的版本中移除"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "警告：“m4 %s”已弃用"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "错误的调试标志：“%s”"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "警告：“m4 -e”已弃用，请使用“-i”作为替代"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr ""
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "错误：参数列表中出现 EOF"
+
+#: src/macro.c:338
+#, fuzzy, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr "错误：超出递归上限 %d，使用 -L<N> 以改变此上限"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+#, fuzzy
+msgid "cannot clean temporary file for diversion"
+msgstr "错误：无法为转换创建临时文件"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+#, fuzzy
+msgid "cannot create temporary file for diversion"
+msgstr "错误：无法为转换创建临时文件"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+#, fuzzy
+msgid "cannot seek within diversion"
+msgstr "无法获取转换的状态"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+#, fuzzy
+msgid "cannot close temporary file for diversion"
+msgstr "错误：无法为转换创建临时文件"
+
+#: src/output.c:484
+#, fuzzy
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "错误：无法将转换刷新到临时文件"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "错误：复制已插入的文件"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "读取已插入的文件出错"
+
+#: src/output.c:1018
+#, fuzzy
+msgid "cannot stat diversion"
+msgstr "无法获取转换的状态"
+
+#: src/output.c:1022
+#, fuzzy
+msgid "diversion too large"
+msgstr "转换过大"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "无法显示错误信息"
+
+#~ msgid "%s: option `%s' is ambiguous\n"
+#~ msgstr "%s：选项“%s”有二义性\n"
+
+#~ msgid "%s: option `--%s' doesn't allow an argument\n"
+#~ msgstr "%s：选项“--%s”不接受参数\n"
+
+#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
+#~ msgstr "%s：选项“%c%s”不接受参数\n"
+
+#~ msgid "%s: option `%s' requires an argument\n"
+#~ msgstr "%s：选项“%s”需要一个参数\n"
+
+#~ msgid "%s: unrecognized option `--%s'\n"
+#~ msgstr "%s：无法识别的选项“--%s”\n"
+
+#, fuzzy
+#~ msgid "%s: unrecognized option `%c%s'\n"
+#~ msgstr "%s：无法识别的选项“--%s”\n"
+
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s：非法的选项 -- %c\n"
+
+#~ msgid "%s: invalid option -- %c\n"
+#~ msgstr "%s：无效的选项 -- %c\n"
+
+#~ msgid "%s: option requires an argument -- %c\n"
+#~ msgstr "%s：选项需要一个参数 -- %c\n"
+
+#~ msgid "%s: option `-W %s' is ambiguous\n"
+#~ msgstr "%s：选项“-W %s”有二义性\n"
+
+#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
+#~ msgstr "%s：选项“-W %s”不接受参数\n"
+
+#~ msgid "Unmatched [ or [^"
+#~ msgstr "不匹配的 [ 或 [^"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in define_macro ()"
+#~ msgstr "内部错误：define_marco () 中错误的标记数据类型"
+
+#~ msgid "Undefined name %s"
+#~ msgstr "未定义的名称 %s"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table!"
+#~ msgstr "内部错误：在内置宏表中找不到内置宏！"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in m4_dumpdef ()"
+#~ msgstr "内部错误：m4_dumpdef () 中错误的标记数据类型"
+
+#, fuzzy
+#~ msgid "Undefined name `%s'"
+#~ msgstr "未定义的名称 %s"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in m4_defn ()"
+#~ msgstr "内部错误：m4_defn () 中的错误符号类型"
+
+#~ msgid "Radix in eval out of range (radix = %d)"
+#~ msgstr "求值中根超出范围 (根 = %d)"
+
+#~ msgid "Undefined syntax code %c"
+#~ msgstr "未定义的语法编码 %c"
+
+#~ msgid "Cannot open %s"
+#~ msgstr "无法打开 %s"
+
+#~ msgid "Cannot set error file: %s"
+#~ msgstr "无法设置错误文件：%s"
+
+#, fuzzy
+#~ msgid "Bad regular expression `%s': %s"
+#~ msgstr "错误的正规表达式“%s”：%s"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table! (trace_pre ())"
+#~ msgstr "内部错误：在内置宏表中找不到内置宏！(trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad token data type (trace_pre ())"
+#~ msgstr "内部错误：错误的标记数据类型 (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad error code in evaluate ()"
+#~ msgstr "内部错误：evaluate () 中错误的错误码"
+
+#~ msgid "INTERNAL ERROR: Bad comparison operator in cmp_term ()"
+#~ msgstr "内部错误：cmp_term () 中错误的比较操作"
+
+#~ msgid "INTERNAL ERROR: Bad shift operator in shift_term ()"
+#~ msgstr "内部错误：shift_term () 中错误的位移操作"
+
+#~ msgid "INTERNAL ERROR: Bad operator in mult_term ()"
+#~ msgstr "内部错误：mult_term () 中错误的操作"
+
+#~ msgid "INTERNAL ERROR: Built-in not found in builtin table!"
+#~ msgstr "内部错误：内置宏表中找不到内置宏！"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in freeze_one_symbol ()"
+#~ msgstr "内部错误：freeze_one_symbol () 中错误的标记数据类型"
+
+#~ msgid "`%s' from frozen file not found in builtin table!"
+#~ msgstr "在内置宏表中找不到来自冻结文件的“%s”！"
+
+#~ msgid "Input reverted to %s, line %d"
+#~ msgstr "输入退回到 %s 的第 %d 行"
+
+#~ msgid "Input read from %s"
+#~ msgstr "从 %s 中读取输入"
+
+#~ msgid "INTERNAL ERROR: Recursive push_string!"
+#~ msgstr "内部错误：递归地 push_string！"
+
+#~ msgid "INTERNAL ERROR: Bad call to init_macro_token ()"
+#~ msgstr "内部错误：错误地调用 init_macro_token ()"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in next_char ()"
+#~ msgstr "内部错误：next_char () 中输入栈出错"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in peek_input ()"
+#~ msgstr "内部错误：peek_input () 中输入栈出错"
+
+#~ msgid "NONE"
+#~ msgstr "无"
+
+#~ msgid "ERROR: Stack overflow.  (Infinite define recursion?)"
+#~ msgstr "错误：栈溢出。(无穷的定义递归？)"
+
+#~ msgid ""
+#~ "Mandatory or optional arguments to long options are mandatory or "
+#~ "optional\n"
+#~ "for short options too.\n"
+#~ "\n"
+#~ "Operation modes:\n"
+#~ "      --help                   display this help and exit\n"
+#~ "      --version                output version information and exit\n"
+#~ "  -e, --interactive            unbuffer output, ignore interrupts\n"
+#~ "  -E, --fatal-warnings         stop execution after first warning\n"
+#~ "  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+#~ "  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+#~ msgstr ""
+#~ "必须给出或可选的长选项对应的短选项同样是必须给出或可选的。\n"
+#~ "\n"
+#~ "操作模式：\n"
+#~ "      --help                   显示该求助信息并退出\n"
+#~ "      --version                输出版本信息并退出\n"
+#~ "  -e, --interactive            不缓冲输出，忽略中段\n"
+#~ "  -E, --fatal-warnings         在第一个警告后中止执行\n"
+#~ "  -Q, --quiet, --silent        关闭关于内置宏的某些警告\n"
+#~ "  -P, --prefix-builtins        为所有内置宏强制添加前缀“m4_”\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Dynamic loading features:\n"
+#~ "  -m, --module-directory=DIRECTORY  add DIRECTORY to the module search "
+#~ "path\n"
+#~ "  -M, --load-module=MODULE          load dynamic MODULE from M4MODPATH\n"
+#~ msgstr ""
+#~ "\n"
+#~ "动态加载特征：\n"
+#~ "  -m, --module-directory=目录       将“目录”添加到模块搜索路径中\n"
+#~ "  -M, --load-module=模块            从路径 M4MODPATH 中装入“模块”\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "FLAGS is any of:\n"
+#~ "  t   trace for all macro calls, not only traceon'ed\n"
+#~ "  a   show actual arguments\n"
+#~ "  e   show expansion\n"
+#~ "  q   quote values as necessary, with a or e flag\n"
+#~ "  c   show before collect, after collect and after call\n"
+#~ "  x   add a unique macro call id, useful with c flag\n"
+#~ "  f   say current input file name\n"
+#~ "  l   say current input line number\n"
+#~ "  p   show results of path searches\n"
+#~ "  i   show changes in input files\n"
+#~ "  V   shorthand for all of the above flags\n"
+#~ msgstr ""
+#~ "\n"
+#~ "“标志”是以下字符之一：\n"
+#~ "  t   跟踪所有的宏调用，而不仅仅是标为要跟踪的宏\n"
+#~ "  a   显示实际的参数\n"
+#~ "  e   显示扩展\n"
+#~ "  q   带 a 或 e 标志，按需要引用值\n"
+#~ "  c   在收集之前、收集之后和调用之后显示\n"
+#~ "  x   添加一个唯一的宏调用标识，使用 c 标志时有用\n"
+#~ "  f   输出当前输入文件名\n"
+#~ "  l   输出当前输入行行号\n"
+#~ "  p   显示路径搜索结果\n"
+#~ "  i   显示输入文件中的变化\n"
+#~ "  V   所有以上标志的缩写\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <bug-m4@gnu.org>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "将错误报告到 <bug-m4@gnu.org>。\n"
+
+#~ msgid "ERROR: failed to add search directory `%s'"
+#~ msgstr "错误：添加搜索目录“%s”失败"
+
+#~ msgid "ERROR: failed to add search directory `%s': %s"
+#~ msgstr "错误：添加搜索目录“%s”失败：%s"
+
+#~ msgid " (options:"
+#~ msgstr " (选项："
+
+#~ msgid "INTERNAL ERROR: Bad code in deferred arguments"
+#~ msgstr "内部错误：延迟参数中错误的代码"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_token ()"
+#~ msgstr "内部错误：expand_token () 中错误的标记类型"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_argument ()"
+#~ msgstr "内部错误：expand_argument () 中错误的标记类型"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in call_macro ()"
+#~ msgstr "内部错误：call_macro () 中错误的符号类型"
+
+#~ msgid "ERROR: failed to initialise modules: %s"
+#~ msgstr "错误：初始化模块失败：%s"
+
+#~ msgid "ERROR: cannot find module: `%s'"
+#~ msgstr "错误：无法找到模块：“%s”"
+
+#~ msgid "ERROR: cannot find module: `%s': %s"
+#~ msgstr "错误：无法找到模块：“%s”：%s"
+
+#~ msgid "ERROR: cannot close modules"
+#~ msgstr "错误：无法关闭模块"
+
+#~ msgid "ERROR: cannot cannot close modules: %s"
+#~ msgstr "错误：无法关闭模块：%s"
+
+#~ msgid "ERROR: cannot close module: `%s'"
+#~ msgstr "错误：无法关闭模块：“%s”"
+
+#~ msgid "ERROR: cannot cannot close module: `%s': %s"
+#~ msgstr "错误：无法关闭模块：“%s”：%s"
+
+#, fuzzy
+#~ msgid "ERROR: Cannot create temporary file for diversion"
+#~ msgstr "错误：无法为转换创建临时文件"
+
+#, fuzzy
+#~ msgid "ERROR: Reading inserted file"
+#~ msgstr "错误：复制已插入的文件"
+
+#~ msgid "Path search for `%s' found `%s'"
+#~ msgstr "搜索“%s”的路径找到“%s”"
+
+#~ msgid "VMEM limit exceeded?\n"
+#~ msgstr "超出 VMEM 限止？\n"
+
+#~ msgid ""
+#~ "Memory bounds violation detected (SIGSEGV).  Either a stack overflow\n"
+#~ "occurred, or there is a bug in "
+#~ msgstr ""
+#~ "检测到内存超界 (SIGSEGV)。\n"
+#~ "栈溢出或有 bug"
+
+#~ msgid ".  Check for possible infinite recursion.\n"
+#~ msgstr ".  检查可能的无限递归。\n"
+
+#~ msgid "INTERNAL ERROR: Illegal mode to symbol_lookup ()"
+#~ msgstr "内部错误：symbol_lookup () 的非法模式"
+
+#~ msgid "Name `%s' is unknown\n"
+#~ msgstr "名字“%s”是未知的\n"
