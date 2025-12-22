@@ -6,19 +6,19 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define to 1 if you have the `dup' function. */
+/* Define to 1 if you have the 'dup' function. */
 #undef HAVE_DUP
 
-/* Define to 1 if you have the `dup2' function. */
+/* Define to 1 if you have the 'dup2' function. */
 #undef HAVE_DUP2
 
-/* Define to 1 if you have the `getrusage' function. */
+/* Define to 1 if you have the 'getrusage' function. */
 #undef HAVE_GETRUSAGE
 
-/* Define to 1 if you have the `gettimeofday' function. */
+/* Define to 1 if you have the 'gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
-/* Define to 1 if the system has the type `intptr_t'. */
+/* Define to 1 if the system has the type 'intptr_t'. */
 #undef HAVE_INTPTR_T
 
 /* Define to 1 if you have the <inttypes.h> header file. */
@@ -27,13 +27,13 @@
 /* Library dl present */
 #undef HAVE_LIBDL
 
-/* Define to 1 if you have the `m' library (-lm). */
+/* Define to 1 if you have the 'm' library (-lm). */
 #undef HAVE_LIBM
 
-/* Define to 1 if you have the `localeconv' function. */
+/* Define to 1 if you have the 'localeconv' function. */
 #undef HAVE_LOCALECONV
 
-/* Define to 1 if you have the `setlocale' function. */
+/* Define to 1 if you have the 'setlocale' function. */
 #undef HAVE_SETLOCALE
 
 /* Define to 1 if you have the <stdint.h> header file. */
@@ -102,7 +102,7 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
@@ -110,12 +110,12 @@
 /* Version number of package */
 #undef VERSION
 
-/* Define to empty if `const' does not conform to ANSI C. */
+/* Define to empty if 'const' does not conform to ANSI C. */
 #undef const
 
 /* Define to the type of a signed integer type wide enough to hold a pointer,
    if such a type exists, and if the system does not define it. */
 #undef intptr_t
 
-/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* Define as 'unsigned int' if <stddef.h> doesn't define. */
 #undef size_t

@@ -1,0 +1,1129 @@
+# Bulgarian translation of m4 po-file.
+# Copyright (C) 2019, 2021, 2025 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+# Alexander Shopov <ash@kambanaria.org>, 2019, 2021, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4.19.60\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2025-04-13 17:37+0200\n"
+"Last-Translator: Alexander Shopov <ash@kambanaria.org>\n"
+"Language-Team: Bulgarian <dict@ludost.net>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr ""
+"липсва временна директория, пробвайте да укажете такава в променливата "
+"„TMPDIR“"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "не може да се създаде временна директория по шаблона „%s“"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "временната директория „%s“ не може да се изтрие"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "грешка при затваряне на файл"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "грешка при запис"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "програмна грешка"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "препълване на стека"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "временният файл „%s“ не може да се изтрие"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Неизвестна системна грешка"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "дъщерният процес „%s“ завърши неуспешно"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: опцията „%s%s“ не е еднозначна\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: опцията „%s%s“ не е еднозначна.  Възможности:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: непозната опция „%s%s“\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: опцията „%s%s“ се използва без аргументи\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: опцията „%s%s“ изисква аргумент\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: неправилна опция — „%c“\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: опцията изисква аргумент — „%c“\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "паметта е изчерпана"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "не може да се запише коя е текущата работна директория"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "не може да се върне към първоначалната работна директория"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "неуспешно изпълнение на „_open_osfhandle“"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr ""
+"файловият дескриптор %d не може да се възстанови: неуспешно изпълнение на "
+"функцията „dup2“"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "„"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "“"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Успех"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Няма съвпадения"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Неправилен регулярен израз"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Неправилен знак за подредба"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Неправилно име на клас знаци"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Самотна „\\“ накрая"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Неправилна препратка към съвпадение"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "„[“, „[^“, „[:“, „[.“ или „[=“ без еш"
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "„(“ или „\\(“ без еш"
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "„\\{“ без еш"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Неправилно съдържание в „\\{\\}“"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Неправилен край на диапазон"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Паметта свърши"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Предхождащият регулярен израз е неправилен"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Ранен край на регулярен израз"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Регулярният израз е прекалено голям"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "„)“ или „\\)“ без еш"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Няма предхождащ регулярен израз"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Затворено"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Прекъсване"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Излизане"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Незаконна инструкция"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Прихващане на трасиране/точка на прекъсване"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Прекъснат"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Изключение при плаваща запетая"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Безусловно прекъснат"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Грешка на адресната шина"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Нарушение на разделянето"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Прекъснат канал"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Будилник"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Прекратен"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Належащо вх./изх. обстоятелство"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Подтиснат (сигнал)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Подтиснат"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Продължен"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "Изход на подпроцес"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Подтиснат (въвеждане от терминал)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Подтиснат (извеждане на терминал)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "Възможен вход/изход"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "Превишено време за използване на ЦПУ"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "Надвишено ограничение за размер на файл"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "Изтекъл виртуален хронометър"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "Изтекъл хронометър за диагностика"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Прозорецът е променен"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Определен от потребителя сигнал 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Определен от потребителя сигнал 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "Прихващане на EMT"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Неправилно системно извикване"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Нарушен стек"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Заявка за състояние"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Спиране на захранването"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Загуба на ресурс"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "не може да се създаде програмен канал"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Сигнал %d при реално време"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Неизвестен сигнал %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "Пакетирано от %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "Пакетирано от %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Лиценз GPLv3+: GNU GPL — версия 3 или по-късна версия <%s>.\n"
+"Тази програма е свободен софтуер. Може да я променяте и/или "
+"разпространявате.\n"
+"Тя се разпространява БЕЗ НИКАКВИ ГАРАНЦИИ доколкото е позволено от закона.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Създадено от %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Създадено от %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Създадено от %s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s\n"
+"и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s, %s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s, %s, %s, %s\n"
+"и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Създадено от %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s и др.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr ""
+"Докладвайте грешки в програмата на адрес: %s\n"
+"Докладвайте грешки в превода на адрес: <dict@ludost.net>\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "Докладвайте грешки в „%s“ на адрес: %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Уеб страница на „%s“: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "Обща помощ за програмите на GNU: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "дъщерен процес „%s“"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "дъщерният процес „%s“ получи фатален сигнал %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "невъзможно форматиране на изхода"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence: неправилен регулярен израз: „%s“: „%s“"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr "отсичане на дефиницията на макроса „%s“ до INT_MAX байта"
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: дефиницията на „%s“ съдържа последователността „%s“"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "грешка при проверката на „--warn-macro-sequence“ за макроса „%s“"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: прекалено малко аргументи към вградената команда „%s“"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr ""
+"ПРЕДУПРЕЖДЕНИЕ: излишните аргументи към вградената команда „%s“ се прескачат"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "празен низ се счита за 0 във вградената команда „%s“"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "нечислов аргумент към вградената команда „%s“"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "празните знаци в началото се прескачат към вградената команда „%s“"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "числово препълване към вградената команда „%s“"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: неправилното име на макрос „%s“ се прескача"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "недефиниран макрос „%s“"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "недефинирана вградена команда „%s“"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "изисканата от замразения файл вградена команда „%s“ не се поддържа"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: вградената команда „%s“ не може да се прилепи"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "командата „%s“ не може да се изпълни"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "програмният канал не може да се прочете"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "основата %d на вградената команда „%s“ е извън диапазона"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "отрицателна широчина към вградената команда „%s“"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "грешка при прекратяване на отвеждането на „%s“"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "отвеждането на „%s“ не може да се прекрати"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "„%s“ не може да се отвори"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: не може да се създаде временен файл: „%s“"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "препоръчва се ползването на „mkstemp“ вместо това"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "изходният код е извън диапазона: %d"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Изчистване на грешки: неправилни флагове: „%s“"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "файлът за изчистване на грешки не може да се отвори: „%s“"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: „\\0“ ще изчезне, за замяна ползвайте „\\&“"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: подизраз %d липсва"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: „\\“ в края на заменящия израз се прескача"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "неправилен регулярен израз: „%s“: „%s“"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "грешка при напасване на регулярен израз: „%s“"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "неправилен регулярен израз: „%s“: „%s“"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "грешка при запис в потока за изчистване на грешки"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: използвайте „==“, а не „=“ като оператор за равенство"
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "неправилен израз за „eval“, липсва „)“: %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "неправилен израз в „eval“: „%s“"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "неправилен израз за „eval“, неправилен вход: „%s“"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "неправилен израз за „eval“, твърде дълъг вход: „%s“"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "грешен оператор „eval“: „%s“"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "деление на 0 за „eval“: „%s“"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "остатък при деление на 0 за „eval“: „%s“"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "отрицателна експонента в „eval“: „%s“"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "празен низ се счита за 0"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "нечислов аргумент: „%s“"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "празните знаци в началото се прескачат"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "числово препълване"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: непозната спецификация в „%s“"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "замразеното състояние не може да се създаде"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "очаква се нов ред в замразен файл"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "очаква се знак „%c“ в замразен файл"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "целочислено препълване в замразения файл"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "ранен край на замразен файл"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "„%s“ не може да се отвори"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr "максималната поддържана версия на замразен файл е 1, а не заявената %d"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr "сгрешен замразен файл, очаква се директива за версията му"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "сгрешен замразен файл"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "не може да се чете от замразеното състояние"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "грешка при четене"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "грешка при четене на файл"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: край на файл се обработва като нов ред"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "ГРЕШКА: край на файл в коментар"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "ГРЕШКА: край на файл в низ"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "René Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "За повече информация изпълнете „%s --help“."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Употреба: %s [ОПЦИЯ]… [ФАЙЛ]…\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"Обработка на макросите от тези ФАЙЛове.  Ако ФАЙЛ няма или е „-“, се чете "
+"от\n"
+"стандартния вход.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Аргументите, които са задължителни за дългите опции, са задължителни и за "
+"късите\n"
+"варианти.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"Режим на работа:\n"
+"      --help               извеждане на тази помощ и изход\n"
+"      --version            извеждане на информация за версията и изход\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings     еднократно: предупрежденията стават грешки,\n"
+"                           двукратно: спиране на изпълнението след\n"
+"                           първото предупреждение\n"
+"  -i, --interactive        без буфериране на изхода, пренебрегване\n"
+"                           на прекъсванията\n"
+"  -P, --prefix-builtins    добавяне на префикс `m4_' към всички вградени "
+"команди\n"
+"  -Q, --quiet, --silent    без някои от предупрежденията за вградените "
+"команди\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=РЕГ_ИЗР]\n"
+"                           предупреждение, ако дефиницията на макрос напасва "
+"с\n"
+"                           този РЕГулярен_ИЗРаз.  Стандартно: %s\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=Р_ИЗР  използване на този Регулярен_ИЗРаз за синтаксиса "
+"на\n"
+"                           името на макроса\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"Препроцесор:\n"
+"  -D, --define=ИМЕ[=СТОЙНОСТ]\n"
+"                           задаване на тази СТОЙНОСТ (или празна такава) на\n"
+"                           това ИМЕ\n"
+"  -I, --include=ДИРЕКТОРИЯ\n"
+"                           добавяне на тази ДИРЕКТОРИЯ към пътя с обекти за\n"
+"                           вмъкване\n"
+"  -s, --synclines          генериране на редове „#line № \"FILE\"“\n"
+"  -U, --undefine=ИМЕ       изтриване на вграденото ИМЕ\n"
+
+#: src/m4.c:255
+#, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"#Ограничаване:\n"
+"  -g, --gnu                наново включване на разширенията на GNU (с "
+"превес\n"
+"                           над „-G“)\n"
+"  -G, --traditional        изключване на всички разширения на GNU\n"
+"  -H, --hashsize=РАЗМЕР    РАЗМЕР на речника за символи [%d]\n"
+"  -L, --nesting-limit=ЧИСЛО\n"
+"                           смяна на ограничението за влагане до това ЧИСЛО "
+"пъти,\n"
+"                           0 — ограничението се изключва [%d]\n"
+
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"Замразени файлове:\n"
+"  -F, --freeze-state=ФАЙЛ  създаване на замразен ФАЙЛ за състоянието\n"
+"                           в края на работата\n"
+"  -R, --reload-state=ФАЙЛ  изчитане на състоянието от замразен ФАЙЛ\n"
+"                           в началото на работата\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"Изчистване на грешки:\n"
+"  -d, --debug=[ФЛАГОВЕ]    ниво за изчистване на грешки, без флагове е "
+"„aeq“\n"
+"      --debugfile[=ФАЙЛ]   извеждане на информацията за изчистване на грешки "
+"в\n"
+"                           този ФАЙЛ (обичайно е стандартната грешка, "
+"прескача\n"
+"                           се при празен аргумент)\n"
+"  -l, --arglength=РАЗМЕР   ограничаване на размера за изчистване на грешки "
+"на\n"
+"                           макроси\n"
+"  -t, --trace=ИМЕ          трасиране на ИМЕто при дефинирането му\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+"ФЛАГОВЕТЕ са измежду:\n"
+"  a   извеждане на аргументите\n"
+"  c   извеждане преди сбиране, след сбиране и след извикване\n"
+"  e   извеждане на заместванията\n"
+"  f   извеждане на текущия входен файл\n"
+"  i   промените във входните файлове\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   извеждане на текущия номер на ред\n"
+"  p   резултати от търсенията в пътя\n"
+"  q   цитиране на стойностите при необходимост при флаг „a“ или „e“\n"
+"  t   трасиране на всички извиквания на макроси\n"
+"  x   уникален идентификатор при извикване на макрос, полезно при флаг „c“\n"
+"  V   всичко по-горе\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"Ако е дефинирана, променливата на средата „M4PATH“ е списък от директории,\n"
+"разделени с „:“, които се добавят след директориите зададени с опция „-I“.\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"Изходният код е 0 при успех, 1 при грешка, 63 при неочаквана версия на\n"
+"замразения файл или стойността подадена на макроса за изход „m4exit“.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "засечена е вътрешна грешка, молим — докладвайте я на адрес: <%s>"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: опцията „m4 -%c“ може да бъде махната в бъдеща версия"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: опцията „m4 -%s“ е остаряла"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "неправилни флагове за изчистване на грешки: „%s“"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: опцията „m4 -e“ е остаряла, ползвайте „m4 -i“"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "стандартна грешка"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "ГРЕШКА: край на файл в списък с аргументи"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"преминато е ограничението за рекурсия до %d пъти.  Може да го промените с „-"
+"L<N>“"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "не може да се създаде временен файл за отвеждане"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "не може да се създаде временен файл за отвеждане"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "не може да се получи търси със „seek“ в отвеждането"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "не може да се затвори временен файл за отвеждане"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr ""
+"ГРЕШКА: буферите за отвеждането във временен файл не може да се изчистят"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "ГРЕШКА: копиране на вмъкнат файл"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "грешка при четене на вмъкнат файл"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "не може да се получи информация със „stat“ за отвеждането"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "отвеждането е твърде дълго"

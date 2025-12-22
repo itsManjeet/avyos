@@ -1,0 +1,1098 @@
+# Korean translation of the GNU m4 package.
+# Copyright (C) 2021 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2021, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GNU m4 1.4.19.60\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2025-04-14 13:08+0900\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
+"Language-Team: Korean <translation-team-ko@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 3.6\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "임시 디렉터리를 찾을 수 없습니다. $TMPDIR 변수를 설정해보십시오"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "\"%s\" 양식으로 임시 디렉터리를 만들 수 없습니다"
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "%s 임시 디렉터리를 제거할 수 없습니다"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "파일 닫는 중 오류"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "쓰기 오류"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "프로그램 오류"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "스택 넘침"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "%s 임시 파일을 제거할 수 없습니다"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "알 수 없는 시스템 오류"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s 하위 프로세스 처리 실패"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: '%s%s' 옵션이 모호합니다\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: '%s%s' 옵션이 모호합니다. 가능한 옵션:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: 인식할 수 없는 '%s%s' 옵션\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: '%s%s' 옵션은 인자를 허용하지 않습니다\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: '%s%s' 옵션에 인자가 필요합니다\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: 부적절한 옵션 -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: 옵션에 인자가 필요합니다 -- '%c'\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "메모리가 바닥남"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "현재 작업 디렉터리를 기록할 수 없습니다"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "초기 작업 디렉터리로 되돌아갈 수 없습니다"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle 실패"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "파일 서술자 %d번을 복원할 수 없음: dup2 실패"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "`"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "'"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "성공"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "일치하지 않음"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "부적절한 정규 표현식"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "부적절한 조합 문자"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "부적절한 문자 클래스 이름"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "백 슬래시 문자가 따라옴"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "잘못된 후위 참조"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "일치하지 않는 [, [^, [:, [., [="
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "일치하지 않는 ( 또는 \\( 괄호"
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "일치하지 않는 \\{ 괄호"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "부적절한 \\{\\} 내용"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "부적절한 범위 끝"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "메모리가 바닥남"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "부적절한 선행 정규 표현식"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "정규 표현식 마감 표현이 앞서있습니다"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "정규 표현식이 너무 깁니다"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "일치하지 않는 ) 또는 \\) 괄호"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "이전 정규 표현식이 없습니다"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "끊어짐"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "인터럽트"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "나감"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "잘못된 인스트럭션"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "추적/중단점 트랩"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "중지함"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "부동 소숫점 예외"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "강제 종료함"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "버스 오류"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "세그먼테이션 오류"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "파이프 깨짐"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "알림 시계"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "중단함"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "긴급 입출력 상태"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "중단함 (시그널)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "중단함"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "계속함"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "하위 프로세스 나감"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "중단함 (tty 입력)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "중단함 (tty 출력)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "입출력 가능"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "CPU 시간 제한 초과"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "파일 크기 제한 초과"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "가상 타이머 초과"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "프로파일 타이머 초과"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "윈도우 전환함"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "사용자 지정 시그널 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "사용자 지정 시그널 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "EMT 트랩"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "잘못된 시스템 호출"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "스택 실패"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "정보 요청"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "전원 고장"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "자원 분실"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "파이프를 만들 수 없습니다"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "실시간 시그널 %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "알 수 없는 시그널 %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "%s(%s)(으)로 패키지 구성함\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "%s(으)로 패키지 구성함\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"GPLv3+ 라이선스: GNU GPL 버전 3 이상 <%s>.\n"
+"이 프로그램은 자유 소프트웨어입니다: 자유롭게 바꾸고 재배포할 수 있습니다.\n"
+"법률이 허용하는 모든 범위내의 보증은 없습니다.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "%s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "%s, %s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "%s, %s, %s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"%s, %s, %s,\n"
+"%s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"%s, %s, %s, %s,\n"
+"%s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"%s, %s, %s, %s,\n"
+"%s, %s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"%s, %s, %s, %s,\n"
+"%s, %s, %s이(가)\n"
+"작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"%s, %s,%s, %s,\n"
+"%s, %s, %s, %s\n"
+"이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"%s, %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s이(가) 작성함.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"%s, %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s 등이 작성함.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "버그 보고 주소: %s\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "%s 버그 보고 주소: %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "%s 홈페이지: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "GNU 소프트웨어 활용 일반 도움말: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "%s 하위 프로세스"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "%s 하위 프로세스에 치명적인 시그널 %d번이 나타났습니다"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "포매팅 출력을 수행할 수 없습니다"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence: 잘못된 정규 표현식 `%s': %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr "`%s' 매크로 정의를 INT_MAX 바이트 만큼 자릅니다"
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "경고: `%s' 정의에 `%s' 시퀀스가 있습니다"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "`%s' 매크로의 --warn-macro-sequence 검사 중 오류"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "경고: `%s' 내장 요소의 인자가 너무 적습니다"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr "경고: `%s' 내장요소의 갯수 초과 인자를 무시했습니다"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "`%s' 내장 요소의 빈 문자열을 0값으로 취급합니다"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "`%s' 내장 요소에 비 숫자 인자값이 있습니다"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "`%s' 내장 요소에 뒤따라오는 공백 문자를 무시했습니다"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "`%s' 내장 요소에 숫자값 넘침을 감지했습니다"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "경고: %s: 부적절한 매크로 이름을 무시했습니다"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "정의하지 않은 매크로 `%s'"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "정의하지 않은 내장요소 `%s'"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "`%s' 내장 요소를 지원하지 않는 프리징 파일에서 요청했습니다"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "경고: `%s' 내장요소를 결합할 수 없습니다"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "`%s' 명령을 실행할 수 없습니다"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "파이프를 읽을 수 없습니다"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "`%2$s' 내장 요소의 기수 %1$d 번이 범위를 벗어났습니다"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "`%s' 내장 요소에 음수 너비 값"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "`%s' 우회 취소 오류"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "`%s'을(를) 우회 취소할 수 없습니다"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "`%s'을(를) 열 수 없습니다"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: `%s' 임시 파일을 만들 수 없습니다"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "대신 mkstamp 활용을 추천합니다"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "종료 코드 상태 값이 범위를 벗어났습니다: `%d'"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "디버깅모드: 잘못된 디버깅 플래그: `%s'"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "`%s' 디버깅 파일을 지정할 수 없습니다"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "경고: \\0를 없앱니다, 대용으로 \\&를 대신 활용하십시오"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "경고: %d 하위 표현식이 없습니다"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "경고: 뒤따라오는 문자를 \\ 대체 요소에서 무시했습니다"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "잘못된 정규 표현식: `%s': %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "`%s' 정규 표현식 일치 오류"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "잘못된 정규 표현식 `%s': %s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "디버깅 스트림 기록 오류"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "경고: 등호 연산자에 = 이 아닌 == 을 추천합니다"
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "수식에 잘못된 표현식 (우측 괄호 빠짐): %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "수식에 잘못된 표현식: %s"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "수식에 잘못된 표현식 (잘못된 입력): %s"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "수식에 잘못된 표현식 (입력양 초과): %s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "수식에 부적절한 연산자: %s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "수식에서 0 나누기 오류: %s"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "수식에 0 나누기 나머지 오류: %s"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "수식에 음수 지수: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "빈 문자열을 0 값으로 취급합니다"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "비 숫자 인자값 %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "뒤 따라오는 공백문자 무시"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "숫자값 넘침을 발견했습니다"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "경고: `%s'에서 인식하지 못한 지정자"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "프리징 상태를 만들 수 없습니다"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "프리징 파일에 라인 피드가 필요합니다"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "프리징 파일에 `%c' 문자가 필요합니다"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "프리징 파일에 정수 넘침"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "프리징 파일이 너무 빨리 끝났습니다"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "%s을(를) 열 수 없습니다"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr "프리징 파일 버전 %d번이 지원 버전 1보다 큽니다"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr "잘못 구성한 프리징 파일. 버전 지시문이 필요합니다"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "잘못 구성한 프리징 파일"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "프리징 상태를 읽을 수 없습니다"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "읽기 오류"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "파일 읽는 중 오류"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "경고: 파일 끝을 개행 문자로 처리합니다"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "오류: 설명에 파일 끝 문자"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "오류: 문자열에 파일 끝 문자"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "Rene' Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "자세한 정보는 `%s --help'를 입력하십시오."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "사용법: %s [<옵션>]... [<파일>]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"<파일>에 매크로를 처리합니다.  <파일>이 없거나 <파일>이 `-' 값이면\n"
+"표준 입력을 읽습니다.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"긴 옵션의 필수 또는 선택 인자 값은 관련 단축 옵션에 대해서도\n"
+"필수 또는 선택입니다.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"처리 모드:\n"
+"      --help                   이 도움말을 표시하고 나갑니다\n"
+"      --version                버전 정보를 출력하고 나갑니다\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings         한번: 오류에 대해 경고, 두번: 처음\n"
+"                                 오류가 발생하면 실행 중단\n"
+"  -i, --interactive            언버퍼 출력, 인터럽트 무시\n"
+"  -P, --prefix-builtins        모든 내장 요소에 대해 `m4_' 접두어 강제\n"
+"  -Q, --quiet, --silent        내장 요소에 대한 일부 경고 메시지를 숨깁니다\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=<정규식>]\n"
+"                               매크로 정의가 <정규식>과 일치하면 경고.\n"
+"                                 기본값: %s\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr "  -W, --word-regexp=<정규식>     매크로 이름 문법에 <정규식> 활용\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"전처리 기능:\n"
+"  -D, --define=<이름>[=<값>]   <값>을 가진 <이름>을 지정하거나 값을 비워둡니"
+"다\n"
+"  -I, --include=<디렉터리>     경로를 넣은 <디렉터리>를 추가합니다\n"
+"  -s, --synclines              `#line <숫자> \"<파일>\"' 행 추가\n"
+"  -U, --undefine=<이름>        <이름> 정의 해제\n"
+
+#: src/m4.c:255
+#, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"한계 제어:\n"
+"  -g, --gnu                    -G 대신 적용하여 GNU 확장을 재적용\n"
+"  -G, --traditional            모든 GNU 확장을 숨깁니다\n"
+"  -H, --hashsize=<소수>        심볼 탐색 해시 테이블 크기 설정 [%d]\n"
+"  -L, --nesting-limit=<숫자>   중첩 한계를 바꿉니다. 0 값은 무제한을 의미 "
+"[%d]\n"
+
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"프리징 상태 파일:\n"
+"  -F, --freeze-state=<파일>      <파일> 마지막 부분에 프리징 상태를 만들어"
+"냄\n"
+"  -R, --reload-state=<파일>      <파일> 시작 부분에 프리징 상태를 다시 불러"
+"옴\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"디버깅:\n"
+"  -d, --debug[=<플래그>]          디버깅 수준 설정 (<플래그>가 겂다면  `aeq' "
+"생략)\n"
+"      --debugfile[=<파일>]       디버깅 및 추적 정보 출력을 <파일>로 내보냅니"
+"다\n"
+"                                 (기본값: stderr, 빈 문자열이면 무시)\n"
+"  -l, --arglength=<숫자>          매크로 추적 크기 제한\n"
+"  -t, --trace=<이름>             <이름>을 지정하면 해당 이름을 추적\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr "<플래그>는 다음 중 하나입니다\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   현재 입력 행 번호 출력\n"
+"  p   경로 검색 결과 표시\n"
+"  q   필요할 경우 값에 e 플래그를 붙여 따옴표 표시\n"
+"  t   traceon 상태 뿐만 아닌 모든 매크로 호출 추적\n"
+"  x   c 플래그를 붙여 단일 매크로 호출 ID 추가\n"
+"  V   위 모든 플래그를 짧게 줄임\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"지정했을 경우, `M4PATH' 환경 변수는 `-I'로 지정한 값 다음에 붙을 콜론 분리 \n"
+"디렉터리 목록 입니다.\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"종료 상태 코드 0은 성공, 1은 실패, 63은 프리징 파일 버전 불일치, 그리고 기타 "
+"코드는 m4exit 매크로에 전달한 값입니다.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "내부 에러 발견. <%s>에 버그를 보고하십시오"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "경고: `m4 -%c' 옵션은 다음 릴리스에서 제거 예정입니다"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "경고: `m4 %s' 옵션이 오래됐습니다"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "잘못된 디버깅 플래그: `%s'"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "경고: `m4 -e' 옵션이 오래되었으니 `-i'를 대신 사용하십시오"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "stderr"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "오류: 인자 목록에 파일 끝 문자"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr "재귀 한계 단계 %d 번 초과. 바꾸려면 -L<N> 옵션을 사용하십시오"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "우회 임시 파일을 지울 수 없습니다"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "우회 임시 파일을 만들 수 없습니다"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "우회 값 범위를 탐색할 수 없습니다"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "우회용 임시 파일을 닫을 수 없습니다"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "오류: 임시 파일에 우회 값을 플러싱할 수 없습니다"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "오류: 추가 파일 복사 중"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "추가 파일 읽기 오류"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "우회 상태 정보를 가져올 수 없습니다"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "우회 값이 너무 큽니다"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "오류 메시지를 표시할 수 없습니다"

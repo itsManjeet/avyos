@@ -1,0 +1,41 @@
+dnl @ ../doc/m4.texi:4745: Origin of test
+dnl @ expected status: 0
+dnl @ extra options: 
+dnl @ Copyright (C) 2006, 2007, 2008, 2009 Free Software
+dnl @ Foundation, Inc.
+dnl @ This file is free software; the Free Software Foundation
+dnl @ gives unlimited permission to copy and/or distribute it
+dnl @ with or without modifications, as long as this notice
+dnl @ is preserved.
+ifdef(`changeword', `', `errprint(` skipping: no changeword support
+')m4exit(`77')')dnl
+define(`abc
+', `bar
+')
+dnl @result{}
+dnl This example wants to recognize changeword, dnl, and `abc\n'.
+dnl First, we check that our regexp will match.
+regexp(`changeword', `[cd][a-z]*\|abc[
+]')
+dnl @result{}0
+regexp(`abc
+', `[cd][a-z]*\|abc[
+]')
+dnl @result{}0
+regexp(`a', `[cd][a-z]*\|abc[
+]')
+dnl @result{}-1
+abc
+dnl @result{}abc
+changeword(`[cd][a-z]*\|abc[
+]')
+dnl @result{}
+dnl Even though `abc\n' matches, we forgot to allow `ab'.
+abc
+dnl @result{}abc
+changeword(`[cd][a-z]*\|ab?c?[
+]?')
+dnl @result{}
+dnl Now we can call `abc\n'.
+abc
+dnl @result{}bar

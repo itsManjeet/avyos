@@ -1,0 +1,1435 @@
+# Spanish translation of m4 1.4.18d package
+# Copyright (C) 2018, 2022 Free Software Foundation, Inc.
+# This file is distributed under the same license as the m4 package.
+# Francisco Javier Serrador <fserrador@gmail.com>, 2018.
+# Cristian Othón Martínez Vera <cfuga@cfuga.mx>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4.18d\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2022-04-06 17:29-0500\n"
+"Last-Translator: Cristian Othón Martínez Vera <cfuga@cfuga.mx>\n"
+"Language-Team: Spanish <es@tp.org.es>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/clean-temp.c:235
+#, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr ""
+"no se puede encontrar un directorio temporal, pruebe definiendo $TMPDIR"
+
+#: lib/clean-temp.c:250
+#, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "no se puede crear un directorio temporal usando la plantilla \"%s\""
+
+#: lib/clean-temp.c:371
+#, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "no se puede borrar el directorio temporal %s"
+
+#: lib/closein.c:99
+msgid "error closing file"
+msgstr "error al cerrar el fichero"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "error de escritura"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "error de programa"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "desbordamiento de pila"
+
+#: lib/clean-temp-simple.c:270
+#, c-format
+msgid "cannot remove temporary file %s"
+msgstr "no se puede borrar el fichero temporal %s"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Error del sistema desconocido"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, c-format
+msgid "%s subprocess failed"
+msgstr "falló el subproceso %s"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: la opción «%s%s» es ambigua\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: la opción '%s%s' es ambigua; posibilidades:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: no se reconoce la opción '%s%s'\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: la opción '%s%s' no admite ningún argumento\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: la opción '%s%s' requiere un argumento\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: opción inválida -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: la opción requiere un argumento -- '%c'\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "memoria agotada"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "no se puede registrar el directorio de trabajo actual"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "falló al volver al directorio de trabajo inicial"
+
+#: lib/os2-spawn.c:51
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "falló _open_osfhandle"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "no se puede restaurar el df %d: falló dup2"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "«"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "»"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Correcto"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Sin coincidencia"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Expresión regular inválida"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Carácter de ordenamiento inválido"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Carácter de nombre de clase inválido"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Diagonal invertida al final"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Referencia anterior inválida"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "[, [^, [:, [., o [= sin pareja"
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "( o \\( sin pareja"
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "\\{ sin pareja"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Contenido inválido de \\{\\}"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Final de rango inválido"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Memoria agotada"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Expresión regular precedente inválida"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Final prematuro de expresión regular"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Expresión regular demasiado grande"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr ") o \\) sin pareja"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Sin expresión regular previa"
+
+#  Habrá que mirar esto
+#  Mirado, efectivamente esto es una señal que habrá
+#  que dejarla con su nombre original ( entre paréntesis )
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Colgar (hangup)"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Interrupción"
+
+# Podría ser también "Abandonar" sv
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Abandona"
+
+# Se trata de una instrucción ilegal en el juego de instrucciones del 486
+# que provoca una "excepción".
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Instrucción ilegal"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "`trap' para punto de parada/seguimiento"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Abortado"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Excepción de coma flotante"
+
+#  A quien se le ocurra `matar' un proceso, que especifique con qué señal.
+#  En todo caso ` Terminado ( KILL ) ' sería apropiado. Ver fuentes
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Terminado (killed)"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Error del bus"
+
+# ¿De "segmento", o de "segmentación"? sv
+# De segmentación me parece incorrecto. La memoria ya estaba
+#  segmentada, y se intentó acceder a un segmento
+#  que no pertenece al programa. em
+# ¿Entonces dirías que está mal el original inglés? sv
+#  No, en inglés siempre se ha dicho así. Siempre he traducido
+#  Segmentation fault como violación de segmento. Consultémoslo,
+#  es un mensaje que se ve demasiado a menudo em
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Violación de segmento"
+
+#  Vi traducido pipe como tubo en un libro sobre pc/dos, y me horrorizó
+#  menos mal que venía siempre la palabra `pipe' al lado entrecomillada
+#
+# Este mensaje sale ahora cada vez que pulsas "q" cuando haces por ejemplo
+# cat loquesea | less
+# Sale *muy a menudo* y estoy harto, así que lo borro que ya está bien. sv
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Tubería rota"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Temporizador"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Terminado"
+
+#  ?? sigo pensando en una traducción para condición
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Condición urgente de E/S"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Parado (por una señal)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Parado"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Continúa"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "El proceso hijo terminó"
+
+# Perdonad que sea tan largo, pero es algo que nunca está de más
+# Creo que mejora al original ;)
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Parado (requiere entrada de terminal)"
+
+# Perdonad que sea tan largo, pero es algo que nunca está de más
+# Creo que mejora al original ;)
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Parado (requiere salida por terminal)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "Operación de E/S permitida"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "Rebasado el límite de tiempo de CPU"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "Superado el límite de tamaño de fichero"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "El temporizador virtual llegó al final"
+
+# ¿No habría que traducir profile? sv
+# Miré los fuentes, y la última documentación de Glibc
+# No se me ocurre traducción para profile ( así se llamaba
+# en los viejos apple al disco duro de 5 Megas ) em
+# Pero esto no tiene nada que ver, ¿no?
+# "Profiling" es ejecutar un programa midiendo qué partes de él consumen
+# más tiempo. Creo recordar que esto tenía nombre en español, pero no
+# me acuerdo de cuál. sv
+# Gracias por la explicación, sé que era algo referente
+#  al trace o debug de un programa. Miro a la alemana.
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "El tiempo de CPU expiró"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "La ventana ha cambiado"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Señal definida por el usuario 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Señal definida por el usuario 2"
+
+#  ???, siempre lo he usado como trap, nunca encontramos la palabra
+#  y es una señal estándar Unix, así que no creo conveniente traducirla
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "`trap' de EMT"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Llamada al sistema errónea"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Fallo en la pila"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Petición de información"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Fallo de alimentación"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Recurso perdido"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, c-format
+msgid "cannot create pipe"
+msgstr "no se puede crear la tubería"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Señal de tiempo real %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Señal desconocida %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "Empaquetado por %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "Empaquetado por %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Licencia GPLv3+: GPL de GNU versión 3 o posterior <%s>.\n"
+"Esto es software libre: usted es libre de cambiarlo y redistribuirlo.\n"
+"No hay NINGUNA GARANTÍA, hasta donde permite la ley.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Escrito por %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Escrito por %s y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Escrito por %s, %s, y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, y %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, y otros.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "Comunicar errores a: %s\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "Comunicar errores sobre %s a: %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Página inicial de %s: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "Ayuda general sobre el uso de software de GNU: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, c-format
+msgid "%s subprocess"
+msgstr "subproceso %s"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "el subproceso %s recibió la señal fatal %d"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+msgid "cannot perform formatted output"
+msgstr "no se puede generar la salida con formato"
+
+#: src/builtin.c:264
+#, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "--warn-macro-sequence : expresión regular «%s» errónea: %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr ""
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr "Aviso: la definición de `%s' contiene la secuencia `%s'"
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr "error al verificar --warn-macro-sequence para la macro `%s'"
+
+#: src/builtin.c:401
+#, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "Aviso: faltan argumentos para la orden interna «%s»"
+
+#: src/builtin.c:407
+#, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr ""
+"Aviso: se descartan los argumentos sobrantes para la orden interna «%s»"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "la cadena vacía se trata como 0 en la orden interna «%s»"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "argumento no numérico para la orden interna «%s»"
+
+#: src/builtin.c:444
+#, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "se descarta el espacio en blanco inicial en la orden interna «%s»"
+
+#: src/builtin.c:448
+#, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "se detectó un desbordamiento numérico en la orden interna «%s»"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "Aviso: %s: se descarta el nombre de macro inválido"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, c-format
+msgid "undefined macro `%s'"
+msgstr "macro «%s» sin definir"
+
+#: src/builtin.c:836
+#, c-format
+msgid "undefined builtin `%s'"
+msgstr "orden interna «%s» sin definir"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "no se admite la orden interna `%s' solicitada por el fichero congelado"
+
+#: src/builtin.c:932
+#, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "Aviso: no se puede concatenar la orden interna «%s»"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, c-format
+msgid "cannot run command `%s'"
+msgstr "no se puede ejecutar la orden «%s»"
+
+#: src/builtin.c:1089
+msgid "cannot read pipe"
+msgstr "no se puede leer la tubería"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr "el radical %d en la orden interna `%s' está fuera de rango"
+
+#: src/builtin.c:1149
+#, c-format
+msgid "negative width to builtin `%s'"
+msgstr "anchura negativa para la orden interna `%s'"
+
+#: src/builtin.c:1294
+#, c-format
+msgid "error undiverting `%s'"
+msgstr "error al desdivertir `%s'"
+
+#: src/builtin.c:1298
+#, c-format
+msgid "cannot undivert `%s'"
+msgstr "no se puede desdivertir `%s'"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "no se puede abrir `%s'"
+
+#: src/builtin.c:1471
+#, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "%s: no se puede crear el fichero temporal `%s'"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr "se recomienda usar en su lugar mkstemp"
+
+#: src/builtin.c:1600
+#, c-format
+msgid "exit status out of range: `%d'"
+msgstr "estado de salida fuera de rango: `%d'"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Modo depurable: opciones de depuración erróneas: «%s»"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, c-format
+msgid "cannot set debug file `%s'"
+msgstr "no se puede establece el fichero de depuración `%s'"
+
+#: src/builtin.c:2034
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "Aviso: \\0 desaparecerá, emplee \\& en su lugar en reubicaciones"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr "Aviso: la subexpresión %d no está presente"
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr "Aviso: se descarta \\ al final en el reemplazo"
+
+#: src/builtin.c:2132
+#, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "expresión regular errónea: «%s»: %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, c-format
+msgid "error matching regular expression `%s'"
+msgstr "error al coincidir la expresión regular «%s»"
+
+#: src/builtin.c:2192 src/input.c:795
+#, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "expresión regular «%s» errónea: %s"
+
+#: src/debug.c:136 src/debug.c:157
+msgid "error writing to debug stream"
+msgstr "error al escribir en el flujo de depuración"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr "Aviso: se recomienda ==, no = como operador de igualdad"
+
+#: src/eval.c:539
+#, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "expresión errónea en evaluación (falta el paréntesis derecho): %s"
+
+#: src/eval.c:544
+#, c-format
+msgid "bad expression in eval: %s"
+msgstr "expresión errónea en evaluación: %s"
+
+#: src/eval.c:549
+#, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "expresión errónea en evaluación (entrada errónea): %s"
+
+#: src/eval.c:554
+#, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "expresión errónea en evaluación (entrada excesiva): %s"
+
+#: src/eval.c:558
+#, c-format
+msgid "invalid operator in eval: %s"
+msgstr "operador inválido en evaluación: %s"
+
+#: src/eval.c:563
+#, c-format
+msgid "divide by zero in eval: %s"
+msgstr "división entre cero en evaluación: %s"
+
+#: src/eval.c:567
+#, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "módulo entre cero en evaluación: %s"
+
+#: src/eval.c:571
+#, c-format
+msgid "negative exponent in eval: %s"
+msgstr "exponente negativo en evaluación: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr "la cadena vacía se trata como 0"
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, c-format
+msgid "non-numeric argument %s"
+msgstr "argumento no numérico a %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr "se descarta el espacio en blanco inicial"
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+msgid "numeric overflow detected"
+msgstr "se detectó un desbordamiento numérico"
+
+#: src/format.c:309
+#, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "Aviso: no se reconoce el especificador en `%s'"
+
+#: src/freeze.c:157
+msgid "unable to create frozen state"
+msgstr "no se puede crear el estado congelado"
+
+#: src/freeze.c:168
+msgid "expecting line feed in frozen file"
+msgstr "se esperaba línea alimentada en el fichero congelado"
+
+#: src/freeze.c:170
+#, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "se esperaba el carácter `%c' en el fichero congelado"
+
+#: src/freeze.c:216
+msgid "integer overflow in frozen file"
+msgstr "desbordamiento entero en el fichero congelado"
+
+#: src/freeze.c:258
+msgid "premature end of frozen file"
+msgstr "fin prematuro del fichero congelado"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "no se puede abrir %s"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+"la versión %d del fichero congelado es mayor que el valor admitido de 1"
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr "fichero congelado mal formado, se esperaba una directiva de versión"
+
+#: src/freeze.c:298
+msgid "ill-formed frozen file"
+msgstr "fichero congelado mal formado"
+
+#: src/freeze.c:387
+msgid "unable to read frozen state"
+msgstr "no se puede leer el estado congelado"
+
+#: src/input.c:359
+msgid "read error"
+msgstr "error de lectura"
+
+#: src/input.c:366
+msgid "error reading file"
+msgstr "error al leer el fichero"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr "Aviso: el final de fichero se trata como línea nueva"
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr "ERROR: fin de fichero en un comentario"
+
+#: src/input.c:1023
+msgid "ERROR: end of file in string"
+msgstr "ERROR: fin de fichero en una cadena"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr "René Seindal"
+
+#: src/m4.c:207
+#, c-format
+msgid "Try `%s --help' for more information."
+msgstr "Pruebe `%s --help' para obtener más información."
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Modo de empleo: %s [OPCIÓN]... [FICHERO]...\n"
+
+#: src/m4.c:214
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"Procesa macros en FICHEROs. Si no hay FICHERO o si el FICHERO es `-', se lee "
+"la entrada estándar.\n"
+
+#: src/m4.c:219
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Los argumentos obligatorios u opcionales para las opciones largas son\n"
+"también obligatorios u opcionales para las opciones cortas "
+"correspondientes.\n"
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+"Modos de operación:\n"
+"      --help                   muestra esta ayuda y termina\n"
+"      --version                muestra la información de versión y termina\n"
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+"  -E, --fatal-warnings         una vez: los avisos se convierten en "
+"errores,\n"
+"                               dos veces: detiene la ejecución al primer "
+"error\n"
+"  -i, --interactive            salida sin búfer, ignora las interrupciones\n"
+"  -P, --prefix-builtins        fuerza un prefijo `m4_' para todas las "
+"órdenes internas\n"
+"  -Q, --quiet, --silent        suprime algunos avisos para las órdenes "
+"internas\n"
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+"      --warn-macro-sequence[=EXPREG]\n"
+"                               avisa si la definición de macro coincide con\n"
+"                                 EXPREG, por defecto %s\n"
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=EXPREG     utiliza EXPREG para sintaxis de nombre de "
+"macro\n"
+
+#: src/m4.c:247
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"Características del preprocesador:\n"
+"  -D, --define=NOMBRE[=VALOR]   define el NOMBRE con un VALOR, o vacío\n"
+"  -I, --include=DIRECTORIO      agrega el DIRECTORIO a la ruta de inclusión\n"
+"  -s, --synclines               genera líneas `#líne NÚMERO \"FICHERO\"'\n"
+"  -U, --undefine=NOMBRE         borra el NOMBRE\n"
+
+#: src/m4.c:255
+#, fuzzy, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"Control de límites:\n"
+"  -g, --gnu                    desactiva -G para reactivar las extensiones "
+"GNU\n"
+"  -G, --tradicional            suprime todas las extensiones de GNU\n"
+"  -H, --hashsize=PRIMO         establece el tamaño de la tabla de "
+"dispersión\n"
+"                               para la búsqueda de símbolos [509]\n"
+"  -L, --nesting-limit=NÚMERO   cambia límite de anidación, 0 para ilimitado "
+"[%d]\n"
+
+#: src/m4.c:263
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"Ficheros de estado congelado:\n"
+"  -F, --freeze-state=FICHERO   produce un estado congelado en el FICHERO al "
+"final\n"
+"  -R, --reload-state=FICHERO   recarga un estado congelado del FICHERO al "
+"inicio\n"
+
+#: src/m4.c:269
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"Depuración:\n"
+"  -d, --debug[=OPCIONES]       establece el nivel de depuración\n"
+"                                (sin OPCIONES implica `aeq')\n"
+"      --debugfile[=FICHERO]    redirige la salida de depuración y rastreo\n"
+"                                 al FICHERO (por defecto stderr, se "
+"descarta\n"
+"                                 si es una cadena vacía)\n"
+"  -l, --arglength=NÚMERO       restringe el tamaño de rastreo de macros\n"
+"  -t, --trace=NOMBRE           rastrea el NOMBRE cuando está definido\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+"OPCIONES es una de:\n"
+"  a   muestra los argumentos actuales\n"
+"  c   muestra antes de colectar, después de colectar y después de llamar\n"
+"  e   muestra la expansión\n"
+"  f   dice el nombre del fichero de entrada actual\n"
+"  i   muestra cambios en los ficheros de entrada\n"
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+"  l   dice el número de línea de entrada actual\n"
+"  p   muestra resultados de búsquedas de ruta\n"
+"  q   pone los valores entre comillas si es necesario, con una opción a o e\n"
+"  t   rastrea todas las llamadas de macro, no solamente las rastreadas\n"
+"  x   agrega un id de llamada único por macro, útil con la opción c\n"
+"  V   abreviatura para todas las opciones anteriores\n"
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+"Si se define, la variable de ambiente `M4PATH' es una lista de directorios\n"
+"separada por dos puntos a incluir después de cualquiera especificado con `-"
+"I'.\n"
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+"El estado de salida es 0 en caso de éxito, 1 cuando falla, 63 para\n"
+"una versión de fichero congelado que no coincide, o cualquier valor que\n"
+"se pase a la macro m4exit.\n"
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr "se detectó un error interno; por favor reporte este error a <%s>"
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr "aviso: `m4 -%c' se eliminará en una versión futura"
+
+#: src/m4.c:504
+#, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr "aviso: `m4 %s es obsoleto"
+
+#: src/m4.c:580
+#, c-format
+msgid "bad debug flags: `%s'"
+msgstr "opciones de depuración erróneas: «%s»"
+
+#: src/m4.c:586
+#, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr "aviso: `m4 -e' es obsoleto; utilice `-i' en su lugar"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr "error estándar"
+
+#: src/macro.c:199
+msgid "ERROR: end of file in argument list"
+msgstr "ERROR: find de fichero en la lista de argumentos"
+
+#: src/macro.c:338
+#, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr "se excedió el límite de recursión de %d, use -L<N> para modificarlo"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+msgid "cannot clean temporary file for diversion"
+msgstr "no se puede limpiar el fichero temporar para diversión"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+msgid "cannot create temporary file for diversion"
+msgstr "no se puede crear el fichero temporal para diversión"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+msgid "cannot seek within diversion"
+msgstr "no se puede buscar dentro de la diversión"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+msgid "cannot close temporary file for diversion"
+msgstr "no se puede cerrar el fichero temporal para la diversión"
+
+#: src/output.c:484
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "ERROR: no se puede vaciar diversión a fichero temporal"
+
+#: src/output.c:579
+msgid "ERROR: copying inserted file"
+msgstr "ERROR: se copia el fichero insertado"
+
+#: src/output.c:851
+msgid "error reading inserted file"
+msgstr "error al leer el fichero insertado"
+
+#: src/output.c:1018
+msgid "cannot stat diversion"
+msgstr "no puede ejecutar stat sobre el fichero de diversión"
+
+#: src/output.c:1022
+msgid "diversion too large"
+msgstr "la diversión es demasiado grande"
+
+#, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "no se puede mostrar el mensaje de error"
+
+#~ msgid "%s: option `%s' is ambiguous\n"
+#~ msgstr "%s: opción `-W %s' es ambigua\n"
+
+#~ msgid "%s: option `--%s' doesn't allow an argument\n"
+#~ msgstr "%s: opción --%s no permite un argumento\n"
+
+#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
+#~ msgstr "%s: opción «%c%s» no admite un argumento\n"
+
+#~ msgid "%s: option `%s' requires an argument\n"
+#~ msgstr "%s: opción «%s» precisa un argumento\n"
+
+#~ msgid "%s: unrecognized option `--%s'\n"
+#~ msgstr "%s: opción desconocida `--%s'\n"
+
+#, fuzzy
+#~ msgid "%s: unrecognized option `%c%s'\n"
+#~ msgstr "%s: opción desconocida `--%s'\n"
+
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s: opción ilegal -- %c\n"
+
+#~ msgid "%s: invalid option -- %c\n"
+#~ msgstr "%s: opción no válida -- %c\n"
+
+#~ msgid "%s: option requires an argument -- %c\n"
+#~ msgstr "%s: opción requiere un argumento -- %c\n"
+
+#~ msgid "%s: option `-W %s' is ambiguous\n"
+#~ msgstr "%s: opción `-W %s' es ambigua\n"
+
+#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
+#~ msgstr "%s: opción `-W %s' no permite un argumento\n"
+
+#, fuzzy
+#~ msgid "Unmatched [ or [^"
+#~ msgstr "Sin pareja ( o \\("
+
+#~ msgid "INTERNAL ERROR: Bad token data type in define_macro ()"
+#~ msgstr "ERROR INTERNO: Tipo de marca equivocada en define_macro()"
+
+#~ msgid "Undefined name %s"
+#~ msgstr "Nombre %s sin definir"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table!"
+#~ msgstr "ERROR INTERNO: ¡Compilación no encontrada en tabla compilada!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in m4_dumpdef ()"
+#~ msgstr "ERROR INTERNO: Tipo de marca equivocada en in m4_dumpdef ()"
+
+#, fuzzy
+#~ msgid "Undefined name `%s'"
+#~ msgstr "Nombre %s sin definir"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in m4_defn ()"
+#~ msgstr ""
+#~ "ERROR INTERNO: tipo simbólico equivocado dentro de llamada m4_defn ()"
+
+#~ msgid "Radix in eval out of range (radix = %d)"
+#~ msgstr "Radio en evaluación fuera de rango (radio = %d)"
+
+#~ msgid "Undefined syntax code %c"
+#~ msgstr "Código sintáctico indefinido %c"
+
+#~ msgid "Cannot open %s"
+#~ msgstr "No puede abrir %s"
+
+#~ msgid "Cannot set error file: %s"
+#~ msgstr "No puede establecer fichero de error: %s"
+
+#, fuzzy
+#~ msgid "Bad regular expression `%s': %s"
+#~ msgstr "Expresión regular equivocada «%s»: %s"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table! (trace_pre ())"
+#~ msgstr ""
+#~ "ERROR INTERNO: ¡Compilación no encontrada en tabla compilada! (trace_pre "
+#~ "())"
+
+#~ msgid "INTERNAL ERROR: Bad token data type (trace_pre ())"
+#~ msgstr "ERROR INTERNO: Tipo de datos equivocados (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad error code in evaluate ()"
+#~ msgstr ""
+#~ "ERROR INTERNO: código de error equivocado dentro de evaluación evaluate ()"
+
+#~ msgid "INTERNAL ERROR: Bad comparison operator in cmp_term ()"
+#~ msgstr "ERROR INTERNO: comparación de operador equivocada en cmp_term ()"
+
+#~ msgid "INTERNAL ERROR: Bad shift operator in shift_term ()"
+#~ msgstr "ERROR INTERNO: operador mayúsculo equivocado en shift_term ()"
+
+#~ msgid "INTERNAL ERROR: Bad operator in mult_term ()"
+#~ msgstr "ERROR INTERNO: operador equivocado en mult_term ()"
+
+#~ msgid "INTERNAL ERROR: Built-in not found in builtin table!"
+#~ msgstr "ERROR INTERNO: ¡Compilación interna no encontrada en tabla interna!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in freeze_one_symbol ()"
+#~ msgstr "ERROR INTERNO: Tipo de marca equivocada en freeze_one_symbol ()"
+
+#~ msgid "`%s' from frozen file not found in builtin table!"
+#~ msgstr ""
+#~ "¡«%s» desde fichero congelado no encontrado en distribución interna!"
+
+#~ msgid "Input reverted to %s, line %d"
+#~ msgstr "Entrada revertida a %s, línea %d"
+
+#~ msgid "Input read from %s"
+#~ msgstr "Entrada leída desde %s"
+
+#~ msgid "INTERNAL ERROR: Recursive push_string!"
+#~ msgstr "ERROR INTERNO: ¡ función push_string recursiva!"
+
+#~ msgid "INTERNAL ERROR: Bad call to init_macro_token ()"
+#~ msgstr "ERROR INTERNO: llamada equivocada a llamada init_macro_token ()"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in next_char ()"
+#~ msgstr "ERROR INTERNO: pila entrante chapucera en next_char ()"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in peek_input ()"
+#~ msgstr "ERROR INTERNO: pila entrante chapucera en peek_input ()"
+
+#~ msgid "NONE"
+#~ msgstr "NINGUNO"
+
+#~ msgid "ERROR: Stack overflow.  (Infinite define recursion?)"
+#~ msgstr ""
+#~ "ERROR: desbordamiento superior de pila.  (¿Infinito define recursión?)"
+
+#~ msgid ""
+#~ "Mandatory or optional arguments to long options are mandatory or "
+#~ "optional\n"
+#~ "for short options too.\n"
+#~ "\n"
+#~ "Operation modes:\n"
+#~ "      --help                   display this help and exit\n"
+#~ "      --version                output version information and exit\n"
+#~ "  -e, --interactive            unbuffer output, ignore interrupts\n"
+#~ "  -E, --fatal-warnings         stop execution after first warning\n"
+#~ "  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+#~ "  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+#~ msgstr ""
+#~ "Argumento mandatorio u opcional para opciones largas son mandatorios u "
+#~ "opcionales para\n"
+#~ "opciones cortas también.\n"
+#~ "\n"
+#~ "Modos de operación:\n"
+#~ "        --help\t\t\tenseña esta ayuda y sale\n"
+#~ "        --version\t\tsaca información de versión y sale\n"
+#~ "   -e,  --interactive\t\tquitar búfer por salida, ignora interrupciones\n"
+#~ "   -E,  --fatal-warnings\tdetiene ejecución tras la primera advertencia\n"
+#~ "   -Q,  --quiet,  --silent      supereme algunos avisos para compilación\n"
+#~ "   -P,  --prefix-building       fuerza un prefijo `m4_' para todas las "
+#~ "compilaciones\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Dynamic loading features:\n"
+#~ "  -m, --module-directory=DIRECTORY  add DIRECTORY to the module search "
+#~ "path\n"
+#~ "  -M, --load-module=MODULE          load dynamic MODULE from M4MODPATH\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Cargando características dinámicas:\n"
+#~ "  -m, --module-direction=DIRECTORIO  añade DIRECTORIO a la ruta de "
+#~ "búsqueda modulada\n"
+#~ "  -M, --load-module=MODULO             carga dinámicamente MÓDULO desde "
+#~ "M4MODPATH\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "FLAGS is any of:\n"
+#~ "  t   trace for all macro calls, not only traceon'ed\n"
+#~ "  a   show actual arguments\n"
+#~ "  e   show expansion\n"
+#~ "  q   quote values as necessary, with a or e flag\n"
+#~ "  c   show before collect, after collect and after call\n"
+#~ "  x   add a unique macro call id, useful with c flag\n"
+#~ "  f   say current input file name\n"
+#~ "  l   say current input line number\n"
+#~ "  p   show results of path searches\n"
+#~ "  i   show changes in input files\n"
+#~ "  V   shorthand for all of the above flags\n"
+#~ msgstr ""
+#~ "\n"
+#~ "MARCAS es cualquiera de:\n"
+#~ "  t  traza para todas llamadas macro, no solo trazadas\n"
+#~ "  a  muestra argumento actual\n"
+#~ "  e  muestra expansión\n"
+#~ "  q  entrecomilla valores tal como necesario, con marca ‘a’ o ‘e’\n"
+#~ "  c  muestra antes que recogerm tras recoger y después de llamar\n"
+#~ "  x  añade una llamada de id macro único, útil con marcas c\n"
+#~ "  f  dice el nombre del fichero de entrada actual\n"
+#~ "  l  dice el número de línea de entrada actual\n"
+#~ "  p  muestra resultados de ruta buscadas\n"
+#~ "  i  muestra modificaciones en ficheros entrantes\n"
+#~ "  V  muñeca para todas las marcas de arriba\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <bug-m4@gnu.org>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Envíe defectos a <bug-m4@gnu.org>.\n"
+
+#~ msgid "ERROR: failed to add search directory `%s'"
+#~ msgstr "ERROR: fallada para añadir directorio de búsqueda «%s»"
+
+#~ msgid "ERROR: failed to add search directory `%s': %s"
+#~ msgstr "ERROR: fallada para añadir directorio de búsqueda «%s»: %s"
+
+#~ msgid " (options:"
+#~ msgstr " (opciones:"
+
+#~ msgid "INTERNAL ERROR: Bad code in deferred arguments"
+#~ msgstr "ERROR INTERNO: código equivocado dentro de argumentos diferidos"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_token ()"
+#~ msgstr "ERROR INTERNO: Tipo de marca equivocada en función expand_token ()"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_argument ()"
+#~ msgstr "ERROR INTERNO: marca equivocado en expand_argument ()"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in call_macro ()"
+#~ msgstr ""
+#~ "ERROR INTERNO: tipo simbólico equivocado dentro de llamada call_macro ()"
+
+#~ msgid "ERROR: failed to initialise modules: %s"
+#~ msgstr "ERROR: fallado al inicializar módulos: %s"
+
+#~ msgid "ERROR: cannot find module: `%s'"
+#~ msgstr "ERROR: no puede encontrar módulo: «%s»"
+
+#~ msgid "ERROR: cannot find module: `%s': %s"
+#~ msgstr "ERROR: no puede encontrar módulo «%s»: %s"
+
+#~ msgid "ERROR: cannot close modules"
+#~ msgstr "ERROR: no puede cerrar módulos"
+
+#~ msgid "ERROR: cannot cannot close modules: %s"
+#~ msgstr "ERROR: no puede cerrar módulos: %s"
+
+#~ msgid "ERROR: cannot close module: `%s'"
+#~ msgstr "ERROR: no puede cerrar un módulo: «%s»"
+
+#~ msgid "ERROR: cannot cannot close module: `%s': %s"
+#~ msgstr "ERROR: no puede instalar el módulo: «%s»: %s"
+
+#, fuzzy
+#~ msgid "ERROR: Cannot create temporary file for diversion"
+#~ msgstr "ERROR: no puede crear temporalmente un fichero de diversión"
+
+#, fuzzy
+#~ msgid "ERROR: Reading inserted file"
+#~ msgstr "ERROR: copiando fichero insertado"
+
+#~ msgid "Path search for `%s' found `%s'"
+#~ msgstr "Ruta de búsqueda para «%s» encontrada «%s»"
+
+#~ msgid "VMEM limit exceeded?\n"
+#~ msgstr "¿Límite VMEM excedido?\n"
+
+#~ msgid ""
+#~ "Memory bounds violation detected (SIGSEGV).  Either a stack overflow\n"
+#~ "occurred, or there is a bug in "
+#~ msgstr ""
+#~ "Detectada violación de límite de memoria (SIGSEGV).  O un sobredes-\n"
+#~ "bordamiento de pila ocurrido, o hay un defecto en "
+
+#~ msgid ".  Check for possible infinite recursion.\n"
+#~ msgstr ".  Comprobar posible recursión infinita.\n"
+
+#~ msgid "INTERNAL ERROR: Illegal mode to symbol_lookup ()"
+#~ msgstr "ERROR INTERNO: modo ilegal a función simbólica symbol_lookup ()"
+
+#~ msgid "Name `%s' is unknown\n"
+#~ msgstr "Nombre «%s» es desconocido\n"

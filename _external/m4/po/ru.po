@@ -1,0 +1,1388 @@
+# Локализация m4-1.4n
+# Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+# Denis Perchine <dyp@perchine.com>, 1997, 1998, 1999, 2000, 2001, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: m4 1.4o\n"
+"Report-Msgid-Bugs-To: bug-m4@gnu.org\n"
+"POT-Creation-Date: 2025-05-10 07:55-0500\n"
+"PO-Revision-Date: 2002-01-07 20:32GMT+06\n"
+"Last-Translator: Denis Perchine <dyp@perchine.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: KBabel 0.9.5\n"
+
+#: lib/clean-temp.c:235
+#, fuzzy, c-format
+msgid "cannot find a temporary directory, try setting $TMPDIR"
+msgstr "невозможно создать временный файл: %s"
+
+#: lib/clean-temp.c:250
+#, fuzzy, c-format
+msgid "cannot create a temporary directory using template \"%s\""
+msgstr "невозможно создать временный файл: %s"
+
+#: lib/clean-temp.c:371
+#, fuzzy, c-format
+msgid "cannot remove temporary directory %s"
+msgstr "невозможно создать временный файл: %s"
+
+#: lib/closein.c:99
+#, fuzzy
+msgid "error closing file"
+msgstr "ошибка при закрытии выходного файла"
+
+#: lib/closeout.c:121
+msgid "write error"
+msgstr "ошибка записи"
+
+#: lib/c-stack.c:190
+msgid "program error"
+msgstr "ошибка программы"
+
+#: lib/c-stack.c:191
+msgid "stack overflow"
+msgstr "переполнение стека"
+
+#: lib/clean-temp-simple.c:270
+#, fuzzy, c-format
+msgid "cannot remove temporary file %s"
+msgstr "невозможно создать временный файл: %s"
+
+#: lib/error.c:208
+msgid "Unknown system error"
+msgstr "Неизвестная системная ошибка"
+
+#: lib/execute.c:377 lib/spawn-pipe.c:599 lib/wait-process.c:326
+#: lib/wait-process.c:400
+#, fuzzy, c-format
+msgid "%s subprocess failed"
+msgstr "cap_set_proc завершился неудачно"
+
+#: lib/getopt.c:282
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: двусмысленный параметр «%s%s»\n"
+
+#: lib/getopt.c:288
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: двусмысленный параметр «%s%s»; возможные варианты:"
+
+#: lib/getopt.c:322
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: нераспознанный параметр «%s%s»\n"
+
+#: lib/getopt.c:348
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: для параметра «%s%s» нельзя использовать аргумент\n"
+
+#: lib/getopt.c:363
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: для параметра «%s%s» требуется аргумент\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: неверный параметр «%c»\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: параметру требуется аргумент «%c»\n"
+
+#: lib/obstack.c:357 lib/obstack.c:359 lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "память исчерпана"
+
+#: lib/openat-die.c:38
+msgid "unable to record current working directory"
+msgstr "не удалось запомнить текущий рабочий каталог"
+
+#: lib/openat-die.c:57
+msgid "failed to return to initial working directory"
+msgstr "не удалось вернуться в начальный рабочий каталог"
+
+#: lib/os2-spawn.c:51
+#, fuzzy, c-format
+msgid "_open_osfhandle failed"
+msgstr "считывание заголовка ELF завершилось неудачно"
+
+#: lib/os2-spawn.c:88
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr ""
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: lib/quotearg.c:354
+msgid "`"
+msgstr "«"
+
+#: lib/quotearg.c:355
+msgid "'"
+msgstr "»"
+
+#: lib/regcomp.c:122
+msgid "Success"
+msgstr "Успех"
+
+#: lib/regcomp.c:125
+msgid "No match"
+msgstr "Совпадений нет"
+
+#: lib/regcomp.c:128
+msgid "Invalid regular expression"
+msgstr "Неверное регулярное выражение"
+
+#: lib/regcomp.c:131
+msgid "Invalid collation character"
+msgstr "Неверный символ сравнения"
+
+#: lib/regcomp.c:134
+msgid "Invalid character class name"
+msgstr "Неверное имя класса символов"
+
+#: lib/regcomp.c:137
+msgid "Trailing backslash"
+msgstr "Обратный слэш в конце"
+
+#: lib/regcomp.c:140
+msgid "Invalid back reference"
+msgstr "Неверная ссылка назад"
+
+#: lib/regcomp.c:143
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "Непарная [, [^, [:, [. или [="
+
+#: lib/regcomp.c:146
+msgid "Unmatched ( or \\("
+msgstr "Не закрывающей ( или \\("
+
+#: lib/regcomp.c:149
+msgid "Unmatched \\{"
+msgstr "Нет закрывающей \\{"
+
+#: lib/regcomp.c:152
+msgid "Invalid content of \\{\\}"
+msgstr "Неверное содержание \\{\\}"
+
+#: lib/regcomp.c:155
+msgid "Invalid range end"
+msgstr "Неверный конец интервала"
+
+#: lib/regcomp.c:158
+msgid "Memory exhausted"
+msgstr "Память исчерпана"
+
+#: lib/regcomp.c:161
+msgid "Invalid preceding regular expression"
+msgstr "Неверное предшедствующее регулярное выражение"
+
+#: lib/regcomp.c:164
+msgid "Premature end of regular expression"
+msgstr "Неожиданный конец предшедствующего регулярного выражения"
+
+#: lib/regcomp.c:167
+msgid "Regular expression too big"
+msgstr "Регулярное выражение слишком велико"
+
+#: lib/regcomp.c:170
+msgid "Unmatched ) or \\)"
+msgstr "Не открытая ) или \\)"
+
+#: lib/regcomp.c:650
+msgid "No previous regular expression"
+msgstr "Нет предшедствующего регулярного выражения"
+
+#: lib/siglist.h:31
+msgid "Hangup"
+msgstr "Обрыв терминальной линии"
+
+#: lib/siglist.h:34
+msgid "Interrupt"
+msgstr "Прерывание"
+
+#: lib/siglist.h:37
+msgid "Quit"
+msgstr "Выход"
+
+#: lib/siglist.h:40
+msgid "Illegal instruction"
+msgstr "Недопустимая инструкция"
+
+#: lib/siglist.h:43
+msgid "Trace/breakpoint trap"
+msgstr "Ловушка трассировки/останова"
+
+#: lib/siglist.h:46
+msgid "Aborted"
+msgstr "Аварийный останов"
+
+#: lib/siglist.h:49
+msgid "Floating point exception"
+msgstr "Исключение в операции с плавающей точкой"
+
+#: lib/siglist.h:52
+msgid "Killed"
+msgstr "Убито"
+
+#: lib/siglist.h:55
+msgid "Bus error"
+msgstr "Ошибка шины"
+
+#: lib/siglist.h:58
+msgid "Segmentation fault"
+msgstr "Ошибка сегментирования"
+
+#: lib/siglist.h:61
+msgid "Broken pipe"
+msgstr "Обрыв канала"
+
+#: lib/siglist.h:64
+msgid "Alarm clock"
+msgstr "Сигнал таймера"
+
+#: lib/siglist.h:67
+msgid "Terminated"
+msgstr "Завершено"
+
+#: lib/siglist.h:70
+msgid "Urgent I/O condition"
+msgstr "Ситуация срочного ввода/вывода"
+
+#: lib/siglist.h:73
+msgid "Stopped (signal)"
+msgstr "Остановлено (сигнал)"
+
+#: lib/siglist.h:76
+msgid "Stopped"
+msgstr "Остановлено"
+
+#: lib/siglist.h:79
+msgid "Continued"
+msgstr "Продолжено"
+
+#: lib/siglist.h:82
+msgid "Child exited"
+msgstr "Дочерний процесс завершился"
+
+#: lib/siglist.h:85
+msgid "Stopped (tty input)"
+msgstr "Остановлено (ввод с терминала)"
+
+#: lib/siglist.h:88
+msgid "Stopped (tty output)"
+msgstr "Остановлено (вывод на терминал)"
+
+#: lib/siglist.h:91
+msgid "I/O possible"
+msgstr "Возможен ввод/вывод"
+
+#: lib/siglist.h:94
+msgid "CPU time limit exceeded"
+msgstr "Превышен лимит процессорного времени"
+
+#: lib/siglist.h:97
+msgid "File size limit exceeded"
+msgstr "Превышен лимит размера файла"
+
+#: lib/siglist.h:100
+msgid "Virtual timer expired"
+msgstr "Виртуальный таймер истек"
+
+#: lib/siglist.h:103
+msgid "Profiling timer expired"
+msgstr "Профилировочный таймер истек"
+
+#: lib/siglist.h:106
+msgid "Window changed"
+msgstr "Окно изменилось"
+
+#: lib/siglist.h:109
+msgid "User defined signal 1"
+msgstr "Определяемый пользователем сигнал 1"
+
+#: lib/siglist.h:112
+msgid "User defined signal 2"
+msgstr "Определяемый пользователем сигнал 2"
+
+#: lib/siglist.h:117
+msgid "EMT trap"
+msgstr "Ловушка EMT"
+
+#: lib/siglist.h:120
+msgid "Bad system call"
+msgstr "Неверный системный вызов"
+
+#: lib/siglist.h:123
+msgid "Stack fault"
+msgstr "Ошибка стека"
+
+#: lib/siglist.h:126
+msgid "Information request"
+msgstr "Запрос информации"
+
+#: lib/siglist.h:128
+msgid "Power failure"
+msgstr "Сбой питания"
+
+#: lib/siglist.h:131
+msgid "Resource lost"
+msgstr "Потеря ресурса"
+
+#: lib/spawn-pipe.c:218 lib/spawn-pipe.c:221
+#, fuzzy, c-format
+msgid "cannot create pipe"
+msgstr "невозможно создать список областей"
+
+#: lib/strsignal.c:114
+#, c-format
+msgid "Real-time signal %d"
+msgstr "Сигнал реального времени %d"
+
+#: lib/strsignal.c:118
+#, c-format
+msgid "Unknown signal %d"
+msgstr "Неизвестный сигнал %d"
+
+#: lib/version-etc.c:73
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr "Упакован %s (%s)\n"
+
+#: lib/version-etc.c:76
+#, c-format
+msgid "Packaged by %s\n"
+msgstr "Упакован %s\n"
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: lib/version-etc.c:83
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: The %s placeholder is the web address of the GPL license.
+#: lib/version-etc.c:88
+#, c-format
+msgid ""
+"License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+msgstr ""
+"Лицензия GPLv3+: GNU GPL версии 3 или новее <%s>.\n"
+"Это свободное ПО: вы можете изменять и распространять его.\n"
+"Нет НИКАКИХ ГАРАНТИЙ в пределах действующего законодательства.\n"
+
+#. TRANSLATORS: %s denotes an author name.
+#: lib/version-etc.c:105
+#, c-format
+msgid "Written by %s.\n"
+msgstr "Автор программы — %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:109
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr "Авторы программы — %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: lib/version-etc.c:113
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr "Авторы программы — %s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:120
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s\n"
+"и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:127
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:134
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:142
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s, %s, %s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:150
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s, %s, %s, %s\n"
+"и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:159
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s и %s.\n"
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: lib/version-etc.c:170
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+"Авторы программы — %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s и другие.\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: lib/version-etc.c:249
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "Об ошибках сообщайте по адресу: %s\n"
+
+#: lib/version-etc.c:251
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr "Об ошибках в %s сообщайте по адресу %s\n"
+
+#: lib/version-etc.c:255 lib/version-etc.c:257
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Домашняя страница %s: <%s>\n"
+
+#: lib/version-etc.c:260
+#, c-format
+msgid "General help using GNU software: <%s>\n"
+msgstr "Справка по работе с программами GNU: <%s>\n"
+
+#: lib/wait-process.c:267 lib/wait-process.c:299 lib/wait-process.c:361
+#, fuzzy, c-format
+msgid "%s subprocess"
+msgstr "Нет такого процесса"
+
+#: lib/wait-process.c:318 lib/wait-process.c:390
+#, fuzzy, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "%s: препроцессор Си завершился не успешно с сигналом %d\n"
+
+#: lib/xprintf.c:48 lib/xprintf.c:70
+#, fuzzy
+msgid "cannot perform formatted output"
+msgstr "невозможно сгенерировать выходной файл"
+
+#: src/builtin.c:264
+#, fuzzy, c-format
+msgid "--warn-macro-sequence: bad regular expression `%s': %s"
+msgstr "Неверное регулярное выражение: '%s': %s"
+
+#: src/builtin.c:298
+#, c-format
+msgid "truncating macro `%s' definition to INT_MAX bytes"
+msgstr ""
+
+#: src/builtin.c:333
+#, c-format
+msgid "Warning: definition of `%s' contains sequence `%s'"
+msgstr ""
+
+#: src/builtin.c:340
+#, c-format
+msgid "error checking --warn-macro-sequence for macro `%s'"
+msgstr ""
+
+#: src/builtin.c:401
+#, fuzzy, c-format
+msgid "Warning: too few arguments to builtin `%s'"
+msgstr "Предупреждение: Слишком мало аргументов для встроенной лексемы '%s'"
+
+#: src/builtin.c:407
+#, fuzzy, c-format
+msgid "Warning: excess arguments to builtin `%s' ignored"
+msgstr ""
+"Предупреждение: Избыточные аргументы для встроенной лексемы '%s' "
+"проигнорированы"
+
+#: src/builtin.c:428 src/builtin.c:1155
+#, fuzzy, c-format
+msgid "empty string treated as 0 in builtin `%s'"
+msgstr "Не числовой аргумент для встроенной лексемы '%s'"
+
+#: src/builtin.c:438 src/builtin.c:1285
+#, fuzzy, c-format
+msgid "non-numeric argument to builtin `%s'"
+msgstr "Не числовой аргумент для встроенной лексемы '%s'"
+
+#: src/builtin.c:444
+#, fuzzy, c-format
+msgid "leading whitespace ignored in builtin `%s'"
+msgstr "Не числовой аргумент для встроенной лексемы '%s'"
+
+#: src/builtin.c:448
+#, fuzzy, c-format
+msgid "numeric overflow detected in builtin `%s'"
+msgstr "Не числовой аргумент для встроенной лексемы '%s'"
+
+#: src/builtin.c:566 src/builtin.c:829 src/builtin.c:870
+#, fuzzy, c-format
+msgid "Warning: %s: invalid macro name ignored"
+msgstr "недопустимый знак: сообщение проигнорировано"
+
+#: src/builtin.c:765 src/builtin.c:877
+#, fuzzy, c-format
+msgid "undefined macro `%s'"
+msgstr "Имя `%s' неопределено"
+
+#: src/builtin.c:836
+#, fuzzy, c-format
+msgid "undefined builtin `%s'"
+msgstr "Имя `%s' неопределено"
+
+#: src/builtin.c:928 src/builtin.c:2260
+#, fuzzy, c-format
+msgid "builtin `%s' requested by frozen file is not supported"
+msgstr "%s: вложенные условия не поддерживаются"
+
+#: src/builtin.c:932
+#, fuzzy, c-format
+msgid "Warning: cannot concatenate builtin `%s'"
+msgstr "Предупреждение: Слишком мало аргументов для встроенной лексемы '%s'"
+
+#: src/builtin.c:1003 src/builtin.c:1053 src/builtin.c:1066 src/builtin.c:1101
+#, fuzzy, c-format
+msgid "cannot run command `%s'"
+msgstr "Невозможно открыть канал для комманды '%s'"
+
+#: src/builtin.c:1089
+#, fuzzy
+msgid "cannot read pipe"
+msgstr "не удалось прочитать карту ссылок"
+
+#: src/builtin.c:1140
+#, c-format
+msgid "radix %d in builtin `%s' out of range"
+msgstr ""
+
+#: src/builtin.c:1149
+#, fuzzy, c-format
+msgid "negative width to builtin `%s'"
+msgstr "Отрицательная ширина"
+
+#: src/builtin.c:1294
+#, fuzzy, c-format
+msgid "error undiverting `%s'"
+msgstr "Невозможно вернуть вывод из %s"
+
+#: src/builtin.c:1298
+#, fuzzy, c-format
+msgid "cannot undivert `%s'"
+msgstr "Невозможно вернуть вывод из %s"
+
+#: src/builtin.c:1408 src/freeze.c:115 src/m4.c:382
+#, c-format
+msgid "cannot open `%s'"
+msgstr "невозможно открыть «%s»"
+
+#: src/builtin.c:1471
+#, fuzzy, c-format
+msgid "%s: cannot create tempfile `%s'"
+msgstr "невозможно создать временный файл: %s"
+
+#: src/builtin.c:1507
+msgid "recommend using mkstemp instead"
+msgstr ""
+
+#: src/builtin.c:1600
+#, fuzzy, c-format
+msgid "exit status out of range: `%d'"
+msgstr "смещение UT вне диапазона"
+
+#: src/builtin.c:1726
+#, c-format
+msgid "Debugmode: bad debug flags: `%s'"
+msgstr "Режим отладки: неверный флаг отладки: '%s'"
+
+#: src/builtin.c:1767 src/m4.c:633 src/m4.c:700
+#, fuzzy, c-format
+msgid "cannot set debug file `%s'"
+msgstr "невозможно открыть входной файл «%s»"
+
+#: src/builtin.c:2034
+#, fuzzy
+msgid "Warning: \\0 will disappear, use \\& instead in replacements"
+msgstr "ПРЕДУПРЕЖДЕНИЕ: \\0 исчезнет, используйте \\& в заменах"
+
+#: src/builtin.c:2057
+#, c-format
+msgid "Warning: sub-expression %d not present"
+msgstr ""
+
+#: src/builtin.c:2066
+msgid "Warning: trailing \\ ignored in replacement"
+msgstr ""
+
+#: src/builtin.c:2132
+#, fuzzy, c-format
+msgid "bad regular expression: `%s': %s"
+msgstr "Неверное регулярное выражение: '%s': %s"
+
+#: src/builtin.c:2144 src/builtin.c:2214
+#, fuzzy, c-format
+msgid "error matching regular expression `%s'"
+msgstr "Ошибка сопоставления регулярного выражения '%s'"
+
+#: src/builtin.c:2192 src/input.c:795
+#, fuzzy, c-format
+msgid "bad regular expression `%s': %s"
+msgstr "Неверное регулярное выражение: '%s': %s"
+
+#: src/debug.c:136 src/debug.c:157
+#, fuzzy
+msgid "error writing to debug stream"
+msgstr "Ошибка записи на стандартный вывод"
+
+#: src/eval.c:462
+msgid "Warning: recommend ==, not =, for equality operator"
+msgstr ""
+
+#: src/eval.c:539
+#, fuzzy, c-format
+msgid "bad expression in eval (missing right parenthesis): %s"
+msgstr "Неверное выражение (отсутствует правые скобки): %s"
+
+#: src/eval.c:544
+#, fuzzy, c-format
+msgid "bad expression in eval: %s"
+msgstr "Неверное выражение: %s"
+
+#: src/eval.c:549
+#, fuzzy, c-format
+msgid "bad expression in eval (bad input): %s"
+msgstr "Неверное выражение (bad input): %s"
+
+#: src/eval.c:554
+#, fuzzy, c-format
+msgid "bad expression in eval (excess input): %s"
+msgstr "Неверное выражение (excess input): %s"
+
+#: src/eval.c:558
+#, fuzzy, c-format
+msgid "invalid operator in eval: %s"
+msgstr "Деление на ноль в выражении: %s"
+
+#: src/eval.c:563
+#, fuzzy, c-format
+msgid "divide by zero in eval: %s"
+msgstr "Деление на ноль в выражении: %s"
+
+#: src/eval.c:567
+#, fuzzy, c-format
+msgid "modulo by zero in eval: %s"
+msgstr "Модульное деление на ноль в выражении: %s"
+
+#: src/eval.c:571
+#, fuzzy, c-format
+msgid "negative exponent in eval: %s"
+msgstr "Неверное выражение: %s"
+
+#: src/format.c:39 src/format.c:63 src/format.c:87
+msgid "empty string treated as 0"
+msgstr ""
+
+#: src/format.c:45 src/format.c:69 src/format.c:93
+#, fuzzy, c-format
+msgid "non-numeric argument %s"
+msgstr "Нечисловой аргумент для %s"
+
+#: src/format.c:47 src/format.c:71 src/format.c:95
+msgid "leading whitespace ignored"
+msgstr ""
+
+#: src/format.c:49 src/format.c:73 src/format.c:97
+#, fuzzy
+msgid "numeric overflow detected"
+msgstr "Не числовой аргумент для встроенной лексемы '%s'"
+
+#: src/format.c:309
+#, fuzzy, c-format
+msgid "Warning: unrecognized specifier in `%s'"
+msgstr "%s: неизвестная опция '%c%s'\n"
+
+#: src/freeze.c:157
+#, fuzzy
+msgid "unable to create frozen state"
+msgstr "Не удалось создать процесс на сервере"
+
+#: src/freeze.c:168
+#, fuzzy
+msgid "expecting line feed in frozen file"
+msgstr "Ожидается перевод строки в файле-образе памяти"
+
+#: src/freeze.c:170
+#, fuzzy, c-format
+msgid "expecting character `%c' in frozen file"
+msgstr "Ожидается символ '%c' в файле-образе памяти"
+
+#: src/freeze.c:216
+#, fuzzy
+msgid "integer overflow in frozen file"
+msgstr "целочисленное переполнение"
+
+#: src/freeze.c:258
+#, fuzzy
+msgid "premature end of frozen file"
+msgstr "Преждевременный конец файла-образа памяти"
+
+#: src/freeze.c:271
+#, c-format
+msgid "cannot open %s"
+msgstr "не удалось открыть %s"
+
+#: src/freeze.c:286
+#, c-format
+msgid "frozen file version %d greater than max supported of 1"
+msgstr ""
+
+#: src/freeze.c:289
+msgid "ill-formed frozen file, version directive expected"
+msgstr ""
+
+#: src/freeze.c:298
+#, fuzzy
+msgid "ill-formed frozen file"
+msgstr "Неверный формат файла-образа памяти"
+
+#: src/freeze.c:387
+#, fuzzy
+msgid "unable to read frozen state"
+msgstr "не удалось высвободить занятую аргументами память"
+
+#: src/input.c:359
+#, fuzzy
+msgid "read error"
+msgstr "ошибка записи"
+
+#: src/input.c:366
+#, fuzzy
+msgid "error reading file"
+msgstr "%s: Ошибка чтения %s\n"
+
+#: src/input.c:590
+msgid "Warning: end of file treated as newline"
+msgstr ""
+
+#: src/input.c:899
+msgid "ERROR: end of file in comment"
+msgstr ""
+
+#: src/input.c:1023
+#, fuzzy
+msgid "ERROR: end of file in string"
+msgstr "ОШИБКА: Конец файла в строке"
+
+#. TRANSLATORS: This is a non-ASCII name: The first name is (with
+#. Unicode escapes) "Ren\u00e9" or (with HTML entities) "Ren&eacute;".
+#. This is a proper name. See the gettext manual, section Names.
+#: src/m4.c:41
+msgid "Rene' Seindal"
+msgstr ""
+
+#: src/m4.c:207
+#, fuzzy, c-format
+msgid "Try `%s --help' for more information."
+msgstr "Попробуйте '%s --help' для информации.\n"
+
+#: src/m4.c:213
+#, c-format
+msgid "Usage: %s [OPTION]... [FILE]...\n"
+msgstr "Использование: %s [OPTION]... [FILE]...\n"
+
+#: src/m4.c:214
+#, fuzzy
+msgid ""
+"Process macros in FILEs.  If no FILE or if FILE is `-', standard input\n"
+"is read.\n"
+msgstr ""
+"\n"
+"Если FILE не существует или FILE это `-', используется стандартный вход.\n"
+
+#: src/m4.c:219
+#, fuzzy
+msgid ""
+"Mandatory or optional arguments to long options are mandatory or optional\n"
+"for short options too.\n"
+msgstr ""
+"Обязательные или необязательные аргументы для длинных ключей также являются "
+"обязательными или необязательными для соответствующих коротких ключей."
+
+#: src/m4.c:224
+msgid ""
+"Operation modes:\n"
+"      --help                   display this help and exit\n"
+"      --version                output version information and exit\n"
+msgstr ""
+
+#: src/m4.c:229
+msgid ""
+"  -E, --fatal-warnings         once: warnings become errors, twice: stop\n"
+"                                 execution at first error\n"
+"  -i, --interactive            unbuffer output, ignore interrupts\n"
+"  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+"  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+msgstr ""
+
+#: src/m4.c:236
+#, c-format
+msgid ""
+"      --warn-macro-sequence[=REGEXP]\n"
+"                               warn if macro definition matches REGEXP,\n"
+"                                 default %s\n"
+msgstr ""
+
+#: src/m4.c:242
+msgid "  -W, --word-regexp=REGEXP     use REGEXP for macro name syntax\n"
+msgstr ""
+"  -W, --word-regexp=REGEXP     использовать REGEXP для синтаксиса имен "
+"макросов\n"
+
+#: src/m4.c:247
+#, fuzzy
+msgid ""
+"Preprocessor features:\n"
+"  -D, --define=NAME[=VALUE]    define NAME as having VALUE, or empty\n"
+"  -I, --include=DIRECTORY      append DIRECTORY to include path\n"
+"  -s, --synclines              generate `#line NUM \"FILE\"' lines\n"
+"  -U, --undefine=NAME          undefine NAME\n"
+msgstr ""
+"\n"
+"Опции препроцессора:\n"
+"  -I, --include=DIRECTORY      искать в подкаталоге включаемые файлы\n"
+"  -D, --define=NAME[=VALUE]    определить, что NAME имеет VALUE, или пуст\n"
+"  -U, --undefine=NAME          удалить встроенную функцию NAME\n"
+"  -s, --synclines              генерировать строки `#line NO \"FILE\"'\n"
+
+#: src/m4.c:255
+#, fuzzy, c-format
+msgid ""
+"Limits control:\n"
+"  -g, --gnu                    override -G to re-enable GNU extensions\n"
+"  -G, --traditional            suppress all GNU extensions\n"
+"  -H, --hashsize=PRIME         set symbol lookup hash table size [%d]\n"
+"  -L, --nesting-limit=NUMBER   change nesting limit, 0 for unlimited [%d]\n"
+msgstr ""
+"\n"
+"Ограничения:\n"
+"  -G, --traditional            подавлять все GNU расширения\n"
+"  -H, --hashsize=PRIME         установить размер хэш-таблицы для поиска "
+"символов\n"
+"  -L, --nesting-limit=NUMBER   изменить предел глубины интелектуального "
+"поиска\n"
+
+#: src/m4.c:263
+#, fuzzy
+msgid ""
+"Frozen state files:\n"
+"  -F, --freeze-state=FILE      produce a frozen state on FILE at end\n"
+"  -R, --reload-state=FILE      reload a frozen state from FILE at start\n"
+msgstr ""
+"\n"
+"Блокированные файлы:\n"
+"  -F, --freeze-state=FILE      в конце создать образ памяти для FILE\n"
+"  -R, --reload-state=FILE      в начале загружать образ памяти для FILE\n"
+
+#: src/m4.c:269
+#, fuzzy
+msgid ""
+"Debugging:\n"
+"  -d, --debug[=FLAGS]          set debug level (no FLAGS implies `aeq')\n"
+"      --debugfile[=FILE]       redirect debug and trace output to FILE\n"
+"                                 (default stderr, discard if empty string)\n"
+"  -l, --arglength=NUM          restrict macro tracing size\n"
+"  -t, --trace=NAME             trace NAME when it is defined\n"
+msgstr ""
+"\n"
+"Отладка:\n"
+"  -d, --debug=[FLAGS]          установить уровень отладки (по умолчанию "
+"FLAGS=`aeq')\n"
+"  -t, --trace=NAME             трассировать NAME когда оно будет определено\n"
+"  -l, --arglength=NUM          установить размер трассировки для макроса\n"
+"  -o, --error-output=FILE      перенаправить отладочный и трассировочный "
+"вывод в файл FILE\n"
+
+#: src/m4.c:278
+msgid ""
+"FLAGS is any of:\n"
+"  a   show actual arguments\n"
+"  c   show before collect, after collect and after call\n"
+"  e   show expansion\n"
+"  f   say current input file name\n"
+"  i   show changes in input files\n"
+msgstr ""
+
+#: src/m4.c:286
+msgid ""
+"  l   say current input line number\n"
+"  p   show results of path searches\n"
+"  q   quote values as necessary, with a or e flag\n"
+"  t   trace for all macro calls, not only traceon'ed\n"
+"  x   add a unique macro call id, useful with c flag\n"
+"  V   shorthand for all of the above flags\n"
+msgstr ""
+
+#: src/m4.c:295
+msgid ""
+"If defined, the environment variable `M4PATH' is a colon-separated list\n"
+"of directories included after any specified by `-I'.\n"
+msgstr ""
+
+#: src/m4.c:300
+msgid ""
+"Exit status is 0 for success, 1 for failure, 63 for frozen file version\n"
+"mismatch, or whatever value was passed to the m4exit macro.\n"
+msgstr ""
+
+#: src/m4.c:443
+#, c-format
+msgid "internal error detected; please report this bug to <%s>"
+msgstr ""
+
+#: src/m4.c:497
+#, c-format
+msgid "warning: `m4 -%c' may be removed in a future release"
+msgstr ""
+
+#: src/m4.c:504
+#, fuzzy, c-format
+msgid "warning: `m4 %s' is deprecated"
+msgstr ""
+"Запуск под именем «egrep» устарел; вместо этого используйте «grep -E».\n"
+
+#: src/m4.c:580
+#, fuzzy, c-format
+msgid "bad debug flags: `%s'"
+msgstr "Неверный флаг отладки: '%s'"
+
+#: src/m4.c:586
+#, fuzzy, c-format
+msgid "warning: `m4 -e' is deprecated, use `-i' instead"
+msgstr ""
+"Запуск под именем «egrep» устарел; вместо этого используйте «grep -E».\n"
+
+#: src/m4.c:701
+msgid "stderr"
+msgstr ""
+
+#: src/macro.c:199
+#, fuzzy
+msgid "ERROR: end of file in argument list"
+msgstr "ОШИБКА: Конец файла в списке аргументов"
+
+#: src/macro.c:338
+#, fuzzy, c-format
+msgid "recursion limit of %d exceeded, use -L<N> to change it"
+msgstr ""
+"ОШИБКА: Лимит рекурсии %d исчерпан, используйте -L<N> чтобы изменить его"
+
+#: src/output.c:178 src/output.c:933 src/output.c:936
+#, fuzzy
+msgid "cannot clean temporary file for diversion"
+msgstr ""
+"ОШИБКА: Ошибка создания временного файла для разветвления макрообработки"
+
+#: src/output.c:230 src/output.c:239 src/output.c:273 src/output.c:370
+#, fuzzy
+msgid "cannot create temporary file for diversion"
+msgstr ""
+"ОШИБКА: Ошибка создания временного файла для разветвления макрообработки"
+
+#: src/output.c:258 src/output.c:265 src/output.c:277
+#, fuzzy
+msgid "cannot seek within diversion"
+msgstr "Невозможно подсчитать разветвления"
+
+#: src/output.c:350 src/output.c:363 src/output.c:512 src/output.c:768
+#, fuzzy
+msgid "cannot close temporary file for diversion"
+msgstr ""
+"ОШИБКА: Ошибка создания временного файла для разветвления макрообработки"
+
+#: src/output.c:484
+#, fuzzy
+msgid "ERROR: cannot flush diversion to temporary file"
+msgstr "ОШИБКА: Ошибка записи разветвления во временный файл"
+
+#: src/output.c:579
+#, fuzzy
+msgid "ERROR: copying inserted file"
+msgstr "ОШИБКА: Копирую вставленный файл"
+
+#: src/output.c:851
+#, fuzzy
+msgid "error reading inserted file"
+msgstr "ОШИБКА: Читаю вставленный файл"
+
+#: src/output.c:1018
+#, fuzzy
+msgid "cannot stat diversion"
+msgstr "Невозможно подсчитать разветвления"
+
+#: src/output.c:1022
+#, fuzzy
+msgid "diversion too large"
+msgstr "Слишком большое разветвление"
+
+#, fuzzy, c-format
+#~ msgid "unable to display error message"
+#~ msgstr "не удалось высвободить занятую аргументами память"
+
+#~ msgid "%s: option `%s' is ambiguous\n"
+#~ msgstr "%s: опция `%s' неоднозначна\n"
+
+#~ msgid "%s: option `--%s' doesn't allow an argument\n"
+#~ msgstr "%s: у опции `--%s' не должно быть аргументов\n"
+
+#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
+#~ msgstr "%s: у опции `%c%s' не должно быть аргументов\n"
+
+#~ msgid "%s: option `%s' requires an argument\n"
+#~ msgstr "%s: у опции `%s' должен быть аргумент\n"
+
+#~ msgid "%s: unrecognized option `--%s'\n"
+#~ msgstr "%s: неизвестная опция `--%s'\n"
+
+#, fuzzy
+#~ msgid "%s: unrecognized option `%c%s'\n"
+#~ msgstr "%s: неизвестная опция `--%s'\n"
+
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s: запрещенная опция -- %c\n"
+
+#~ msgid "%s: invalid option -- %c\n"
+#~ msgstr "%s: неверная опция -- %c\n"
+
+#~ msgid "%s: option requires an argument -- %c\n"
+#~ msgstr "%s: опции необходим аргумент -- %c\n"
+
+#~ msgid "%s: option `-W %s' is ambiguous\n"
+#~ msgstr "%s: ключ `-W %s' неоднозначен\n"
+
+#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
+#~ msgstr "%s: у ключа `-W %s' не должно быть аргументов\n"
+
+#~ msgid "Unmatched [ or [^"
+#~ msgstr "Нет закрывающей [ или [^"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in define_macro ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы в define_macro ()"
+
+#~ msgid "Undefined name %s"
+#~ msgstr "Имя %s неопределено"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table!"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Встроенная лексема не найдена!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in m4_dumpdef ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы в m4_dumpdef ()"
+
+#, fuzzy
+#~ msgid "Undefined name `%s'"
+#~ msgstr "Имя %s неопределено"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in m4_defn ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип символа в m4_defn ()"
+
+#~ msgid "Radix in eval out of range (radix = %d)"
+#~ msgstr "Радикс в выражении выходит за пределы (radix = %d)"
+
+#~ msgid "Undefined syntax code %c"
+#~ msgstr "Неопределенный синтаксический код %c"
+
+#~ msgid "Cannot open %s"
+#~ msgstr "Невозможно открыть %s"
+
+#~ msgid "Cannot set error file: %s"
+#~ msgstr "Невозможно назначить файл ошибок %s"
+
+#, fuzzy
+#~ msgid "Bad regular expression `%s': %s"
+#~ msgstr "Неверное регулярное выражение: '%s': %s"
+
+#~ msgid "INTERNAL ERROR: Builtin not found in builtin table! (trace_pre ())"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Встроенная лексема не найдена! (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad token data type (trace_pre ())"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы (trace_pre ())"
+
+#~ msgid "INTERNAL ERROR: Bad error code in evaluate ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный код ошибки в evaluate ()"
+
+#~ msgid "INTERNAL ERROR: Bad comparison operator in cmp_term ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверное сравнение в cmp_term ()"
+
+#~ msgid "INTERNAL ERROR: Bad shift operator in shift_term ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный оператор сдвига в shift_term ()"
+
+#~ msgid "INTERNAL ERROR: Bad operator in mult_term ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный оператор в mult_term ()"
+
+#~ msgid "INTERNAL ERROR: Built-in not found in builtin table!"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Встроенная лексема не найдена!"
+
+#~ msgid "INTERNAL ERROR: Bad token data type in freeze_one_symbol ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы в freeze_one_symbol ()"
+
+#~ msgid "`%s' from frozen file not found in builtin table!"
+#~ msgstr "'%s' из файла-образа памяти не найдена во встроенной таблице!"
+
+#~ msgid "Input reverted to %s, line %d"
+#~ msgstr "Ввод перенаправлен в %s , строка %d"
+
+#~ msgid "Input read from %s"
+#~ msgstr "Ввод из %s"
+
+#~ msgid "INTERNAL ERROR: Recursive push_string!"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Рекурсивная push_string!"
+
+#~ msgid "INTERNAL ERROR: Bad call to init_macro_token ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный вызов init_macro_token ()"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in next_char ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Ошибка входного стека в next_char ()"
+
+#~ msgid "INTERNAL ERROR: Input stack botch in peek_input ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Ошибка входного стека в peek_input ()"
+
+#~ msgid "NONE"
+#~ msgstr "НИЧЕГО"
+
+#~ msgid "ERROR: Stack overflow.  (Infinite define recursion?)"
+#~ msgstr "ОШИБКА: Переполнение стека. (Бесконечное рекурсивное определение?)"
+
+#~ msgid ""
+#~ "Mandatory or optional arguments to long options are mandatory or "
+#~ "optional\n"
+#~ "for short options too.\n"
+#~ "\n"
+#~ "Operation modes:\n"
+#~ "      --help                   display this help and exit\n"
+#~ "      --version                output version information and exit\n"
+#~ "  -e, --interactive            unbuffer output, ignore interrupts\n"
+#~ "  -E, --fatal-warnings         stop execution after first warning\n"
+#~ "  -Q, --quiet, --silent        suppress some warnings for builtins\n"
+#~ "  -P, --prefix-builtins        force a `m4_' prefix to all builtins\n"
+#~ msgstr ""
+#~ "Обязательные или необязательные аргументы для длинных опции таковы и для "
+#~ "коротких\n"
+#~ "\n"
+#~ "Режимы работы:\n"
+#~ "      --help                   показать помощь и выйти\n"
+#~ "      --version                вывести информацию о версии и выйти\n"
+#~ "  -e, --interactive            небуферизованный вывод, игнорировать "
+#~ "прерывания\n"
+#~ "  -E, --fatal-warnings         остановиться после первого предупреждения\n"
+#~ "  -Q, --quiet, --silent        подавлять предупреждения для встроенных "
+#~ "функций\n"
+#~ "  -P, --prefix-builtins        добавлять префикс `m4_' для всех "
+#~ "встроенных функций\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Dynamic loading features:\n"
+#~ "  -m, --module-directory=DIRECTORY  add DIRECTORY to the module search "
+#~ "path\n"
+#~ "  -M, --load-module=MODULE          load dynamic MODULE from M4MODPATH\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Возможности динамической загрузки:\n"
+#~ "  -m, --module-directory=DIRECTORY  добавить каталог DIRECTORY в пути "
+#~ "поиска модулей\n"
+#~ "  -M, --load-module=MODULE          загрузить динамический модуль MODULE "
+#~ "из M4MODPATH\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "FLAGS is any of:\n"
+#~ "  t   trace for all macro calls, not only traceon'ed\n"
+#~ "  a   show actual arguments\n"
+#~ "  e   show expansion\n"
+#~ "  q   quote values as necessary, with a or e flag\n"
+#~ "  c   show before collect, after collect and after call\n"
+#~ "  x   add a unique macro call id, useful with c flag\n"
+#~ "  f   say current input file name\n"
+#~ "  l   say current input line number\n"
+#~ "  p   show results of path searches\n"
+#~ "  i   show changes in input files\n"
+#~ "  V   shorthand for all of the above flags\n"
+#~ msgstr ""
+#~ "\n"
+#~ "FLAGS is any of:\n"
+#~ "  t   трассировать все вызовы макросов\n"
+#~ "  a   показать текущие аргументы\n"
+#~ "  e   показывать макрорасширение\n"
+#~ "  q   заключать значения в кавычки по необходимости, с a или e флагами\n"
+#~ "  c   показывать перед сбором , после сбора и после вызова\n"
+#~ "  x   добавлять уникальный идентификатор вызова макроса, используется "
+#~ "вместе с флагом c\n"
+#~ "  f   выводить текущее имя входного файла\n"
+#~ "  l   выводить номер текущей строчки\n"
+#~ "  p   показывать результаты поиска по путям\n"
+#~ "  i   показывать изменения во входных файлах\n"
+#~ "  V   сокращение для всех флагов вместе\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <bug-m4@gnu.org>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Посылайте отчеты об ошибках на <bug-m4@gnu.org>.\n"
+
+#~ msgid "ERROR: failed to add search directory `%s'"
+#~ msgstr "ОШИБКА: не могу добавить каталог поиска `%s'"
+
+#~ msgid "ERROR: failed to add search directory `%s': %s"
+#~ msgstr "ОШИБКА: не могу добавить каталог поиска `%s': %s"
+
+#~ msgid " (options:"
+#~ msgstr " (ключи:"
+
+#~ msgid "INTERNAL ERROR: Bad code in deferred arguments"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный код в косвенных аргументах"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_token ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы в expand_token ()"
+
+#~ msgid "INTERNAL ERROR: Bad token type in expand_argument ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип лексемы в expand_argument ()"
+
+#~ msgid "INTERNAL ERROR: Bad symbol type in call_macro ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: Неверный тип символа в call_macro ()"
+
+#~ msgid "ERROR: failed to initialise modules: %s"
+#~ msgstr "ОШИБКА: ошибка инициализации модуля %s"
+
+#~ msgid "ERROR: cannot find module: `%s'"
+#~ msgstr "ОШИБКА: модуль `%s' не найден"
+
+#~ msgid "ERROR: cannot find module: `%s': %s"
+#~ msgstr "ОШИБКА: модуль `%s' не найден: %s"
+
+#~ msgid "ERROR: cannot close modules"
+#~ msgstr "ОШИБКА: не могу закрыть модуля"
+
+#~ msgid "ERROR: cannot cannot close modules: %s"
+#~ msgstr "ОШИБКА: не могу закрыть модуля: %s"
+
+#~ msgid "ERROR: cannot close module: `%s'"
+#~ msgstr "ОШИБКА: не могу закрыть модуль: `%s'"
+
+#~ msgid "ERROR: cannot cannot close module: `%s': %s"
+#~ msgstr "ОШИБКА: не могу закрыть модуль: `%s': %s"
+
+#, fuzzy
+#~ msgid "ERROR: Cannot create temporary file for diversion"
+#~ msgstr ""
+#~ "ОШИБКА: Ошибка создания временного файла для разветвления макрообработки"
+
+#, fuzzy
+#~ msgid "ERROR: Reading inserted file"
+#~ msgstr "ОШИБКА: Копирую вставленный файл"
+
+#~ msgid "Path search for `%s' found `%s'"
+#~ msgstr "Путь поиска для `%s' найден `%s'"
+
+#~ msgid "VMEM limit exceeded?\n"
+#~ msgstr "Кончилась виртуальная память?\n"
+
+#~ msgid ""
+#~ "Memory bounds violation detected (SIGSEGV).  Either a stack overflow\n"
+#~ "occurred, or there is a bug in "
+#~ msgstr ""
+#~ "Обнаружен выход за границу памяти (SIGSEGV). Это либо переполнение стека\n"
+#~ "или ошибка в "
+
+#~ msgid ".  Check for possible infinite recursion.\n"
+#~ msgstr ". Проверка на возможную бесконечную рекурсию.\n"
+
+#~ msgid "INTERNAL ERROR: Illegal mode to symbol_lookup ()"
+#~ msgstr "ВНУТРЕННЯЯ ОШИБКА: неверный режим для symbol_lookup ()"
+
+#~ msgid "Name `%s' is unknown\n"
+#~ msgstr "Имя `%s' неизвестно\n"

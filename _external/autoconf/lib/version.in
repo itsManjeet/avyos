@@ -1,0 +1,12 @@
+# Version information for -*- Autoconf -*-.
+# @configure_input@
+# Copyright (C) 1999-2002, 2006-2007, 2009, 2021-2023 Free Software
+# Foundation, Inc.
+
+m4_define([m4_PACKAGE_NAME],      [@PACKAGE_NAME@])
+m4_define([m4_PACKAGE_TARNAME],   [@PACKAGE_TARNAME@])
+m4_define([m4_PACKAGE_VERSION],   [@PACKAGE_VERSION@])
+m4_define([m4_PACKAGE_STRING],    [@PACKAGE_STRING@])
+m4_define([m4_PACKAGE_BUGREPORT], [@PACKAGE_BUGREPORT@])
+m4_define([m4_PACKAGE_URL],       [@PACKAGE_URL@])
+m4_define([m4_PACKAGE_YEAR],      [@RELEASE_YEAR@])
