@@ -16,18 +16,18 @@ jobs:
        arch: [amd64]
     steps:
       - uses: actions/checkout@v5
+      - name: Cleanup cache
+        run: rm -rf _out
 
       - name: Build
         run: |
           GOARCH=${{matrix.arch}} \
-          CACHE_PATH=${{ secrets.CACHE_PATH }} \
             make -j$(nproc)
       
       - name: Compress Image
         run: |
           zstd -19 \
-            ${{ secrets.CACHE_PATH }}/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img \
-            -o avyos-${{matrix.arch}}.img.zst
+            _out/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img
       
       - name: Determine release name
         id: release
@@ -48,6 +48,6 @@ jobs:
           prerelease: ${{ github.ref_type != 'tag' }}
           allowUpdates: true
           files: |
-            avyos-${{ matrix.arch }}.img.zst
+            _out/${{matrix.arch}}-linux-musl/images/avyos-${{matrix.arch}}.img.zst
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
