@@ -87,7 +87,7 @@
 #define TEXTW(mon, text)        (drwl_font_getwidth(mon->drw, text) + mon->lrpad)
 
 /* enums */
-enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeUrg, SchemeBar }; /* color schemes */
 enum { CurNormal, CurPressed, CurMove, CurResize }; /* cursor */
 enum { XDGShell, LayerShell, X11 }; /* client types */
 enum { LyrBg, LyrBottom, LyrTile, LyrFloat, LyrTop, LyrFS, LyrOverlay, LyrBlock, NUM_LAYERS }; /* scene layers */
@@ -226,6 +226,7 @@ struct Monitor {
 	struct wlr_box w; /* window area, layout-relative */
 	struct wl_list layers[4]; /* LayerSurface.link */
 	const Layout *lt[2];
+	int gaps;
 	unsigned int seltags;
 	unsigned int sellt;
 	uint32_t tagset[2];
@@ -386,6 +387,7 @@ static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscreen(const Arg *arg);
+static void togglegaps(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void touchdown(struct wl_listener *listener, void *data);
@@ -661,8 +663,8 @@ arrangelayers(Monitor *m)
 		return;
 
 	if (m->scene_buffer->node.enabled) {
-		usable_area.height -= m->b.real_height;
-		usable_area.y += topbar ? m->b.real_height : 0;
+		usable_area.height -= m->b.real_height + vertpad;
+		usable_area.y += topbar ? m->b.real_height + vertpad : 0;
 	}
 
 	/* Arrange exclusive surfaces from top->bottom */
@@ -834,7 +836,7 @@ buttonpress(struct wl_listener *listener, void *data)
 		if (!c && !exclusive_focus &&
 			(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
 			(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
-			cx = (cursor->x - selmon->m.x) * selmon->wlr_output->scale;
+			cx = (cursor->x - selmon->m.x - sidepad - borderpx) * selmon->wlr_output->scale;
 			do
 				x += TEXTW(selmon, selmon->tag_icons[i]);
 			while (cx >= x && ++i < LENGTH(tags));
@@ -1303,6 +1305,8 @@ createmon(struct wl_listener *listener, void *data)
 
 	wlr_output_state_init(&state);
 	/* Initialize monitor state using configured rules */
+	m->gaps = gaps;
+
 	m->tagset[0] = m->tagset[1] = 1;
 	for (r = monrules; r < END(monrules); r++) {
 		if (!r->name || strstr(wlr_output->name, r->name)) {
@@ -1344,7 +1348,7 @@ createmon(struct wl_listener *listener, void *data)
 	if (!(m->drw = drwl_create()))
 		die("failed to create drwl context");
 
-	m->scene_buffer = wlr_scene_buffer_create(layers[LyrBottom], NULL);
+	m->scene_buffer = wlr_scene_buffer_create(layers[LyrTop], NULL);
 	m->scene_buffer->point_accepts_input = baracceptsinput;
 	updatebar(m);
 
@@ -1764,24 +1768,30 @@ applyappicon(char *tag_icons[], unsigned int *icons_per_tag, const Client *c)
 void
 drawbar(Monitor *m)
 {
-	int x, w, tw = 0;
+	int x, y = borderpx, w, tw = 0;
+	int mh = m->b.height - borderpx * 2, mw = m->b.width - borderpx * 2;
 	int boxs = m->drw->font->height / 9;
 	int boxw = m->drw->font->height / 6 + 2;
 	uint32_t i, occ = 0, urg = 0;
+	uint32_t borderscm[] = { colors[SchemeBar][ColBorder] };
 	Client *c;
 	Buffer *buf;
-  unsigned int icons_per_tag[LENGTH(tags)];
+  	unsigned int icons_per_tag[LENGTH(tags)];
 
 	if (!m->scene_buffer->node.enabled)
 		return;
 	if (!(buf = bufmon(m)))
 		return;
 
+	drwl_setscheme(m->drw, borderscm);
+	drwl_rect(m->drw, 0, 0, m->b.width, m->b.height, 1, 0);
+	drwl_setscheme(m->drw, colors[SchemeNorm]);
+
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drwl_setscheme(m->drw, colors[SchemeNorm]);
 		tw = TEXTW(m, stext) - m->lrpad + 2; /* 2px right padding */
-		drwl_text(m->drw, m->b.width - tw, 0, tw, m->b.height, 0, stext, 0);
+		drwl_text(m->drw, borderpx + mw - tw, y, tw, mh, 0, stext, 0);
 	}
 
   memset(icons_per_tag, 0, LENGTH(tags) * sizeof(int));
@@ -1795,46 +1805,43 @@ drawbar(Monitor *m)
 		if (c->mon != m)
 			continue;
 
-    if (c->appicon && strlen(c->appicon) > 0) {
-      applyappicon(m->tag_icons, icons_per_tag, c);
-    }
+		if (c->appicon && strlen(c->appicon) > 0) {
+		applyappicon(m->tag_icons, icons_per_tag, c);
+		}
 
 		occ |= c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
 	}
-	x = 0;
+	x = borderpx;
 	c = focustop(m);
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(m, m->tag_icons[i]);
 		drwl_setscheme(m->drw, colors[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, m->tag_icons[i], urg & 1 << i);
-		if (occ & 1 << i && icons_per_tag[i] ==0)
-			drwl_rect(m->drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && c && c->tags & 1 << i,
-				urg & 1 << i);
+		drwl_text(m->drw, x, y, w, mh, m->lrpad / 2, tags[i], urg & 1 << i);
 		x += w;
 	}
 	w = TEXTW(m, m->ltsymbol);
 	drwl_setscheme(m->drw, colors[SchemeNorm]);
-	x = drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, m->ltsymbol, 0);
+	x = drwl_text(m->drw, x, y, w, mh, m->lrpad / 2, m->ltsymbol, 0);
 
-	if ((w = m->b.width - tw - x) > m->b.height) {
+	if ((w = mw - tw - x + borderpx) > mh) {
 		if (c) {
 			drwl_setscheme(m->drw, colors[m == selmon ? SchemeSel : SchemeNorm]);
-			drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, client_get_title(c), 0);
-			if (c && c->isfloating)
-				drwl_rect(m->drw, x + boxs, boxs, boxw, boxw, 0, 0);
+			tw = TEXTW(selmon, client_get_title(c));
+			drwl_text(m->drw, x, 0, w, m->b.height,
+		    		!centeredtitle || tw > w ? m->lrpad / 2 : (w - tw) / 2,
+		    		client_get_title(c), 0);
 		} else {
 			drwl_setscheme(m->drw, colors[SchemeNorm]);
-			drwl_rect(m->drw, x, 0, w, m->b.height, 1, 1);
+			drwl_rect(m->drw, x, y, w, mh, 1, 1);
 		}
 	}
 
 	wlr_scene_buffer_set_dest_size(m->scene_buffer,
 		m->b.real_width, m->b.real_height);
-	wlr_scene_node_set_position(&m->scene_buffer->node, m->m.x,
-		m->m.y + (topbar ? 0 : m->m.height - m->b.real_height));
+	wlr_scene_node_set_position(&m->scene_buffer->node, m->m.x + sidepad,
+		m->m.y + (topbar ? vertpad : m->m.height - m->b.real_height - vertpad));
 	wlr_scene_buffer_set_buffer(m->scene_buffer, &buf->base);
 	wlr_buffer_unlock(&buf->base);
 }
@@ -3174,7 +3181,7 @@ tagmon(const Arg *arg)
 void
 tile(Monitor *m)
 {
-	unsigned int mw, my, ty;
+	unsigned int h, r, e = m->gaps, mw, my, ty;
 	int i, n = 0;
 	Client *c;
 
@@ -3183,23 +3190,30 @@ tile(Monitor *m)
 			n++;
 	if (n == 0)
 		return;
+	if (smartgaps == n)
+		e = 0;
 
 	if (n > m->nmaster)
-		mw = m->nmaster ? (int)roundf(m->w.width * m->mfact) : 0;
+		mw = m->nmaster ? (int)roundf((m->w.width + gappx*e) * m->mfact) : 0;
 	else
 		mw = m->w.width;
-	i = my = ty = 0;
+	i = 0;
+	my = ty = gappx*e;
 	wl_list_for_each(c, &clients, link) {
 		if (!VISIBLEON(c, m) || c->isfloating || c->isfullscreen)
 			continue;
 		if (i < m->nmaster) {
-			resize(c, (struct wlr_box){.x = m->w.x, .y = m->w.y + my, .width = mw,
-				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0);
-			my += c->geom.height;
+			r = MIN(n, m->nmaster) - i;
+			h = (m->w.height - my - gappx*e - gappx*e * (r - 1)) / r;
+			resize(c, (struct wlr_box){.x = m->w.x + gappx*e, .y = m->w.y + my,
+				.width = mw - 2*gappx*e, .height = h}, 0);
+			my += c->geom.height + gappx*e;
 		} else {
+			r = n - i;
+			h = (m->w.height - ty - gappx*e - gappx*e * (r - 1)) / r;
 			resize(c, (struct wlr_box){.x = m->w.x + mw, .y = m->w.y + ty,
-				.width = m->w.width - mw, .height = (m->w.height - ty) / (n - i)}, 0);
-			ty += c->geom.height;
+				.width = m->w.width - mw - gappx*e, .height = h}, 0);
+			ty += c->geom.height + gappx*e;
 		}
 		i++;
 	}
@@ -3228,6 +3242,13 @@ togglefullscreen(const Arg *arg)
 	Client *sel = focustop(selmon);
 	if (sel)
 		setfullscreen(sel, !sel->isfullscreen);
+}
+
+void
+togglegaps(const Arg *arg)
+{
+	selmon->gaps = !selmon->gaps;
+	arrange(selmon);
 }
 
 void
@@ -3541,8 +3562,8 @@ updatebar(Monitor *m)
 	char fontattrs[12];
 
 	wlr_output_transformed_resolution(m->wlr_output, &rw, &rh);
-	m->b.width = rw;
-	m->b.real_width = (int)((float)m->b.width / m->wlr_output->scale);
+	m->b.width = rw - (2 * sidepad);
+	m->b.real_width = (int)((float)rw / m->wlr_output->scale) - (2 * sidepad);
 
 	wlr_scene_node_set_enabled(&m->scene_buffer->node, m->wlr_output->enabled ? showbar : 0);
 
@@ -3562,7 +3583,7 @@ updatebar(Monitor *m)
 
 	m->b.scale = m->wlr_output->scale;
 	m->lrpad = m->drw->font->height;
-	m->b.height = m->drw->font->height + 2;
+	m->b.height = m->drw->font->height + 2 + borderpx * 2;
 	m->b.real_height = (int)((float)m->b.height / m->wlr_output->scale);
 }
 
