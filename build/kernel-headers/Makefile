@@ -21,3 +21,6 @@ ${.OBJDIR}/.build-done: ${DISTDIR}/Makefile
 	@touch $@
 
 compile_db:
+
+clean:
+	rm -rf ${.OBJDIR}/.*-done

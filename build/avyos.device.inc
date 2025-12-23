@@ -20,6 +20,11 @@ QEMU_FLAGS		?= -smp 2 -m 2G -enable-kvm
 
 all: ${DISK_IMAGE}
 
+clean:
+	rm -rf ${INITRD_PATH} ${INITRD_FILES}
+	rm -f ${IMAGES_PATH}/initrd.img ${IMAGES_PATH}/system.img
+	rm -f ${DISK_IMAGE} 
+
 run:
 	${QEMU} ${QEMU_FLAGS} \
 		-drive file=${DISK_IMAGE},format=raw

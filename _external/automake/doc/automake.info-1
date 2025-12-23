@@ -1,7 +1,7 @@
-This is automake.info, produced by makeinfo version 7.1 from
+This is automake.info, produced by makeinfo version 7.1.1 from
 automake.texi.
 
-This manual is for GNU Automake (version 1.18, 22 December 2025), a
+This manual is for GNU Automake (version 1.18, 23 December 2025), a
 program that creates GNU standards-compliant Makefiles from template
 files.
 
@@ -31,7 +31,7 @@ File: automake.info,  Node: Top,  Next: Introduction,  Up: (dir)
 GNU Automake
 ************
 
-This manual is for GNU Automake (version 1.18, 22 December 2025), a
+This manual is for GNU Automake (version 1.18, 23 December 2025), a
 program that creates GNU standards-compliant Makefiles from template
 files.
 

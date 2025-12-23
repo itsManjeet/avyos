@@ -1,5 +1,5 @@
 SUBDIR_MAKEFLAGS := 
-SUBDIR_TARGETS	 :=	all compile_db
+SUBDIR_TARGETS	 :=	all clean compile_db
 
 ${SUBDIR_TARGETS}:
 	@for dir in ${SUBDIR}; do \

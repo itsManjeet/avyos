@@ -16,3 +16,6 @@ ${SYSTEM_PATH}/lib/pkgconfig/%: ${.CURDIR}/%
 	install -v -D -m 0644 $< $@
 
 compile_db:
+
+clean:
+	rm -rf ${TARGETS}

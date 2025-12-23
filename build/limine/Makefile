@@ -27,3 +27,6 @@ ${TOOLCHAIN_PATH}/share/limine/%: ${DISTDIR}/%
 	cp -a $< $@
 
 compile_db:
+
+clean:
+	rm -rf ${TARGETS}

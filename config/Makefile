@@ -11,3 +11,6 @@ ${SYSTEM_PATH}/config/%: ${.CURDIR}/%
 	cp -a $< $@
 
 compile_db:
+
+clean:
+	rm -rf ${TARGETS}

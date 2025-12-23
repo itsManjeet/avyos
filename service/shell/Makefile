@@ -15,3 +15,6 @@ ${SYSTEM_PATH}/config/services.d/shell@ttyS0.service: ${SYSTEM_PATH}/config/serv
 	ln -sv $(notdir $<) $@
 
 compile_db:
+
+clean:
+	rm -rf ${SERVICE_TARGET}

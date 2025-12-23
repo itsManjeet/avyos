@@ -27,3 +27,6 @@ ${.OBJDIR}/.install-done: ${.OBJDIR}/.build-done
 ${.OBJDIR}/.build-done: ${DISTDIR}/src/make.bash
 	cd $(dir $<) && $<
 	@touch $@
+
+clean:
+	rm -rf ${.OBJDIR}/.*-done
