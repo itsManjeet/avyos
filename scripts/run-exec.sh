@@ -1,17 +1,5 @@
 #!/bin/sh
 
-labwc &
-LABWC_PID=$!
-sleep 1
-
-cleanup() {
-    kill -9 $LABWC_PID
-}
-
-trap cleanup EXIT
-
-ls ${XDG_RUNTIME_DIR}/
-unset DISPLAY
 bwrap --bind _out/$(go env GOARCH)-linux-musl/system / \
     --dev /dev --proc /proc \
     --tmpfs /dev/shm \
