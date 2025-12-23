@@ -12,7 +12,17 @@ export CGO_LDFLAGS	= --sysroot=${SYSTEM_PATH}
 endif
 
 PACKAGE ?= avyos.dev/${.RELDIR}
+
+ifeq (${LIBRARY},1)
+TARGET	?= ${.OBJDIR}/lib$(notdir ${.RELDIR}).so
+CGO_ENABLED := 1
+GOFLAGS	+= \
+	-buildmode=c-shared
+POST_TARGETS	+= ${SYSTEM_PATH}/$(dir ${.RELDIR})/lib$(notdir ${.RELDIR}).so
+POST_TARGETS	+= ${SYSTEM_PATH}/include/$(notdir ${.RELDIR}).h
+else
 TARGET	?= ${SYSTEM_PATH}/${.RELDIR}
+endif
 
 all: ${PRE_TARGETS} ${TARGET} ${POST_TARGETS}
 
@@ -30,3 +40,10 @@ compile_db:
 .PHONY: all clean
 
 -include ${.OBJDIR}/depends.inc
+
+${SYSTEM_PATH}/$(dir ${.RELDIR})/lib$(notdir ${.RELDIR}).so: ${TARGET}
+	@mkdir -p $(dir $@)
+	cp $< $@
+${SYSTEM_PATH}/include/$(notdir ${.RELDIR}).h: ${TARGET} ${.OBJDIR}/lib$(notdir ${.RELDIR}).h
+	@mkdir -p $(dir $@)
+	cp ${.OBJDIR}/lib$(notdir ${.RELDIR}).h $@
