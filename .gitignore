@@ -1,4 +1,5 @@
 /_out
+/config.inc
 configure~
 config.h.in~
 config.h~
