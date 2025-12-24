@@ -24,6 +24,11 @@ else
 TARGET	?= ${SYSTEM_PATH}/${.RELDIR}
 endif
 
+ifeq (${GRAPHICS},1)
+GOFLAGS 	+= --tags wayland,egl,gles2
+CGO_ENABLED	:= 1
+endif
+
 all: ${PRE_TARGETS} ${TARGET} ${POST_TARGETS}
 
 ${TARGET}:
