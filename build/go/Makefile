@@ -30,3 +30,5 @@ ${.OBJDIR}/.build-done: ${DISTDIR}/src/make.bash
 
 clean:
 	rm -rf ${.OBJDIR}/.*-done
+
+compile_db:
