@@ -19,6 +19,9 @@ jobs:
       - name: Cleanup cache
         run: rm -rf _out
 
+      - name: Fix autogen
+        run: ./scripts/fix-autogen.sh
+
       - name: Build
         run: |
           GOARCH=${{matrix.arch}} \
