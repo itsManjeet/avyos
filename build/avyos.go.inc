@@ -4,6 +4,11 @@ GO 		?= go
 GOFLAGS ?= 
 CGO_ENABLED ?= 0
 
+ifeq (${GRAPHICS},1)
+GOFLAGS 	+= --tags wayland,egl,gles2
+CGO_ENABLED	:= 1
+endif
+
 ifeq (${CGO_ENABLED},1)
 include ${.TOPDIR}/build/avyos.toolchain.inc
 
@@ -22,11 +27,6 @@ POST_TARGETS	+= ${SYSTEM_PATH}/$(dir ${.RELDIR})/lib$(notdir ${.RELDIR}).so
 POST_TARGETS	+= ${SYSTEM_PATH}/include/$(notdir ${.RELDIR}).h
 else
 TARGET	?= ${SYSTEM_PATH}/${.RELDIR}
-endif
-
-ifeq (${GRAPHICS},1)
-GOFLAGS 	+= --tags wayland,egl,gles2
-CGO_ENABLED	:= 1
 endif
 
 all: ${PRE_TARGETS} ${TARGET} ${POST_TARGETS}
