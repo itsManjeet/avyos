@@ -1,0 +1,56 @@
+package {{ .Name }}
+
+{{range .Interfaces }}
+{{ $iface := . }}
+
+type {{iface .Name }} struct {
+    BaseProxy
+{{- range .Events }}
+    {{camel .Name}}Handler {{iface $iface.Name}}{{pascal .Name}}HandlerFunc
+{{- end}}
+}
+
+func New{{iface .Name}}(ctxt *Context) *{{iface .Name}} {
+    i := new({{iface .Name}})
+    ctxt.Register(i)
+    return i
+}
+
+{{range $reqI, $req := .Requests}}
+func (i *{{iface $iface.Name}}) {{pascal $req.Name}}() (
+    {{- range $req.Arguments}}
+       {{if eq .Type "new_id"}} *{{if eq .Interface ""}} {{iface $iface.Name}} {{ else }} {{iface .Interface }} {{ end }} {{else}} {{.Type}} {{end}},
+    {{- end}}
+    error,
+) {
+    const opcode = {{$reqI}}
+    {{$req.ClientBody}}
+}
+{{end}}
+
+{{range .Enums}}
+type {{iface $iface.Name }}{{pascal .Name}} uint32
+
+const (
+{{- range .Entries }}
+    {{iface $iface.Name}}{{pascal .Name}} = {{.Value}}
+{{- end}}
+)
+{{end}}
+
+{{range .Events}}
+
+type {{iface $iface.Name}}{{pascal .Name}}Event struct {
+{{- range .Arguments}}
+    {{pascal .Name}} {{type .Type}}
+{{- end}}
+}
+
+type {{iface $iface.Name}}{{pascal .Name}}HandlerFunc func({{iface $iface.Name}}{{pascal .Name}}Event)
+
+func (i *{{iface $iface.Name}}) Set{{iface $iface.Name}}{{pascal .Name}}Handler(f {{iface $iface.Name}}{{pascal .Name}}HandlerFunc) {
+    i.{{camel .Name}}Handler = f
+}
+{{end}}
+
+{{end}}
