@@ -12,8 +12,8 @@ endif
 ifeq (${CGO_ENABLED},1)
 include ${.TOPDIR}/build/avyos.toolchain.inc
 
-export CGO_CFLAGS	= --sysroot=${SYSTEM_PATH}
-export CGO_LDFLAGS	= --sysroot=${SYSTEM_PATH}
+CGO_CFLAGS	+= --sysroot=${SYSTEM_PATH}
+CGO_LDFLAGS	+= --sysroot=${SYSTEM_PATH}
 endif
 
 PACKAGE ?= avyos.dev/${.RELDIR}
@@ -32,7 +32,16 @@ endif
 all: ${PRE_TARGETS} ${TARGET} ${POST_TARGETS}
 
 ${TARGET}:
-	CGO_ENABLED=${CGO_ENABLED} GOOS=${GOOS} GOARCH=${GOARCH} ${GO} build ${GOFLAGS} -o $@ ${PACKAGE}
+ifeq (${CGO_ENABLED},1)
+	CGO_CFLAGS="${CGO_CFLAGS}" \
+	CGO_LDFLAGS="${CGO_LDFLAGS}" \
+	CGO_ENABLED="${CGO_ENABLED}" \
+	GOOS="${GOOS}" \
+	GOARCH="${GOARCH}" \
+	${GO} build ${GOFLAGS} -o $@ ${PACKAGE}
+else
+	CGO_ENABLED="${CGO_ENABLED}" GOOS="${GOOS}" GOARCH="${GOARCH}" ${GO} build ${GOFLAGS} -o $@ ${PACKAGE}
+endif
 
 
 clean:
