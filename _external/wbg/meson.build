@@ -103,9 +103,8 @@ tllist = dependency('tllist', version: '>=1.0.1', fallback: 'tllist')
 
 wayland_protocols_datadir = wayland_protocols.get_variable('pkgdatadir')
 
-wscanner = dependency('wayland-scanner', native: true)
-wscanner_prog = find_program(
-  wscanner.get_variable('wayland_scanner'), native: true)
+# wscanner = dependency('wayland-scanner', native: true)
+wscanner_prog = find_program('wayland-scanner')
 
 wl_proto_headers = []
 wl_proto_src = []
