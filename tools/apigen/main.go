@@ -79,9 +79,10 @@ func main() {
 		Spec:    &spec,
 	}
 
-	if mode == "client" {
+	switch mode {
+	case "client":
 		err = execute("client", clientTmpl, fmt.Sprintf("%s/%s.go", output, strings.ToLower(spec.Object.Name)), ctxt)
-	} else if mode == "server" {
+	case "server":
 		err = execute("server", serverWireTmpl, fmt.Sprintf("%s/%s_wire.go", output, strings.ToLower(spec.Object.Name)), ctxt)
 		if err == nil {
 			outfile := fmt.Sprintf("%s/%s_impl.go", output, strings.ToLower(spec.Object.Name))
