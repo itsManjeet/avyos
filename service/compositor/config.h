@@ -13,8 +13,10 @@ static const unsigned int gappx            = 10; /* gap pixel between windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 0; /* 0 means bottom bar */
 static const int centeredtitle             = 1; /* 1 means centered title */
-static const int vertpad                   = 10; /* vertical padding of bar */
-static const int sidepad                   = 10; /* horizontal padding of bar */
+static const int margin_y                  = 10; /* vertical margin of bar */
+static const int margin_x                  = 10; /* horizontal margin of bar */
+static const int padding_x				   = 5;
+static const int padding_y				   = 5;
 static const char *fonts[]                 = {"monospace:size=10"};
 static const float rootcolor[]             = COLOR(0x222222ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
@@ -45,6 +47,7 @@ static const char *const status_cmd[] = {"/lib/compositor/status", NULL};
 
 /* Autostart */
 static const char *const autostart[] = {
+		"wbg", "-s", "/data/backgrounds/default.png", NULL,
         "foot", NULL,
         NULL /* terminate */
 };

@@ -663,8 +663,8 @@ arrangelayers(Monitor *m)
 		return;
 
 	if (m->scene_buffer->node.enabled) {
-		usable_area.height -= m->b.real_height + vertpad;
-		usable_area.y += topbar ? m->b.real_height + vertpad : 0;
+		usable_area.height -= m->b.real_height + margin_y;
+		usable_area.y += topbar ? m->b.real_height + margin_y : 0;
 	}
 
 	/* Arrange exclusive surfaces from top->bottom */
@@ -836,7 +836,7 @@ buttonpress(struct wl_listener *listener, void *data)
 		if (!c && !exclusive_focus &&
 			(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
 			(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
-			cx = (cursor->x - selmon->m.x - sidepad - borderpx) * selmon->wlr_output->scale;
+			cx = (cursor->x - selmon->m.x - margin_x - borderpx) * selmon->wlr_output->scale;
 			do
 				x += TEXTW(selmon, selmon->tag_icons[i]);
 			while (cx >= x && ++i < LENGTH(tags));
@@ -1770,8 +1770,6 @@ drawbar(Monitor *m)
 {
 	int x, y = borderpx, w, tw = 0;
 	int mh = m->b.height - borderpx * 2, mw = m->b.width - borderpx * 2;
-	int boxs = m->drw->font->height / 9;
-	int boxw = m->drw->font->height / 6 + 2;
 	uint32_t i, occ = 0, urg = 0;
 	uint32_t borderscm[] = { colors[SchemeBar][ColBorder] };
 	Client *c;
@@ -1794,12 +1792,12 @@ drawbar(Monitor *m)
 		drwl_text(m->drw, borderpx + mw - tw, y, tw, mh, 0, stext, 0);
 	}
 
-  memset(icons_per_tag, 0, LENGTH(tags) * sizeof(int));
+	memset(icons_per_tag, 0, LENGTH(tags) * sizeof(int));
 
-  for (long unsigned int tag_idx = 0; tag_idx < LENGTH(tags); tag_idx++) {
-    /* set each tag to default value */
-    m->tag_icons[tag_idx] = strndup(tags[tag_idx], strlen(tags[tag_idx]));
-  }
+	for (long unsigned int tag_idx = 0; tag_idx < LENGTH(tags); tag_idx++) {
+		/* set each tag to default value */
+		m->tag_icons[tag_idx] = strndup(tags[tag_idx], strlen(tags[tag_idx]));
+	}
 
 	wl_list_for_each(c, &clients, link) {
 		if (c->mon != m)
@@ -1821,27 +1819,20 @@ drawbar(Monitor *m)
 		drwl_text(m->drw, x, y, w, mh, m->lrpad / 2, tags[i], urg & 1 << i);
 		x += w;
 	}
-	w = TEXTW(m, m->ltsymbol);
-	drwl_setscheme(m->drw, colors[SchemeNorm]);
-	x = drwl_text(m->drw, x, y, w, mh, m->lrpad / 2, m->ltsymbol, 0);
+
+	// w = TEXTW(m, m->ltsymbol);
+	// drwl_setscheme(m->drw, colors[SchemeNorm]);
+	// x = drwl_text(m->drw, x, y, w, mh, m->lrpad / 2, m->ltsymbol, 0);
 
 	if ((w = mw - tw - x + borderpx) > mh) {
-		if (c) {
-			drwl_setscheme(m->drw, colors[m == selmon ? SchemeSel : SchemeNorm]);
-			tw = TEXTW(selmon, client_get_title(c));
-			drwl_text(m->drw, x, 0, w, m->b.height,
-		    		!centeredtitle || tw > w ? m->lrpad / 2 : (w - tw) / 2,
-		    		client_get_title(c), 0);
-		} else {
-			drwl_setscheme(m->drw, colors[SchemeNorm]);
+		drwl_setscheme(m->drw, colors[SchemeNorm]);
 			drwl_rect(m->drw, x, y, w, mh, 1, 1);
-		}
 	}
 
 	wlr_scene_buffer_set_dest_size(m->scene_buffer,
 		m->b.real_width, m->b.real_height);
-	wlr_scene_node_set_position(&m->scene_buffer->node, m->m.x + sidepad,
-		m->m.y + (topbar ? vertpad : m->m.height - m->b.real_height - vertpad));
+	wlr_scene_node_set_position(&m->scene_buffer->node, m->m.x + margin_x,
+		m->m.y + (topbar ? margin_y : m->m.height - m->b.real_height - margin_y));
 	wlr_scene_buffer_set_buffer(m->scene_buffer, &buf->base);
 	wlr_buffer_unlock(&buf->base);
 }
@@ -3578,8 +3569,8 @@ updatebar(Monitor *m)
 	char fontattrs[12];
 
 	wlr_output_transformed_resolution(m->wlr_output, &rw, &rh);
-	m->b.width = rw - (2 * sidepad);
-	m->b.real_width = (int)((float)rw / m->wlr_output->scale) - (2 * sidepad);
+	m->b.width = rw - (2 * margin_x);
+	m->b.real_width = (int)((float)rw / m->wlr_output->scale) - (2 * margin_x);
 
 	wlr_scene_node_set_enabled(&m->scene_buffer->node, m->wlr_output->enabled ? showbar : 0);
 
@@ -3599,7 +3590,7 @@ updatebar(Monitor *m)
 
 	m->b.scale = m->wlr_output->scale;
 	m->lrpad = m->drw->font->height;
-	m->b.height = m->drw->font->height + 2 + borderpx * 2;
+	m->b.height = m->drw->font->height + 2 + borderpx * 2 + padding_y;
 	m->b.real_height = (int)((float)m->b.height / m->wlr_output->scale);
 }
 

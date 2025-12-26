@@ -194,6 +194,8 @@ drwl_text(Drwl *drwl,
 	int render = x || y || w || h;
 	long x_kern;
 	uint32_t cp = 0, last_cp = 0, state;
+	const int font_adjust_x = 0;
+	const int font_adjust_y = -1;
 	pixman_color_t clr;
 	pixman_image_t *fg_pix = NULL;
 	int noellipsis = 0;
@@ -264,11 +266,11 @@ drwl_text(Drwl *drwl,
 			/* pre-rendered glyphs (eg. emoji) */
 			pixman_image_composite32(
 				PIXMAN_OP_OVER, glyph->pix, NULL, drwl->image, 0, 0, 0, 0,
-				x + glyph->x, ty - glyph->y, glyph->width, glyph->height);
+				x + glyph->x + font_adjust_x, ty - glyph->y + font_adjust_y, glyph->width, glyph->height);
 		else if (render)
 			pixman_image_composite32(
 				PIXMAN_OP_OVER, fg_pix, glyph->pix, drwl->image, 0, 0, 0, 0,
-				x + glyph->x, ty - glyph->y, glyph->width, glyph->height);
+				x + glyph->x + font_adjust_x, ty - glyph->y + font_adjust_y, glyph->width, glyph->height);
 
 		x += glyph->advance.x;
 		w -= glyph->advance.x;
