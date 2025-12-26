@@ -2874,6 +2874,25 @@ setsel(struct wl_listener *listener, void *data)
 }
 
 void
+spawn_status_command()
+{
+	int pipefd[2];
+	pipe(pipefd);
+
+	if (fork() == 0) {
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		execvp(status_cmd[0], (char *const*) status_cmd);
+		printf("Error: failed to start status cmd\n");
+		_exit(1);
+	}
+
+	close(pipefd[1]);
+	status_event_source = wl_event_loop_add_fd(wl_display_get_event_loop(dpy),
+		pipefd[0], WL_EVENT_READABLE, statusin, NULL);
+}
+
+void
 setup(void)
 {
 	int drm_fd, i, sig[] = {SIGCHLD, SIGINT, SIGTERM, SIGPIPE};
@@ -3086,10 +3105,7 @@ setup(void)
 	wl_signal_add(&output_mgr->events.test, &output_mgr_test);
 
 	drwl_init();
-
-	status_event_source = wl_event_loop_add_fd(wl_display_get_event_loop(dpy),
-		STDIN_FILENO, WL_EVENT_READABLE, statusin, NULL);
-
+	spawn_status_command();
 	/* Make sure XWayland clients don't connect to the parent X server,
 	 * e.g when running in the x11 backend or the wayland backend and the
 	 * compositor has Xwayland support */
@@ -3538,7 +3554,7 @@ updatemons(struct wl_listener *listener, void *data)
 	}
 
 	if (stext[0] == '\0')
-		strncpy(stext, "dwl-"VERSION, sizeof(stext));
+		strncpy(stext, "", sizeof(stext));
 	wl_list_for_each(m, &mons, link) {
 		updatebar(m);
 		drawbar(m);

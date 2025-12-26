@@ -41,6 +41,8 @@ static char inner_separator          = ' ';
 static unsigned truncate_icons_after = 2; /* will default to 1, that is the min */
 static char truncate_symbol[]         = "...";
 
+static const char *const status_cmd[] = {"/lib/compositor/status", NULL};
+
 /* Autostart */
 static const char *const autostart[] = {
         "foot", NULL,
