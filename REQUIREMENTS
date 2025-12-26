@@ -20,3 +20,7 @@ libssl-dev
 mtools
 parted
 squashfs-tools
+help2man
+libexpat1-dev
+hwdata
+brtfs-progs
