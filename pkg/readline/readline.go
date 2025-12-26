@@ -2,10 +2,16 @@ package readline
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"syscall"
 	"unsafe"
+)
+
+var (
+	Interrupt = errors.New("INTERRUPT")
+	EOF       = errors.New("EOF")
 )
 
 // Terminal state storage
@@ -168,14 +174,13 @@ func (rl *Readline) Readline() (string, error) {
 			}
 
 		case 3: // Ctrl+C
-			fmt.Println("^C")
-			rl.restoreMode()
-			os.Exit(0)
+			fmt.Print("^C\r\n")
+			return "", Interrupt
 
 		case 4: // Ctrl+D (EOF)
 			if len(line) == 0 {
 				fmt.Println()
-				return "", fmt.Errorf("EOF")
+				return "", EOF
 			}
 
 		case 1: // Ctrl+A - beginning of line

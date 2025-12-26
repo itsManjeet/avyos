@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"avyos.dev/pkg/lipi"
 	"avyos.dev/pkg/readline"
@@ -19,6 +21,8 @@ const (
 var (
 	inline   bool
 	skipInit bool
+
+	runningProcess *exec.Cmd
 )
 
 //go:embed builtin.lipi
@@ -77,6 +81,8 @@ func main() {
 func repl() {
 	reader := readline.NewReader("> ")
 
+	installSignalHandler()
+
 	for {
 		prompt, err := lipi.Global.Get("PROMPT")
 		if err != nil {
@@ -86,7 +92,10 @@ func repl() {
 
 		line, err := reader.Readline()
 		if err != nil {
-			if err.Error() == "EOF" {
+			switch err {
+			case readline.Interrupt:
+				continue
+			case readline.EOF:
 				break
 			}
 			_, _ = fmt.Fprintf(os.Stderr, "ERROR: %v", err)
@@ -97,8 +106,14 @@ func repl() {
 			reader.SetPrompt("...")
 			subline, err := reader.Readline()
 			if err != nil {
+				switch err {
+				case readline.Interrupt:
+					continue
+				case readline.EOF:
+					break
+				}
 				_, _ = fmt.Fprintf(os.Stderr, "ERROR: %v", err)
-				os.Exit(1)
+				continue
 			}
 
 			line += " " + subline
@@ -188,7 +203,13 @@ func getBusyboxFunc(id string) lipi.Process {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		cmd.Stdin = os.Stdin
-		return nil, cmd.Run()
+		cmd.SysProcAttr = &syscall.SysProcAttr{
+			Setpgid: true,
+		}
+		runningProcess = cmd
+		err := cmd.Run()
+		runningProcess = nil
+		return nil, err
 	}
 }
 
@@ -202,6 +223,28 @@ func getBuiltinFunc(id string) lipi.Process {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		cmd.Stdin = os.Stdin
-		return nil, cmd.Run()
+		cmd.SysProcAttr = &syscall.SysProcAttr{
+			Setpgid: true,
+		}
+		runningProcess = cmd
+		err := cmd.Run()
+		runningProcess = nil
+		return nil, err
 	}
+}
+
+func installSignalHandler() {
+	sigc := make(chan os.Signal, 1)
+	signal.Notify(sigc, syscall.SIGINT)
+
+	go func() {
+		for range sigc {
+			if runningProcess != nil && runningProcess.Process != nil {
+				pgid, err := syscall.Getpgid(runningProcess.Process.Pid)
+				if err == nil {
+					syscall.Kill(-pgid, syscall.SIGINT)
+				}
+			}
+		}
+	}()
 }
