@@ -639,7 +639,8 @@ export class Ignite
             {
                 if (url.starts_with("http"))
                 {
-                    Executor("/bin/wget")
+                    Executor("wget")
+                        .arg("-nc")
                         .arg(url)
                         .arg("-O")
                         .arg(filepath.string() + ".tmp")
