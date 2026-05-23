@@ -1,0 +1,8 @@
+id: python-pip
+version: 23.2.1
+about: PyPA recommended tool for installing python packages
+depends:
+  - components/python.yml
+  - components/python-setuptools.yml
+sources:
+  - pip-%{version}.tar.gz::https://github.com/pypa/pip/archive/%{version}.tar.gz

@@ -1,5 +1,5 @@
 id: zsync
-version: 0.6.2
+version: 0.6.3
 about: A file transfer program that's able to connect to rsync servers
 
 seperate-build-dir: false

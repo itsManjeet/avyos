@@ -1,7 +1,7 @@
 id: platform
 version: 2.0
 merge: [elements/include/meta.inc]
-about: RLXOS platform components
+about: AVYOS platform components
 
 depends:
   - components/busybox.yml
@@ -56,10 +56,10 @@ depends:
   - components/libnvme.yml
   - components/gstreamer.yml
   - components/e2fsprogs.yml
-  - components/py/py-pip.yml
+  - components/python-pip.yml
   - components/ufw.yml
   - components/zram-generator.yml
-  
+
   - components/plymouth.yml
   - components/fuse2.yml
 
@@ -102,13 +102,14 @@ depends:
   - components/lightdm.yml
   - components/picom.yml
 
-  - components/capsule.yml
-
-  - components/gnome/gnome-software.yml
-
-  - components/welcome.yml
   - components/initial-setup.yml
   - components/distrobox.yml
+  - components/gnome-software.yml
+
+  # TODO: Fix these
+  - components/libxml2-compat.yml
+  - components/spirv-tools.yml
+
 
   - kernel/linux.yml
   - components/nvidia.yml

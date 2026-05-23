@@ -1,5 +1,5 @@
 id: grilo
-version: 0.3.16
+version: 0.3.19
 about:
   A framework focused on making media discovery and browsing easy for applications
   and application developers
@@ -7,7 +7,7 @@ about:
 depends:
   - components/glib.yml
   - components/libxml2.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libsoup3.yml
   - components/totem-pl-parser.yml
 build-depends:

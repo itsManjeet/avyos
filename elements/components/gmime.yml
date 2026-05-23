@@ -1,5 +1,5 @@
 id: gmime
-version: 3.2.7
+version: 3.2.15
 about:
   A C/C++ MIME creation and parser library with support for S/MIME, PGP and Unix
   mbox spools

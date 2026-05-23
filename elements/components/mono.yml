@@ -1,5 +1,5 @@
 id: mono
-version: 6.12.0.205
+version: 6.14.1
 about: Free implementation of the .NET platform including runtime and compiler
 
 depends:

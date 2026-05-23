@@ -1,5 +1,5 @@
 id: glew
-version: 2.2.0
+version: 2.3.1
 about: OpenGL extension wrangler library
 
 script: |-
@@ -30,7 +30,7 @@ script: |-
 depends:
   - components/glu.yml
   - components/libglvnd.yml
-  - components/x11/libx11.yml
+  - components/libx11.yml
 sources:
   - https://downloads.sourceforge.net/glew/glew-%{version}.tgz
   - patches/glew/egl+glx.patch

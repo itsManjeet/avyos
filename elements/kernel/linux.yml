@@ -1,8 +1,6 @@
 id: linux
-merge: [elements/include/linux.inc]
-release: 2
-about: |
-  Linux kernel, modules and headers
+version: 7.0.9
+about: Linux kernel, modules and headers
 sources:
   - https://www.kernel.org/pub/linux/kernel/v%{version:1}.x/linux-%{version}.tar.xz
   - files/sign-keys/modules/linux-module-cert.crt
@@ -838,7 +836,7 @@ script: |-
   enable MODULES
   enable MODULE_UNLOAD
 
-  
+
   enable MODULE_SIG
   enable MODULE_SIG_SHA512
   enable MODULE_SIG_FORMAT
@@ -8520,13 +8518,13 @@ script: |-
   #
   # end of Rust hacking
   # end of Kernel hacking
-  
 
-  make olddefconfig
-  
-  make ${MAKEFLAGS}
-  
-  make -j1 INSTALL_MOD_PATH='%{install-root}/%{prefix}' DEPMOD=/bin/true modules_install
+
+  make LLVM=1 olddefconfig
+
+  make LLVM=1 ${MAKEFLAGS}
+
+  make LLVM=1 -j1 INSTALL_MOD_PATH='%{install-root}/%{prefix}' DEPMOD=/bin/true modules_install
   release=$(make -s kernelrelease)
   image_name=$(make -s image_name)
 
@@ -8570,6 +8568,7 @@ integration: |-
 
 build-depends:
   - components/coreutils.yml
+  - components/llvm.yml
   - components/kmod.yml
   - components/bc.yml
   - components/cpio.yml

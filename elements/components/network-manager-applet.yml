@@ -1,5 +1,5 @@
 id: network-manager-applet
-version: 1.34.0
+version: 1.36.0
 about: |
   NetworkManager Applet provides a tool and a panel applet used to configure
   wired and wireless network connections through GUI
@@ -14,7 +14,7 @@ configure: >-
   -D wwan=false
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libnma.yml
   - components/libnotify.yml
   - components/libsecret.yml

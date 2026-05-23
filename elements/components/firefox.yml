@@ -1,5 +1,5 @@
 id: firefox
-version: 124.0.2
+version: 150.0.2
 about:
   Mozilla Firefox or simply Firefox is a free and open-source web browser developed
   by the Mozilla Foundation and its subsidiary, the Mozilla Corporation. Firefox uses
@@ -45,4 +45,4 @@ depends:
   - components/alsa-lib.yml
 
 sources:
-  - http://ftp.mozilla.org/pub/firefox/releases/%{version}/linux-x86_64/en-US/firefox-%{version}.tar.bz2
+  - http://ftp.mozilla.org/pub/firefox/releases/%{version}/linux-x86_64/en-US/firefox-%{version}.tar.xz

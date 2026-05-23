@@ -1,5 +1,5 @@
 id: oniguruma
-version: 6.9.8
+version: 6.9.10
 about: Regular expressions library
 
 depends:

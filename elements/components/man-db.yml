@@ -1,5 +1,5 @@
 id: man-db
-version: 2.12.1
+version: 2.13.1
 about: Programs for finding and viewing man pages
 
 depends:
@@ -10,7 +10,7 @@ depends:
   - components/libpipeline.yml
   - components/zlib.yml
 sources:
-  - https://savannah.nongnu.org/download/man-db/man-db-%{version}.tar.xz
+  - https://download-mirror.savannah.gnu.org/releases/man-db/man-db-%{version}.tar.xz
 
 configure: >-
   --disable-setuid

@@ -1,5 +1,5 @@
 id: waf
-version: 2.0.26
+version: 2.1.9
 about: General-purpose build system modelled after Scons
 
 depends:

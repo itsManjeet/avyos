@@ -1,26 +1,21 @@
 id: ostree
-version: 2024.7
+version: 2026.1
 about: Operating system and container binary deployment and upgrade
 
 variables:
   run-autogen: false
   seperate-build-dir: false
 
-pre-script: |-
-  patch -Np1 -i /patches/ostree/no-boot-symlink.patch
-
 configure: >-
-    --libexecdir=%{libdir}/ostree/
-    --with-openssl
+    --with-dracut
+    --with-libsystemd
+    --with-systemd
+    --with-libarchive
+    --with-curl
     --with-modern-grub
     --with-builtin-grub2-mkconfig
-    --enable-experimental-api
+    --without-soup
     --without-avahi
-    --enable-man=yes
-    --with-dracut
-    --with-soup3
-    --with-ed25519-libsodium
-    --disable-static
 
 post-script: |-
   install -v -D -m 0755 src/boot/grub2/grub2-15_ostree %{install-root}/%{sysconfdir}/grub.d/15_ostree
@@ -37,6 +32,7 @@ depends:
   - components/libsoup3.yml
   - components/xz.yml
   - components/zlib.yml
+  - components/libxml2.yml
 build-depends:
   - components/gtk-doc.yml
   - components/e2fsprogs.yml

@@ -2,23 +2,14 @@ name: Build and Release
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-      - "docs/**"
-      - ".github/workflows/update-docs.yml"
-      - "mkdocs.yml"
 
 env:
-  NO_PROGRESS: 1
-  SERVER_REPO_PATH: ${{secrets.SERVER_REPO_PATH}}
-  SERVER_REPO_URL: ${{secrets.SERVER_REPO_URL}}
   CACHE_PATH: ${{secrets.SERVER_REPO_PATH}}
   OSTREE_REPO: ${{secrets.OSTREE_REPO}}
   OSTREE_GPG: ${{secrets.OSTREE_GPG}}
-  VERSION: ${{ github.run_number }}
-  SOURCEFORGE_PREFIX: ${{secrets.SOURCEFORGE_PREFIX}}
+  VERSION: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'continuous' }}
   CHANNEL: ${{ endsWith(github.ref, 'stable') && 'stable' || 'unstable' }}
   OSTREE_BRANCH: "x86_64/os/${{ endsWith(github.ref, 'stable') && 'stable' || 'unstable' }}"
-  APPMARKET_PATH: ${{secrets.APPMARKET_PATH}}
   SIGN_KEYS_PATH: ${{secrets.SIGN_KEYS_PATH}}
 
 jobs:
@@ -35,76 +26,19 @@ jobs:
       - name: Add sign keys
         run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
 
-      - name: Build system packages
-        run: make ELEMENT=platform.yml
-
       - name: Write changelog
-        run: echo "${{ github.event.head_commit.message }}" > ChangeLog
-
-      - name: Update Ostree
-        run: make ELEMENT=system/repo.yml update-ostree
-
-      - name: Update Extensions
-        run: |
-          for extension_path in elements/extensions/*.yml; do
-            extension_path="$(echo ${extension_path} | cut -d '/' -f2-)"
-            extension="$(basename ${extension_path})"
-            extension="${extension%.*}"
-            OSTREE_BRANCH="x86_64/extension/${extension}/${CHANNEL}" \
-            ELEMENT=${extension_path} make update-ostree
-          done
-
-      - name: Update Applications
-        run: |
-          for app_path in elements/apps/*.yml; do
-            app_path="$(echo ${app_path} | cut -d '/' -f2-)"
-            app="$(basename ${app_path})"
-            app="${app%.*}"
-            make ELEMENT=${app_path} || echo "failed to build ${app_path}"
-          done
+        run: echo -e "${{ github.event.head_commit.message }}" > ChangeLog
 
       - name: Build Installer ISO
         run: make ELEMENT=installer/image.yml
 
-
-  update-installer-iso:
-    name: Update Installer ISO
-    runs-on: self-hosted
-    timeout-minutes: 47000
-    needs: [ build ]
-
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          submodules: true
-      - name: Update installer ISO
+      - name: Checkout installer iso
         run: |
-          make checkout ELEMENT=installer/image.yml DESTDIR=${SERVER_REPO_PATH}/releases/${CHANNEL}/
-          (cd ${SERVER_REPO_PATH}/releases/${CHANNEL}/; zsyncmake -b 2048 -C -u ${SERVER_REPO_URL}/releases/${CHANNEL}/rlxos-${CHANNEL}-installer.iso rlxos-${CHANNEL}-installer.iso)
+              mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
+              make checkout ELEMENT=installer/image.yml DESTDIR=${CACHE_PATH}/releases/${CHANNEL}/
 
-  update-market:
-    name: Update Market
-    runs-on: self-hosted
-    needs: [ build ]
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          submodules: true
-      - name: Generate AppImages meta
-        run: make update-app-market
+      - name: Update Ostree
+        run: make ELEMENT=system/repo.yml update-ostree
 
-  update-mirrors:
-    name: Update ISO on mirrors
-    runs-on: self-hosted
-    environment: deploy
-    needs: [update-installer-iso]
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          submodules: true
-      - name: Upload to sourceforge
-        run: |
-          scp -pr ${SERVER_REPO_PATH}/releases/${CHANNEL}/ ${SOURCEFORGE_PREFIX}/
+      - name: Update extensions
+        run: make extensions

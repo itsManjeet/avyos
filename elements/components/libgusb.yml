@@ -11,6 +11,6 @@ depends:
   - components/json-glib.yml
 build-depends:
   - components/vala.yml
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 sources:
   - https://github.com/hughsie/libgusb/archive/%{version}/libgusb-%{version}.tar.gz

@@ -1,5 +1,5 @@
 id: libxslt
-version: 1.1.42
+version: 1.1.45
 about: Libraries used for extending libxml2 libraries to support XSLT files.
 sources:
   - https://gitlab.gnome.org/GNOME/libxslt/-/archive/v%{version}/libxslt-v%{version}.tar.gz

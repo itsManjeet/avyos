@@ -6,5 +6,5 @@ depends:
   - components/qt.yml
 build-depends:
   - components/extra-cmake-modules.yml
-  - components/plasma/plasma-wayland-protocols.yml
+  - components/plasma-wayland-protocols.yml
   - components/wayland-protocols.yml

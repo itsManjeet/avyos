@@ -1,5 +1,5 @@
 id: gjs
-version: 1.80.2
+version: 1.88.0
 about: A set of Javascript bindings for GNOME
 
 post-script: |-
@@ -12,7 +12,7 @@ depends:
   - components/cairo.yml
   - components/dbus.yml
   - components/spidermonkey.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/gtk4.yml
 build-depends:
   - components/gobject-introspection.yml

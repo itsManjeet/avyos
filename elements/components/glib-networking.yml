@@ -1,5 +1,5 @@
 id: glib-networking
-version: 2.80.0
+version: 2.80.1
 about: GLib Networking package contains Network related gio modules for GLib
 
 configure: >-

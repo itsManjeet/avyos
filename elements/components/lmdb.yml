@@ -1,5 +1,5 @@
 id: lmdb
-version: 0.9.31
+version: 0.9.35
 about: A fast, compact, key-value embedded data store
 
 script: |-

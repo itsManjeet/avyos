@@ -1,5 +1,5 @@
 id: spice-vdagent
-version: 0.22.1
+version: 0.23.0
 about: Spice agent for linux guests
 
 pre-script: |-
@@ -20,12 +20,12 @@ depends:
   - components/alsa-lib.yml
   - components/dbus.yml
   - components/glib.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libdrm.yml
-  - components/x11/libpciaccess.yml
-  - components/x11/libxfixes.yml
-  - components/x11/libxinerama.yml
-  - components/x11/libxrandr.yml
+  - components/libpciaccess.yml
+  - components/libxfixes.yml
+  - components/libxinerama.yml
+  - components/libxrandr.yml
   - components/systemd.yml
 build-depends:
   - components/spice-protocol.yml

@@ -1,5 +1,5 @@
 id: conky
-version: 1.19.6
+version: 1.22.3
 about: Lightweight system monitor for X
 
 configure: >
@@ -21,11 +21,11 @@ depends:
   - components/curl.yml
   - components/glib.yml
   - components/imlib2.yml
-  - components/x11/libx11.yml
-  - components/x11/libxdamage.yml
-  - components/x11/libxft.yml
-  - components/x11/libxfixes.yml
-  - components/x11/libxinerama.yml
+  - components/libx11.yml
+  - components/libxdamage.yml
+  - components/libxft.yml
+  - components/libxfixes.yml
+  - components/libxinerama.yml
   - components/lua.yml
   - components/pulseaudio.yml
   - components/ncurses.yml

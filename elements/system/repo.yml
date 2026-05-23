@@ -11,18 +11,23 @@ initial-commands: |-
   for i in %{datadir}/pkgupd/manifest/*/integration ; do
     sh -e $i
   done
-  
+
   rm -rf /install-root
 
   mkdir -p /proc /sysroot
   ln -sv /sysroot/ostree /ostree
 
   echo "root:root" | chpasswd
-  
+
   ln -sfv %{datadir}/zoneinfo/UTC %{sysconfdir}/
-  
+
+  echo "KEYMAP=us" > %{sysconfdir}/vconsole.conf
+
   # TODO: FIX components/pam.yml integration
   chmod 4755 %{bindir}/unix_chkpwd
+
+  # TODO: FIX libclang.so link
+  ln -sv libclang.so.22.1.5 %{libdir}/libclang.so.22.1
 
   echo -e "\nGTK_CSD=1" >> %{sysconfdir}/environment
 
@@ -31,6 +36,8 @@ initial-commands: |-
 
   kerver=$(ls -1 /lib/modules | head -n1)
   cp /lib/modules/${kerver}/bzImage /lib/modules/${kerver}/vmlinuz
+
+  rm -f %{libdir}/*.dbg
 
   dracut --reproducible -v --no-machineid \
     --early-microcode \

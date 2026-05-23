@@ -1,5 +1,5 @@
 id: libtirpc
-version: 1.3.5
+version: 1.3.7
 about: Libraries that support programs that use the Remote Procedure Call (RPC) API
 sources:
   - https://downloads.sourceforge.net/libtirpc/libtirpc-%{version}.tar.bz2

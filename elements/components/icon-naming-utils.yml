@@ -5,7 +5,7 @@ about:
   icon themes
 
 depends:
-  - components/perl/perl-xml-simple.yml
+  - components/perl-xml-simple.yml
 sources:
   - http://tango.freedesktop.org/releases/icon-naming-utils-%{version}.tar.bz2
 # TODO: fix update url

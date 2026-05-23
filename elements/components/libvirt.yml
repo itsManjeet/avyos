@@ -1,5 +1,5 @@
 id: libvirt
-version: 10.6.0
+version: 12.3.0
 about: API for controlling virtualization engines (openvz,kvm,qemu,virtualbox,xen,etc)
 
 pre-script: |-
@@ -54,14 +54,14 @@ post-script: |-
 
   chmod 0600 %{install-root}%{sysconfdir}/libvirt/nwfilter/*.xml \
     %{install-root}%{sysconfdir}/libvirt/qemu/networks/default.xml
-  
+
   chmod 700 %{install-root}%{sysconfdir}/libvirt/secrets
   chmod 711 %{install-root}/var/lib/libvirt/swtpm
 
 depends:
   - components/fuse.yml
   - components/gnutls.yml
-  - components/x11/libpciaccess.yml
+  - components/libpciaccess.yml
   - components/libssh.yml
   - components/libxml2.yml
   - components/numactl.yml
@@ -80,6 +80,6 @@ build-depends:
   - components/iproute2.yml
   - components/libxslt.yml
   - components/meson.yml
-  - components/py/py-pip.yml
+  - components/python-pip.yml
 sources:
   - https://libvirt.org/sources/%{id}-%{version}.tar.xz

@@ -3,16 +3,16 @@ merge: [elements/include/nvidia.inc]
 about: Tool for configuring the NVIDIA graphics driver
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/jansson.yml
   - components/libvdpau.yml
-  - components/x11/libxv.yml
+  - components/libxv.yml
   - components/nvidia.yml
 build-depends:
   - components/inetutils.yml
   - components/jansson.yml
   - components/libvdpau.yml
-  - components/x11/libxext.yml
+  - components/libxext.yml
 sources:
   - nvidia-settings-%{version}.tar.gz::https://github.com/NVIDIA/nvidia-settings/archive/%{version}.tar.gz
 script: |-

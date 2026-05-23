@@ -1,9 +1,9 @@
 id: libwpe
-version: 1.16.0
+version: 1.16.3
 about: A general purpose library for WPE WebKit and the WPE Renderer
 
 depends:
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/mesa.yml
 sources:
   - https://wpewebkit.org/releases/libwpe-%{version}.tar.xz

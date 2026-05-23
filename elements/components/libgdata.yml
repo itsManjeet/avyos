@@ -8,8 +8,8 @@ configure: >-
 
 depends:
   - components/libsoup.yml
-  - components/gnome/gnome-online-accounts.yml
-  - components/gtk.yml
+  - components/gnome-online-accounts.yml
+  - components/gtk3.yml
   - components/json-glib.yml
   - components/gcr.yml
 build-depends:

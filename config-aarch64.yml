@@ -9,7 +9,7 @@ variables:
   triplet: aarch64-linux-gnu
 
 merge:
-  - include/compiler.yml
-  - include/environ.yml
-  - include/strip.yml
-  - include/variables.yml
+  - tools/compiler.yml
+  - tools/environ.yml
+  - tools/strip.yml
+  - tools/variables.yml

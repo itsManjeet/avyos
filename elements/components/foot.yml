@@ -1,5 +1,5 @@
 id: foot
-version: 1.17.2
+version: 1.26.1
 about: Fast, lightweight and minimalistic wayland terminal emulator
 
 configure: >
@@ -11,7 +11,7 @@ sources:
 depends:
   - components/fcft.yml
   - components/fontconfig.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/pixman.yml
   - components/wayland.yml
 

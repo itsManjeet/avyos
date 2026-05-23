@@ -5,6 +5,6 @@ include:
   - components/qt.yml
 
 merge: [elements/include/extension.inc]
-include-parts: 
+include-parts:
   - devel
   - doc

@@ -1,5 +1,5 @@
 id: gtest
-version: 1.14.0
+version: 1.17.0
 about: Google Test C++ testing utility
 
 build-depends:

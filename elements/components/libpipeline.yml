@@ -1,5 +1,5 @@
 id: libpipeline
-version: 1.5.7
+version: 1.5.8
 about:
   Library for manipulating pipelines of subprocesses in a flexible and convenient
   way

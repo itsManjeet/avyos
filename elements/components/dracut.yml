@@ -1,5 +1,5 @@
 id: dracut
-version: 103
+version: 111
 about: An event driven initramfs infrastructure
 
 variables:
@@ -8,8 +8,6 @@ variables:
 
 configure: >-
   --disable-documentation
-  --systemdsystemunitdir=%{libdir}/systemd/system
-  --enable-dracut-cpio
 
 depends:
   - components/bash.yml

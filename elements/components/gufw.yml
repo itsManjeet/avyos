@@ -1,5 +1,5 @@
 id: gufw
-version: 24.04
+version: 26.04
 about: Uncomplicated way to manage linux firwall
 
 pre-script: |-
@@ -10,18 +10,18 @@ pre-script: |-
 
 depends:
   - components/desktop-file-utils.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/polkit.yml
   - components/python.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
   - components/ufw.yml
   - components/enchant.yml
   - components/webkitgtk.yml
 
 build-depends:
   - components/intltool.yml
-  - components/py/py-setuptools.yml
-  - components/py/py-distutils-extra.yml
+  - components/python-setuptools.yml
+  - components/python-distutils-extra.yml
 
 sources:
   - https://github.com/costales/gufw/archive/%{version}/gufw-%{version}.tar.gz

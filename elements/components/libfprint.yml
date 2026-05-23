@@ -1,5 +1,5 @@
 id: libfprint
-version: 1.94.6
+version: 1.94.10
 about: Library for fingerprint readers
 
 depends:

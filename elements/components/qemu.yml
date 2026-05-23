@@ -1,5 +1,5 @@
 id: qemu
-version: 9.0.2
+version: 11.0.0
 about: A full virtualization solution for Linux on x86 hardware containing virtualization extensions
 
 build-type: autotools
@@ -12,11 +12,11 @@ post-script: |-
   KERNEL=="vhost-net", GROUP="kvm", MODE="0660", TAG+="uaccess", OPTIONS+="static_node=vhost-net"
 
   EOF
-  
+
   install -v -D -m 644 /dev/stdin %{install-root}%{sysconfdir}/sysctl.d/60-net-forward.conf << "EOF"
   net.ipv4.ip_forward=1
   EOF
-  
+
   install -v -D -m 644 /dev/stdin %{install-root}%{sysconfdir}/qemu/bridge.conf << "EOF"
   allow br0
   EOF
@@ -42,7 +42,7 @@ depends:
   - components/curl.yml
   - components/libpng.yml
   - components/alsa-lib.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/ncurses.yml
   - components/sdl2.yml
   - components/spice.yml

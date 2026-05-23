@@ -1,5 +1,5 @@
 id: gparted
-version: 1.6.0
+version: 1.8.1
 about: A Gtk 3 GUI for other command line tools that can create, reorganise or delete disk partitions
 
 depends:

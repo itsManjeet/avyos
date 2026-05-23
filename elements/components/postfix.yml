@@ -1,5 +1,5 @@
 id: postfix
-version: 3.9.0
+version: 3.11.2
 about: Postfix package contains a Mail Transport Agent
 
 script: |-
@@ -7,7 +7,7 @@ script: |-
 
   unset DEBUG
   groupadd -g 32 postfix
-  groupadd -g 33 postdrop 
+  groupadd -g 33 postdrop
   useradd -c "Postfix Daemon User" -d /var/spool/postfix -g postfix -s /bin/false -u 32 postfix &&
   chown -v postfix:postfix /var/mail
   make CCARGS='-DNO_NIS                             \
@@ -16,7 +16,7 @@ script: |-
                -DUSE_CYRUS_SASL -I/usr/include/sasl \
                -DHAS_LDAP                           \
                -DHAS_SQLITE'                        \
-               AUXLIBS="-lssl -lcrypto -lsasl2 -lldap -lsqlite3 -llber -lpthread -lz -lm" 
+               AUXLIBS="-lssl -lcrypto -lsasl2 -lldap -lsqlite3 -llber -lpthread -lz -lm"
   makefiles
 
   make

@@ -1,5 +1,5 @@
 id: usbutils
-version: 017
+version: 019
 about: A collection of USB tools to query connected USB devices
 
 configure: >-

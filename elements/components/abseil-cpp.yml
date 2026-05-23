@@ -1,5 +1,5 @@
 id: abseil-cpp
-version: 20240116.2
+version: 20260107.1
 about: Collection of C++ library code designed to augment the C++ standard library
 
 configure: >

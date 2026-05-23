@@ -1,0 +1,13 @@
+id: libxshmfence
+version: 1.3.3
+about: xorg library libxshmfence
+
+sources:
+  - https://www.x.org/pub/individual/lib/libxshmfence-%{version}.tar.xz
+
+depends:
+  - components/glibc.yml
+
+build-depends:
+  - components/util-macros.yml
+  - components/xorgproto.yml

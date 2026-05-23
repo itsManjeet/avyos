@@ -1,0 +1,16 @@
+id: python-trove-classifiers
+version: 2026.1.14.14
+about: Package to encompass all valid PyPI classifiers used to categorize projects and releases per PEP 301
+
+build-type: python
+
+depends:
+  - components/python.yml
+  - components/python-setuptools-scm.yml
+
+build-depends:
+  - components/python-build.yml
+  - components/python-installer.yml
+
+sources:
+  - https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-%{version}.tar.gz

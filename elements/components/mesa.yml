@@ -1,67 +1,100 @@
 id: mesa
-version: 24.1.5
+version: 26.0.6
 about: OpenGL compatible 3D graphics library
 
+environ:
+    - MESON_PACKAGE_CACHE_DIR=/build-root/mesa-26.0.6
+
 pre-script: |-
-  python3 -m pip install ply
+    python3 -m pip install ply pyyaml pycparser
 
 configure: >-
-  -D android-libbacktrace=disabled
-  -D b_ndebug=true
-  -D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,i915,iris,crocus,d3d12,zink
-  -D gallium-extra-hud=true
-  -D gallium-nine=true
-  -D gallium-opencl=icd
-  -D gallium-rusticl=true
-  -D gles1=disabled
-  -D glx=dri
-  -D intel-clc=enabled
-  -D intel-rt=enabled
-  -D libunwind=disabled
-  -D microsoft-clc=disabled
-  -D osmesa=true
-  -D platforms=x11,wayland
-  -D valgrind=enabled
-  -D video-codecs=all
-  -D vulkan-drivers=amd,intel,intel_hasvk,swrast,virtio,nouveau
-  -D vulkan-layers=device-select,intel-nullhw,overlay
-
+    -D amdgpu-virtio=true
+    -D android-libbacktrace=disabled
+    -D b_ndebug=true
+    -D gallium-drivers=all
+    -D gallium-extra-hud=true
+    -D gallium-mediafoundation=disabled
+    -D gallium-rusticl-enable-drivers=asahi,freedreno,radeonsi
+    -D gallium-rusticl=true
+    -D gles1=disabled
+    -D intel-rt=enabled
+    -D libunwind=disabled
+    -D microsoft-clc=disabled
+    -D valgrind=enabled
+    -D video-codecs=all
+    -D vulkan-drivers=all
+    -D vulkan-layers=device-select,intel-nullhw,overlay,screenshot,anti-lag,vram-report-limit
+    -D vulkan-manifest-per-architecture=false
 
 depends:
-  - components/libelf.yml
-  - components/libxml2.yml
-  - components/libllvm.yml
-  - components/libdrm.yml
-  - components/wayland.yml
-  - components/lm-sensors.yml
-  - components/libva-nomesa.yml
-  - components/libvdpau.yml
-  - components/libglvnd.yml
-  - components/libunwind.yml
-  - components/vulkan-loader.yml
-  - components/x11/libx11.yml
-  - components/x11/libxdamage.yml
-  - components/x11/libxrandr.yml
-  - components/x11/libxshmfence.yml
-  - components/x11/libxxf86vm.yml
-  - components/x11/libpciaccess.yml
+    - components/libelf.yml
+    - components/libxml2.yml
+    - components/libllvm.yml
+    - components/libdrm.yml
+    - components/wayland.yml
+    - components/lm-sensors.yml
+    - components/libva-nomesa.yml
+    - components/libvdpau.yml
+    - components/libglvnd.yml
+    - components/vulkan-loader.yml
+    - components/libx11.yml
+    - components/libxdamage.yml
+    - components/libxrandr.yml
+    - components/libxshmfence.yml
+    - components/libxxf86vm.yml
+    - components/libpciaccess.yml
 
 build-depends:
-  - components/wayland-protocols.yml
-  - components/py/py-mako.yml
-  - components/py/py-pip.yml
-  - components/cmake.yml
-  - components/flex.yml
-  - components/bison.yml
-  - components/glslang.yml
-  - components/llvm.yml
-  - components/libclc.yml
-  - components/directx-headers.yml
-  - components/rustc.yml
-  - components/rust-bindgen.yml
-  - components/cbindgen.yml
-  - components/valgrind.yml
-  - components/vulkan-headers.yml
+    - components/wayland-protocols.yml
+    - components/python-mako.yml
+    - components/python-pip.yml
+    - components/meson.yml
+    - components/ninja.yml
+    - components/cmake.yml
+    - components/flex.yml
+    - components/bison.yml
+    - components/glslang.yml
+    - components/llvm.yml
+    - components/libclc.yml
+    - components/directx-headers.yml
+    - components/rustc.yml
+    - components/rust-bindgen.yml
+    - components/cbindgen.yml
+    - components/valgrind.yml
+    - components/vulkan-headers.yml
 
 sources:
-  - https://mesa.freedesktop.org/archive/mesa-%{version}.tar.xz
+    - https://mesa.freedesktop.org/archive/mesa-%{version}.tar.xz
+
+    # Mesa Rust crate fallback sources.
+    # Keep these in sync with mesa-%{version}/subprojects/*-rs.wrap.
+    - bitflags-2.9.1.tar.gz::noextract::https://crates.io/api/v1/crates/bitflags/2.9.1/download
+    - cfg-if-1.0.0.tar.gz::noextract::https://crates.io/api/v1/crates/cfg-if/1.0.0/download
+    - equivalent-1.0.1.tar.gz::noextract::https://crates.io/api/v1/crates/equivalent/1.0.1/download
+    - errno-0.3.12.tar.gz::noextract::https://crates.io/api/v1/crates/errno/0.3.12/download
+    - hashbrown-0.14.1.tar.gz::noextract::https://crates.io/api/v1/crates/hashbrown/0.14.1/download
+    - indexmap-2.2.6.tar.gz::noextract::https://crates.io/api/v1/crates/indexmap/2.2.6/download
+    - libc-0.2.171.tar.gz::noextract::https://crates.io/api/v1/crates/libc/0.2.171/download
+    - log-0.4.27.tar.gz::noextract::https://crates.io/api/v1/crates/log/0.4.27/download
+    - once_cell-1.8.0.tar.gz::noextract::https://crates.io/api/v1/crates/once_cell/1.8.0/download
+    - paste-1.0.14.tar.gz::noextract::https://crates.io/api/v1/crates/paste/1.0.14/download
+    - pest-2.8.0.tar.gz::noextract::https://crates.io/api/v1/crates/pest/2.8.0/download
+    - pest_derive-2.8.0.tar.gz::noextract::https://crates.io/api/v1/crates/pest_derive/2.8.0/download
+    - pest_generator-2.8.0.tar.gz::noextract::https://crates.io/api/v1/crates/pest_generator/2.8.0/download
+    - pest_meta-2.8.0.tar.gz::noextract::https://crates.io/api/v1/crates/pest_meta/2.8.0/download
+    - proc-macro2-1.0.86.tar.gz::noextract::https://crates.io/api/v1/crates/proc-macro2/1.0.86/download
+    - quote-1.0.35.tar.gz::noextract::https://crates.io/api/v1/crates/quote/1.0.35/download
+    - remain-0.2.12.tar.gz::noextract::https://crates.io/api/v1/crates/remain/0.2.12/download
+    - roxmltree-0.20.0.tar.gz::noextract::https://crates.io/api/v1/crates/roxmltree/0.20.0/download
+    - rustc-hash-2.1.1.tar.gz::noextract::https://crates.io/api/v1/crates/rustc-hash/2.1.1/download
+    - rustix-1.1.2.tar.gz::noextract::https://crates.io/api/v1/crates/rustix/1.1.2/download
+    - syn-2.0.87.tar.gz::noextract::https://crates.io/api/v1/crates/syn/2.0.87/download
+    - thiserror-2.0.11.tar.gz::noextract::https://crates.io/api/v1/crates/thiserror/2.0.11/download
+    - thiserror-impl-2.0.11.tar.gz::noextract::https://crates.io/api/v1/crates/thiserror-impl/2.0.11/download
+    - ucd-trie-0.1.6.tar.gz::noextract::https://crates.io/api/v1/crates/ucd-trie/0.1.6/download
+    - unicode-ident-1.0.12.tar.gz::noextract::https://crates.io/api/v1/crates/unicode-ident/1.0.12/download
+    - windows-link-0.2.0.tar.gz::noextract::https://crates.io/api/v1/crates/windows-link/0.2.0/download
+    - windows-sys-0.61.1.tar.gz::noextract::https://crates.io/api/v1/crates/windows-sys/0.61.1/download
+    - zerocopy-0.8.13.tar.gz::noextract::https://crates.io/api/v1/crates/zerocopy/0.8.13/download
+    - zerocopy-derive-0.8.13.tar.gz::noextract::https://crates.io/api/v1/crates/zerocopy-derive/0.8.13/download

@@ -1,5 +1,5 @@
 id: libgepub
-version: 0.7.1
+version: 0.7.3
 about: Simple library to read epub files using glib
 
 depends:

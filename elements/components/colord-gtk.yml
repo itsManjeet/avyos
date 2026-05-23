@@ -10,7 +10,7 @@ configure: >
 
 depends:
   - components/colord.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/gtk4.yml
 build-depends:
   - components/gobject-introspection.yml

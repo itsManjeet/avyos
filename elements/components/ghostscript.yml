@@ -1,5 +1,5 @@
 id: ghostscript
-version: 10.03.1
+version: 10.07.0
 about: An interpreter for the PostScript language
 
 seperate-build-dir: false
@@ -20,8 +20,8 @@ depends:
   - components/cups.yml
   - components/libjpeg-turbo.yml
   - components/libpng.yml
-  - components/x11/libx11.yml
-  - components/x11/libxt.yml
+  - components/libx11.yml
+  - components/libxt.yml
   - components/mesa.yml
 
 sources:

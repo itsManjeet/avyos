@@ -1,19 +1,19 @@
 id: i3
-version: 4.23
+version: 4.25.1
 about: Improved dynamic tiling window manager
 
-depends: 
+depends:
   - components/libev.yml
   - components/pango.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/startup-notification.yml
-  - components/x11/xcb-util-cursor.yml
-  - components/x11/xcb-util-keysyms.yml
-  - components/x11/xcb-util-wm.yml
-  - components/x11/xcb-util-xrm.yml
+  - components/xcb-util-cursor.yml
+  - components/xcb-util-keysyms.yml
+  - components/xcb-util-wm.yml
+  - components/xcb-util-xrm.yml
   - components/yajl.yml
 
-build-depends: 
+build-depends:
   - components/meson.yml
 
 sources:

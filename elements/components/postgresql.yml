@@ -1,5 +1,5 @@
 id: postgresql
-version: 16.4
+version: 18.3
 about: PostgreSQL is an advanced object-relational database management system (ORDBMS), derived from the Berkeley Postgres database management system
 
 pre-script: |-

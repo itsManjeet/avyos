@@ -1,5 +1,5 @@
 id: libvpx
-version: 1.14.1
+version: 1.16.0
 about: Reference implementations of the VP8 Codec
 
 script: |-

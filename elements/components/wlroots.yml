@@ -1,5 +1,5 @@
 id: wlroots
-version: 0.17.4
+version: 0.18.1
 about: A modular wayland compositor library
 depends:
   - components/libdisplay-info.yml
@@ -10,14 +10,15 @@ depends:
   - components/pixman.yml
   - components/wayland.yml
   - components/mesa.yml
-  - components/x11/libxcb.yml
-  - components/x11/xcb-util-errors.yml
-  - components/x11/xcb-util-image.yml
-  - components/x11/xcb-util-renderutil.yml
-  - components/x11/xcb-util-wm.yml
-  - components/x11/libxkbcommon.yml
-  - components/x11/xwayland.yml
+  - components/libxcb.yml
+  - components/xcb-util-errors.yml
+  - components/xcb-util-image.yml
+  - components/xcb-util-renderutil.yml
+  - components/xcb-util-wm.yml
+  - components/libxkbcommon.yml
+  - components/xwayland.yml
   - components/hwdata.yml
+
 build-depends:
   - components/wayland-protocols.yml
   - components/meson.yml

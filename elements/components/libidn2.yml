@@ -1,5 +1,5 @@
 id: libidn2
-version: 2.3.7
+version: 2.3.8
 about: Free software implementation of IDNA2008, Punycode and TR46
 
 configure: >

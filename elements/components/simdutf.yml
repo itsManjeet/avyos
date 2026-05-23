@@ -1,0 +1,12 @@
+id: simdutf
+version: 9.0.0
+about: Library used for processing Unicode characters with SIMD optimizations
+
+configure: >-
+  -D BUILD_SHARED_LIBS=ON
+
+depends:
+  - components/glibc.yml
+
+sources:
+  - https://github.com/simdutf/simdutf/archive/v%{version}/simdutf-%{version}.tar.gz

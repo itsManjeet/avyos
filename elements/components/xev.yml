@@ -1,0 +1,13 @@
+id: xev
+version: 1.2.6
+about: Print contents of X events
+
+depends:
+  - components/libx11.yml
+  - components/libxrandr.yml
+build-depends:
+  - components/util-macros.yml
+  - components/xorgproto.yml
+sources:
+  - https://www.x.org/pub/individual/app/xev-%{version}.tar.xz
+

@@ -1,5 +1,5 @@
 id: pugixml
-version: 1.13
+version: 1.15
 about: Light-weight, simple and fast XML parser for C++ with XPath support
 
 configure: >-

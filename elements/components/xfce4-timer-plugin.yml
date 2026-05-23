@@ -1,0 +1,5 @@
+id: xfce4-timer-plugin
+version: 1.8.0
+about: Plugin to track time for the Xfce4 panel
+
+merge: [elements/include/xfce4-panel-plugin.inc]

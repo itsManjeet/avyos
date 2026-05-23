@@ -1,5 +1,5 @@
 id: uncrustify
-version: 0.77.1
+version: 0.82.0
 about: A source code beautifier
 
 post-script: |-

@@ -1,11 +1,12 @@
-id: rlxos-container-devel
+id: avyos-container-devel
 merge: [version.yml, elements/include/container.inc]
-about: rlxos container developers image
+about: avyos container developers image
 
 capabilities:
   - CAP_SYS_CHROOT
 
 include:
+  - components/libxml2-compat.yml
   - components/core.yml
   - components/meson.yml
   - components/make.yml
@@ -15,7 +16,6 @@ include:
   - components/patch.yml
   - components/m4.yml
   - components/pkg-config.yml
-  - components/strace.yml
   - components/bison.yml
   - components/flex.yml
   - components/kernel-headers.yml
@@ -23,6 +23,8 @@ include:
   - components/cmake.yml
   - components/libtool.yml
   - components/jansson.yml
+  - components/llvm.yml
+  - components/bc.yml
 
 include-parts:
   - devel

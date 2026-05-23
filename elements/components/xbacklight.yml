@@ -1,0 +1,12 @@
+id: xbacklight
+version: 1.2.4
+about: RandR based backlight control application
+
+depends:
+  - components/xcb-util.yml
+build-depends:
+  - components/util-macros.yml
+  - components/xorgproto.yml
+
+sources:
+  - https://www.x.org/pub/individual/app/xbacklight-%{version}.tar.xz

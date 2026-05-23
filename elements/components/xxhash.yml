@@ -1,5 +1,5 @@
 id: xxhash
-version: 0.8.1
+version: 0.8.3
 about: Extremely fast non-cryptographic hash algorithm
 depends:
   - components/glibc.yml

@@ -1,7 +1,9 @@
 id: initial-setup
 version: 2.0.12
 about: System Initial Setup
-merge: [ ostree-branch.yml, elements/include/rlxos.inc ]
+merge: [ostree-branch.yml]
+
+commit: 2835b2c61d0fe2cc4a92b4ae5a663057ba4a5f1f
 
 post-script: |-
   for script in first-boot installer ; do
@@ -138,7 +140,7 @@ post-script: |-
     </property>
   </channel>
   EOF
-  
+
   install -vDm 0644 /dev/stdin %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.config/autostart/welcome.desktop << "EOF"
   [Desktop Entry]
   Hidden=true
@@ -149,7 +151,7 @@ post-script: |-
   x-scheme-handler/http=firefox.desktop
   x-scheme-handler/https=firefox.desktop
   EOF
-  
+
   touch %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.welcome-done
 
   install -vDm 0644 /dev/stdin %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << "EOF"
@@ -185,5 +187,6 @@ post-script: |-
 depends:
   - components/gtkmm.yml
   - components/glib.yml
-  - components/gparted.yml
-  - components/lightdm.yml
+
+sources:
+  - initial-setup-%{commit}.tar.gz::https://github.com/itsManjeet/initial-setup/archive/%{commit}.tar.gz

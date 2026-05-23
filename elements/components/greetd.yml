@@ -1,5 +1,5 @@
 id: greetd
-version: 0.9.0
+version: 0.10.3
 about: Generic greeter daemon
 
 script: |-
@@ -15,7 +15,7 @@ script: |-
   
   install -Dm0644 -t "%{install-root}/%{libdir}/systemd/system/" "greetd.service"
 
-  install -Dm0644 /dev/stdin "%{install-root}/etc/%{sysconfdir}/greetd" << "EOF"
+  install -Dm0644 /dev/stdin "%{install-root}/%{sysconfdir}/pam.d/greetd" << "EOF"
   auth       required     pam_securetty.so
   auth       requisite    pam_nologin.so
   auth       include      system-auth
@@ -29,8 +29,14 @@ script: |-
   EOF
   make -C man DESTDIR="%{install-root}" PREFIX=/usr install
 
-  mkdir -p %{install-root}%{sysconfdir}
-  cp -rf /files/greetd %{install-root}%{sysconfdir}/
+  install -vDm 0644 /dev/stdin %{install-root}%{sysconfdir}/greetd/config.toml << "EOF"
+  [terminal]
+  vt = 1
+
+  [default_session]
+  command = "compositor"
+  user = "initial-setup"
+  EOF
 
 
 depends:

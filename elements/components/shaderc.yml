@@ -1,5 +1,5 @@
 id: shaderc
-version: 2024.1
+version: 2026.2
 about: Collection of tools, libraries and tests for shader compilation
 
 pre-script: |-

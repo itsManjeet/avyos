@@ -1,11 +1,12 @@
 id: gdk-pixbuf
-version: 2.42.12
+version: 2.44.6
 about: Package is a toolkit for image loading and pixel buffer manipulation
 
 configure: >
   --buildtype=release
   -D man=false
   -D installed_tests=false
+  -D glycin=disabled
 
 integration: |-
   gdk-pixbuf-query-loaders --update-cache

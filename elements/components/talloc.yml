@@ -1,5 +1,5 @@
 id: talloc
-version: 2.4.2
+version: 2.4.4
 about: Hierarchical pool based memory allocator with destructors
 
 configure: >-

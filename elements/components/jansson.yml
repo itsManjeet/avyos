@@ -1,5 +1,5 @@
 id: jansson
-version: 2.14
+version: 2.15.0
 about: Package contains a library used to encode, decode, and manipulate JSON data
 
 build-type: autotools

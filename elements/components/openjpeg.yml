@@ -1,5 +1,5 @@
 id: openjpeg
-version: 2.5.2
+version: 2.5.4
 about: An open-source implementation of the JPEG-2000 standard
 
 depends:

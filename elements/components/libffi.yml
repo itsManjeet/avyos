@@ -1,5 +1,5 @@
 id: libffi
-version: 3.4.6
+version: 3.5.2
 about: Library provides a portable, high level programming interface to various calling conventions
 
 configure: >-

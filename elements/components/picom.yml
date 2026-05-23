@@ -1,5 +1,5 @@
 id: picom
-version: 12-rc3
+version: 13
 about: X compositor that may fix tearing issue
 sources:
   - picom-%{version}.tar.gz::https://github.com/yshui/picom/archive/refs/tags/v%{version}.tar.gz
@@ -16,13 +16,13 @@ post-script: |-
   fade-out-step = 0.03;
 
   frame-opacity = 0.7;
-  
+
   corner-radius = 0;
 
   blur-kern = "3x3box";
-  
+
   backend = "xrender";
-  
+
   vsync = true;
 
   detect-rounded-corners = true;
@@ -94,8 +94,8 @@ depends:
   - components/mesa.yml
   - components/libepoxy.yml
   - components/libglvnd.yml
-  - components/x11/xcb-util-image.yml
-  - components/x11/xcb-util-renderutil.yml
+  - components/xcb-util-image.yml
+  - components/xcb-util-renderutil.yml
 
 build-depends:
   - components/uthash.yml

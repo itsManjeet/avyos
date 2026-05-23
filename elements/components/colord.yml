@@ -1,11 +1,8 @@
 id: colord
-version: 1.4.7
+version: 1.4.8
 about: |
   A system service that makes it easy to manage, install, and generate color
   profiles
-
-pre-script: |-
-  patch -Np1 -i colord-1.4.7-upstream_fixes-1.patch
 
 configure: >
   --buildtype=release
@@ -38,4 +35,3 @@ build-depends:
   - components/vala.yml
 sources:
   - https://www.freedesktop.org/software/colord/releases/colord-%{version}.tar.xz
-  - patches/colord/colord-1.4.7-upstream_fixes-1.patch

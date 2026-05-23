@@ -8,9 +8,9 @@ script: |-
   make DESTDIR=%{install-root} install
 
 depends:
-  - components/themes/adwaita-icon-theme.yml
+  - components/adwaita-icon-theme.yml
 build-depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/optipng.yml
 sources:
   - elementary-xfce-%{version}.tar.gz::https://github.com/shimmerproject/elementary-xfce/archive/refs/tags/v%{version}.tar.gz

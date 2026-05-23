@@ -1,5 +1,5 @@
 id: gexiv2
-version: 0.14.3
+version: 0.16.0
 about: GObject-based wrapper around the Exiv2 library
 
 configure: >-
@@ -7,7 +7,7 @@ configure: >-
 
 depends:
   - components/exiv2.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 
 build-depends:
   - components/vala.yml

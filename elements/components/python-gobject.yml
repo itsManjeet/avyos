@@ -1,0 +1,11 @@
+id: python-gobject
+version: 3.56.2
+about: Python bindings to the GObject class from GLib
+
+depends:
+  - components/gobject-introspection.yml
+  - components/python-cairo.yml
+sources:
+  - https://download.gnome.org/sources/pygobject/%{version:2}/pygobject-%{version}.tar.gz
+
+pre-script: mv -v tests/test_gdbus.py{,.nouse}

@@ -2,37 +2,46 @@ id: nvidia
 merge: [elements/include/nvidia.inc]
 about: NVIDIA drivers and utilities
 strip: false
+
 depends:
   - components/egl-wayland.yml
   - components/libglvnd.yml
-  - components/x11/xserver.yml
+  - components/xserver.yml
+
 build-depends:
   - kernel/linux.yml
-  - components/gcc.yml
+  - components/llvm.yml
 
 environ:
   - TAR_OPTIONS=--no-same-owner --no-same-permissions
+  - CC=clang
+  - CXX=clang++
+  - LD=ld.lld
 
 build-dir: "."
 
 sources:
   - https://us.download.nvidia.com/XFree86/Linux-x86_64/%{version}/NVIDIA-Linux-x86_64-%{version}.run
+  - open-gpu-kernel-modules-%{version}.tar.gz::https://github.com/NVIDIA/open-gpu-kernel-modules/archive/refs/tags/%{version}.tar.gz
   - files/sign-keys/modules/linux-module-cert.crt
   - files/sign-keys/linux-module-cert.key
 
 script: |-
   sh NVIDIA-Linux-x86_64-%{version}.run -x
-  cd NVIDIA-Linux-x86_64-%{version}/kernel
 
+  unset LDFLAGS
   KERNEL_VERSION=$(ls -1 %{libdir}/modules/ | head -n1)
 
-  make KERNEL_UNAME=$KERNEL_VERSION modules
-  make -j1 modules_install INSTALL_MOD_PATH=%{install-root}%{prefix} KERNEL_UNAME=$KERNEL_VERSION
+  cd open-gpu-kernel-modules-%{version}
+  printf '\nccflags-y += $(EXTRA_CFLAGS)\n' >> kernel-open/Kbuild
+  NVIDIA_KCFLAGS="-I$(pwd)/kernel-open/common/inc -I$(pwd)/kernel-open"
+  make LLVM=1 KERNEL_UNAME=$KERNEL_VERSION KCFLAGS="$NVIDIA_KCFLAGS" modules
+  make LLVM=1 -j1 modules_install INSTALL_MOD_PATH=%{install-root}%{prefix} KERNEL_UNAME=$KERNEL_VERSION KCFLAGS="$NVIDIA_KCFLAGS"
 
-  openssl x509 -inform PEM -outform DER -in %{build-root}/linux-module-cert.crt -out linux-module-cert.cer
-  find '%{install-root}%{libdir}/modules' -type f -name "*.ko" -exec %{libdir}/modules/${KERNEL_VERSION}/source/scripts/sign-file sha512 %{build-root}/linux-module-cert.key linux-module-cert.cer {} ';' -exec xz --lzma2=dict=2MiB {} ';'
+  openssl x509 -inform PEM -outform DER -in /files/sign-keys/modules/linux-module-cert.crt -out linux-module-cert.cer
+  find '%{install-root}%{libdir}/modules' -type f -name "*.ko" -exec %{libdir}/modules/${KERNEL_VERSION}/source/scripts/sign-file sha512 /files/sign-keys/linux-module-cert.key linux-module-cert.cer {} ';' -exec xz --lzma2=dict=2MiB {} ';'
 
-  cd ..
+  cd ../NVIDIA-Linux-x86_64-%{version}
   tar -xf nvidia-persistenced-init.tar.bz2
 
   install -Dm644 nvidia.icd "%{install-root}%{sysconfdir}/OpenCL/vendors/nvidia.icd"
@@ -47,7 +56,7 @@ script: |-
   ln -sr "%{install-root}/usr/lib/libnvidia-allocator.so.%{version}" "%{install-root}/usr/lib/gbm/nvidia-drm_gbm.so"
 
   # firmware
-  install -Dm644 -t "%{install-root}/usr/lib/firmware/nvidia/%{version}/" firmware/*.bin 
+  install -Dm644 -t "%{install-root}/usr/lib/firmware/nvidia/%{version}/" firmware/*.bin
 
   # GLX extension module for X
   install -Dm755 "libglxserver_nvidia.so.%{version}" "%{install-root}/usr/lib/nvidia/xorg/libglxserver_nvidia.so.%{version}"

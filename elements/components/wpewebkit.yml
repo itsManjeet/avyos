@@ -1,5 +1,5 @@
 id: wpewebkit
-version: 2.44.0
+version: 2.52.3
 about: Embeddable web content engine
 
 configure: >-
@@ -34,7 +34,7 @@ depends:
   - components/libsoup3.yml
   - components/libwebp.yml
   - components/libwpe.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/libxml2.yml
   - components/libxslt.yml
   - components/mesa.yml

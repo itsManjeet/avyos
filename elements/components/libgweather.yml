@@ -1,5 +1,5 @@
 id: libgweather
-version: 4.4.2
+version: 4.6.0
 about:
   A library used to access weather information from online services for numerous
   locations
@@ -10,14 +10,14 @@ configure: >-
 
 depends:
   - components/geocode-glib.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libxml2.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 build-depends:
   - components/vala.yml
   - components/gobject-introspection.yml
-  - components/py/py-jinja2.yml
-  - components/py/py-markupsafe.yml
-  - components/py/py-pygments.yml
+  - components/python-jinja2.yml
+  - components/python-markupsafe.yml
+  - components/python-pygments.yml
 sources:
   - https://download.gnome.org/sources/libgweather/%{version:2}/libgweather-%{version}.tar.xz

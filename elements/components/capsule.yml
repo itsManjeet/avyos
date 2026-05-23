@@ -1,7 +1,7 @@
 id: capsule
 version: 2.0.1
 about: An Easy to learn programming Language
-merge: [ elements/include/rlxos.inc ]
+merge: [ elements/include/avyos.inc ]
 
 depends:
   - components/glibc.yml

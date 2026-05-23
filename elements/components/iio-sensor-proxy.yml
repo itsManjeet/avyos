@@ -1,13 +1,13 @@
 id: iio-sensor-proxy
-version: 3.4
+version: 3.9
 about: IIO accelerometer sensor to input device proxy
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libgudev.yml
   - components/systemd.yml
   - components/polkit.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 build-depends:
   - components/meson.yml
 sources:

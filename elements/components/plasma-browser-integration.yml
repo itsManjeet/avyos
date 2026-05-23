@@ -1,0 +1,10 @@
+id: plasma-browser-integration
+merge: [elements/include/plasma.inc]
+about: Plasma plasma-browser-integration
+
+depends:
+  - components/kfilemetadata.yml
+  - components/plasma-workspace.yml
+  - components/purpose.yml
+build-depends:
+  - components/extra-cmake-modules.yml

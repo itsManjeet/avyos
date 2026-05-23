@@ -1,5 +1,5 @@
 id: seatd
-version: 0.7.0
+version: 0.9.3
 release: 2
 about: A minimal seat management daemon and universal seat management library
 sources:
@@ -19,6 +19,11 @@ configure: >-
 post-script: |
   install -Dm644 contrib/systemd/seatd.service \
     -t %{install-root}/%{libdir}/systemd/system/
-  install -Dm644 /files/seatd/seatd.preset \
-    -t %{install-root}/%{libdir}/systemd/system-preset/
-  install -Dm644 /files/seatd/sysuser.conf %{install-root}/%{libdir}/sysusers.d/seatd.conf
+
+  install -Dm644 /dev/stdin %{install-root}/%{libdir}/systemd/system-preset/seatd.preset << "EOF"
+  enable seatd
+  EOF
+
+  install -Dm644 /dev/stdin %{install-root}/%{libdir}/sysusers.d/seatd.conf << "EOF"
+  g seat - -
+  EOF

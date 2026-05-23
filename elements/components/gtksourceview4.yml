@@ -3,7 +3,7 @@ version: 4.8.4
 about: Libraries used for extending the GTK+ text functions to include syntax highlighting
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libxml2.yml
 build-depends:
   - components/gobject-introspection.yml

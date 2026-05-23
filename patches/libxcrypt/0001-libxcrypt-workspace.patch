@@ -1,0 +1,24 @@
+diff -Naur a/lib/crypt-gost-yescrypt.c b/lib/crypt-gost-yescrypt.c
+--- a/lib/crypt-gost-yescrypt.c	2026-04-16 04:59:54.777788804 +0000
++++ b/lib/crypt-gost-yescrypt.c	2026-04-16 04:59:54.789788759 +0000
+@@ -131,7 +131,7 @@
+   intbuf->outbuf[1] = 'g';
+ 
+   /* extract yescrypt output from "$y$param$salt$output" */
+-  char *hptr = strchr ((const char *) intbuf->retval + 3, '$');
++  char *hptr = strchr ((char *) intbuf->retval + 3, '$');
+   if (!hptr)
+     {
+       errno = EINVAL;
+diff -Naur a/lib/crypt-sm3-yescrypt.c b/lib/crypt-sm3-yescrypt.c
+--- a/lib/crypt-sm3-yescrypt.c	2026-04-16 04:59:54.777788804 +0000
++++ b/lib/crypt-sm3-yescrypt.c	2026-04-16 04:59:54.789788759 +0000
+@@ -136,7 +136,7 @@
+   intbuf->outbuf[3] = '3';
+ 
+   /* extract yescrypt output from "$y$param$salt$output" */
+-  char *hptr = strchr ((const char *) intbuf->retval + 3, '$');
++  char *hptr = strchr ((char *) intbuf->retval + 3, '$');
+   if (!hptr)
+     {
+       errno = EINVAL;

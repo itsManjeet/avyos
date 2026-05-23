@@ -1,0 +1,9 @@
+id: gpgmepp
+version: 2.0.0
+about: C++ bindings for GPGME
+
+depends:
+  - components/gpgme.yml
+
+sources:
+  - https://www.gnupg.org/ftp/gcrypt/gpgmepp/gpgmepp-%{version}.tar.xz

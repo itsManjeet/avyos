@@ -1,5 +1,5 @@
 id: openssh
-version: 9.8p1
+version: 10.3p1
 about: ssh clients and the sshd daemon
 
 depends:

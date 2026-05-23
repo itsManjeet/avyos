@@ -1,5 +1,5 @@
 id: gpgme
-version: 1.23.2
+version: 2.0.1
 about: A C library that allows cryptography support to be added to a program
 
 configure: >-

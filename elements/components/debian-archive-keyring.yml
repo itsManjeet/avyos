@@ -1,5 +1,5 @@
 id: debian-archive-keyring
-version: 2023.4
+version: 2025.1
 about: GnuPG archive keys of the debian archive
 release: 0
 depends:

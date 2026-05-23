@@ -1,10 +1,11 @@
 id: ntfs-3g
-version: 2022.10.3
+version: 2026.2.25
 about: |
   A stable, read-write open source driver for NTFS partitions
 
 pre-script: |-
-  sed -i "s|/sbin|\$(rootsbindir)|" {ntfsprogs,src}/Makefile.in
+  autoreconf -fiv
+  sed -i "s|/sbin|\$(DESTDIR)/%{bindir}|" {ntfsprogs,src}/Makefile.in
 
 configure: >-
   --disable-static
@@ -25,4 +26,4 @@ depends:
   - components/gnutls.yml
   - components/libidn2.yml
 sources:
-  - https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
+  - https://github.com/tuxera/ntfs-3g/archive/refs/tags/%{version}.tar.gz

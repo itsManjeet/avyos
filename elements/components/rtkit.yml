@@ -1,5 +1,5 @@
 id: rtkit
-version: 0.13
+version: 0.14
 about: Realtime Policy and watchdog daemon
 
 post-script: |-
@@ -17,4 +17,4 @@ build-depends:
   - components/vim.yml
 
 sources:
-  - https://github.com/heftig/rtkit/releases/download/v%{version}/rtkit-%{version}.tar.xz
+  - https://gitlab.freedesktop.org/pipewire/rtkit/-/archive/v%{version}/rtkit-v%{version}.tar.gz

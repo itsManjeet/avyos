@@ -1,5 +1,5 @@
 id: pavucontrol
-version: 6.1
+version: 6.2
 about: A simple GTK based volume control tool ("mixer") for the PulseAudio sound server
 
 depends:

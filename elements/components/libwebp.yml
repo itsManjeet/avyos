@@ -1,5 +1,5 @@
 id: libwebp
-version: 1.4.0
+version: 1.6.0
 about: A library and support programs to encode and decode images in WebP format
 sources:
   - http://downloads.webmproject.org/releases/webp/libwebp-%{version}.tar.gz

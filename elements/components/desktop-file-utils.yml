@@ -1,5 +1,5 @@
 id: desktop-file-utils
-version: 0.27
+version: 0.28
 about: Desktop File Utils package contains command line utilities for working with Desktop entries
 
 depends:

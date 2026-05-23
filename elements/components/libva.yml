@@ -1,5 +1,5 @@
 id: libva
-version: 2.22.0
+version: 2.23.0
 about: Library provides access to hardware accelerated video processing
 
 depends:

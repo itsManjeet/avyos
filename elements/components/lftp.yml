@@ -1,5 +1,5 @@
 id: lftp
-version: 4.9.2
+version: 4.9.3
 about: Sophisticated command line based FTP client
 
 configure: >-

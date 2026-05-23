@@ -1,0 +1,5 @@
+id: xfce4-netload-plugin
+version: 1.5.0
+about: A netload plugin for the Xfce panel
+
+merge: [elements/include/xfce4-panel-plugin.inc]

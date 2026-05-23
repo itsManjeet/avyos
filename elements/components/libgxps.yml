@@ -3,7 +3,7 @@ version: 0.3.2
 about: Provides an interface to manipulate XPS documents
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/lcms.yml
   - components/libarchive.yml
   - components/libjpeg-turbo.yml

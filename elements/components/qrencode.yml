@@ -9,4 +9,4 @@ configure: >-
 depends:
   - components/libpng.yml
 sources:
-  - https://fukuchi.org/works/qrencode/qrencode-%{version}.tar.bz2
+  - https://github.com/fukuchi/libqrencode/archive/refs/tags/v%{version}.tar.gz

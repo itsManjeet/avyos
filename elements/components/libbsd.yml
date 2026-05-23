@@ -1,5 +1,5 @@
 id: libbsd
-version: 0.11.7
+version: 0.12.2
 about: Provides useful functions commonly found on BSD systems like strlcpy
 
 depends:

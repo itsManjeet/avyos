@@ -1,5 +1,5 @@
 id: libarchive
-version: 3.7.4
+version: 3.8.7
 about: Library provides a single interface for reading/writing various compression formats
 
 depends:

@@ -12,7 +12,7 @@ depends:
   - components/libxslt.yml
 build-depends:
   - components/vala.yml
-  - components/py/py-packaging.yml
+  - components/python-packaging.yml
 sources:
   - https://download.gnome.org/sources/dconf/%{version:2}/dconf-%{version}.tar.xz
 # TODO: enable bash_completion

@@ -1,5 +1,5 @@
 id: openfst
-version: 1.8.2post1
+version: 1.8.4
 about:
   Library for constructing, combining, optimizing and searching weighted finite-state
   transducers

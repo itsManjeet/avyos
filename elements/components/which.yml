@@ -1,5 +1,5 @@
 id: which
-version: 2.21
+version: 2.23
 about: utility to show full path of command
 sources:
   - https://ftp.gnu.org/gnu/which/which-%{version}.tar.gz

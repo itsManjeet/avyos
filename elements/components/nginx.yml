@@ -1,5 +1,5 @@
 id: nginx
-version: 1.25.2
+version: 1.30.0
 about: Lightweight HTTP server and IMAP/POP3 proxy server
 
 post-script: |-

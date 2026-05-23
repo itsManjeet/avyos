@@ -1,5 +1,5 @@
 id: freerdp
-version: 2.7.0
+version: 3.26.0
 about: Free implementation of the Remote Desktop Protocol (RDP)
 
 configure: >-
@@ -43,7 +43,7 @@ build-depends:
   - components/docbook-xsl.yml
   - components/cmake.yml
   - components/krb5.yml
-  - components/x11/xorgproto.yml
+  - components/xorgproto.yml
   - components/xmlto.yml
 sources:
   - freerdp-%{version}.tar.gz::https://github.com/%{id}/%{id}/archive/%{version}.tar.gz

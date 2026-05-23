@@ -14,10 +14,10 @@ depends:
   - components/at-spi2-core.yml
   - components/cogl.yml
   - components/json-glib.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libgudev.yml
   - components/libinput.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/wayland.yml
 build-depends:
   - components/gobject-introspection.yml

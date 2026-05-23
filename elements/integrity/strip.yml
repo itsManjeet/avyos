@@ -5,8 +5,8 @@ about: Test if stripping working properly
 variables:
   force-rebuild: true
 
-build-depends:
-  - bootstrap.yml
+depends:
+  - components/glibc.yml
 
 keep-files:
   - lib(.*)\.dbg

@@ -1,9 +1,9 @@
 id: dconf-editor
-version: 45.0.1
+version: 49.0
 about: A low-level configuration system editor
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/dconf.yml
 build-depends:
   - components/vala.yml

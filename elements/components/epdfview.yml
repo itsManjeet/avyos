@@ -6,7 +6,7 @@ configure: >-
   -Denable-printing=true
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/poppler.yml
   - components/cups.yml
   - components/desktop-file-utils.yml

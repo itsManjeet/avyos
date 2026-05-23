@@ -1,5 +1,5 @@
 id: libtasn1
-version: 4.19.0
+version: 4.21.0
 about:
   A highly portable C library that encodes and decodes DER/BER data following
   an ASN.1 schema

@@ -1,9 +1,9 @@
 id: sway
-version: 1.9
+version: 1.11
 about: Tiling Wayland compositor and replacement for the i3 window manager
 
 pre-script: |-
-  sed -i "s/branch \\\'@1@\\\'/rlxos/g" meson.build
+  sed -i "s/branch \\\'@1@\\\'/avyos/g" meson.build
 post-script: |-
   install -v -D -m 0644 /dev/stdin %{install-root}%{datadir}/xdg-desktop-portal/sway-portals.conf << "EOF"
   [preferred]
@@ -31,8 +31,8 @@ depends:
   - components/systemd.yml
   - components/wayland.yml
   - components/wlroots.yml
-  - components/x11/libxcb.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxcb.yml
+  - components/libxkbcommon.yml
   - components/pango.yml
   - components/pcre.yml
   - components/seatd.yml

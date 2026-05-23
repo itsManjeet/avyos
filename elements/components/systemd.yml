@@ -1,5 +1,5 @@
 id: systemd
-version: 256.1
+version: 260.1
 about: Package contains programs for controlling the startup, running, and shutdown of the system
 
 environ:
@@ -7,13 +7,6 @@ environ:
   - PKG_CONFIG_PATH="%{libdir}/pkgconfig"
 
 pre-script: |
-  sed '/bus_message_type_from_string/s/_pure_//' \
-    -i src/libsystemd/sd-bus/bus-internal.h    &&
-  sed '/devt_hash_func/s/_pure_//'               \
-      -i src/basic/hash-funcs.h                  &&
-  sed '/job_get_timeout/s/_pure_//'              \
-      -i src/core/job.h
-
   sed -i -e 's/GROUP="render"/GROUP="video"/' \
        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 
@@ -30,13 +23,13 @@ configure: >
   -D debug-shell=%{bindir}/sh
   -D default-user-shell=%{bindir}/sh
   -D dev-kvm-mode=0660
-  -D fallback-hostname='rlxos'
+  -D fallback-hostname='avyos'
   -D docdir=%{datadir}/doc/system-%{version}
-  -Dsbat-distro='rlxos'
-  -Dsbat-distro-summary='rlxos GNU/Linux'
+  -Dsbat-distro='avyos'
+  -Dsbat-distro-summary='avyos GNU/Linux'
   -Dsbat-distro-pkgname="%{id}"
   -Dsbat-distro-version="%{version}"
-  -Dsbat-distro-url="https://rlxos.dev/"
+  -Dsbat-distro-url="https://avyos.dev/"
 
 post-script: |-
   rm -f %{install-root}%{libdir}/sysusers.d/*.conf
@@ -56,7 +49,7 @@ depends:
   - components/grep.yml
   - components/openssl.yml
   - components/libgcrypt.yml
-  - components/py/py-jinja2.yml
+  - components/python-jinja2.yml
   - components/libcap.yml
   - components/sed.yml
   - components/gawk.yml

@@ -1,0 +1,19 @@
+id: ristretto
+version: 0.14.0
+about: A fast and lightweight picture viewer for Xfce
+
+variables:
+  run-autogen: false
+
+depends:
+  - components/libexif.yml
+  - components/libxfce4ui.yml
+  - components/xfconf.yml
+  - components/exo.yml
+
+build-depends:
+  - components/intltool.yml
+  - components/file.yml
+
+sources:
+  - https://archive.xfce.org/src/apps/ristretto/%{version:2}/ristretto-%{version}.tar.xz

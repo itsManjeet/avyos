@@ -1,0 +1,12 @@
+diff -Naur a/src/readelf.c b/src/readelf.c
+--- a/src/readelf.c	2026-04-16 10:45:31.590279855 +0000
++++ b/src/readelf.c	2026-04-16 10:45:31.694279476 +0000
+@@ -9764,7 +9764,7 @@
+ 		case DW_LNE_define_file:
+ 		  {
+ 		    char *fname = (char *) linep;
+-		    unsigned char *endp = memchr (linep, '\0',
++		    const unsigned char *endp = memchr (linep, '\0',
+ 						  lineendp - linep);
+ 		    if (unlikely (endp == NULL))
+ 		      goto invalid_unit;

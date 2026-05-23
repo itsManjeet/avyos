@@ -1,0 +1,6 @@
+id: breeze-grub
+about: Plasma breeze-grub
+
+depends:
+  - components/grub.yml
+merge: [elements/include/plasma.inc]

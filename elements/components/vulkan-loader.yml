@@ -1,5 +1,5 @@
 id: vulkan-loader
-version: 1.3.290
+version: 1.4.351
 about: Lbrary which provides the Vulkan API and provides core support for graphics drivers for Vulkan
 
 configure: >-
@@ -10,8 +10,8 @@ configure: >-
 
 depends:
   - components/wayland.yml
-  - components/x11/libx11.yml
-  - components/x11/libxrandr.yml
+  - components/libx11.yml
+  - components/libxrandr.yml
 
 build-depends:
   - components/cmake.yml

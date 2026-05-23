@@ -1,5 +1,5 @@
 id: boost
-version: 1.85.0
+version: 1.91.0
 about: |
   A set of free peer-reviewed portable C++ source libraries
 
@@ -20,8 +20,7 @@ script: |
     --layout=system \
     --prefix=%{install-root}/%{prefix} install
 
-
 depends:
   - components/which.yml
 sources:
-  - https://boostorg.jfrog.io/artifactory/main/release/%{version}/source/boost_%{version:_}.tar.bz2
+  - https://archives.boost.io/release/%{version}/source/boost_%{version:_}.tar.bz2

@@ -1,5 +1,5 @@
 id: icu
-version: 75.1
+version: 78.3
 about: International Components for Unicode
 sources:
   - https://github.com/unicode-org/icu/releases/download/release-73-2/icu4c-73_2-src.tgz

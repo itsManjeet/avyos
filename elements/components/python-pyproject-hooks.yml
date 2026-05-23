@@ -1,0 +1,19 @@
+id: python-pyproject-hooks
+version: 1.2.0
+about: Library for calling build-backends in pyproject.toml-based projects
+
+script: |-
+  python -m flit_core.wheel
+
+  python -m installer --destdir %{install-root} \
+    dist/pyproject_hooks-%{version}-py3-none-any.whl
+
+depends:
+  - components/python.yml
+
+build-depends:
+  - components/python-flit-core.yml
+  - components/python-installer.yml
+
+sources:
+  - https://files.pythonhosted.org/packages/source/p/pyproject-hooks/pyproject_hooks-%{version}.tar.gz

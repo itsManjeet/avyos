@@ -1,5 +1,5 @@
 id: e2fsprogs
-version: 1.47.1
+version: 1.47.4
 about: Utilities for handling the ext2, ext3 and ext4 file system
 
 depends:

@@ -1,5 +1,5 @@
 id: schroot
-version: 1.6.13
+version: 1.6.13-5-5
 about: Allows users to execute shell commands under different root filesystems. (Successor to dchroot)
 
 pre-script: |-

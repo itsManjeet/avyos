@@ -1,5 +1,5 @@
 id: freeglut
-version: 3.6.0
+version: 3.8.0
 about: Provides functionality for small OpenGL programs
 
 configure: >-
@@ -12,12 +12,12 @@ post-script: |-
 
 depends:
   - components/libglvnd.yml
-  - components/x11/libxi.yml
-  - components/x11/libxrandr.yml
+  - components/libxi.yml
+  - components/libxrandr.yml
 build-depends:
   - components/cmake.yml
   - components/glu.yml
-  - components/x11/libxxf86vm.yml
+  - components/libxxf86vm.yml
   - components/mesa.yml
   - components/ninja.yml
 sources:

@@ -1,12 +1,12 @@
 id: lm-sensors
-version: 3.6.0
+version: 3.6.2
 about: collection of user space tools for general SMBus access and hardware monitoring
 
 depends:
   - components/perl.yml
   - components/rrdtool.yml
 sources:
-  - https://github.com/%{id}/%{id}/archive/refs/tags/V%{version:-}.tar.gz
+  - lm-sensors-%{version:-}.tar.gz::https://github.com/hramrach/lm-sensors/archive/refs/tags/V%{version:-}.tar.gz
 pre-script: |
   sed -i 's|%{sysconfdir}/sysconfig|%{sysconfdir}/conf.d|' prog/{detect/sensors-detect,init/{sensord,lm_sensors}.service}
   sed -i 's/EnvironmentFile=/EnvironmentFile=-/' prog/init/lm_sensors.service

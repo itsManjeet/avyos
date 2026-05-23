@@ -1,5 +1,5 @@
 id: p11-kit
-version: 0.25.5
+version: 0.26.2
 about: |
   Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
 

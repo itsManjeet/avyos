@@ -7,7 +7,7 @@ post-script: |-
 
 depends:
   - components/wlroots0.16.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/wayland.yml
 
 build-depends:

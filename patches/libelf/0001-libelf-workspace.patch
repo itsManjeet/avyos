@@ -1,0 +1,12 @@
+diff -Naur a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
+--- a/debuginfod/debuginfod-client.c	2026-04-16 07:36:06.260403236 +0000
++++ b/debuginfod/debuginfod-client.c	2026-04-16 07:36:06.368402857 +0000 
+@@ -3104,7 +3104,7 @@
+   /* Sanity check header value is of the form Header: Value.
+      It should contain at least one colon that isn't the first or
+      last character.  */
+-  char *colon = strchr (header, ':'); /* first colon */
++  const char *colon = strchr (header, ':'); /* first colon */
+   if (colon == NULL /* present */
+       || colon == header /* not at beginning - i.e., have a header name */
+       || *(colon + 1) == '\0') /* not at end - i.e., have a value */

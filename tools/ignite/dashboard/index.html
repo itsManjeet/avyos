@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ignite Dashboard</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="spark"></span>
+    <h1>ignite</h1>
+    <span class="tag" id="arch-tag">—</span>
+  </div>
+  <div class="counters">
+    <div class="counter"><span class="n" id="c-total">0</span><span class="l">total</span></div>
+    <div class="counter ok"><span class="n" id="c-cached">0</span><span class="l">cached</span></div>
+    <div class="counter warn"><span class="n" id="c-waiting">0</span><span class="l">waiting</span></div>
+    <div class="counter info"><span class="n" id="c-workspace">0</span><span class="l">workspace</span></div>
+  </div>
+  <div class="actions">
+    <button id="build-selected" class="primary" disabled>Build selected (0)</button>
+    <button id="fetch-sources">Fetch sources</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="recipes">
+    <div class="recipes-toolbar">
+      <input id="filter" type="search" placeholder="Filter by id, version, or about…" />
+      <div class="filter-states">
+        <label><input type="checkbox" value="cached" checked /> cached</label>
+        <label><input type="checkbox" value="waiting" checked /> waiting</label>
+        <label><input type="checkbox" value="workspace" checked /> workspace</label>
+        <label><input type="checkbox" value="unknown" checked /> unknown</label>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="recipes-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="select-all" /></th>
+            <th>ID</th>
+            <th>Version</th>
+            <th>State</th>
+            <th>Depends</th>
+          </tr>
+        </thead>
+        <tbody id="recipes-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="panel" id="detail-panel">
+      <div class="panel-header">
+        <h2>Details</h2>
+        <button class="link" id="detail-build" disabled>Build</button>
+      </div>
+      <div id="detail-body" class="detail empty">Select a recipe to see details.</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Builds</h2>
+        <button class="link" id="refresh-builds">Refresh</button>
+      </div>
+      <div id="builds-body" class="builds"></div>
+    </div>
+
+    <div class="panel" id="logs-panel">
+      <div class="panel-header">
+        <h2>Live logs <span id="logs-job" class="hint"></span></h2>
+        <button class="link" id="logs-clear">Clear</button>
+      </div>
+      <pre id="logs" class="logs">select a build to stream logs…</pre>
+    </div>
+  </aside>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

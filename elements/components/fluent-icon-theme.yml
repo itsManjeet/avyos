@@ -1,0 +1,15 @@
+id: fluent-icon-theme
+version: 20250821
+about: A Fluent design icon theme
+merge: [elements/include/update-icon-cache.inc]
+
+script: |-
+  install -d %{install-root}%{datadir}/icons
+  ./install.sh -d "%{install-root}%{datadir}/icons/" -r
+
+depends:
+  - components/librsvg.yml
+build-depends:
+  - components/gtk3.yml
+sources:
+  - fluent-icon-theme-%{version}.tar.gz::https://github.com/vinceliuice/Fluent-icon-theme/archive/refs/tags/%{version}.tar.gz

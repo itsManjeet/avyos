@@ -13,13 +13,14 @@ depends:
   - components/libgcrypt.yml
   - components/p11-kit.yml
   - components/gnupg.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libxslt.yml
+
 build-depends:
   - components/gobject-introspection.yml
   - components/vala.yml
   - components/gtk-doc.yml
+  - components/openssh.yml
+
 sources:
   - https://download.gnome.org/sources/gcr/%{version:2}/gcr-%{version}.tar.xz
-# TODO: check and fix update url version
-# TODO: fix documentation

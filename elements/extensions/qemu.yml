@@ -1,6 +1,6 @@
 id: qemu
 version: 0.1.0
-about: RLXOS QEMU Virtualization Kit
+about: AVYOS QEMU Virtualization Kit
 include:
   - components/qemu.yml
   - components/bridge-utils.yml

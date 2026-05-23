@@ -5,8 +5,9 @@ about: Provides data for network services and protocols
 strip: false
 
 build-dir: iana-etc-%{version}
+
 build-depends:
-- bootstrap.yml
+  - bootstrap/gcc-stage2.yml
 
 script: |
   install -v -D -m 644 services protocols -t %{install-root}/etc/

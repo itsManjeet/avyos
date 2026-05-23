@@ -1,5 +1,5 @@
 id: osinfo-db-tools
-version: 1.11.0
+version: 1.12.0
 about: Tools for managing the osinfo database
 
 pre-script: |-

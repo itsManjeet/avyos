@@ -4,66 +4,66 @@ about: Package contains document type definitions for verification of XML data f
 
 build-dir: "."
 script: |
-  install -v -d -m 755 %{install-root}/usr/share/xml/docbook/xml-dtd-4.5
+  install -v -d -m 755 %{install-root}/usr/share/xml/docbook/xml-dtd-5.1
   install -v -d -m 755 %{install-root}/etc/xml
-  cp -v -a -f docbook.cat *.dtd ent/ *.mod %{install-root}/usr/share/xml/docbook/xml-dtd-4.5
+  cp -v -a -f docbook.cat *.dtd ent/ *.mod %{install-root}/usr/share/xml/docbook/xml-dtd-5.1
 
   xmlcatalog --noout --create %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//DTD DocBook XML V4.5//EN" \
-      "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" \
+      "-//OASIS//DTD DocBook XML V5.1//EN" \
+      "http://www.oasis-open.org/docbook/xml/5.1/docbookx.dtd" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//DTD DocBook XML CALS Table Model V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/calstblx.dtd" \
+      "-//OASIS//DTD DocBook XML CALS Table Model V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/calstblx.dtd" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
       "-//OASIS//DTD XML Exchange Table Model 19990315//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/soextblx.dtd" \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/soextblx.dtd" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//ELEMENTS DocBook XML Information Pool V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/dbpoolx.mod" \
+      "-//OASIS//ELEMENTS DocBook XML Information Pool V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/dbpoolx.mod" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public"   \
-      "-//OASIS//ELEMENTS DocBook XML Document Hierarchy V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/dbhierx.mod" \
+      "-//OASIS//ELEMENTS DocBook XML Document Hierarchy V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/dbhierx.mod" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/htmltblx.mod" \
+      "-//OASIS//ELEMENTS DocBook XML HTML Tables V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/htmltblx.mod" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//ENTITIES DocBook XML Notations V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/dbnotnx.mod" \
+      "-//OASIS//ENTITIES DocBook XML Notations V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/dbnotnx.mod" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public" \
-      "-//OASIS//ENTITIES DocBook XML Character Entities V4.5//EN"  \
-    "file:///usr/share/xml/docbook/xml-dtd-4.5/dbcentx.mod"  \
+      "-//OASIS//ENTITIES DocBook XML Character Entities V5.1//EN"  \
+    "file:///usr/share/xml/docbook/xml-dtd-5.1/dbcentx.mod"  \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "public"  \
-      "-//OASIS//ENTITIES DocBook XML Additional General Entities V4.5//EN"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5/dbgenent.mod" \
+      "-//OASIS//ENTITIES DocBook XML Additional General Entities V5.1//EN"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1/dbgenent.mod" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --add "rewriteSystem" \
-      "http://www.oasis-open.org/docbook/xml/4.5"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5" \
+      "http://www.oasis-open.org/docbook/xml/5.1"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1" \
       %{install-root}/etc/xml/docbook
 
 
   xmlcatalog --noout --add "rewriteURI" \
-      "http://www.oasis-open.org/docbook/xml/4.5"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5" \
+      "http://www.oasis-open.org/docbook/xml/5.1"  \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1" \
       %{install-root}/etc/xml/docbook
 
   xmlcatalog --noout --create %{install-root}/etc/xml/catalog
@@ -97,13 +97,13 @@ script: |
 
     xmlcatalog --noout --add "rewriteSystem" \
       "http://www.oasis-open.org/docbook/xml/$DTDVERSION"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5" \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1" \
       %{install-root}/etc/xml/docbook
 
 
     xmlcatalog --noout --add "rewriteURI" \
       "http://www.oasis-open.org/docbook/xml/$DTDVERSION"  \
-      "file:///usr/share/xml/docbook/xml-dtd-4.5" \
+      "file:///usr/share/xml/docbook/xml-dtd-5.1" \
       %{install-root}/etc/xml/docbook
 
     xmlcatalog --noout --add "delegateSystem" \

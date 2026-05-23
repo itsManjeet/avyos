@@ -1,5 +1,5 @@
 id: aspell
-version: 0.60.8.1
+version: 0.60.8.2
 about: An interactive spell checking program and the Aspell libraries
 
 depends:

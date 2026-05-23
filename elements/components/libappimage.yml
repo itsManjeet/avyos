@@ -1,5 +1,5 @@
 id: libappimage
-version: 1.0.3
+version: 1.0.4.5
 about: Implements functionality for dealing with AppImage files
 
 configure: >-

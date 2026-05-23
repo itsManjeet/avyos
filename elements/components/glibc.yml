@@ -6,5 +6,4 @@ depends:
   - components/filesystem.yml
 
 build-depends:
-  - components/bootstrap.yml
-  - components/kernel-headers.yml
+  - bootstrap/gcc-stage2.yml

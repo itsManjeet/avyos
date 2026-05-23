@@ -1,5 +1,5 @@
 id: evolution-data-server
-version: 3.52.3
+version: 3.60.1
 about: |
   A unified backend for programs that work with contacts, tasks, and calendar information
 
@@ -22,9 +22,9 @@ depends:
   - components/libsecret.yml
   - components/nss.yml
   - components/sqlite.yml
-  - components/gnome/gnome-online-accounts.yml
+  - components/gnome-online-accounts.yml
   - components/gobject-introspection.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/icu.yml
   - components/libcanberra.yml
   - components/libgdata.yml

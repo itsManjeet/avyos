@@ -1,5 +1,5 @@
 id: vulkan-headers
-version: 1.3.290
+version: 1.4.351
 about: header files necessary to build and link applications against the Vulkan API
 
 configure: >-

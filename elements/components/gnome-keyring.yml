@@ -1,5 +1,5 @@
 id: gnome-keyring
-version: 46.2
+version: 50.0
 about: A daemon that keeps passwords and other secrets for users
 
 pre-script: |

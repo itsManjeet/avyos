@@ -1,5 +1,5 @@
 id: grimshot
-version: 1.9
+version: 1.11
 about: A helper for screenshots within sway
 
 script: |-

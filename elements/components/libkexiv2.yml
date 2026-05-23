@@ -1,5 +1,5 @@
 id: libkexiv2
-version: 23.08.0
+version: 26.04.1
 about: KDE wrapper around the Exiv2 library for manipulating image metadata
 
 configure: >-

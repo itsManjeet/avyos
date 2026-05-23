@@ -1,5 +1,5 @@
 id: xdg-desktop-portal-gtk
-version: 1.15.1
+version: 1.15.3
 about: A backend implementation of xdg-desktop-portal using GTK
 
 configure: >-
@@ -10,9 +10,9 @@ post-script: |-
   [preferred]
   default=gtk
   EOF
-  
+
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/xdg-desktop-portal.yml
 
 build-depends:

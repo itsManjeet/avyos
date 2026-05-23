@@ -1,6 +1,15 @@
 id: harfbuzz
-version: 9.0.0
+version: 14.2.0
 about: OpenType text shaping engine
+
+build-type: meson
+
+configure: >-
+  --buildtype=release
+  -D graphite2=enabled
+  -D benchmark=disabled
+  -D docs=disabled
+  -D icu=enabled
 
 depends:
   - components/glib.yml
@@ -13,10 +22,3 @@ build-depends:
 
 sources:
   - https://github.com/harfbuzz/harfbuzz/releases/download/%{version}/harfbuzz-%{version}.tar.xz
-build-type: meson
-configure: >-
-  --buildtype=release 
-  -Dgraphite=enabled
-  -Dbenchmark=disabled
-  -Ddocs=disabled
-  -Dicu=enabled

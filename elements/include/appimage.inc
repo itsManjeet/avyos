@@ -72,4 +72,4 @@ post-script: |
   mv %{install-root}/* AppDir/
 
   cd %{install-root}/
-  appimagetool -nu "zsync|http://repo.rlxos.dev/apps/%{id}.app.zsync" %{build-root}/AppDir/ %{id}.app
+  appimagetool -nu "zsync|http://repo.avyos.dev/apps/%{id}.app.zsync" %{build-root}/AppDir/ %{id}.app

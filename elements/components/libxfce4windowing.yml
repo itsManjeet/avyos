@@ -1,0 +1,18 @@
+id: libxfce4windowing
+version: 4.20.5
+about: Windowing concept abstraction library for X11 and Wayland
+
+configure: >-
+  --enable-x11
+  --disable-debug
+
+depends:
+  - components/gtk3.yml
+  - components/libdisplay-info.yml
+  - components/libwnck.yml
+
+build-depends:
+  - components/xfce4-dev-tools.yml
+
+sources:
+  - https://archive.xfce.org/src/xfce/libxfce4windowing/%{version:2}/libxfce4windowing-%{version}.tar.bz2

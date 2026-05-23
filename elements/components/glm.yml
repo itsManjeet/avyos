@@ -1,5 +1,5 @@
 id: glm
-version: 1.0.1
+version: 1.0.3
 about: C++ mathematics library for 3D software
 
 build-depends:

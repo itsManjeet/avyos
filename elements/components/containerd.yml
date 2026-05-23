@@ -1,5 +1,5 @@
 id: containerd
-version: 1.7.20
+version: 2.3.0
 about: An open and reliable container runtime
 
 variables:

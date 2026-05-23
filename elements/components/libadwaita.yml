@@ -1,13 +1,9 @@
 id: libadwaita
-version: 1.5.3
-release: 3
+version: 1.9.0
 about: Building blocks for modern adaptive GNOME applications
 
-pre-script: |-
-  < without-adwaita-theme.patch patch src/adw-style-manager.c 
-
 configure: >-
-  --buildtype=release
+  -D examples=false
 
 depends:
   - components/gtk4.yml
@@ -22,4 +18,3 @@ build-depends:
 
 sources:
   - https://gitlab.gnome.org/GNOME/libadwaita/-/archive/%{version}/libadwaita-%{version}.tar.gz
-  - patches/libadwaita/without-adwaita-theme.patch

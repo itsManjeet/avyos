@@ -37,7 +37,7 @@ class VirtualMachine:
             raise RuntimeError(f"process finished with {return_code}: {output}")
     
     async def _connect_qmp(self) -> None:
-        self.qmp = QMPClient('rlxos')
+        self.qmp = QMPClient('avyos')
         await self.qmp.connect(self.SOCKET_PATH)
         
     async def exec(self, cmd: str, args: dict = None):

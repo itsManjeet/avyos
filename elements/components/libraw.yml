@@ -1,5 +1,5 @@
 id: libraw
-version: 0.21.2
+version: 0.22.1
 about:
   A library for reading RAW files obtained from digital photo cameras (CRW/CR2,
   NEF, RAF, DNG, and others)

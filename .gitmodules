@@ -1,9 +1,0 @@
-[submodule "src/initial-setup"]
-	path = src/initial-setup
-	url = git@github.com:itsmanjeet/initial-setup
-[submodule "src/pkgupd"]
-	path = src/pkgupd
-	url = git@github.com:itsmanjeet/pkgupd
-[submodule "src/capsule"]
-	path = src/capsule
-	url = git@github.com:itsmanjeet/capsule

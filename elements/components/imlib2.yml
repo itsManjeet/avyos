@@ -1,11 +1,11 @@
 id: imlib2
-version: 1.12.3
+version: 1.12.6
 about: Library for image file manipulation
 sources:
   - https://downloads.sourceforge.net/enlightenment/imlib2-%{version}.tar.xz
 
 configure: >
-  --sysconfdir=%{sysconfdir}/imlib2 
+  --sysconfdir=%{sysconfdir}/imlib2
   --x-libraries=%{libdir}
   --enable-amd64
 
@@ -16,4 +16,4 @@ depends:
   - components/libjpeg-turbo.yml
   - components/libpng.yml
   - components/libwebp.yml
-  - components/x11/libxext.yml
+  - components/libxext.yml

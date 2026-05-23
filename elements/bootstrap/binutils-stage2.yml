@@ -1,0 +1,6 @@
+id: binutils-stage2
+merge:
+  - elements/include/binutils.inc
+
+build-depends:
+  - bootstrap/glibc-stage2.yml

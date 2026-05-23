@@ -6,8 +6,8 @@ build-depends:
   - components/gobject-introspection.yml
 
 depends:
-  - components/x11/libxklavier.yml
-  - components/gtk.yml
+  - components/libxklavier.yml
+  - components/gtk3.yml
 
 sources:
   - https://download.gnome.org/sources/libgnomekbd/%{version:2}/libgnomekbd-%{version}.tar.xz

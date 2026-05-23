@@ -1,5 +1,5 @@
 id: npth
-version: 1.7
+version: 1.8
 about: library for non-preemptive priority-based scheduling for multiple threads of execution
 
 depends:

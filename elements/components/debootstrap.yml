@@ -1,5 +1,5 @@
 id: debootstrap
-version: 1.0.134
+version: 1.0.143
 about: Bootstrap a basic debian system
 
 depends:

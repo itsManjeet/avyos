@@ -1,5 +1,5 @@
 id: apr
-version: 1.7.4
+version: 1.7.6
 about: Apache portable runtime library
 
 configure: >

@@ -22,7 +22,7 @@ depends:
   - components/gstreamer.yml
   - components/sdl.yml
   - components/sdl2.yml
-  - components/x11/libxcomposite.yml
+  - components/libxcomposite.yml
 build-depends:
   - components/gobject-introspection.yml
 sources:

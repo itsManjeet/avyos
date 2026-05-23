@@ -1,12 +1,12 @@
 id: grub
-version: 2.12
+version: 2.14
 about: GRand Unified Bootloader
 
 environ:
   - PYTHON=python3
 
 pre-script: |-
-  echo depends bli part_gpt > grub-core/extra_deps.lst
+  sed 's/--image-base/--nonexist-linker-option/' -i configure
 
 configure: >
   --disable-werror
@@ -23,7 +23,7 @@ configure: >
   --enable-cache-stats
   CFLAGS="-Os"
   CXXFLAGS="${CFLAGS}"
- 
+
 
 post-script: |-
   sed -i 's/ ro / rw /g' %{install-root}/%{sysconfdir}/grub.d/10_linux
@@ -47,6 +47,7 @@ build-depends:
   - components/flex.yml
   - components/m4.yml
   - components/bison.yml
+  - components/autoconf-archive.yml
 
 sources:
   - http://ftp.gnu.org/gnu/grub/grub-%{version}.tar.xz

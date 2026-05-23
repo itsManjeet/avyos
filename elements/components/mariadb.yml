@@ -1,5 +1,5 @@
 id: mariadb
-version: 10.11.8
+version: 12.2.2
 about: A community-developed fork and a drop-in replacement for the MySQL relational database management system
 
 configure: >-
@@ -40,6 +40,7 @@ depends:
   - components/pam.yml
   - components/krb5.yml
   - components/pcre2.yml
+  - components/fmt.yml
 build-depends:
   - components/cmake.yml
   - components/boost.yml

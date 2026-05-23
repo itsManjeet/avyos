@@ -1,0 +1,15 @@
+id: libxfont2
+version: 2.0.7
+about: xorg library libXfont2
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXfont2-%{version}.tar.xz
+
+depends:
+  - components/freetype.yml
+  - components/libfontenc.yml
+
+build-depends:
+  - components/xorgproto.yml
+  - components/util-macros.yml
+  - components/xtrans.yml

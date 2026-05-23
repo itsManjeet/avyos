@@ -1,5 +1,5 @@
 id: cracklib
-version: 2.10.1
+version: 2.10.3
 about:
   A library used to enforce strong passwords by comparing user selected passwords
   to words in chosen word lists

@@ -1,5 +1,5 @@
 id: libinput
-version: 1.26.1
+version: 1.31.1
 about: Library that handles input devices for display servers and other applications that need to directly deal with input devices
 
 depends:

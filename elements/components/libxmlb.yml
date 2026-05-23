@@ -1,5 +1,5 @@
 id: libxmlb
-version: 0.3.19
+version: 0.3.26
 about: Library to help create and query binary XML blobs
 
 depends:

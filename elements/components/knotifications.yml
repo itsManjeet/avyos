@@ -7,6 +7,6 @@ depends:
   - components/kcoreaddons.yml
   - components/kwindowsystem.yml
   - components/libcanberra.yml
-  - components/x11/libxtst.yml
+  - components/libxtst.yml
 build-depends:
   - components/extra-cmake-modules.yml

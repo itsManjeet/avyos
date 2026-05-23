@@ -10,13 +10,13 @@ depends:
   - components/libgcrypt.yml
   - components/pam.yml
   - components/pcre.yml
-  - components/gtk.yml
-  - components/x11/libxklavier.yml
+  - components/gtk3.yml
+  - components/libxklavier.yml
   - components/accountsservice.yml
 
 build-depends:
   - components/itstool.yml
-  - components/py/py-distutils-extra.yml
+  - components/python-distutils-extra.yml
 
 sources:
   - https://github.com/CanonicalLtd/lightdm/releases/download/%{version}/lightdm-%{version}.tar.xz
@@ -111,4 +111,3 @@ configure: >-
   --disable-tests
   --with-greeter-user=lightdm
   --with-greeter-session=lightdm-gtk-greeter
-

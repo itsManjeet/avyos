@@ -8,8 +8,8 @@ configure: >-
   -DCMAKE_BUILD_TYPE=Release
 
 depends:
-  - components/x11/libxi.yml
-  - components/x11/libxrandr.yml
+  - components/libxi.yml
+  - components/libxrandr.yml
   - components/qt.yml
 build-depends:
   - components/cmake.yml

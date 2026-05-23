@@ -1,8 +1,8 @@
-diff --git a/scripts/xinitrc.in.in b/scripts/xinitrc.in.in
-index da82e079..c8875062 100755
---- a/scripts/xinitrc.in.in
-+++ b/scripts/xinitrc.in.in
-@@ -109,6 +109,14 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
+diff --git a/scripts/xinitrc.in b/scripts/xinitrc.in
+index 3dd22c52..7681971f 100755
+--- a/scripts/xinitrc.in
++++ b/scripts/xinitrc.in
+@@ -112,6 +112,14 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
      XDG_STATE_HOME
  fi
  

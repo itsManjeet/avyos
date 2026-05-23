@@ -1,5 +1,5 @@
 id: kbd
-version: 2.6.4
+version: 2.9.0
 about: Key-table files, console fonts, and keyboard utilities
 
 pre-script: |-

@@ -1,13 +1,12 @@
-version: 14.1.0
-release: 1
+version: 15.2.0
 about: The GNU compiler collection, which includes the C and C++ compilers
 
 pre-script: |-
+  sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
   sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 
 configure: >-
-  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
-  --with-build-config=bootstrap-lto
+  --with-bugurl=https://github.com/itsmanjeet/avyos/issues
   --with-linker-hash-style=gnu
   --with-system-zlib
   --enable-__cax_atexit
@@ -30,7 +29,7 @@ configure: >-
   --disable-libstdcxx-pch
   --disable-werror
   --disable-multilib
-  --disable-boostrap
+  --disable-bootstrap
 
 post-script: |
   ln -sv ../bin/cpp %{install-root}/%{libdir}/

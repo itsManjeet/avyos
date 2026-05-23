@@ -12,6 +12,8 @@ depends:
 script: |-
   mkdir -p %{install-root}%{datadir}/%{id}
   cp -r * %{install-root}%{datadir}/%{id}/
+  chmod 0755 %{install-root}%{datadir}/%{id}
+  chmod 0755 %{install-root}%{datadir}/%{id}/custom
 
   install -v -D -m 0644 /dev/stdin %{install-root}%{sysconfdir}/zsh/zshrc << "EOF"
   export ZSH=%{datadir}/%{id}

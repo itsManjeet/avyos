@@ -1,0 +1,33 @@
+id: xfce4-terminal
+version: 1.2.0
+about: A modern terminal emulator primarily for Xfce4
+
+pre-script: |-
+  sed -e '570i #ifdef HAVE_GTK_LAYER_SHELL' \
+    -e '574a #endif'                        \
+    -i  terminal/terminal-window-dropdown.c
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml << "EOF"
+  <?xml version="1.0" encoding="UTF-8"?>
+  <channel name="xfce4-terminal" version="1.0">
+    <property name="dropdown-width" type="uint" value="100"/>
+    <property name="overlay-scrolling" type="bool" value="true"/>
+    <property name="misc-toolbar-default" type="bool" value="true"/>
+    <property name="font-use-system" type="bool" value="true"/>
+    <property name="background-mode" type="string" value="TERMINAL_BACKGROUND_TRANSPARENT"/>
+    <property name="background-darkness" type="double" value="0.9"/>
+    <property name="font-allow-bold" type="bool" value="false"/>
+  </channel>
+  EOF
+
+depends:
+  - components/hicolor-icon-theme.yml
+  - components/libxfce4ui.yml
+  - components/vte.yml
+
+build-depends:
+  - components/intltool.yml
+
+sources:
+  - https://archive.xfce.org/src/apps/xfce4-terminal/%{version:2}/xfce4-terminal-%{version}.tar.xz

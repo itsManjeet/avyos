@@ -1,10 +1,10 @@
 id: touchegg
-version: 2.0.12
+version: 2.0.18
 about: Multitouch gesture recognizer
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libinput.yml
-  - components/x11/libx11.yml
+  - components/libx11.yml
   - components/systemd.yml
   - components/pugixml.yml
 build-depends:

@@ -1,5 +1,5 @@
 id: libtorrent-rasterbar
-version: 2.0.9
+version: 2.0.12
 about:
   A C++ BitTorrent library that aims to be a good alternative to all the other
   implementations around
@@ -11,7 +11,7 @@ build-depends:
   - components/boost.yml
   - components/cmake.yml
   - components/ninja.yml
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 sources:
   - https://github.com/arvidn/libtorrent/releases/download/v%{version}/libtorrent-rasterbar-%{version}.tar.gz
   - https://github.com/arvidn/libtorrent/commit/71d608fc.patch

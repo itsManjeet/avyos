@@ -1,5 +1,5 @@
 id: libkdcraw
-version: 23.08.0
+version: 26.04.1
 about:
   Libkdcraw is a KDE wrapper around the libraw-0.20.2 library for manipulating
   image metadata

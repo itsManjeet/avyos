@@ -1,7 +1,7 @@
 extra-commands: ""
 
 script: |-
-    ( cd /rlxos; go build -o %{install-root}/%{bindir}/%{id} rlxos/apps/%{id} )
+    ( cd /avyos; go build -o %{install-root}/%{bindir}/%{id} avyos/apps/%{id} )
     %{extra-commands}
 
 post-script: |-

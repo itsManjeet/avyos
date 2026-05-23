@@ -1,9 +1,0 @@
-id: libxau
-version: 1.0.11
-about: X11 authorisation library
-sources:
-  - https://www.x.org/pub/individual/lib/libXau-%{version}.tar.xz
-
-depends:
-  - components/glibc.yml
-  - components/x11/xorgproto.yml

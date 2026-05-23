@@ -1,5 +1,5 @@
 id: alsa-lib
-version: 1.2.12
+version: 1.2.15.3
 about: ALSA library to access the ALSA sound interface
 
 depends:

@@ -4,7 +4,7 @@
 
 We take the security of our software seriously. If you believe you have found a security vulnerability in our project, please help us by following these steps:
 
-- **Step 1**: Privately report about the vulnerability. You can do so by emailing [security@rlxos.dev](mailto:security@rlxos.dev). Please avoid disclosing the issue publicly until we've had a chance to address it.
+- **Step 1**: Privately report about the vulnerability. You can do so by emailing [security@avyos.dev](mailto:security@avyos.dev). Please avoid disclosing the issue publicly until we've had a chance to address it.
 
 - **Step 2**: Provide detailed information regarding the vulnerability. Include information such as:
   - Description of the vulnerability
@@ -16,7 +16,7 @@ We take the security of our software seriously. If you believe you have found a 
 
 ## Security Updates
 
-We are committed to releasing updates and patches to address security vulnerabilities. Keep an eye on our [issues page](https://github.com/itsmanjeet/rlxos/issues) for information on security updates.
+We are committed to releasing updates and patches to address security vulnerabilities. Keep an eye on our [issues page](https://github.com/itsmanjeet/avyos/issues) for information on security updates.
 
 ## Supported Versions
 
@@ -27,10 +27,10 @@ The following versions of our project are currently receiving security updates:
 
 ## Code of Conduct
 
-We expect all contributors and users to follow our [Code of Conduct](https://github.com/itsManjeet/rlxos/blob/stable/CODE_OF_CONDUCT.md). This ensures a welcoming and inclusive environment for everyone involved in the project.
+We expect all contributors and users to follow our [Code of Conduct](https://github.com/itsManjeet/avyos/blob/stable/CODE_OF_CONDUCT.md). This ensures a welcoming and inclusive environment for everyone involved in the project.
 
 ## Contact
 
-If you have further questions or need clarification on our security policy, please contact us at [security@rlxos.dev](mailto:security@rlxos.dev).
+If you have further questions or need clarification on our security policy, please contact us at [security@avyos.dev](mailto:security@avyos.dev).
 
 Thank you for helping us keep our project secure!

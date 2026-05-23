@@ -1,5 +1,5 @@
 id: exiv2
-version: 0.28.3
+version: 0.28.8
 about: Library and a command line utility for managing image and video metadata
 
 build-type: cmake

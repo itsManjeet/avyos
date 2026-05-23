@@ -144,7 +144,7 @@ if [ -d /sysroot/ostree/repo ] ; then
     }
 
     echo ":: Initializing OStree filesystem"
-    sudo ostree admin os-init --sysroot=${SYSROOT} rlxos || {
+    sudo ostree admin os-init --sysroot=${SYSROOT} avyos || {
         echo "failed to initialize os roots"
         sleep 999
 
@@ -165,7 +165,7 @@ if [ -d /sysroot/ostree/repo ] ; then
     ROOT_UUID=$(sudo lsblk -no uuid ${ISE_ROOT})
 
     echo ":: Deploying OStree"
-    sudo ostree admin deploy --os="rlxos"   \
+    sudo ostree admin deploy --os="avyos"   \
         --sysroot="${SYSROOT}" @@OSTREE_BRANCH@@ \
         --karg="rw" --karg="quiet" --karg="splash" \
         --karg="root=UUID=$ROOT_UUID" || {
@@ -177,14 +177,14 @@ if [ -d /sysroot/ostree/repo ] ; then
 
     echo ":: Setting up origin"
     sudo ostree admin set-origin --sysroot="${SYSROOT}" \
-        --index=0 rlxos https://ostree.rlxos.dev/ @@OSTREE_BRANCH@@ || {
+        --index=0 avyos https://ostree.avyos.dev/ @@OSTREE_BRANCH@@ || {
         echo "failed to setup origin"
         sleep 999
 
         exit 1
     }
 
-    sudo ostree remote delete rlxos --repo=${SYSROOT}/ostree/repo
+    sudo ostree remote delete avyos --repo=${SYSROOT}/ostree/repo
 
     sudo mkdir -p ${SYSROOT}/proc
 

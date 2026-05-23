@@ -1,12 +1,12 @@
 id: tint2
-version: 17.0.2
+version: 17.1.3
 about: Basic, good-looking task manager for WMs
 
 configure: >-
   -D ENABLE_TINT2CONF=1
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/imlib2.yml
   - components/startup-notification.yml
 build-depends:

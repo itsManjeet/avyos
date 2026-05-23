@@ -3,7 +3,7 @@ version: 3.44.0
 about: Library to GObject and GTK+ that adds APIs for special graphical effects
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
 build-depends:
   - components/vala.yml
 

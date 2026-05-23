@@ -1,10 +1,15 @@
 id: libelf
-version: 0.191
+version: 0.194
 about: Executable and Linkable Format utilities
 
 configure: >-
-  --disable-debuginfod 
-  --enable-libdebuginfod=dummy
+  --enable-deterministic-archives
+  --enable-maintainer-mode
+
+pre-script: |-
+  patch -Np1 -i 0001-libelf-workspace.patch
+  patch -Np1 -i 0002-libelf-workspace.patch
+  patch -Np1 -i 0003-libelf-workspace.patch
 
 install: -C libelf
 post-script: |-
@@ -18,3 +23,6 @@ depends:
 
 sources:
   - https://sourceware.org/ftp/elfutils/%{version}/elfutils-%{version}.tar.bz2
+  - patches/libelf/0001-libelf-workspace.patch
+  - patches/libelf/0002-libelf-workspace.patch
+  - patches/libelf/0003-libelf-workspace.patch

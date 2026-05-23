@@ -1,5 +1,5 @@
 id: dialog
-version: 1.3-20230209
+version: 1.3_20260107
 about: A tool to display dialog boxes from shell scripts
 
 configure: >

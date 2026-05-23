@@ -1,0 +1,9 @@
+id: libxml2-compat
+version: 2.13.9
+about: Package contains libraries and utilities used for parsing XML files
+
+depends:
+  - components/glibc.yml
+
+sources:
+  - https://gitlab.gnome.org/GNOME/libxml2/-/archive/v%{version}/libxml2-v%{version}.tar.gz

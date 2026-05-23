@@ -1,0 +1,88 @@
+id: image
+merge: [version.yml]
+about: System Image
+
+capabilities:
+  - CAP_SYS_CHROOT
+
+salt: 5ceca5e1f86ae62403b27e66c5160717f1bb88405a1d1d0853241c27f3764843
+force-rebuild: false
+include-root: /sysroot
+initial-commands: |-
+  chroot %{include-root} /bin/bash -e << "EOT"
+  for i in %{datadir}/pkgupd/manifest/*/integration ; do
+    sh -e $i
+  done
+
+  rm -rf /install-root
+  echo "root:root" | chpasswd
+
+  ln -sfv %{datadir}/zoneinfo/UTC %{sysconfdir}/
+
+  # TODO: FIX components/pam.yml integration
+  chmod 4755 %{bindir}/unix_chkpwd
+
+  echo -e "\nGTK_CSD=1" >> %{sysconfdir}/environment
+
+  sed -i 's/enable systemd-homed.service//g' %{libdir}/systemd/system-preset/90-systemd.preset
+  sed -i 's/enable systemd-homed-activate.service//g' %{libdir}/systemd/system-preset/90-systemd.preset
+  EOT
+
+  mkdir -p %{include-root}/%{datadir}/factory
+  mv -T %{include-root}/%{sysconfdir} %{include-root}/%{datadir}/factory/
+
+  echo "IMAGE_VERSION=%{version}" >> %{include-root}/%{libdir}/os-release
+
+  cat > %{include-root}/%{libdir}/tmpfiles.d/extra-etc.conf<< EOF
+  C /etc/bashrc
+  C /etc/default
+  C /etc/environment
+  C /etc/hosts
+  C /etc/issue
+  C /etc/issue.net
+  C /etc/ld.so.conf
+  C /etc/locale.conf
+  C /etc/localtime
+  C /etc/login.defs
+  C /etc/lvm
+  C /etc/mke2fs.conf
+  C /etc/pki
+  C /etc/profile
+  C /etc/profile.d
+  C /etc/rpc
+  C /etc/shells
+  C /etc/skel
+  C /etc/udev
+  C /etc/xattr.conf
+  C /etc/xdg
+  C! /etc/audit
+  C! /etc/pam.d
+  C! /etc/security
+  C! /etc/subgid
+  C! /etc/subuid
+  C! /etc/systemd/coredump.conf
+  C! /etc/systemd/homed.conf
+  C! /etc/systemd/journal-upload.conf
+  C! /etc/systemd/journald.conf
+  C! /etc/systemd/logind.conf
+  C! /etc/systemd/networkd.conf
+  C! /etc/systemd/oomd.conf
+  C! /etc/systemd/pstore.conf
+  C! /etc/systemd/resolved.conf
+  C! /etc/systemd/sleep.conf
+  C! /etc/systemd/system.conf
+  C! /etc/systemd/timesyncd.conf
+  C! /etc/systemd/user.conf
+  EOF
+
+  mksquashfs %{include-root}/%{prefix} %{install-root}/usr_%{version}.squashfs
+
+  verifysetup format --salt="%{salt}" %{install-root}/usr_%{version}.squashfs %{install-root}/usr_%{version}.verity | sed '/^Root hash:[[:space:]]*/{;s///;q;};d' > %{install-root}/usr-root-hash.txt
+
+  usr_part_uuid="$(cat "%{install-root}/usr-root-hash.txt" | sed -E 's/^([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12}).*/\1\2\3\4\5/')"
+  mv "%{install-root}/usr_%{version}.squashfs" "%{install-root}/usr_%{version}_${usr_part_uuid}.squashfs"
+  ln -s "usr_%{version}_${usr_part_uuid}.squashfs" '%{install-root}/usr.squashfs'
+
+  usr_verity_part_uuid="$(cat "%{install-root}/usr-root-hash.txt" | sed -E 's/.*([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12})$/\1\2\3\4\5/')"
+  mv "%{install-root}/usr_%{version}.verity" "%{install-root}/usr_%{version}_${usr_verity_part_uuid}.verity"
+  ln -s "usr_%{version}_${usr_verity_part_uuid}.verity" '%{install-root}/usr.verity'

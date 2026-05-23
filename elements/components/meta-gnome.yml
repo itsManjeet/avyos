@@ -4,28 +4,28 @@ about: Gnome Desktop Environment
 merge: [elements/include/meta.inc]
 depends:
   # Core Gnome Components
-  - components/gnome/gdm.yml
-  - components/gnome/gnome-backgrounds.yml
-  - components/gnome/gnome-control-center.yml
-  - components/gnome/gnome-initial-setup.yml
-  - components/themes/gnome-icon-theme.yml
-  - components/themes/gnome-icon-theme-extras.yml
-  - components/themes/gnome-icon-theme-symbolic.yml
-  - components/themes/adwaita-icon-theme.yml
-  - components/gnome/gnome-menus.yml
-  - components/gnome/gnome-power-manager.yml
-  - components/gnome/gnome-shell.yml
-  - components/gnome/gnome-session.yml
+  - components/gdm.yml
+  - components/gnome-backgrounds.yml
+  - components/gnome-control-center.yml
+  - components/gnome-initial-setup.yml
+  - components/gnome-icon-theme.yml
+  - components/gnome-icon-theme-extras.yml
+  - components/gnome-icon-theme-symbolic.yml
+  - components/adwaita-icon-theme.yml
+  - components/gnome-menus.yml
+  - components/gnome-power-manager.yml
+  - components/gnome-shell.yml
+  - components/gnome-session.yml
 
   # Gnome Apps
-  - components/gnome/gnome-terminal.yml
-  - components/gnome/nautilus.yml
+  - components/gnome-terminal.yml
+  - components/nautilus.yml
 
   - components/gnome-keyring.yml
 
   # Required Fonts
-  - components/fonts/cantarell.yml
-  - components/fonts/noto.yml
-  - components/fonts/noto-cjk.yml
-  - components/fonts/noto-emoji.yml
-  - components/fonts/adobe-source-code-pro-fonts.yml
+  - components/cantarell.yml
+  - components/noto.yml
+  - components/noto-cjk.yml
+  - components/noto-emoji.yml
+  - components/adobe-source-code-pro-fonts.yml

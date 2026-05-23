@@ -1,5 +1,5 @@
 id: pocketsphinx
-version: 0.8
+version: 5.1.0
 about: Lightweight speech recognition engine
 
 pre-script: |-

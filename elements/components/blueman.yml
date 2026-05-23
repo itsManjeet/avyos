@@ -1,5 +1,5 @@
 id: blueman
-version: 2.3.5
+version: 2.4.6
 about: GTK+ Bluetooth Manager
 
 build-type: autotools
@@ -10,14 +10,14 @@ configure: >
 
 depends:
   - components/bluez.yml
-  - components/gtk.yml
-  - components/py/py-cairo.yml
-  - components/py/py-gobject.yml
+  - components/gtk3.yml
+  - components/python-cairo.yml
+  - components/python-gobject.yml
   - components/intltool.yml
   - components/iproute2.yml
 
 build-depends:
-  - components/py/py-cython.yml
+  - components/python-cython.yml
 
 sources:
   - https://github.com/blueman-project/blueman/releases/download/%{version}/blueman-%{version}.tar.xz

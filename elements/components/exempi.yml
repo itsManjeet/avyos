@@ -1,5 +1,5 @@
 id: exempi
-version: 2.6.5
+version: 2.6.6
 about: An implementation of XMP (Adobe's Extensible Metadata Platform)
 
 build-depends:

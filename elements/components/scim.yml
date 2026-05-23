@@ -7,7 +7,7 @@ pre-script: ./bootstrap
 build-type: autotools
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libtool.yml
 
 build-depends:

@@ -1,17 +1,15 @@
 id: virt-manager
-version: 4.1.0
+version: 5.1.0
 about: Desktop user interface for managing virtual machines
 
 pre-script: |-
   pip install docutils
-  
-  sed -i '80s/.*/            self.gsettings_dir = os.path.join(prefix, "share", "virt-manager", "schemas")/' virtinst/buildconfig.py
-  sed -i '81d' virtinst/buildconfig.py
-
-  sed -i 's#share/glib-2.0/schemas#share/virt-manager/schemas#' setup.py
 
 configure: >-
-  --default-hvs qemu,lxc
+  -D default-hvs=qemu,lxc
+  -D compile-schemas=false
+  -D update-icon-cache=false
+  -D tests=disabled
 
 post-script: |-
   python -m compileall %{install-root}/%{datadir}/virt-manager
@@ -21,15 +19,15 @@ depends:
   - components/gtk-vnc.yml
   - components/gtksourceview4.yml
   - components/libvirt-glib.yml
-  - components/py/py-cairo.yml
+  - components/python-cairo.yml
   - components/spice-gtk.yml
   - components/libosinfo.yml
   - components/libisoburn.yml
-  - components/py/py-libvirt.yml
-  - components/py/py-requests.yml
+  - components/python-libvirt.yml
+  - components/python-requests.yml
 
 build-depends:
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 
 sources:
-  - https://releases.pagure.org/virt-manager/virt-manager-%{version}.tar.gz
+  - https://github.com/virt-manager/virt-manager/releases/download/v%{version}/virt-manager-%{version}.tar.xz

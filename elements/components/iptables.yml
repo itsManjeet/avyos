@@ -1,5 +1,5 @@
 id: iptables
-version: 1.8.10
+version: 1.8.13
 about: |
   Linux kernel packet control tool (using legacy interface)
 
@@ -22,4 +22,4 @@ depends:
   - components/libtool.yml
 
 sources:
-  - http://www.netfilter.org/projects/iptables/files/iptables-%{version}.tar.xz
+  - https://www.netfilter.org/pub/iptables/iptables-%{version}.tar.xz

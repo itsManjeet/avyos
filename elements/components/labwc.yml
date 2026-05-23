@@ -1,6 +1,6 @@
 
 id: labwc
-version: 0.7.2
+version: 0.9.7
 about: A Wayland window-stacking compositor
 
 sources:

@@ -1,5 +1,5 @@
 id: libva-utils
-version: 2.20.0
+version: 2.23.0
 about: Intel VA-API Media Applications and Scripts for libva
 
 depends:

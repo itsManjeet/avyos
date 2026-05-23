@@ -1,5 +1,5 @@
 id: qt
-version: 6.7.2
+version: 6.11.0
 about: Cross-platform application framework
 
 depends:
@@ -8,17 +8,17 @@ depends:
   - components/gdk-pixbuf.yml
   - components/libepoxy.yml
   - components/libmng.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/harfbuzz.yml
-  - components/x11/xcb-util-wm.yml
-  - components/x11/xcb-util-image.yml
-  - components/x11/xcb-util-keysyms.yml
-  - components/x11/xcb-util-renderutil.yml
-  - components/x11/xcb-util-cursor.yml
-  - components/x11/libxrender.yml
-  - components/x11/libxi.yml
+  - components/xcb-util-wm.yml
+  - components/xcb-util-image.yml
+  - components/xcb-util-keysyms.yml
+  - components/xcb-util-renderutil.yml
+  - components/xcb-util-cursor.yml
+  - components/libxrender.yml
+  - components/libxi.yml
   - components/desktop-file-utils.yml
-  - components/x11/libxcb.yml
+  - components/libxcb.yml
   - components/sqlite.yml
   - components/fontconfig.yml
   - components/which.yml
@@ -47,10 +47,10 @@ depends:
   - components/cups.yml
   - components/pipewire.yml
   - components/poppler.yml
-  - components/gtk.yml
+  - components/gtk3.yml
 build-depends:
   - components/gperf.yml
-  - components/py/py-pip.yml
+  - components/python-pip.yml
 sources:
   - https://download.qt.io/archive/qt/%{version:2}/%{version}/single/qt-everywhere-src-%{version}.tar.xz
 

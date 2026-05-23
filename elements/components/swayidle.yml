@@ -1,5 +1,5 @@
 id: swayidle
-version: 1.8.0
+version: 1.9.0
 about: Idle management daemon for Wayland
 
 configure: >-

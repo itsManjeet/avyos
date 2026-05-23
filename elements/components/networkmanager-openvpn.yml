@@ -1,5 +1,5 @@
 id: networkmanager-openvpn
-version: 1.10.2
+version: 1.12.5
 about: NetworkManager VPN plugin for OpenVPN
 
 build-type: autotools

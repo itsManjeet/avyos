@@ -1,8 +1,8 @@
 id: imagemagick
-version: 7.1.1-28
+version: 7.1.2.21
 about: An image viewing/manipulation program
 sources:
-  - https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-%{version}.tar.xz
+  - imagemagick-%{version}.tar.gz::https://github.com/ImageMagick/ImageMagick/archive/refs/tags/%{version}.tar.gz
 
 depends:
   - components/fontconfig.yml

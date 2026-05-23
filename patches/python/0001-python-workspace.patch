@@ -1,0 +1,89 @@
+diff -Naur a/Modules/_ssl.c b/Modules/_ssl.c
+--- a/Modules/_ssl.c	2026-04-16 06:17:22.472205427 +0000
++++ b/Modules/_ssl.c	2026-04-16 06:17:22.820204094 +0000
+@@ -134,16 +134,20 @@
+ #error Unsupported OpenSSL version
+ #endif
+ 
++#if !defined(OPENSSL_VERSION_MAJOR) || OPENSSL_VERSION_MAJOR < 4
++#define PY_OPENSSL_HAS_VERSION_METHODS 1
++#endif
+ /* OpenSSL API 1.1.0+ does not include version methods */
++#ifdef PY_OPENSSL_HAS_VERSION_METHODS
+ #ifndef OPENSSL_NO_SSL3_METHOD
+ extern const SSL_METHOD *SSLv3_method(void);
+ #endif
+ #ifndef OPENSSL_NO_TLS1_METHOD
+ extern const SSL_METHOD *TLSv1_method(void);
+ #endif
+ #ifndef OPENSSL_NO_TLS1_1_METHOD
+ extern const SSL_METHOD *TLSv1_1_method(void);
+ #endif
+ #ifndef OPENSSL_NO_TLS1_2_METHOD
+ extern const SSL_METHOD *TLSv1_2_method(void);
+ #endif
++#endif
+@@ -910,7 +910,7 @@
+     }
+ 
+     /* bpo43522 and OpenSSL < 1.1.1l: copy hostflags manually */
+-#if OPENSSL_VERSION_NUMBER < 0x101010cf
++#if OPENSSL_VERSION_NUMBER < 0x101010cf && !defined(LIBRESSL_VERSION_NUMBER)
+     X509_VERIFY_PARAM *ssl_verification_params = SSL_get0_param(self->ssl);
+     X509_VERIFY_PARAM *ssl_ctx_verification_params = SSL_CTX_get0_param(ctx);
+ 
+@@ -3872,10 +3872,12 @@
+ /*[clinic end generated code: output=0f9db6654ce32582 input=8e3c49499eefd0e5]*/
+ {
+     X509_VERIFY_PARAM *ssl_verification_params;
+-    unsigned int host_flags;
++    unsigned int host_flags = 0;
+ 
++#ifndef LIBRESSL_VERSION_NUMBER
+     ssl_verification_params = SSL_CTX_get0_param(self->ctx);
+     host_flags = X509_VERIFY_PARAM_get_hostflags(ssl_verification_params);
++#endif
+     return PyLong_FromUnsignedLong(host_flags);
+ }
+ 
+@@ -3127,7 +3130,9 @@
+     }
+ 
+     switch(proto_version) {
+-#if defined(SSL3_VERSION) && !defined(OPENSSL_NO_SSL3)
++#if (defined(SSL3_VERSION) && \
++        !defined(OPENSSL_NO_SSL3) && \
++        defined(PY_OPENSSL_HAS_VERSION_METHODS))
+     case PY_SSL_VERSION_SSL3:
+         PY_SSL_DEPRECATED("ssl.PROTOCOL_SSLv3 is deprecated", 2, NULL);
+         method = SSLv3_method();
+@@ -3135,7 +3140,8 @@
+ #endif
+ #if (defined(TLS1_VERSION) && \
+         !defined(OPENSSL_NO_TLS1) && \
+-        !defined(OPENSSL_NO_TLS1_METHOD))
++        !defined(OPENSSL_NO_TLS1_METHOD) && \
++        defined(PY_OPENSSL_HAS_VERSION_METHODS))
+     case PY_SSL_VERSION_TLS1:
+         PY_SSL_DEPRECATED("ssl.PROTOCOL_TLSv1 is deprecated", 2, NULL);
+         method = TLSv1_method();
+@@ -3143,7 +3149,8 @@
+ #endif
+ #if (defined(TLS1_1_VERSION) && \
+         !defined(OPENSSL_NO_TLS1_1) && \
+-        !defined(OPENSSL_NO_TLS1_1_METHOD))
++        !defined(OPENSSL_NO_TLS1_1_METHOD) && \
++        defined(PY_OPENSSL_HAS_VERSION_METHODS))
+     case PY_SSL_VERSION_TLS1_1:
+         PY_SSL_DEPRECATED("ssl.PROTOCOL_TLSv1_1 is deprecated", 2, NULL);
+         method = TLSv1_1_method();
+@@ -3151,7 +3158,8 @@
+ #endif
+ #if (defined(TLS1_2_VERSION) && \
+         !defined(OPENSSL_NO_TLS1_2) && \
+-        !defined(OPENSSL_NO_TLS1_2_METHOD))
++        !defined(OPENSSL_NO_TLS1_2_METHOD) && \
++        defined(PY_OPENSSL_HAS_VERSION_METHODS))
+     case PY_SSL_VERSION_TLS1_2:
+         PY_SSL_DEPRECATED("ssl.PROTOCOL_TLSv1_2 is deprecated", 2, NULL);
+         method = TLSv1_2_method();

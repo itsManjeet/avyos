@@ -1,12 +1,12 @@
 id: libreoffice
-version: 24.2.5.2
+version: 26.2.3.2
 about: LibreOffice is a full-featured office suite
 
 environ:
   - TAR_OPTIONS=--no-same-owner
 
 pre-script: |-
-  patch -Np1 -i libreoffice-24.2.5.2-boost_fixes-2.patch
+  patch -Np1 -i libreoffice-26.2.3.2-boost_fixes-2.patch
 
   sed -i '/icuuc \\/a zlib\\' writerperfect/Library_wpftdraw.mk
 
@@ -29,7 +29,7 @@ pre-script: |-
 
   ./configure --prefix=%{prefix}  \
       --sysconfdir=%{sysconfdir}  \
-      --with-vendor=RLXOS         \
+      --with-vendor=AVYOS         \
       --with-myspell-dicts        \
       --with-lang=ALL             \
       --without-junit             \
@@ -97,12 +97,12 @@ depends:
   - components/libepoxy.yml
   - components/libldap.yml
   - components/libpng.yml
-  - components/x11/libx11.yml
+  - components/libx11.yml
   - components/libxslt.yml
   - components/nspr.yml
   - components/nss.yml
   - components/shared-mime-info.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/glm.yml
   - components/gstreamer.yml
   - components/libwebp.yml

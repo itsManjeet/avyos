@@ -1,5 +1,5 @@
 id: sbsigntools
-version: 0.9.4
+version: 0.9.5
 about: Tools to add signatures to EFI binaries and Drivers
 
 build-type: autotools

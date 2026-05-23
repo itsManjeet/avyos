@@ -1,15 +1,15 @@
 id: bootstrap
 version: 2307
-about: rlxos bootstrap toolchain
+about: avyos bootstrap toolchain
 
 build-depends:
   - components/kernel-headers.yml
-  - components/bootstrap/glibc-stage1.yml
-  - components/bootstrap/binutils-stage1.yml
-  - components/bootstrap/gcc-stage1.yml
-  - components/bootstrap/glibc-stage2.yml
-  - components/bootstrap/binutils-stage2.yml
-  - components/bootstrap/gcc-stage2.yml
+  - bootstrap/glibc-stage1.yml
+  - bootstrap/binutils-stage1.yml
+  - bootstrap/gcc-stage1.yml
+  - bootstrap/glibc-stage2.yml
+  - bootstrap/binutils-stage2.yml
+  - bootstrap/gcc-stage2.yml
 
 script: |
   mkdir -p %{install-root}

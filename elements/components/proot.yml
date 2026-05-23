@@ -1,5 +1,5 @@
 id: proot
-version: 5.1.0
+version: 5.4.0
 about: chroot, mount --bind, and binfmt_misc without privilege/setup
 
 pre-script: |-

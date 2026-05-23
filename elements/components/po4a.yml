@@ -1,20 +1,20 @@
 id: po4a
-version: 0.66
+version: 0.74
 about: Tools for helping translation of documentation
 
 depends:
   - components/gettext.yml
   - components/perl.yml
-  - components/perl/perl-unicode-linebreak.yml
-  - components/perl/perl-yaml-tiny.yml
+  - components/perl-unicode-linebreak.yml
+  - components/perl-yaml-tiny.yml
 build-depends:
   - components/docbook-xsl.yml
-  - components/perl/perl-locale-gettext.yml
-  - components/perl/perl-module-build.yml
-  - components/perl/perl-pod-parser.yml
-  - components/perl/perl-sgmls.yml
-  - components/perl/perl-term-readkey.yml
-  - components/perl/perl-text-wrapi18n.yml
+  - components/perl-locale-gettext.yml
+  - components/perl-module-build.yml
+  - components/perl-pod-parser.yml
+  - components/perl-sgmls.yml
+  - components/perl-term-readkey.yml
+  - components/perl-text-wrapi18n.yml
 sources:
   - po4a-%{version}.tar.gz::https://github.com/mquinson/po4a/archive/v%{version}.tar.gz
 script: |-

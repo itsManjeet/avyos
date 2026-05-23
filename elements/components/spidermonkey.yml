@@ -1,5 +1,5 @@
 id: spidermonkey
-version: 115.13.0
+version: 140.10.2
 about: SpiderMonkey is Mozilla's JavaScript and WebAssembly Engine, written in C++ and Rust
 
 build-dir: firefox-%{version}

@@ -1,12 +1,12 @@
 id: grafana
-version: 10.1.1
+version: 13.0.1
 about: Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB
 
 depends:
   - components/fontconfig.yml
   - components/freetype.yml
   - components/glibc.yml
-  - components/fonts/gsfonts.yml
+  - components/gsfonts.yml
 build-depends:
   - components/go.yml
   - components/nodejs.yml

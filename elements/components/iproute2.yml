@@ -1,8 +1,8 @@
 id: iproute2
-version: 6.9.0
+version: 7.0.0
 about: IP Routing Utilities
 sources:
-  - https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-%{version}.tar.xz
+  - https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-v%{version}.tar.xz
 
 pre-script: |-
   sed -i "s/-Werror//" Makefile

@@ -1,8 +1,14 @@
 id: ninja
-version: 1.12.1
+version: 1.13.2
 about: Small build system with a focus on speed.
-sources:
-  - https://github.com/ninja-build/ninja/archive/v%{version}/ninja-%{version}.tar.gz
+
+script: |-
+  python3 configure.py --bootstrap --verbose
+
+  install -vDm 755 ninja %{install-root}%{bindir}/ninja
 
 depends:
   - components/python.yml
+
+sources:
+  - https://github.com/ninja-build/ninja/archive/v%{version}/ninja-%{version}.tar.gz

@@ -1,25 +1,26 @@
 id: networkmanager
-version: 1.48.6
+version: 1.56.0
 about: A set of co-operative tools that make networking simple and straightforward
 
 build-type: meson
 
 configure: >-
-  -Dlibaudit=no
-  -Dlibpsl=false
-  -Dnmtui=true
-  -Dovs=false
-  -Dppp=false
-  -Dselinux=false
-  -Dqt=false
-  -Dsession_tracking=systemd
-  -Dmodem_manager=false
+  -D libaudit=no
+  -D libpsl=false
+  -D nmtui=false
+  -D ovs=false
+  -D ppp=false
+  -D selinux=false
+  -D nbft=false
+  -D qt=false
+  -D session_tracking=systemd
+  -D modem_manager=false
 
 post-script: |-
   install -vDm0644 /dev/stdin %{install-root}/%{libdir}/sysusers.d/%{id}.conf << "EOF"
   g netdev 86
   EOF
-  
+
   install -vDm0644 /dev/stdin %{install-root}/%{datadir}/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
   polkit.addRule(function(action, subject) {
       if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
@@ -27,7 +28,7 @@ post-script: |-
       }
   });
   EOF
-  
+
   install -vDm0644 /dev/stdin %{install-root}/%{libdir}/systemd/system-preset/NetworkManager.preset << "EOF"
   enable NetworkManager
   disable NetworkManager-wait-online
@@ -69,10 +70,9 @@ depends:
   - components/curl.yml
   - components/gobject-introspection.yml
   - components/iptables.yml
-  - components/newt.yml
   - components/nss.yml
   - components/polkit.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
   - components/systemd.yml
   - components/upower.yml
   - components/wpa_supplicant.yml
@@ -80,4 +80,4 @@ depends:
 build-depends:
   - components/vala.yml
 sources:
-  - https://download.gnome.org/sources/NetworkManager/%{version:2}/NetworkManager-%{version}.tar.xz
+  - https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/releases/%{version}/downloads/NetworkManager-%{version}.tar.xz

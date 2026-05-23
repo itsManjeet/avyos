@@ -1,5 +1,5 @@
 id: libkcddb
-version: 22.04.1
+version: 26.04.1
 about:
   libkcddb package contains a library used to retrieve audio CD meta data from
   the internet

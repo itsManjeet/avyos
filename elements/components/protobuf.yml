@@ -1,5 +1,5 @@
 id: protobuf
-version: 3.19.4
+version: 34.1
 about: Protocol buffers - Google's data interchange format
 
 pre-script: |-
@@ -10,7 +10,7 @@ depends:
   - components/glibc.yml
   - components/zlib.yml
 build-depends:
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
   - components/unzip.yml
 sources:
   - https://github.com/protocolbuffers/protobuf/releases/download/v%{version}/protobuf-all-%{version}.tar.gz

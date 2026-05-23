@@ -1,0 +1,19 @@
+id: python-installer
+version: 1.0.0
+about: Low-level library for installing from a Python wheel
+
+script: |-
+  python -m flit_core.wheel
+
+  PYTHONPATH="${PWD}/src:${PYTHONPATH}" \
+  python -m installer --destdir %{install-root} \
+    dist/installer-%{version}-py3-none-any.whl
+
+depends:
+  - components/python.yml
+
+build-depends:
+  - components/python-flit-core.yml
+
+sources:
+  - python-installer-%{version}.tar.gz::https://github.com/pypa/installer/archive/%{version}.tar.gz

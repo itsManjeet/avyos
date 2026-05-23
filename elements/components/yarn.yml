@@ -1,5 +1,5 @@
 id: yarn
-version: 1.22.19
+version: 4.14.1
 about: Fast, reliable, and secure dependency management
 
 script: |-

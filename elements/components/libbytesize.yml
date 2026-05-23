@@ -1,5 +1,5 @@
 id: libbytesize
-version: 2.10
+version: 2.12
 about: A library which facilitates the common operations with sizes in bytes
 
 depends:

@@ -16,7 +16,7 @@ Signed-off-by: Sam James <sam@gentoo.org>
  2 files changed, 7 insertions(+)
 
 diff --git a/configure.ac b/configure.ac
-index 9946a0ef..a2d481aa 100644
+index 9946a0efa..a2d481aa9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -55,6 +55,7 @@ fi
@@ -28,7 +28,7 @@ index 9946a0ef..a2d481aa 100644
  AC_CHECK_MEMBERS([struct stat.st_atimespec])
  
 diff --git a/util/ulockmgr_server.c b/util/ulockmgr_server.c
-index 273c7d92..a04dac5c 100644
+index 273c7d923..a04dac5c6 100644
 --- a/util/ulockmgr_server.c
 +++ b/util/ulockmgr_server.c
 @@ -22,6 +22,10 @@
