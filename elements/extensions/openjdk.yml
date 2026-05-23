@@ -1,7 +1,0 @@
-id: openjdk
-merge: [elements/include/java.inc, elements/include/extension.inc]
-about: Open-source implementation of Oracle's Java Standard Edition platform
-
-include:
-  - components/openjdk.yml
-

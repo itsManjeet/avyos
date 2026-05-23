@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Welcome Tour
-Comment=Guided tutorial for new users
-GenericName=Welcome Tour
-Exec=welcome
-Terminal=false
-StartupNotify=true

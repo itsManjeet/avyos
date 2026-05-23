@@ -1,8 +1,0 @@
-id: perl-io-string
-version: "1.08"
-about: io::file interface for in-core strings
-
-depends:
-  - components/perl.yml
-sources:
-  - https://cpan.metacpan.org/authors/id/G/GA/GAAS/IO-String-%{version}.tar.gz

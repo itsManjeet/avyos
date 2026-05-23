@@ -1,8 +1,0 @@
-id: libgcrypt
-version: 1.11.0
-about: General purpose crypto library based on the code used in GnuPG
-sources:
-  - https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-%{version}.tar.bz2
-
-depends:
-  - components/libgpg-error.yml

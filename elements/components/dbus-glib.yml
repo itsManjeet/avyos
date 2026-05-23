@@ -1,9 +1,0 @@
-id: dbus-glib
-version: 0.112
-about: Package contains GLib interfaces to the D-Bus API
-
-depends:
-  - components/dbus.yml
-  - components/glib.yml
-sources:
-  - https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz

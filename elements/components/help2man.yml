@@ -1,9 +1,0 @@
-id: help2man
-version: 1.49.3
-about: Conversion tool to create man files
-
-depends:
-  - components/perl/perl-locale-gettext.yml
-
-sources:
-  - https://ftp.gnu.org/gnu/help2man/help2man-%{version}.tar.xz

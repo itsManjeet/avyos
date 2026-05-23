@@ -1,9 +1,0 @@
-id: gperf
-version: 3.1
-about: Generates a perfect hash function from a key set
-
-sources:
-  - https://ftp.gnu.org/gnu/gperf/gperf-%{version}.tar.gz
-
-depends:
-  - components/glibc.yml

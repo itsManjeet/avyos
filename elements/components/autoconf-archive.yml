@@ -1,8 +1,0 @@
-id: autoconf-archive
-version: 2023.02.20
-about: A collection of freely re-usable Autoconf macros
-
-depends:
-  - components/autoconf.yml
-sources:
-  - https://ftpmirror.gnu.org/autoconf-archive/autoconf-archive-%{version}.tar.xz

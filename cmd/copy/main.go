@@ -1,0 +1,80 @@
+/*
+ * Copyright (c) 2026 Manjeet Singh <itsmanjeet1998@gmail.com>.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+
+	"avyos.dev/pkg/format"
+	"avyos.dev/pkg/fs"
+)
+
+var (
+	flagRecursive bool
+	flagForce     bool
+)
+
+func init() {
+	flag.BoolVar(&flagRecursive, "recursive", false, "Copy directories recursively")
+	flag.BoolVar(&flagForce, "force", false, "Overwrite existing files")
+	flag.Usage = func() {
+		fmt.Fprintln(os.Stderr, "copy - Copy files or directories")
+		fmt.Fprintln(os.Stderr)
+		fmt.Fprintln(os.Stderr, "Usage:")
+		fmt.Fprintln(os.Stderr, "  copy <source> <destination> [--recursive] [--force]")
+		fmt.Fprintln(os.Stderr)
+		fmt.Fprintln(os.Stderr, "Subcommands:")
+		fmt.Fprintln(os.Stderr, "  (none)")
+		fmt.Fprintln(os.Stderr)
+		flag.PrintDefaults()
+		fmt.Fprintln(os.Stderr)
+		fmt.Fprintln(os.Stderr, "Exit Codes:")
+		fmt.Fprintln(os.Stderr, "  0  Success")
+		fmt.Fprintln(os.Stderr, "  1  Runtime/command error")
+		fmt.Fprintln(os.Stderr, "  2  Invalid flags/usage")
+	}
+}
+
+func main() {
+	flag.Parse()
+	if err := run(flag.Args()); err != nil {
+		format.Error("%s", err)
+		os.Exit(1)
+	}
+}
+
+func run(args []string) error {
+	if len(args) < 2 {
+		return fmt.Errorf("usage: copy <source> <destination>")
+	}
+
+	src, dst := args[0], args[1]
+
+	if fs.Exists(dst) && !flagForce {
+		return fmt.Errorf("%s already exists (use --force to overwrite)", dst)
+	}
+
+	if err := fs.Copy(src, dst, flagRecursive); err != nil {
+		return err
+	}
+
+	format.Success("Copied %s to %s", src, dst)
+	return nil
+}

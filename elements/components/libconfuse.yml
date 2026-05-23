@@ -1,9 +1,0 @@
-id: libconfuse
-version: 3.3
-about: Small configuration file parser library for C
-
-depends:
-- components/flex.yml
-
-sources:
-- https://github.com/libconfuse/libconfuse/releases/download/v%{version}/confuse-%{version}.tar.gz

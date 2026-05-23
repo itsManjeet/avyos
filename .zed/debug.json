@@ -1,0 +1,16 @@
+[
+  {
+    "label": "dlv: attach in QEMU",
+    "adapter": "Delve",
+    "request": "attach",
+    "port": 2345,
+    "mode": "remote",
+    "host": "127.0.0.1",
+    "substitutePath": [
+      {
+        "from": "${ZED_WORKTREE_ROOT}",
+        "to": "/avyos"
+      }
+    ]
+  }
+]

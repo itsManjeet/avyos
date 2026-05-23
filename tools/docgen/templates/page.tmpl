@@ -1,0 +1,359 @@
+{{ define "page" -}}
+<!doctype html>
+<html lang="en">
+{{ .Head }}
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="avyos Handbook">
+        <span class="brand-om" aria-hidden="true">ॐ</span>
+        <span class="brand-name">avyos</span>
+        <span class="brand-sep" aria-hidden="true">·</span>
+        <span class="brand-sub">Handbook</span>
+      </a>
+      <div class="nav-actions">
+        <button class="doc-theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme">
+          <span class="doc-theme-icon" aria-hidden="true"></span>
+          <span class="doc-theme-label" data-theme-label>Light</span>
+        </button>
+        <a class="btn btn-primary" href="https://avyos.dev">Home</a>
+        <a class="btn btn-release" href="https://github.com/itsmanjeet/avyos">Source Code</a>
+        <button class="doc-menu-toggle" type="button" data-doc-nav-toggle aria-controls="doc-sidebar" aria-expanded="false">
+          Menu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-shell">
+    <div class="container doc-layout">
+      <button class="doc-sidebar-backdrop" type="button" data-doc-sidebar-backdrop hidden tabindex="-1" aria-hidden="true"></button>
+      <aside id="doc-sidebar" class="doc-sidebar" aria-label="Documentation navigation">
+        <div class="doc-sidebar-head">
+          <span class="doc-sidebar-om" aria-hidden="true">ॐ</span>
+          <p class="doc-sidebar-title">Navigation</p>
+          <button class="doc-sidebar-close" type="button" data-doc-nav-close aria-label="Close documentation navigation">✕</button>
+        </div>
+        <div class="doc-search-wrap">
+          <svg class="doc-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="4.5"/>
+            <line x1="10.5" y1="10.5" x2="14" y2="14"/>
+          </svg>
+          <input class="doc-search" type="search" placeholder="Search docs…" aria-label="Search documentation" data-doc-search />
+        </div>
+        {{ range .Sidebar }}
+        <section class="doc-nav-group" data-nav-section>
+          <button class="doc-nav-section-toggle" type="button" aria-expanded="true" data-nav-toggle>
+            <span class="doc-nav-section-dot" aria-hidden="true"></span>
+            <span class="doc-nav-section-title">{{ .Title }}</span>
+            <svg class="doc-nav-section-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <polyline points="4,6 8,10 12,6"/>
+            </svg>
+          </button>
+          <div class="doc-nav-section-body">
+            {{ range .Groups }}
+            {{ if .Title }}
+            <p class="doc-subtitle">{{ .Title }}</p>
+            {{ end }}
+            {{ range .Entries }}
+            <a class="doc-link{{ if .Active }} active{{ end }}" href="{{ .Href }}">{{ .Title }}</a>
+            {{ end }}
+            {{ end }}
+          </div>
+        </section>
+        {{ end }}
+      </aside>
+
+      <article class="doc-content card">
+        {{ .BodyHTML }}
+      </article>
+
+      <nav class="doc-toc card" aria-label="On this page" id="doc-toc">
+        <p class="doc-toc-title">On this page</p>
+        <ul class="doc-toc-list" id="doc-toc-list"></ul>
+      </nav>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var storageKey = "docgen-theme";
+      var themeToggle = document.querySelector("[data-theme-toggle]");
+      var themeLabel = document.querySelector("[data-theme-label]");
+      var navToggle = document.querySelector("[data-doc-nav-toggle]");
+      var navClose = document.querySelector("[data-doc-nav-close]");
+      var sidebar = document.getElementById("doc-sidebar");
+      var backdrop = document.querySelector("[data-doc-sidebar-backdrop]");
+
+      var prefersDark = function () {
+        return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      };
+
+      var applyStoredTheme = function () {
+        try {
+          var stored = localStorage.getItem(storageKey);
+          if (stored === "light" || stored === "dark") {
+            root.setAttribute("data-theme", stored);
+          }
+        } catch (_err) {
+        }
+      };
+
+      var setTheme = function (theme) {
+        if (theme !== "light" && theme !== "dark") {
+          root.removeAttribute("data-theme");
+          try {
+            localStorage.removeItem(storageKey);
+          } catch (_err) {
+          }
+        } else {
+          root.setAttribute("data-theme", theme);
+          try {
+            localStorage.setItem(storageKey, theme);
+          } catch (_err) {
+          }
+        }
+        updateThemeToggle();
+        updateHljsTheme();
+      };
+
+      var updateThemeToggle = function () {
+        var explicitTheme = root.getAttribute("data-theme");
+        var activeTheme = explicitTheme === "light" || explicitTheme === "dark"
+          ? explicitTheme
+          : (prefersDark() ? "dark" : "light");
+        if (themeLabel) {
+          themeLabel.textContent = activeTheme === "dark" ? "Dark" : "Light";
+        }
+        if (themeToggle) {
+          themeToggle.setAttribute(
+            "aria-label",
+            "Switch to " + (activeTheme === "dark" ? "light" : "dark") + " theme"
+          );
+        }
+      };
+
+      /* Swap highlight.js stylesheet to match active theme */
+      var updateHljsTheme = function () {
+        var explicitTheme = root.getAttribute("data-theme");
+        var dark = explicitTheme === "dark" || (explicitTheme !== "light" && prefersDark());
+        document.querySelectorAll("link[href*='highlight.js']").forEach(function (el) {
+          el.media = dark
+            ? (el.href.indexOf("github-dark") !== -1 ? "all" : "not all")
+            : (el.href.indexOf("github-dark") !== -1 ? "not all" : "all");
+        });
+      };
+
+      var setSidebarOpen = function (open) {
+        if (!sidebar || !backdrop) {
+          return;
+        }
+        if (open) {
+          sidebar.classList.add("open");
+          backdrop.classList.add("open");
+          backdrop.removeAttribute("hidden");
+          document.body.classList.add("doc-nav-open");
+        } else {
+          sidebar.classList.remove("open");
+          backdrop.classList.remove("open");
+          backdrop.setAttribute("hidden", "");
+          document.body.classList.remove("doc-nav-open");
+        }
+        if (navToggle) {
+          navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+      };
+
+      applyStoredTheme();
+      updateHljsTheme();
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", function () {
+          var explicitTheme = root.getAttribute("data-theme");
+          var isDark = explicitTheme === "dark" || (explicitTheme != "light" && prefersDark());
+          setTheme(isDark ? "light" : "dark");
+        });
+      }
+
+      if (window.matchMedia) {
+        var themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+        if (themeMedia.addEventListener) {
+          themeMedia.addEventListener("change", function () {
+            if (!root.getAttribute("data-theme")) {
+              updateThemeToggle();
+              updateHljsTheme();
+            }
+          });
+        }
+      }
+
+      if (navToggle) {
+        navToggle.addEventListener("click", function () {
+          if (!sidebar) {
+            return;
+          }
+          setSidebarOpen(!sidebar.classList.contains("open"));
+        });
+      }
+      if (navClose) {
+        navClose.addEventListener("click", function () {
+          setSidebarOpen(false);
+        });
+      }
+      if (backdrop) {
+        backdrop.addEventListener("click", function () {
+          setSidebarOpen(false);
+        });
+      }
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          setSidebarOpen(false);
+        }
+      });
+      if (window.matchMedia) {
+        var desktopMedia = window.matchMedia("(min-width: 941px)");
+        if (desktopMedia.addEventListener) {
+          desktopMedia.addEventListener("change", function (event) {
+            if (event.matches) {
+              setSidebarOpen(false);
+            }
+          });
+        }
+      }
+
+      setSidebarOpen(false);
+      updateThemeToggle();
+
+      /* Section collapse / expand */
+      document.querySelectorAll("[data-nav-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var expanded = btn.getAttribute("aria-expanded") === "true";
+          var body = btn.nextElementSibling;
+          btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+          if (body) {
+            if (expanded) {
+              body.setAttribute("hidden", "");
+            } else {
+              body.removeAttribute("hidden");
+            }
+          }
+        });
+      });
+
+      /* Auto-expand the section containing the active link */
+      document.querySelectorAll(".doc-link.active").forEach(function (activeLink) {
+        var body = activeLink.closest(".doc-nav-section-body");
+        var toggle = body && body.previousElementSibling;
+        if (body && toggle && toggle.hasAttribute("data-nav-toggle")) {
+          body.removeAttribute("hidden");
+          toggle.setAttribute("aria-expanded", "true");
+        }
+      });
+
+      /* Sidebar search: filter nav links */
+      var searchInput = document.querySelector("[data-doc-search]");
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          var q = searchInput.value.trim().toLowerCase();
+          document.querySelectorAll("[data-nav-section]").forEach(function (section) {
+            var anyVisible = false;
+            section.querySelectorAll(".doc-link").forEach(function (link) {
+              var match = q === "" || link.textContent.toLowerCase().indexOf(q) !== -1;
+              link.style.display = match ? "" : "none";
+              if (match) {
+                anyVisible = true;
+              }
+            });
+            section.style.display = anyVisible ? "" : "none";
+            /* Auto-expand sections that have matches during search */
+            if (anyVisible && q !== "") {
+              var body = section.querySelector(".doc-nav-section-body");
+              var toggle = section.querySelector("[data-nav-toggle]");
+              if (body) { body.removeAttribute("hidden"); }
+              if (toggle) { toggle.setAttribute("aria-expanded", "true"); }
+            }
+          });
+        });
+      }
+
+      /* Copy button for code blocks */
+      document.querySelectorAll("pre").forEach(function (pre) {
+        var wrap = document.createElement("div");
+        wrap.className = "doc-code-wrap";
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+
+        var btn = document.createElement("button");
+        btn.className = "doc-copy-btn";
+        btn.textContent = "Copy";
+        btn.setAttribute("aria-label", "Copy code");
+        wrap.appendChild(btn);
+
+        btn.addEventListener("click", function () {
+          var code = pre.querySelector("code");
+          var text = code ? code.textContent : pre.textContent;
+          navigator.clipboard.writeText(text).then(function () {
+            btn.textContent = "Copied!";
+            btn.classList.add("copied");
+            setTimeout(function () {
+              btn.textContent = "Copy";
+              btn.classList.remove("copied");
+            }, 2000);
+          }).catch(function () {
+            btn.textContent = "Error";
+            setTimeout(function () { btn.textContent = "Copy"; }, 2000);
+          });
+        });
+      });
+
+      /* "On this page" TOC */
+      var tocList = document.getElementById("doc-toc-list");
+      var tocEl = document.getElementById("doc-toc");
+      if (tocList && tocEl) {
+        var article = document.querySelector(".doc-content");
+        var headings = article ? article.querySelectorAll("h2, h3") : [];
+        if (headings.length > 1) {
+          headings.forEach(function (h) {
+            if (!h.id) {
+              return;
+            }
+            var li = document.createElement("li");
+            li.className = h.tagName === "H3" ? "toc-h3" : "";
+            var a = document.createElement("a");
+            a.href = "#" + h.id;
+            a.textContent = h.textContent.replace(/^#\s*/, "");
+            li.appendChild(a);
+            tocList.appendChild(li);
+          });
+          tocEl.style.display = "";
+        } else {
+          tocEl.style.display = "none";
+        }
+
+        /* Highlight active TOC entry on scroll */
+        var tocLinks = tocList.querySelectorAll("a");
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              tocLinks.forEach(function (a) { a.classList.remove("active"); });
+              var active = tocList.querySelector('a[href="#' + entry.target.id + '"]');
+              if (active) {
+                active.classList.add("active");
+              }
+            }
+          });
+        }, { rootMargin: "0px 0px -70% 0px", threshold: 0 });
+        headings.forEach(function (h) { observer.observe(h); });
+      }
+
+      /* Initialize highlight.js after it loads */
+      window.addEventListener("load", function () {
+        if (window.hljs) {
+          hljs.highlightAll();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+{{- end }}

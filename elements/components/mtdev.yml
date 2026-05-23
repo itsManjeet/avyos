@@ -1,8 +1,0 @@
-id: mtdev
-version: 1.1.7
-about: Multitouch Protocol Translation Library
-sources:
-  - https://bitmath.org/code/mtdev/mtdev-%{version}.tar.bz2
-
-depends:
-  - components/glibc.yml

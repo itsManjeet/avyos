@@ -1,8 +1,0 @@
-exec "wlgreet --command sway; swaymsg exit"
-bindsym Mod4+shift+e exec swaynag \
-    -t warning \
-    -m "What do you want to do?" \
-    -b "Poweroff" "systemctl poweroff" \
-    -b "Reboot" "systemctl reboot"
-
-output * bg /usr/share/backgrounds/default-blur.jpg fill

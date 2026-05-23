@@ -1,8 +1,0 @@
-id: libassuan
-version: 3.0.1
-about: An inter process communication library
-
-depends:
-  - components/libgpg-error.yml
-sources:
-  - https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-%{version}.tar.bz2

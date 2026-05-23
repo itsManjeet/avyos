@@ -1,0 +1,124 @@
+{{ define "api_schema" -}}
+<section class="doc-ref-shell doc-api-shell">
+  <header class="doc-ref-hero">
+    <h1>{{ .Title }}</h1>
+    <p class="muted mono doc-path">{{ .RelPath }}</p>
+    <p class="doc-ref-lead">{{ .Lead }}</p>
+  </header>
+
+  <section class="doc-section-card">
+    <h2>Service</h2>
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Name</td><td><code>{{ .Spec.Service.Name }}</code></td></tr>
+        <tr><td>Package</td><td><code>{{ .Spec.Service.Package }}</code></td></tr>
+        <tr><td>Service ID</td><td><code>{{ .Spec.Service.ID }}</code></td></tr>
+        {{- if .Spec.Imports }}
+        <tr><td>Imports</td><td><code>{{ join .Spec.Imports ", " }}</code></td></tr>
+        {{- end }}
+      </tbody>
+    </table>
+    {{- $serviceDesc := trim .Spec.Service.Description }}
+    {{- if $serviceDesc }}
+    <div class="doc-markdown">{{ markdown $serviceDesc }}</div>
+    {{- end }}
+  </section>
+
+  {{- if .Spec.Types }}
+  <section class="doc-section-card">
+    <h2>Types</h2>
+    <div class="api-card-list">
+      {{- range .Spec.Types }}
+      <article class="api-item-card">
+        <h3>{{ .Name }}</h3>
+        {{- $typeDesc := trim .Description }}
+        {{- if $typeDesc }}
+        <div class="doc-markdown">{{ markdown $typeDesc }}</div>
+        {{- end }}
+        {{- if .Fields }}
+        <table class="doc-ref-table">
+          <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            {{- range .Fields }}
+            <tr>
+              <td><code>{{ .Name }}</code></td>
+              <td><code>{{ .Type }}</code></td>
+              <td>{{ defaultText .Description "-" }}</td>
+            </tr>
+            {{- end }}
+          </tbody>
+        </table>
+        {{- else }}
+        <p class="doc-ref-empty">No fields.</p>
+        {{- end }}
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if .Spec.Requests }}
+  <section class="doc-section-card">
+    <h2>Requests</h2>
+    <div class="api-card-list">
+      {{- range .Spec.Requests }}
+      <article class="api-item-card">
+        <header class="api-item-head">
+          <h3>{{ .Name }}</h3>
+          <p class="api-item-id"><code>{{ .ID }}</code></p>
+        </header>
+        {{- $requestDesc := trim .Description }}
+        {{- if $requestDesc }}
+        <div class="doc-markdown">{{ markdown $requestDesc }}</div>
+        {{- end }}
+        <div class="api-io-grid">
+          <section class="api-io-card">
+            <h4>Input</h4>
+            <p><strong>Type:</strong> <code>{{ methodPayloadType . }}</code></p>
+            <div class="doc-markdown">{{ markdown (requestDescription .) }}</div>
+          </section>
+          <section class="api-io-card">
+            <h4>Output</h4>
+            <p><strong>Type:</strong> <code>{{ responseType . }}</code></p>
+            <div class="doc-markdown">{{ markdown (responseDescription .) }}</div>
+          </section>
+        </div>
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if .Spec.Events }}
+  <section class="doc-section-card">
+    <h2>Events</h2>
+    <div class="api-card-list">
+      {{- range .Spec.Events }}
+      <article class="api-item-card">
+        <header class="api-item-head">
+          <h3>{{ .Name }}</h3>
+          <p class="api-item-id"><code>{{ .ID }}</code></p>
+        </header>
+        {{- $eventDesc := trim .Description }}
+        {{- if $eventDesc }}
+        <div class="doc-markdown">{{ markdown $eventDesc }}</div>
+        {{- end }}
+        <div class="api-io-grid">
+          <section class="api-io-card">
+            <h4>Payload</h4>
+            <p><strong>Type:</strong> <code>{{ methodPayloadType . }}</code></p>
+            <div class="doc-markdown">{{ markdown (payloadDescription .) }}</div>
+          </section>
+        </div>
+      </article>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+</section>
+{{- end }}

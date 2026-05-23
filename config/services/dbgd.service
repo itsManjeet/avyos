@@ -1,0 +1,3 @@
+name = dbgd
+command = /avyos/services/dbgd -listen :5037
+restart = always

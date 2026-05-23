@@ -1,9 +1,0 @@
-id: gsl
-version: 2.7.1
-about: A numerical library for C and C++ programmers
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://ftp.gnu.org/gnu/gsl/gsl-%{version}.tar.gz

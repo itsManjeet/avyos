@@ -1,8 +1,0 @@
-id: libtool
-version: 2.4.7
-about: GNU generic library support script
-sources:
-  - https://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.xz
-
-depends:
-  - components/glibc.yml

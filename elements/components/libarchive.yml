@@ -1,9 +1,0 @@
-id: libarchive
-version: 3.7.4
-about: Library provides a single interface for reading/writing various compression formats
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://github.com/libarchive/libarchive/releases/download/v%{version}/libarchive-%{version}.tar.xz

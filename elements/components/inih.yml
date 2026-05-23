@@ -1,9 +1,0 @@
-id: inih
-version: r58
-about: A simple .INI file parser written in C
-
-depends:
-  - components/glibc.yml
-
-sources:
-  - https://github.com/benhoyt/inih/archive/%{version}/inih-%{version}.tar.gz

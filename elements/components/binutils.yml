@@ -1,8 +1,0 @@
-id: binutils
-merge:
-  - elements/include/binutils.inc
-
-depends:
-  - components/zlib.yml
-  - components/libelf.yml
-  - components/zstd.yml

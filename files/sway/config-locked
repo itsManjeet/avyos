@@ -1,3 +1,0 @@
-include /etc/sway/config
-
-exec swaylock -f

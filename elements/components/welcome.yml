@@ -1,7 +1,0 @@
-id: welcome
-version: 2.2
-about: RLXOS welcome tour
-merge: [ elements/include/app.inc ]
-
-extra-commands: |-
-  install -v -D -m 0755 -t %{install-root}/%{sysconfdir}/xdg/autostart/ /rlxos/apps/welcome/assets/welcome.desktop

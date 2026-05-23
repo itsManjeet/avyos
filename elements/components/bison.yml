@@ -1,8 +1,0 @@
-id: bison
-version: 3.8.2
-about: A parser generator
-sources:
-  - https://ftp.gnu.org/gnu/bison/bison-%{version}.tar.xz
-depends:
-  - components/glibc.yml
-  - components/m4.yml
