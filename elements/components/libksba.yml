@@ -1,8 +1,0 @@
-id: libksba
-version: 1.6.7
-about: A library used to make X.509 certificates as well as making the CMS
-
-depends:
-  - components/libgpg-error.yml
-sources:
-  - https://www.gnupg.org/ftp/gcrypt/libksba/libksba-%{version}.tar.bz2

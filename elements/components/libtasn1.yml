@@ -1,9 +1,0 @@
-id: libtasn1
-version: 4.19.0
-about:
-  A highly portable C library that encodes and decodes DER/BER data following
-  an ASN.1 schema
-depends:
-  - components/glibc.yml
-sources:
-  - https://ftp.gnu.org/gnu/libtasn1/libtasn1-%{version}.tar.gz

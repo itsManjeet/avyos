@@ -1,7 +1,0 @@
-id: lzo
-version: 2.10
-about: Portable lossless data compression library
-sources:
-  - https://www.oberhumer.com/opensource/lzo/download/lzo-%{version}.tar.gz
-depends:
-  - components/glibc.yml

@@ -1,8 +1,0 @@
-id: ninja
-version: 1.12.1
-about: Small build system with a focus on speed.
-sources:
-  - https://github.com/ninja-build/ninja/archive/v%{version}/ninja-%{version}.tar.gz
-
-depends:
-  - components/python.yml

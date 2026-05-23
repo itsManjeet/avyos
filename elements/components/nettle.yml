@@ -1,9 +1,0 @@
-id: nettle
-version: 3.10
-about: A low-level cryptographic library that is designed to fit easily in many contexts
-sources:
-  - https://ftp.gnu.org/gnu/nettle/nettle-%{version}.tar.gz
-
-depends:
-  - components/glibc.yml
-  - components/gmp.yml

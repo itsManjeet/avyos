@@ -1,8 +1,0 @@
-id: fribidi
-version: 1.0.15
-about: An implementation of the Unicode Bidirectional Algorithm (BIDI)
-sources:
-  - https://github.com/fribidi/fribidi/releases/download/v%{version}/fribidi-%{version}.tar.xz
-
-depends:
-  - components/glibc.yml

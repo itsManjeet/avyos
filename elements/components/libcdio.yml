@@ -1,7 +1,0 @@
-id: libcdio
-version: 2.1.0
-about: Library for CD-ROM and CD image access
-depends:
-  - components/glibc.yml
-sources:
-  - https://ftp.gnu.org/gnu/libcdio/libcdio-%{version}.tar.bz2

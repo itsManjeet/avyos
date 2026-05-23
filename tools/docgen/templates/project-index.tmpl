@@ -1,0 +1,15 @@
+{{ define "project_index" -}}
+<section class="doc-ref-shell">
+  <header class="doc-ref-hero">
+    <h1>Project Documentation</h1>
+    <p class="doc-ref-lead">Index of project guides and design documents.</p>
+  </header>
+  <section class="doc-section-card">
+    <ul class="doc-list">
+      {{- range .Docs }}
+      <li><a href="{{ .HTMLFile }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+</section>
+{{- end }}

@@ -1,9 +1,0 @@
-id: mtools
-version: 4.0.43
-about: Utilities to access MS-DOS disks without mounting them
-sources:
-  - https://ftp.gnu.org/gnu/mtools/mtools-%{version}.tar.bz2
-
-depends:
-  - components/glibc.yml
-  - components/bash.yml

@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Build",
+    "command": "make -j12",
+  },
+  {
+    "label": "Run",
+    "command": "make run -j12 ",
+  },
+  {
+    "label": "Clean",
+    "command": "make clean",
+  },
+  {
+    "label": "Run (debug)",
+    "command": "make run -j12",
+  },
+  {
+    "label": "Build (debug binary)",
+    "command": "make debug-bin TARGET=${ZED_CUSTOM_WORDS_1}",
+  },
+]

@@ -1,6 +1,0 @@
-id: ca-certificates-java
-version: 20240726
-about: hooks of the ca-certificates package to update the cacerts JKS keystore used for many java runtimes
-
-depends:
-  - components/ca-certificates.yml

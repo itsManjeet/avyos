@@ -1,8 +1,0 @@
-id: libuv
-version: 1.48.0
-about: Multi-platform support library with a focus on asynchronous I/O
-sources:
-  - https://dist.libuv.org/dist/v%{version}/libuv-v%{version}.tar.gz
-
-depends:
-  - components/glibc.yml

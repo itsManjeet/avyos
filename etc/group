@@ -1,0 +1,11 @@
+root:x:0:
+wheel:x:10:
+tty:x:5:
+disk:x:6:
+plugdev:x:46:
+users:x:100:
+audio:x:101:
+video:x:102:
+network:x:103:
+storage:x:104:
+input:x:105:

@@ -1,8 +1,0 @@
-id: check
-version: 0.15.2
-about: A unit testing framework for C
-sources:
-  - https://github.com/libcheck/check/releases/download/%{version}/check-%{version}.tar.gz
-
-depends:
-  - components/gawk.yml

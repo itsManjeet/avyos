@@ -1,0 +1,104 @@
+{{ define "command_reference" -}}
+<section class="doc-ref-shell">
+  <header class="doc-ref-hero">
+    <h1>{{ .Title }}</h1>
+    <p class="muted mono doc-path">{{ .RelPath }}</p>
+    <p class="doc-ref-lead">{{ .Lead }}</p>
+  </header>
+
+  {{- if .OverviewHTML }}
+  <section class="doc-ref-card">
+    <h2>Overview</h2>
+    <div class="doc-markdown">{{ .OverviewHTML }}</div>
+  </section>
+  {{- end }}
+
+  <section class="doc-ref-card">
+    <h2>Usage</h2>
+    {{- if .Usage }}
+    <ul class="doc-ref-list">
+      {{- range .Usage }}
+      <li><code>{{ . }}</code></li>
+      {{- end }}
+    </ul>
+    {{- else }}
+    <p class="doc-ref-empty">Usage information is not available.</p>
+    {{- end }}
+  </section>
+
+  {{- if .Subcommands }}
+  <section class="doc-ref-card">
+    <h2>Subcommands</h2>
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Name</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {{- range .Subcommands }}
+        <tr>
+          <td><code>{{ .Name }}</code></td>
+          <td>{{ .Description }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+  {{- end }}
+
+  {{- if .Flags }}
+  <section class="doc-ref-card">
+    <h2>Flags</h2>
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Flag</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {{- range .Flags }}
+        <tr>
+          <td><code>{{ .Name }}</code></td>
+          <td><code>{{ .Type }}</code></td>
+          <td>{{ .Description }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+  {{- end }}
+
+  <section class="doc-ref-card">
+    <h2>Exit Codes</h2>
+    {{- if .ExitCodes }}
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Code</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        {{- range .ExitCodes }}
+        <tr>
+          <td><code>{{ .Name }}</code></td>
+          <td>{{ .Description }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+    {{- else }}
+    <p class="doc-ref-empty">No exit code table provided.</p>
+    {{- end }}
+  </section>
+
+  {{- if .CaptureErr }}
+  <p class="doc-ref-callout">Help capture warning: {{ .CaptureErr }}</p>
+  {{- end }}
+
+  {{- if .NoFlagsAndNoDoc }}
+  <p class="doc-ref-callout">This command has no flag usage output and no package-level documentation yet.</p>
+  {{- end }}
+
+  {{- if .ShowRawHelp }}
+  <section class="doc-ref-card">
+    <h2>Raw Help Output</h2>
+    <pre class="doc-ref-code"><code>{{ .RawHelp }}</code></pre>
+  </section>
+  {{- end }}
+</section>
+{{- end }}
