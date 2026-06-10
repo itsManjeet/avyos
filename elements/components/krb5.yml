@@ -1,18 +1,21 @@
 id: krb5
-version: 1.21.3
+version: 1.22.2
 about: A free implementation of Kerberos 5
 
 build-dir: krb5-%{version}/src
 
 pre-script: |-
-  sed -i -e '/eq 0/{N;s/12 //}'    plugins/kdb/db2/libdb2/test/run.test
+  (cd ..; patch -Np1 -i mitkrb-1.22.2-upstream_fix-1.patch)
+
+  sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
 
 configure: >-
   --localstatedir=%{localstatedir}
-  --with-system-et 
-  --with-system-ss 
+  --with-system-et
+  --with-system-ss
   --with-system-verto=no
   --enable-dns-for-realm
+  --disable-rpath
 
 depends:
   - components/e2fsprogs.yml
@@ -23,3 +26,4 @@ build-depends:
 
 sources:
   - https://kerberos.org/dist/krb5/%{version:2}/krb5-%{version}.tar.gz
+  - patches/krb5/mitkrb-1.22.2-upstream_fix-1.patch

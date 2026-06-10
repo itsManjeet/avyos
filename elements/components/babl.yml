@@ -1,5 +1,5 @@
 id: babl
-version: 0.1.108
+version: 0.1.126
 about: Dynamic, any to any, pixel format conversion library
 release: 0
 depends:

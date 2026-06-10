@@ -1,5 +1,5 @@
 id: hwloc
-version: 2.9.2
+version: 2.13.0
 about: Portable Hardware Locality is a portable abstraction of hierarchical architectures
 
 depends:
@@ -7,8 +7,8 @@ depends:
   - components/libtool.yml
   - components/systemd.yml
   - components/cairo.yml
-  - components/x11/libx11.yml
-  - components/x11/libpciaccess.yml
+  - components/libx11.yml
+  - components/libpciaccess.yml
   - components/libxml2.yml
   - components/pciutils.yml
 sources:

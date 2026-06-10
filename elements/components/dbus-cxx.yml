@@ -1,5 +1,5 @@
 id: dbus-cxx
-version: 0.12.0
+version: 2.6.0
 about: A C++ wrapper for dbus
 
 configure: >-

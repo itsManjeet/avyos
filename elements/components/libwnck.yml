@@ -1,9 +1,9 @@
 id: libwnck
-version: 43.0
+version: 43.3
 about: The Window Navigator Construction Kit
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/gobject-introspection.yml
   - components/startup-notification.yml
 sources:

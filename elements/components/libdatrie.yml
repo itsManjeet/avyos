@@ -1,5 +1,5 @@
 id: libdatrie
-version: 0.2.13
+version: 0.2.14
 about:
   Implementation of double array structure for representing trie, as proposed
   by junichi Aoe

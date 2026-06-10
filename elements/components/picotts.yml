@@ -8,4 +8,4 @@ build-depends:
   - components/binutils.yml
   - components/gcc.yml
 sources:
-  - https://github.com/rlxos/picotts/archive/%{version}.tar.gz
+  - https://github.com/avyos/picotts/archive/%{version}.tar.gz

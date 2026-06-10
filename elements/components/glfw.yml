@@ -10,15 +10,15 @@ licenses:
 
 depends:
   - components/libglvnd.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
 
 build-depends:
   - components/cmake.yml
   - components/extra-cmake-modules.yml
-  - components/x11/libxi.yml
-  - components/x11/libxinerama.yml
-  - components/x11/libxrandr.yml
-  - components/x11/libxcursor.yml
+  - components/libxi.yml
+  - components/libxinerama.yml
+  - components/libxrandr.yml
+  - components/libxcursor.yml
   - components/mesa.yml
   - components/wayland-protocols.yml
 

@@ -1,5 +1,5 @@
 id: openmpi
-version: 4.1.5
+version: 5.0.10
 about: High performance message passing library (MPI)
 
 configure: >-

@@ -1,15 +1,19 @@
 id: gnu-efi
-version: 3.0.17
+version: 4.0.4
 about: Develop EFI applications using the GNU toolchain and the EFI development environment
 
 script: |
-  LDFLAGS="${LDFLAGS//-Wl/}"
-  LDFLAGS="${LDFLAGS//,/ }"
-  make
+  export LDFLAGS="${LDFLAGS//-Wl/}"
+  export LDFLAGS="${LDFLAGS//,/ }"
+  export CFLAGS="-O2"
+  make CC=clang
   make INSTALLROOT="%{install-root}" PREFIX=%{prefix} install
 
 depends:
   - components/glibc.yml
 
+build-depends:
+  - components/llvm.yml
+
 sources:
-  - https://download.sourceforge.net/gnu-efi/gnu-efi-%{version}.tar.bz2
+  - gnu-efi-%{version}.tar.bz2::https://github.com/ncroxon/gnu-efi/archive/refs/tags/%{version}.tar.gz

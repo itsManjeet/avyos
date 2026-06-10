@@ -1,5 +1,5 @@
 id: libcap-ng
-version: 0.8.5
+version: 0.9.3
 about: A library for Linux that makes using posix capabilities easy
 
 build-type: autotools

@@ -1,5 +1,5 @@
 id: libcdio-paranoia
-version: 2.0.1
+version: 10.2.2.0.2
 about: Library for CD-ROM and CD image access
 
 depends:

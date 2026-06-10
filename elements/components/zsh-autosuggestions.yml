@@ -1,8 +1,8 @@
 id: zsh-autosuggestions
-version: 0.7.0
+version: 0.7.1
 
-build-depends:
-  - bootstrap.yml
+depends:
+  - components/glibc.yml
 
 script: |-
   mkdir -p %{install-root}%{datadir}/ohmyzsh/custom/plugins/zsh-autosuggestions

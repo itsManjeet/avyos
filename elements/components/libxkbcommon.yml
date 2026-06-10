@@ -1,0 +1,15 @@
+id: libxkbcommon
+version: 1.13.2
+about: Keymap compiler and support library which processes a reduced subset of keymaps as defined by the XKB specification
+sources:
+  - https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-%{version}.tar.gz
+
+configure: >-
+  --buildtype=release
+  -Denable-docs=false
+
+depends:
+  - components/libxml2.yml
+  - components/xkeyboard-config.yml
+  - components/wayland-protocols.yml
+  - components/libxcb.yml

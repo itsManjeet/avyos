@@ -1,5 +1,5 @@
 id: apparmor
-version: 3.1.7
+version: 5.0.0
 about: Mandatory Access Control (MAC) using Linux Security Module (LSM)
 
 script: |-
@@ -28,12 +28,12 @@ depends:
   - components/libgcc.yml
   - components/pam.yml
   - components/python.yml
-  - components/py/py-notify2.yml
-  - components/py/py-psutil.yml
+  - components/python-notify2.yml
+  - components/python-psutil.yml
 
 build-depends:
   - components/apache.yml
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 
 sources:
-  - https://launchpad.net/apparmor/%{version:2}/%{version}/+download/apparmor-%{version}.tar.gz
+  - https://gitlab.com/apparmor/apparmor/-/archive/v%{version}/apparmor-v%{version}.tar.gz

@@ -1,5 +1,5 @@
 id: libblockdev
-version: 3.1.1
+version: 3.5.0
 about: A C library supporting GObject Introspection for manipulation of block devices
 
 pre-script: |-
@@ -19,9 +19,11 @@ depends:
   - components/keyutils.yml
   - components/e2fsprogs.yml
   - components/libnvme.yml
+  - components/json-glib.yml
+  - components/libatasmart.yml
 
 build-depends:
   - components/gtk-doc.yml
 sources:
-  - https://github.com/storaged-project/libblockdev/releases/download/%{version}-1/libblockdev-%{version}.tar.gz
+  - https://github.com/storaged-project/libblockdev/releases/download/%{version}/libblockdev-%{version}.tar.gz
 # TODO: enable nvme support

@@ -1,5 +1,5 @@
 id: spirv-tools
-version: 2024.2
+version: 2026.1
 about: API and commands for processing SPIR-V modules
 
 configure: >-

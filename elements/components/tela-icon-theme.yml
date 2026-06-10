@@ -1,0 +1,15 @@
+id: tela-icon-theme
+version: 2025-02-10
+about: A flat colorful design icon theme
+
+script: |
+  install -d %{install-root}%{datadir}/icons
+  ./install.sh -a -d %{install-root}%{datadir}/icons
+
+
+depends:
+  - components/gtk3.yml
+  - components/hicolor-icon-theme.yml
+
+sources:
+  - tela-icon-theme-%{version}.tar.gz::https://github.com/vinceliuice/Tela-icon-theme/archive/refs/tags/%{version}.tar.gz

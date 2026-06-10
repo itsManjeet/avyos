@@ -1,5 +1,5 @@
 id: yelp-xsl
-version: 42.1
+version: 49.0
 about: XSL stylesheets that are used by the Yelp help browser to format Docbook and Mallard documents
 depends:
   - components/libxslt.yml

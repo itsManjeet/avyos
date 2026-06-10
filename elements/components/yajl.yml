@@ -2,6 +2,9 @@ id: yajl
 version: 2.1.0
 about: yet another json library
 
+pre-script: |-
+  patch -Np1 -i yajl-0009-Allow-cmake-4.0.patch
+
 script: |-
   export CFLAGS+=" -ffat-lto-objects"
   cmake -DCMAKE_INSTALL_PREFIX=%{prefix} \
@@ -20,7 +23,10 @@ script: |-
 
 depends:
   - components/glibc.yml
+
 build-depends:
   - components/cmake.yml
+
 sources:
   - yajl-%{version}.tar.gz::https://github.com/lloyd/yajl/archive/refs/tags/%{version}.tar.gz
+  - patches/yajl/yajl-0009-Allow-cmake-4.0.patch

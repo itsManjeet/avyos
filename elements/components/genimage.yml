@@ -1,5 +1,5 @@
 id: genimage
-version: 16
+version: 19
 about: Tool to generate multiple filesystem and flash images from a tree
 
 depends:

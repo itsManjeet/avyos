@@ -1,5 +1,5 @@
 id: libnotify
-version: 0.8.3
+version: 0.8.8
 about: Library is used to send desktop notifications to a notification daemon
 
 configure: >-
@@ -8,7 +8,7 @@ configure: >-
   -D gtk_doc=false
 
 depends:
-  - components/gtk.yml
+  - components/gtk4.yml
 build-depends:
   - components/gobject-introspection.yml
   - components/gtk-doc.yml

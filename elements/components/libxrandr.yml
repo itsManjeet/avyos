@@ -1,0 +1,14 @@
+id: libxrandr
+version: 1.5.5
+about: xorg library libXrandr
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXrandr-%{version}.tar.xz
+
+depends:
+  - components/libxext.yml
+  - components/libxrender.yml
+
+build-depends:
+  - components/util-macros.yml
+  - components/xorgproto.yml

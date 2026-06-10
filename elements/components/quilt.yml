@@ -1,5 +1,5 @@
 id: quilt
-version: 0.67
+version: 0.69
 about: Manage a series of patches by keeping track of changes each patch makes
 
 configure: >-

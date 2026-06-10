@@ -1,5 +1,5 @@
 id: samba
-version: 4.20.2
+version: 4.24.1
 about: Package provides file and print services to SMB/CIFS clients and Windows networking to Linux clients
 
 build-type: autotools
@@ -9,16 +9,16 @@ seperate-build-dir: false
 
 pre-script: |-
   patch -Np1 -i fix-root-build.patch
+  python -m pip install cryptography pyasn1 iso8601
 
 configure: >-
-  --enable-fhs
-  --with-configdir=%{sysconfdir}/%{id}
-  --with-lockdir=%{localstatedir}/cache/%{id}
-  --with-sockets-dir=/run/%{id}
-  --with-piddir=/run
   --with-pammodulesdir=%{libdir}/security
+  --with-piddir=/run/samba
+  --enable-fhs
   --without-ad-dc
-  --without-ads
+  --with-system-mitkrb5
+  --enable-selftest
+  --disable-rpath-install
 
 post-script: |-
   install -v -m644 examples/smb.conf.default %{install-root}%{sysconfdir}/samba
@@ -45,14 +45,18 @@ depends:
   - components/libtasn1.yml
   - components/libxslt.yml
   - components/pam.yml
-  - components/perl/perl-parse-yapp.yml
-  - components/perl/perl-json.yml
-  - components/py/py-markdown.yml
+  - components/perl-parse-yapp.yml
+  - components/perl-json.yml
+  - components/python-markdown.yml
   - components/cups.yml
   - components/libldap.yml
+  - components/krb5.yml
+  - components/waf.yml
+
 build-depends:
-  - components/py/py-pip.yml
+  - components/python-pip.yml
   - components/openldap.yml
+
 sources:
   - https://www.samba.org/ftp/samba/stable/samba-%{version}.tar.gz
   - patches/samba/fix-root-build.patch

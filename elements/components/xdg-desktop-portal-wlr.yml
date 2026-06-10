@@ -1,5 +1,5 @@
 id: xdg-desktop-portal-wlr
-version: 0.7.0
+version: 0.8.2
 about: A backend implementation of xdg-desktop-portal using wlroots
 
 post-script: |-

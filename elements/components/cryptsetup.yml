@@ -1,8 +1,11 @@
 id: cryptsetup
-version: 2.7.3
+version: 2.8.6
 about: Package to Set up transparent encryption of block devices using the kernel crypto API
-sources:
-  - https://www.kernel.org/pub/linux/utils/cryptsetup/v%{version:2}/cryptsetup-%{version}.tar.xz
+
+configure: >
+  --disable-asciidoc
+  --disable-static
+  --disable-ssh-token
 
 depends:
   - components/json-c.yml
@@ -10,5 +13,5 @@ depends:
   - components/popt.yml
   - components/libssh.yml
 
-configure: >
-  --disable-asciidoc
+sources:
+  - https://www.kernel.org/pub/linux/utils/cryptsetup/v%{version:2}/cryptsetup-%{version}.tar.xz

@@ -1,5 +1,5 @@
 id: opencv
-version: 4.10.0
+version: 4.13.0
 about: Libraries mainly aimed at real-time computer vision
 
 pre-script: |-
@@ -22,7 +22,7 @@ depends:
   - components/ffmpeg.yml
   - components/gstreamer.yml
   - components/libexif.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/jasper.yml
   - components/libpng.yml
   - components/libtiff.yml

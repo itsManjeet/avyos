@@ -1,5 +1,5 @@
 id: benchmark
-version: 1.8.3
+version: 1.9.5
 about: A microbenchmark support library
 
 configure: >

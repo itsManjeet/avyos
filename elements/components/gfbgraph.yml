@@ -13,7 +13,7 @@ configure: >-
 install: libgfbgraphdocdir=%{datadir}/doc/gfbgraph
 
 depends:
-  - components/gnome/gnome-online-accounts.yml
+  - components/gnome-online-accounts.yml
 build-depends:
   - components/gobject-introspection.yml
   - components/json-glib.yml

@@ -13,7 +13,7 @@ depends:
   - components/dbus-glib.yml
   - components/libxml2.yml
   - components/gobject-introspection.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/polkit.yml
 sources:
   - https://download.gnome.org/sources/GConf/%{version:2}/GConf-%{version}.tar.xz

@@ -1,5 +1,5 @@
 id: glslang
-version: 14.3.0
+version: 16.3.0
 about: OpenGL and OpenGL ES shader front end and validator
 
 environ:

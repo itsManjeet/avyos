@@ -1,5 +1,5 @@
 id: file-roller
-version: 44.3
+version: 44.6
 about: An archive manager for GNOME with support for tar, bzip2, gzip, zip, jar, compress, lzop, zstd, and many other archive formats
 
 configure: >-
@@ -7,7 +7,7 @@ configure: >-
   -D packagekit=false
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/dconf.yml
   - components/libportal.yml
   - components/cpio.yml

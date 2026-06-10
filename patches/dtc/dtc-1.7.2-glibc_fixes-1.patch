@@ -1,0 +1,60 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2026-02-17
+Initial Package Version: 1.7.2
+Upstream Status:         Applied
+Origin:                  Upstream (commit 9a1c801a1)
+Description:             Fixes compiling dtc with glibc-2.43 via adjusting to
+                         the C23 const changes that glibc is now enforcing.
+
+diff -Naurp dtc-1.7.2.orig/fdtput.c dtc-1.7.2/fdtput.c
+--- dtc-1.7.2.orig/fdtput.c	2024-11-05 21:01:37.000000000 -0600
++++ dtc-1.7.2/fdtput.c	2026-02-17 00:03:46.366923720 -0600
+@@ -230,19 +230,21 @@ static int create_paths(char **blob, con
+ static int create_node(char **blob, const char *node_name)
+ {
+ 	int node = 0;
+-	char *p;
++	const char *p;
++	char *path = NULL;
+ 
+ 	p = strrchr(node_name, '/');
+ 	if (!p) {
+ 		report_error(node_name, -1, -FDT_ERR_BADPATH);
+ 		return -1;
+ 	}
+-	*p = '\0';
+ 
+ 	*blob = realloc_node(*blob, p + 1);
+ 
+ 	if (p > node_name) {
+-		node = fdt_path_offset(*blob, node_name);
++		path = xstrndup(node_name, (size_t)(p - node_name));
++		node = fdt_path_offset(*blob, path);
++		free(path);
+ 		if (node < 0) {
+ 			report_error(node_name, -1, node);
+ 			return -1;
+diff -Naurp dtc-1.7.2.orig/libfdt/fdt_overlay.c dtc-1.7.2/libfdt/fdt_overlay.c
+--- dtc-1.7.2.orig/libfdt/fdt_overlay.c	2024-11-05 21:01:37.000000000 -0600
++++ dtc-1.7.2/libfdt/fdt_overlay.c	2026-02-17 00:03:46.367047844 -0600
+@@ -409,7 +409,8 @@ static int overlay_fixup_phandle(void *f
+ 		const char *fixup_str = value;
+ 		uint32_t path_len, name_len;
+ 		uint32_t fixup_len;
+-		char *sep, *endptr;
++		const char *sep;
++		char *endptr;
+ 		int poffset, ret;
+ 
+ 		fixup_end = memchr(value, '\0', len);
+diff -Naurp dtc-1.7.2.orig/meson.build dtc-1.7.2/meson.build
+--- dtc-1.7.2.orig/meson.build	2024-11-05 21:01:37.000000000 -0600
++++ dtc-1.7.2/meson.build	2026-02-17 00:03:46.367113458 -0600
+@@ -18,6 +18,7 @@ add_project_arguments(
+     '-Wshadow',
+     '-Wsuggest-attribute=format',
+     '-Wwrite-strings',
++    '-Wdiscarded-qualifiers',
+   ]),
+   language: 'c'
+ )

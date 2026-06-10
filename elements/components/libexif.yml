@@ -1,5 +1,5 @@
 id: libexif
-version: 0.6.24
+version: 0.6.26
 about: A library for parsing, editing, and saving EXIF data
 
 depends:

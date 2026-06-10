@@ -1,5 +1,5 @@
 id: json-glib
-version: 1.8.0
+version: 1.10.8
 about: serialization and deserialization support for the JavaScript
 
 depends:

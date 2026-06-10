@@ -1,5 +1,5 @@
 id: cairo
-version: 1.18.0
+version: 1.18.4
 about: A 2D graphics library with support for multiple output devices
 sources:
   - https://gitlab.freedesktop.org/cairo/cairo/-/archive/%{version}/cairo-%{version}.tar.gz
@@ -9,10 +9,10 @@ depends:
   - components/pixman.yml
   - components/fontconfig.yml
   - components/glib.yml
-  - components/x11/libx11.yml
-  - components/x11/libxcb.yml
-  - components/x11/libxext.yml
-  - components/x11/libxrender.yml
+  - components/libx11.yml
+  - components/libxcb.yml
+  - components/libxext.yml
+  - components/libxrender.yml
   - components/lzo.yml
   - components/zlib.yml
 

@@ -1,0 +1,14 @@
+id: python-flit-core
+version: 3.12.0
+about: distribution-building parts of Flit
+
+script: |-
+  python -m flit_core.wheel
+  python bootstrap_install.py --install-root %{install-root} \
+    dist/flit_core-%{version}-py3-none-any.whl
+
+depends:
+  - components/python.yml
+
+sources:
+  - https://pypi.org/packages/source/f/flit-core/flit_core-%{version}.tar.gz

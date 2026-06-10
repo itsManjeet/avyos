@@ -19,7 +19,7 @@ prepare-appimage: |-
 
 build-depends:
   - components/dotnet-runtime.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/intltool.yml
   - components/dotnet.yml
 

@@ -1,5 +1,5 @@
 id: guile
-version: 3.0.10
+version: 3.0.11
 about: Portable, embeddable Scheme implementation written in C
 
 pre-script: |-

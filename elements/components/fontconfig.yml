@@ -1,5 +1,5 @@
 id: fontconfig
-version: 2.15.0
+version: 2.17.1
 about: Library and support programs used for configuring and customizing font access
 
 build-type: autotools
@@ -10,7 +10,7 @@ integration: |-
   fc-cache -s
 
 sources:
-  - https://www.freedesktop.org/software/fontconfig/release/fontconfig-%{version}.tar.xz
+  - https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/%{version}/fontconfig-%{version}.tar.gz
 depends:
   - components/freetype.yml
 

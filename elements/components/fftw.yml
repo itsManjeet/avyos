@@ -1,5 +1,5 @@
 id: fftw
-version: 3.3.10
+version: 3.3.11
 about: A library for computing the discrete Fourier transform (DFT)
 
 configure: >-

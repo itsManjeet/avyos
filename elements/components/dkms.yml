@@ -1,5 +1,5 @@
 id: dkms
-version: 3.0.6
+version: 3.4.1
 about: Dynamic Kernel Modules System
 
 script: |

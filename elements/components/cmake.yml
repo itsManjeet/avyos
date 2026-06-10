@@ -1,5 +1,5 @@
 id: cmake
-version: 3.30.1
+version: 4.3.2
 about: Modern toolset used for generating Makefiles
 sources:
   - https://cmake.org/files/v%{version:2}/cmake-%{version}.tar.gz

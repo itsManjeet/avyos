@@ -1,6 +1,6 @@
 id: devel
 version: 2.0
-about: rlxos developers tool kit
+about: avyos developers tool kit
 
 depends:
   - components/gcc.yml
@@ -17,5 +17,5 @@ depends:
   - components/bison.yml
   - components/flex.yml
 script: |-
-  mkdir -p %{install-root}/usr/rlxos/kits/
-  echo %{version} > %{install-root}/usr/rlxos/kits/devel
+  mkdir -p %{install-root}/usr/avyos/kits/
+  echo %{version} > %{install-root}/usr/avyos/kits/devel

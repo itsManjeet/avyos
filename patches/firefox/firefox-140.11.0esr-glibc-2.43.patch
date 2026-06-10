@@ -1,0 +1,44 @@
+Submitted By:            Zeckma <zeckma_DOT_tech_AT_gmail_DOT_com>
+Date:                    2026-02-20
+Initial Package Version: 140.7.1esr
+Upstream Status:         Not applied
+Origin:                  From Joe Locash, see
+                         https://wiki.linuxfromscratch.org/lfs/ticket/5850#comment:13.
+Description:             Removes conflicting definitions and adapts the
+                         syscall in accordance with glibc-2.43.
+
+diff '--color=auto' -Naur firefox-140.7.1.orig/security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h firefox-140.7.1/security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h
+--- firefox-140.7.1.orig/security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h	2026-02-13 09:59:14.000000000 -0700
++++ firefox-140.7.1/security/sandbox/chromium/sandbox/linux/system_headers/linux_seccomp.h	2026-02-20 18:15:41.821986158 -0700
+@@ -103,8 +103,5 @@
+ #define SECCOMP_RET_INVALID 0x00010000U  // Illegal return value
+ #endif
+ 
+-#ifndef SYS_SECCOMP
+-#define SYS_SECCOMP                   1
+-#endif
+ 
+ #endif  // SANDBOX_LINUX_SYSTEM_HEADERS_LINUX_SECCOMP_H_
+diff '--color=auto' -Naur firefox-140.7.1.orig/third_party/rust/glslopt/glsl-optimizer/include/c11/threads_posix.h firefox-140.7.1/third_party/rust/glslopt/glsl-optimizer/include/c11/threads_posix.h
+--- firefox-140.7.1.orig/third_party/rust/glslopt/glsl-optimizer/include/c11/threads_posix.h	2026-02-13 09:59:21.000000000 -0700
++++ firefox-140.7.1/third_party/rust/glslopt/glsl-optimizer/include/c11/threads_posix.h	2026-02-20 18:15:31.697430610 -0700
+@@ -66,7 +66,6 @@ typedef pthread_cond_t  cnd_t;
+ typedef pthread_t       thrd_t;
+ typedef pthread_key_t   tss_t;
+ typedef pthread_mutex_t mtx_t;
+-typedef pthread_once_t  once_flag;
+ 
+ 
+ /*
+@@ -90,11 +89,6 @@ impl_thrd_routine(void *p)
+ 
+ /*--------------- 7.25.2 Initialization functions ---------------*/
+ // 7.25.2.1
+-static inline void
+-call_once(once_flag *flag, void (*func)(void))
+-{
+-    pthread_once(flag, func);
+-}
+ 
+ 
+ /*------------- 7.25.3 Condition variable functions -------------*/

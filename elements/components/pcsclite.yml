@@ -19,5 +19,5 @@ depends:
 build-depends:
   - components/pkg-config.yml
 sources:
-  - https://pcsclite.apdu.fr/files/pcsc-lite-%{version}.tar.bz2
+  - https://pcsclite.apdu.fr/assets/pcsc-lite-%{version}.tar.bz2
 # TODO: fix update url

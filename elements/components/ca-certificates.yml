@@ -1,5 +1,5 @@
 id: ca-certificates
-version: 20230311
+version: 20260413
 about: Bundle of CA Root Certificates from Mozilla
 
 script: |-
@@ -13,9 +13,9 @@ script: |-
 
   mkdir -p %{install-root}/%{sysconfdir}/ssl/certs
 
-  (cd %{install-root}/%{datadir}/%{id}/; find . -name "*.crt" | sort | cut -b3- > %{install-root}/%{sysconfdir}/ca-certificates.conf)  
-  
-  ln -s %{sysconfdir}/ssl/certs/ca-certificates.crt %{install-root}/%{sysconfdir}/ssl/certs.pem
+  (cd %{install-root}/%{datadir}/%{id}/; find . -name "*.crt" | sort | cut -b3- > %{install-root}/%{sysconfdir}/ca-certificates.conf)
+
+  ln -s %{sysconfdir}/ssl/certs/ca-certificates.crt %{install-root}/%{sysconfdir}/ssl/cert.pem
   install -v -D -m 0755 update-ca-certificates %{install-root}%{bindir}/update-ca-certificates
 
 
@@ -32,4 +32,5 @@ sources:
 integration: |-
   # TODO: better work around
   [ ! -e /dev/null ] && touch /dev/null
+  mkdir -p %{sysconfdir}/ssl/certs
   update-ca-certificates

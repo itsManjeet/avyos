@@ -1,5 +1,5 @@
 id: geoip-database
-version: 20220621
+version: 20260404
 about: GeoIP legacy country database (based on GeoLite2 data created by MaxMind)
 
 script: |-

@@ -2,58 +2,64 @@ id: rustc
 merge: [elements/include/rust.inc]
 about: Rust programming language is designed to be a safe, concurrent, practical language
 
-variables:
-  date: 2023-07-13
-  rust: 1.80.0
-  cargo: 1.80.0
+environ:
+  - LIBGIT2_NO_VENDOR=1
+  - LIBSSH2_SYS_USE_PKG_CONFIG=1
+  - LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+  - RUST_BACKTRACE=1
 
-depends:
-  - components/curl.yml
-  - components/libllvm.yml
-  - components/llvm.yml
-  - components/libssh.yml
+pre-script: |-
+  for i in  0001-bootstrap-Change-libexec-dir.patch \
+            0002-bootstrap-Change-bash-completion-dir.patch \
+            0003-bootstrap-Workaround-for-system-stage0.patch \
+            0004-compiler-Change-LLVM-targets.patch \
+            0005-compiler-Use-ld.lld-by-default.patch \
+            0006-compiler-Use-target-specific-GCC-linkers.patch \
+            0007-compiler-Link-riscv64-musl-statically.patch \
+            0008-compiler-Swap-primary-and-secondary-lib-dirs.patch; do
+    patch -Np1 -i $i
+  done
 
-build-depends:
-  - components/cmake.yml
-  - components/gdb.yml
-  - components/ninja.yml
-  - components/rust-stage1.yml
 
-sources:
-  - https://static.rust-lang.org/dist/rustc-%{version}-src.tar.xz
 
-script: |
+script: |-
   cat > config.toml << EOF
-  change-id = 125535
+  change-id = 148671
 
   [llvm]
-  targets = "X86"
   link-shared = true
+  targets = "X86"
 
   [build]
+  description = "avyos GNU/Linux"
   docs = false
-  extended = true
   locked-deps = true
-  tools = ["cargo", "clippy", "rustdoc", "rustfmt"]
+  tools = ["cargo", "clippy", "rustdoc", "rustfmt", "src"]
   vendor = true
-  cargo = "%{bindir}/cargo"
-  rustc = "%{bindir}/rustc"
 
   [install]
   prefix = "%{prefix}"
 
   [rust]
   channel = "stable"
-  description = "rlxos GNU/Linux"
 
-  [target.%{target-triple}]
+  lto = "thin"
+  codegen-units = 1
+
+  llvm-bitcode-linker = false
+
+  [target.x86_64-unknown-linux-gnu]
+  llvm-config = "%{bindir}/llvm-config"
+
+  [target.i686-unknown-linux-gnu]
   llvm-config = "%{bindir}/llvm-config"
   EOF
 
-  export RUST_BACKTRACE=1
-  export LIBSSH2_SYS_USE_PKG_CONFIG=1
+  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+  export CARGO_HTTP_CAINFO=/etc/ssl/certs/ca-certificates.crt
 
-  python3 ./x.py build --exclude src/tools/miri
+
   DESTDIR=%{install-root} python3 ./x.py install
 
   chown -R root:root %{install-root}
@@ -62,3 +68,28 @@ script: |
   rm -rf %{install-root}/%{libdir}/rustlib/manifest-rustc
   rm -rf %{install-root}/%{libdir}/rustlib/rust-installer-version
   rm -rf %{install-root}/%{sysconfdir}
+
+
+depends:
+  - components/curl.yml
+  - components/llvm-runtime.yml
+  - components/llvm.yml
+  - components/libgit2.yml
+  - components/libssh.yml
+
+build-depends:
+  - components/cmake.yml
+  - components/gdb.yml
+  - components/ninja.yml
+  - components/ca-certificates.yml
+
+sources:
+  - https://static.rust-lang.org/dist/rustc-%{version}-src.tar.xz
+  - patches/rustc/0001-bootstrap-Change-libexec-dir.patch
+  - patches/rustc/0002-bootstrap-Change-bash-completion-dir.patch
+  - patches/rustc/0003-bootstrap-Workaround-for-system-stage0.patch
+  - patches/rustc/0004-compiler-Change-LLVM-targets.patch
+  - patches/rustc/0005-compiler-Use-ld.lld-by-default.patch
+  - patches/rustc/0006-compiler-Use-target-specific-GCC-linkers.patch
+  - patches/rustc/0007-compiler-Link-riscv64-musl-statically.patch
+  - patches/rustc/0008-compiler-Swap-primary-and-secondary-lib-dirs.patch

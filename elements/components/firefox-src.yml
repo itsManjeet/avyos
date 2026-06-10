@@ -1,6 +1,15 @@
 id: firefox
-version: 128.0esr
+version: 140.11.0esr
 about: Firefox is a stand-alone browser based on the Mozilla codebase
+
+pre-script: |-
+  for i in firefox-140.11.0esr-glibc-2.43.patch firefox-140.11.0esr-llvm_22-1.patch firefox-140.11.0esr-python_3.14_fixes-1.patch ; do
+    patch -Np1 -i  $i
+  done
+
+  sed -e '/patch.crates-io/a glslopt={path="third_party/rust/glslopt"}' -i Cargo.toml
+  sed -i '/name = "glslopt"/,/^$/{/source/d;/checksum/d}' Cargo.lock
+  sed -i '/VIRAMA = 47/a CLASS_CHARACTER,' intl/lwbrk/LineBreaker.cpp
 
 script: |-
   cat > mozconfig << "EOF"
@@ -22,7 +31,7 @@ script: |-
   ac_add_options --enable-application=browser
 
   ac_add_options --disable-necko-wifi
-  ac_add_options --disable-debug-symbols  
+  ac_add_options --disable-debug-symbols
   ac_add_options --disable-crashreporter
   ac_add_options --disable-updater
   ac_add_options --disable-tests
@@ -34,7 +43,7 @@ script: |-
 
   # adapt the line break mapping for ICU 74 or later
   for i in {43..47}; do
-    sed -i '/ZWJ/s/}/,CLASS_CHARACTER&/' intl/lwbrk/LineBreaker.cpp 
+    sed -i '/ZWJ/s/}/,CLASS_CHARACTER&/' intl/lwbrk/LineBreaker.cpp
   done
 
   export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
@@ -53,14 +62,14 @@ script: |-
 
   install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/distribution/distribution.ini << "EOF"
   [Global]
-  id=rlxos
+  id=avyos
   version=2.0
-  about=Mozilla Firefox for RLXOS
+  about=Mozilla Firefox for AVYOS
 
   [Preferences]
-  app.distributor=rlxos
+  app.distributor=avyos
   app.distributor.channel=firefox
-  app.partner.rlxos=rlxos
+  app.partner.avyos=avyos
   EOF
 
   for i in 16 22 24 32 48 64 128 256 ; do
@@ -89,30 +98,30 @@ depends:
   - components/fontconfig.yml
   - components/freetype.yml
   - components/gdk-pixbuf.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/pulseaudio.yml
   - components/libevent.yml
-  - components/x11/libx11.yml
-  - components/x11/libxcb.yml
-  - components/x11/libxcomposite.yml
-  - components/x11/libxdamage.yml
-  - components/x11/libxext.yml
-  - components/x11/libxfixes.yml
-  - components/x11/libxrandr.yml
-  - components/x11/libxt.yml
+  - components/libx11.yml
+  - components/libxcb.yml
+  - components/libxcomposite.yml
+  - components/libxdamage.yml
+  - components/libxext.yml
+  - components/libxfixes.yml
+  - components/libxrandr.yml
+  - components/libxt.yml
   - components/nspr.yml
   - components/nss.yml
   - components/pango.yml
   - components/libnotify.yml
   - components/networkmanager.yml
   - components/xdg-desktop-portal.yml
+  - components/libwebp.yml
 
 build-depends:
   - components/cbindgen.yml
   - components/llvm.yml
   - components/diffutils.yml
   - components/inetutils.yml
-  - components/lld.yml
   - components/mesa.yml
   - components/nodejs.yml
   - components/rustc.yml
@@ -124,7 +133,6 @@ build-depends:
 sources:
   - https://archive.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
   - files/firefox/firefox.desktop
-
-# TODO: libpng doesn't have APNG support
-# TODO: update rustc compiler
-# TODO: update nss
+  - patches/firefox/firefox-140.11.0esr-glibc-2.43.patch
+  - patches/firefox/firefox-140.11.0esr-llvm_22-1.patch
+  - patches/firefox/firefox-140.11.0esr-python_3.14_fixes-1.patch

@@ -1,5 +1,5 @@
 id: libxml2
-version: 2.13.3
+version: 2.15.3
 about: Package contains libraries and utilities used for parsing XML files
 
 build-type: autotools

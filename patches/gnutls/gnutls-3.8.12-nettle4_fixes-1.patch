@@ -1,0 +1,2139 @@
+Submitted By:            Bruce Dubbs <bdubbbs@linuxfromscratch.org>
+Date:                    2026-03-06
+Initial Package Version: 3.8.12
+Origin:                  Upstream
+Upstream Status:         Merged
+Description:             Fixes build problems with nettle-4.0.0.
+  https://gitlab.com/gnutls/gnutls/-/commit/d8addf3ee069f92dff59314914ae680090ee45bd.patch
+  modified to not include files not in the tarball.
+
+From c86ce8cea337b2549e8b9e2387e0996f4fab198b Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 07:50:42 +0900
+Subject: [PATCH 01/12] nettle: use SHA*_BLOCK_SIZE instead of deprecated
+ SHA*_DATA_SIZE
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/x86/hmac-padlock.c       | 20 ++++++++++----------
+ lib/accelerated/x86/sha-padlock.c        |  4 ++--
+ lib/accelerated/x86/sha-x86-ssse3.c      | 24 ++++++++++++------------
+ lib/accelerated/x86/x86-common.h         |  2 +-
+ 6 files changed, 38 insertions(+), 38 deletions(-)
+
+diff --git a/lib/accelerated/x86/hmac-padlock.c b/lib/accelerated/x86/hmac-padlock.c
+index 8da42b327d..2c068372d8 100644
+--- a/lib/accelerated/x86/hmac-padlock.c
++++ b/lib/accelerated/x86/hmac-padlock.c
+@@ -280,39 +280,39 @@ static int wrap_padlock_hmac_fast(gnutls_mac_algorithm_t algo,
+ {
+ 	if (algo == GNUTLS_MAC_SHA1 || algo == GNUTLS_MAC_SHA256) {
+ 		unsigned char *pad;
+-		unsigned char pad2[SHA1_DATA_SIZE + MAX_SHA_DIGEST_SIZE];
++		unsigned char pad2[SHA1_BLOCK_SIZE + MAX_SHA_DIGEST_SIZE];
+ 		unsigned char hkey[MAX_SHA_DIGEST_SIZE];
+ 		unsigned int digest_size =
+ 			_gnutls_mac_get_algo_len(mac_to_entry(algo));
+ 
+-		if (key_size > SHA1_DATA_SIZE) {
++		if (key_size > SHA1_BLOCK_SIZE) {
+ 			wrap_padlock_hash_fast((gnutls_digest_algorithm_t)algo,
+ 					       key, key_size, hkey);
+ 			key = hkey;
+ 			key_size = digest_size;
+ 		}
+ 
+-		pad = gnutls_malloc(text_size + SHA1_DATA_SIZE);
++		pad = gnutls_malloc(text_size + SHA1_BLOCK_SIZE);
+ 		if (pad == NULL)
+ 			return gnutls_assert_val(GNUTLS_E_MEMORY_ERROR);
+ 
+-		memset(pad, IPAD, SHA1_DATA_SIZE);
++		memset(pad, IPAD, SHA1_BLOCK_SIZE);
+ 		memxor(pad, key, key_size);
+ 
+-		memcpy(&pad[SHA1_DATA_SIZE], text, text_size);
++		memcpy(&pad[SHA1_BLOCK_SIZE], text, text_size);
+ 
+ 		wrap_padlock_hash_fast((gnutls_digest_algorithm_t)algo, pad,
+-				       text_size + SHA1_DATA_SIZE,
+-				       &pad2[SHA1_DATA_SIZE]);
++				       text_size + SHA1_BLOCK_SIZE,
++				       &pad2[SHA1_BLOCK_SIZE]);
+ 
+-		zeroize_key(pad, text_size + SHA1_DATA_SIZE);
++		zeroize_key(pad, text_size + SHA1_BLOCK_SIZE);
+ 		gnutls_free(pad);
+ 
+-		memset(pad2, OPAD, SHA1_DATA_SIZE);
++		memset(pad2, OPAD, SHA1_BLOCK_SIZE);
+ 		memxor(pad2, key, key_size);
+ 
+ 		wrap_padlock_hash_fast((gnutls_digest_algorithm_t)algo, pad2,
+-				       digest_size + SHA1_DATA_SIZE, digest);
++				       digest_size + SHA1_BLOCK_SIZE, digest);
+ 
+ 		zeroize_key(pad2, sizeof(pad2));
+ 		zeroize_key(hkey, sizeof(hkey));
+diff --git a/lib/accelerated/x86/sha-padlock.c b/lib/accelerated/x86/sha-padlock.c
+index edc2c63a0c..2a4a4de452 100644
+--- a/lib/accelerated/x86/sha-padlock.c
++++ b/lib/accelerated/x86/sha-padlock.c
+@@ -189,8 +189,8 @@ static void padlock_sha512_digest(struct sha512_ctx *ctx, size_t length,
+ 	/* This is slightly inefficient, as the numbers are converted to
+ 	   big-endian format, and will be converted back by the compression
+ 	   function. It's probably not worth the effort to fix this. */
+-	WRITE_UINT64(ctx->block + (SHA512_DATA_SIZE - 16), high);
+-	WRITE_UINT64(ctx->block + (SHA512_DATA_SIZE - 8), low);
++	WRITE_UINT64(ctx->block + (SHA512_BLOCK_SIZE - 16), high);
++	WRITE_UINT64(ctx->block + (SHA512_BLOCK_SIZE - 8), low);
+ 	SHA512_COMPRESS(ctx, ctx->block);
+ 
+ 	words = length / 8;
+diff --git a/lib/accelerated/x86/sha-x86-ssse3.c b/lib/accelerated/x86/sha-x86-ssse3.c
+index 0f3e613b83..28d7930e67 100644
+--- a/lib/accelerated/x86/sha-x86-ssse3.c
++++ b/lib/accelerated/x86/sha-x86-ssse3.c
+@@ -82,7 +82,7 @@ void x86_sha1_update(struct sha1_ctx *ctx, size_t length, const uint8_t *data)
+ 	unsigned t2, i;
+ 
+ 	if ((res = ctx->index)) {
+-		res = SHA1_DATA_SIZE - res;
++		res = SHA1_BLOCK_SIZE - res;
+ 		if (length < res)
+ 			res = length;
+ 		sha1_update(ctx, res, data);
+@@ -96,14 +96,14 @@ void x86_sha1_update(struct sha1_ctx *ctx, size_t length, const uint8_t *data)
+ 	octx.h3 = ctx->state[3];
+ 	octx.h4 = ctx->state[4];
+ 
+-	memcpy(octx.data, ctx->block, SHA1_DATA_SIZE);
++	memcpy(octx.data, ctx->block, SHA1_BLOCK_SIZE);
+ 	octx.num = ctx->index;
+ 
+-	res = length % SHA1_DATA_SIZE;
++	res = length % SHA1_BLOCK_SIZE;
+ 	length -= res;
+ 
+ 	if (length > 0) {
+-		t2 = length / SHA1_DATA_SIZE;
++		t2 = length / SHA1_BLOCK_SIZE;
+ 
+ 		sha1_block_data_order(&octx, data, t2);
+ 
+@@ -140,7 +140,7 @@ void x86_sha256_update(struct sha256_ctx *ctx, size_t length,
+ 	unsigned t2, i;
+ 
+ 	if ((res = ctx->index)) {
+-		res = SHA256_DATA_SIZE - res;
++		res = SHA256_BLOCK_SIZE - res;
+ 		if (length < res)
+ 			res = length;
+ 		sha256_update(ctx, res, data);
+@@ -149,14 +149,14 @@ void x86_sha256_update(struct sha256_ctx *ctx, size_t length,
+ 	}
+ 
+ 	memcpy(octx.h, ctx->state, sizeof(octx.h));
+-	memcpy(octx.data, ctx->block, SHA256_DATA_SIZE);
++	memcpy(octx.data, ctx->block, SHA256_BLOCK_SIZE);
+ 	octx.num = ctx->index;
+ 
+-	res = length % SHA256_DATA_SIZE;
++	res = length % SHA256_BLOCK_SIZE;
+ 	length -= res;
+ 
+ 	if (length > 0) {
+-		t2 = length / SHA1_DATA_SIZE;
++		t2 = length / SHA1_BLOCK_SIZE;
+ 		sha256_block_data_order(&octx, data, t2);
+ 
+ 		for (i = 0; i < t2; i++)
+@@ -191,7 +191,7 @@ void x86_sha512_update(struct sha512_ctx *ctx, size_t length,
+ 	unsigned t2, i;
+ 
+ 	if ((res = ctx->index)) {
+-		res = SHA512_DATA_SIZE - res;
++		res = SHA512_BLOCK_SIZE - res;
+ 		if (length < res)
+ 			res = length;
+ 		sha512_update(ctx, res, data);
+@@ -200,14 +200,14 @@ void x86_sha512_update(struct sha512_ctx *ctx, size_t length,
+ 	}
+ 
+ 	memcpy(octx.h, ctx->state, sizeof(octx.h));
+-	memcpy(octx.u.p, ctx->block, SHA512_DATA_SIZE);
++	memcpy(octx.u.p, ctx->block, SHA512_BLOCK_SIZE);
+ 	octx.num = ctx->index;
+ 
+-	res = length % SHA512_DATA_SIZE;
++	res = length % SHA512_BLOCK_SIZE;
+ 	length -= res;
+ 
+ 	if (length > 0) {
+-		t2 = length / SHA512_DATA_SIZE;
++		t2 = length / SHA512_BLOCK_SIZE;
+ 		sha512_block_data_order(&octx, data, t2);
+ 
+ 		for (i = 0; i < t2; i++)
+diff --git a/lib/accelerated/x86/x86-common.h b/lib/accelerated/x86/x86-common.h
+index d91947d9c5..c92c5a30c0 100644
+--- a/lib/accelerated/x86/x86-common.h
++++ b/lib/accelerated/x86/x86-common.h
+@@ -39,7 +39,7 @@ void gnutls_cpuid(unsigned int func, unsigned int *ax, unsigned int *bx,
+ 	{ #name,                                      \
+ 	  sizeof(struct name##_ctx),                  \
+ 	  NAME##_DIGEST_SIZE,                         \
+-	  NAME##_DATA_SIZE,                           \
++	  NAME##_BLOCK_SIZE,                          \
+ 	  (nettle_hash_init_func *)name##_init,       \
+ 	  (nettle_hash_update_func *)update_func,     \
+ 	  (nettle_hash_digest_func *)digest_func }
+-- 
+GitLab
+
+
+From ac683ce5149108dde63954cf149dd4a48f410f6f Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 08:03:38 +0900
+Subject: [PATCH 02/12] nettle: include <nettle/sha[12].h> instead of
+ deprecated <nettle/sha.h>
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/aarch64/hmac-sha-aarch64.c | 3 ++-
+ lib/accelerated/aarch64/sha-aarch64.c      | 3 ++-
+ lib/accelerated/aarch64/sha-aarch64.h      | 3 ++-
+ lib/accelerated/x86/hmac-padlock.c         | 3 ++-
+ lib/accelerated/x86/hmac-x86-ssse3.c       | 3 ++-
+ lib/accelerated/x86/sha-padlock.c          | 3 ++-
+ lib/accelerated/x86/sha-padlock.h          | 3 ++-
+ lib/accelerated/x86/sha-x86-ssse3.c        | 3 ++-
+ lib/accelerated/x86/sha-x86.h              | 3 ++-
+ lib/nettle/mac.c                           | 3 ++-
+ 10 files changed, 20 insertions(+), 10 deletions(-)
+
+diff --git a/lib/accelerated/aarch64/hmac-sha-aarch64.c b/lib/accelerated/aarch64/hmac-sha-aarch64.c
+index 46bf1ca3c0..6261180f0d 100644
+--- a/lib/accelerated/aarch64/hmac-sha-aarch64.c
++++ b/lib/accelerated/aarch64/hmac-sha-aarch64.c
+@@ -28,7 +28,8 @@
+ #include "gnutls_int.h"
+ #include "hash_int.h"
+ #include "errors.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/hmac.h>
+ #include <nettle/macros.h>
+ #include "sha-aarch64.h"
+diff --git a/lib/accelerated/aarch64/sha-aarch64.c b/lib/accelerated/aarch64/sha-aarch64.c
+index c46e519d9d..42adf283ca 100644
+--- a/lib/accelerated/aarch64/sha-aarch64.c
++++ b/lib/accelerated/aarch64/sha-aarch64.c
+@@ -25,7 +25,8 @@
+ #include "gnutls_int.h"
+ #include <gnutls/crypto.h>
+ #include "errors.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/macros.h>
+ #include <nettle/nettle-meta.h>
+ #include "sha-aarch64.h"
+diff --git a/lib/accelerated/aarch64/sha-aarch64.h b/lib/accelerated/aarch64/sha-aarch64.h
+index 25eb4f3d60..c5c227a72e 100644
+--- a/lib/accelerated/aarch64/sha-aarch64.h
++++ b/lib/accelerated/aarch64/sha-aarch64.h
+@@ -1,7 +1,8 @@
+ #ifndef GNUTLS_LIB_ACCELERATED_AARCH64_SHA_AARCH64_H
+ #define GNUTLS_LIB_ACCELERATED_AARCH64_SHA_AARCH64_H
+ 
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ 
+ extern const struct nettle_hash aarch64_sha1;
+ extern const struct nettle_hash aarch64_sha224;
+diff --git a/lib/accelerated/x86/hmac-padlock.c b/lib/accelerated/x86/hmac-padlock.c
+index 2c068372d8..ac91d20ecb 100644
+--- a/lib/accelerated/x86/hmac-padlock.c
++++ b/lib/accelerated/x86/hmac-padlock.c
+@@ -27,7 +27,8 @@
+ #include "gnutls_int.h"
+ #include "hash_int.h"
+ #include "errors.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/hmac.h>
+ #include <nettle/macros.h>
+ #include <nettle/memxor.h>
+diff --git a/lib/accelerated/x86/hmac-x86-ssse3.c b/lib/accelerated/x86/hmac-x86-ssse3.c
+index 9b19552497..dec9c26882 100644
+--- a/lib/accelerated/x86/hmac-x86-ssse3.c
++++ b/lib/accelerated/x86/hmac-x86-ssse3.c
+@@ -27,7 +27,8 @@
+ #include "gnutls_int.h"
+ #include "hash_int.h"
+ #include "errors.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/hmac.h>
+ #include <nettle/macros.h>
+ #include "aes-x86.h"
+diff --git a/lib/accelerated/x86/sha-padlock.c b/lib/accelerated/x86/sha-padlock.c
+index 2a4a4de452..b2c4f095ec 100644
+--- a/lib/accelerated/x86/sha-padlock.c
++++ b/lib/accelerated/x86/sha-padlock.c
+@@ -24,7 +24,8 @@
+ #include "gnutls_int.h"
+ #include "hash_int.h"
+ #include "errors.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/hmac.h>
+ #include <nettle/macros.h>
+ #include "aes-padlock.h"
+diff --git a/lib/accelerated/x86/sha-padlock.h b/lib/accelerated/x86/sha-padlock.h
+index 990c02d989..5247959be9 100644
+--- a/lib/accelerated/x86/sha-padlock.h
++++ b/lib/accelerated/x86/sha-padlock.h
+@@ -1,7 +1,8 @@
+ #ifndef GNUTLS_LIB_ACCELERATED_X86_SHA_PADLOCK_H
+ #define GNUTLS_LIB_ACCELERATED_X86_SHA_PADLOCK_H
+ 
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ 
+ void padlock_sha1_oneshot(void *ctx, const void *inp, size_t len);
+ void padlock_sha256_oneshot(void *ctx, const void *inp, size_t len);
+diff --git a/lib/accelerated/x86/sha-x86-ssse3.c b/lib/accelerated/x86/sha-x86-ssse3.c
+index 28d7930e67..c0dbce62ef 100644
+--- a/lib/accelerated/x86/sha-x86-ssse3.c
++++ b/lib/accelerated/x86/sha-x86-ssse3.c
+@@ -25,7 +25,8 @@
+ #include <gnutls/crypto.h>
+ #include "errors.h"
+ #include "aes-x86.h"
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/macros.h>
+ #include <nettle/nettle-meta.h>
+ #include "sha-x86.h"
+diff --git a/lib/accelerated/x86/sha-x86.h b/lib/accelerated/x86/sha-x86.h
+index d96936663f..a01e0e6391 100644
+--- a/lib/accelerated/x86/sha-x86.h
++++ b/lib/accelerated/x86/sha-x86.h
+@@ -1,7 +1,8 @@
+ #ifndef GNUTLS_LIB_ACCELERATED_X86_SHA_X86_H
+ #define GNUTLS_LIB_ACCELERATED_X86_SHA_X86_H
+ 
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ 
+ extern const struct nettle_hash x86_sha1;
+ extern const struct nettle_hash x86_sha224;
+diff --git a/lib/nettle/mac.c b/lib/nettle/mac.c
+index b6be1c913d..2c76fb56ae 100644
+--- a/lib/nettle/mac.c
++++ b/lib/nettle/mac.c
+@@ -29,7 +29,8 @@
+ #include <nettle/md5.h>
+ #include <nettle/md2.h>
+ #include <nettle/ripemd160.h>
+-#include <nettle/sha.h>
++#include <nettle/sha1.h>
++#include <nettle/sha2.h>
+ #include <nettle/sha3.h>
+ #ifndef HAVE_NETTLE_SHA3_128_SHAKE_OUTPUT
+ #include "int/sha3-shake.h"
+-- 
+GitLab
+
+
+From 2217981ac89dcaadcc7f2f6defa95fa65e42ae56 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Fri, 27 Feb 2026 06:57:16 +0900
+Subject: [PATCH 03/12] nettle: use Nettle provided function types
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/aarch64/sha-aarch64.c |  40 +++---
+ lib/accelerated/x86/sha-padlock.c     |  40 +++---
+ lib/accelerated/x86/sha-x86-ssse3.c   |  40 +++---
+ lib/nettle/mac.c                      | 192 +++++++++++++-------------
+ 4 files changed, 155 insertions(+), 157 deletions(-)
+
+diff --git a/lib/accelerated/aarch64/sha-aarch64.c b/lib/accelerated/aarch64/sha-aarch64.c
+index 42adf283ca..d84ec186a2 100644
+--- a/lib/accelerated/aarch64/sha-aarch64.c
++++ b/lib/accelerated/aarch64/sha-aarch64.c
+@@ -36,10 +36,8 @@ void sha1_block_data_order(void *c, const void *p, size_t len);
+ void sha256_block_data_order(void *c, const void *p, size_t len);
+ void sha512_block_data_order(void *c, const void *p, size_t len);
+ 
+-typedef void (*update_func)(void *, size_t, const uint8_t *);
+-typedef void (*digest_func)(void *, size_t, uint8_t *);
++/* Can't use nettle_set_key_func as it doesn't have the second argument */
+ typedef void (*set_key_func)(void *, size_t, const uint8_t *);
+-typedef void (*init_func)(void *);
+ 
+ struct aarch64_hash_ctx {
+ 	union {
+@@ -52,9 +50,9 @@ struct aarch64_hash_ctx {
+ 	void *ctx_ptr;
+ 	gnutls_digest_algorithm_t algo;
+ 	size_t length;
+-	update_func update;
+-	digest_func digest;
+-	init_func init;
++	nettle_hash_update_func *update;
++	nettle_hash_digest_func *digest;
++	nettle_hash_init_func *init;
+ };
+ 
+ static int wrap_aarch64_hash_update(void *_ctx, const void *text,
+@@ -234,41 +232,41 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	switch (algo) {
+ 	case GNUTLS_DIG_SHA1:
+ 		sha1_init(&ctx->ctx.sha1);
+-		ctx->update = (update_func)aarch64_sha1_update;
+-		ctx->digest = (digest_func)sha1_digest;
+-		ctx->init = (init_func)sha1_init;
++		ctx->update = (nettle_hash_update_func *)aarch64_sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)sha1_digest;
++		ctx->init = (nettle_hash_init_func *)sha1_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha1;
+ 		ctx->length = SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA224:
+ 		sha224_init(&ctx->ctx.sha224);
+-		ctx->update = (update_func)aarch64_sha256_update;
+-		ctx->digest = (digest_func)sha224_digest;
+-		ctx->init = (init_func)sha224_init;
++		ctx->update = (nettle_hash_update_func *)aarch64_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha224_digest;
++		ctx->init = (nettle_hash_init_func *)sha224_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha224;
+ 		ctx->length = SHA224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA256:
+ 		sha256_init(&ctx->ctx.sha256);
+-		ctx->update = (update_func)aarch64_sha256_update;
+-		ctx->digest = (digest_func)sha256_digest;
+-		ctx->init = (init_func)sha256_init;
++		ctx->update = (nettle_hash_update_func *)aarch64_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha256_digest;
++		ctx->init = (nettle_hash_init_func *)sha256_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha256;
+ 		ctx->length = SHA256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA384:
+ 		sha384_init(&ctx->ctx.sha384);
+-		ctx->update = (update_func)aarch64_sha512_update;
+-		ctx->digest = (digest_func)sha384_digest;
+-		ctx->init = (init_func)sha384_init;
++		ctx->update = (nettle_hash_update_func *)aarch64_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha384_digest;
++		ctx->init = (nettle_hash_init_func *)sha384_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha384;
+ 		ctx->length = SHA384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA512:
+ 		sha512_init(&ctx->ctx.sha512);
+-		ctx->update = (update_func)aarch64_sha512_update;
+-		ctx->digest = (digest_func)sha512_digest;
+-		ctx->init = (init_func)sha512_init;
++		ctx->update = (nettle_hash_update_func *)aarch64_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha512_digest;
++		ctx->init = (nettle_hash_init_func *)sha512_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha512;
+ 		ctx->length = SHA512_DIGEST_SIZE;
+ 		break;
+diff --git a/lib/accelerated/x86/sha-padlock.c b/lib/accelerated/x86/sha-padlock.c
+index b2c4f095ec..6bd84b4834 100644
+--- a/lib/accelerated/x86/sha-padlock.c
++++ b/lib/accelerated/x86/sha-padlock.c
+@@ -35,10 +35,8 @@
+ 
+ #ifdef HAVE_LIBNETTLE
+ 
+-typedef void (*update_func)(void *, size_t, const uint8_t *);
+-typedef void (*digest_func)(void *, size_t, uint8_t *);
++/* Can't use nettle_set_key_func as it doesn't have the second argument */
+ typedef void (*set_key_func)(void *, size_t, const uint8_t *);
+-typedef void (*init_func)(void *);
+ 
+ struct padlock_hash_ctx {
+ 	union {
+@@ -51,9 +49,9 @@ struct padlock_hash_ctx {
+ 	void *ctx_ptr;
+ 	gnutls_digest_algorithm_t algo;
+ 	size_t length;
+-	update_func update;
+-	digest_func digest;
+-	init_func init;
++	nettle_hash_update_func *update;
++	nettle_hash_digest_func *digest;
++	nettle_hash_init_func *init;
+ };
+ 
+ static int wrap_padlock_hash_update(void *_ctx, const void *text,
+@@ -217,41 +215,41 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	switch (algo) {
+ 	case GNUTLS_DIG_SHA1:
+ 		sha1_init(&ctx->ctx.sha1);
+-		ctx->update = (update_func)padlock_sha1_update;
+-		ctx->digest = (digest_func)padlock_sha1_digest;
+-		ctx->init = (init_func)sha1_init;
++		ctx->update = (nettle_hash_update_func *)padlock_sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)padlock_sha1_digest;
++		ctx->init = (nettle_hash_init_func *)sha1_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha1;
+ 		ctx->length = SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA224:
+ 		sha224_init(&ctx->ctx.sha224);
+-		ctx->update = (update_func)padlock_sha256_update;
+-		ctx->digest = (digest_func)padlock_sha256_digest;
+-		ctx->init = (init_func)sha224_init;
++		ctx->update = (nettle_hash_update_func *)padlock_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)padlock_sha256_digest;
++		ctx->init = (nettle_hash_init_func *)sha224_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha224;
+ 		ctx->length = SHA224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA256:
+ 		sha256_init(&ctx->ctx.sha256);
+-		ctx->update = (update_func)padlock_sha256_update;
+-		ctx->digest = (digest_func)padlock_sha256_digest;
+-		ctx->init = (init_func)sha256_init;
++		ctx->update = (nettle_hash_update_func *)padlock_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)padlock_sha256_digest;
++		ctx->init = (nettle_hash_init_func *)sha256_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha256;
+ 		ctx->length = SHA256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA384:
+ 		sha384_init(&ctx->ctx.sha384);
+-		ctx->update = (update_func)padlock_sha512_update;
+-		ctx->digest = (digest_func)padlock_sha512_digest;
+-		ctx->init = (init_func)sha384_init;
++		ctx->update = (nettle_hash_update_func *)padlock_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)padlock_sha512_digest;
++		ctx->init = (nettle_hash_init_func *)sha384_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha384;
+ 		ctx->length = SHA384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA512:
+ 		sha512_init(&ctx->ctx.sha512);
+-		ctx->update = (update_func)padlock_sha512_update;
+-		ctx->digest = (digest_func)padlock_sha512_digest;
+-		ctx->init = (init_func)sha512_init;
++		ctx->update = (nettle_hash_update_func *)padlock_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)padlock_sha512_digest;
++		ctx->init = (nettle_hash_init_func *)sha512_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha512;
+ 		ctx->length = SHA512_DIGEST_SIZE;
+ 		break;
+diff --git a/lib/accelerated/x86/sha-x86-ssse3.c b/lib/accelerated/x86/sha-x86-ssse3.c
+index c0dbce62ef..9e8135801a 100644
+--- a/lib/accelerated/x86/sha-x86-ssse3.c
++++ b/lib/accelerated/x86/sha-x86-ssse3.c
+@@ -36,10 +36,8 @@ void sha1_block_data_order(void *c, const void *p, size_t len);
+ void sha256_block_data_order(void *c, const void *p, size_t len);
+ void sha512_block_data_order(void *c, const void *p, size_t len);
+ 
+-typedef void (*update_func)(void *, size_t, const uint8_t *);
+-typedef void (*digest_func)(void *, size_t, uint8_t *);
++/* Can't use nettle_set_key_func as it doesn't have the second argument */
+ typedef void (*set_key_func)(void *, size_t, const uint8_t *);
+-typedef void (*init_func)(void *);
+ 
+ struct x86_hash_ctx {
+ 	union {
+@@ -52,9 +50,9 @@ struct x86_hash_ctx {
+ 	void *ctx_ptr;
+ 	gnutls_digest_algorithm_t algo;
+ 	size_t length;
+-	update_func update;
+-	digest_func digest;
+-	init_func init;
++	nettle_hash_update_func *update;
++	nettle_hash_digest_func *digest;
++	nettle_hash_init_func *init;
+ };
+ 
+ static int wrap_x86_hash_update(void *_ctx, const void *text, size_t textsize)
+@@ -231,41 +229,41 @@ static int _ctx_init(gnutls_digest_algorithm_t algo, struct x86_hash_ctx *ctx)
+ 	switch (algo) {
+ 	case GNUTLS_DIG_SHA1:
+ 		sha1_init(&ctx->ctx.sha1);
+-		ctx->update = (update_func)x86_sha1_update;
+-		ctx->digest = (digest_func)sha1_digest;
+-		ctx->init = (init_func)sha1_init;
++		ctx->update = (nettle_hash_update_func *)x86_sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)sha1_digest;
++		ctx->init = (nettle_hash_init_func *)sha1_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha1;
+ 		ctx->length = SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA224:
+ 		sha224_init(&ctx->ctx.sha224);
+-		ctx->update = (update_func)x86_sha256_update;
+-		ctx->digest = (digest_func)sha224_digest;
+-		ctx->init = (init_func)sha224_init;
++		ctx->update = (nettle_hash_update_func *)x86_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha224_digest;
++		ctx->init = (nettle_hash_init_func *)sha224_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha224;
+ 		ctx->length = SHA224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA256:
+ 		sha256_init(&ctx->ctx.sha256);
+-		ctx->update = (update_func)x86_sha256_update;
+-		ctx->digest = (digest_func)sha256_digest;
+-		ctx->init = (init_func)sha256_init;
++		ctx->update = (nettle_hash_update_func *)x86_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha256_digest;
++		ctx->init = (nettle_hash_init_func *)sha256_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha256;
+ 		ctx->length = SHA256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA384:
+ 		sha384_init(&ctx->ctx.sha384);
+-		ctx->update = (update_func)x86_sha512_update;
+-		ctx->digest = (digest_func)sha384_digest;
+-		ctx->init = (init_func)sha384_init;
++		ctx->update = (nettle_hash_update_func *)x86_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha384_digest;
++		ctx->init = (nettle_hash_init_func *)sha384_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha384;
+ 		ctx->length = SHA384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA512:
+ 		sha512_init(&ctx->ctx.sha512);
+-		ctx->update = (update_func)x86_sha512_update;
+-		ctx->digest = (digest_func)sha512_digest;
+-		ctx->init = (init_func)sha512_init;
++		ctx->update = (nettle_hash_update_func *)x86_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha512_digest;
++		ctx->init = (nettle_hash_init_func *)sha512_init;
+ 		ctx->ctx_ptr = &ctx->ctx.sha512;
+ 		ctx->length = SHA512_DIGEST_SIZE;
+ 		break;
+diff --git a/lib/nettle/mac.c b/lib/nettle/mac.c
+index 2c76fb56ae..495856cefc 100644
+--- a/lib/nettle/mac.c
++++ b/lib/nettle/mac.c
+@@ -49,11 +49,9 @@
+ #endif
+ #include <nettle/gcm.h>
+ 
+-typedef void (*update_func)(void *, size_t, const uint8_t *);
+-typedef void (*digest_func)(void *, size_t, uint8_t *);
++/* Can't use nettle_set_key_func as it doesn't have the second argument */
+ typedef void (*set_key_func)(void *, size_t, const uint8_t *);
+ typedef void (*set_nonce_func)(void *, size_t, const uint8_t *);
+-typedef void (*init_func)(void *);
+ typedef bool (*finished_func)(void *);
+ 
+ static int wrap_nettle_hash_init(gnutls_digest_algorithm_t algo, void **_ctx);
+@@ -101,9 +99,9 @@ struct nettle_hash_ctx {
+ 	void *ctx_ptr;
+ 	gnutls_digest_algorithm_t algo;
+ 	size_t length;
+-	update_func update;
+-	digest_func digest;
+-	init_func init;
++	nettle_hash_update_func *update;
++	nettle_hash_digest_func *digest;
++	nettle_hash_init_func *init;
+ 	finished_func finished;
+ };
+ 
+@@ -153,8 +151,8 @@ struct nettle_mac_ctx {
+ 	void *ctx_ptr;
+ 	gnutls_mac_algorithm_t algo;
+ 	size_t length;
+-	update_func update;
+-	digest_func digest;
++	nettle_hash_update_func *update;
++	nettle_hash_digest_func *digest;
+ 	set_key_func set_key;
+ 	set_nonce_func set_nonce;
+ };
+@@ -299,117 +297,123 @@ static int _mac_ctx_init(gnutls_mac_algorithm_t algo,
+ 	ctx->set_nonce = NULL;
+ 	switch (algo) {
+ 	case GNUTLS_MAC_MD5:
+-		ctx->update = (update_func)hmac_md5_update;
+-		ctx->digest = (digest_func)hmac_md5_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_md5_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_md5_digest;
+ 		ctx->set_key = (set_key_func)hmac_md5_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.md5;
+ 		ctx->length = MD5_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_SHA1:
+-		ctx->update = (update_func)hmac_sha1_update;
+-		ctx->digest = (digest_func)hmac_sha1_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_sha1_digest;
+ 		ctx->set_key = (set_key_func)hmac_sha1_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.sha1;
+ 		ctx->length = SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_SHA224:
+-		ctx->update = (update_func)hmac_sha224_update;
+-		ctx->digest = (digest_func)hmac_sha224_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_sha224_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_sha224_digest;
+ 		ctx->set_key = (set_key_func)hmac_sha224_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.sha224;
+ 		ctx->length = SHA224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_SHA256:
+-		ctx->update = (update_func)hmac_sha256_update;
+-		ctx->digest = (digest_func)hmac_sha256_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_sha256_digest;
+ 		ctx->set_key = (set_key_func)hmac_sha256_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.sha256;
+ 		ctx->length = SHA256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_SHA384:
+-		ctx->update = (update_func)hmac_sha384_update;
+-		ctx->digest = (digest_func)hmac_sha384_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_sha384_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_sha384_digest;
+ 		ctx->set_key = (set_key_func)hmac_sha384_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.sha384;
+ 		ctx->length = SHA384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_SHA512:
+-		ctx->update = (update_func)hmac_sha512_update;
+-		ctx->digest = (digest_func)hmac_sha512_digest;
++		ctx->update = (nettle_hash_update_func *)hmac_sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)hmac_sha512_digest;
+ 		ctx->set_key = (set_key_func)hmac_sha512_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.sha512;
+ 		ctx->length = SHA512_DIGEST_SIZE;
+ 		break;
+ #if ENABLE_GOST
+ 	case GNUTLS_MAC_GOSTR_94:
+-		ctx->update = (update_func)hmac_gosthash94cp_update;
+-		ctx->digest = (digest_func)hmac_gosthash94cp_digest;
++		ctx->update =
++			(nettle_hash_update_func *)hmac_gosthash94cp_update;
++		ctx->digest =
++			(nettle_hash_digest_func *)hmac_gosthash94cp_digest;
+ 		ctx->set_key = (set_key_func)hmac_gosthash94cp_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.gosthash94cp;
+ 		ctx->length = GOSTHASH94CP_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_STREEBOG_256:
+-		ctx->update = (update_func)hmac_streebog256_update;
+-		ctx->digest = (digest_func)hmac_streebog256_digest;
++		ctx->update =
++			(nettle_hash_update_func *)hmac_streebog256_update;
++		ctx->digest =
++			(nettle_hash_digest_func *)hmac_streebog256_digest;
+ 		ctx->set_key = (set_key_func)hmac_streebog256_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.streebog256;
+ 		ctx->length = STREEBOG256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_STREEBOG_512:
+-		ctx->update = (update_func)hmac_streebog512_update;
+-		ctx->digest = (digest_func)hmac_streebog512_digest;
++		ctx->update =
++			(nettle_hash_update_func *)hmac_streebog512_update;
++		ctx->digest =
++			(nettle_hash_digest_func *)hmac_streebog512_digest;
+ 		ctx->set_key = (set_key_func)hmac_streebog512_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.streebog512;
+ 		ctx->length = STREEBOG512_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_GOST28147_TC26Z_IMIT:
+-		ctx->update = (update_func)gost28147_imit_update;
+-		ctx->digest = (digest_func)gost28147_imit_digest;
++		ctx->update = (nettle_hash_update_func *)gost28147_imit_update;
++		ctx->digest = (nettle_hash_digest_func *)gost28147_imit_digest;
+ 		ctx->set_key = _wrap_gost28147_imit_set_key_tc26z;
+ 		ctx->ctx_ptr = &ctx->ctx.gost28147_imit;
+ 		ctx->length = GOST28147_IMIT_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_MAGMA_OMAC:
+-		ctx->update = (update_func)cmac_magma_update;
+-		ctx->digest = (digest_func)cmac_magma_digest;
++		ctx->update = (nettle_hash_update_func *)cmac_magma_update;
++		ctx->digest = (nettle_hash_digest_func *)cmac_magma_digest;
+ 		ctx->set_key = _wrap_cmac_magma_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.magma;
+ 		ctx->length = CMAC64_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_KUZNYECHIK_OMAC:
+-		ctx->update = (update_func)cmac_kuznyechik_update;
+-		ctx->digest = (digest_func)cmac_kuznyechik_digest;
++		ctx->update = (nettle_hash_update_func *)cmac_kuznyechik_update;
++		ctx->digest = (nettle_hash_digest_func *)cmac_kuznyechik_digest;
+ 		ctx->set_key = _wrap_cmac_kuznyechik_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.kuznyechik;
+ 		ctx->length = CMAC128_DIGEST_SIZE;
+ 		break;
+ #endif
+ 	case GNUTLS_MAC_UMAC_96:
+-		ctx->update = (update_func)umac96_update;
+-		ctx->digest = (digest_func)umac96_digest;
++		ctx->update = (nettle_hash_update_func *)umac96_update;
++		ctx->digest = (nettle_hash_digest_func *)umac96_digest;
+ 		ctx->set_key = _wrap_umac96_set_key;
+ 		ctx->set_nonce = (set_nonce_func)umac96_set_nonce;
+ 		ctx->ctx_ptr = &ctx->ctx.umac96;
+ 		ctx->length = 12;
+ 		break;
+ 	case GNUTLS_MAC_UMAC_128:
+-		ctx->update = (update_func)umac128_update;
+-		ctx->digest = (digest_func)umac128_digest;
++		ctx->update = (nettle_hash_update_func *)umac128_update;
++		ctx->digest = (nettle_hash_digest_func *)umac128_digest;
+ 		ctx->set_key = _wrap_umac128_set_key;
+ 		ctx->set_nonce = (set_nonce_func)umac128_set_nonce;
+ 		ctx->ctx_ptr = &ctx->ctx.umac128;
+ 		ctx->length = 16;
+ 		break;
+ 	case GNUTLS_MAC_AES_CMAC_128:
+-		ctx->update = (update_func)cmac_aes128_update;
+-		ctx->digest = (digest_func)cmac_aes128_digest;
++		ctx->update = (nettle_hash_update_func *)cmac_aes128_update;
++		ctx->digest = (nettle_hash_digest_func *)cmac_aes128_digest;
+ 		ctx->set_key = _wrap_cmac128_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.cmac128;
+ 		ctx->length = CMAC128_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_MAC_AES_CMAC_256:
+-		ctx->update = (update_func)cmac_aes256_update;
+-		ctx->digest = (digest_func)cmac_aes256_digest;
++		ctx->update = (nettle_hash_update_func *)cmac_aes256_update;
++		ctx->digest = (nettle_hash_digest_func *)cmac_aes256_digest;
+ 		ctx->set_key = _wrap_cmac256_set_key;
+ 		ctx->ctx_ptr = &ctx->ctx.cmac256;
+ 		ctx->length = CMAC128_DIGEST_SIZE;
+@@ -695,134 +699,134 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	ctx->finished = NULL;
+ 	switch (algo) {
+ 	case GNUTLS_DIG_MD5:
+-		ctx->init = (init_func)md5_init;
+-		ctx->update = (update_func)md5_update;
+-		ctx->digest = (digest_func)md5_digest;
++		ctx->init = (nettle_hash_init_func *)md5_init;
++		ctx->update = (nettle_hash_update_func *)md5_update;
++		ctx->digest = (nettle_hash_digest_func *)md5_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.md5;
+ 		ctx->length = MD5_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA1:
+-		ctx->init = (init_func)sha1_init;
+-		ctx->update = (update_func)sha1_update;
+-		ctx->digest = (digest_func)sha1_digest;
++		ctx->init = (nettle_hash_init_func *)sha1_init;
++		ctx->update = (nettle_hash_update_func *)sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)sha1_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha1;
+ 		ctx->length = SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_MD5_SHA1:
+-		ctx->init = (init_func)_md5_sha1_init;
+-		ctx->update = (update_func)_md5_sha1_update;
+-		ctx->digest = (digest_func)_md5_sha1_digest;
++		ctx->init = (nettle_hash_init_func *)_md5_sha1_init;
++		ctx->update = (nettle_hash_update_func *)_md5_sha1_update;
++		ctx->digest = (nettle_hash_digest_func *)_md5_sha1_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.md5_sha1;
+ 		ctx->length = MD5_DIGEST_SIZE + SHA1_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA224:
+-		ctx->init = (init_func)sha224_init;
+-		ctx->update = (update_func)sha224_update;
+-		ctx->digest = (digest_func)sha224_digest;
++		ctx->init = (nettle_hash_init_func *)sha224_init;
++		ctx->update = (nettle_hash_update_func *)sha224_update;
++		ctx->digest = (nettle_hash_digest_func *)sha224_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha224;
+ 		ctx->length = SHA224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA256:
+-		ctx->init = (init_func)sha256_init;
+-		ctx->update = (update_func)sha256_update;
+-		ctx->digest = (digest_func)sha256_digest;
++		ctx->init = (nettle_hash_init_func *)sha256_init;
++		ctx->update = (nettle_hash_update_func *)sha256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha256_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha256;
+ 		ctx->length = SHA256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA384:
+-		ctx->init = (init_func)sha384_init;
+-		ctx->update = (update_func)sha384_update;
+-		ctx->digest = (digest_func)sha384_digest;
++		ctx->init = (nettle_hash_init_func *)sha384_init;
++		ctx->update = (nettle_hash_update_func *)sha384_update;
++		ctx->digest = (nettle_hash_digest_func *)sha384_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha384;
+ 		ctx->length = SHA384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA512:
+-		ctx->init = (init_func)sha512_init;
+-		ctx->update = (update_func)sha512_update;
+-		ctx->digest = (digest_func)sha512_digest;
++		ctx->init = (nettle_hash_init_func *)sha512_init;
++		ctx->update = (nettle_hash_update_func *)sha512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha512_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha512;
+ 		ctx->length = SHA512_DIGEST_SIZE;
+ 		break;
+ #ifdef NETTLE_SHA3_FIPS202
+ 	case GNUTLS_DIG_SHA3_224:
+-		ctx->init = (init_func)sha3_224_init;
+-		ctx->update = (update_func)sha3_224_update;
+-		ctx->digest = (digest_func)sha3_224_digest;
++		ctx->init = (nettle_hash_init_func *)sha3_224_init;
++		ctx->update = (nettle_hash_update_func *)sha3_224_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_224_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_224;
+ 		ctx->length = SHA3_224_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA3_256:
+-		ctx->init = (init_func)sha3_256_init;
+-		ctx->update = (update_func)sha3_256_update;
+-		ctx->digest = (digest_func)sha3_256_digest;
++		ctx->init = (nettle_hash_init_func *)sha3_256_init;
++		ctx->update = (nettle_hash_update_func *)sha3_256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_256_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_256;
+ 		ctx->length = SHA3_256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA3_384:
+-		ctx->init = (init_func)sha3_384_init;
+-		ctx->update = (update_func)sha3_384_update;
+-		ctx->digest = (digest_func)sha3_384_digest;
++		ctx->init = (nettle_hash_init_func *)sha3_384_init;
++		ctx->update = (nettle_hash_update_func *)sha3_384_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_384_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_384;
+ 		ctx->length = SHA3_384_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHA3_512:
+-		ctx->init = (init_func)sha3_512_init;
+-		ctx->update = (update_func)sha3_512_update;
+-		ctx->digest = (digest_func)sha3_512_digest;
++		ctx->init = (nettle_hash_init_func *)sha3_512_init;
++		ctx->update = (nettle_hash_update_func *)sha3_512_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_512_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_512;
+ 		ctx->length = SHA3_512_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_SHAKE_128:
+-		ctx->init = (init_func)sha3_128_init;
+-		ctx->update = (update_func)sha3_128_update;
+-		ctx->digest = (digest_func)sha3_128_shake_output;
++		ctx->init = (nettle_hash_init_func *)sha3_128_init;
++		ctx->update = (nettle_hash_update_func *)sha3_128_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_128_shake_output;
+ 		ctx->finished = _wrap_sha3_128_shake_finished;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_128;
+ 		ctx->length = 0; /* unused */
+ 		break;
+ 	case GNUTLS_DIG_SHAKE_256:
+-		ctx->init = (init_func)sha3_256_init;
+-		ctx->update = (update_func)sha3_256_update;
+-		ctx->digest = (digest_func)sha3_256_shake_output;
++		ctx->init = (nettle_hash_init_func *)sha3_256_init;
++		ctx->update = (nettle_hash_update_func *)sha3_256_update;
++		ctx->digest = (nettle_hash_digest_func *)sha3_256_shake_output;
+ 		ctx->finished = _wrap_sha3_256_shake_finished;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_256;
+ 		ctx->length = 0; /* unused */
+ 		break;
+ #endif
+ 	case GNUTLS_DIG_MD2:
+-		ctx->init = (init_func)md2_init;
+-		ctx->update = (update_func)md2_update;
+-		ctx->digest = (digest_func)md2_digest;
++		ctx->init = (nettle_hash_init_func *)md2_init;
++		ctx->update = (nettle_hash_update_func *)md2_update;
++		ctx->digest = (nettle_hash_digest_func *)md2_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.md2;
+ 		ctx->length = MD2_DIGEST_SIZE;
+ 		break;
+ 
+ 	case GNUTLS_DIG_RMD160:
+-		ctx->init = (init_func)ripemd160_init;
+-		ctx->update = (update_func)ripemd160_update;
+-		ctx->digest = (digest_func)ripemd160_digest;
++		ctx->init = (nettle_hash_init_func *)ripemd160_init;
++		ctx->update = (nettle_hash_update_func *)ripemd160_update;
++		ctx->digest = (nettle_hash_digest_func *)ripemd160_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.ripemd160;
+ 		ctx->length = RIPEMD160_DIGEST_SIZE;
+ 		break;
+ #if ENABLE_GOST
+ 	case GNUTLS_DIG_GOSTR_94:
+-		ctx->init = (init_func)gosthash94cp_init;
+-		ctx->update = (update_func)gosthash94cp_update;
+-		ctx->digest = (digest_func)gosthash94cp_digest;
++		ctx->init = (nettle_hash_init_func *)gosthash94cp_init;
++		ctx->update = (nettle_hash_update_func *)gosthash94cp_update;
++		ctx->digest = (nettle_hash_digest_func *)gosthash94cp_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.gosthash94cp;
+ 		ctx->length = GOSTHASH94_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_STREEBOG_256:
+-		ctx->init = (init_func)streebog256_init;
+-		ctx->update = (update_func)streebog256_update;
+-		ctx->digest = (digest_func)streebog256_digest;
++		ctx->init = (nettle_hash_init_func *)streebog256_init;
++		ctx->update = (nettle_hash_update_func *)streebog256_update;
++		ctx->digest = (nettle_hash_digest_func *)streebog256_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.streebog256;
+ 		ctx->length = STREEBOG256_DIGEST_SIZE;
+ 		break;
+ 	case GNUTLS_DIG_STREEBOG_512:
+-		ctx->init = (init_func)streebog512_init;
+-		ctx->update = (update_func)streebog512_update;
+-		ctx->digest = (digest_func)streebog512_digest;
++		ctx->init = (nettle_hash_init_func *)streebog512_init;
++		ctx->update = (nettle_hash_update_func *)streebog512_update;
++		ctx->digest = (nettle_hash_digest_func *)streebog512_digest;
+ 		ctx->ctx_ptr = &ctx->ctx.streebog512;
+ 		ctx->length = STREEBOG512_DIGEST_SIZE;
+ 		break;
+-- 
+GitLab
+
+
+From 4e3921c36529110a94c2a63e0d6601c502901589 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 08:06:07 +0900
+Subject: [PATCH 04/12] accelerated: give up on defining nettle HMAC interface
+
+Nettle 4 doesn't provide a way to define custom HMAC instances.
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/aarch64/hmac-sha-aarch64.c |  4 ++--
+ lib/accelerated/x86/hmac-padlock.c         |  4 ++--
+ lib/accelerated/x86/hmac-x86-ssse3.c       |  4 ++--
+ lib/accelerated/x86/x86-common.c           | 15 +++++++++++++++
+ 4 files changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/lib/accelerated/aarch64/hmac-sha-aarch64.c b/lib/accelerated/aarch64/hmac-sha-aarch64.c
+index 6261180f0d..c36f4fe03b 100644
+--- a/lib/accelerated/aarch64/hmac-sha-aarch64.c
++++ b/lib/accelerated/aarch64/hmac-sha-aarch64.c
+@@ -35,7 +35,7 @@
+ #include "sha-aarch64.h"
+ #include "algorithms.h"
+ 
+-#ifdef HAVE_LIBNETTLE
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 
+ typedef void (*update_func)(void *, size_t, const uint8_t *);
+ typedef void (*digest_func)(void *, size_t, uint8_t *);
+@@ -301,4 +301,4 @@ const gnutls_crypto_mac_st _gnutls_hmac_sha_aarch64 = {
+ 	.fast = wrap_aarch64_hmac_fast,
+ };
+ 
+-#endif /* HAVE_LIBNETTLE */
++#endif /* HAVE_LIBNETTLE && HMAC_SET_KEY */
+diff --git a/lib/accelerated/x86/hmac-padlock.c b/lib/accelerated/x86/hmac-padlock.c
+index ac91d20ecb..b4e16e273c 100644
+--- a/lib/accelerated/x86/hmac-padlock.c
++++ b/lib/accelerated/x86/hmac-padlock.c
+@@ -36,7 +36,7 @@
+ #include "sha-padlock.h"
+ #include "algorithms.h"
+ 
+-#ifdef HAVE_LIBNETTLE
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 
+ #define IPAD 0x36
+ #define OPAD 0x5c
+@@ -359,4 +359,4 @@ const gnutls_crypto_mac_st _gnutls_hmac_sha_padlock = {
+ 	.fast = wrap_padlock_hmac_fast,
+ };
+ 
+-#endif /* HAVE_LIBNETTLE */
++#endif /* HAVE_LIBNETTLE && HMAC_SET_KEY */
+diff --git a/lib/accelerated/x86/hmac-x86-ssse3.c b/lib/accelerated/x86/hmac-x86-ssse3.c
+index dec9c26882..61b1ea864a 100644
+--- a/lib/accelerated/x86/hmac-x86-ssse3.c
++++ b/lib/accelerated/x86/hmac-x86-ssse3.c
+@@ -35,7 +35,7 @@
+ #include "sha-x86.h"
+ #include "algorithms.h"
+ 
+-#ifdef HAVE_LIBNETTLE
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 
+ typedef void (*update_func)(void *, size_t, const uint8_t *);
+ typedef void (*digest_func)(void *, size_t, uint8_t *);
+@@ -297,4 +297,4 @@ const gnutls_crypto_mac_st _gnutls_hmac_sha_x86_ssse3 = {
+ 	.fast = wrap_x86_hmac_fast,
+ };
+ 
+-#endif /* HAVE_LIBNETTLE */
++#endif /* HAVE_LIBNETTLE && HMAC_SET_KEY */
+diff --git a/lib/accelerated/x86/x86-common.c b/lib/accelerated/x86/x86-common.c
+index aaa74782c6..db625ac713 100644
+--- a/lib/accelerated/x86/x86-common.c
++++ b/lib/accelerated/x86/x86-common.c
+@@ -35,6 +35,7 @@
+ #include "x86-common.h"
+ #ifdef HAVE_LIBNETTLE
+ #include <nettle/aes.h> /* for key generation in 192 and 256 bits */
++#include <nettle/hmac.h> /* to check if custom hmac is supported */
+ #include "sha-padlock.h"
+ #endif
+ #include "aes-padlock.h"
+@@ -459,6 +460,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			gnutls_assert();
+ 		}
+ 
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA1, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+@@ -473,6 +475,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			GNUTLS_MAC_SHA256, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#endif
+ 
+ 		ret = gnutls_crypto_single_digest_register(
+ 			GNUTLS_DIG_SHA384, 80, &_gnutls_sha_x86_ssse3, 0);
+@@ -483,6 +486,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			GNUTLS_DIG_SHA512, 80, &_gnutls_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA384, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+@@ -492,6 +496,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			GNUTLS_MAC_SHA512, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#endif
+ 	}
+ 
+ 	if (check_optimized_aes()) {
+@@ -692,6 +697,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 				gnutls_assert();
+ 			}
+ 
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 			ret = gnutls_crypto_single_mac_register(
+ 				GNUTLS_MAC_SHA384, 80,
+ 				&_gnutls_hmac_sha_padlock, 0);
+@@ -705,6 +711,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			if (ret < 0) {
+ 				gnutls_assert();
+ 			}
++#endif
+ 		}
+ 
+ 		ret = gnutls_crypto_single_digest_register(
+@@ -725,6 +732,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			gnutls_assert();
+ 		}
+ 
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA1, 90, &_gnutls_hmac_sha_padlock, 0);
+ 		if (ret < 0) {
+@@ -738,6 +746,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 		if (ret < 0) {
+ 			gnutls_assert();
+ 		}
++#endif
+ 	} else if (phe) {
+ 		/* Original padlock PHE. Does not support incremental operations.
+ 		 */
+@@ -755,6 +764,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 			gnutls_assert();
+ 		}
+ 
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA1, 90, &_gnutls_hmac_sha_padlock_oneshot,
+ 			0);
+@@ -768,6 +778,7 @@ static void register_x86_padlock_crypto(unsigned capabilities)
+ 		if (ret < 0) {
+ 			gnutls_assert();
+ 		}
++#endif
+ 	}
+ #endif
+ 
+@@ -910,6 +921,7 @@ static void register_x86_intel_crypto(unsigned capabilities)
+ 			gnutls_assert();
+ 		}
+ 
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA1, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+@@ -924,6 +936,7 @@ static void register_x86_intel_crypto(unsigned capabilities)
+ 			GNUTLS_MAC_SHA256, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#endif
+ 
+ 		ret = gnutls_crypto_single_digest_register(
+ 			GNUTLS_DIG_SHA384, 80, &_gnutls_sha_x86_ssse3, 0);
+@@ -934,6 +947,7 @@ static void register_x86_intel_crypto(unsigned capabilities)
+ 			GNUTLS_DIG_SHA512, 80, &_gnutls_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#if defined(HAVE_LIBNETTLE) && defined(HMAC_SET_KEY)
+ 		ret = gnutls_crypto_single_mac_register(
+ 			GNUTLS_MAC_SHA384, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+@@ -943,6 +957,7 @@ static void register_x86_intel_crypto(unsigned capabilities)
+ 			GNUTLS_MAC_SHA512, 80, &_gnutls_hmac_sha_x86_ssse3, 0);
+ 		if (ret < 0)
+ 			gnutls_assert();
++#endif
+ 	}
+ 
+ 	if (check_optimized_aes()) {
+-- 
+GitLab
+
+
+From 5ba4640f8e50cd44e920f4dac2d3684bbb2b8363 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 08:17:43 +0900
+Subject: [PATCH 05/12] accelerated: support GCM_DIGEST in Nettle 4
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/x86/aes-gcm-padlock.c   | 9 ++++++++-
+ lib/accelerated/x86/aes-gcm-x86-aesni.c | 9 ++++++++-
+ lib/accelerated/x86/aes-gcm-x86-ssse3.c | 9 ++++++++-
+ 3 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/lib/accelerated/x86/aes-gcm-padlock.c b/lib/accelerated/x86/aes-gcm-padlock.c
+index 7dbe572b92..89bac29b4b 100644
+--- a/lib/accelerated/x86/aes-gcm-padlock.c
++++ b/lib/accelerated/x86/aes-gcm-padlock.c
+@@ -35,6 +35,7 @@
+ #include "x86-common.h"
+ #include <byteswap.h>
+ #include <nettle/gcm.h>
++#include <nettle/version.h>
+ #include "aes-padlock.h"
+ 
+ #define GCM_BLOCK_SIZE 16
+@@ -176,8 +177,14 @@ static int aes_gcm_auth(void *_ctx, const void *src, size_t src_size)
+ static void aes_gcm_tag(void *_ctx, void *tag, size_t tagsize)
+ {
+ 	struct gcm_padlock_aes_ctx *ctx = _ctx;
++	uint8_t buffer[GCM_DIGEST_SIZE];
+ 
+-	GCM_DIGEST(&ctx->inner, padlock_aes_encrypt, tagsize, tag);
++#if NETTLE_VERSION_MAJOR >= 4
++	GCM_DIGEST(&ctx->inner, padlock_aes_encrypt, buffer);
++#else
++	GCM_DIGEST(&ctx->inner, padlock_aes_encrypt, sizeof(buffer), buffer);
++#endif
++	memcpy(tag, buffer, tagsize);
+ }
+ 
+ #include "aes-gcm-aead.h"
+diff --git a/lib/accelerated/x86/aes-gcm-x86-aesni.c b/lib/accelerated/x86/aes-gcm-x86-aesni.c
+index 8f0d23e949..d155062f6e 100644
+--- a/lib/accelerated/x86/aes-gcm-x86-aesni.c
++++ b/lib/accelerated/x86/aes-gcm-x86-aesni.c
+@@ -36,6 +36,7 @@
+ #include "x86-common.h"
+ #include <byteswap.h>
+ #include <nettle/gcm.h>
++#include <nettle/version.h>
+ 
+ /* GCM mode 
+  * It is used when the CPU doesn't include the PCLMUL instructions.
+@@ -168,8 +169,14 @@ static int aes_gcm_auth(void *_ctx, const void *src, size_t src_size)
+ static void aes_gcm_tag(void *_ctx, void *tag, size_t tagsize)
+ {
+ 	struct gcm_x86_aes_ctx *ctx = _ctx;
++	uint8_t buffer[GCM_DIGEST_SIZE];
+ 
+-	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, tagsize, tag);
++#if NETTLE_VERSION_MAJOR >= 4
++	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, buffer);
++#else
++	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, tagsize, buffer);
++#endif
++	memcpy(tag, buffer, tagsize);
+ }
+ 
+ static void aes_gcm_deinit(void *_ctx)
+diff --git a/lib/accelerated/x86/aes-gcm-x86-ssse3.c b/lib/accelerated/x86/aes-gcm-x86-ssse3.c
+index bb2fe3743d..81839585d1 100644
+--- a/lib/accelerated/x86/aes-gcm-x86-ssse3.c
++++ b/lib/accelerated/x86/aes-gcm-x86-ssse3.c
+@@ -36,6 +36,7 @@
+ #include "x86-common.h"
+ #include <byteswap.h>
+ #include <nettle/gcm.h>
++#include <nettle/version.h>
+ #include <assert.h>
+ 
+ /* GCM mode 
+@@ -177,8 +178,14 @@ static int aes_gcm_auth(void *_ctx, const void *src, size_t src_size)
+ static void aes_gcm_tag(void *_ctx, void *tag, size_t tagsize)
+ {
+ 	struct gcm_x86_aes_ctx *ctx = _ctx;
++	uint8_t buffer[GCM_DIGEST_SIZE];
+ 
+-	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, tagsize, tag);
++#if NETTLE_VERSION_MAJOR >= 4
++	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, buffer);
++#else
++	GCM_DIGEST(&ctx->inner, x86_aes_encrypt, tagsize, buffer);
++#endif
++	memcpy(tag, buffer, tagsize);
+ }
+ 
+ static void aes_gcm_deinit(void *_ctx)
+-- 
+GitLab
+
+
+From fa048f64445c61643938450cc78994b4e519b399 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 08:19:52 +0900
+Subject: [PATCH 06/12] dsa-fips: omit digest_size argument for sha384_digest
+ with Nettle 4
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/nettle/int/dsa-fips.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/nettle/int/dsa-fips.h b/lib/nettle/int/dsa-fips.h
+index 5c1c90e3ba..e0e80c5517 100644
+--- a/lib/nettle/int/dsa-fips.h
++++ b/lib/nettle/int/dsa-fips.h
+@@ -25,6 +25,7 @@
+ #include <nettle/bignum.h> /* includes gmp.h */
+ #include <nettle/dsa.h>
+ #include <nettle/sha2.h>
++#include <nettle/version.h>
+ #include "fips.h"
+ 
+ #define div_ceil(x, y) ((x + (y) - 1) / (y))
+@@ -100,7 +101,11 @@ inline static void hash(uint8_t digest[DIGEST_SIZE], unsigned length,
+ 
+ 	sha384_init(&ctx);
+ 	sha384_update(&ctx, length, data);
++#if NETTLE_VERSION_MAJOR >= 4
++	sha384_digest(&ctx, digest);
++#else
+ 	sha384_digest(&ctx, DIGEST_SIZE, digest);
++#endif
+ 
+ 	return;
+ }
+-- 
+GitLab
+
+
+From 15aaa431ff838a6d9a53d8f5849ce43911268e5d Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 12:10:01 +0900
+Subject: [PATCH 07/12] nettle: support Nettle 4 hash and MAC interfaces
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/accelerated/aarch64/sha-aarch64.c | 14 +++++
+ lib/accelerated/x86/sha-padlock.c     | 40 ++++++++++--
+ lib/accelerated/x86/sha-x86-ssse3.c   | 14 +++++
+ lib/nettle/gost/cmac-kuznyechik.c     |  8 +++
+ lib/nettle/gost/cmac-magma.c          |  8 +++
+ lib/nettle/gost/cmac.h                | 10 +++
+ lib/nettle/gost/gost-wrap.c           |  8 +++
+ lib/nettle/gost/gost28147.c           | 18 +++++-
+ lib/nettle/gost/gost28147.h           |  5 ++
+ lib/nettle/mac.c                      | 87 ++++++++++++++++++++++++---
+ 10 files changed, 194 insertions(+), 18 deletions(-)
+
+diff --git a/lib/accelerated/aarch64/sha-aarch64.c b/lib/accelerated/aarch64/sha-aarch64.c
+index d84ec186a2..78dfe7b131 100644
+--- a/lib/accelerated/aarch64/sha-aarch64.c
++++ b/lib/accelerated/aarch64/sha-aarch64.c
+@@ -29,6 +29,7 @@
+ #include <nettle/sha2.h>
+ #include <nettle/macros.h>
+ #include <nettle/nettle-meta.h>
++#include <nettle/version.h>
+ #include "sha-aarch64.h"
+ #include "aarch64-common.h"
+ 
+@@ -334,7 +335,15 @@ static int wrap_aarch64_hash_output(void *src_ctx, void *digest,
+ 	if (digestsize < ctx->length)
+ 		return gnutls_assert_val(GNUTLS_E_SHORT_MEMORY_BUFFER);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	if (digestsize != ctx->length) {
++		gnutls_assert();
++		return GNUTLS_E_INVALID_REQUEST;
++	}
++	ctx->digest(ctx->ctx_ptr, digest);
++#else
+ 	ctx->digest(ctx->ctx_ptr, digestsize, digest);
++#endif
+ 
+ 	return 0;
+ }
+@@ -351,7 +360,12 @@ static int wrap_aarch64_hash_fast(gnutls_digest_algorithm_t algo,
+ 		return gnutls_assert_val(ret);
+ 
+ 	ctx.update(&ctx, text_size, text);
++#if NETTLE_VERSION_MAJOR >= 4
++	ctx.digest(&ctx, digest);
++#else
+ 	ctx.digest(&ctx, ctx.length, digest);
++#endif
++	zeroize_key(&ctx, sizeof(ctx));
+ 
+ 	return 0;
+ }
+diff --git a/lib/accelerated/x86/sha-padlock.c b/lib/accelerated/x86/sha-padlock.c
+index 6bd84b4834..21bd393358 100644
+--- a/lib/accelerated/x86/sha-padlock.c
++++ b/lib/accelerated/x86/sha-padlock.c
+@@ -28,6 +28,7 @@
+ #include <nettle/sha2.h>
+ #include <nettle/hmac.h>
+ #include <nettle/macros.h>
++#include <nettle/version.h>
+ #include "aes-padlock.h"
+ #include <assert.h>
+ #include "sha-padlock.h"
+@@ -128,8 +129,8 @@ static void _nettle_write_be32(unsigned length, uint8_t *dst, uint32_t *src)
+ 	}
+ }
+ 
+-static void padlock_sha1_digest(struct sha1_ctx *ctx, size_t length,
+-				uint8_t *digest)
++static void _padlock_sha1_digest(struct sha1_ctx *ctx, size_t length,
++				 uint8_t *digest)
+ {
+ 	uint64_t bit_count;
+ 
+@@ -147,8 +148,8 @@ static void padlock_sha1_digest(struct sha1_ctx *ctx, size_t length,
+ 	_nettle_write_be32(length, digest, ctx->state);
+ }
+ 
+-static void padlock_sha256_digest(struct sha256_ctx *ctx, size_t length,
+-				  uint8_t *digest)
++static void _padlock_sha256_digest(struct sha256_ctx *ctx, size_t length,
++				   uint8_t *digest)
+ {
+ 	uint64_t bit_count;
+ 
+@@ -168,8 +169,8 @@ static void padlock_sha256_digest(struct sha256_ctx *ctx, size_t length,
+ 	_nettle_write_be32(length, digest, ctx->state);
+ }
+ 
+-static void padlock_sha512_digest(struct sha512_ctx *ctx, size_t length,
+-				  uint8_t *digest)
++static void _padlock_sha512_digest(struct sha512_ctx *ctx, size_t length,
++				   uint8_t *digest)
+ {
+ 	uint64_t high, low;
+ 
+@@ -209,6 +210,25 @@ static void padlock_sha512_digest(struct sha512_ctx *ctx, size_t length,
+ 	}
+ }
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++static void padlock_sha1_digest(struct sha1_ctx *ctx, uint8_t *digest)
++{
++	_padlock_sha1_digest(ctx, SHA1_DIGEST_SIZE, digest);
++}
++static void padlock_sha256_digest(struct sha256_ctx *ctx, uint8_t *digest)
++{
++	_padlock_sha256_digest(ctx, SHA256_DIGEST_SIZE, digest);
++}
++static void padlock_sha512_digest(struct sha512_ctx *ctx, uint8_t *digest)
++{
++	_padlock_sha512_digest(ctx, SHA512_DIGEST_SIZE, digest);
++}
++#else
++#define padlock_sha1_digest _padlock_sha1_digest
++#define padlock_sha256_digest _padlock_sha256_digest
++#define padlock_sha512_digest _padlock_sha512_digest
++#endif
++
+ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 		     struct padlock_hash_ctx *ctx)
+ {
+@@ -317,7 +337,15 @@ static int wrap_padlock_hash_output(void *src_ctx, void *digest,
+ 	if (digestsize < ctx->length)
+ 		return gnutls_assert_val(GNUTLS_E_SHORT_MEMORY_BUFFER);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	if (digestsize != ctx->length) {
++		gnutls_assert();
++		return GNUTLS_E_INVALID_REQUEST;
++	}
++	ctx->digest(ctx->ctx_ptr, digest);
++#else
+ 	ctx->digest(ctx->ctx_ptr, digestsize, digest);
++#endif
+ 
+ 	ctx->init(ctx->ctx_ptr);
+ 
+diff --git a/lib/accelerated/x86/sha-x86-ssse3.c b/lib/accelerated/x86/sha-x86-ssse3.c
+index 9e8135801a..a27b6f931b 100644
+--- a/lib/accelerated/x86/sha-x86-ssse3.c
++++ b/lib/accelerated/x86/sha-x86-ssse3.c
+@@ -29,6 +29,7 @@
+ #include <nettle/sha2.h>
+ #include <nettle/macros.h>
+ #include <nettle/nettle-meta.h>
++#include <nettle/version.h>
+ #include "sha-x86.h"
+ #include "x86-common.h"
+ 
+@@ -330,7 +331,15 @@ static int wrap_x86_hash_output(void *src_ctx, void *digest, size_t digestsize)
+ 	if (digestsize < ctx->length)
+ 		return gnutls_assert_val(GNUTLS_E_SHORT_MEMORY_BUFFER);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	if (digestsize != ctx->length) {
++		gnutls_assert();
++		return GNUTLS_E_INVALID_REQUEST;
++	}
++	ctx->digest(ctx->ctx_ptr, digest);
++#else
+ 	ctx->digest(ctx->ctx_ptr, digestsize, digest);
++#endif
+ 
+ 	return 0;
+ }
+@@ -346,7 +355,12 @@ static int wrap_x86_hash_fast(gnutls_digest_algorithm_t algo, const void *text,
+ 		return gnutls_assert_val(ret);
+ 
+ 	ctx.update(&ctx, text_size, text);
++#if NETTLE_VERSION_MAJOR >= 4
++	ctx.digest(&ctx, digest);
++#else
+ 	ctx.digest(&ctx, ctx.length, digest);
++#endif
++	zeroize_key(&ctx, sizeof(ctx));
+ 
+ 	return 0;
+ }
+diff --git a/lib/nettle/gost/cmac-kuznyechik.c b/lib/nettle/gost/cmac-kuznyechik.c
+index 964141103a..3292d291e8 100644
+--- a/lib/nettle/gost/cmac-kuznyechik.c
++++ b/lib/nettle/gost/cmac-kuznyechik.c
+@@ -44,9 +44,17 @@ void cmac_kuznyechik_update(struct cmac_kuznyechik_ctx *ctx, size_t length,
+ 	CMAC128_UPDATE(ctx, kuznyechik_encrypt, length, data);
+ }
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++void cmac_kuznyechik_digest(struct cmac_kuznyechik_ctx *ctx, uint8_t *digest)
++{
++	CMAC128_DIGEST(ctx, kuznyechik_encrypt, digest);
++}
++#else
+ void cmac_kuznyechik_digest(struct cmac_kuznyechik_ctx *ctx, size_t length,
+ 			    uint8_t *digest)
+ {
+ 	CMAC128_DIGEST(ctx, kuznyechik_encrypt, length, digest);
+ }
+ #endif
++
++#endif
+diff --git a/lib/nettle/gost/cmac-magma.c b/lib/nettle/gost/cmac-magma.c
+index b8e6d58d17..ed6ade3dfd 100644
+--- a/lib/nettle/gost/cmac-magma.c
++++ b/lib/nettle/gost/cmac-magma.c
+@@ -44,9 +44,17 @@ void cmac_magma_update(struct cmac_magma_ctx *ctx, size_t length,
+ 	CMAC64_UPDATE(ctx, magma_encrypt, length, data);
+ }
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++void cmac_magma_digest(struct cmac_magma_ctx *ctx, uint8_t *digest)
++{
++	CMAC64_DIGEST(ctx, magma_encrypt, digest);
++}
++#else
+ void cmac_magma_digest(struct cmac_magma_ctx *ctx, size_t length,
+ 		       uint8_t *digest)
+ {
+ 	CMAC64_DIGEST(ctx, magma_encrypt, length, digest);
+ }
+ #endif
++
++#endif
+diff --git a/lib/nettle/gost/cmac.h b/lib/nettle/gost/cmac.h
+index 5894cfddb4..b9e1f2bf82 100644
+--- a/lib/nettle/gost/cmac.h
++++ b/lib/nettle/gost/cmac.h
+@@ -43,6 +43,8 @@
+ #ifndef HAVE_NETTLE_CMAC_MAGMA_UPDATE
+ #include "magma.h"
+ 
++#include <nettle/version.h>
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+@@ -58,8 +60,12 @@ void cmac_magma_set_key(struct cmac_magma_ctx *ctx, const uint8_t *key);
+ void cmac_magma_update(struct cmac_magma_ctx *ctx, size_t length,
+ 		       const uint8_t *data);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++void cmac_magma_digest(struct cmac_magma_ctx *ctx, uint8_t *digest);
++#else
+ void cmac_magma_digest(struct cmac_magma_ctx *ctx, size_t length,
+ 		       uint8_t *digest);
++#endif
+ 
+ #ifdef __cplusplus
+ }
+@@ -83,8 +89,12 @@ void cmac_kuznyechik_set_key(struct cmac_kuznyechik_ctx *ctx,
+ void cmac_kuznyechik_update(struct cmac_kuznyechik_ctx *ctx, size_t length,
+ 			    const uint8_t *data);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++void cmac_kuznyechik_digest(struct cmac_kuznyechik_ctx *ctx, uint8_t *digest);
++#else
+ void cmac_kuznyechik_digest(struct cmac_kuznyechik_ctx *ctx, size_t length,
+ 			    uint8_t *digest);
++#endif
+ 
+ #ifdef __cplusplus
+ }
+diff --git a/lib/nettle/gost/gost-wrap.c b/lib/nettle/gost/gost-wrap.c
+index 3670678c84..13f66241ae 100644
+--- a/lib/nettle/gost/gost-wrap.c
++++ b/lib/nettle/gost/gost-wrap.c
+@@ -92,7 +92,11 @@ void gost28147_key_wrap_cryptopro(const struct gost28147_param *param,
+ 	gost28147_imit_set_param(&ictx, param);
+ 	gost28147_imit_set_nonce(&ictx, ukm);
+ 	gost28147_imit_update(&ictx, GOST28147_KEY_SIZE, cek);
++#if NETTLE_VERSION_MAJOR >= 4
++	gost28147_imit_digest(&ictx, imit);
++#else
+ 	gost28147_imit_digest(&ictx, GOST28147_IMIT_DIGEST_SIZE, imit);
++#endif
+ }
+ 
+ int gost28147_key_unwrap_cryptopro(const struct gost28147_param *param,
+@@ -116,7 +120,11 @@ int gost28147_key_unwrap_cryptopro(const struct gost28147_param *param,
+ 	gost28147_imit_set_param(&ictx, param);
+ 	gost28147_imit_set_nonce(&ictx, ukm);
+ 	gost28147_imit_update(&ictx, GOST28147_KEY_SIZE, cek);
++#if NETTLE_VERSION_MAJOR >= 4
++	gost28147_imit_digest(&ictx, mac);
++#else
+ 	gost28147_imit_digest(&ictx, GOST28147_IMIT_DIGEST_SIZE, mac);
++#endif
+ 
+ 	return memeql_sec(mac, imit, GOST28147_IMIT_DIGEST_SIZE);
+ }
+diff --git a/lib/nettle/gost/gost28147.c b/lib/nettle/gost/gost28147.c
+index bb5ee0740a..bc9c658170 100644
+--- a/lib/nettle/gost/gost28147.c
++++ b/lib/nettle/gost/gost28147.c
+@@ -8631,8 +8631,8 @@ void gost28147_imit_update(struct gost28147_imit_ctx *ctx, size_t length,
+ 	MD_UPDATE(ctx, length, data, gost28147_imit_compress, ctx->count++);
+ }
+ 
+-void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, size_t length,
+-			   uint8_t *digest)
++static void _gost28147_imit_digest(struct gost28147_imit_ctx *ctx,
++				   size_t length, uint8_t *digest)
+ {
+ 	assert(length <= GOST28147_IMIT_DIGEST_SIZE);
+ 	const uint8_t zero[GOST28147_IMIT_BLOCK_SIZE] = { 0 };
+@@ -8650,4 +8650,18 @@ void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, size_t length,
+ 	_nettle_write_le32(length, digest, ctx->state);
+ 	_gost28147_imit_reinit(ctx);
+ }
++
++#if NETTLE_VERSION_MAJOR >= 4
++void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, uint8_t *digest)
++{
++	_gost28147_imit_digest(ctx, GOST28147_IMIT_DIGEST_SIZE, digest);
++}
++#else
++void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, size_t length,
++			   uint8_t *digest)
++{
++	_gost28147_imit_digest(ctx, length, digest);
++}
++#endif
++
+ #endif
+diff --git a/lib/nettle/gost/gost28147.h b/lib/nettle/gost/gost28147.h
+index 5b5a7dcbec..3af2d28735 100644
+--- a/lib/nettle/gost/gost28147.h
++++ b/lib/nettle/gost/gost28147.h
+@@ -40,6 +40,7 @@
+ #ifndef HAVE_NETTLE_GOST28147_SET_KEY
+ 
+ #include <nettle/nettle-types.h>
++#include <nettle/version.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -174,8 +175,12 @@ void gost28147_imit_set_param(struct gost28147_imit_ctx *ctx,
+ void gost28147_imit_update(struct gost28147_imit_ctx *ctx, size_t length,
+ 			   const uint8_t *data);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, uint8_t *digest);
++#else
+ void gost28147_imit_digest(struct gost28147_imit_ctx *ctx, size_t length,
+ 			   uint8_t *digest);
++#endif
+ 
+ #ifdef __cplusplus
+ }
+diff --git a/lib/nettle/mac.c b/lib/nettle/mac.c
+index 495856cefc..e29479bc2d 100644
+--- a/lib/nettle/mac.c
++++ b/lib/nettle/mac.c
+@@ -48,6 +48,11 @@
+ #include "gost/cmac.h"
+ #endif
+ #include <nettle/gcm.h>
++#include <nettle/version.h>
++
++#if NETTLE_VERSION_MAJOR < 4
++typedef void nettle_output_func(void *ctx, size_t length, uint8_t *dst);
++#endif
+ 
+ /* Can't use nettle_set_key_func as it doesn't have the second argument */
+ typedef void (*set_key_func)(void *, size_t, const uint8_t *);
+@@ -101,6 +106,7 @@ struct nettle_hash_ctx {
+ 	size_t length;
+ 	nettle_hash_update_func *update;
+ 	nettle_hash_digest_func *digest;
++	nettle_output_func *output;
+ 	nettle_hash_init_func *init;
+ 	finished_func finished;
+ };
+@@ -277,16 +283,32 @@ static void _wrap_gmac_update(void *_ctx, size_t length, const uint8_t *data)
+ 	ctx->pos = length;
+ }
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++static void _wrap_gmac_digest(void *_ctx, uint8_t *digest)
++{
++	struct gmac_ctx *ctx = _ctx;
++
++	if (ctx->pos)
++		gcm_update(&ctx->ctx, &ctx->key, ctx->pos, ctx->buffer);
++
++	gcm_digest(&ctx->ctx, &ctx->key, &ctx->cipher, ctx->encrypt, digest);
++
++	ctx->pos = 0;
++}
++#else
+ static void _wrap_gmac_digest(void *_ctx, size_t length, uint8_t *digest)
+ {
+ 	struct gmac_ctx *ctx = _ctx;
+ 
+ 	if (ctx->pos)
+ 		gcm_update(&ctx->ctx, &ctx->key, ctx->pos, ctx->buffer);
++
+ 	gcm_digest(&ctx->ctx, &ctx->key, &ctx->cipher, ctx->encrypt, length,
+ 		   digest);
++
+ 	ctx->pos = 0;
+ }
++#endif
+ 
+ static int _mac_ctx_init(gnutls_mac_algorithm_t algo,
+ 			 struct nettle_mac_ctx *ctx)
+@@ -473,7 +495,11 @@ static int wrap_nettle_mac_fast(gnutls_mac_algorithm_t algo, const void *nonce,
+ 		ctx.set_nonce(&ctx, nonce_size, nonce);
+ 	}
+ 	ctx.update(&ctx, text_size, text);
++#if NETTLE_VERSION_MAJOR >= 4
++	ctx.digest(&ctx, digest);
++#else
+ 	ctx.digest(&ctx, ctx.length, digest);
++#endif
+ 
+ 	zeroize_key(&ctx, sizeof(ctx));
+ 
+@@ -586,15 +612,22 @@ static int wrap_nettle_mac_update(void *_ctx, const void *text, size_t textsize)
+ static int wrap_nettle_mac_output(void *src_ctx, void *digest,
+ 				  size_t digestsize)
+ {
+-	struct nettle_mac_ctx *ctx;
+-	ctx = src_ctx;
++	struct nettle_mac_ctx *ctx = src_ctx;
+ 
+ 	if (digestsize < ctx->length) {
+ 		gnutls_assert();
+ 		return GNUTLS_E_SHORT_MEMORY_BUFFER;
+ 	}
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	if (digestsize != ctx->length) {
++		gnutls_assert();
++		return GNUTLS_E_INVALID_REQUEST;
++	}
++	ctx->digest(ctx->ctx_ptr, digest);
++#else
+ 	ctx->digest(ctx->ctx_ptr, digestsize, digest);
++#endif
+ 
+ 	return 0;
+ }
+@@ -670,17 +703,25 @@ static void _md5_sha1_update(void *_ctx, size_t len, const uint8_t *data)
+ 	sha1_update(&ctx->sha1, len, data);
+ }
+ 
+-static void _md5_sha1_digest(void *_ctx, size_t len, uint8_t *digest)
++#if NETTLE_VERSION_MAJOR >= 4
++static void _md5_sha1_digest(void *_ctx, uint8_t *digest)
+ {
+ 	struct md5_sha1_ctx *ctx = _ctx;
+ 
+-	md5_digest(&ctx->md5, len <= MD5_DIGEST_SIZE ? len : MD5_DIGEST_SIZE,
+-		   digest);
++	md5_digest(&ctx->md5, digest);
++	sha1_digest(&ctx->sha1, digest + MD5_DIGEST_SIZE);
++}
++#else
++static void _md5_sha1_digest(void *_ctx, size_t len, uint8_t *digest)
++{
++	struct md5_sha1_ctx *ctx = _ctx;
+ 
+-	if (len > MD5_DIGEST_SIZE)
+-		sha1_digest(&ctx->sha1, len - MD5_DIGEST_SIZE,
+-			    digest + MD5_DIGEST_SIZE);
++	/* The caller should be responsible for any truncation */
++	assert(len == MD5_DIGEST_SIZE + SHA1_DIGEST_SIZE);
++	md5_digest(&ctx->md5, MD5_DIGEST_SIZE, digest);
++	sha1_digest(&ctx->sha1, SHA1_DIGEST_SIZE, digest + MD5_DIGEST_SIZE);
+ }
++#endif
+ 
+ static void _md5_sha1_init(void *_ctx)
+ {
+@@ -696,6 +737,7 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	/* Any FIPS140-2 related enforcement is performed on
+ 	 * gnutls_hash_init() and gnutls_hmac_init() */
+ 
++	ctx->output = NULL;
+ 	ctx->finished = NULL;
+ 	switch (algo) {
+ 	case GNUTLS_DIG_MD5:
+@@ -779,7 +821,8 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	case GNUTLS_DIG_SHAKE_128:
+ 		ctx->init = (nettle_hash_init_func *)sha3_128_init;
+ 		ctx->update = (nettle_hash_update_func *)sha3_128_update;
+-		ctx->digest = (nettle_hash_digest_func *)sha3_128_shake_output;
++		ctx->digest = NULL; /* unused */
++		ctx->output = (nettle_output_func *)sha3_128_shake_output;
+ 		ctx->finished = _wrap_sha3_128_shake_finished;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_128;
+ 		ctx->length = 0; /* unused */
+@@ -787,7 +830,8 @@ static int _ctx_init(gnutls_digest_algorithm_t algo,
+ 	case GNUTLS_DIG_SHAKE_256:
+ 		ctx->init = (nettle_hash_init_func *)sha3_256_init;
+ 		ctx->update = (nettle_hash_update_func *)sha3_256_update;
+-		ctx->digest = (nettle_hash_digest_func *)sha3_256_shake_output;
++		ctx->digest = NULL; /* unused */
++		ctx->output = (nettle_output_func *)sha3_256_shake_output;
+ 		ctx->finished = _wrap_sha3_256_shake_finished;
+ 		ctx->ctx_ptr = &ctx->ctx.sha3_256;
+ 		ctx->length = 0; /* unused */
+@@ -853,7 +897,13 @@ static int wrap_nettle_hash_fast(gnutls_digest_algorithm_t algo,
+ 	if (text_size > 0) {
+ 		ctx.update(&ctx, text_size, text);
+ 	}
++	if (!ctx.digest)
++		return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
++#if NETTLE_VERSION_MAJOR >= 4
++	ctx.digest(&ctx, digest);
++#else
+ 	ctx.digest(&ctx, ctx.length, digest);
++#endif
+ 	zeroize_key(&ctx, sizeof(ctx));
+ 
+ 	return 0;
+@@ -910,12 +960,25 @@ static int wrap_nettle_hash_output(void *src_ctx, void *digest,
+ 		return 0;
+ 	}
+ 
++	if (ctx->output) {
++		ctx->output(ctx->ctx_ptr, digestsize, digest);
++		return 0;
++	}
++
+ 	if (ctx->length > 0 && digestsize < ctx->length) {
+ 		gnutls_assert();
+ 		return GNUTLS_E_SHORT_MEMORY_BUFFER;
+ 	}
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	if (digestsize != ctx->length) {
++		gnutls_assert();
++		return GNUTLS_E_INVALID_REQUEST;
++	}
++	ctx->digest(ctx->ctx_ptr, digest);
++#else
+ 	ctx->digest(ctx->ctx_ptr, digestsize, digest);
++#endif
+ 
+ 	return 0;
+ }
+@@ -934,8 +997,12 @@ static int wrap_nettle_hkdf_extract(gnutls_mac_algorithm_t mac, const void *key,
+ 		return gnutls_assert_val(ret);
+ 
+ 	ctx.set_key(&ctx, saltsize, salt);
++#if NETTLE_VERSION_MAJOR >= 4
++	hkdf_extract(&ctx.ctx, ctx.update, ctx.digest, keysize, key, output);
++#else
+ 	hkdf_extract(&ctx.ctx, ctx.update, ctx.digest, ctx.length, keysize, key,
+ 		     output);
++#endif
+ 
+ 	zeroize_key(&ctx, sizeof(ctx));
+ 	return 0;
+-- 
+GitLab
+
+
+From 4ff9daaebe42dc873db2404d4657ed293f740bc3 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 12:14:47 +0900
+Subject: [PATCH 08/12] nettle: support Nettle 4 cipher interface
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/nettle/cipher.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/lib/nettle/cipher.c b/lib/nettle/cipher.c
+index 1900794a26..575c90d749 100644
+--- a/lib/nettle/cipher.c
++++ b/lib/nettle/cipher.c
+@@ -67,6 +67,7 @@
+ #else
+ #include "backport/siv-gcm.h"
+ #endif
++#include <nettle/version.h>
+ #include "fips.h"
+ #include <intprops.h>
+ 
+@@ -1370,7 +1371,7 @@ static int wrap_nettle_cipher_setiv(void *_ctx, const void *iv, size_t iv_size)
+ 		break;
+ 	case GNUTLS_CIPHER_SALSA20_256:
+ 	case GNUTLS_CIPHER_ESTREAM_SALSA20_256:
+-		if (iv_size != SALSA20_IV_SIZE)
++		if (iv_size != SALSA20_NONCE_SIZE)
+ 			return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);
+ 		break;
+ 	default:
+@@ -1477,8 +1478,12 @@ static int wrap_nettle_cipher_aead_encrypt(void *_ctx, const void *nonce,
+ 
+ 		ctx->cipher->encrypt(ctx, plain_size, encr, plain);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++		ctx->cipher->tag(ctx->ctx_ptr, ((uint8_t *)encr) + plain_size);
++#else
+ 		ctx->cipher->tag(ctx->ctx_ptr, tag_size,
+ 				 ((uint8_t *)encr) + plain_size);
++#endif
+ 	} else {
+ 		/* CCM-style cipher */
+ 
+@@ -1557,7 +1562,11 @@ static int wrap_nettle_cipher_aead_decrypt(void *_ctx, const void *nonce,
+ 
+ 		ctx->cipher->decrypt(ctx, encr_size, plain, encr);
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++		ctx->cipher->tag(ctx->ctx_ptr, tag);
++#else
+ 		ctx->cipher->tag(ctx->ctx_ptr, tag_size, tag);
++#endif
+ 
+ 		if (gnutls_memcmp(((uint8_t *)encr) + encr_size, tag,
+ 				  tag_size) != 0)
+@@ -1626,7 +1635,11 @@ static void wrap_nettle_cipher_tag(void *_ctx, void *tag, size_t tag_size)
+ {
+ 	struct nettle_cipher_ctx *ctx = _ctx;
+ 
++#if NETTLE_VERSION_MAJOR >= 4
++	ctx->cipher->tag(ctx->ctx_ptr, tag);
++#else
+ 	ctx->cipher->tag(ctx->ctx_ptr, tag_size, tag);
++#endif
+ }
+ 
+ static void wrap_nettle_cipher_close(void *_ctx)
+-- 
+GitLab
+
+
+From b56d4d478651ddb9f2ca39059febcf01c9835967 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 12:23:40 +0900
+Subject: [PATCH 09/12] tls1-prf: use Nettle 4 digest interface
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/nettle/int/tls1-prf.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/lib/nettle/int/tls1-prf.c b/lib/nettle/int/tls1-prf.c
+index 46520b06a0..470e6843a4 100644
+--- a/lib/nettle/int/tls1-prf.c
++++ b/lib/nettle/int/tls1-prf.c
+@@ -38,6 +38,7 @@
+ #include "int/tls1-prf.h"
+ #include <nettle/sha1.h>
+ #include <nettle/md5.h>
++#include <nettle/version.h>
+ 
+ /* The RFC2246 P_hash() function. The mac_ctx is expected to
+  * be initialized and key set to be the secret key.
+@@ -50,6 +51,7 @@ static void P_hash(void *mac_ctx, nettle_hash_update_func *update,
+ 	uint8_t Atmp[MAX_HASH_SIZE];
+ 	ssize_t left;
+ 	unsigned started = 0;
++	uint8_t tmp[MAX_HASH_SIZE];
+ 
+ 	/* round up */
+ 	left = dst_length;
+@@ -63,7 +65,11 @@ static void P_hash(void *mac_ctx, nettle_hash_update_func *update,
+ 		} else {
+ 			update(mac_ctx, digest_size, Atmp);
+ 		}
++#if NETTLE_VERSION_MAJOR >= 4
++		digest(mac_ctx, Atmp); /* store A(i) */
++#else
+ 		digest(mac_ctx, digest_size, Atmp); /* store A(i) */
++#endif
+ 
+ 		update(mac_ctx, digest_size, Atmp); /* hash A(i) */
+ 		update(mac_ctx, label_size,
+@@ -73,7 +79,12 @@ static void P_hash(void *mac_ctx, nettle_hash_update_func *update,
+ 		if (left < (ssize_t)digest_size)
+ 			digest_size = left;
+ 
+-		digest(mac_ctx, digest_size, dst);
++#if NETTLE_VERSION_MAJOR >= 4
++		digest(mac_ctx, tmp);
++#else
++		digest(mac_ctx, digest_size, tmp);
++#endif
++		memcpy(dst, tmp, digest_size);
+ 
+ 		left -= digest_size;
+ 		dst += digest_size;
+-- 
+GitLab
+
+
+From e38f6a101d3fb0f1ba04b7bf15f57b5738a287ea Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Thu, 26 Feb 2026 12:23:58 +0900
+Subject: [PATCH 10/12] rnd-fips: use Nettle 4 digest interface
+
+We should switch to the drbg-ctr-aes256 module provided by Nettle.
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/nettle/rnd-fips.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/lib/nettle/rnd-fips.c b/lib/nettle/rnd-fips.c
+index 9f1d3199c1..a623d76632 100644
+--- a/lib/nettle/rnd-fips.c
++++ b/lib/nettle/rnd-fips.c
+@@ -30,6 +30,7 @@
+ #include <nettle/sha2.h>
+ #include "atfork.h"
+ #include "rnd-common.h"
++#include <nettle/version.h>
+ 
+ /* The block size is chosen arbitrarily */
+ #define ENTROPY_BLOCK_SIZE SHA256_DIGEST_SIZE
+@@ -103,7 +104,11 @@ static int get_entropy(struct fips_ctx *fctx, uint8_t *buffer, size_t length)
+ 
+ 		sha256_init(&ctx);
+ 		sha256_update(&ctx, sizeof(block), block);
++#if NETTLE_VERSION_MAJOR >= 4
++		sha256_digest(&ctx, hash);
++#else
+ 		sha256_digest(&ctx, sizeof(hash), hash);
++#endif
+ 
+ 		if (memcmp(hash, fctx->entropy_hash, sizeof(hash)) == 0) {
+ 			_gnutls_switch_fips_state(GNUTLS_FIPS140_OP_ERROR);
+@@ -189,7 +194,11 @@ static int _rngfips_ctx_init(struct fips_ctx *fctx)
+ 	sha256_init(&ctx);
+ 	sha256_update(&ctx, sizeof(block), block);
+ 	zeroize_key(block, sizeof(block));
++#if NETTLE_VERSION_MAJOR >= 4
++	sha256_digest(&ctx, fctx->entropy_hash);
++#else
+ 	sha256_digest(&ctx, sizeof(fctx->entropy_hash), fctx->entropy_hash);
++#endif
+ 
+ 	/* normal */
+ 	ret = drbg_init(fctx, &fctx->normal_context);
+-- 
+GitLab
+
+
+From d6014115969655005968491be1da8892ddedc134 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Fri, 27 Feb 2026 08:53:02 +0900
+Subject: [PATCH 11/12] nettle: catch both old and new error codes from
+ base64_decode_update
+
+Signed-off-by: Daiki Ueno <ueno@gnu.org>
+---
+ lib/x509_b64.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/lib/x509_b64.c b/lib/x509_b64.c
+index 0ffbfa91bf..3fb2c94dfb 100644
+--- a/lib/x509_b64.c
++++ b/lib/x509_b64.c
+@@ -285,7 +285,10 @@ int _gnutls_base64_decode(const uint8_t *data, size_t data_size,
+ 
+ 	ret = base64_decode_update(&ctx, &size, result->data, pdata.size,
+ 				   (void *)pdata.data);
+-	if (ret == 0 || size == 0) {
++	/* Nettle 4 returns -1 on error, while Nettle 3 returns 0;
++	 * catch both
++	 */
++	if (ret <= 0 || size == 0) {
+ 		gnutls_assert();
+ 		ret = GNUTLS_E_BASE64_DECODING_ERROR;
+ 		goto fail;
+-- 

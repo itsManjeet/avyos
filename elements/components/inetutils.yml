@@ -1,6 +1,9 @@
 id: inetutils
-version: 1.9.4
+version: 2.8
 about: Package contains programs for basic networking
+
+pre-script: |-
+  sed -i 's/def HAVE_TERMCAP_TGETENT/ 1/' telnet/telnet.c
 
 configure: >
   --disable-logger
@@ -17,5 +20,9 @@ depends:
   - components/pam.yml
   - components/ncurses.yml
 
+build-depends:
+  - components/help2man.yml
+  - components/git.yml
+
 sources:
-  - https://ftp.gnu.org/gnu/inetutils/inetutils-%{version}.tar.xz
+  - https://ftpmirror.gnu.org/inetutils/inetutils-%{version}.tar.gz

@@ -1,5 +1,5 @@
 id: libgssglue
-version: 0.4
+version: 0.9
 about: Exports a gssapi interface which calls other random gssapi libraries
 
 depends:

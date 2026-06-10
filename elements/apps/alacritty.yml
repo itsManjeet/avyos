@@ -15,13 +15,13 @@ pre-script: |-
 
 build-depends:
   - components/desktop-file-utils.yml
-  - components/x11/libxcb.yml
+  - components/libxcb.yml
   - components/rustc.yml
   - components/fontconfig.yml
   - components/freetype.yml
-  - components/x11/libxcursor.yml
-  - components/x11/libxi.yml
-  - components/x11/libxkbcommon.yml
-  - components/x11/libxrandr.yml
+  - components/libxcursor.yml
+  - components/libxi.yml
+  - components/libxkbcommon.yml
+  - components/libxrandr.yml
 
 merge: [elements/include/appimage.inc]

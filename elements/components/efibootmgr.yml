@@ -11,5 +11,5 @@ script: |
   sed -e "/extern int efi_set_verbose/d" -i src/efibootmgr.c
   # efivar-38 or later
   sed 's/-Werror//' -i Make.defaults
-  make EFIDIR=rlxos libdir=%{libdir} sbindir=%{bindir} -j1
-  make install EFIDIR=rlxos DESTDIR=%{install-root} libdir=%{libdir} sbindir=%{bindir}
+  make EFIDIR=avyos libdir=%{libdir} sbindir=%{bindir} -j1
+  make install EFIDIR=avyos DESTDIR=%{install-root} libdir=%{libdir} sbindir=%{bindir}

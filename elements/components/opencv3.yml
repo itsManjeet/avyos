@@ -21,7 +21,7 @@ depends:
   - components/ffmpeg.yml
   - components/gstreamer.yml
   - components/libexif.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/jasper.yml
   - components/libpng.yml
   - components/libtiff.yml

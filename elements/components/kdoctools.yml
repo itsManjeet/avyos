@@ -8,4 +8,4 @@ depends:
 build-depends:
   - components/ki18n.yml
   - components/extra-cmake-modules.yml
-  - components/perl/perl-uri.yml
+  - components/perl-uri.yml

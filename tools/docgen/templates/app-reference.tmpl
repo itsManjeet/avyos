@@ -1,0 +1,71 @@
+{{ define "app_reference" -}}
+<section class="doc-ref-shell">
+  <header class="doc-ref-hero">
+    <h1>{{ .Title }}</h1>
+    <p class="muted mono doc-path">{{ .RelPath }}</p>
+    <p class="doc-ref-lead">{{ .Lead }}</p>
+  </header>
+
+  <section class="doc-ref-card">
+    <h2>Preview</h2>
+    {{- if .PreviewPath }}
+    <p align="center">
+      <figure class="doc-ref-preview">
+        <img src="{{ .PreviewPath }}" alt="{{ .Title }} preview" />
+        <figcaption>{{ .Title }} preview image</figcaption>
+      </figure>
+    </p>
+    {{- else }}
+    <p class="doc-ref-empty">Add <code>{{ .RelPath }}/preview.png</code> to show an app screenshot here.</p>
+    {{- end }}
+  </section>
+
+  <section class="doc-ref-card">
+    <h2>Description</h2>
+    <div class="doc-markdown">{{ .Description }}</div>
+  </section>
+
+  {{- if .Flags }}
+  <section class="doc-ref-card">
+    <h2>Flags</h2>
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Flag</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {{- range .Flags }}
+        <tr>
+          <td><code>{{ .Name }}</code></td>
+          <td><code>{{ .Type }}</code></td>
+          <td>{{ .Description }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+  {{- end }}
+
+  {{- if .Subcommands }}
+  <section class="doc-ref-card">
+    <h2>Subcommands</h2>
+    <table class="doc-ref-table">
+      <thead>
+        <tr><th>Name</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {{- range .Subcommands }}
+        <tr>
+          <td><code>{{ .Name }}</code></td>
+          <td>{{ .Description }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+  {{- end }}
+
+  {{- if .CaptureErr }}
+  <p class="doc-ref-callout">Help capture warning: {{ .CaptureErr }}</p>
+  {{- end }}
+</section>
+{{- end }}

@@ -17,10 +17,10 @@ configure: >-
 
 depends:
   - components/gstreamer.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libnotify.yml
-  - components/x11/libsm.yml
-  - components/x11/libxxf86vm.yml
+  - components/libsm.yml
+  - components/libxxf86vm.yml
   - components/webkitgtk.yml
 build-depends:
   - components/glu.yml

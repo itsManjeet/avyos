@@ -1,5 +1,5 @@
 id: libsodium
-version: 1.0.18
+version: 1.0.22
 about: P(ortable|ackageable) NaCI-based crypto library
 
 depends:
@@ -8,4 +8,4 @@ depends:
 build-depends:
   - components/libtool.yml
 sources:
-  - https://download.libsodium.org/libsodium/releases/libsodium-%{version}.tar.gz
+  - https://github.com/jedisct1/libsodium/releases/download/%{version}-RELEASE/libsodium-%{version}.tar.gz

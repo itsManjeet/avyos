@@ -10,22 +10,25 @@ depends:
   - components/libgcrypt.yml
   - components/pam.yml
   - components/pcre.yml
-  - components/gtk.yml
-  - components/x11/libxklavier.yml
+  - components/gtk3.yml
+  - components/libxklavier.yml
   - components/accountsservice.yml
 
 build-depends:
   - components/itstool.yml
-  - components/py/py-distutils-extra.yml
+  - components/python-distutils-extra.yml
 
 sources:
   - https://github.com/CanonicalLtd/lightdm/releases/download/%{version}/lightdm-%{version}.tar.xz
   - https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.9/lightdm-gtk-greeter-2.0.9.tar.gz
+  - patches/lightdm/01-updated-greeter-interface.patch
 
 post-script: |-
   make install
 
   cd lightdm-gtk-greeter-2.0.9
+
+  patch -Np1 -i %{build-root}/01-updated-greeter-interface.patch
 
   ./configure --prefix=%{prefix} \
     --libexecdir=%{libdir}/lightdm \
@@ -94,13 +97,14 @@ post-script: |-
 
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/lightdm/lightdm-gtk-greeter.conf << "EOF"
   [greeter]
-  background=%{datadir}/backgrounds/default-blur.jpg
-  theme-name=Orchis-Light
-  icon-theme-name=Tela-light
-  font-name=IBM Plex Sans Regular 11
+  background=%{datadir}/backgrounds/default.png
+  theme-name=Qogir-Light
+  icon-theme-name=Qogir-Light
+  font-name=Open Sans Regular 11
+  cursor-theme-name=Qogir-Light
   panel-position=top
   user-background=false
-  indicators=~host;~spacer;~session;~a11y;~language;~clock;~power;
+  indicators=~spacer;~session;~clock;~power;
   transition-duration=600
   transition-type=ease-in-out
   EOF
@@ -111,4 +115,3 @@ configure: >-
   --disable-tests
   --with-greeter-user=lightdm
   --with-greeter-session=lightdm-gtk-greeter
-

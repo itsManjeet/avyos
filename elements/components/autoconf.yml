@@ -1,5 +1,5 @@
 id: autoconf
-version: 2.72
+version: 2.73
 about: Programs for producing shell scripts that can automatically configure source code
 sources:
   - https://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.xz

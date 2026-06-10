@@ -4,6 +4,9 @@ about:
   A library of C routines for reading and writing files containing sampled audio
   data
 
+pre-script: |-
+  sed -i '/typedef enum/,/bool ;/d' src/ALAC/alac_{en,de}coder.c
+
 build-type: autotools
 
 configure: >-

@@ -1,14 +1,18 @@
 id: wpewebkit
-version: 2.44.0
+version: 2.52.3
 about: Embeddable web content engine
 
 configure: >-
-  -DPORT=WPE
-  -DCMAKE_SKIP_RPATH=ON
-  -DUSE_LIBBACKTRACE=OFF
-  -DUSE_JPEGXL=OFF
-  -DENABLE_DOCUMENTATION=OFF
-  -DENABLE_INTROSPECTION=ON
+  -D PORT=WPE
+  -D CMAKE_SKIP_RPATH=ON
+  -D USE_LIBBACKTRACE=OFF
+  -D USE_JPEGXL=ON
+  -D USE_LIBHYPHEN=OFF
+  -D USE_SYSTEM_SYSPROF_CAPTURE=NO
+  -D ENABLE_DOCUMENTATION=OFF
+  -D ENABLE_MINIBROWSER=OFF
+  -D ENABLE_SPEECH_SYNTHESIS=ON
+  -D ENABLE_INTROSPECTION=ON
 
 sources:
   - https://wpewebkit.org/releases/wpewebkit-%{version}.tar.xz
@@ -27,16 +31,18 @@ depends:
   - components/libepoxy.yml
   - components/libgcrypt.yml
   - components/libjpeg-turbo.yml
-  - components/woff2.yml
-  # - components/libjxl.yml
+  - components/libjxl.yml
   - components/libpng.yml
   - components/libseccomp.yml
   - components/libsoup3.yml
   - components/libwebp.yml
+  - components/flite.yml
+  - components/woff2.yml
   - components/libwpe.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/libxml2.yml
   - components/libxslt.yml
+  - components/gstreamer.yml
   - components/mesa.yml
   - components/xdg-dbus-proxy.yml
   - components/zlib.yml

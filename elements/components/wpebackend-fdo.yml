@@ -1,5 +1,5 @@
 id: wpebackend-fdo
-version: 1.14.2
+version: 1.16.1
 about: The Freedesktop.org backend for WPE WebKit and the WPE renderer
 
 configure: >-

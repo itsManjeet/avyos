@@ -1,5 +1,5 @@
 id: i3lock
-version: 2.14
+version: 2.16
 about: Improved screenlocker based on XCB and PAM
 
 pre-script: |-
@@ -9,9 +9,9 @@ depends:
   - components/cairo.yml
   - components/libev.yml
   - components/pam.yml
-  - components/x11/libxkbcommon.yml
-  - components/x11/xcb-util-image.yml
-  - components/x11/xcb-util-xrm.yml
- 
+  - components/libxkbcommon.yml
+  - components/xcb-util-image.yml
+  - components/xcb-util-xrm.yml
+
 sources:
   - https://i3wm.org/i3lock/i3lock-%{version}.tar.xz

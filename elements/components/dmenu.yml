@@ -1,5 +1,5 @@
 id: dmenu
-version: 5.2
+version: 5.4
 about: Generic menu for X
 release: 0
 depends:
@@ -7,9 +7,9 @@ depends:
   - components/fontconfig.yml
   - components/freetype.yml
   - components/glibc.yml
-  - components/x11/libx11.yml
-  - components/x11/libxft.yml
-  - components/x11/libxinerama.yml
+  - components/libx11.yml
+  - components/libxft.yml
+  - components/libxinerama.yml
 sources:
   - https://dl.suckless.org/tools/dmenu-%{version}.tar.gz
 script: |-

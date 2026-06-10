@@ -15,7 +15,7 @@ build-depends:
   - components/gtk-doc.yml
   - components/vala.yml
   - components/meson.yml
-  - components/py/py-dbusmock.yml
+  - components/python-dbusmock.yml
   - components/gobject-introspection.yml
 sources:
   - https://gitlab.gnome.org/GNOME/folks/-/archive/%{version}/folks-%{version}.tar.gz

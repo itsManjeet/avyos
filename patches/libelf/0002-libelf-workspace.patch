@@ -1,0 +1,275 @@
+diff -Naur a/libcpu/riscv_disasm.c b/libcpu/riscv_disasm.c
+--- a/libcpu/riscv_disasm.c	2026-04-16 07:29:29.793791743 +0000
++++ b/libcpu/riscv_disasm.c	2026-04-16 07:29:29.901791367 +0000
+@@ -77,7 +77,7 @@
+     "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
+     "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
+   };
+-#define REG(nr) ((char *) regnames[nr])
++#define REG(nr) regnames[nr]
+ #define REGP(nr) REG (8 + (nr))
+ 
+ 
+@@ -88,7 +88,7 @@
+     "fa6", "fa7", "fs2", "fs3", "fs4", "fs5", "fs6", "fs7",
+     "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
+   };
+-#define FREG(nr) ((char *) fregnames[nr])
++#define FREG(nr) fregnames[nr]
+ #define FREGP(nr) FREG (8 + (nr))
+ 
+ 
+@@ -163,12 +163,12 @@
+ 	  break;
+ 	}
+ 
+-      char *mne = NULL;
++      const char *mne = NULL;
+       /* Max length is 24, which is "illegal", so we print it as
+          "0x<48 hex chars>"
+          See: No instruction encodings defined for these sizes yet, below  */
+       char mnebuf[50];
+-      char *op[5] = { NULL, NULL, NULL, NULL, NULL };
++      const char *op[5] = { NULL, NULL, NULL, NULL, NULL };
+       char immbuf[32];
+       size_t len;
+       char *strp = NULL;
+@@ -400,7 +400,7 @@
+ 		    {
+ 		      "sub", "xor", "or", "and", "subw", "addw", NULL, NULL
+ 		    };
+-		  mne = (char *) arithmne[((first >> 10) & 0x4) | ((first >> 5) & 0x3)];
++		  mne = arithmne[((first >> 10) & 0x4) | ((first >> 5) & 0x3)];
+ 		}
+ 		op[0] = op[1] = REGP ((first >> 7) & 0x7);
+ 	      break;
+@@ -572,7 +572,7 @@
+ 		{
+ 		  NULL, NULL, "flw", "fld", "flq", NULL, NULL, NULL
+ 		};
+-	      mne = (char *) (idx == 0x00 ? loadmne[func] : floadmne[func]);
++	      mne = idx == 0x00 ? loadmne[func] : floadmne[func];
+ 	      break;
+ 	    case 0x03:
+ 	      // MISC-MEM
+@@ -595,8 +595,8 @@
+ 		  uint32_t succ = (word >> 24) & 0xf;
+ 		  if (pred != 0xf || succ != 0xf)
+ 		    {
+-		      op[0] = (char *) order[succ];
+-		      op[1] = (char *) order[pred];
++		      op[0] = order[succ];
++		      op[1] = order[pred];
+ 		     }
+ 		   mne = "fence";
+ 		}
+@@ -614,7 +614,7 @@
+ 		  "addi", NULL, "slti", "sltiu", "xori", NULL, "ori", "andi"
+ 		};
+ 	      func = (word >> 12) & 0x7;
+-	      mne = (char *) opimmmne[func];
++	      mne = opimmmne[func];
+ 	      if (mne == NULL)
+ 		{
+ 		  const uint64_t shiftmask = ebl->class == ELFCLASS32 ? 0x1f : 0x3f;
+@@ -697,7 +697,7 @@
+ 		{
+ 		  NULL, NULL, "fsw", "fsd", "fsq", NULL, NULL, NULL
+ 		};
+-	      mne = (char *) (idx == 0x08 ? storemne[func] : fstoremne[func]);
++	      mne = idx == 0x08 ? storemne[func] : fstoremne[func];
+ 	      break;
+ 	    case 0x0b:
+ 	      // AMO
+@@ -778,7 +778,7 @@
+ 		    }
+ 		  else
+ 		    {
+-		      mne = (char *) (idx == 0x0c ? arithmne2[func] : arithmne3[func]);
++		      mne = idx == 0x0c ? arithmne2[func] : arithmne3[func];
+ 		      op[1] = REG (rs1);
+ 		      op[2] = REG (rs2);
+ 		    }
+@@ -811,7 +811,7 @@
+ 		  op[2] = FREG (rs2);
+ 		  op[3] = FREG (rs3);
+ 		  if (rm != 0x7)
+-		    op[4] = (char *) rndmode[rm];
++		    op[4] = rndmode[rm];
+ 		}
+ 	      break;
+ 	    case 0x14:
+@@ -839,7 +839,7 @@
+ 		      op[1] = FREG (rs1);
+ 		      op[2] = FREG (rs2);
+ 		      if (rm != 0x7)
+-			op[3] = (char *) rndmode[rm];
++			op[3] = rndmode[rm];
+ 		    }
+ 		  else if (func == 0x1c && width != 2 && rs2 == 0 && rm <= 1)
+ 		    {
+@@ -950,7 +950,7 @@
+ 			}
+ 		      mne = mnebuf;
+ 		      if (rm != 0x7 && (func == 0x18 || width == 0 || rs2 >= 2))
+-			op[2] = (char *) rndmode[rm];
++			op[2] = rndmode[rm];
+ 		    }
+ 		  else if (func == 0x0b && rs2 == 0)
+ 		    {
+@@ -961,7 +961,7 @@
+ 		      *cp = '\0';
+ 		      mne = mnebuf;
+ 		      if (rm != 0x7)
+-			op[2] = (char *) rndmode[rm];
++			op[2] = rndmode[rm];
+ 		    }
+ 		  else if (func == 0x05 && rm < 2)
+ 		    {
+@@ -1007,7 +1007,7 @@
+ 		  "beq", "bne", NULL, NULL, "blt", "bge", "bltu", "bgeu"
+ 		};
+ 	      func = (word >> 12) & 0x7;
+-	      mne = (char *) branchmne[func];
++	      mne = branchmne[func];
+ 	      if (rs1 == 0 && func == 5)
+ 		{
+ 		  op[0] = op[1];
+@@ -1035,7 +1035,7 @@
+ 	      else if (func == 5 || func == 7)
+ 		{
+ 		  // binutils use these opcodes and the reverse parameter order
+-		  char *tmp = op[0];
++		  const char *tmp = op[0];
+ 		  op[0] = op[1];
+ 		  op[1] = tmp;
+ 		  mne = func == 5 ? "ble" : "bleu";
+@@ -1103,7 +1103,7 @@
+ 			{
+ 			  NULL, "frflags", "frrm", "frsr",
+ 			};
+-		      mne = (char *) unprivrw[csr - 0x000];
++		      mne = unprivrw[csr - 0x000];
+ 		    }
+ 		  else if (csr >= 0xc00 && csr <= 0xc03)
+ 		    {
+@@ -1111,7 +1111,7 @@
+ 			{
+ 			  "rdcycle", "rdtime", "rdinstret"
+ 			};
+-		      mne = (char *) unprivrolow[csr - 0xc00];
++		      mne = unprivrolow[csr - 0xc00];
+ 		    }
+ 		  op[0] = REG ((word >> 7) & 0x1f);
+ 		}
+@@ -1128,7 +1128,7 @@
+ 			{
+ 			  NULL, "fsflagsi", "fsrmi", NULL
+ 			};
+-		      mne = (char *) ((word & 0x4000) == 0 ? unprivrs : unprivrsi)[csr - 0x000];
++		      mne = ((word & 0x4000) == 0 ? unprivrs : unprivrsi)[csr - 0x000];
+ 
+ 		      if ((word & 0x4000) == 0)
+ 			op[0] = REG ((word >> 15) & 0x1f);
+@@ -1259,12 +1259,12 @@
+ 		  if (rd != 0)
+ 		    op[last++] = REG (rd);
+ 		  struct known_csrs key = { csr, NULL };
+-		  struct known_csrs *found = bsearch (&key, known,
++		  const struct known_csrs *found = bsearch (&key, known,
+ 						      sizeof (known) / sizeof (known[0]),
+ 						      sizeof (known[0]),
+ 						      compare_csr);
+ 		  if (found)
+-		    op[last] = (char *) found->name;
++		    op[last] = found->name;
+ 		  else
+ 		    {
+ 		      snprintf (addrbuf, sizeof (addrbuf), "0x%" PRIx32, csr);
+@@ -1289,7 +1289,7 @@
+ 		  else if (instr == 3 && rd == 0)
+ 		    mne = "csrc";
+ 		  else
+-		    mne = (char *) mnecsr[instr];
++		    mne = mnecsr[instr];
+ 		}
+ 	      break;
+ 	    default:
+diff -Naur a/libdw/dwarf_getsrclines.c b/libdw/dwarf_getsrclines.c
+--- a/libdw/dwarf_getsrclines.c	2026-04-16 07:29:29.753791883 +0000
++++ b/libdw/dwarf_getsrclines.c	2026-04-16 07:29:29.865791492 +0000
+@@ -364,7 +364,7 @@
+       const unsigned char *dirp = linep;
+       while (dirp < lineendp && *dirp != 0)
+ 	{
+-	  uint8_t *endp = memchr (dirp, '\0', lineendp - dirp);
++	  const uint8_t *endp = memchr (dirp, '\0', lineendp - dirp);
+ 	  if (endp == NULL)
+ 	    goto invalid_data;
+ 	  ++ndirs;
+@@ -440,7 +440,7 @@
+       for (unsigned int n = 1; n < ndirlist; n++)
+ 	{
+ 	  dirarray[n].dir = (char *) linep;
+-	  uint8_t *endp = memchr (linep, '\0', lineendp - linep);
++	  const uint8_t *endp = memchr (linep, '\0', lineendp - linep);
+ 	  assert (endp != NULL); // Checked above when calculating ndirlist.
+ 	  dirarray[n].len = endp - linep;
+ 	  linep = endp + 1;
+@@ -527,7 +527,7 @@
+ 
+ 	  /* First comes the file name.  */
+ 	  char *fname = (char *) linep;
+-	  uint8_t *endp = memchr (fname, '\0', lineendp - linep);
++	  const uint8_t *endp = memchr (fname, '\0', lineendp - linep);
+ 	  if (endp == NULL)
+ 	    goto invalid_data;
+ 	  size_t fnamelen = endp - (uint8_t *) fname;
+@@ -927,7 +927,7 @@
+ 	    case DW_LNE_define_file:
+ 	      {
+ 		char *fname = (char *) linep;
+-		uint8_t *endp = memchr (linep, '\0', lineendp - linep);
++		const uint8_t *endp = memchr (linep, '\0', lineendp - linep);
+ 		if (endp == NULL)
+ 		  goto invalid_data;
+ 		size_t fnamelen = endp - linep;
+diff -Naur a/src/readelf.c b/src/readelf.c
+--- a/src/readelf.c	2026-04-16 07:29:29.797791731 +0000
++++ b/src/readelf.c	2026-04-16 07:29:29.905791352 +0000
+@@ -8269,7 +8269,7 @@
+ 		    valuestr = dwarf_filesrc (files, num, NULL, NULL);
+ 		    if (valuestr != NULL)
+ 		      {
+-			char *filename = strrchr (valuestr, '/');
++			const char *filename = strrchr (valuestr, '/');
+ 			if (filename != NULL)
+ 			  valuestr = filename + 1;
+ 		      }
+@@ -9033,7 +9033,7 @@
+ 		 Dwarf_Off str_offsets_base, FILE *out)
+ {
+   Dwarf_Word val;
+-  unsigned char *endp;
++  const unsigned char *endp;
+   Elf_Data *data;
+   char *str;
+   switch (form)
+@@ -9530,7 +9530,7 @@
+ 	{
+ 	  while (linep < lineendp && *linep != 0)
+ 	    {
+-	      unsigned char *endp = memchr (linep, '\0', lineendp - linep);
++	      const unsigned char *endp = memchr (linep, '\0', lineendp - linep);
+ 	      if (unlikely (endp == NULL))
+ 		goto invalid_unit;
+ 
+@@ -9613,7 +9613,7 @@
+ 	    {
+ 	      /* First comes the file name.  */
+ 	      char *fname = (char *) linep;
+-	      unsigned char *endp = memchr (fname, '\0', lineendp - linep);
++	      const unsigned char *endp = memchr (fname, '\0', lineendp - linep);
+ 	      if (unlikely (endp == NULL))
+ 		goto invalid_unit;
+ 	      linep = endp + 1;

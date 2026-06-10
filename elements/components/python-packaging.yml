@@ -1,0 +1,19 @@
+id: python-packaging
+version: 25.0
+about: Python module that implement the interoperability specifications which have clearly one correct behaviour or benefit greatly from having a single shared implementation
+
+script: |-
+  python -m flit_core.wheel
+
+  python -m installer --destdir %{install-root} \
+    dist/packaging-%{version}-py3-none-any.whl
+
+depends:
+  - components/python.yml
+
+build-depends:
+  - components/python-flit-core.yml
+  - components/python-installer.yml
+
+sources:
+  - https://files.pythonhosted.org/packages/source/p/packaging/packaging-%{version}.tar.gz

@@ -1,13 +1,12 @@
 id: openvpn
-version: 2.6.8
+version: 2.7.4
 about: An easy-to-use, robust and highly configurable VPN (Virtual Private Network)
 
 build-type: autotools
 
 pre-script: |-
   sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
-  patch -Np1 -i /patches/%{id}/0001-unprivileged.patch
-  
+
   autoreconf --force --install
 
 configure: >-
@@ -19,14 +18,14 @@ post-script: |-
   install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/sysusers.d/%{id}.conf << "EOF"
   u openvpn - "OpenVPN"
   EOF
-  
+
   install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/tmpfiles.d/%{id}.conf << "EOF"
   d /etc/openvpn/client 0750 openvpn network -
   d /etc/openvpn/server 0750 openvpn network -
   d /run/openvpn-client 0750 openvpn network -
   d /run/openvpn-server 0750 openvpn network -
   EOF
-  
+
   for FILE in $(find contrib -type f); do
     case "$(file --brief --mime-type --no-sandbox "${FILE}")" in
       "text/x-shellscript")

@@ -2,6 +2,8 @@ id: libssh
 version: 1.11.0
 about: Library for accessing ssh client services through C libraries
 
+build-type: autotools
+
 pre-script: |-
   patch -Np1 -i libssh2-1.11.0-security_fixes-1.patch
 
@@ -21,4 +23,3 @@ build-depends:
 sources:
   - https://www.libssh2.org/download/libssh2-%{version}.tar.gz
   - patches/libssh2/libssh2-1.11.0-security_fixes-1.patch
-

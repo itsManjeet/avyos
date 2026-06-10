@@ -1,5 +1,5 @@
 id: libmediaart
-version: 1.9.6
+version: 1.9.7
 about: Library tasked with managing, extracting and handling media art caches
 
 depends:

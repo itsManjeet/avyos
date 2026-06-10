@@ -1,5 +1,5 @@
 id: jetring
-version: 0.30
+version: 0.32
 about: GPG keyring maintenance using changesets
 
 script: |-

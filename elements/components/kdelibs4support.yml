@@ -12,7 +12,7 @@ build-depends:
   - components/extra-cmake-modules.yml
   - components/kdoctools.yml
   - components/networkmanager.yml
-  - components/perl/perl-uri.yml
+  - components/perl-uri.yml
 
 sources:
   - https://download.kde.org/stable/frameworks/%{version:2}/portingAids/%{id}-%{version}.tar.xz

@@ -1,8 +1,9 @@
 id: libpng
-version: 1.6.43
+version: 1.6.58
 about: Libraries used by other programs for reading and writing PNG files
 sources:
   - https://downloads.sourceforge.net/libpng/libpng-%{version}.tar.xz
+  - patches/libpng/libpng-1.6.58-apng.patch
 
 depends:
   - components/glibc.yml
@@ -11,3 +12,6 @@ build-type: autotools
 
 variables:
   run-autogen: false
+
+pre-script: |-
+  patch -Np1 -i libpng-1.6.58-apng.patch

@@ -1,5 +1,5 @@
 id: libgdiplus
-version: 6.1
+version: 6.2
 about: Open Source Implementation of GDI+ API
 
 pre-script: |-

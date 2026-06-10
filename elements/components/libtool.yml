@@ -1,5 +1,5 @@
 id: libtool
-version: 2.4.7
+version: 2.5.4
 about: GNU generic library support script
 sources:
   - https://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.xz

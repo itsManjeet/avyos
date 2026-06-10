@@ -1,5 +1,5 @@
 id: vim
-version: 9.1.0580
+version: 9.2.0458
 about: Vi Improved, a highly configurable, improved version of the vi text editor
 sources:
   - vim-%{version}.tar.gz::https://github.com/vim/vim/archive/v%{version}.tar.gz

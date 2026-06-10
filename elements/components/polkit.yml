@@ -1,5 +1,5 @@
 id: polkit
-version: 124
+version: 127
 about: Toolkit for defining and handling authorizations
 
 build-type: meson
@@ -9,7 +9,7 @@ configure: >
   -D gtk_doc=true
   -D os_type=lfs
   -D man=true
-  -D session_tracking=libsystemd-login
+  -D session_tracking=logind
   -D tests=false
 
 post-script: |
@@ -31,7 +31,7 @@ build-depends:
   - components/gtk-doc.yml
 
 sources:
-  - https://gitlab.freedesktop.org/polkit/polkit/-/archive/%{version}/polkit-%{version}.tar.gz
+  - polkit-%{version}.tar.gz::https://github.com/polkit-org/polkit/archive/refs/tags/%{version}.tar.gz
 
 integration: |-
   chmod 4755 %{bindir}/pkexec

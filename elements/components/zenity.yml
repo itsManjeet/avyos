@@ -1,5 +1,5 @@
 id: zenity
-version: 4.0.2
+version: 4.2.2
 about: GNOME port of dialog which allows you to display GTK+ dialog boxes from the command line and shell scripts
 
 configure: >-

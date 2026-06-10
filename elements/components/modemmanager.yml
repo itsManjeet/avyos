@@ -1,5 +1,5 @@
 id: modemmanager
-version: 1.18.12
+version: 1.24.2
 about: A unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device
 
 variables:

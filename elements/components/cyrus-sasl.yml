@@ -3,7 +3,11 @@ version: 2.1.28
 about: A Simple Authentication and Security Layer
 
 pre-script: |
-  sed '/saslint/a #include <time.h>' -i lib/saslutil.c
+  patch -Np1 -i cyrus-sasl-2.1.28-gcc15_fixes-1.patch
+
+  autoreconf -fiv
+
+  sed '/saslint/a #include <time.h>'       -i lib/saslutil.c
   sed '/plugin_common/a #include <time.h>' -i plugins/cram.c
 
 configure: >
@@ -25,3 +29,4 @@ depends:
 
 sources:
   - https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-%{version}/cyrus-sasl-%{version}.tar.gz
+  - patches/cyrus-sasl/cyrus-sasl-2.1.28-gcc15_fixes-1.patch

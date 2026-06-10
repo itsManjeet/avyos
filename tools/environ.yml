@@ -1,0 +1,6 @@
+environ:
+  - MAKEFLAGS=-j8
+  - PATH=/usr/bin
+  - TERM=linux
+  - PS1='(avyos) \\W \\$'
+  - LC_ALL=POSIX

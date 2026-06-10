@@ -1,5 +1,5 @@
 id: scdoc
-version: 1.11.2
+version: 1.11.4
 about: Tool for generating roff manual pages
 
 script: |-

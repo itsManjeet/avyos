@@ -1,5 +1,5 @@
 id: nspr
-version: 4.35
+version: 4.39
 about: Netscape Portable Runtime (NSPR)
 
 build-dir: nspr-%{version}/nspr

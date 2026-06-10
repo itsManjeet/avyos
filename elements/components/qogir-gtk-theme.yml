@@ -1,0 +1,24 @@
+id: qogir-gtk-theme
+version: 2025-08-17
+about: A flat design theme for GTK
+merge: [ elements/include/theme.inc ]
+
+script: |-
+  mkdir -p %{install-root}/%{datadir}/themes/
+  ./install.sh            \
+    --theme default       \
+    --color light dark    \
+    --icon default        \
+    --libadwaita          \
+    --tweaks image        \
+    --dest %{install-root}/%{datadir}/themes/
+
+
+variables:
+  strip: false
+
+build-depends:
+  - components/sassc.yml
+
+sources:
+  - qogir-gtk-theme-%{version}.tar.gz::https://github.com/vinceliuice/Qogir-theme/archive/refs/tags/%{version}.tar.gz

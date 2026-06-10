@@ -1,5 +1,5 @@
 id: ccache
-version: 4.10.2
+version: 4.13.6
 about: Compiler cache that speeds up recompilation by caching previous compilations
 
 configure: >-
@@ -10,7 +10,7 @@ post-script: |-
   mkdir -p %{install-root}%{libdir}/ccache/bin
   for p in gcc g++ c++ ; do
     ln -s %{bindir}/ccache %{install-root}%{libdir}/ccache/bin/$p
-    ln -s %{bindir}/ccache %{install-root}%{libdir}/ccache/bin/%{triplet}-$p
+    ln -s %{bindir}/ccache %{install-root}%{libdir}/ccache/bin/%{target-triplet}-$p
   done
 
   for p in cc clang clang++ ; do

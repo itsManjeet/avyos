@@ -9,10 +9,18 @@ environ:
 
 build-type: autotools
 
+run-autogen: false
+
+pre-script: |-
+  patch -Np1 -i itstool-2.0.7-lxml-1.patch
+
+  ./autogen.sh --prefix=%{prefix}
+
 sources:
-  - http://files.itstool.org/itstool/itstool-%{version}.tar.bz2
+  - https://github.com/itstool/itstool/archive/%{version}/itstool-%{version}.tar.gz
+  - patches/itstools/itstool-2.0.7-lxml-1.patch
 
 depends:
   - components/docbook-xml.yml
-  - components/libxml2.yml
+  - components/python-lxml.yml
   - components/python.yml

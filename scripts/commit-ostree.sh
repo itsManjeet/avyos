@@ -76,8 +76,8 @@ on_exit() {
 }
 trap on_exit EXIT
 
-${PKGUPD} ignite build ignite.cache="${CACHE_PATH}" "${element}"
-${PKGUPD} ignite checkout ignite.cache="${CACHE_PATH}" "${element}" "${checkout}"
+${IGNITE} build -cache-path "${CACHE_PATH}" "${element}"
+${IGNITE} checkout -cache-path "${CACHE_PATH}" "${element}" "${checkout}"
 
 if ! [ -d "${OSTREE_REPO}" ]; then
     ostree init --repo="${OSTREE_REPO}" --mode=archive
@@ -105,7 +105,6 @@ ostree commit ${gpg_opts[*]}    \
     --branch="${ref}"           \
     --tree=ref="${commit}"      \
     --skip-if-unchanged         \
-    --add-metadata=version="${version}" \
     --subject="${SUBJECT:-}"    \
     --body="${BODY:-}"
 

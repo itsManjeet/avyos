@@ -4,7 +4,7 @@ about: A simple launcher panel for Wayland
 
 depends:
   - components/cairo.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/wayland.yml
 build-depends:
   - components/wayland-protocols.yml

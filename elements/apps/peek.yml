@@ -4,7 +4,7 @@ about: Simple screen recoder with an easy to use interface
 merge: [elements/include/appimage.inc]
 build-depends:
   - components/ffmpeg.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/keybinder.yml
   - components/gstreamer.yml
   - components/imagemagick.yml

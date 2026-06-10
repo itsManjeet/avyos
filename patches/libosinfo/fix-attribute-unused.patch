@@ -1,0 +1,13 @@
+diff --git a/osinfo/osinfo_loader.c b/osinfo/osinfo_loader.c
+index 8d08022..1fa1ec6 100644
+--- a/osinfo/osinfo_loader.c
++++ b/osinfo/osinfo_loader.c
+@@ -1902,7 +1902,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
+ }
+ 
+ static void
+-catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
++catchXMLError(void *ctx, const char *msg G_GNUC_UNUSED, ...)
+ {
+     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
+ 

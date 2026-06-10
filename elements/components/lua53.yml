@@ -10,6 +10,11 @@ depends:
 
 script: |
   patch -Np1 -i liblua53.so.patch
+
+  sed -i src/Makefile -r \
+      -e '/^LUA_(SO|A|T)=/ s;lua;lua5.3;' \
+      -e '/^LUAC_T=/ s;luac;luac5.3;'
+
   sed -i '/#define LUA_ROOT/s:/usr/local/:/usr/:' \
     src/luaconf.h
   make MYCFLAGS="$CFLAGS -fPIC" MYLDFLAGS="$LDFLAGS" linux
@@ -17,11 +22,12 @@ script: |
     INSTALL_TOP=%{install-root}/%{prefix} \
     INSTALL_DATA="cp -d" \
     INSTALL_MAN=%{install-root}/%{datadir}/man/man1   \
-    TO_LIB="liblua.so liblua.so.%{version:2} liblua.so.%{version}" \
+    TO_BIN="lua5.3 luac5.3" \
+    TO_LIB="liblua5.3.so liblua5.3.so.%{version:2} liblua5.3.so.%{version}" \
     install
   mkdir -p %{install-root}/%{libdir}/pkgconfig/
 
-  cat >%{install-root}/%{libdir}/pkgconfig/lua.pc<< EOF
+  cat >%{install-root}/%{libdir}/pkgconfig/lua5.3.pc<< EOF
   V=%{version:2}
   R=%{version}
 
@@ -34,13 +40,14 @@ script: |
   INSTALL_CMOD=%{libdir}/lua/${V}
   exec_prefix=%{prefix}
   libdir=%{libdir}
-  includedir=%{prefix}/include
+  includedir=%{prefix}/include/lua${V}
 
   Name: Lua
   Description: An Extensible Extension Language
   Version: ${R}
   Requires: 
-  Libs: -L${libdir} -llua -lm
+  Libs: -L${libdir} -llua${V}
+  Libs.private: -lm
   Cflags: -I${includedir}
 
   EOF

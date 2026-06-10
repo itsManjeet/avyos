@@ -1,11 +1,11 @@
 id: libcloudproviders
-version: 0.3.6
+version: 0.4.0
 about: Library which provides a DBus API that allows cloud storage sync clients to expose their services
 
 build-depends:
   - components/gobject-introspection.yml
   - components/vala.yml
-  - components/py/py-packaging.yml
+  - components/python-packaging.yml
 
 depends:
   - components/glib.yml

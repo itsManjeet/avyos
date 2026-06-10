@@ -1,5 +1,5 @@
 id: rofi
-version: 1.7.5
+version: 2.0.0
 about: A window switcher, application launcher and dmenu replacement
 
 build-type: meson

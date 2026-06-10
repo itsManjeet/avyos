@@ -2,28 +2,17 @@ name: Build and Release
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-      - "docs/**"
-      - ".github/workflows/update-docs.yml"
-      - "mkdocs.yml"
 
 env:
-  NO_PROGRESS: 1
-  SERVER_REPO_PATH: ${{secrets.SERVER_REPO_PATH}}
-  SERVER_REPO_URL: ${{secrets.SERVER_REPO_URL}}
-  CACHE_PATH: ${{secrets.SERVER_REPO_PATH}}
-  OSTREE_REPO: ${{secrets.OSTREE_REPO}}
-  OSTREE_GPG: ${{secrets.OSTREE_GPG}}
-  VERSION: ${{ github.run_number }}
-  SOURCEFORGE_PREFIX: ${{secrets.SOURCEFORGE_PREFIX}}
-  CHANNEL: ${{ endsWith(github.ref, 'stable') && 'stable' || 'unstable' }}
-  OSTREE_BRANCH: "x86_64/os/${{ endsWith(github.ref, 'stable') && 'stable' || 'unstable' }}"
-  APPMARKET_PATH: ${{secrets.APPMARKET_PATH}}
+  CACHE_PATH: ${{secrets.CACHE_PATH}}
+  VERSION: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || github.run_number }}
+  CHANNEL: ${{ startsWith(github.ref, 'refs/tags/') && 'stable' || 'dev' }}
   SIGN_KEYS_PATH: ${{secrets.SIGN_KEYS_PATH}}
+  SOURCEFORGE_PREFIX: ${{secrets.SOURCEFORGE_PREFIX}}
 
 jobs:
-  build:
-    name: Build Collection
+  build-world:
+    name: Build world
     runs-on: self-hosted
     timeout-minutes: 47000
 
@@ -32,79 +21,110 @@ jobs:
         with:
           token: ${{ secrets.CI_TOKEN }}
           submodules: true
+          fetch-depth: 0
       - name: Add sign keys
         run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
 
-      - name: Build system packages
-        run: make ELEMENT=platform.yml
-
       - name: Write changelog
-        run: echo "${{ github.event.head_commit.message }}" > ChangeLog
+        run: |-
+          set -e
+          git fetch --force --tags --prune
 
-      - name: Update Ostree
-        run: make ELEMENT=system/repo.yml update-ostree
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            current_ref="${GITHUB_REF_NAME}"
+            current_commit="$(git rev-list -n 1 "${current_ref}")"
+            previous_tag="$(git describe --tags --abbrev=0 "${current_commit}^" 2>/dev/null || true)"
+          else
+            current_ref="HEAD"
+            previous_tag="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          fi
 
-      - name: Update Extensions
+          if [ -n "${previous_tag}" ]; then
+            git log --format='- %s' "${previous_tag}..${current_ref}" > ChangeLog
+          else
+            git log --format='- %s' "${current_ref}" > ChangeLog
+          fi
+
+      - name: cleanup
         run: |
-          for extension_path in elements/extensions/*.yml; do
-            extension_path="$(echo ${extension_path} | cut -d '/' -f2-)"
-            extension="$(basename ${extension_path})"
-            extension="${extension%.*}"
-            OSTREE_BRANCH="x86_64/extension/${extension}/${CHANNEL}" \
-            ELEMENT=${extension_path} make update-ostree
+          rm -rf "${CACHE_PATH}/cache/system-*.pkg" "${CACHE_PATH}/cache/system-*.pkg.dbg"
+          rm -rf "${CACHE_PATH}/cache/installer-*.pkg" "${CACHE_PATH}/cache/installer-*.pkg.dbg"
+
+      - name: Build System image
+        run: make -f Makefile.ignite ELEMENT=installer/image.yml
+
+      - name: Build sysext extensions
+        run: |-
+          for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
+            make -f Makefile.ignite ELEMENT=$ext
           done
+        #  elements/extensions/i3.yml elements/extensions/openjdk.yml elements/extensions/sway.yml elements/extensions/wine.yml elements/extensions/wm-kit-x11.yml elements/extensions/wm-kit.yml
 
-      - name: Update Applications
-        run: |
-          for app_path in elements/apps/*.yml; do
-            app_path="$(echo ${app_path} | cut -d '/' -f2-)"
-            app="$(basename ${app_path})"
-            app="${app%.*}"
-            make ELEMENT=${app_path} || echo "failed to build ${app_path}"
-          done
-
-      - name: Build Installer ISO
-        run: make ELEMENT=installer/image.yml
-
-
-  update-installer-iso:
-    name: Update Installer ISO
+  update-system-image:
+    name: Update System image
     runs-on: self-hosted
-    timeout-minutes: 47000
-    needs: [ build ]
-
+    needs: [build-world]
     steps:
       - uses: actions/checkout@v1
         with:
           token: ${{ secrets.CI_TOKEN }}
           submodules: true
-      - name: Update installer ISO
+
+      - name: Cleanup old images
+        if: "!startsWith(github.ref, 'refs/tags/')"
         run: |
-          make checkout ELEMENT=installer/image.yml DESTDIR=${SERVER_REPO_PATH}/releases/${CHANNEL}/
-          (cd ${SERVER_REPO_PATH}/releases/${CHANNEL}/; zsyncmake -b 2048 -C -u ${SERVER_REPO_URL}/releases/${CHANNEL}/rlxos-${CHANNEL}-installer.iso rlxos-${CHANNEL}-installer.iso)
+            mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
+            cd ${CACHE_PATH}/releases/${CHANNEL}/
+            find . -maxdepth 1 -name "avyos-*-${CHANNEL}.img" -printf '%T@ %f\n' \
+              | sort -rn \
+              | awk 'NR > 10 {print $2}' \
+              | while read -r image; do
+                  rm -f -- "${image}" "${image}.xz" "${image}.zsync"
+                done
 
-  update-market:
-    name: Update Market
-    runs-on: self-hosted
-    needs: [ build ]
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          submodules: true
-      - name: Generate AppImages meta
-        run: make update-app-market
+      - name: Checkout system image
+        run: |
+              mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
+              rm -rf release-checkout/ && mkdir -p release-checkout
+              make -f Makefile.ignite checkout ELEMENT=installer/image.yml DESTDIR=${PWD}/release-checkout
+              cp release-checkout/avyos-${CHANNEL}-installer.iso ${CACHE_PATH}/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso
+              (cd ${CACHE_PATH}/releases/${CHANNEL}/;
+                zsyncmake -b 2048 -C -u http://repo.avyos.dev/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso avyos-${VERSION}-${CHANNEL}-installer.iso
+              )
 
-  update-mirrors:
-    name: Update ISO on mirrors
+  publish-system-image:
+    name: Publish system image
     runs-on: self-hosted
     environment: deploy
-    needs: [update-installer-iso]
+    needs: [update-system-image]
     steps:
       - uses: actions/checkout@v1
         with:
           token: ${{ secrets.CI_TOKEN }}
           submodules: true
+
       - name: Upload to sourceforge
+        run: |-
+            scp -pr ${CACHE_PATH}/releases/${CHANNEL}/ ${SOURCEFORGE_PREFIX}/
+
+  publish-updates:
+    name: Publish Updates
+    runs-on: self-hosted
+    needs: [update-system-image]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+          submodules: true
+
+      - name: Add sign keys
+        run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
+
+      - name: Publish systemd-sysupdate artifacts
+        run: make -f Makefile.ignite updates
+
+      - name: Publish extensions
         run: |
-          scp -pr ${SERVER_REPO_PATH}/releases/${CHANNEL}/ ${SOURCEFORGE_PREFIX}/
+          for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
+            make -f Makefile.ignite ELEMENT=$ext update-sysext
+          done

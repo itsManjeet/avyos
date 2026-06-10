@@ -2,8 +2,8 @@ id: 2in1
 version: 0.0.1
 about: utilities and services for 2 in 1 laptop devices
 depends:
-  - components/x11/xrandr.yml
-  - components/x11/xinput.yml
+  - components/xrandr.yml
+  - components/xinput.yml
   - components/iio-sensor-proxy.yml
 
 script: |-

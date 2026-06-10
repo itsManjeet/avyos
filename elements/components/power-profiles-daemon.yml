@@ -1,5 +1,5 @@
 id: power-profiles-daemon
-version: 0.21
+version: 0.30
 about: Makes power profiles handling available over D-Bus
 
 configure: >-
@@ -13,7 +13,7 @@ post-script: |-
 depends:
   - components/polkit.yml
   - components/upower.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 
 sources:
   - https://gitlab.freedesktop.org/hadess/power-profiles-daemon/-/archive/%{version}/power-profiles-daemon-%{version}.tar.gz

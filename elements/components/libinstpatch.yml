@@ -1,5 +1,5 @@
 id: libinstpatch
-version: 1.1.6
+version: 1.1.7
 about: Instrument file software library
 
 configure: >-

@@ -1,5 +1,5 @@
 id: jsonrpc-glib
-version: 3.44.0
+version: 3.44.2
 about: A JSON rpc library for glib
 
 depends:

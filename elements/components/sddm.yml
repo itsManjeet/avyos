@@ -26,9 +26,9 @@ depends:
   - components/pcre2.yml
   - components/krb5.yml
   - components/qt.yml
-  - components/fonts/noto.yml
-  - components/x11/xserver.yml
-  - components/x11/xauth.yml
+  - components/noto.yml
+  - components/xserver.yml
+  - components/xauth.yml
 build-depends:
   - components/extra-cmake-modules.yml
 sources:

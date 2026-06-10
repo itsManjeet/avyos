@@ -1,0 +1,17 @@
+id: gpgmepp
+version: 2.0.0
+about: C++ bindings for GPGME
+
+script: |-
+  cmake -B build -S %{build-root} \
+    -D CMAKE_INSTALL_PREFIX=%{prefix}
+  
+  cmake --build build
+
+  DESTDIR=%{install-root} cmake --install build
+
+depends:
+  - components/gpgme.yml
+
+sources:
+  - https://www.gnupg.org/ftp/gcrypt/gpgmepp/gpgmepp-%{version}.tar.xz

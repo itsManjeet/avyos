@@ -7,7 +7,7 @@ variables:
 
 depends:
   - components/glib.yml
-  - components/x11/libxau.yml
+  - components/libxau.yml
 build-depends:
   - components/gobject-introspection.yml
   - components/gtk-doc.yml

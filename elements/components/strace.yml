@@ -1,13 +1,23 @@
 id: strace
-version: 6.9
+version: 7.0
 about: A diagnostic, debugging and instructional userspace tracer
 
+run-autogen: false
+seperate-build-dir: false
+
+environ:
+    - CC=clang
+    - CXX=clang++
+
 configure: >-
-  --with-libunwind
+  --enable-mpers=no
 
 sources:
-  - https://github.com/strace/strace/releases/download/v%{version}/strace-%{version}.tar.xz
+    - https://github.com/strace/strace/releases/download/v%{version}/strace-%{version}.tar.xz
 
 depends:
-  - components/perl.yml
-  - components/libunwind.yml
+    - components/perl.yml
+    - components/llvm-runtime.yml
+
+build-depends:
+    - components/llvm.yml

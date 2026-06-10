@@ -1,0 +1,112 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2025-11-24
+Initial Package Version: 140.5.0
+Upstream Status:         Applied in mainline Firefox
+Origin:                  Upstream (phabricator D261511, 261512, 262335)
+Description:             Fixes building Firefox, Thunderbird, and Spidermonkey
+                         with Python 3.14 by adjusting to various API changes.
+                         This includes ast.Str being removed, and changing to
+                         ast.Constant.
+
+diff -Naurp firefox-140.5.0.orig/python/mach/mach/command_util.py firefox-140.5.0/python/mach/mach/command_util.py
+--- firefox-140.5.0.orig/python/mach/mach/command_util.py	2025-11-24 11:23:51.750623267 -0600
++++ firefox-140.5.0/python/mach/mach/command_util.py	2025-11-24 11:24:21.308238189 -0600
+@@ -292,7 +292,7 @@ class DecoratorVisitor(ast.NodeVisitor):
+             kwarg_dict = {}
+ 
+             for name, arg in zip(["command", "subcommand"], decorator.args):
+-                kwarg_dict[name] = arg.s
++                kwarg_dict[name] = arg.value
+ 
+             for keyword in decorator.keywords:
+                 if keyword.arg not in relevant_kwargs:
+diff -Naurp firefox-140.5.0.orig/python/mozbuild/mozbuild/frontend/reader.py firefox-140.5.0/python/mozbuild/mozbuild/frontend/reader.py
+--- firefox-140.5.0.orig/python/mozbuild/mozbuild/frontend/reader.py	2025-11-24 11:23:51.768015306 -0600
++++ firefox-140.5.0/python/mozbuild/mozbuild/frontend/reader.py	2025-11-24 11:24:52.533651548 -0600
+@@ -470,7 +470,7 @@ class TemplateFunction:
+             return c(
+                 ast.Subscript(
+                     value=c(ast.Name(id=self._global_name, ctx=ast.Load())),
+-                    slice=c(ast.Index(value=c(ast.Str(s=node.id)))),
++                    slice=c(ast.Index(value=c(ast.Constant(value=node.id)))),
+                     ctx=node.ctx,
+                 )
+             )
+@@ -1039,8 +1039,8 @@ class BuildReader:
+                 else:
+                     # Others
+                     assert isinstance(target.slice, ast.Index)
+-                    assert isinstance(target.slice.value, ast.Str)
+-                    key = target.slice.value.s
++                    assert isinstance(target.slice.value, ast.Constant)
++                    key = target.slice.value.value
+             elif isinstance(target, ast.Attribute):
+                 assert isinstance(target.attr, str)
+                 key = target.attr
+@@ -1051,11 +1051,11 @@ class BuildReader:
+             value = node.value
+             if isinstance(value, ast.List):
+                 for v in value.elts:
+-                    assert isinstance(v, ast.Str)
+-                    yield v.s
++                    assert isinstance(v, ast.Constant)
++                    yield v.value
+             else:
+-                assert isinstance(value, ast.Str)
+-                yield value.s
++                assert isinstance(value, ast.Constant)
++                yield value.value
+ 
+         assignments = []
+ 
+diff -Naurp firefox-140.5.0.orig/python/mozbuild/mozbuild/vendor/rewrite_mozbuild.py firefox-140.5.0/python/mozbuild/mozbuild/vendor/rewrite_mozbuild.py
+--- firefox-140.5.0.orig/python/mozbuild/mozbuild/vendor/rewrite_mozbuild.py	2025-11-24 11:23:51.759248622 -0600
++++ firefox-140.5.0/python/mozbuild/mozbuild/vendor/rewrite_mozbuild.py	2025-11-24 11:24:52.533818626 -0600
+@@ -327,15 +327,13 @@ def assignment_node_to_source_filename_l
+     """
+     if isinstance(node.value, ast.List) and "elts" in node.value._fields:
+         for f in node.value.elts:
+-            if not isinstance(f, ast.Constant) and not isinstance(f, ast.Str):
++            if not isinstance(f, ast.Constant):
+                 log(
+                     "Found non-constant source file name in list: ",
+                     ast_get_source_segment(code, f),
+                 )
+                 return []
+-        return [
+-            f.value if isinstance(f, ast.Constant) else f.s for f in node.value.elts
+-        ]
++        return [f.value for f in node.value.elts]
+     elif isinstance(node.value, ast.ListComp):
+         # SOURCES += [f for f in foo if blah]
+         log("Could not find the files for " + ast_get_source_segment(code, node.value))
+diff -Naurp firefox-140.5.0.orig/python/mozbuild/mozbuild/vendor/vendor_python.py firefox-140.5.0/python/mozbuild/mozbuild/vendor/vendor_python.py
+--- firefox-140.5.0.orig/python/mozbuild/mozbuild/vendor/vendor_python.py	2025-11-24 11:23:51.759208183 -0600
++++ firefox-140.5.0/python/mozbuild/mozbuild/vendor/vendor_python.py	2025-11-24 13:07:12.726375733 -0600
+@@ -40,6 +40,10 @@ EXCLUDED_PACKAGES = {
+     # modified 'dummy' version of it so that the dependency checks still succeed, but
+     # if it ever is attempted to be used, it will fail gracefully.
+     "ansicon",
++    # jsonschema 4.17.3 is incompatible with Python 3.14+,
++    # but later versions use a dependency with Rust components, which we thus can't vendor.
++    # For now we apply the minimal patch to jsonschema to make it work again.
++    "jsonschema",
+ }
+ 
+ 
+diff -Naurp firefox-140.5.0.orig/third_party/python/jsonschema/jsonschema/validators.py firefox-140.5.0/third_party/python/jsonschema/jsonschema/validators.py
+--- firefox-140.5.0.orig/third_party/python/jsonschema/jsonschema/validators.py	2025-11-24 11:23:51.358876258 -0600
++++ firefox-140.5.0/third_party/python/jsonschema/jsonschema/validators.py	2025-11-24 13:07:12.726605890 -0600
+@@ -875,8 +875,11 @@ class RefResolver:
+             return None
+         uri, fragment = urldefrag(url)
+         for subschema in subschemas:
++            id = subschema["$id"]
++            if not isinstance(id, str):
++                continue
+             target_uri = self._urljoin_cache(
+-                self.resolution_scope, subschema["$id"],
++                self.resolution_scope, id,
+             )
+             if target_uri.rstrip("/") == uri.rstrip("/"):
+                 if fragment:

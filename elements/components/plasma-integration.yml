@@ -1,0 +1,13 @@
+id: plasma-integration
+merge: [elements/include/plasma.inc]
+about: Plasma plasma-integration
+
+depends:
+  - components/kio.yml
+  - components/kwayland.yml
+  - components/libxcursor.yml
+  - components/noto.yml
+  - components/perl.yml
+build-depends:
+  - components/extra-cmake-modules.yml
+  - components/breeze.yml

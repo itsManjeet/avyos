@@ -15,7 +15,7 @@ environ:
 pre-script: |-
   patch -Np1 -i /patches/fuse2/glibc-2.34-fix.patch
 
-  autoreconf -i
+  autoreconf -fi
 
 configure: >-
   --enable-lib
@@ -37,4 +37,3 @@ build-depends:
 
 integration: |-
   chmod 4755 %{bindir}/fusermount
-

@@ -1,0 +1,15 @@
+id: xfce4-screenshooter
+version: 1.11.3
+about: xfce screenshooter
+
+depends:
+  - components/libsoup3.yml
+  - components/libxfce4ui.yml
+  - components/libxfce4util.yml
+  - components/xfce4-panel.yml
+
+build-depends:
+  - components/perl-locale-gettext.yml
+
+sources:
+  - https://archive.xfce.org/src/apps/xfce4-screenshooter/%{version:2}/xfce4-screenshooter-%{version}.tar.xz

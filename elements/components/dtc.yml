@@ -1,12 +1,16 @@
 id: dtc
-version: 1.7.0
+version: 1.7.2
 about: Device Tree Compiler
+
+pre-script: |-
+  patch -Np1 -i dtc-1.7.2-glibc_fixes-1.patch
 
 configure: >-
   -D python=disabled
 
 sources:
   - https://kernel.org/pub/software/utils/dtc/dtc-%{version}.tar.xz
+  - patches/dtc/dtc-1.7.2-glibc_fixes-1.patch
 
 depends:
   - components/glibc.yml

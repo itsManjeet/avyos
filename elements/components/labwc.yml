@@ -1,14 +1,15 @@
 
 id: labwc
-version: 0.7.2
+version: 0.20.0
 about: A Wayland window-stacking compositor
 
 sources:
-  - https://github.com/labwc/labwc/archive/refs/tags/%{version}.tar.gz
+  - labwc-%{version}.tar.gz::https://github.com/labwc/labwc/archive/refs/tags/%{version}.tar.gz
 
 depends:
   - components/libpng.yml
   - components/librsvg.yml
+  - components/libsfdo.yml
   - components/pango.yml
   - components/seatd.yml
   - components/wayland.yml

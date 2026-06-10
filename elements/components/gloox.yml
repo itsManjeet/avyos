@@ -1,5 +1,5 @@
 id: gloox
-version: 1.0.27
+version: 1.0.28
 about: C++ libraries for development of jabber client/component/server
 
 depends:

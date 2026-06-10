@@ -1,9 +1,9 @@
 id: lxappearance
-version: 0.6.3
+version: 0.6.4
 about: Feature-rich GTK+ theme switcher of the LXDE desktop
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
 build-depends:
   - components/dbus-glib.yml
   - components/intltool.yml

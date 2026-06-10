@@ -1,5 +1,5 @@
 id: xdg-user-dirs
-version: 0.18
+version: 0.20
 about: A tool to help manage well known user directories
 
 environ:
@@ -11,6 +11,8 @@ depends:
 
 build-depends:
   - components/docbook-xsl.yml
+  - components/meson.yml
+  - components/ninja.yml
 
 sources:
-  - https://user-dirs.freedesktop.org/releases/xdg-user-dirs-%{version}.tar.gz
+  - https://gitlab.freedesktop.org/xdg/xdg-user-dirs/-/archive/v%{version}/xdg-user-dirs-v%{version}.tar.gz

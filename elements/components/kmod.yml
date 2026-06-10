@@ -1,10 +1,10 @@
 id: kmod
-version: 32
+version: 34.2
 about: Libraries and utilities for loading kernel modules
 
 configure: >-
-  --with-xz 
-  --with-zstd 
+  --with-xz
+  --with-zstd
   --with-zlib
 
 post-script: |
@@ -26,3 +26,4 @@ depends:
 build-depends:
   - components/pkg-config.yml
   - components/patch.yml
+  - components/scdoc.yml

@@ -1,12 +1,12 @@
 id: wmenu
-version: 0.1.9
+version: 0.2.0
 about: Efficient dynamic menu for Wayland and wlroots based Wayland compositors
 
 depends:
   - components/cairo.yml
   - components/pango.yml
   - components/wayland.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
 
 build-depends:
   - components/meson.yml

@@ -1,5 +1,5 @@
 id: rrdtool
-version: 1.8.0
+version: 1.9.0
 about: data logging and graphing application
 
 configure: >-
@@ -14,6 +14,6 @@ depends:
   - components/pango.yml
   - components/systemd.yml
 build-depends:
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 sources:
   - https://github.com/oetiker/rrdtool-1.x/releases/download/v%{version}/rrdtool-%{version}.tar.gz

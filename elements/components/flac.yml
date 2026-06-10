@@ -1,5 +1,5 @@
 id: flac
-version: 1.4.3
+version: 1.5.0
 about: An audio CODEC similar to MP3, but lossless
 
 build-type: autotools

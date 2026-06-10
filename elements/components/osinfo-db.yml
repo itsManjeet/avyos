@@ -1,5 +1,5 @@
 id: osinfo-db
-version: 20240701
+version: 20251212
 about:
   Osinfo database of information about operating systems for virtualization provisioning
   tools

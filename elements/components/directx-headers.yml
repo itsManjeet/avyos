@@ -1,5 +1,5 @@
 id: directx-headers
-version: 1.614.0
+version: 1.619.1
 about: DirectX headers for using D3D12
 
 build-type: meson

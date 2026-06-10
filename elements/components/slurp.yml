@@ -4,7 +4,7 @@ about: Select a region in a Wayland compositor
 
 depends:
   - components/cairo.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/wayland.yml
 
 build-depends:

@@ -1,5 +1,5 @@
 id: automake
-version: 1.17
+version: 1.18.1
 
 about: Programs for generating Makefiles for use with Autoconf
 

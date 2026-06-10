@@ -1,5 +1,5 @@
 id: libsass
-version: 3.6.5
+version: 3.6.6
 about: A CSS pre-processor language
 
 pre-script: |-

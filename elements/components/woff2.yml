@@ -2,6 +2,12 @@ id: woff2
 version: 1.0.2
 about: Web Open Font Format 2 reference implementation
 
+pre-script: |-
+  patch -Np1 -i 0001-woff2-workspace.patch
+
+configure: >-
+  -D CMAKE_POLICY_VERSION_MINIMUM=3.5
+
 depends:
   - components/brotli.yml
 
@@ -9,4 +15,5 @@ build-depends:
   - components/cmake.yml
 
 sources:
-- woff2-%{version}.tar.gz::https://github.com/google/woff2/archive/refs/tags/v%{version}.tar.gz
+  - woff2-%{version}.tar.gz::https://github.com/google/woff2/archive/refs/tags/v%{version}.tar.gz
+  - patches/woff2/0001-woff2-workspace.patch

@@ -1,0 +1,18 @@
+id: llvm-runtime
+version: 22.1.5
+about: LLVM runtime libraries
+
+include-root: /sysroot
+include-depends: false
+include:
+  - components/llvm.yml
+
+script: |-
+  cd %{include-root}
+  for lib in $(find usr/lib -name "*.so*"); do
+    mkdir -p %{install-root}/$(dirname $lib)
+    cp -rap %{include-root}/$lib %{install-root}/$lib
+  done
+
+depends:
+  - components/libgcc.yml

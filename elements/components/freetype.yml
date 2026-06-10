@@ -1,5 +1,5 @@
 id: freetype
-version: 2.13.2
+version: 2.14.3
 about: Library which allows applications to properly render TrueType fonts
 
 pre-script: |

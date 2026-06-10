@@ -1,5 +1,5 @@
 id: python
-version: 3.12.4
+version: 3.14.4
 about: Python development environment
 
 build-dir: Python-%{version}
@@ -11,20 +11,19 @@ environ:
 build-type: autotools
 
 configure: >-
-  --enable-shared 
-  --with-system-expat 
-  --with-system-ffi 
-  --without-ensurepip
-  --enable-optimizations 
-  --with-lto 
-  --enable-ipv6 
+  --with-computed-gotos
+  --with-system-expat
+  --with-lto
   --with-tzpath=%{datadir}/zoneinfo
+  --enable-ipv6
+  --enable-shared
+  --enable-optimizations
   --enable-loadable-sqlite-extensions
-
+  --without-ensurepip
 
 post-script: |
-  ln -sfv python3 %{install-root}/%{bindir}/python
-  ln -sfv python3 %{install-root}/%{bindir}/py
+  ln -sv python3 %{install-root}/%{bindir}/python
+  ln -sv python3 %{install-root}/%{bindir}/py
 
 sources:
   - https://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz

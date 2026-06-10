@@ -10,7 +10,7 @@ script: |-
 
 depends:
   - components/qt.yml
-  - components/py/py-jinja2.yml
+  - components/python-jinja2.yml
 build-depends:
-  - components/py/py-pip.yml
+  - components/python-pip.yml
   - components/extra-cmake-modules.yml

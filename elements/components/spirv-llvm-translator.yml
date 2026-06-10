@@ -1,5 +1,5 @@
 id: spirv-llvm-translator
-version: 18.1.3
+version: 22.1.2
 about: SPIR-V llvm translator
 
 configure: >-

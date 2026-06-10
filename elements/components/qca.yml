@@ -1,5 +1,5 @@
 id: qca
-version: 2.3.9
+version: 2.3.10
 about: A straightforward and cross-platform crypto API, using Qt datatypes and conventions
 
 configure: >-

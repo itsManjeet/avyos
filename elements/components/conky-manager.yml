@@ -1,5 +1,5 @@
 id: conky-manager
-version: 2.4
+version: 2.7
 about: GUI for managing conky config files with options to browse and edit themes
 
 script: |-
@@ -10,7 +10,7 @@ depends:
   - components/conky.yml
   - components/cairo.yml
   - components/desktop-file-utils.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/imagemagick.yml
   - components/json-glib.yml
   - components/libgee.yml

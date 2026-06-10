@@ -1,5 +1,5 @@
 id: gcr-4
-version: 4.3.0
+version: 4.4.0.1
 about: Libraries used for displaying certificates and accessing key stores
 
 configure: >-
@@ -18,5 +18,3 @@ build-depends:
   - components/gtk-doc.yml
 sources:
   - https://download.gnome.org/sources/gcr/%{version:2}/gcr-%{version}.tar.xz
-# TODO: check and fix update url version
-# TODO: fix documentation

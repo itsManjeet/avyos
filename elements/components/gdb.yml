@@ -1,15 +1,15 @@
 id: gdb
-version: 15.1
+version: 17.1
 about: GNU debugger
 
 configure: >-
-  --with-system-readline 
+  --with-system-readline
   --with-python=%{bindir}/python3
   --disable-nls
 
 install: -C gdb DESTDIR=%{install-root}
 depends:
-  - components/py/py-six.yml
+  - components/python-six.yml
 build-depends:
   - components/texinfo.yml
 sources:

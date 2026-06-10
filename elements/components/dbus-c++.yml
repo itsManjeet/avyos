@@ -1,5 +1,5 @@
 id: dbus-c++
-version: 0.9.0
+version: 0.9.1
 about: A C++ API for D-BUS
 
 pre-script: |
@@ -19,6 +19,6 @@ depends:
   - components/libgcc.yml
   - components/glib.yml
 sources:
-  - https://sourceforge.net/projects/dbus-cplusplus/files/dbus-c++/%{version}/libdbus-c++-%{version}.tar.gz
+  - https://sourceforge.net/projects/dbus-cplusplus/assets/dbus-c++/%{version}/libdbus-c++-%{version}.tar.gz
 
 # TODO: fix patches

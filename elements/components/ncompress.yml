@@ -1,5 +1,5 @@
 id: ncompress
-version: "5.0"
+version: 5.0
 about: A fast, simple lzw file compressor
 
 depends:

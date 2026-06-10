@@ -1,5 +1,5 @@
 id: kdsoap
-version: 2.1.1
+version: 2.3.0
 about: kdsoap is Qt-based client-side and server-side SOAP component
 
 configure: >-

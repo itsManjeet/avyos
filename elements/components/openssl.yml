@@ -1,22 +1,19 @@
 id: openssl
-version: 3.3.1
-about: Package contains management tools and libraries relating to cryptography
+version: 3.6.2
+about: Free version of the TLS/crypto stack forked from OpenSSL
 
-script: |
-  ./Configure \
-    --prefix=%{prefix}  \
+script: |-
+  ./config --prefix=%{prefix} \
     --openssldir=%{sysconfdir}/ssl \
-    --libdir=lib  \
-    shared zlib-dynamic "-Wa,--noexecstack ${CXXFLAGS} ${CFLAGS} ${LDFLAGS}"
+    shared \
+    zlib-dynamic
 
-  make depend
   make ${MAKEFLAGS}
-
-  make DESTDIR=%{install-root} MANDIR=%{datadir}/man MANSUFFIX=ssl install_sw install_ssldirs install_man_docs
+  sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+  make MANSUFFIX=ssl install DESTDIR=%{install-root}
 
 depends:
   - components/glibc.yml
-  - components/perl.yml
 
 sources:
-  - https://www.openssl.org/source/openssl-%{version}.tar.gz
+  - https://github.com/openssl/openssl/releases/download/openssl-%{version}/openssl-%{version}.tar.gz

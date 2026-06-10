@@ -1,5 +1,5 @@
 id: libcap
-version: 2.70
+version: 2.78
 about: User-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
 
 script: |-

@@ -1,5 +1,5 @@
 id: rest
-version: 0.9.1
+version: 0.10.2
 about: A library that was designed to make it easier to access web services
 
 configure: >-

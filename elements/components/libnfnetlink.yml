@@ -5,4 +5,4 @@ about: low-level library for netfilter related kernel/userspace communication
 depends:
   - components/glibc.yml
 sources:
-  - https://www.netfilter.org/projects/libnfnetlink/files/libnfnetlink-%{version}.tar.bz2
+  - https://www.netfilter.org/projects/libnfnetlink/assets/libnfnetlink-%{version}.tar.bz2

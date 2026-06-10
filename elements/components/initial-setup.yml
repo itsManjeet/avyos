@@ -1,17 +1,19 @@
 id: initial-setup
-version: 2.0.12
+version: 2.0.13
 about: System Initial Setup
-merge: [ ostree-branch.yml, elements/include/rlxos.inc ]
+
+commit: 2835b2c61d0fe2cc4a92b4ae5a663057ba4a5f1f
+
+pre-script: |-
+  sed -i 's/rd.live=1/rd.avyos.live=1/g' src/Application.cxx
 
 post-script: |-
-  for script in first-boot installer ; do
-    install -Dm0755 -t "%{install-root}%{libdir}/%{id}/" /files/%{id}/${script}.sh
-    sed -i s'#@@OSTREE_BRANCH@@#%{ostree-branch}#g' %{install-root}%{libdir}/%{id}/${script}.sh
-  done
-
   install -vDm 0644 /dev/stdin %{install-root}/etc/sudoers.d/initial-setup << "EOF"
   initial-setup ALL=(ALL) NOPASSWD: ALL
   EOF
+
+  install -vDm0755 first-boot.sh %{install-root}%{libdir}/initial-setup/first-boot.sh
+  install -vDm0755 installer.sh %{install-root}%{libdir}/initial-setup/installer.sh
 
   install -vDm0644 /dev/stdin %{install-root}/%{sysconfdir}/lightdm/lightdm.conf.d/12-initial-setup.conf << "EOF"
   [SeatDefaults]
@@ -138,7 +140,7 @@ post-script: |-
     </property>
   </channel>
   EOF
-  
+
   install -vDm 0644 /dev/stdin %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.config/autostart/welcome.desktop << "EOF"
   [Desktop Entry]
   Hidden=true
@@ -149,7 +151,7 @@ post-script: |-
   x-scheme-handler/http=firefox.desktop
   x-scheme-handler/https=firefox.desktop
   EOF
-  
+
   touch %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.welcome-done
 
   install -vDm 0644 /dev/stdin %{install-root}/%{datadir}/factory/%{localstatedir}/lib/initial-setup/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << "EOF"
@@ -185,5 +187,8 @@ post-script: |-
 depends:
   - components/gtkmm.yml
   - components/glib.yml
-  - components/gparted.yml
-  - components/lightdm.yml
+
+sources:
+  - initial-setup-%{commit}.tar.gz::https://github.com/itsManjeet/initial-setup/archive/%{commit}.tar.gz
+  - files/initial-setup/first-boot.sh
+  - files/initial-setup/installer.sh

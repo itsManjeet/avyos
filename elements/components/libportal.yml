@@ -1,5 +1,5 @@
 id: libportal
-version: 0.7.1
+version: 0.9.1
 about: A library that contains GIO-style async APIs for most Flatpak portals
 
 configure: >-
@@ -7,7 +7,7 @@ configure: >-
 
 depends:
   - components/glib.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/gtk4.yml
 build-depends:
   - components/gtk-doc.yml

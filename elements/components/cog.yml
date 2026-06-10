@@ -20,7 +20,7 @@ depends:
   - components/wpewebkit.yml
   - components/wayland.yml
   - components/openjpeg.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
 
 build-depends:
   - components/wayland-protocols.yml

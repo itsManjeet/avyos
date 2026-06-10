@@ -1,5 +1,5 @@
 id: squashfs-tools
-version: 4.6.1
+version: 4.7.5
 about: |
   Tools for squashfs, a highly compressed read-only filesystem for Linux
 

@@ -1,5 +1,5 @@
 id: weston
-version: 12.0.2
+version: 15.0.1
 about: reference implementation of wayland compositor
 
 depends:
@@ -10,7 +10,7 @@ depends:
   - components/wayland.yml
   - components/seatd.yml
   - components/graphite2.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/libinput.yml
   - components/libjpeg-turbo.yml
   - components/libwebp.yml

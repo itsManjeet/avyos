@@ -1,4 +1,4 @@
-DISTRIB_ID="rlxos"
+DISTRIB_ID="avyos"
 DISTRIB_RELEASE="@version@"
 DISTRIB_CODENAME="@codename@"
-DISTRIB_DESCRIPTION="rlxos @version@ @codename@"
+DISTRIB_DESCRIPTION="avyos @version@ @codename@"

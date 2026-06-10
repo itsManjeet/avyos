@@ -1,0 +1,28 @@
+id: xfce4-panel-profiles
+version: 1.1.1
+about: Application to manage xfce panel layouts
+
+pre-script: |-
+  sed -i '11d' org.xfce.PanelProfiles.desktop.in
+
+script: |-
+  ./configure --prefix=%{prefix} --python=python3
+  make ${MAKEFLAGS}
+  make install DESTDIR=%{install-root}
+
+  # cleanup default layouts
+  rm %{install-root}%{datadir}/xfce4-panel-profiles/layouts/*
+
+  # Install avyos provided layouts
+  cp /files/layouts/*.tar.bz2 %{install-root}%{datadir}/xfce4-panel-profiles/layouts/
+
+  # Why executable??
+  chmod -x %{install-root}%{datadir}/icons/hicolor/*/apps/org.xfce.PanelProfiles.*
+
+depends:
+  - components/python-gobject.yml
+  - components/python-psutil.yml
+  - components/xfce4-panel.yml
+
+sources:
+  - https://github.com/xfce-mirror/xfce4-panel-profiles/archive/refs/tags/xfce4-panel-profiles-%{version}.tar.gz

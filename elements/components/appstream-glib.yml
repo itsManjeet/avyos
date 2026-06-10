@@ -6,7 +6,7 @@ configure: >
   -D rpm=false
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libyaml.yml
   - components/librsvg.yml
   - components/curl.yml

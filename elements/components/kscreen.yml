@@ -1,0 +1,11 @@
+id: kscreen
+about: Plasma kscreen
+
+depends:
+  - components/libkscreen.yml
+  - components/plasma-framework.yml
+build-depends:
+  - components/extra-cmake-modules.yml
+  - components/kcmutils.yml
+
+merge: [elements/include/plasma.inc]

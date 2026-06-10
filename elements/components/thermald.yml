@@ -1,5 +1,5 @@
 id: thermald
-version: 2.5.4
+version: 2.5.11
 about: Linux Thermal Daemon program
 
 build-type: autotools

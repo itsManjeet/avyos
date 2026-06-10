@@ -1,10 +1,11 @@
 id: kernel-headers
-merge: [elements/include/linux.inc]
+merge: [ elements/include/linux.inc ]
 about: Linux kernel, modules and headers
 
 strip: false
+
 build-depends:
-  - bootstrap.yml
+  - bootstrap/base-image.yml
 
 script: |
   make headers
@@ -15,4 +16,4 @@ script: |
   cp -rv usr/include/* %{install-root}/usr/include/
 
 sources:
-  - https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
+  - https://www.kernel.org/pub/linux/kernel/v%{version:1}.x/linux-%{version}.tar.xz

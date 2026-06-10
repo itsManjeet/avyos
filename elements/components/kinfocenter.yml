@@ -1,5 +1,5 @@
 id: kinfocenter
-version: 5.27.7.1
+version: 6.6.4
 about: Plasma kinfocenter
 
 configure: >-
@@ -14,7 +14,7 @@ depends:
 build-depends:
   - components/extra-cmake-modules.yml
   - components/kdoctools.yml
-  - components/plasma/plasma-framework.yml
+  - components/plasma-framework.yml
   - components/kcmutils.yml
 sources:
   - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz

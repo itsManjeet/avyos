@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ignite Dashboard</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="shell-header">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <div>
+      <h1>ignite</h1>
+      <span id="arch-tag" class="meta-text">x86_64</span>
+    </div>
+  </div>
+
+  <nav class="nav-tabs" aria-label="Dashboard">
+    <a href="#/" data-route="overview">Overview</a>
+    <a href="#/components" data-route="components">Components</a>
+    <a href="#/builds" data-route="builds">Builds</a>
+  </nav>
+
+  <div class="header-actions">
+    <button id="build-selected" class="primary" disabled>Build selected (0)</button>
+    <button id="fetch-sources">Fetch sources</button>
+  </div>
+</header>
+
+<main class="page-shell">
+  <section id="page-overview" class="page">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">System build state</p>
+        <h2>Overview</h2>
+      </div>
+      <button id="overview-refresh">Refresh</button>
+    </div>
+    <div class="prana-divider"></div>
+    <div class="metric-grid">
+      <article class="metric">
+        <span class="metric-label">Total</span>
+        <strong id="c-total">0</strong>
+      </article>
+      <article class="metric good">
+        <span class="metric-label">Cached</span>
+        <strong id="c-cached">0</strong>
+      </article>
+      <article class="metric warn">
+        <span class="metric-label">Waiting</span>
+        <strong id="c-waiting">0</strong>
+      </article>
+      <article class="metric cool">
+        <span class="metric-label">Workspace</span>
+        <strong id="c-workspace">0</strong>
+      </article>
+      <article class="metric bad">
+        <span class="metric-label">Broken</span>
+        <strong id="c-broken">0</strong>
+      </article>
+    </div>
+    <div class="overview-grid">
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Recent builds</h3>
+          <a href="#/builds">View all</a>
+        </div>
+        <div id="overview-builds" class="stack-list"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Waiting components</h3>
+          <a href="#/components?state=waiting">Open list</a>
+        </div>
+        <div id="overview-waiting" class="stack-list"></div>
+      </section>
+    </div>
+  </section>
+
+  <section id="page-components" class="page">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Recipe pool</p>
+        <h2>Components</h2>
+      </div>
+      <div class="toolbar">
+        <input id="filter" type="search" placeholder="Search id, version, about" />
+        <select id="state-filter" aria-label="State">
+          <option value="">All states</option>
+          <option value="waiting">Waiting</option>
+          <option value="cached">Cached</option>
+          <option value="workspace">Workspace</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+    </div>
+    <div class="prana-divider"></div>
+    <section class="panel table-panel">
+      <div class="table-meta">
+        <span id="components-count">0 components</span>
+        <div class="pager">
+          <button id="page-prev">Previous</button>
+          <span id="page-label">Page 1</span>
+          <button id="page-next">Next</button>
+          <select id="page-size" aria-label="Rows per page">
+            <option>25</option>
+            <option selected>50</option>
+            <option>100</option>
+            <option>200</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="recipes-table">
+          <thead>
+            <tr>
+              <th class="check-cell"><input type="checkbox" id="select-all" /></th>
+              <th>Component</th>
+              <th>Version</th>
+              <th>State</th>
+              <th>Depends</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="recipes-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <section id="page-component" class="page">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Component</p>
+        <h2 id="component-title">Component</h2>
+      </div>
+      <div class="header-actions local">
+        <a class="button" href="#/components">Back</a>
+        <button id="component-build" class="primary">Build</button>
+      </div>
+    </div>
+    <div class="prana-divider"></div>
+    <div class="component-grid">
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Overview</h3>
+          <span id="component-state"></span>
+        </div>
+        <div id="component-overview" class="definition"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Last build</h3>
+          <button id="component-log-refresh">Refresh</button>
+        </div>
+        <div id="component-builds" class="stack-list compact"></div>
+      </section>
+      <section class="panel wide">
+        <div class="panel-head">
+          <h3>Last build logs</h3>
+          <span id="component-log-job" class="meta-text"></span>
+        </div>
+        <pre id="component-logs" class="logs">No build log selected.</pre>
+      </section>
+      <section class="panel wide">
+        <div class="panel-head"><h3>Recipe data</h3></div>
+        <div id="component-data" class="recipe-data"></div>
+      </section>
+    </div>
+  </section>
+
+  <section id="page-builds" class="page">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Build queue</p>
+        <h2>Builds</h2>
+      </div>
+      <button id="refresh-builds">Refresh</button>
+    </div>
+    <div class="prana-divider"></div>
+    <div class="builds-layout">
+      <section class="panel">
+        <div class="panel-head"><h3>Queue and history</h3></div>
+        <div id="builds-body" class="stack-list builds-list"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Logs</h3>
+          <button id="logs-clear">Clear</button>
+        </div>
+        <pre id="logs" class="logs">Select a build to stream logs.</pre>
+      </section>
+    </div>
+  </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

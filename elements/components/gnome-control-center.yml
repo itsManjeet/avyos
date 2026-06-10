@@ -1,5 +1,5 @@
 id: gnome-control-center
-version: 44.3
+version: 50.1
 about: Control Center package contains the GNOME settings manager
 
 pre-script: |-
@@ -12,8 +12,8 @@ depends:
   - components/accountsservice.yml
   - components/clutter-gtk.yml
   - components/colord-gtk.yml
-  - components/gnome/gnome-online-accounts.yml
-  - components/gnome/gnome-settings-daemon.yml
+  - components/gnome-online-accounts.yml
+  - components/gnome-settings-daemon.yml
   - components/grilo.yml
   - components/gsound.yml
   - components/libgtop.yml
@@ -23,7 +23,7 @@ depends:
   - components/udisks.yml
   - components/cups.yml
   - components/samba.yml
-  - components/gnome/gnome-bluetooth.yml
+  - components/gnome-bluetooth.yml
   - components/ibus.yml
   - components/libhandy.yml
   - components/libnma.yml

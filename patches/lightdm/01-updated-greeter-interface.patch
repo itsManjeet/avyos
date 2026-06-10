@@ -1,0 +1,143 @@
+diff --git a/src/lightdm-gtk-greeter.c b/src/lightdm-gtk-greeter.c
+index 1373bbf..c86d54b 100644
+--- a/src/lightdm-gtk-greeter.c
++++ b/src/lightdm-gtk-greeter.c
+@@ -3333,6 +3333,7 @@ main (int argc, char **argv)
+     gtk_css_provider_load_from_data (css_provider, lightdm_gtk_greeter_css_application, lightdm_gtk_greeter_css_application_length, NULL);
+     gtk_style_context_add_provider_for_screen (gdk_screen_get_default (), GTK_STYLE_PROVIDER (css_provider),
+                                                GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
++
+     css_provider = gtk_css_provider_new ();
+     if (gtk_style_context_lookup_color (gtk_widget_get_style_context (GTK_WIDGET (login_window)),
+                                         "lightdm-gtk-greeter-override-defaults",
+diff --git a/src/lightdm-gtk-greeter.glade b/src/lightdm-gtk-greeter.glade
+index 31d9541..6f34396 100644
+--- a/src/lightdm-gtk-greeter.glade
++++ b/src/lightdm-gtk-greeter.glade
+@@ -359,8 +359,8 @@
+     <property name="name">login_window</property>
+     <property name="visible">True</property>
+     <property name="can_focus">False</property>
+-    <property name="halign">start</property>
+-    <property name="valign">start</property>
++    <property name="halign">center</property>
++    <property name="valign">center</property>
+     <child>
+       <object class="GtkBox" id="login_box">
+         <property name="name">login_box</property>
+@@ -375,14 +375,14 @@
+             <property name="label_xalign">0</property>
+             <property name="shadow_type">none</property>
+             <child>
+-              <object class="GtkGrid" id="grid1">
++              <object class="GtkBox" id="grid1">
+                 <property name="visible">True</property>
+                 <property name="can_focus">False</property>
+-                <property name="margin_left">24</property>
+-                <property name="margin_right">24</property>
+-                <property name="margin_top">24</property>
+-                <property name="row_spacing">6</property>
+-                <property name="column_spacing">18</property>
++                <property name="margin_left">32</property>
++                <property name="margin_right">32</property>
++                <property name="margin_top">32</property>
++                <property name="orientation">vertical</property>
++                <property name="spacing">12</property>
+                 <child>
+                   <object class="GtkFrame" id="user_image_border">
+                     <property name="name">user_image_border</property>
+@@ -392,29 +392,24 @@
+                     <property name="valign">center</property>
+                     <property name="label_xalign">0</property>
+                     <property name="shadow_type">none</property>
++                    <property name="margin_bottom">12</property>
+                     <child>
+                       <object class="GtkImage" id="user_image">
+                         <property name="name">user_image</property>
+                         <property name="visible">True</property>
+                         <property name="can_focus">False</property>
+-                        <property name="pixel_size">80</property>
++                        <property name="pixel_size">96</property>
+                         <property name="icon_name">avatar-default</property>
+                       </object>
+                     </child>
+                   </object>
+-                  <packing>
+-                    <property name="left_attach">0</property>
+-                    <property name="top_attach">0</property>
+-                    <property name="height">3</property>
+-                  </packing>
+                 </child>
+                 <child>
+                   <object class="GtkComboBox" id="user_combobox">
+                     <property name="name">user_combobox</property>
+-                    <property name="width_request">200</property>
++                    <property name="width_request">240</property>
+                     <property name="can_focus">False</property>
+                     <property name="valign">center</property>
+-                    <property name="margin_top">12</property>
+                     <property name="hexpand">True</property>
+                     <property name="model">user_liststore</property>
+                     <signal name="changed" handler="user_combobox_active_changed_cb" swapped="no"/>
+@@ -427,10 +422,6 @@
+                       </attributes>
+                     </child>
+                   </object>
+-                  <packing>
+-                    <property name="left_attach">1</property>
+-                    <property name="top_attach">0</property>
+-                  </packing>
+                 </child>
+                 <child>
+                   <object class="GtkEntry" id="username_entry">
+@@ -438,19 +429,15 @@
+                     <property name="can_focus">True</property>
+                     <property name="hexpand">True</property>
+                     <property name="invisible_char">•</property>
+-                    <property name="placeholder_text" translatable="yes">Enter your username</property>
++                    <property name="placeholder_text" translatable="yes">Username</property>
+                     <signal name="focus-out-event" handler="username_focus_out_cb" swapped="no"/>
+                     <signal name="key-press-event" handler="username_key_press_cb" swapped="no"/>
+                   </object>
+-                  <packing>
+-                    <property name="left_attach">1</property>
+-                    <property name="top_attach">1</property>
+-                  </packing>
+                 </child>
+                 <child>
+                   <object class="GtkEntry" id="password_entry">
+                     <property name="name">prompt_entry</property>
+-                    <property name="width_request">200</property>
++                    <property name="width_request">240</property>
+                     <property name="visible">True</property>
+                     <property name="can_focus">True</property>
+                     <property name="margin_bottom">12</property>
+@@ -459,14 +446,10 @@
+                     <property name="invisible_char">•</property>
+                     <property name="primary_icon_activatable">False</property>
+                     <property name="secondary_icon_activatable">False</property>
+-                    <property name="placeholder_text" translatable="yes">Enter your password</property>
++                    <property name="placeholder_text" translatable="yes">Password</property>
+                     <signal name="activate" handler="login_cb" swapped="no"/>
+                     <signal name="key-press-event" handler="password_key_press_cb" swapped="no"/>
+                   </object>
+-                  <packing>
+-                    <property name="left_attach">1</property>
+-                    <property name="top_attach">2</property>
+-                  </packing>
+                 </child>
+               </object>
+             </child>
+@@ -538,9 +521,9 @@
+               <object class="GtkBox" id="box2">
+                 <property name="visible">True</property>
+                 <property name="can_focus">False</property>
+-                <property name="margin_left">24</property>
+-                <property name="margin_right">24</property>
+-                <property name="margin_bottom">24</property>
++                <property name="margin_left">32</property>
++                <property name="margin_right">32</property>
++                <property name="margin_bottom">32</property>
+                 <child>
+                   <object class="GtkButton" id="cancel_button">
+                     <property name="label" translatable="yes">Cancel</property>

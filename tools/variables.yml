@@ -1,0 +1,18 @@
+variables:
+  prefix: "/usr"
+  sysconfdir: "/etc"
+  libexecdir: "/usr/lib"
+  libdir: "/usr/lib"
+  bindir: "/usr/bin"
+  sbindir: "/usr/bin"
+  datadir: "/usr/share"
+  localstatedir: "/var"
+
+  artifact-server: https://repo.avyos.dev/
+
+  run-autogen: true
+  seperate-build-dir: true
+
+  configure: ""
+  install: ""
+  compile: ""

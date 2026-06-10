@@ -1,5 +1,5 @@
 id: gnupg
-version: 2.4.5
+version: 2.5.19
 about: GNU's tool for secure communication and data storage
 
 pre-script: |-

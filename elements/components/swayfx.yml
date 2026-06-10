@@ -1,9 +1,9 @@
 id: swayfx
-version: 0.4
+version: 0.5.3
 about: Sway, but with eye candy!
 
 pre-script: |-
-  sed -i "s/branch \\\'@1@\\\'/rlxos/g" meson.build
+  sed -i "s/branch \\\'@1@\\\'/avyos/g" meson.build
 post-script: |-
   install -v -D -m 0644 /dev/stdin %{install-root}%{sysconfdir}/sway/config.d/50-systemd-user.conf << "EOF"
   exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
@@ -44,8 +44,8 @@ depends:
   - components/systemd.yml
   - components/wayland.yml
   - components/wlroots.yml
-  - components/x11/libxcb.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxcb.yml
+  - components/libxkbcommon.yml
   - components/pango.yml
   - components/pcre.yml
   - components/seatd.yml

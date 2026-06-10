@@ -1,5 +1,5 @@
 depends:
-  - components/xfce4/thunar.yml
+  - components/thunar.yml
 
 build-depends:
   - components/intltool.yml

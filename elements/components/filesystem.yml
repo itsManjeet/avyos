@@ -1,6 +1,6 @@
 id: filesystem
-version: 0.0.3
-about: rlxos filesystem
+version: 3.0
+about: avyos filesystem
 strip: false
 clean-empty-dir: false
 
@@ -55,9 +55,9 @@ script: |
   ln -s usr/bin %{install-root}/sbin
   ln -s bin %{install-root}/usr/sbin
 
-  install -D -m644 /files/filesystem/sysusers %{install-root}/%{libdir}/sysusers.d/rlxos.conf
-  install -D -m644 /files/filesystem/tmpfiles %{install-root}/%{libdir}/tmpfiles.d/rlxos.conf
-  install -D -m755 /files/filesystem/env-generator %{install-root}/%{libdir}/systemd/system-environment-generators/10-rlxos
+  install -D -m644 /files/filesystem/sysusers %{install-root}/%{libdir}/sysusers.d/avyos.conf
+  install -D -m644 /files/filesystem/tmpfiles %{install-root}/%{libdir}/tmpfiles.d/avyos.conf
+  install -D -m755 /files/filesystem/env-generator %{install-root}/%{libdir}/systemd/system-environment-generators/10-avyos
 
 
 depends:

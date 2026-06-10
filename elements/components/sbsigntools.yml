@@ -3,8 +3,13 @@ version: 0.9.4
 about: Tools to add signatures to EFI binaries and Drivers
 
 build-type: autotools
+
+pre-script: |-
+  patch -Np1 -i /patches/sbsigntools/OpenSSL3.patch
+
 configure: >-
   CFLAGS="${CFLAGS} -Wno-error=deprecated-declarations -Wno-error"
+
 depends:
   - components/glibc.yml
   - components/util-linux.yml

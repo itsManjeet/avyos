@@ -1,5 +1,5 @@
 id: glibmm
-version: 2.80.0
+version: 2.88.0
 about: A set of C++ bindings for GLib
 
 variables:

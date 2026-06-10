@@ -1,5 +1,5 @@
 id: distrobox
-version: 1.7.2.1
+version: 1.8.2.5
 about: Use any Linux distribution inside your terminal
 
 script: |-

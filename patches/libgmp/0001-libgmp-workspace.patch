@@ -1,0 +1,12 @@
+diff -Naur a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4	2026-04-16 05:16:00.186204071 +0000
++++ b/acinclude.m4	2026-04-16 05:16:00.314203620 +0000
+@@ -609,7 +609,7 @@
+ 
+ #if defined (__GNUC__) && ! defined (__cplusplus)
+ typedef unsigned long long t1;typedef t1*t2;
+-void g(){}
++void g(int,t1 const*,t1,t2,t1 const*,int){}
+ void h(){}
+ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
+ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}

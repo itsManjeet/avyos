@@ -1,18 +1,14 @@
 id: coreutils
-version: 9.5
+version: 9.11
 about: Utilities for showing and setting the basic system characteristics
 
 build-dir: coreutils-%{version}
-
-pre-script: |
-  autoreconf -fiv
 
 environ:
   - FORCE_UNSAFE_CONFIGURE=1
 
 configure: >-
-  --enable-no-install-program=kill,uptime 
-  --with-openssl 
+  --with-openssl
 
 depends:
   - components/glibc.yml

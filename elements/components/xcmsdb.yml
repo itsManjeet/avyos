@@ -1,0 +1,13 @@
+id: xcmsdb
+version: 1.0.7
+about: Device Color Characterization utility for X Color Management System
+
+depends:
+  - components/libx11.yml
+
+build-depends:
+  - components/util-macros.yml
+
+sources:
+  - https://www.x.org/pub/individual/app/xcmsdb-%{version}.tar.xz
+

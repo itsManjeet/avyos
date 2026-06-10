@@ -3,6 +3,6 @@ version: 0.0.1
 about: Test golang source builder
 
 variables:
-  go-pkg: rlxos/src/integrity
+  go-pkg: avyos/src/integrity
 
 build-type: go-pkg

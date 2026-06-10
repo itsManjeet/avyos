@@ -1,6 +1,9 @@
 id: graphviz
-version: 12.0.0
+version: 14.1.5
 about: Graph visualization software
+
+build-type: cmake
+
 depends:
   - components/pango.yml
   - components/cairo.yml
@@ -8,12 +11,10 @@ depends:
   - components/libwebp.yml
   - components/poppler.yml
   - components/librsvg.yml
+
 build-depends:
   - components/git.yml
+  - components/cmake.yml
+
 sources:
   - https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
-pre-script: |
-  find /lib/ -name "*.la" -delete
-  sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
-
-build-type: autotools

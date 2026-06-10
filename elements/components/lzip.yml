@@ -1,5 +1,5 @@
 id: lzip
-version: 1.23
+version: 1.26
 about: A lossless file compressor based on the LZMA algorithm
 
 depends:

@@ -1,5 +1,5 @@
 id: optipng
-version: 0.7.7
+version: 7.9.1
 about: Compresses PNG files to smaller size without losing any information
 
 script: |-

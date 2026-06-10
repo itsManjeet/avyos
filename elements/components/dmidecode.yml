@@ -1,5 +1,5 @@
 id: dmidecode
-version: 3.5
+version: 3.7
 about: Desktop Management Interface table related utilities
 
 script: |-

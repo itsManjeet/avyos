@@ -15,6 +15,7 @@ script: |-
 build-depends:
   - components/zstd.yml
   - components/rdfind.yml
+  - components/parallel.yml
 
 sources:
-  - https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-%{version}.tar.gz
+  - https://gitlab.com/kernel-firmware/linux-firmware/-/archive/20260309/linux-firmware-%{version}.tar.gz

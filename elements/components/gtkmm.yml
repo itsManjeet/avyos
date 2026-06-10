@@ -7,7 +7,7 @@ variables:
 
 depends:
   - components/atkmm2.28.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/cairomm1.14.yml
   - components/pangomm2.46.yml
 

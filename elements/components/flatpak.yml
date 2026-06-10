@@ -1,5 +1,5 @@
 id: flatpak
-version: 1.15.9
+version: 1.16.6
 about: Linux application sandboxing and distribution framework
 
 post-script: |
@@ -31,7 +31,7 @@ depends:
   - components/polkit.yml
   - components/python.yml
   - components/systemd.yml
-  - components/py/py-parsing.yml
+  - components/python-parsing.yml
   - components/xdg-dbus-proxy.yml
   - components/libseccomp.yml
 

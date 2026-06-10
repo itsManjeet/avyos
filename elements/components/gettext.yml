@@ -1,5 +1,5 @@
 id: gettext
-version: 0.22.5
+version: 1.0
 about: Utilities for internationalization and localization
 
 build-dir: gettext-%{version}
@@ -27,4 +27,3 @@ depends:
 
 sources:
   - https://ftp.gnu.org/gnu/gettext/gettext-%{version}.tar.xz
-

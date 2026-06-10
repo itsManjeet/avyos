@@ -10,7 +10,7 @@ configure: >-
 
 depends:
   - components/gtk-layer-shell.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/json-c.yml
 
 build-depends:

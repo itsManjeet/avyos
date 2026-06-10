@@ -1,5 +1,5 @@
 id: wob
-version: 0.15.1
+version: 0.16
 about: A lightweight overlay volume/backlight/progress/anything bar for Wayland
 
 configure: >-

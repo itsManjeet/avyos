@@ -1,0 +1,40 @@
+id: gnome-shell
+version: 50.1
+about: Core user interface for GNOME Desktop Environment
+
+depends:
+  - components/networkmanager.yml
+  - components/accountsservice.yml
+  - components/dconf.yml
+  - components/evolution-data-server.yml
+  - components/startup-notification.yml
+  - components/upower.yml
+  - components/gdm.yml
+  - components/gnome-bluetooth.yml
+  - components/gnome-desktop.yml
+  - components/gnome-settings-daemon.yml
+  - components/mutter.yml
+  - components/adwaita-icon-theme.yml
+  - components/gcr-4.yml
+  - components/gjs.yml
+  - components/glib.yml
+  - components/gobject-introspection.yml
+  - components/gstreamer.yml
+  - components/gtk4.yml
+  - components/libsoup.yml
+  - components/gnome-autoar.yml
+  - components/libgnomekbd.yml
+  - components/libgweather.yml
+  - components/geoclue.yml
+
+build-depends:
+  - components/sassc.yml
+
+sources:
+  - https://download.gnome.org/sources/gnome-shell/%{version:2}/gnome-shell-%{version}.tar.xz
+
+configure: >-
+  --buildtype=release
+  -Dextensions_app=false
+  -Dextensions-tool:bash_completion=disabled
+  -Dtests=false

@@ -1,15 +1,20 @@
 id: x265
-version: 20240216
+version: 4.2
 about: Package provides a library for encoding video streams into the H.265/HEVC format
 
-build-dir: x265-%{version}/source
+pre-script: |-
+  sed -r '/cmake_policy.*(0025|0054)/d' -i CMakeLists.txt
+
+build-dir: x265_%{version}/source
 
 configure: >-
-  -DGIT_ARCHETYPE=1
+  -D GIT_ARCHIVE=1
+  -D CMAKE_POLICY_VERSION_MINIMUM=3.5
+  -W no-dev
 
 build-depends:
   - components/nasm.yml
   - components/cmake.yml
 
 sources:
-  - https://anduin.linuxfromscratch.org/BLFS/x265/x265-%{version}.tar.xz
+  - https://bitbucket.org/multicoreware/x265_git/downloads/x265_%{version}.tar.gz

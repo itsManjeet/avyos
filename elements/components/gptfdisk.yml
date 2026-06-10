@@ -3,12 +3,6 @@ version: 1.0.10
 about: A text-mode partitioning tool that works on GUID Partition Table (GPT) disks
 
 pre-script: |-
-  patch -Np1 -i /patches/%{id}/popt-1.19.patch
-  patch -Np1 -i /patches/%{id}/util-linux-2.38.patch
-
-  # https://sourceforge.net/p/gptfdisk/code/merge-requests/28/
-  patch -Np1 -i /patches/%{id}/popt-1.19-follow-up.patch
-
   # https://sourceforge.net/p/gptfdisk/discussion/939590/thread/bc29ca06f8/
   sed -i '/^#include /s:ncursesw/::' gptcurses.cc
 

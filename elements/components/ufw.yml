@@ -18,6 +18,6 @@ depends:
   - components/iptables.yml
   - components/python.yml
 build-depends:
-  - components/py/py-setuptools.yml
+  - components/python-setuptools.yml
 sources:
   - https://launchpad.net/ufw/%{version:2}/%{version}/+download/ufw-%{version}.tar.gz

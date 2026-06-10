@@ -1,11 +1,11 @@
 id: lightdm-gtk-greeter-settings
-version: 1.2.2
+version: 1.2.3
 about: Settings editor for the LightDM GTK+ Greeter
 
 depends:
   - components/gtk4.yml
-  - components/py/py-gobject.yml
-  - components/py/py-distutils-extra.yml
+  - components/python-gobject.yml
+  - components/python-distutils-extra.yml
 
 install: --xfce-integration
 

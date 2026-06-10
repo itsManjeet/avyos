@@ -1,0 +1,12 @@
+id: python-cython
+version: 3.2.4
+about: C Extension for python
+
+depends:
+  - components/python.yml
+
+build-depends:
+  - components/python-setuptools.yml
+
+sources:
+  - https://github.com/cython/cython/releases/download/%{version}/Cython-%{version}.tar.gz

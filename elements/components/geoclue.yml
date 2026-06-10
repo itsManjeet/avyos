@@ -1,5 +1,5 @@
 id: geoclue
-version: 2.7.1
+version: 2.8.1
 about: A modular geoinformation service built on top of the D-Bus messaging system
 
 configure: >-

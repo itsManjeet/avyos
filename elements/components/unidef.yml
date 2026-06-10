@@ -2,6 +2,10 @@ id: unidef
 version: 2.12
 about: Utility that is useful for removing preprocessor conditionals from code
 
+pre-script: |-
+  sed -i 's/constexpr/unifdef_&/g' unifdef.c
+  sed -i 's/ln -s/ln -sf/' Makefile
+
 script: |-
   make ${MAKEFLAGS}
   make prefix=%{prefix} install DESTDIR=%{install-root}

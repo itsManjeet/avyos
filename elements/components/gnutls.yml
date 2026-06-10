@@ -1,10 +1,9 @@
 id: gnutls
-version: 3.8.6
-about:
-  Libraries and userspace tools which provide a secure layer over a reliable
-  transport layer
+version: 3.8.13
+about: Libraries and userspace tools which provide a secure layer over a reliable transport layer
 
 configure: >-
+  --enable-openssl-compatibility
   --with-default-trust-store-pkcs11="pkcs11:"
 
 depends:

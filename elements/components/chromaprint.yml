@@ -1,12 +1,6 @@
 id: chromaprint
-version: 1.5.1
+version: 1.6.0
 about: Library for extracting fingerprints from any audio source
-
-pre-script: |-
-  # patch -p1 -i aa67c95b.patch
-  patch -p1 -i ffmpeg-5-fix.patch
-  sed -e '/CMAKE_CXX_STANDARD/d' -i CMakeLists.txt
-  patch -p1 -i ffmpeg-7.patch
 
 configure: >
   -DCMAKE_BUILD_TYPE='None'
@@ -25,5 +19,3 @@ build-depends:
 sources:
   - https://github.com/acoustid/chromaprint/archive/v%{version}/chromaprint-%{version}.tar.gz
   - https://github.com/acoustid/chromaprint/commit/aa67c95b.patch
-  - patches/chromaprint/ffmpeg-7.patch
-  - patches/chromaprint/ffmpeg-5-fix.patch

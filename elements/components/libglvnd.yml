@@ -3,10 +3,10 @@ version: 1.7.0
 about: The GL Vendor Neutral Dispatch library
 
 build-depends:
-  - components/x11/libxext.yml
-  - components/x11/libx11.yml
-  - components/x11/xorgproto.yml
-  
+  - components/libxext.yml
+  - components/libx11.yml
+  - components/xorgproto.yml
+
 sources:
   - https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v%{version}/libglvnd-v%{version}.tar.gz
 

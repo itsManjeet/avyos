@@ -1,0 +1,9 @@
+id: python-socks
+version: 1.7.0
+about: SOCKS4, SOCKS5 or HTTP proxy (Anorov fork PySocks replaces socksipy)
+release: 0
+depends:
+- components/python.yml
+- components/python-setuptools.yml
+sources:
+- PySocks-%{version}.tar.gz::https://github.com/Anorov/PySocks/archive/refs/tags/%{version}.tar.gz

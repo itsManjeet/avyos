@@ -6,7 +6,7 @@ configure: >-
   --buildtype=release
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
 build-depends:
   - components/vala.yml
   - components/gobject-introspection.yml

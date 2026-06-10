@@ -1,5 +1,5 @@
 id: inxi
-version: 3.3.08
+version: 3.3.40.1
 about: Full featured cli system information tool
 
 script: |-

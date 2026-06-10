@@ -1,5 +1,5 @@
 id: libyaml-cpp
-version: 0.7.0
+version: 0.9.0
 about: YAML parser and emitter in c++
 
 configure: >-
@@ -12,8 +12,10 @@ configure: >-
 
 depends:
   - components/glibc.yml
+
 build-depends:
   - components/cmake.yml
   - components/gcc.yml
+
 sources:
   - https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-%{version}.tar.gz

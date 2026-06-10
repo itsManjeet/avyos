@@ -1,12 +1,12 @@
 id: xarchiver
-version: 0.5.4.23
+version: 0.5.4.26
 about: GTK+ frontend to various command line archivers
 
 configure: >-
   --libexecdir=%{libdir}/xfce4
 
 depends:
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/bzip2.yml
   - components/cpio.yml
   - components/gzip.yml
@@ -17,7 +17,7 @@ depends:
   - components/p7zip.yml
   - components/zip.yml
   - components/unzip.yml
-  - components/binutils.yml # deb
+  - components/binutils.yml
   - components/xdg-utils.yml
 
 build-depends:

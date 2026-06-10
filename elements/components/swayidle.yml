@@ -1,5 +1,5 @@
 id: swayidle
-version: 1.8.0
+version: 1.9.0
 about: Idle management daemon for Wayland
 
 configure: >-
@@ -19,4 +19,4 @@ build-depends:
   - components/wayland-protocols.yml
 
 sources:
-  - https://github.com/swaywm/swayidle/releases/download/%{version}/swayidle-%{version}.tar.gz
+  - https://github.com/swaywm/swayidle/releases/download/v%{version}/swayidle-%{version}.tar.gz

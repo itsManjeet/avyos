@@ -1,6 +1,9 @@
 id: xdg-desktop-portal
-version: 1.18.4
+version: 1.20.4
 about: Desktop integration portals for sandboxed apps
+
+configure: >-
+  -D tests=disabled
 
 depends:
   - components/fuse.yml
@@ -10,5 +13,6 @@ depends:
   - components/flatpak.yml
   - components/geoclue.yml
   - components/rtkit.yml
+
 sources:
   - https://github.com/flatpak/xdg-desktop-portal/releases/download/%{version}/xdg-desktop-portal-%{version}.tar.xz

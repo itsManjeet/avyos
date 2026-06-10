@@ -5,7 +5,7 @@ about: GTK+ client library for SPICE
 depends:
   - components/gstreamer.yml
   - components/libcacard.yml
-  - components/gtk.yml
+  - components/gtk3.yml
   - components/libjpeg-turbo.yml
   - components/opus.yml
   - components/phodav.yml
@@ -18,7 +18,7 @@ build-depends:
   - components/usbutils.yml
   - components/vala.yml
   - components/wayland-protocols.yml
-  - components/py/py-six.yml
-  - components/py/py-parsing.yml
+  - components/python-six.yml
+  - components/python-parsing.yml
 sources:
   - https://www.spice-space.org/download/gtk/%{id}-%{version}.tar.xz

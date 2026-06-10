@@ -1,5 +1,5 @@
 id: swaylock
-version: 1.7.2
+version: 1.8.5
 about: Screen locker for wayland
 
 post-script: |-
@@ -8,7 +8,7 @@ post-script: |-
 depends:
   - components/cairo.yml
   - components/gdk-pixbuf.yml
-  - components/x11/libxkbcommon.yml
+  - components/libxkbcommon.yml
   - components/pam.yml
   - components/wayland.yml
 

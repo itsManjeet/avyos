@@ -1,0 +1,18 @@
+id: highway
+version: 1.4.0
+about: A C++ library that provides portable SIMD/vector intrinsics
+
+build-type: cmake
+
+configure: >-
+  -D BUILD_TESTING=OFF
+  -D BUILD_SHARED_LIBS=ON
+
+depends:
+    - components/glibc.yml
+
+build-depends:
+    - components/cmake.yml
+
+sources:
+    - https://github.com/google/highway/archive/%{version}/highway-%{version}.tar.gz

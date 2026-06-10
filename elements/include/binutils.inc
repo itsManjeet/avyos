@@ -1,13 +1,12 @@
-version: 2.42
+version: 2.46.0
 about: A linker, an assembler, and other tools for handling object files
 
 pre-script: |-
   sed -i '/^development=/s/true/false/' bfd/development.sh
-  patch -Np1 -i gold-warn-unsupported.patch
 
 configure: >
-  --with-lib-path=/usr/lib
-  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
+  --with-lib-path=%{libdir}
+  --with-bugurl=https://github.com/itsmanjeet/avyos/issues
   --enable-cet
   --enable-colored-disassembly
   --enable-default-execstack=no
@@ -35,12 +34,12 @@ compile: -O tooldir=%{prefix}
 install: prefix=%{prefix} -O tooldir=%{install-root}/%{prefix}
 
 post-script: |-
-  install -m644 %{build-dir}/libiberty/pic/libiberty.a %{install-root}/%{libdir}/
-  
+  install -m644 %{build-dir}/libiberty/libiberty.a %{install-root}/%{libdir}/
+
   rm -fv %{install-root}/%{datadir}/man/man1/{dlltool,windres,windmc}*
-  
+
   rm -fv %{install-root}/usr/lib/lib{bfd,opcodes}.so
-  
+
   tee "%{install-root}/%{libdir}/libbfd.so" << EOS
   /* GNU ld script */
   INPUT( /usr/lib/libbfd.a -lsframe -liberty -lz -lzstd -ldl )

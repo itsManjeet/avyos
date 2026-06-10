@@ -1,5 +1,5 @@
 id: os-prober
-version: 1.81
+version: 1.84
 about: utility to detect installed OSes
 
 depends:

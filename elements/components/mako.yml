@@ -1,5 +1,5 @@
-id: make
-version: 1.9.0
+id: mako
+version: 1.11.0
 about: Lightweight notification daemon for Wayland
 
 configure: >-

@@ -4,4 +4,3 @@ about: Open-source implementation of Oracle's Java Standard Edition platform
 
 include:
   - components/openjdk.yml
-

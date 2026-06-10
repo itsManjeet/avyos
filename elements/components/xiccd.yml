@@ -1,5 +1,5 @@
 id: xiccd
-version: 0.3.0
+version: 0.4.1
 about: Simple bridge between colord and X
 
 pre-script: |-
@@ -10,7 +10,7 @@ pre-script: |-
 
 depends:
   - components/colord.yml
-  - components/x11/libxrandr.yml
+  - components/libxrandr.yml
 
 sources:
   - https://github.com/agalakhov/xiccd/archive/v%{version}.tar.gz

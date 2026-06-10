@@ -1,0 +1,22 @@
+id: plasma-desktop
+merge: [elements/include/plasma.inc]
+about: Plasma plasma-desktop
+
+depends:
+  - components/baloo.yml
+  - components/gawk.yml
+  - components/kdelibs4support.yml
+  - components/kmenuedit.yml
+  - components/ibus.yml
+  - components/polkit-kde-agent-1.yml
+  - components/xdg-user-dirs.yml
+  - components/kscreen.yml
+  - components/plasma-nm.yml
+  - components/powerdevil.yml
+build-depends:
+  - components/extra-cmake-modules.yml
+  - components/intltool.yml
+  - components/kdesignerplugin.yml
+  - components/kdoctools.yml
+  - components/kinit.yml
+  - components/xserver.yml

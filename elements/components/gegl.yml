@@ -1,5 +1,5 @@
 id: gegl
-version: 0.4.48
+version: 0.4.70
 about: GEneric Graphics Library
 
 configure: >-
@@ -9,7 +9,7 @@ depends:
   - components/babl.yml
   - components/json-glib.yml
   - components/pango.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 
 sources:
   - https://download.gimp.org/pub/gegl/%{version:2}/gegl-%{version}.tar.xz

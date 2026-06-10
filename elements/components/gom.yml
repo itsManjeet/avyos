@@ -1,5 +1,5 @@
 id: gom
-version: 0.4
+version: 0.5.6
 about: A GObject to sqlite object mapper
 
 depends:
@@ -8,6 +8,6 @@ depends:
 build-depends:
   - components/gdk-pixbuf.yml
   - components/gobject-introspection.yml
-  - components/py/py-gobject.yml
+  - components/python-gobject.yml
 sources:
   - https://gitlab.gnome.org/GNOME/gom/-/archive/%{version}/gom-%{version}.tar.gz

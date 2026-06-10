@@ -1,9 +1,9 @@
 id: mercurial
-version: 6.8
+version: 7.2.2
 about: A scalable distributed SCM tools
 
 build-depends:
-  - components/py/py-pip.yml
+  - components/python-pip.yml
 sources:
   - https://www.mercurial-scm.org/release/mercurial-%{version}.tar.gz
 

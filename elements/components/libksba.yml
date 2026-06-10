@@ -1,5 +1,5 @@
 id: libksba
-version: 1.6.7
+version: 1.7.0
 about: A library used to make X.509 certificates as well as making the CMS
 
 depends:
