@@ -119,6 +119,3 @@ build-depends:
 sources:
   - https://archive.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
   - files/firefox/firefox.desktop
-  - patches/firefox/firefox-140.11.0esr-glibc-2.43.patch
-  - patches/firefox/firefox-140.11.0esr-llvm_22-1.patch
-  - patches/firefox/firefox-140.11.0esr-python_3.14_fixes-1.patch
