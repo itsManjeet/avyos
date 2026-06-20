@@ -7,6 +7,10 @@ configure: >-
 
 depends:
   - components/libyaml.yml
+  - components/llvm-runtime.yml
+
+build-depends:
+  - components/llvm.yml
 
 sources:
   - https://github.com/pantoniou/libfyaml/releases/download/v%{version}/libfyaml-%{version}.tar.gz
