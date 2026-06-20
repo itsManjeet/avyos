@@ -1,5 +1,5 @@
 id: update-config
-version: 0.0.3
+version: 0.0.2
 merge: [channel.yml]
 about: systemd-repart and systemd-sysupdate configuration
 
@@ -19,10 +19,9 @@ script: |-
   done
 
   for file in avyos-kernel.conf avyos-usr-verity.conf avyos-usr.conf; do
-    target="${file%.conf}.transfer"
     sed "s#@UPDATE_URL@#${update_url}#g" "%{build-root}/${file}" \
-      >"%{install-root}/%{libdir}/sysupdate.d/${target}"
-    chmod 0644 "%{install-root}/%{libdir}/sysupdate.d/${target}"
+      >"%{install-root}/%{libdir}/sysupdate.d/${file}"
+    chmod 0644 "%{install-root}/%{libdir}/sysupdate.d/${file}"
   done
 
   ln -sf ../systemd-sysext.service \

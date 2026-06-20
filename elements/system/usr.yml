@@ -165,7 +165,7 @@ script: |-
   C! /etc/issue.net
   EOF
 
-  install -v -D -m 0644 /dev/stdin %{include-root}/%{libdir}/os-release << "EOF"
+  install -Dm644 /dev/stdin %{include-root}/%{libdir}/os-release << "EOF"
   NAME=AvyOS
   VERSION=%{version}
   ID=avyos

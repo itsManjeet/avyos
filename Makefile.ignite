@@ -78,11 +78,10 @@ updates: $(IGNITE) version.yml channel.yml
 	install -m 0644 "$(DESTDIR)/system/$$usr_image" "$(UPDATES_DIR)/$$usr_image"; \
 	install -m 0644 "$(DESTDIR)/system/$$usr_verity" "$(UPDATES_DIR)/$$usr_verity"; \
 	install -m 0644 "$(DESTDIR)/image/boot/EFI/Linux/avyos_$(VERSION).efi" "$(UPDATES_DIR)/avyos_$(VERSION).efi"; \
-	(cd "$(UPDATES_DIR)" && zsyncmake -e -b 2048 -C -u "http://repo.avyos.dev/updates/$(CHANNEL)/$$usr_image" "$$usr_image"); \
 	xz -T0 -f -k "$(UPDATES_DIR)/$$usr_image"; \
 	xz -T0 -f -k "$(UPDATES_DIR)/$$usr_verity"; \
 	xz -T0 -f -k "$(UPDATES_DIR)/avyos_$(VERSION).efi"; \
-	(cd "$(UPDATES_DIR)" && sha256sum "$$usr_image" "$$usr_image.xz" "$$usr_verity.xz" "avyos_$(VERSION).efi.xz" > SHA256SUMS); \
+	(cd "$(UPDATES_DIR)" && sha256sum "$$usr_image.xz" "$$usr_verity.xz" "avyos_$(VERSION).efi.xz" > SHA256SUMS); \
 	printf 'Published updates to %s\n' "$(UPDATES_DIR)"; \
 	printf 'Update URL: https://repo.avyos.dev/releases/%s/\n' "$(CHANNEL)"
 
