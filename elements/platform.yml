@@ -107,6 +107,7 @@ depends:
     - components/gnome-software.yml
     - components/labwc.yml
     - components/firefox.yml
+    - components/mokutil.yml
 
     # TODO: Fix these
     - components/libxml2-compat.yml
