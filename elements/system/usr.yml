@@ -1,5 +1,5 @@
 id: image
-merge: [version.yml]
+merge: [version.yml, channel.yml]
 about: System Image
 
 capabilities:
@@ -165,7 +165,16 @@ script: |-
   C! /etc/issue.net
   EOF
 
-  echo "IMAGE_VERSION=%{version}" >> %{include-root}/%{libdir}/os-release
+  install -Dm644 /dev/stdin %{include-root}/%{libdir}/os-release << "EOF"
+  NAME=AvyOS
+  VERSION=%{version}
+  ID=avyos
+  PRETTY_NAME="AvyOS %{version} %{channel}"
+  HOME_URL="https://avyos.dev"
+  SUPPORT_URL="https://avyos.dev/support"
+  BUG_REPORT_URL="https://avyos.dev/bug-report"
+  IMAGE_VERSION=%{version}
+  EOF
 
   mkdir -p %{install-root}
   mksquashfs %{include-root}/%{prefix} %{install-root}/usr_%{version}.squashfs
