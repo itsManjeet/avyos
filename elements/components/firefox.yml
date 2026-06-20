@@ -1,48 +1,124 @@
 id: firefox
-version: 150.0.2
-about:
-  Mozilla Firefox or simply Firefox is a free and open-source web browser developed
-  by the Mozilla Foundation and its subsidiary, the Mozilla Corporation. Firefox uses
-  the Gecko rendering engine to display web pages, which implements current and anticipated
-  web standards.
-
-build-dir: .
+version: 152.0.1
+about: Firefox is a stand-alone browser based on the Mozilla codebase
 
 script: |-
-  mkdir -p %{install-root}%{libdir}/firefox/
-  mv firefox/* %{install-root}%{libdir}/firefox/
+  cat > mozconfig << "EOF"
+  ac_add_options --prefix=%{prefix}
 
-  mkdir -p %{install-root}/%{bindir}
-  ln -srv %{install-root}%{libdir}/firefox/firefox %{install-root}/%{bindir}/
-  install -D %{install-root}%{libdir}/firefox/browser/chrome/icons/default/default128.png %{install-root}/%{datadir}/icons/firefox.png
+  ac_add_options --with-system-icu
+  ac_add_options --with-system-libevent
+  ac_add_options --with-system-libvpx
+  ac_add_options --with-system-nspr
+  ac_add_options --with-system-nss
+  ac_add_options --with-system-webp
+  ac_add_options --with-system-jpeg
+  ac_add_options --with-system-zlib
 
-  rm -rf %{install-root}%{libdir}/firefox/browser/features
+  ac_add_options --without-wasm-sandboxed-libraries
 
-  install -vDm644 /dev/stdin %{install-root}%{libdir}/firefox/distribution/policies.json << "EOF"
-  {
-    "policies": {
-          "DisableAppUpdate": true
-          }
-  }
+  ac_add_options --enable-system-ffi
+  ac_add_options --enable-system-pixman
+  ac_add_options --enable-application=browser
+
+  ac_add_options --disable-necko-wifi
+  ac_add_options --disable-debug-symbols
+  ac_add_options --disable-crashreporter
+  ac_add_options --disable-updater
+  ac_add_options --disable-tests
+
+  unset MOZ_TELEMETRY_REPORTING
+
+  mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
   EOF
 
-  install -D -m 0644 /dev/stdin %{install-root}/%{datadir}/applications/firefox.desktop << "EOF"
-  [Desktop Entry]
-  Name=Firefox
-  Name[en_US]=Firefox
-  GenericName=Web Browser
-  GenericName[en_US]=Web Browser
-  Comment=Free web browser from Mozilla
-  Exec=firefox %U
-  Terminal=false
-  Type=Application
-  Icon=firefox
-  Categories=Network;
+  # adapt the line break mapping for ICU 74 or later
+  for i in {43..47}; do
+    sed -i '/ZWJ/s/}/,CLASS_CHARACTER&/' intl/lwbrk/LineBreaker.cpp
+  done
+
+  export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
+  export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+
+  ./mach build
+
+  DESTDIR=%{install-root} ./mach install
+
+  install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/defaults.preferences/vendor.js << "EOF"
+  pref("intl.locale.requested", "");
+  pref("spellchecker.dictionary_path", "%{datadir}/hunspell");
+  pref("browser.shell.checkDefaultBrowser", false);
+  pref("extensions.autoDisableScope", 11);
   EOF
+
+  install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/distribution/distribution.ini << "EOF"
+  [Global]
+  id=avyos
+  version=2.0
+  about=Mozilla Firefox for AVYOS
+
+  [Preferences]
+  app.distributor=avyos
+  app.distributor.channel=firefox
+  app.partner.avyos=avyos
+  EOF
+
+  for i in 16 22 24 32 48 64 128 256 ; do
+    install -Dvm644 browser/branding/official/default$i.png \
+      %{install-root}%{datadir}/icons/hicolor/${i}x${i}/apps/firefox.png
+  done
+
+  install -Dvm644 browser/branding/official/content/about-logo.svg \
+    %{install-root}%{datadir}/icons/hicolor/scalable/apps/firefox.svg
+
+  install -Dvm644 firefox.desktop -t %{install-root}%{datadir}/applications/
 
 depends:
   - components/dbus-glib.yml
   - components/alsa-lib.yml
+  - components/at-spi2-core.yml
+  - components/bash.yml
+  - components/cairo.yml
+  - components/dbus.yml
+  - components/ffmpeg.yml
+  - components/fontconfig.yml
+  - components/freetype.yml
+  - components/gdk-pixbuf.yml
+  - components/gtk3.yml
+  - components/pulseaudio.yml
+  - components/libevent.yml
+  - components/libx11.yml
+  - components/libxcb.yml
+  - components/libxcomposite.yml
+  - components/libxdamage.yml
+  - components/libxext.yml
+  - components/libxfixes.yml
+  - components/libxrandr.yml
+  - components/libxt.yml
+  - components/nspr.yml
+  - components/nss.yml
+  - components/pango.yml
+  - components/libnotify.yml
+  - components/networkmanager.yml
+  - components/xdg-desktop-portal.yml
+  - components/libwebp.yml
+
+build-depends:
+  - components/cbindgen.yml
+  - components/llvm.yml
+  - components/diffutils.yml
+  - components/inetutils.yml
+  - components/mesa.yml
+  - components/nodejs.yml
+  - components/rustc.yml
+  - components/python.yml
+  - components/unzip.yml
+  - components/which.yml
+  - components/yasm.yml
 
 sources:
-  - http://ftp.mozilla.org/pub/firefox/releases/%{version}/linux-x86_64/en-US/firefox-%{version}.tar.xz
+  - https://archive.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
+  - files/firefox/firefox.desktop
+  - patches/firefox/firefox-140.11.0esr-glibc-2.43.patch
+  - patches/firefox/firefox-140.11.0esr-llvm_22-1.patch
+  - patches/firefox/firefox-140.11.0esr-python_3.14_fixes-1.patch
