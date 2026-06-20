@@ -4,16 +4,16 @@ about: EFI preloader
 
 pre-script: |-
   sed -e 's/-Werror\b//g' -i Makefile Make.defaults
-  
+
   # Binutils 2.46 fix
   sed -i 's/--target efi-app-\$(ARCH)/--output-target efi-app-\$(ARCH)/' Make.defaults
-  
+
   openssl x509 -inform PEM -outform DER -in "/files/sign-keys/VENDOR.crt" -out "avyos.cer"
 
 make-args: >-
   EFIDIR=avyos
   ESPROOTDIR=boot/efi
-  VENDIR_CERT_FILE=avyos.cer
+  VENDOR_CERT_FILE=avyos.cer
   DEFAULT_LOADER='\\avyos-loaderx64.efi'
   DATATARGETDIR="/usr/share/shim"
 
