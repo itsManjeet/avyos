@@ -55,6 +55,8 @@ depends:
   - components/elementary-xfce-icon.yml
   - components/qogir-gtk-theme.yml
   - components/qogir-icon-theme.yml
+  - components/orchis-gtk-theme.yml
+  - components/tela-icon-theme.yml
 
   - components/adobe-source-code-pro-fonts.yml
   - components/fira-code.yml

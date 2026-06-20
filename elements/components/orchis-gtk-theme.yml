@@ -12,7 +12,6 @@ script: |
     --theme all           \
     --color light dark    \
     --tweaks primary      \
-    --round 3px           \
     --dest %{install-root}%{datadir}/themes
 
 build-depends:
