@@ -1,0 +1,14 @@
+id: mokutil
+version: 0.7.2
+about: Utility for managing Machine Owner Keys (MOK) on Linux
+
+build-type: autotools
+
+depends:
+  - components/efivar.yml
+  - components/keyutils.yml
+  - components/libxcrypt.yml
+  - components/openssl.yml
+
+sources:
+  - mokutil-%{version}.tar.gz::https://github.com/lcp/mokutil/archive/refs/tags/%{version}.tar.gz
