@@ -136,6 +136,11 @@ b2b990dd3feb1bc4d0683a1baa529faafd876fbc85684fdf28bdd19561cb5a89  dtc-1.7.2-glib
 fd5bf388cbdbe006a3d3b318d983b2948382440acc85a87f1e7d108653e8db0b  e2fsprogs-1.47.4.tar.xz
 56e107ddc2f29dad6690376c15bf9751509e1ee3b8241710e44edbe5c3a158cc  ed-1.22.5.tar.lz
 309627d9b5c4adc0e668d8c6fa7bac1ba7c8c5d415c2d27f60f081f8e80d1de2  editables-0.5.tar.gz
+c23805f53d6d4bae4115bccaff295b25a395fc2a49652e12a188297d1357d6da  efitools-1.9.2-console_warning_typo.patch
+67e6c3cbdaae1317427fb03e860606d226d4ec8f97358065beba066c721efa76  efitools-1.9.2-fix-ftbfs.patch
+ff144fc498c64072997a186165248f233b4da8bfb454f31984c0397d0159b6bc  efitools-1.9.2-fix-make-rule-deps.patch
+f063c7dff9a045713e42cad9e67d4cea11cf3ef2335e4ab6e36761b92873f7ec  efitools-1.9.2-makefile-enable-harden-local-files.patch
+0f315b36e7d1ba74bfc97ab9f304f0a3072c47578bbe5e42594acae381f9acfe  efitools-1.9.2.tar.gz
 c9edd15f2eeeea63232f3e669a48e992c7be9aff57ee22672ac31f5eca1609a6  efivar-39.tar.gz
 da232d46ec4553b2f4b057b705acfa63466318f91f7e8de38dcfb30243fb6898  egl-wayland-1.1.21.tar.gz
 5089ceb054ca50c85837f015756a3d0f2f75cf2a98c9e5fbcbcfb8206137f76e  eglexternalplatform-1.2.1.tar.gz

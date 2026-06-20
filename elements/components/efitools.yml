@@ -1,0 +1,26 @@
+id: efitools
+version: 1.9.2
+about: Tools for manipulating UEFI secure boot platforms
+
+pre-script: |-
+  patch -Np1 -i efitools-1.9.2-console_warning_typo.patch
+  patch -Np1 -i efitools-1.9.2-makefile-enable-harden-local-files.patch
+
+  patch -Np1 -i efitools-1.9.2-fix-make-rule-deps.patch
+  patch -Np1 -i efitools-1.9.2-fix-ftbfs.patch
+
+script: |-
+  make -j1
+  make DESTDIR=%{install-root} install
+
+depends:
+  - components/sbsigntools.yml
+  - components/glibc.yml
+  - components/openssl.yml
+
+sources:
+  - https://git.kernel.org/pub/scm/linux/kernel/git/jejb/efitools.git/snapshot/efitools-%{version}.tar.gz
+  - patches/efitools/efitools-1.9.2-console_warning_typo.patch
+  - patches/efitools/efitools-1.9.2-fix-ftbfs.patch
+  - patches/efitools/efitools-1.9.2-fix-make-rule-deps.patch
+  - patches/efitools/efitools-1.9.2-makefile-enable-harden-local-files.patch

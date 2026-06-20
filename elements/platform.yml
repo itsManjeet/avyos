@@ -108,6 +108,8 @@ depends:
     - components/labwc.yml
     - components/firefox.yml
     - components/mokutil.yml
+    - components/sbsigntools.yml
+    - components/efitools.yml
 
     # TODO: Fix these
     - components/libxml2-compat.yml
