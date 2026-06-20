@@ -1,5 +1,5 @@
 id: update-config
-version: 0.0.1
+version: 0.0.2
 merge: [channel.yml]
 about: systemd-repart and systemd-sysupdate configuration
 
