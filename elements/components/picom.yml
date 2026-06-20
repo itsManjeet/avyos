@@ -21,7 +21,7 @@ post-script: |-
 
   blur-kern = "3x3box";
 
-  backend = "xrender";
+  backend = "glx";
 
   vsync = true;
 
