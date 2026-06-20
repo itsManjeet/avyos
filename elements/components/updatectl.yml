@@ -1,9 +1,19 @@
 id: updatectl
-version: 0.1.0
+version: 0.2.0
 about: avyos update control tool
-commit: 246765cfcd2cb4459e140fb51fbf84c45ca796ff
+
+script: |-
+  install -vDm0755 updatectl "%{install-root}/%{bindir}/updatectl"
+
 depends:
-- components/systemd.yml
+  - components/bash.yml
+  - components/coreutils.yml
+  - components/grep.yml
+  - components/sed.yml
+  - components/util-linux.yml
+  - components/wget.yml
+  - components/zsync.yml
+  - components/systemd.yml
 
 sources:
-- updatectl-%{commit}.tar.gz::https://github.com/itsManjeet/updatectl/archive/%{commit}.tar.gz
+  - files/updatectl/updatectl
