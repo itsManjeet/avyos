@@ -142,6 +142,8 @@ script: |-
   C /etc/xdg
   C /etc/xml
   C /etc/xtables.conf
+  C /etc/zsh
+  L /etc/os-release - - - - /usr/lib/os-release
   C! /etc/audit
   C! /etc/pam.d
   C! /etc/security
