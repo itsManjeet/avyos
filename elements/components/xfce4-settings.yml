@@ -11,8 +11,8 @@ post-script: |-
   <?xml version="1.0" encoding="UTF-8"?>
   <channel name="xsettings" version="1.0">
     <property name="Net" type="empty">
-      <property name="ThemeName" type="string" value="Qogir-Light"/>
-      <property name="IconThemeName" type="string" value="Qogir-Light"/>
+      <property name="ThemeName" type="string" value="Fluent-round-Light"/>
+      <property name="IconThemeName" type="string" value="Fluent-light"/>
       <property name="DoubleClickTime" type="int" value="400"/>
       <property name="DoubleClickDistance" type="int" value="5"/>
       <property name="DndDragThreshold" type="int" value="8"/>
@@ -42,7 +42,7 @@ post-script: |-
       <property name="MenuImages" type="bool" value="true"/>
       <property name="ButtonImages" type="bool" value="true"/>
       <property name="MenuBarAccel" type="string" value="F10"/>
-      <property name="CursorThemeName" type="string" value="Qogir-Light"/>
+      <property name="CursorThemeName" type="string" value="bibata-cursor-theme"/>
       <property name="CursorThemeSize" type="int" value="0"/>
       <property name="DecorationLayout" type="string" value="menu:minimize,maximize,close"/>
       <property name="DialogsUseHeader" type="bool" value="false"/>

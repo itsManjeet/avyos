@@ -98,12 +98,12 @@ post-script: |-
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/lightdm/lightdm-gtk-greeter.conf << "EOF"
   [greeter]
   background=%{datadir}/backgrounds/default.png
-  theme-name=Qogir-Light
-  icon-theme-name=Qogir-Light
+  theme-name=Fluent-round-Light
+  icon-theme-name=Fluent-light
   font-name=Open Sans Regular 11
-  cursor-theme-name=Qogir-Light
+  cursor-theme-name=bibata-cursor-theme
   panel-position=top
-  user-background=false
+  user-background=true
   indicators=~spacer;~session;~clock;~power;
   transition-duration=600
   transition-type=ease-in-out

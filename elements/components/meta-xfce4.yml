@@ -57,6 +57,10 @@ depends:
   - components/qogir-icon-theme.yml
   - components/orchis-gtk-theme.yml
   - components/tela-icon-theme.yml
+  - components/bibata-cursor-theme.yml
+  - components/fluent-gtk-theme.yml
+  - components/fluent-icon-theme.yml
+  - components/fluent-wallpaper.yml
 
   - components/adobe-source-code-pro-fonts.yml
   - components/fira-code.yml

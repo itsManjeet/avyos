@@ -12,3 +12,5 @@ script: |-
   sed -i '4d' install-wallpapers.sh
   WALLPAPER_DIR=%{install-root}%{datadir}/backgrounds ./install-wallpapers.sh -t building
   WALLPAPER_DIR=%{install-root}%{datadir}/backgrounds ./install-wallpapers.sh -t mountain
+
+  ln -sv Fluent-building-day.png %{install-root}%{datadir}/backgrounds/default.png
