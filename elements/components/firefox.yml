@@ -1,11 +1,36 @@
 id: firefox
-version: 152.0.1
+version: 140.12.0esr
 about: Firefox is a stand-alone browser based on the Mozilla codebase
 
 script: |-
   cat > mozconfig << "EOF"
-  ac_add_options --prefix=%{prefix}
+  mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 
+  ac_add_options --prefix=%{prefix}
+  ac_add_options --enable-application=browser
+
+  # Release-style optimized build
+  ac_add_options --enable-release
+  ac_add_options --enable-hardening
+  ac_add_options --enable-optimize
+  ac_add_options --enable-rust-simd
+  ac_add_options --enable-linker=lld
+  ac_add_options --disable-debug
+  ac_add_options --disable-debug-symbols
+  ac_add_options --disable-tests
+  ac_add_options --disable-bootstrap
+
+  # Distro / redistributable branding
+  ac_add_options --with-branding=browser/branding/unofficial
+  ac_add_options --with-distribution-id=dev.avyos
+  ac_add_options --enable-update-channel=default
+
+  # AvyOS should update Firefox through the OS package/update system
+  ac_add_options --disable-updater
+  ac_add_options --disable-crashreporter
+  ac_add_options --disable-necko-wifi
+
+  # System libraries
   ac_add_options --with-system-icu
   ac_add_options --with-system-libevent
   ac_add_options --with-system-libvpx
@@ -14,28 +39,29 @@ script: |-
   ac_add_options --with-system-webp
   ac_add_options --with-system-jpeg
   ac_add_options --with-system-zlib
-
-  ac_add_options --without-wasm-sandboxed-libraries
-
   ac_add_options --enable-system-ffi
   ac_add_options --enable-system-pixman
-  ac_add_options --enable-application=browser
 
-  ac_add_options --disable-necko-wifi
-  ac_add_options --disable-debug-symbols
-  ac_add_options --disable-crashreporter
-  ac_add_options --disable-updater
-  ac_add_options --disable-tests
+  # Avoid bundled wasm sandbox libs if your distro policy needs it
+  ac_add_options --without-wasm-sandboxed-libraries
 
+  # Let distro packaging strip/split debug symbols itself
+  ac_add_options --disable-strip
+  ac_add_options --disable-install-strip
+
+  # Do not report telemetry as an official Mozilla build
   unset MOZ_TELEMETRY_REPORTING
-
-  mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
   EOF
 
-  # adapt the line break mapping for ICU 74 or later
-  for i in {43..47}; do
-    sed -i '/ZWJ/s/}/,CLASS_CHARACTER&/' intl/lwbrk/LineBreaker.cpp
-  done
+  patch -Np1 -i firefox-140.12.0esr-glibc-2.43.patch
+
+  sed -e '/patch.crates-io/a glslopt={path="third_party/rust/glslopt"}' -i Cargo.toml
+  sed -i '/name = "glslopt"/,/^$/{/source/d;/checksum/d}' Cargo.lock
+
+  patch -Np1 -i firefox-140.12.0esr-python_3.14_fixes-1.patch
+  patch -Np1 -i firefox-140.12.0esr-llvm_22-1.patch
+
+  sed -i '/VIRAMA = 47/a CLASS_CHARACTER,' intl/lwbrk/LineBreaker.cpp
 
   export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
   export MOZBUILD_STATE_PATH=${PWD}/mozbuild
@@ -118,4 +144,7 @@ build-depends:
 
 sources:
   - https://archive.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
+  - patches/firefox/firefox-140.12.0esr-glibc-2.43.patch
+  - patches/firefox/firefox-140.12.0esr-python_3.14_fixes-1.patch
+  - patches/firefox/firefox-140.12.0esr-llvm_22-1.patch
   - files/firefox/firefox.desktop
