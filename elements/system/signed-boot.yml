@@ -37,7 +37,7 @@ script: |-
     --no-hostonly \
     --kernel-image "/lib/modules/${kernel_version}/vmlinuz" \
     --kver "${kernel_version}" \
-    --kernel-cmdline "root=PARTUUID=${root_part_uuid} rootfstype=ext4 rw mount.usr=/dev/mapper/usr mount.usrfstype=squashfs mount.usrflags=ro console=ttyS0" \
+    --kernel-cmdline "root=PARTUUID=${root_part_uuid} rootfstype=ext4 rw mount.usr=/dev/mapper/usr mount.usrfstype=squashfs mount.usrflags=ro" \
     --filesystems "ext4 squashfs" \
     --install "fsck.ext4" \
     --install "mkfs.ext4" \
