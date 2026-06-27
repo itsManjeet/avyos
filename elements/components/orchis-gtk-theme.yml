@@ -9,6 +9,8 @@ script: |
   ./parse-sass.sh
   ./install.sh            \
     --size standard       \
+    --name Orchis         \
+    --round 3px           \
     --theme all           \
     --color light dark    \
     --tweaks primary      \

@@ -125,3 +125,4 @@ depends:
     - system/etc-default-useradd.yml
     - system/update-config.yml
     - system/x11-config.yml
+    - system/default-background.yml

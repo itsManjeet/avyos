@@ -51,27 +51,14 @@ depends:
 
   - components/thunar-volman.yml
 
-  # - components/grey-bird-gtk-theme.yml
-  - components/elementary-xfce-icon.yml
-  - components/qogir-gtk-theme.yml
-  - components/qogir-icon-theme.yml
   - components/orchis-gtk-theme.yml
   - components/tela-icon-theme.yml
-  - components/bibata-cursor-theme.yml
-  - components/fluent-gtk-theme.yml
-  - components/fluent-icon-theme.yml
-  - components/fluent-wallpaper.yml
 
-  - components/adobe-source-code-pro-fonts.yml
   - components/fira-code.yml
-  - components/ibm-plex.yml
-  - components/bibata-cursor-theme.yml
   - components/opensans-fonts.yml
   - components/noto-cjk.yml
   - components/noto-emoji.yml
   - components/noto.yml
-  - components/dejavu-fonts.yml
-  - components/liberation-fonts.yml
 
   - components/lightdm.yml
 

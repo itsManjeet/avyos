@@ -38,7 +38,7 @@ post-script: |-
           <value type="int" value="12"/>
           <value type="int" value="9"/>
         </property>
-        <property name="icon-size" type="uint" value="25"/>
+        <property name="icon-size" type="uint" value="22"/>
         <property name="output-name" type="string" value="Primary"/>
         <property name="span-monitors" type="bool" value="false"/>
         <property name="mode" type="uint" value="0"/>
@@ -60,7 +60,7 @@ post-script: |-
         <property name="button-icon" type="string" value="start-here"/>
         <property name="launcher-show-description" type="bool" value="false"/>
         <property name="profile-shape" type="int" value="2"/>
-        <property name="menu-opacity" type="int" value="100"/>
+        <property name="menu-opacity" type="int" value="0"/>
         <property name="position-profile-alternate" type="bool" value="false"/>
       </property>
       <property name="plugin-2" type="string" value="pager">
@@ -81,15 +81,15 @@ post-script: |-
         <property name="icon-size" type="int" value="0"/>
         <property name="single-row" type="bool" value="true"/>
         <property name="square-icons" type="bool" value="true"/>
-        <property name="hide-new-items" type="bool" value="true"/>
+        <property name="hide-new-items" type="bool" value="false"/>
       </property>
       <property name="plugin-11" type="string" value="separator">
         <property name="expand" type="bool" value="true"/>
         <property name="style" type="uint" value="0"/>
       </property>
       <property name="plugin-12" type="string" value="clock">
-        <property name="digital-date-font" type="string" value="IBM Plex Sans 12"/>
-        <property name="digital-time-font" type="string" value="IBM Plex Sans 14"/>
+        <property name="digital-date-font" type="string" value="Open Sans 12"/>
+        <property name="digital-time-font" type="string" value="Open Sans 14"/>
         <property name="digital-layout" type="uint" value="1"/>
         <property name="digital-date-format" type="string" value="%a, %b %d, %Y"/>
         <property name="digital-time-format" type="string" value="%H:%M"/>
@@ -111,7 +111,15 @@ post-script: |-
 
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/skel/.config/xfce4/panel/docklike-4.rc << "EOF"
   [user]
-  pinned=xfce4-appfinder;xfce4-terminal;thunar;firefox;org.gnome.Software;xfce-settings-manager;
+  pinned=xfce4-appfinder;xfce4-terminal;thunar;firefox;xfce4-settings-manager;
+  noWindowsListIfSingle=true
+  onlyDisplayVisible=true
+  onlyDisplayScreen=true
+  showPreviews=true
+  showWindowCount=true
+  indicatorColorFromTheme=true
+  inactiveIndicatorStyle=1
+  indicatorStyle=2
   EOF
 
 depends:

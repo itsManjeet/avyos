@@ -5,7 +5,7 @@ release: 8
 build-type: meson
 
 configure: >-
-  -D default-backdrop-filename=backgrounds/default.png
+  -D default-backdrop-filename=backgrounds/default.jpg
 
 post-script: |-
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << "EOF"

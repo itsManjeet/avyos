@@ -97,11 +97,11 @@ post-script: |-
 
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/lightdm/lightdm-gtk-greeter.conf << "EOF"
   [greeter]
-  background=%{datadir}/backgrounds/default.png
-  theme-name=Fluent-round-Light
-  icon-theme-name=Fluent-light
+  background=%{datadir}/backgrounds/default_blur.jpg
+  theme-name=Orchis-Light
+  icon-theme-name=Tela-light
   font-name=Open Sans Regular 11
-  cursor-theme-name=bibata-cursor-theme
+  cursor-theme-name=default
   panel-position=top
   user-background=true
   indicators=~spacer;~session;~clock;~power;
