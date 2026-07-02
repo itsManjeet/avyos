@@ -1,3 +1,0 @@
-name = dbgd
-command = /usr/libexec/dbgd -listen :5037
-restart = always

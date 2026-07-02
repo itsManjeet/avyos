@@ -1,6 +1,0 @@
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin
-export HOME=/root
-export PS1='[\u@\h \w]# '
-
-alias ll='ls -lah'
-alias dmesg='dmesg -H'

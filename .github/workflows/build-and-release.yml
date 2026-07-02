@@ -51,12 +51,12 @@ jobs:
           rm -rf "${CACHE_PATH}/cache/installer-*.pkg" "${CACHE_PATH}/cache/installer-*.pkg.dbg"
 
       - name: Build System image
-        run: make -f Makefile.ignite ELEMENT=installer/image.yml
+        run: make  ELEMENT=installer/image.yml
 
       - name: Build sysext extensions
         run: |-
           for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
-            make -f Makefile.ignite ELEMENT=$ext
+            make  ELEMENT=$ext
           done
         #  elements/extensions/i3.yml elements/extensions/openjdk.yml elements/extensions/sway.yml elements/extensions/wine.yml elements/extensions/wm-kit-x11.yml elements/extensions/wm-kit.yml
 
@@ -86,7 +86,7 @@ jobs:
         run: |
               mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
               rm -rf release-checkout/ && mkdir -p release-checkout
-              make -f Makefile.ignite checkout ELEMENT=installer/image.yml DESTDIR=${PWD}/release-checkout
+              make  checkout ELEMENT=installer/image.yml DESTDIR=${PWD}/release-checkout
               cp release-checkout/avyos-${CHANNEL}-installer.iso ${CACHE_PATH}/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso
               (cd ${CACHE_PATH}/releases/${CHANNEL}/;
                 zsyncmake -b 2048 -C -u http://repo.avyos.dev/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso avyos-${VERSION}-${CHANNEL}-installer.iso
@@ -121,10 +121,10 @@ jobs:
         run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
 
       - name: Publish systemd-sysupdate artifacts
-        run: make -f Makefile.ignite updates
+        run: make  updates
 
       - name: Publish extensions
         run: |
           for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
-            make -f Makefile.ignite ELEMENT=$ext update-sysext
+            make  ELEMENT=$ext update-sysext
           done

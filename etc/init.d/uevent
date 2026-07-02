@@ -1,3 +1,0 @@
-name = uevent
-command = /usr/libexec/uevent
-restart = always

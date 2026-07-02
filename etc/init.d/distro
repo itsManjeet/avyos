@@ -1,3 +1,0 @@
-name = distro
-command = /usr/libexec/distro
-restart = always

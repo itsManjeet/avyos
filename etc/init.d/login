@@ -1,5 +1,0 @@
-name = login
-command = /usr/libexec/login
-tty = /dev/tty1
-restart = always
-depends = firstboot

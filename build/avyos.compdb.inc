@@ -1,2 +1,0 @@
-compdb:
-	true

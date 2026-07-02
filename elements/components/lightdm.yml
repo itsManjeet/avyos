@@ -102,9 +102,9 @@ post-script: |-
   icon-theme-name=Tela-light
   font-name=Open Sans Regular 11
   cursor-theme-name=default
-  panel-position=top
+  panel-position=bottom
   user-background=true
-  indicators=~spacer;~session;~clock;~power;
+  indicators=~spacer;~session;~power;
   transition-duration=600
   transition-type=ease-in-out
   EOF
