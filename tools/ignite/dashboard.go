@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"net/http"
 	"os"
 	"os/exec"
@@ -22,6 +23,7 @@ type JobState string
 
 const (
 	JobQueued    JobState = "queued"
+	JobBlocked   JobState = "blocked"
 	JobRunning   JobState = "running"
 	JobSuccess   JobState = "success"
 	JobFailed    JobState = "failed"
@@ -30,13 +32,20 @@ const (
 
 type BuildJob struct {
 	ID            string   `json:"id"`
+	Kind          string   `json:"kind"`
+	GroupID       string   `json:"group_id,omitempty"`
 	Recipes       []string `json:"recipes"`
+	TargetRecipes []string `json:"target_recipes,omitempty"`
 	CurrentRecipe string   `json:"current_recipe"`
 	State         JobState `json:"state"`
+	CreatedAt     int64    `json:"created_at"`
 	StartedAt     int64    `json:"started_at"`
 	FinishedAt    int64    `json:"finished_at"`
 	ExitCode      int      `json:"exit_code"`
 	LogPath       string   `json:"log_path"`
+	Force         bool     `json:"force"`
+	Push          bool     `json:"push"`
+	Message       string   `json:"message"`
 	pid           int
 }
 
@@ -49,6 +58,13 @@ type Dashboard struct {
 	arch        string
 	assetsPath  string
 	logRoot     string
+
+	watchRecipes           bool
+	recipeFingerprint      string
+	recipeReloadedAt       int64
+	recipeReloadError      string
+	recipeReloadGeneration atomic.Uint64
+	reloadMu               sync.RWMutex
 
 	mu       sync.Mutex
 	cond     *sync.Cond
@@ -66,8 +82,132 @@ func NewDashboard(ignite *Ignite, port int, bindHost, projectPath, cachePath, ar
 	return d
 }
 
+func (d *Dashboard) EnableRecipeWatcher(enable bool) {
+	d.watchRecipes = enable
+}
+
+func (d *Dashboard) reloadRecipes() error {
+	d.reloadMu.Lock()
+	defer d.reloadMu.Unlock()
+	if err := d.ignite.Load(); err != nil {
+		d.recipeReloadError = err.Error()
+		return err
+	}
+	d.recipeReloadError = ""
+	d.recipeReloadedAt = time.Now().Unix()
+	d.recipeReloadGeneration.Add(1)
+	d.recipeFingerprint = d.scanRecipeFingerprint()
+	return nil
+}
+
+func (d *Dashboard) watchRecipeLoop() {
+	ticker := time.NewTicker(2 * time.Second)
+	defer ticker.Stop()
+	d.recipeFingerprint = d.scanRecipeFingerprint()
+	d.recipeReloadedAt = time.Now().Unix()
+	for range ticker.C {
+		next := d.scanRecipeFingerprint()
+		if next == "" || next == d.recipeFingerprint {
+			continue
+		}
+		fmt.Println("ignite server: recipe change detected; reloading recipe graph")
+		if err := d.reloadRecipes(); err != nil {
+			fmt.Println("ignite server: recipe reload failed:", err)
+		}
+	}
+}
+
+func (d *Dashboard) scanRecipeFingerprint() string {
+	var b strings.Builder
+	for _, path := range []string{filepath.Join(d.projectPath, "checksum.lock")} {
+		if info, err := os.Stat(path); err == nil {
+			fmt.Fprintf(&b, "%s:%d:%d\n", filepath.ToSlash(path), info.Size(), info.ModTime().UnixNano())
+		}
+	}
+	root := filepath.Join(d.projectPath, "elements")
+	_ = filepath.WalkDir(root, func(path string, entry fs.DirEntry, err error) error {
+		if err != nil || entry.IsDir() || filepath.Ext(path) != ".yml" {
+			return nil
+		}
+		info, err := entry.Info()
+		if err != nil {
+			return nil
+		}
+		rel, _ := filepath.Rel(d.projectPath, path)
+		fmt.Fprintf(&b, "%s:%d:%d\n", filepath.ToSlash(rel), info.Size(), info.ModTime().UnixNano())
+		return nil
+	})
+	return b.String()
+}
+
 func (d *Dashboard) newJobID() string {
 	return fmt.Sprintf("%d-%d", time.Now().Unix(), d.counter.Add(1))
+}
+
+func (d *Dashboard) enqueueJob(kind string, recipes []string, force, push bool, message string) *BuildJob {
+	if kind == "" {
+		kind = "build"
+	}
+	id := d.newJobID()
+	job := &BuildJob{ID: id, Kind: kind, Recipes: recipes, State: JobQueued, CreatedAt: time.Now().Unix(), LogPath: filepath.Join(d.logRoot, id+".log"), Force: force, Push: push, Message: message, pid: -1}
+	if len(recipes) == 1 {
+		job.CurrentRecipe = recipes[0]
+	}
+	d.mu.Lock()
+	d.queue = append(d.queue, job)
+	d.mu.Unlock()
+	d.cond.Broadcast()
+	return job
+}
+
+func (d *Dashboard) normalizeRecipeArgs(recipes []string) ([]string, error) {
+	out := make([]string, 0, len(recipes))
+	for _, value := range recipes {
+		recipe, err := findRecipe(d.ignite, value)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, elementName(recipe))
+	}
+	return out, nil
+}
+
+func (d *Dashboard) enqueueBuildPlan(recipes []string, force bool) (map[string]any, error) {
+	if len(recipes) == 0 {
+		return nil, fmt.Errorf("no recipes provided")
+	}
+	d.reloadMu.RLock()
+	normalized, err := d.normalizeRecipeArgs(recipes)
+	if err == nil {
+		states, err := d.ignite.Resolve(normalized, true, true, true)
+		d.reloadMu.RUnlock()
+		if err != nil {
+			return nil, err
+		}
+		return d.enqueueResolvedBuildPlan(normalized, states, force), nil
+	}
+	d.reloadMu.RUnlock()
+	return nil, err
+}
+
+func (d *Dashboard) enqueueResolvedBuildPlan(recipes []string, states []State, force bool) map[string]any {
+	groupID := d.newJobID()
+	var jobs []*BuildJob
+	for _, state := range states {
+		if state.cached && !force {
+			continue
+		}
+		job := d.enqueueJob("build", []string{state.id}, force, false, "")
+		job.GroupID = groupID
+		job.TargetRecipes = append([]string{}, recipes...)
+		job.CurrentRecipe = state.id
+		jobs = append(jobs, job)
+	}
+	message := "queued dependency-aware build plan"
+	if len(jobs) == 0 {
+		message = "all requested recipes are already cached"
+	}
+	return map[string]any{"group_id": groupID, "jobs": jobs, "count": len(jobs), "message": message}
 }
 
 func (d *Dashboard) findJob(id string) *BuildJob {
@@ -120,10 +260,6 @@ func (d *Dashboard) workerLoop() {
 }
 
 func (d *Dashboard) runJob(job *BuildJob) {
-	exe, err := os.Executable()
-	if err != nil {
-		exe = "ignite"
-	}
 	log, err := os.OpenFile(job.LogPath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		job.State = JobFailed
@@ -131,64 +267,166 @@ func (d *Dashboard) runJob(job *BuildJob) {
 		return
 	}
 	defer log.Close()
-	overall := 0
-	for _, recipeID := range job.Recipes {
+	_, _ = fmt.Fprintf(log, "==> ignite server job %s (%s)\n", job.ID, job.Kind)
+	if job.GroupID != "" {
+		_, _ = fmt.Fprintf(log, "==> group: %s\n", job.GroupID)
+	}
+	if len(job.Recipes) > 0 {
+		_, _ = fmt.Fprintf(log, "==> recipes: %s\n", strings.Join(job.Recipes, ", "))
+	}
+
+	var runErr error
+	switch job.Kind {
+	case "build", "":
+		runErr = d.runBuildJob(job, log)
+	case "fetch":
+		runErr = d.runFetchJob(job, log)
+	case "workspace":
+		runErr = d.runWorkspaceJob(job, log)
+	case "workspace-finish":
+		runErr = d.runWorkspaceFinishJob(job, log)
+	case "status":
+		runErr = d.runStatusJob(job, log)
+	default:
+		runErr = fmt.Errorf("unknown dashboard action %q", job.Kind)
+	}
+
+	if job.State == JobCancelled {
+		return
+	}
+	if runErr != nil {
+		job.ExitCode = 1
+		job.State = JobFailed
+		_, _ = fmt.Fprintf(log, "==> failed: %s\n", runErr)
+		return
+	}
+	job.ExitCode = 0
+	job.State = JobSuccess
+	_, _ = fmt.Fprintln(log, "==> completed")
+}
+
+func (d *Dashboard) runIgniteCLI(job *BuildJob, log io.Writer, current string, flags []string, command string, args []string) error {
+	exe, err := os.Executable()
+	if err != nil {
+		exe = "ignite"
+	}
+	if current != "" {
 		d.mu.Lock()
-		job.CurrentRecipe = recipeID
+		job.CurrentRecipe = current
 		d.mu.Unlock()
-		_, _ = fmt.Fprintf(log, "==> building %s\n", recipeID)
-		cmd := exec.Command(exe, "-project-path", d.projectPath, "-cache-path", d.cachePath, "-arch", d.arch, "build", recipeID)
-		cmd.Stdout = log
-		cmd.Stderr = log
-		cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-		if err := cmd.Start(); err != nil {
-			overall = 1
-			break
-		}
-		d.mu.Lock()
-		job.pid = cmd.Process.Pid
-		d.mu.Unlock()
-		err := cmd.Wait()
-		d.mu.Lock()
-		job.pid = -1
-		d.mu.Unlock()
-		if err != nil {
-			if exit, ok := err.(*exec.ExitError); ok {
-				code := exit.ExitCode()
-				if job.State == JobCancelled {
-					break
-				}
-				overall = code
-				_, _ = fmt.Fprintf(log, "==> build failed for %s (exit %d)\n", recipeID, code)
-				break
+	}
+	cmdArgs := []string{"-project-path", d.projectPath, "-cache-path", d.cachePath, "-workspace-path", d.ignite.workspacePath, "-arch", d.arch}
+	cmdArgs = append(cmdArgs, flags...)
+	cmdArgs = append(cmdArgs, command)
+	cmdArgs = append(cmdArgs, args...)
+	_, _ = fmt.Fprintf(log, "==> ignite %s\n", strings.Join(cmdArgs, " "))
+	cmd := exec.Command(exe, cmdArgs...)
+	cmd.Stdout = log
+	cmd.Stderr = log
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	d.mu.Lock()
+	job.pid = cmd.Process.Pid
+	d.mu.Unlock()
+	err = cmd.Wait()
+	d.mu.Lock()
+	job.pid = -1
+	d.mu.Unlock()
+	if err != nil {
+		if exit, ok := err.(*exec.ExitError); ok {
+			code := exit.ExitCode()
+			if job.State == JobCancelled {
+				return nil
 			}
-			overall = 1
-			break
+			job.ExitCode = code
+			return fmt.Errorf("ignite %s failed (exit %d)", command, code)
+		}
+		return err
+	}
+	return nil
+}
+
+func (d *Dashboard) runBuildJob(job *BuildJob, log io.Writer) error {
+	for _, recipeID := range job.Recipes {
+		if err := d.runIgniteCLI(job, log, recipeID, nil, "build-one", []string{recipeID}); err != nil {
+			return err
 		}
 		_, _ = fmt.Fprintf(log, "==> completed %s\n", recipeID)
 	}
-	job.ExitCode = overall
-	if job.State != JobCancelled {
-		if overall == 0 {
-			job.State = JobSuccess
-		} else {
-			job.State = JobFailed
+	return nil
+}
+
+func (d *Dashboard) runFetchJob(job *BuildJob, log io.Writer) error {
+	flags := []string{}
+	if job.Force {
+		flags = append(flags, "-force")
+	}
+	return d.runIgniteCLI(job, log, "", flags, "fetch", job.Recipes)
+}
+
+func (d *Dashboard) runWorkspaceJob(job *BuildJob, log io.Writer) error {
+	for _, recipeID := range job.Recipes {
+		if err := d.runIgniteCLI(job, log, recipeID, nil, "workspace", []string{recipeID}); err != nil {
+			return err
 		}
 	}
+	return nil
+}
+
+func (d *Dashboard) runWorkspaceFinishJob(job *BuildJob, log io.Writer) error {
+	flags := []string{}
+	message := job.Message
+	if message == "" {
+		message = workspaceMessage
+	}
+	if message != "" {
+		flags = append(flags, "-workspace-message", message)
+	}
+	if job.Push {
+		flags = append(flags, "-workspace-push")
+	}
+	for _, recipeID := range job.Recipes {
+		if err := d.runIgniteCLI(job, log, recipeID, flags, "workspace-finish", []string{recipeID}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (d *Dashboard) runStatusJob(job *BuildJob, log io.Writer) error {
+	recipes := append([]string{}, job.Recipes...)
+	if len(recipes) == 0 {
+		for key := range d.ignite.pool {
+			recipes = append(recipes, key)
+		}
+		sort.Strings(recipes)
+	}
+	return d.runIgniteCLI(job, log, "", nil, "status", recipes)
 }
 
 func (d *Dashboard) Run() int {
 	go d.workerLoop()
+	if d.watchRecipes {
+		go d.watchRecipeLoop()
+	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/status", d.handleStatus)
 	mux.HandleFunc("/api/recipes", d.handleRecipes)
 	mux.HandleFunc("/api/recipes/", d.handleRecipe)
+	mux.HandleFunc("/api/sources", d.handleSources)
+	mux.HandleFunc("/api/workspaces", d.handleWorkspaces)
+	mux.HandleFunc("/api/actions", d.handleActions)
 	mux.HandleFunc("/api/builds", d.handleBuilds)
 	mux.HandleFunc("/api/builds/", d.handleBuild)
 	mux.HandleFunc("/api/fetch", d.handleFetch)
 	mux.Handle("/", http.FileServer(http.Dir(d.assetsPath)))
 	server := &http.Server{Addr: fmt.Sprintf("%s:%d", d.bindHost, d.port), Handler: cors(mux)}
-	fmt.Printf("ignite dashboard listening on http://%s:%d\n", d.bindHost, d.port)
+	fmt.Printf("ignite server listening on http://%s:%d\n", d.bindHost, d.port)
+	if d.watchRecipes {
+		fmt.Println("recipe watcher enabled")
+	}
 	fmt.Println("serving assets from", d.assetsPath)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return 1
@@ -203,6 +441,12 @@ func (d *Dashboard) Run() int {
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
 		next.ServeHTTP(w, r)
 	})
 }
@@ -214,23 +458,59 @@ func writeJSON(w http.ResponseWriter, status int, value any) {
 }
 
 func (d *Dashboard) handleStatus(w http.ResponseWriter, r *http.Request) {
+	d.reloadMu.RLock()
+	defer d.reloadMu.RUnlock()
 	total, cached, workspace, broken := 0, 0, 0, 0
+	container, gitSources, patchSources, localSources, remoteSources := 0, 0, 0, 0, 0
 	for _, recipe := range d.ignite.pool {
 		total++
+		container++
 		copy := recipe
-		hash, err := d.ignite.Hash(copy)
-		if err != nil {
-			broken++
-			continue
-		}
-		copy.cache = hash
-		if d.ignite.WorkspaceAvailable(copy) {
+		state, _, _ := d.recipeBuildState(copy)
+		switch state {
+		case "workspace":
 			workspace++
-		} else if exists(d.ignite.CacheFile(copy)) {
+		case "cached":
 			cached++
+		case "unknown":
+			broken++
+		}
+		if err := copy.ResolveSources(*d.ignite.config, nil); err == nil {
+			for _, source := range copy.sources {
+				spec, err := parseSourceSpec(source)
+				if err != nil {
+					continue
+				}
+				switch sourceKind(spec) {
+				case "git":
+					gitSources++
+				case "patch":
+					patchSources++
+				case "remote", "archive":
+					remoteSources++
+				default:
+					localSources++
+				}
+			}
 		}
 	}
-	writeJSON(w, 200, map[string]any{"total": total, "cached": cached, "workspace": workspace, "waiting": total - cached - workspace - broken, "broken": broken, "arch": d.arch, "project_path": d.projectPath, "cache_path": d.cachePath})
+	channel := ""
+	if variables := d.ignite.config.ScalarMap("variables"); variables != nil {
+		channel = variables["channel"]
+	}
+	d.mu.Lock()
+	active := d.active
+	queueLen := len(d.queue)
+	historyLen := len(d.history)
+	d.mu.Unlock()
+	writeJSON(w, 200, map[string]any{
+		"total": total, "cached": cached, "workspace": workspace, "waiting": total - cached - workspace - broken, "broken": broken,
+		"arch": d.arch, "project_path": d.projectPath, "cache_path": d.cachePath, "workspace_path": d.ignite.workspacePath, "source_path": filepath.Join(d.cachePath, "sources"), "log_path": d.logRoot,
+		"local_conf": exists(filepath.Join(d.projectPath, "local.conf.yml")), "version": configString(*d.ignite.config, "version", ""), "channel": channel,
+		"server": true, "watching": d.watchRecipes, "recipe_reloaded_at": d.recipeReloadedAt, "recipe_reload_generation": d.recipeReloadGeneration.Load(), "recipe_reload_error": d.recipeReloadError,
+		"container": container, "git_sources": gitSources, "patch_sources": patchSources, "local_sources": localSources, "remote_sources": remoteSources,
+		"queue": queueLen, "history": historyLen, "active": active,
+	})
 }
 
 func (d *Dashboard) handleRecipes(w http.ResponseWriter, r *http.Request) {
@@ -238,6 +518,8 @@ func (d *Dashboard) handleRecipes(w http.ResponseWriter, r *http.Request) {
 		d.handleRecipe(w, r)
 		return
 	}
+	d.reloadMu.RLock()
+	defer d.reloadMu.RUnlock()
 	query := strings.ToLower(strings.TrimSpace(r.URL.Query().Get("q")))
 	stateFilter := map[string]bool{}
 	for _, value := range r.URL.Query()["state"] {
@@ -248,27 +530,21 @@ func (d *Dashboard) handleRecipes(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+	sourceFilter := strings.TrimSpace(r.URL.Query().Get("source"))
 	limit := queryInt(r, "limit", 100)
 	offset := queryInt(r, "offset", 0)
+	dependents := d.dependentsMap()
 
 	var out []map[string]any
 	for key, recipe := range d.ignite.pool {
 		copy := recipe
-		state := "unknown"
-		note := ""
-		if hash, err := d.ignite.Hash(copy); err != nil {
-			note = err.Error()
-		} else {
-			copy.cache = hash
-			if d.ignite.WorkspaceAvailable(copy) {
-				state = "workspace"
-			} else if exists(d.ignite.CacheFile(copy)) {
-				state = "cached"
-			} else {
-				state = "waiting"
-			}
-		}
+		state, note, hash := d.recipeBuildState(copy)
 		if len(stateFilter) > 0 && !stateFilter[state] {
+			continue
+		}
+		mode := "container"
+		sourceStats := d.recipeSourceStats(copy)
+		if sourceFilter != "" && sourceStats[sourceFilter] == 0 {
 			continue
 		}
 		if query != "" && !strings.Contains(strings.ToLower(key), query) &&
@@ -277,7 +553,7 @@ func (d *Dashboard) handleRecipes(w http.ResponseWriter, r *http.Request) {
 			!strings.Contains(strings.ToLower(recipe.about), query) {
 			continue
 		}
-		item := map[string]any{"id": key, "recipe_id": recipe.id, "version": recipe.version, "about": recipe.about, "state": state, "depends": recipe.depends}
+		item := map[string]any{"id": key, "recipe_id": recipe.id, "version": recipe.version, "about": recipe.about, "state": state, "depends": recipe.depends, "build_time_depends": recipe.buildTimeDepends, "cache": hash, "mode": mode, "source_count": sourceStats["total"], "patch_count": sourceStats["patch"], "git_source_count": sourceStats["git"], "dependents": dependents[key]}
 		if note != "" {
 			item["note"] = note
 		}
@@ -310,6 +586,8 @@ func (d *Dashboard) handleRecipe(w http.ResponseWriter, r *http.Request) {
 		d.handleRecipeBuilds(w, r, id)
 		return
 	}
+	d.reloadMu.RLock()
+	defer d.reloadMu.RUnlock()
 	recipe, ok := d.ignite.pool[id]
 	if !ok {
 		w.Header().Set("Content-Type", "application/json")
@@ -317,27 +595,21 @@ func (d *Dashboard) handleRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	copy := recipe
-	state := "unknown"
-	note := ""
-	if hash, err := d.ignite.Hash(copy); err != nil {
-		note = err.Error()
-	} else {
-		copy.cache = hash
-	}
+	state, note, hash := d.recipeBuildState(copy)
+	copy.cache = hash
 	_ = copy.ResolveSources(*d.ignite.config, nil)
 	cached, workspace := false, false
 	if copy.cache != "" {
 		cached = exists(d.ignite.CacheFile(copy))
 		workspace = d.ignite.WorkspaceAvailable(copy)
-		if workspace {
-			state = "workspace"
-		} else if cached {
-			state = "cached"
-		} else {
-			state = "waiting"
-		}
 	}
-	out := map[string]any{"id": id, "recipe_id": copy.id, "element_id": copy.elementID, "version": copy.version, "about": copy.about, "cache": copy.cache, "state": state, "package_name": copy.PackageName(copy.elementID), "cache_file": d.ignite.CacheFile(copy), "depends": copy.depends, "build_time_depends": copy.buildTimeDepends, "sources": copy.sources, "backup": copy.backup, "integration": copy.integration}
+	mode := "container"
+	dependents := d.dependentsMap()[id]
+	out := map[string]any{
+		"id": id, "recipe_id": copy.id, "element_id": copy.elementID, "version": copy.version, "about": copy.about, "cache": copy.cache, "state": state, "package_name": copy.PackageName(copy.elementID), "cache_file": d.ignite.CacheFile(copy),
+		"depends": copy.depends, "build_time_depends": copy.buildTimeDepends, "dependents": dependents, "sources": copy.sources, "source_details": d.recipeSourceDetails(copy), "backup": copy.backup, "integration": copy.integration,
+		"cached": cached, "workspace": workspace, "workspace_path": d.ignite.WorkspacePath(copy), "mode": mode, "container": true,
+	}
 	if note != "" {
 		out["note"] = note
 	}
@@ -362,9 +634,15 @@ func (d *Dashboard) handleRecipeBuilds(w http.ResponseWriter, r *http.Request, i
 	sort.Slice(out, func(i, j int) bool {
 		ai := out[i].StartedAt
 		if ai == 0 {
+			ai = out[i].CreatedAt
+		}
+		if ai == 0 {
 			ai = out[i].FinishedAt
 		}
 		aj := out[j].StartedAt
+		if aj == 0 {
+			aj = out[j].CreatedAt
+		}
 		if aj == 0 {
 			aj = out[j].FinishedAt
 		}
@@ -375,6 +653,135 @@ func (d *Dashboard) handleRecipeBuilds(w http.ResponseWriter, r *http.Request, i
 		out = out[:limit]
 	}
 	writeJSON(w, 200, map[string]any{"items": out, "total": len(out)})
+}
+
+func (d *Dashboard) handleSources(w http.ResponseWriter, r *http.Request) {
+	d.reloadMu.RLock()
+	defer d.reloadMu.RUnlock()
+	query := strings.ToLower(strings.TrimSpace(r.URL.Query().Get("q")))
+	typeFilter := strings.TrimSpace(r.URL.Query().Get("type"))
+	items := []map[string]any{}
+	for key, recipe := range d.ignite.pool {
+		copy := recipe
+		if err := copy.ResolveSources(*d.ignite.config, nil); err != nil {
+			items = append(items, map[string]any{"recipe": key, "error": err.Error()})
+			continue
+		}
+		for idx, source := range copy.sources {
+			spec, err := parseSourceSpec(source)
+			if err != nil {
+				items = append(items, map[string]any{"recipe": key, "source": source, "index": idx, "error": err.Error()})
+				continue
+			}
+			kind := sourceKind(spec)
+			if typeFilter != "" && typeFilter != kind {
+				continue
+			}
+			needle := strings.ToLower(source + " " + spec.filename + " " + key + " " + copy.id)
+			if query != "" && !strings.Contains(needle, query) {
+				continue
+			}
+			locked, hasLock, lockErr := d.ignite.LockedSourceChecksum(spec.filename)
+			cachedPath := filepath.Join(d.cachePath, "sources", spec.filename)
+			localPath := ""
+			localExists := false
+			if !spec.IsGit() && !strings.HasPrefix(spec.url, "http://") && !strings.HasPrefix(spec.url, "https://") {
+				localPath = filepath.Join(d.projectPath, spec.url)
+				localExists = exists(localPath)
+			}
+			item := map[string]any{"recipe": key, "recipe_id": copy.id, "index": idx, "source": source, "name": spec.filename, "url": spec.url, "type": kind, "noextract": spec.noextract, "locked": hasLock, "checksum": locked, "cached": exists(cachedPath), "cache_path": cachedPath, "local_path": localPath, "local_exists": localExists}
+			if spec.IsGit() {
+				if remote, err := spec.GitRemote(); err == nil {
+					item["remote"] = remote
+				}
+				item["ref"] = spec.GitRef()
+			}
+			if lockErr != nil {
+				item["lock_error"] = lockErr.Error()
+			}
+			items = append(items, item)
+		}
+	}
+	sort.Slice(items, func(i, j int) bool {
+		ai := fmt.Sprint(items[i]["name"])
+		aj := fmt.Sprint(items[j]["name"])
+		if ai == aj {
+			return fmt.Sprint(items[i]["recipe"]) < fmt.Sprint(items[j]["recipe"])
+		}
+		return ai < aj
+	})
+	writeJSON(w, 200, map[string]any{"items": items, "total": len(items)})
+}
+
+func (d *Dashboard) handleWorkspaces(w http.ResponseWriter, r *http.Request) {
+	d.reloadMu.RLock()
+	defer d.reloadMu.RUnlock()
+	items := []map[string]any{}
+	for key, recipe := range d.ignite.pool {
+		copy := recipe
+		if hash, err := d.ignite.Hash(copy); err == nil {
+			copy.cache = hash
+		}
+		if !d.ignite.WorkspaceAvailable(copy) {
+			continue
+		}
+		path := d.ignite.WorkspacePath(copy)
+		meta := filepath.Join(path, ".ignite-workspace")
+		metadata := readWorkspaceMetadata(meta)
+		status := ""
+		dirty := false
+		if isDir(filepath.Join(path, ".git")) {
+			if out, err := gitStatusPorcelain(path); err == nil {
+				status = strings.TrimSpace(out)
+				dirty = status != ""
+			}
+		} else {
+			status = workspaceDiffSummary(path, filepath.Join(meta, "original"))
+			dirty = status != ""
+		}
+		items = append(items, map[string]any{"id": key, "recipe_id": recipe.id, "version": recipe.version, "path": path, "metadata": metadata, "git": metadata["git"] == "true", "branch": metadata["git-branch"], "dirty": dirty, "status": status})
+	}
+	sort.Slice(items, func(i, j int) bool { return items[i]["id"].(string) < items[j]["id"].(string) })
+	writeJSON(w, 200, map[string]any{"items": items, "total": len(items), "workspace_path": d.ignite.workspacePath})
+}
+
+func (d *Dashboard) handleActions(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSON(w, 405, map[string]string{"error": "method not allowed"})
+		return
+	}
+	var body struct {
+		Action  string   `json:"action"`
+		Recipes []string `json:"recipes"`
+		Force   bool     `json:"force"`
+		Push    bool     `json:"push"`
+		Message string   `json:"message"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		writeJSON(w, 400, map[string]string{"error": err.Error()})
+		return
+	}
+	body.Action = strings.TrimSpace(body.Action)
+	allowed := map[string]bool{"build": true, "fetch": true, "workspace": true, "workspace-finish": true, "status": true}
+	if !allowed[body.Action] {
+		writeJSON(w, 400, map[string]string{"error": "unknown action"})
+		return
+	}
+	if (body.Action == "build" || body.Action == "workspace" || body.Action == "workspace-finish") && len(body.Recipes) == 0 {
+		writeJSON(w, 400, map[string]string{"error": "no recipes provided"})
+		return
+	}
+	if body.Action == "build" {
+		plan, err := d.enqueueBuildPlan(body.Recipes, body.Force)
+		if err != nil {
+			writeJSON(w, 400, map[string]string{"error": err.Error()})
+			return
+		}
+		writeJSON(w, 200, plan)
+		return
+	}
+	job := d.enqueueJob(body.Action, body.Recipes, body.Force, body.Push, body.Message)
+	writeJSON(w, 200, job)
 }
 
 func (d *Dashboard) handleBuilds(w http.ResponseWriter, r *http.Request) {
@@ -393,13 +800,12 @@ func (d *Dashboard) handleBuilds(w http.ResponseWriter, r *http.Request) {
 			writeJSON(w, 400, map[string]string{"error": "no recipes provided"})
 			return
 		}
-		id := d.newJobID()
-		job := &BuildJob{ID: id, Recipes: recipes, State: JobQueued, LogPath: filepath.Join(d.logRoot, id+".log"), pid: -1}
-		d.mu.Lock()
-		d.queue = append(d.queue, job)
-		d.mu.Unlock()
-		d.cond.Broadcast()
-		writeJSON(w, 200, job)
+		plan, err := d.enqueueBuildPlan(recipes, false)
+		if err != nil {
+			writeJSON(w, 400, map[string]string{"error": err.Error()})
+			return
+		}
+		writeJSON(w, 200, plan)
 		return
 	}
 	d.mu.Lock()
@@ -492,11 +898,126 @@ func (d *Dashboard) streamLogs(w http.ResponseWriter, job *BuildJob) {
 func (d *Dashboard) handleFetch(w http.ResponseWriter, r *http.Request) {
 	var recipes []string
 	_ = json.NewDecoder(r.Body).Decode(&recipes)
-	if err := d.ignite.FetchSources(recipes, false); err != nil {
-		writeJSON(w, 500, map[string]string{"error": err.Error()})
-		return
+	job := d.enqueueJob("fetch", recipes, force, false, "")
+	writeJSON(w, 200, job)
+}
+
+func (d *Dashboard) recipeBuildState(recipe Recipe) (string, string, string) {
+	hash, err := d.ignite.Hash(recipe)
+	if err != nil {
+		return "unknown", err.Error(), ""
 	}
-	writeJSON(w, 200, map[string]bool{"ok": true})
+	recipe.cache = hash
+	if d.ignite.WorkspaceAvailable(recipe) {
+		return "workspace", "", hash
+	}
+	if exists(d.ignite.CacheFile(recipe)) {
+		return "cached", "", hash
+	}
+	return "waiting", "", hash
+}
+
+func (d *Dashboard) recipeSourceStats(recipe Recipe) map[string]int {
+	stats := map[string]int{"total": 0, "git": 0, "patch": 0, "local": 0, "remote": 0, "archive": 0}
+	copy := recipe
+	if err := copy.ResolveSources(*d.ignite.config, nil); err != nil {
+		return stats
+	}
+	for _, source := range copy.sources {
+		spec, err := parseSourceSpec(source)
+		if err != nil {
+			continue
+		}
+		kind := sourceKind(spec)
+		stats["total"]++
+		stats[kind]++
+	}
+	return stats
+}
+
+func (d *Dashboard) recipeSourceDetails(recipe Recipe) []map[string]any {
+	var out []map[string]any
+	for idx, source := range recipe.sources {
+		spec, err := parseSourceSpec(source)
+		if err != nil {
+			out = append(out, map[string]any{"source": source, "index": idx, "error": err.Error()})
+			continue
+		}
+		locked, hasLock, _ := d.ignite.LockedSourceChecksum(spec.filename)
+		item := map[string]any{"source": source, "index": idx, "name": spec.filename, "url": spec.url, "type": sourceKind(spec), "noextract": spec.noextract, "locked": hasLock, "checksum": locked, "cached": exists(filepath.Join(d.cachePath, "sources", spec.filename))}
+		if spec.IsGit() {
+			if remote, err := spec.GitRemote(); err == nil {
+				item["remote"] = remote
+			}
+			item["ref"] = spec.GitRef()
+		}
+		out = append(out, item)
+	}
+	return out
+}
+
+func (d *Dashboard) dependentsMap() map[string][]string {
+	out := map[string][]string{}
+	for key, recipe := range d.ignite.pool {
+		for _, dep := range recipe.depends {
+			out[dep] = append(out[dep], key)
+		}
+	}
+	for key := range out {
+		sort.Strings(out[key])
+	}
+	return out
+}
+
+func sourceKind(spec SourceSpec) string {
+	if spec.IsGit() {
+		return "git"
+	}
+	if isPatchFile(spec.filename) || isPatchFile(spec.url) {
+		return "patch"
+	}
+	if strings.HasPrefix(spec.url, "http://") || strings.HasPrefix(spec.url, "https://") {
+		return "remote"
+	}
+	if isArchiveSource(spec.filename) {
+		return "archive"
+	}
+	return "local"
+}
+
+func isArchiveSource(name string) bool {
+	name = strings.ToLower(name)
+	for _, suffix := range []string{".tar", ".tar.gz", ".tgz", ".tar.xz", ".txz", ".tar.bz2", ".tbz2", ".zip", ".tar.zst"} {
+		if strings.HasSuffix(name, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
+func workspaceDiffSummary(workspace, original string) string {
+	if !isDir(original) {
+		return ""
+	}
+	diffBin, err := findBinary("diff", "")
+	if err != nil {
+		return ""
+	}
+	status, out := NewExecutor(diffBin).Arg("-qr").Arg(original).Arg(workspace).Output()
+	if status == 0 {
+		return ""
+	}
+	lines := []string{}
+	for _, line := range strings.Split(out, "\n") {
+		if line == "" || strings.Contains(line, ".ignite-workspace") {
+			continue
+		}
+		lines = append(lines, line)
+		if len(lines) >= 20 {
+			break
+		}
+	}
+	return strings.Join(lines, "\n")
 }
 
 func reverseJobs(in []*BuildJob) []*BuildJob {

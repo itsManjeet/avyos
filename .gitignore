@@ -12,3 +12,5 @@ __pycache__
 /channel.yml
 /config.mk
 /files/sign-keys
+/local.conf.yml
+/workspaces

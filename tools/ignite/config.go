@@ -10,8 +10,9 @@ import (
 )
 
 type Config struct {
-	node       *yaml.Node
-	searchPath []string
+	node         *yaml.Node
+	searchPath   []string
+	virtualFiles map[string][]byte
 }
 
 func NewConfig() Config {
@@ -65,6 +66,12 @@ func (c *Config) UpdateFrom(data []byte, path string) error {
 			}
 		}
 		if !found {
+			if data, ok := c.virtualFiles[name]; ok {
+				if err := c.UpdateFrom(data, name); err != nil {
+					return fmt.Errorf("failed to load virtual merge %s for %s because %w", name, path, err)
+				}
+				continue
+			}
 			return fmt.Errorf("failed to load %s because missing required file to merge %q to merge", path, name)
 		}
 	}

@@ -3,3 +3,5 @@ merge:
   - elements/include/glibc.inc
 build-depends:
   - components/kernel-headers.yml
+
+container: true

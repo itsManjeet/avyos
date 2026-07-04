@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -36,6 +37,40 @@ func (c Container) Args() []string {
 		args = append(args, "--setenv", parts[0], value)
 	}
 	return args
+}
+
+func (c Container) HostPath(path string) string {
+	if path == "" || path == "." {
+		return c.hostRoot
+	}
+	if filepath.IsAbs(path) {
+		clean := filepath.Clean(path)
+		if clean == c.hostRoot || strings.HasPrefix(clean, c.hostRoot+string(os.PathSeparator)) {
+			return clean
+		}
+		return filepath.Join(c.hostRoot, strings.TrimPrefix(clean, string(os.PathSeparator)))
+	}
+	return filepath.Join(c.hostRoot, path)
+}
+
+func (c Container) RuntimePath(path string) string {
+	if path == "" {
+		return "/"
+	}
+	if filepath.IsAbs(path) {
+		clean := filepath.Clean(path)
+		if clean == c.hostRoot {
+			return "/"
+		}
+		if strings.HasPrefix(clean, c.hostRoot+string(os.PathSeparator)) {
+			rel, err := filepath.Rel(c.hostRoot, clean)
+			if err == nil {
+				return filepath.ToSlash(filepath.Join("/", rel))
+			}
+		}
+		return filepath.ToSlash(clean)
+	}
+	return filepath.ToSlash(filepath.Join("/", path))
 }
 
 type Executor struct {

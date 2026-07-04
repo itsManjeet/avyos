@@ -1,0 +1,19 @@
+# Copy to local.conf.yml and edit for your machine.
+# Ignite reads this automatically from the project root.
+
+arch: x86_64
+cache-path: out
+workspace-path: workspaces
+
+# Used by recipes that merge version.yml/channel.yml.
+# This removes the need for Makefile-generated version.yml/channel.yml during local builds.
+version: 9999
+variables:
+  channel: testing
+
+# Optional workspace defaults. CLI flags override these.
+workspace-push: false
+workspace-message: avyos workspace update
+
+# Used by `ignite client ...` commands.
+server-url: http://127.0.0.1:8080

@@ -17,3 +17,5 @@ script: |
 
 sources:
   - https://www.kernel.org/pub/linux/kernel/v%{version:1}.x/linux-%{version}.tar.xz
+
+container: true

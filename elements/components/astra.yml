@@ -1,11 +1,7 @@
 id: astra
 version: 0.1.0
 about: Browser and web app runtime
-commit: 786d559f230893faa2b811460a4c36b06b78051e
-
-script: |-
-  make -j$(nproc)
-  install -D -m 0755 -t %{install-root}%{bindir} astra
+commit: d76b21008ad2ecd919526dee237f5a102936e858
 
 depends:
   - components/webkitgtk.yml

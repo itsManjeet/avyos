@@ -4,3 +4,5 @@ merge:
 
 build-depends:
   - bootstrap/binutils-stage2.yml
+
+container: true

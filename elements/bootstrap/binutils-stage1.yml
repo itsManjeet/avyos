@@ -4,3 +4,5 @@ merge:
 
 build-depends:
   - bootstrap/glibc-stage1.yml
+
+container: true

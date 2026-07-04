@@ -1,6 +1,7 @@
 id: base-image
 version: 3.0
 about: Avyos base image
+container: true
 
 sources:
   - http://repo.avyos.dev/base-image-%{version}.tar.zst

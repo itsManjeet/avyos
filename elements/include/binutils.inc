@@ -52,4 +52,3 @@ post-script: |-
 
 sources:
   - https://ftp.gnu.org/gnu/binutils/binutils-%{version}.tar.xz
-  - patches/binutils/gold-warn-unsupported.patch

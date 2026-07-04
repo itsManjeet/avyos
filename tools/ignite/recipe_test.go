@@ -27,6 +27,59 @@ func TestParseSourceSpec(t *testing.T) {
 	}
 }
 
+func TestApplyPatchFileHandlesBundledSequentialPatches(t *testing.T) {
+	tmp := t.TempDir()
+	root := filepath.Join(tmp, "root")
+	nested := filepath.Join(root, "pkg-1.0")
+	if err := os.MkdirAll(nested, 0755); err != nil {
+		t.Fatal(err)
+	}
+	file := filepath.Join(nested, "hello.txt")
+	if err := os.WriteFile(file, []byte("one\n"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	patch := filepath.Join(tmp, "bundle.patch")
+	data := `From 1111111111111111111111111111111111111111 Mon Sep 17 00:00:00 2001
+Subject: [PATCH 1/2] one to two
+---
+ hello.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hello.txt b/hello.txt
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1 @@
+-one
++two
+
+From 2222222222222222222222222222222222222222 Mon Sep 17 00:00:00 2001
+Subject: [PATCH 2/2] two to three
+---
+ hello.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hello.txt b/hello.txt
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1 @@
+-two
++three
+`
+	if err := os.WriteFile(patch, []byte(data), 0644); err != nil {
+		t.Fatal(err)
+	}
+	if err := applyPatchFile(patch, root); err != nil {
+		t.Fatal(err)
+	}
+	got, err := os.ReadFile(file)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != "three\n" {
+		t.Fatalf("patch bundle was not applied sequentially: %q", got)
+	}
+}
+
 func TestAppendSourcesToRecipeTextExistingBlock(t *testing.T) {
 	input := "id: pkg\nversion: 1\nsources:\n  - https://example.invalid/pkg.tar.xz\nscript: |\n  true\n"
 	got := appendSourcesToRecipeText(input, []string{"patches/pkg/0001-fix.patch", "patches/pkg/0002-next.patch"})
@@ -88,5 +141,37 @@ func TestGitSourceSpecInfersName(t *testing.T) {
 	}
 	if spec.filename != "demo" || spec.GitRef() != "main" {
 		t.Fatalf("unexpected inferred git source spec: %#v ref=%q", spec, spec.GitRef())
+	}
+}
+
+func TestExecutorContainerAlwaysWrapsCommand(t *testing.T) {
+	container := Container{
+		hostRoot: "/tmp/ignite-root",
+		environ:  []string{"HOME=/"},
+	}
+	ex := NewExecutor("/bin/true").Path("/build-root").Container(&container)
+	if len(ex.args) == 0 || ex.args[0] != "/bin/bwrap" {
+		t.Fatalf("expected containerized command, got args %#v", ex.args)
+	}
+	if ex.path != "" {
+		t.Fatalf("containerized command should not keep a host working directory: %q", ex.path)
+	}
+	foundChdir := false
+	for idx, arg := range ex.args {
+		if arg == "--chdir" && idx+1 < len(ex.args) && ex.args[idx+1] == "/build-root" {
+			foundChdir = true
+			break
+		}
+	}
+	if !foundChdir {
+		t.Fatalf("expected runtime chdir in container args: %#v", ex.args)
+	}
+}
+
+func TestContainerRuntimePathMapsHostRoot(t *testing.T) {
+	container := Container{hostRoot: "/tmp/ignite-root"}
+	got := container.RuntimePath("/tmp/ignite-root/install-root/pkg/bin/tool")
+	if got != "/install-root/pkg/bin/tool" {
+		t.Fatalf("unexpected runtime path: %q", got)
 	}
 }

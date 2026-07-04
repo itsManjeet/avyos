@@ -4,3 +4,5 @@ merge:
 
 build-depends:
   - bootstrap/gcc-stage1.yml
+
+container: true

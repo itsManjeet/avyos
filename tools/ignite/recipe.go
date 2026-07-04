@@ -21,9 +21,10 @@ type Recipe struct {
 	elementID          string
 }
 
-func LoadRecipe(path, projectPath string) (Recipe, error) {
+func LoadRecipe(path, projectPath string, virtualFiles map[string][]byte) (Recipe, error) {
 	r := Recipe{file: path, config: NewConfig()}
 	r.config.searchPath = append(r.config.searchPath, projectPath)
+	r.config.virtualFiles = virtualFiles
 	r.config.SetString("cache", "none")
 	if err := r.UpdateFromFile(path); err != nil {
 		return r, err

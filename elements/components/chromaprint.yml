@@ -18,4 +18,4 @@ build-depends:
 
 sources:
   - https://github.com/acoustid/chromaprint/archive/v%{version}/chromaprint-%{version}.tar.gz
-  - https://github.com/acoustid/chromaprint/commit/aa67c95b.patch
+#  - https://github.com/acoustid/chromaprint/commit/aa67c95b.patch

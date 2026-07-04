@@ -3,15 +3,77 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ignite Dashboard</title>
+<title>Ignite Control Center</title>
 <link rel="stylesheet" href="/styles.css" />
 </head>
-<body>
-<header class="shell-header">
+<body class="avyos-site" data-theme="light">
+<div class="ambient-glows" aria-hidden="true">
+  <div class="glow glow-one"></div>
+  <div class="glow glow-two"></div>
+  <div class="glow glow-three"></div>
+</div>
+<div class="beta-strip">
+  <span class="strip-icon">⚠</span> Ignite is a live Avyos build control center. Review queued jobs before running destructive workspace actions.
+</div>
+<div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+<div class="dashboard-layout">
+  <aside id="dashboard-sidebar" class="dashboard-sidebar glass-surface" aria-label="Ignite navigation">
+    <div class="sidebar-head">
+      <div class="brand sidebar-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>Ignite Control</h1>
+          <span class="meta-text">Avyos build daemon</span>
+        </div>
+      </div>
+      <button id="sidebar-close" class="icon-button sidebar-close" title="Close sidebar" aria-label="Close sidebar">×</button>
+    </div>
+
+    <nav class="side-nav" aria-label="Dashboard sections">
+      <a href="#/" data-route="overview"><span class="nav-icon">⌁</span><span>Overview</span></a>
+      <a href="#/components" data-route="components"><span class="nav-icon">▦</span><span>Components</span></a>
+      <a href="#/workspaces" data-route="workspaces"><span class="nav-icon">◇</span><span>Workspaces</span></a>
+      <a href="#/sources" data-route="sources"><span class="nav-icon">⇣</span><span>Sources</span></a>
+      <a href="#/builds" data-route="builds"><span class="nav-icon">▣</span><span>Builds</span></a>
+      <a href="#/settings" data-route="settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">Daemon snapshot</p>
+      <div class="side-stat">
+        <span>Arch / config</span>
+        <strong id="sidebar-arch">x86_64</strong>
+      </div>
+      <div class="side-stat-grid">
+        <div class="side-stat mini"><span>Queue</span><strong id="sidebar-queue">0</strong></div>
+        <div class="side-stat mini"><span>Cached</span><strong id="sidebar-cached">0</strong></div>
+        <div class="side-stat mini"><span>Waiting</span><strong id="sidebar-waiting">0</strong></div>
+        <div class="side-stat mini"><span>Workspace</span><strong id="sidebar-workspace">0</strong></div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">Fast lanes</p>
+      <div class="sidebar-actions">
+        <button data-action="fetch" data-scope="all">Fetch all sources</button>
+        <button data-route-link="#/components?state=waiting">Open waiting</button>
+        <button data-route-link="#/workspaces">Manage workspaces</button>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="status-orb" aria-hidden="true"></span>
+      <span>Recipe watcher active</span>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+<header class="shell-header glass-surface">
   <div class="brand">
-    <span class="brand-mark"></span>
+    <button id="sidebar-toggle" class="icon-button sidebar-toggle" title="Open sidebar" aria-label="Open sidebar">☰</button>
+    <span class="brand-mark" aria-hidden="true"></span>
     <div>
-      <h1>ignite</h1>
+      <h1>Ignite Control</h1>
       <span id="arch-tag" class="meta-text">x86_64</span>
     </div>
   </div>
@@ -19,72 +81,102 @@
   <nav class="nav-tabs" aria-label="Dashboard">
     <a href="#/" data-route="overview">Overview</a>
     <a href="#/components" data-route="components">Components</a>
+    <a href="#/workspaces" data-route="workspaces">Workspaces</a>
+    <a href="#/sources" data-route="sources">Sources</a>
     <a href="#/builds" data-route="builds">Builds</a>
+    <a href="#/settings" data-route="settings">Settings</a>
   </nav>
 
-  <div class="header-actions">
+  <div class="header-actions top-actions">
+    <label class="theme-field" aria-label="Accent theme">
+      <span class="theme-dot" id="accent-dot" aria-hidden="true"></span>
+      <select id="accent-picker" title="Accent theme">
+        <option value="varanasi">Varanasi</option>
+        <option value="jaipur">Jaipur</option>
+        <option value="jodhpur">Jodhpur</option>
+        <option value="coorg">Coorg</option>
+        <option value="kochi">Kochi</option>
+        <option value="ladakh">Ladakh</option>
+        <option value="konark">Konark</option>
+        <option value="madurai">Madurai</option>
+      </select>
+    </label>
+    <button id="theme-toggle" class="icon-button" title="Toggle theme" aria-label="Toggle theme">☾</button>
     <button id="build-selected" class="primary" disabled>Build selected (0)</button>
-    <button id="fetch-sources">Fetch sources</button>
+    <button id="fetch-sources">Fetch all</button>
   </div>
 </header>
 
 <main class="page-shell">
   <section id="page-overview" class="page">
-    <div class="page-heading">
-      <div>
-        <p class="eyebrow">System build state</p>
-        <h2>Overview</h2>
-      </div>
-      <button id="overview-refresh">Refresh</button>
-    </div>
-    <div class="prana-divider"></div>
-    <div class="metric-grid">
-      <article class="metric">
-        <span class="metric-label">Total</span>
-        <strong id="c-total">0</strong>
-      </article>
-      <article class="metric good">
-        <span class="metric-label">Cached</span>
-        <strong id="c-cached">0</strong>
-      </article>
-      <article class="metric warn">
-        <span class="metric-label">Waiting</span>
-        <strong id="c-waiting">0</strong>
-      </article>
-      <article class="metric cool">
-        <span class="metric-label">Workspace</span>
-        <strong id="c-workspace">0</strong>
-      </article>
-      <article class="metric bad">
-        <span class="metric-label">Broken</span>
-        <strong id="c-broken">0</strong>
-      </article>
-    </div>
-    <div class="overview-grid">
-      <section class="panel">
-        <div class="panel-head">
-          <h3>Recent builds</h3>
-          <a href="#/builds">View all</a>
+    <div class="hero-card hero-control">
+      <div class="hero-copy">
+        <p class="eyebrow">Ignite daemon</p>
+        <h2>Avyos build control center</h2>
+        <p class="lead">Track recipes, source locks, workspaces, containerized builds and per-recipe client/server jobs from one polished command deck.</p>
+        <div class="hero-pills" aria-label="Capabilities">
+          <span class="glass-pill">Recipe watcher</span>
+          <span class="glass-pill">Per-recipe jobs</span>
+          <span class="glass-pill">Git workspaces</span>
         </div>
+      </div>
+      <div class="hero-side">
+        <div class="hero-terminal" aria-hidden="true">
+          <div class="terminal-dots"><span></span><span></span><span></span></div>
+          <code>ignite client build platform</code>
+          <code>plan: deps → target → image</code>
+          <code>mode: container only</code>
+        </div>
+        <div class="hero-actions">
+          <button id="overview-refresh">Refresh</button>
+          <button id="overview-fetch" class="primary">Fetch sources</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-grid ultimate">
+      <article class="metric"><span class="metric-label">Total</span><strong id="c-total">0</strong></article>
+      <article class="metric good"><span class="metric-label">Cached</span><strong id="c-cached">0</strong></article>
+      <article class="metric warn"><span class="metric-label">Waiting</span><strong id="c-waiting">0</strong></article>
+      <article class="metric cool"><span class="metric-label">Workspace</span><strong id="c-workspace">0</strong></article>
+      <article class="metric bad"><span class="metric-label">Broken</span><strong id="c-broken">0</strong></article>
+      <article class="metric"><span class="metric-label">Container</span><strong id="c-container">0</strong></article>
+      <article class="metric"><span class="metric-label">Queue</span><strong id="c-queue">0</strong></article>
+    </div>
+
+    <div class="control-grid">
+      <section class="panel span-2">
+        <div class="panel-head"><h3>Build pipeline</h3><a href="#/builds">Open logs</a></div>
         <div id="overview-builds" class="stack-list"></div>
       </section>
       <section class="panel">
-        <div class="panel-head">
-          <h3>Waiting components</h3>
-          <a href="#/components?state=waiting">Open list</a>
+        <div class="panel-head"><h3>Quick actions</h3></div>
+        <div class="action-grid">
+          <button data-action="fetch" data-scope="all">Fetch all sources</button>
+          <button data-action="status" data-scope="waiting">Check waiting graph</button>
+          <button data-route-link="#/components?state=waiting">Open waiting</button>
+          <button data-route-link="#/workspaces">Open workspaces</button>
         </div>
-        <div id="overview-waiting" class="stack-list"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>Source inventory</h3><a href="#/sources">Inspect</a></div>
+        <div id="overview-sources" class="mini-metrics"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>Active workspaces</h3><a href="#/workspaces">Manage</a></div>
+        <div id="overview-workspaces" class="stack-list compact"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>Waiting components</h3><a href="#/components?state=waiting">Open list</a></div>
+        <div id="overview-waiting" class="stack-list compact"></div>
       </section>
     </div>
   </section>
 
   <section id="page-components" class="page">
     <div class="page-heading">
-      <div>
-        <p class="eyebrow">Recipe pool</p>
-        <h2>Components</h2>
-      </div>
-      <div class="toolbar">
+      <div><p class="eyebrow">Recipe pool</p><h2>Components</h2></div>
+      <div class="toolbar wrap">
         <input id="filter" type="search" placeholder="Search id, version, about" />
         <select id="state-filter" aria-label="State">
           <option value="">All states</option>
@@ -93,22 +185,26 @@
           <option value="workspace">Workspace</option>
           <option value="unknown">Unknown</option>
         </select>
+        <select id="source-filter" aria-label="Source type">
+          <option value="">All sources</option>
+          <option value="git">Git</option>
+          <option value="patch">Patch</option>
+          <option value="remote">Remote</option>
+          <option value="local">Local</option>
+        </select>
       </div>
     </div>
-    <div class="prana-divider"></div>
+
     <section class="panel table-panel">
       <div class="table-meta">
         <span id="components-count">0 components</span>
         <div class="pager">
+          <button id="selected-fetch" disabled>Fetch selected</button>
+          <button id="selected-workspace" disabled>Workspace selected</button>
           <button id="page-prev">Previous</button>
           <span id="page-label">Page 1</span>
           <button id="page-next">Next</button>
-          <select id="page-size" aria-label="Rows per page">
-            <option>25</option>
-            <option selected>50</option>
-            <option>100</option>
-            <option>200</option>
-          </select>
+          <select id="page-size" aria-label="Rows per page"><option>25</option><option selected>50</option><option>100</option><option>200</option></select>
         </div>
       </div>
       <div class="table-wrap">
@@ -119,6 +215,8 @@
               <th>Component</th>
               <th>Version</th>
               <th>State</th>
+              <th>Mode</th>
+              <th>Sources</th>
               <th>Depends</th>
               <th></th>
             </tr>
@@ -131,36 +229,42 @@
 
   <section id="page-component" class="page">
     <div class="page-heading">
-      <div>
-        <p class="eyebrow">Component</p>
-        <h2 id="component-title">Component</h2>
-      </div>
+      <div><p class="eyebrow">Component</p><h2 id="component-title">Component</h2></div>
       <div class="header-actions local">
         <a class="button" href="#/components">Back</a>
+        <button id="component-fetch">Fetch</button>
+        <button id="component-workspace">Workspace</button>
         <button id="component-build" class="primary">Build</button>
       </div>
     </div>
-    <div class="prana-divider"></div>
     <div class="component-grid">
       <section class="panel">
-        <div class="panel-head">
-          <h3>Overview</h3>
-          <span id="component-state"></span>
-        </div>
+        <div class="panel-head"><h3>Overview</h3><span id="component-state"></span></div>
         <div id="component-overview" class="definition"></div>
       </section>
       <section class="panel">
-        <div class="panel-head">
-          <h3>Last build</h3>
-          <button id="component-log-refresh">Refresh</button>
+        <div class="panel-head"><h3>Workspace controls</h3></div>
+        <div class="form-stack">
+          <input id="component-message" type="text" placeholder="workspace finish commit/patch message" />
+          <label class="checkline"><input id="component-finish-push" type="checkbox" /> Push Git workspace</label>
+          <button id="component-finish">Finish workspace</button>
+          <span id="component-workspace-path" class="meta-text"></span>
         </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>Dependency graph</h3></div>
+        <div id="component-graph" class="chip-cloud"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h3>Last build</h3><button id="component-log-refresh">Refresh</button></div>
         <div id="component-builds" class="stack-list compact"></div>
       </section>
       <section class="panel wide">
-        <div class="panel-head">
-          <h3>Last build logs</h3>
-          <span id="component-log-job" class="meta-text"></span>
-        </div>
+        <div class="panel-head"><h3>Sources</h3></div>
+        <div id="component-sources" class="source-cards"></div>
+      </section>
+      <section class="panel wide">
+        <div class="panel-head"><h3>Last build logs</h3><span id="component-log-job" class="meta-text"></span></div>
         <pre id="component-logs" class="logs">No build log selected.</pre>
       </section>
       <section class="panel wide">
@@ -170,30 +274,75 @@
     </div>
   </section>
 
+  <section id="page-workspaces" class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">Editable source trees</p><h2>Workspaces</h2></div>
+      <button id="refresh-workspaces">Refresh</button>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><h3>Active workspaces</h3><span id="workspaces-root" class="meta-text"></span></div>
+      <div id="workspaces-body" class="workspace-grid"></div>
+    </section>
+  </section>
+
+  <section id="page-sources" class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">Tarballs, patches, Git and local files</p><h2>Sources</h2></div>
+      <div class="toolbar wrap">
+        <input id="source-search" type="search" placeholder="Search source, recipe, checksum" />
+        <select id="source-type-filter"><option value="">All types</option><option value="git">Git</option><option value="patch">Patch</option><option value="remote">Remote</option><option value="archive">Archive</option><option value="local">Local</option></select>
+        <button id="refresh-sources">Refresh</button>
+      </div>
+    </div>
+    <section class="panel table-panel">
+      <div class="table-meta"><span id="sources-count">0 sources</span><button id="sources-fetch-all">Fetch all</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source</th><th>Type</th><th>Recipe</th><th>Lock</th><th>Cache</th><th>Ref / path</th></tr></thead>
+          <tbody id="sources-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
   <section id="page-builds" class="page">
     <div class="page-heading">
-      <div>
-        <p class="eyebrow">Build queue</p>
-        <h2>Builds</h2>
-      </div>
+      <div><p class="eyebrow">Queue, history and logs</p><h2>Builds & actions</h2></div>
       <button id="refresh-builds">Refresh</button>
     </div>
-    <div class="prana-divider"></div>
     <div class="builds-layout">
       <section class="panel">
         <div class="panel-head"><h3>Queue and history</h3></div>
         <div id="builds-body" class="stack-list builds-list"></div>
       </section>
       <section class="panel">
-        <div class="panel-head">
-          <h3>Logs</h3>
-          <button id="logs-clear">Clear</button>
-        </div>
-        <pre id="logs" class="logs">Select a build to stream logs.</pre>
+        <div class="panel-head"><h3>Logs</h3><button id="logs-clear">Clear</button></div>
+        <pre id="logs" class="logs">Select a job to stream logs.</pre>
       </section>
     </div>
   </section>
+
+  <section id="page-settings" class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">Local configuration</p><h2>Settings</h2></div>
+      <button id="refresh-settings">Refresh</button>
+    </div>
+    <div class="settings-grid">
+      <section class="panel"><div class="panel-head"><h3>Paths</h3></div><div id="settings-paths" class="definition"></div></section>
+      <section class="panel"><div class="panel-head"><h3>Build runtime</h3></div><div id="settings-mode" class="mini-metrics"></div></section>
+      <section class="panel wide"><div class="panel-head"><h3>Recommended local.conf.yml</h3></div><pre class="code-block">arch: x86_64
+cache-path: out
+workspace-path: workspaces
+version: 9999
+variables:
+  channel: testing
+workspace-push: false
+workspace-message: avyos workspace update</pre></section>
+    </div>
+  </section>
 </main>
+  </div>
+</div>
 
 <script src="/app.js"></script>
 </body>

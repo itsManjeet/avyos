@@ -47,4 +47,4 @@ post-script: |
 
 sources:
   - https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
-  - patches/gcc/fix-asan-allocator-aslr.patch
+# - patches/gcc/fix-asan-allocator-aslr.patch
