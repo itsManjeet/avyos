@@ -63,3 +63,30 @@ func TestAppendSourcesToRecipeFileSkipsDuplicate(t *testing.T) {
 		t.Fatalf("duplicate was appended:\n%s", got)
 	}
 }
+
+func TestParseGitSourceSpec(t *testing.T) {
+	spec, err := parseSourceSpec("demo::git+https://example.invalid/org/demo.git#main")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !spec.IsGit() || spec.filename != "demo" || spec.GitRef() != "main" {
+		t.Fatalf("unexpected git source spec: %#v ref=%q", spec, spec.GitRef())
+	}
+	remote, err := spec.GitRemote()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if remote != "https://example.invalid/org/demo.git" {
+		t.Fatalf("unexpected git remote: %q", remote)
+	}
+}
+
+func TestGitSourceSpecInfersName(t *testing.T) {
+	spec, err := parseSourceSpec("git+https://example.invalid/org/demo.git?ref=main")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if spec.filename != "demo" || spec.GitRef() != "main" {
+		t.Fatalf("unexpected inferred git source spec: %#v ref=%q", spec, spec.GitRef())
+	}
+}

@@ -11,14 +11,16 @@ import (
 type commandFunc func(*Ignite, []string) int
 
 var (
-	projectPath     string
-	cachePath       string
-	arch            = "x86_64"
-	force           bool
-	dashboardPort   = 8080
-	dashboardHost   = "127.0.0.1"
-	dashboardAssets string
-	workspacePath   string
+	projectPath      string
+	cachePath        string
+	arch             = "x86_64"
+	force            bool
+	dashboardPort    = 8080
+	dashboardHost    = "127.0.0.1"
+	dashboardAssets  string
+	workspacePath    string
+	workspacePush    bool
+	workspaceMessage string
 )
 
 func help(_ *Ignite, _ []string) int {
@@ -31,13 +33,15 @@ Commands:
   checkout <recipe> <path>  Checkout artifact at <path>
   fetch [recipes...]        Fetch sources and write checksum.lock
   workspace <recipe>        Create an editable source workspace
-  workspace-finish <recipe> Export quilt patches and close the workspace
+  workspace-finish <recipe> Export patches or commit git workspace and close it
   dashboard                 Start a web dashboard to trigger and monitor builds
 
 Options:
   -project-path <path>      Specify project path
   -cache-path <path>        Specify cache path
   -workspace-path <path>    Specify editable source workspace path
+  -workspace-push           Push git workspace commits during workspace-finish
+  -workspace-message <msg>  Commit message for git workspace-finish
   -arch <arch>              Specify target device architecture (default: x86_64)
   -force                    Force refetch/update for supported commands
   -port <port>              Dashboard listen port (default: 8080)
@@ -256,7 +260,7 @@ func workspaceFinish(ignite *Ignite, args []string) int {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
-	if err := ignite.WorkspaceFinish(recipe); err != nil {
+	if err := ignite.WorkspaceFinish(recipe, WorkspaceFinishOptions{Message: workspaceMessage, Push: workspacePush}); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
@@ -313,6 +317,10 @@ func main() {
 				cachePath = require(arg)
 			case "-workspace-path":
 				workspacePath = require(arg)
+			case "-workspace-push":
+				workspacePush = true
+			case "-workspace-message":
+				workspaceMessage = require(arg)
 			case "-arch":
 				arch = require(arg)
 			case "-force":

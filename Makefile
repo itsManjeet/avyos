@@ -3,6 +3,8 @@ VERSION								?= 9999
 IGNITE								?= out/ignite
 CACHE_PATH							?= out/
 WORKSPACE_PATH						?= workspaces/
+WORKSPACE_PUSH						?=
+WORKSPACE_MESSAGE					?=
 DESTDIR								?= checkout/
 APPMARKET_PATH						?= appmarket/
 DASHBOARD_PORT						?= 8080
@@ -22,6 +24,8 @@ QEMU_CHECKOUT						?= $(QEMU_DIR)/installer-image
 QEMU_VARS							?= $(QEMU_DIR)/OVMF_VARS.fd
 QEMU_EXTRA_ARGS						?=
 FORCE_ARGS							:= $(if $(FORCE),-force,)
+WORKSPACE_PUSH_ARGS				:= $(if $(WORKSPACE_PUSH),-workspace-push,)
+WORKSPACE_MESSAGE_ARGS			:= $(if $(WORKSPACE_MESSAGE),-workspace-message "$(WORKSPACE_MESSAGE)",)
 KEY_TYPES							:= PK KEK DB VENDOR linux-module-cert
 ALL_CERTS							 = $(foreach KEY,$(KEY_TYPES),files/sign-keys/$(KEY).crt)
 ALL_KEYS							 = $(foreach KEY,$(KEY_TYPES),files/sign-keys/$(KEY).key)
@@ -110,7 +114,7 @@ endif
 
 workspace-finish: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) workspace-finish -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
+	$(IGNITE) workspace-finish -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(WORKSPACE_PUSH_ARGS) $(WORKSPACE_MESSAGE_ARGS) $(ELEMENT)
 else
 	@echo "no ELEMENT specified"
 	exit 1

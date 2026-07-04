@@ -30,6 +30,11 @@ type State struct {
 	cached bool
 }
 
+type WorkspaceFinishOptions struct {
+	Message string
+	Push    bool
+}
+
 type ContainerType int
 
 const (
@@ -481,9 +486,98 @@ func (i *Ignite) findMirror(url string) string {
 	return url
 }
 
+func (i *Ignite) FetchGitSource(spec SourceSpec, sourceDir string, force bool, expected string) (string, error) {
+	remote, err := spec.GitRemote()
+	if err != nil {
+		return "", err
+	}
+	path := filepath.Join(sourceDir, spec.filename)
+	_ = os.MkdirAll(sourceDir, 0755)
+	if force {
+		_ = os.RemoveAll(path)
+	}
+	if !isDir(filepath.Join(path, ".git")) {
+		_ = os.RemoveAll(path)
+		if err := NewExecutor("/bin/git").Arg("clone").Arg(remote).Arg(path).Execute(); err != nil {
+			return "", err
+		}
+	} else if err := NewExecutor("/bin/git").Arg("remote").Arg("set-url").Arg("origin").Arg(remote).Path(path).Execute(); err != nil {
+		return "", err
+	}
+	if expected != "" {
+		if !gitCommitExists(path, expected) {
+			if err := NewExecutor("/bin/git").Arg("fetch").Arg("--tags").Arg("--force").Arg("origin").Path(path).Execute(); err != nil {
+				return "", err
+			}
+		}
+		if err := NewExecutor("/bin/git").Arg("checkout").Arg("--force").Arg("--detach").Arg(expected).Path(path).Execute(); err != nil {
+			return "", err
+		}
+		return gitHeadCommit(path)
+	}
+	if force {
+		if err := NewExecutor("/bin/git").Arg("fetch").Arg("--tags").Arg("--force").Arg("origin").Path(path).Execute(); err != nil {
+			return "", err
+		}
+	}
+	ref := spec.GitRef()
+	if ref != "" {
+		if err := NewExecutor("/bin/git").Arg("fetch").Arg("--tags").Arg("--force").Arg("origin").Arg(ref).Path(path).Execute(); err != nil {
+			return "", err
+		}
+		if err := NewExecutor("/bin/git").Arg("checkout").Arg("--force").Arg("FETCH_HEAD").Path(path).Execute(); err != nil {
+			return "", err
+		}
+	} else if force {
+		if status, out := NewExecutor("/bin/git").Arg("symbolic-ref").Arg("--quiet").Arg("--short").Arg("refs/remotes/origin/HEAD").Path(path).Output(); status == 0 && out != "" {
+			if err := NewExecutor("/bin/git").Arg("checkout").Arg("--force").Arg(out).Path(path).Execute(); err != nil {
+				return "", err
+			}
+		}
+	}
+	return gitHeadCommit(path)
+}
+
+func gitCommitExists(path, commit string) bool {
+	status, _ := NewExecutor("/bin/git").Arg("cat-file").Arg("-e").Arg(commit + "^{commit}").Path(path).Silent().Output()
+	return status == 0
+}
+
+func gitHeadCommit(path string) (string, error) {
+	status, out := NewExecutor("/bin/git").Arg("rev-parse").Arg("HEAD").Path(path).Output()
+	if status != 0 {
+		return "", fmt.Errorf("failed to read git HEAD in %q: %s", path, out)
+	}
+	return strings.TrimSpace(out), nil
+}
+
+func gitStatusPorcelain(path string) (string, error) {
+	status, out := NewExecutor("/bin/git").Arg("status").Arg("--porcelain").Path(path).Output()
+	if status != 0 {
+		return "", fmt.Errorf("failed to read git status in %q: %s", path, out)
+	}
+	return out, nil
+}
+
+func gitCurrentBranch(path string) string {
+	status, out := NewExecutor("/bin/git").Arg("branch").Arg("--show-current").Path(path).Output()
+	if status == 0 {
+		return strings.TrimSpace(out)
+	}
+	return ""
+}
+
+func gitWorkspaceBranch(recipe Recipe) string {
+	return "avyos/" + workspaceComponentID(recipe)
+}
+
 func (i *Ignite) FetchSourceFile(source, sourceDir string, force bool) error {
 	spec, err := parseSourceSpec(source)
 	if err != nil {
+		return err
+	}
+	if spec.IsGit() {
+		_, err := i.FetchGitSource(spec, sourceDir, force, "")
 		return err
 	}
 	filePath := filepath.Join(sourceDir, spec.filename)
@@ -529,6 +623,19 @@ func (i *Ignite) VerifySourceFile(path string) error {
 	return nil
 }
 
+func (i *Ignite) LockedSourceChecksum(filename string) (string, bool, error) {
+	lockFile := filepath.Join(i.projectPath, "checksum.lock")
+	if !exists(lockFile) {
+		return "", false, nil
+	}
+	checksums, err := readChecksumLock(lockFile)
+	if err != nil {
+		return "", false, err
+	}
+	value, ok := checksums[filename]
+	return value, ok, nil
+}
+
 func (i *Ignite) FetchSources(ids []string, force bool) error {
 	var recipes []Recipe
 	if len(ids) == 0 {
@@ -563,6 +670,23 @@ func (i *Ignite) FetchSources(ids []string, force bool) error {
 			if err != nil {
 				return err
 			}
+			if spec.IsGit() {
+				expected := ""
+				if !force {
+					expected = checksums[spec.filename]
+				}
+				commit, err := i.FetchGitSource(spec, sourceDir, force, expected)
+				if err != nil {
+					return err
+				}
+				if expected != "" && !force {
+					fmt.Println("Using locked git source:", spec.filename, commit)
+					continue
+				}
+				checksums[spec.filename] = commit
+				fmt.Println("Fetched git source:", spec.filename, commit)
+				continue
+			}
 			path := filepath.Join(sourceDir, spec.filename)
 			if err := i.FetchSourceFile(source, sourceDir, force); err != nil {
 				return err
@@ -588,6 +712,10 @@ func (i *Ignite) FetchSources(ids []string, force bool) error {
 }
 
 func (i *Ignite) PrepareSources(recipe Recipe, sourceDir, buildRoot string) (string, error) {
+	return i.prepareSources(recipe, sourceDir, buildRoot, false)
+}
+
+func (i *Ignite) prepareSources(recipe Recipe, sourceDir, buildRoot string, preserveGit bool) (string, error) {
 	subdir := ""
 	if err := os.MkdirAll(buildRoot, 0755); err != nil {
 		return "", err
@@ -598,6 +726,37 @@ func (i *Ignite) PrepareSources(recipe Recipe, sourceDir, buildRoot string) (str
 			return "", err
 		}
 		path := filepath.Join(sourceDir, spec.filename)
+		if spec.IsGit() {
+			expected, locked, err := i.LockedSourceChecksum(spec.filename)
+			if err != nil {
+				return "", err
+			}
+			commit, err := i.FetchGitSource(spec, sourceDir, false, expected)
+			if err != nil {
+				return "", err
+			}
+			if locked && !gitCommitMatches(commit, expected) {
+				return "", fmt.Errorf("git checksum mismatch for source %q: expected %s, got %s", spec.filename, expected, commit)
+			}
+			targetRoot := buildRoot
+			if subdir == "" {
+				subdir = spec.filename
+				targetRoot = filepath.Join(buildRoot, subdir)
+			} else {
+				targetRoot = filepath.Join(buildRoot, subdir)
+			}
+			if err := os.RemoveAll(targetRoot); err != nil {
+				return "", err
+			}
+			if preserveGit {
+				if err := copyPath(path, targetRoot); err != nil {
+					return "", err
+				}
+			} else if err := copyWorkspaceTree(path, targetRoot); err != nil {
+				return "", err
+			}
+			continue
+		}
 		if err := i.FetchSourceFile(source, sourceDir, false); err != nil {
 			return "", err
 		}
@@ -664,7 +823,11 @@ func (i *Ignite) WorkspaceInit(recipe Recipe) error {
 			_ = os.RemoveAll(tmp)
 		}
 	}()
-	subdir, err := i.PrepareSources(recipe, filepath.Join(i.cachePath, "sources"), tmp)
+	gitSpec, pureGitSource, err := recipePureGitSource(recipe)
+	if err != nil {
+		return err
+	}
+	subdir, err := i.prepareSources(recipe, filepath.Join(i.cachePath, "sources"), tmp, true)
 	if err != nil {
 		return err
 	}
@@ -683,7 +846,16 @@ func (i *Ignite) WorkspaceInit(recipe Recipe) error {
 	if err := copyWorkspaceTree(tmp, original); err != nil {
 		return err
 	}
-	if err := os.WriteFile(filepath.Join(meta, "metadata"), []byte(fmt.Sprintf("id: %s\nelement: %s\nversion: %s\n", recipe.id, recipe.elementID, recipe.version)), 0644); err != nil {
+	var metadata strings.Builder
+	fmt.Fprintf(&metadata, "id: %s\nelement: %s\nversion: %s\n", recipe.id, recipe.elementID, recipe.version)
+	if pureGitSource && isDir(filepath.Join(tmp, ".git")) {
+		branch := gitWorkspaceBranch(recipe)
+		if err := NewExecutor("/bin/git").Arg("checkout").Arg("-B").Arg(branch).Path(tmp).Execute(); err != nil {
+			return err
+		}
+		fmt.Fprintf(&metadata, "git: true\ngit-source-name: %s\ngit-source-url: %s\ngit-branch: %s\n", gitSpec.filename, gitSpec.url, branch)
+	}
+	if err := os.WriteFile(filepath.Join(meta, "metadata"), []byte(metadata.String()), 0644); err != nil {
 		return err
 	}
 	if err := os.WriteFile(filepath.Join(meta, "env"), []byte("export QUILT_PATCHES=.ignite-workspace/patches\nexport QUILT_SERIES=series\nexport QUILT_PC=.pc\n"), 0644); err != nil {
@@ -699,7 +871,7 @@ func (i *Ignite) WorkspaceInit(recipe Recipe) error {
 	return nil
 }
 
-func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
+func (i *Ignite) WorkspaceFinish(recipe Recipe, opts WorkspaceFinishOptions) error {
 	workspace := i.WorkspacePath(recipe)
 	if !i.WorkspaceAvailable(recipe) {
 		return fmt.Errorf("workspace is not available for %q", recipe.id)
@@ -709,6 +881,9 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
 	patches, err := readQuiltSeries(filepath.Join(patchesDir, "series"))
 	if err != nil {
 		return err
+	}
+	if len(patches) == 0 && workspaceGitSourceName(meta) != "" && isDir(filepath.Join(workspace, ".git")) {
+		return i.WorkspaceFinishGit(recipe, workspace, meta, opts)
 	}
 	if len(patches) > 0 {
 		quilt, err := findBinary("quilt", "quilt not found; install quilt to finish workspaces")
@@ -804,6 +979,93 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
 	return nil
 }
 
+func recipePureGitSource(recipe Recipe) (SourceSpec, bool, error) {
+	if len(recipe.sources) != 1 {
+		return SourceSpec{}, false, nil
+	}
+	spec, err := parseSourceSpec(recipe.sources[0])
+	if err != nil {
+		return SourceSpec{}, false, err
+	}
+	if !spec.IsGit() {
+		return SourceSpec{}, false, nil
+	}
+	return spec, true, nil
+}
+
+func readWorkspaceMetadata(meta string) map[string]string {
+	path := filepath.Join(meta, "metadata")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil
+	}
+	out := map[string]string{}
+	for _, line := range strings.Split(string(data), "\n") {
+		key, value, ok := strings.Cut(line, ":")
+		if !ok {
+			continue
+		}
+		out[strings.TrimSpace(key)] = strings.TrimSpace(value)
+	}
+	return out
+}
+
+func workspaceGitSourceName(meta string) string {
+	return readWorkspaceMetadata(meta)["git-source-name"]
+}
+
+func (i *Ignite) WorkspaceFinishGit(recipe Recipe, workspace, meta string, opts WorkspaceFinishOptions) error {
+	sourceName := workspaceGitSourceName(meta)
+	if sourceName == "" {
+		return fmt.Errorf("workspace metadata does not contain git-source-name")
+	}
+	status, err := gitStatusPorcelain(workspace)
+	if err != nil {
+		return err
+	}
+	if strings.TrimSpace(status) != "" {
+		if err := NewExecutor("/bin/git").Arg("add").Arg("-A").Path(workspace).Execute(); err != nil {
+			return err
+		}
+		message := opts.Message
+		if message == "" {
+			message = "avyos: update " + recipe.id + " workspace"
+		}
+		if err := NewExecutor("/bin/git").Arg("commit").Arg("-m").Arg(message).Path(workspace).Execute(); err != nil {
+			return err
+		}
+	} else {
+		fmt.Println("Git workspace has no uncommitted source changes")
+	}
+	commit, err := gitHeadCommit(workspace)
+	if err != nil {
+		return err
+	}
+	if err := i.UpdateChecksumLockEntries(map[string]string{sourceName: commit}); err != nil {
+		return err
+	}
+	fmt.Printf("Updated git checksum lock: %s -> %s\n", sourceName, commit)
+	if opts.Push {
+		metadata := readWorkspaceMetadata(meta)
+		branch := metadata["git-branch"]
+		if branch == "" {
+			branch = gitCurrentBranch(workspace)
+		}
+		if branch == "" {
+			branch = gitWorkspaceBranch(recipe)
+		}
+		if err := NewExecutor("/bin/git").Arg("push").Arg("-u").Arg("origin").Arg("HEAD:refs/heads/" + branch).Path(workspace).Execute(); err != nil {
+			return err
+		}
+		fmt.Printf("Pushed git workspace: origin %s\n", branch)
+	} else {
+		fmt.Println("Git workspace was committed locally only; use WORKSPACE_PUSH=1 to push during workspace-finish")
+	}
+	_ = os.RemoveAll(workspace)
+	fmt.Println("Workspace closed:", workspace)
+	return nil
+}
+
 func workspacePatchSource(recipe Recipe, patchPath string) string {
 	return filepath.ToSlash(filepath.Join("patches", recipe.id, filepath.Base(patchPath)))
 }
@@ -827,6 +1089,29 @@ func (i *Ignite) RecordWorkspacePatches(recipe Recipe, sources []string) error {
 }
 
 func (i *Ignite) UpdateChecksumLockForSources(sources []string) error {
+	updates := map[string]string{}
+	for _, source := range sources {
+		spec, err := parseSourceSpec(source)
+		if err != nil {
+			return err
+		}
+		if spec.IsGit() || strings.HasPrefix(spec.url, "http://") || strings.HasPrefix(spec.url, "https://") {
+			continue
+		}
+		path := filepath.Join(i.projectPath, spec.url)
+		sum, err := fileSHA256(path)
+		if err != nil {
+			return err
+		}
+		updates[spec.filename] = sum
+	}
+	return i.UpdateChecksumLockEntries(updates)
+}
+
+func (i *Ignite) UpdateChecksumLockEntries(updates map[string]string) error {
+	if len(updates) == 0 {
+		return nil
+	}
 	lockFile := filepath.Join(i.projectPath, "checksum.lock")
 	checksums := map[string]string{}
 	if exists(lockFile) {
@@ -836,20 +1121,8 @@ func (i *Ignite) UpdateChecksumLockForSources(sources []string) error {
 			return err
 		}
 	}
-	for _, source := range sources {
-		spec, err := parseSourceSpec(source)
-		if err != nil {
-			return err
-		}
-		if strings.HasPrefix(spec.url, "http://") || strings.HasPrefix(spec.url, "https://") {
-			continue
-		}
-		path := filepath.Join(i.projectPath, spec.url)
-		sum, err := fileSHA256(path)
-		if err != nil {
-			return err
-		}
-		checksums[spec.filename] = sum
+	for name, value := range updates {
+		checksums[name] = value
 	}
 	return writeChecksumLock(lockFile, checksums)
 }
@@ -1255,12 +1528,82 @@ func parseSourceSpec(source string) (SourceSpec, error) {
 	spec.url = values[len(values)-1]
 	if len(values) > 1 {
 		spec.filename = values[0]
-	} else if u, err := url.Parse(spec.url); err == nil && u.Path != "" {
-		spec.filename = filepath.Base(u.Path)
 	} else {
-		spec.filename = filepath.Base(spec.url)
+		spec.filename = sourceFilename(spec.url)
+	}
+	if spec.IsGit() {
+		spec.filename = strings.TrimSuffix(spec.filename, ".git")
+	}
+	if spec.filename == "" || spec.filename == "." || spec.filename == "/" {
+		return spec, fmt.Errorf("failed to infer source filename for %q; use name::%s", source, spec.url)
 	}
 	return spec, nil
+}
+
+func sourceFilename(raw string) string {
+	if u, err := url.Parse(raw); err == nil && u.Path != "" {
+		return filepath.Base(strings.TrimSuffix(u.Path, "/"))
+	}
+	base := filepath.Base(strings.TrimSuffix(raw, "/"))
+	if idx := strings.IndexAny(base, "?#"); idx >= 0 {
+		base = base[:idx]
+	}
+	return base
+}
+
+func (s SourceSpec) IsGit() bool {
+	return strings.HasPrefix(s.url, "git+")
+}
+
+func (s SourceSpec) GitRemote() (string, error) {
+	if !s.IsGit() {
+		return "", fmt.Errorf("source %q is not a git source", s.url)
+	}
+	remote := strings.TrimPrefix(s.url, "git+")
+	u, err := url.Parse(remote)
+	if err == nil && u.Scheme != "" {
+		q := u.Query()
+		q.Del("ref")
+		q.Del("branch")
+		q.Del("commit")
+		u.RawQuery = q.Encode()
+		u.Fragment = ""
+		return u.String(), nil
+	}
+	if idx := strings.IndexAny(remote, "#?"); idx >= 0 {
+		remote = remote[:idx]
+	}
+	return remote, nil
+}
+
+func (s SourceSpec) GitRef() string {
+	if !s.IsGit() {
+		return ""
+	}
+	remote := strings.TrimPrefix(s.url, "git+")
+	u, err := url.Parse(remote)
+	if err == nil && u.Scheme != "" {
+		q := u.Query()
+		for _, key := range []string{"commit", "ref", "branch"} {
+			if value := q.Get(key); value != "" {
+				return value
+			}
+		}
+		return u.Fragment
+	}
+	if idx := strings.LastIndexByte(remote, '#'); idx >= 0 && idx+1 < len(remote) {
+		return remote[idx+1:]
+	}
+	return ""
+}
+
+func gitCommitMatches(actual, expected string) bool {
+	actual = strings.TrimSpace(actual)
+	expected = strings.TrimSpace(expected)
+	if actual == "" || expected == "" {
+		return actual == expected
+	}
+	return actual == expected || strings.HasPrefix(actual, expected)
 }
 
 func extract(path, outputPath string) ([]string, error) {
@@ -1504,7 +1847,7 @@ func copyFile(src, dst string) error {
 
 func isWorkspaceMetadata(rel string) bool {
 	first := strings.Split(filepath.ToSlash(rel), "/")[0]
-	return first == ".ignite-workspace" || first == ".pc"
+	return first == ".ignite-workspace" || first == ".pc" || first == ".git"
 }
 
 func copyWorkspaceTree(src, dst string) error {
