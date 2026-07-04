@@ -3,8 +3,6 @@ version: 2.3.1
 about: OpenGL extension wrangler library
 
 script: |-
-  patch -Np1 -i glew-install.patch
-  patch -Np1 -i egl+glx.patch
 
   sed -i 's|lib64|lib|' config/Makefile.linux
   sed -i '/^.PHONY: .*\.pc$/d' Makefile

@@ -3,7 +3,6 @@ version: 4.5.2
 about: Modern library for one-way hashing of passwords
 
 pre-script: |-
-  patch -Np1 -i 0001-libxcrypt-workspace.patch
 
 configure: >-
   --disable-static

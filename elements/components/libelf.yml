@@ -7,9 +7,6 @@ configure: >-
   --enable-maintainer-mode
 
 pre-script: |-
-  patch -Np1 -i 0001-libelf-workspace.patch
-  patch -Np1 -i 0002-libelf-workspace.patch
-  patch -Np1 -i 0003-libelf-workspace.patch
 
 install: -C libelf
 post-script: |-

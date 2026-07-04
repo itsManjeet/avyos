@@ -8,7 +8,6 @@ run-autogen: false
 seperate-build-dir: false
 
 pre-script: |-
-  patch -Np1 -i fix-root-build.patch
   python -m pip install cryptography pyasn1 iso8601
 
 configure: >-

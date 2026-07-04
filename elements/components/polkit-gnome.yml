@@ -7,7 +7,6 @@ variables:
   seperate-build-dir: false
 
 pre-script: |-
-  patch -Np1 -i polkit-gnome-%{version}-consolidated_fixes-1.patch
 post-script: |-
   mkdir -p %{install-root}%{sysconfdir}/xdg/autostart
   cat > %{install-root}%{sysconfdir}/xdg/autostart/polkit-gnome-authentication-agent-1.desktop << "EOF"

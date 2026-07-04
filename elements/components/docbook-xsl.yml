@@ -14,7 +14,6 @@ sources:
 
 
 pre-script: |
-  patch -Np1 -i %{build-root}/docbook-xsl-nons-%{version}-stack_fix-1.patch
 
 script: |
   install -v -m755 -d %{install-root}/usr/share/xml/docbook/xsl-stylesheets-nons-%{version}

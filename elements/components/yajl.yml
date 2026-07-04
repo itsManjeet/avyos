@@ -3,7 +3,6 @@ version: 2.1.0
 about: yet another json library
 
 pre-script: |-
-  patch -Np1 -i yajl-0009-Allow-cmake-4.0.patch
 
 script: |-
   export CFLAGS+=" -ffat-lto-objects"

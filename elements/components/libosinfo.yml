@@ -5,7 +5,6 @@ about:
   hypervisors and the (virtual) hardware devices they can support
 
 pre-script: |-
-  patch -Np1 -i /patches/libosinfo/fix-attribute-unused.patch
   sed -i "s/'-Werror'//" meson.build
 
 configure: >-

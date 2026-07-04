@@ -9,5 +9,4 @@ sources:
   - https://www.linuxfromscratch.org/patches/blfs/svn/sgml-common-%{version}-manpage-1.patch
 
 pre-script: |
-  patch -Np1 -i ../sgml-common-%{version}-manpage-1.patch
   autoreconf -f -i

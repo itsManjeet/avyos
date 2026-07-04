@@ -4,9 +4,6 @@ about: QML based X11 and Wayland display manager
 
 pre-script: |-
   # patch -p1 < /files/pam-faillock.patch
-  patch -p1 < ../sddm-fix-race-pre.patch
-  patch -p1 < ../sddm-fix-race.patch
-  patch -p1 < ../sddm-desktop-session.patch
   # patch -p1 < /files/build-fix.patch
 
 post-script: |-

@@ -3,7 +3,6 @@ version: 2.1.28
 about: A Simple Authentication and Security Layer
 
 pre-script: |
-  patch -Np1 -i cyrus-sasl-2.1.28-gcc15_fixes-1.patch
 
   autoreconf -fiv
 

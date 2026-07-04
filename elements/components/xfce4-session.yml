@@ -3,7 +3,6 @@ version: 4.20.4
 about: A session manager for Xfce
 
 pre-script: |-
-  patch -Np1 -i source-system-xinitrc-scripts.patch
 
 configure: >-
   --disable-debug

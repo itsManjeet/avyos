@@ -3,7 +3,6 @@ version: 1.0.2
 about: Web Open Font Format 2 reference implementation
 
 pre-script: |-
-  patch -Np1 -i 0001-woff2-workspace.patch
 
 configure: >-
   -D CMAKE_POLICY_VERSION_MINIMUM=3.5

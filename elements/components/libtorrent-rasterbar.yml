@@ -16,7 +16,6 @@ sources:
   - https://github.com/arvidn/libtorrent/releases/download/v%{version}/libtorrent-rasterbar-%{version}.tar.gz
   - https://github.com/arvidn/libtorrent/commit/71d608fc.patch
 pre-script: |-
-  patch -p1 -i ../71d608fc.patch
 post-script: |-
   install -D -m644 COPYING -t %{install-root}%{datadir}/licenses/libtorrent-rasterbar
 configure: >-

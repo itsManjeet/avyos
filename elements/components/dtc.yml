@@ -3,7 +3,6 @@ version: 1.7.2
 about: Device Tree Compiler
 
 pre-script: |-
-  patch -Np1 -i dtc-1.7.2-glibc_fixes-1.patch
 
 configure: >-
   -D python=disabled

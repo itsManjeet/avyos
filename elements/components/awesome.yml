@@ -7,7 +7,6 @@ environ:
   - AWESOME_IGNORE_LGI=1
 
 pre-script: |-  
-  patch -Np1 -i glib-2.86.0.patch
   sed -i '/add_dependencies.*check-examples/d' CMakeLists.txt
 
 configure: >-

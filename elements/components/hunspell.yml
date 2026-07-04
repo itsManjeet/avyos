@@ -3,8 +3,6 @@ version: 1.7.3
 about: Spell checker and morphological analyzer library and program
 
 pre-script: |-
-  patch -Np1 -i hunspell_buildfix.diff
-  patch -Np1 -i hunspell_buildfix2.diff
 
   autoreconf -vfi
 post-script: |-

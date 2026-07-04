@@ -3,7 +3,6 @@ version: 0.8
 about: GTK based greeter for greetd
 
 pre-script: |-
-  patch -Np0 -i greetd-gtkgreet-fix-build.patch
 
 configure: >-
   -D layershell=enabled

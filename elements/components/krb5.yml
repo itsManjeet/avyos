@@ -5,7 +5,6 @@ about: A free implementation of Kerberos 5
 build-dir: krb5-%{version}/src
 
 pre-script: |-
-  (cd ..; patch -Np1 -i mitkrb-1.22.2-upstream_fix-1.patch)
 
   sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
 

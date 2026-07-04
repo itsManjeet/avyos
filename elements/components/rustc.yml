@@ -9,16 +9,6 @@ environ:
   - RUST_BACKTRACE=1
 
 pre-script: |-
-  for i in  0001-bootstrap-Change-libexec-dir.patch \
-            0002-bootstrap-Change-bash-completion-dir.patch \
-            0003-bootstrap-Workaround-for-system-stage0.patch \
-            0004-compiler-Change-LLVM-targets.patch \
-            0005-compiler-Use-ld.lld-by-default.patch \
-            0006-compiler-Use-target-specific-GCC-linkers.patch \
-            0007-compiler-Link-riscv64-musl-statically.patch \
-            0008-compiler-Swap-primary-and-secondary-lib-dirs.patch; do
-    patch -Np1 -i $i
-  done
 
 
 

@@ -4,7 +4,6 @@ release: 1
 about: Library for arbitrary precision arithmetic.
 
 pre-script: |-
-  patch -Np1 -i 0001-libgmp-workspace.patch
   autoreconf -i
 
 build-dir: gmp-%{version}

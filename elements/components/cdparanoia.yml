@@ -10,7 +10,6 @@ depends:
 - components/glibc.yml
 
 pre-script: |
-  patch -Np1 -i cdparanoia-III-10.2-gcc_fixes-1.patch
 
 script: |
   ./configure --prefix=%{prefix} --mandir=%{datadir}/man

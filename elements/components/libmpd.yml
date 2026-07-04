@@ -3,9 +3,6 @@ version: 11.8.17
 about: Signal based wrapper around libmpdclient
 
 pre-script: |-
-  for p in *.patch ; do
-    patch -Np1 -i $p
-  done
 
 depends:
   - components/glib.yml

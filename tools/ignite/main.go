@@ -18,6 +18,7 @@ var (
 	dashboardPort   = 8080
 	dashboardHost   = "127.0.0.1"
 	dashboardAssets string
+	workspacePath   string
 )
 
 func help(_ *Ignite, _ []string) int {
@@ -36,6 +37,7 @@ Commands:
 Options:
   -project-path <path>      Specify project path
   -cache-path <path>        Specify cache path
+  -workspace-path <path>    Specify editable source workspace path
   -arch <arch>              Specify target device architecture (default: x86_64)
   -force                    Force refetch/update for supported commands
   -port <port>              Dashboard listen port (default: 8080)
@@ -214,7 +216,7 @@ func workspace(ignite *Ignite, args []string) int {
 		fmt.Fprintln(os.Stderr, "require exactly one argument: <recipe>")
 		return 1
 	}
-	recipe, err := findElementRecipe(ignite, args[0])
+	recipe, err := findRecipe(ignite, args[0])
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
@@ -240,7 +242,7 @@ func workspaceFinish(ignite *Ignite, args []string) int {
 		fmt.Fprintln(os.Stderr, "require exactly one argument: <recipe>")
 		return 1
 	}
-	recipe, err := findElementRecipe(ignite, args[0])
+	recipe, err := findRecipe(ignite, args[0])
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
@@ -309,6 +311,8 @@ func main() {
 				projectPath = require(arg)
 			case "-cache-path":
 				cachePath = require(arg)
+			case "-workspace-path":
+				workspacePath = require(arg)
 			case "-arch":
 				arch = require(arg)
 			case "-force":
@@ -363,7 +367,7 @@ func main() {
 		cachePath = filepath.Join(projectPath, "build", arch)
 	}
 	config := NewConfig()
-	ignite, err := NewIgnite(&config, projectPath, cachePath, arch)
+	ignite, err := NewIgnite(&config, projectPath, cachePath, workspacePath, arch)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "ERROR:", err)
 		os.Exit(1)

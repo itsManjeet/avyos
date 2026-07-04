@@ -5,7 +5,6 @@ about: Package contains low-level libraries useful for providing data structure 
 pre-script: |-
   python -m pip install packaging
 
-  patch -Np1 -i 0001-glib-compile-schemas-Remove-noisy-deprecation-warnin.patch
 
 configure: >-
   -D man-pages=disabled

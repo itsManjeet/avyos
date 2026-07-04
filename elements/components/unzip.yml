@@ -9,7 +9,6 @@ sources:
   - https://downloads.sourceforge.net/infozip/unzip60.tar.gz
   - patches/unzip/unzip-6.0-consolidated_fixes-1.patch
 pre-script: |
-  patch -Np1 -i unzip-6.0-consolidated_fixes-1.patch
   sed -i "/MANDIR =/s#)/#)/share/#" unix/Makefile
 script: |
   make -f unix/Makefile generic prefix=/usr CC='gcc -std=gnu89'

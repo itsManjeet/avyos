@@ -2,6 +2,7 @@ CHANNEL								?= testing
 VERSION								?= 9999
 IGNITE								?= out/ignite
 CACHE_PATH							?= out/
+WORKSPACE_PATH						?= workspaces/
 DESTDIR								?= checkout/
 APPMARKET_PATH						?= appmarket/
 DASHBOARD_PORT						?= 8080
@@ -36,12 +37,12 @@ export CACHE_PATH
 
 all: $(IGNITE) version.yml channel.yml
 ifdef ELEMENT
-	$(IGNITE) build -cache-path $(CACHE_PATH) $(ELEMENT)
+	$(IGNITE) build -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
 endif
 
 status: $(IGNITE) version.yml channel.yml
 ifdef ELEMENT
-	$(IGNITE) status -cache-path $(CACHE_PATH) $(ELEMENT)
+	$(IGNITE) status -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
 else
 	@echo "no ELEMENT specified"
 	exit 1
@@ -49,7 +50,7 @@ endif
 
 cache-path: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	@IGNITE_NO_MESSAGE=1 $(IGNITE) cache-path -cache-path $(CACHE_PATH) $(ELEMENT)
+	@IGNITE_NO_MESSAGE=1 $(IGNITE) cache-path -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
 else
 	@echo "no ELEMENT specified"
 	exit 1
@@ -57,7 +58,7 @@ endif
 
 checkout: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) checkout -cache-path $(CACHE_PATH) $(ELEMENT) $(DESTDIR)
+	$(IGNITE) checkout -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT) $(DESTDIR)
 else
 	@echo "no ELEMENT specified"
 	exit 1
@@ -87,21 +88,21 @@ updates: $(IGNITE) version.yml channel.yml
 
 fetch: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) fetch -cache-path $(CACHE_PATH) $(FORCE_ARGS) $(ELEMENT)
+	$(IGNITE) fetch -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(FORCE_ARGS) $(ELEMENT)
 else
-	$(IGNITE) fetch -cache-path $(CACHE_PATH) $(FORCE_ARGS)
+	$(IGNITE) fetch -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(FORCE_ARGS)
 endif
 
 pull: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) pull -cache-path $(CACHE_PATH) $(FORCE_ARGS) $(ELEMENT)
+	$(IGNITE) pull -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(FORCE_ARGS) $(ELEMENT)
 else
-	$(IGNITE) pull -cache-path $(CACHE_PATH) $(FORCE_ARGS)
+	$(IGNITE) pull -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(FORCE_ARGS)
 endif
 
 workspace: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) workspace -cache-path $(CACHE_PATH) $(ELEMENT)
+	$(IGNITE) workspace -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
 else
 	@echo "no ELEMENT specified"
 	exit 1
@@ -109,14 +110,14 @@ endif
 
 workspace-finish: $(IGNITE) version.yml  channel.yml
 ifdef ELEMENT
-	$(IGNITE) workspace-finish -cache-path $(CACHE_PATH) $(ELEMENT)
+	$(IGNITE) workspace-finish -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) $(ELEMENT)
 else
 	@echo "no ELEMENT specified"
 	exit 1
 endif
 
 dashboard: $(IGNITE) version.yml channel.yml
-	$(IGNITE) dashboard -cache-path $(CACHE_PATH) -host $(DASHBOARD_HOST) -port $(DASHBOARD_PORT) -assets tools/ignite/dashboard
+	$(IGNITE) dashboard -cache-path $(CACHE_PATH) -workspace-path $(WORKSPACE_PATH) -host $(DASHBOARD_HOST) -port $(DASHBOARD_PORT) -assets tools/ignite/dashboard
 
 define BUILD_EXTENSION
 	$(MAKE)  update-sysext ELEMENT=$(ext:elements/%=%) || exit 1;

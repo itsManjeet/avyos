@@ -53,13 +53,10 @@ script: |-
   unset MOZ_TELEMETRY_REPORTING
   EOF
 
-  patch -Np1 -i firefox-140.12.0esr-glibc-2.43.patch
 
   sed -e '/patch.crates-io/a glslopt={path="third_party/rust/glslopt"}' -i Cargo.toml
   sed -i '/name = "glslopt"/,/^$/{/source/d;/checksum/d}' Cargo.lock
 
-  patch -Np1 -i firefox-140.12.0esr-python_3.14_fixes-1.patch
-  patch -Np1 -i firefox-140.12.0esr-llvm_22-1.patch
 
   sed -i '/VIRAMA = 47/a CLASS_CHARACTER,' intl/lwbrk/LineBreaker.cpp
 

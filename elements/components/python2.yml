@@ -14,7 +14,6 @@ sources:
   - https://www.linuxfromscratch.org/patches/blfs/svn/Python-2.7.18-security_fixes-1.patch
 pre-script: |
   sed -i "/2to3/d" ./setup.py
-  patch -Np1 -i ../Python-2.7.18-security_fixes-1.patch
 post-script: rm %{install-root}/usr/bin/python
 configure: |
   --enable-shared --with-system-expat --with-system-ffi --without-ensurepip --enable-optimization --with-lto --with-tzpath=%{datadir}/zoneinfo --enable-loadable-sqlite-extensions

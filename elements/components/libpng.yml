@@ -14,4 +14,3 @@ variables:
   run-autogen: false
 
 pre-script: |-
-  patch -Np1 -i libpng-1.6.58-apng.patch

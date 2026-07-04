@@ -9,7 +9,6 @@ depends:
   - components/glibc.yml
 
 script: |
-  patch -Np1 -i liblua53.so.patch
 
   sed -i src/Makefile -r \
       -e '/^LUA_(SO|A|T)=/ s;lua;lua5.3;' \

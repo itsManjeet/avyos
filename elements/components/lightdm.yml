@@ -28,7 +28,6 @@ post-script: |-
 
   cd lightdm-gtk-greeter-2.0.9
 
-  patch -Np1 -i %{build-root}/01-updated-greeter-interface.patch
 
   ./configure --prefix=%{prefix} \
     --libexecdir=%{libdir}/lightdm \

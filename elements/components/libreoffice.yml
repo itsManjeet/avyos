@@ -6,7 +6,6 @@ environ:
   - TAR_OPTIONS=--no-same-owner
 
 pre-script: |-
-  patch -Np1 -i libreoffice-26.2.3.2-boost_fixes-2.patch
 
   sed -i '/icuuc \\/a zlib\\' writerperfect/Library_wpftdraw.mk
 

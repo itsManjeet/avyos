@@ -15,4 +15,3 @@ sources:
   - patches/py-requests/cert.patch
 
 pre-script: |-
-  patch -p1 -i cert.patch

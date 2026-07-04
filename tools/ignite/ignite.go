@@ -38,17 +38,18 @@ const (
 )
 
 type Ignite struct {
-	config      *Config
-	projectPath string
-	cachePath   string
-	pool        map[string]Recipe
-	compilers   map[string]Compiler
-	hashCache   map[string]string
-	hashMu      sync.Mutex
-	mirrors     map[string]string
+	config        *Config
+	projectPath   string
+	cachePath     string
+	workspacePath string
+	pool          map[string]Recipe
+	compilers     map[string]Compiler
+	hashCache     map[string]string
+	hashMu        sync.Mutex
+	mirrors       map[string]string
 }
 
-func NewIgnite(config *Config, projectPath, cachePath, arch string) (*Ignite, error) {
+func NewIgnite(config *Config, projectPath, cachePath, workspacePath, arch string) (*Ignite, error) {
 	file := filepath.Join(projectPath, "config-"+arch+".yml")
 	if _, err := os.Stat(file); err != nil {
 		return nil, fmt.Errorf("failed to load configuration file %q", file)
@@ -56,8 +57,13 @@ func NewIgnite(config *Config, projectPath, cachePath, arch string) (*Ignite, er
 	if err := config.UpdateFromFile(file); err != nil {
 		return nil, err
 	}
+	if workspacePath == "" {
+		workspacePath = filepath.Join(cachePath, "workspaces")
+	} else if !filepath.IsAbs(workspacePath) {
+		workspacePath = filepath.Join(projectPath, workspacePath)
+	}
 	i := &Ignite{
-		config: config, projectPath: projectPath, cachePath: cachePath,
+		config: config, projectPath: projectPath, cachePath: cachePath, workspacePath: workspacePath,
 		pool: map[string]Recipe{}, compilers: map[string]Compiler{}, hashCache: map[string]string{},
 	}
 	if node := config.Node("compiler"); node != nil && node.Kind == yaml.MappingNode {
@@ -220,7 +226,7 @@ func (i *Ignite) CacheFile(recipe Recipe) string {
 }
 
 func (i *Ignite) WorkspacePath(recipe Recipe) string {
-	return filepath.Join(i.cachePath, "workspaces", workspaceComponentID(recipe))
+	return filepath.Join(i.workspacePath, workspaceComponentID(recipe))
 }
 
 func (i *Ignite) WorkspaceAvailable(recipe Recipe) bool {
@@ -602,6 +608,12 @@ func (i *Ignite) PrepareSources(recipe Recipe, sourceDir, buildRoot string) (str
 		if subdir != "" {
 			targetRoot = filepath.Join(buildRoot, subdir)
 		}
+		if isPatchFile(spec.filename) {
+			if err := applyPatchFile(path, targetRoot); err != nil {
+				return "", fmt.Errorf("failed to apply source patch %q: %w", spec.filename, err)
+			}
+			continue
+		}
 		if isArchive(path) && !spec.noextract {
 			files, err := extract(path, targetRoot)
 			if err != nil {
@@ -641,7 +653,7 @@ func (i *Ignite) WorkspaceInit(recipe Recipe) error {
 	if exists(workspace) {
 		return fmt.Errorf("workspace already exists at %q", workspace)
 	}
-	_ = os.MkdirAll(filepath.Join(i.cachePath, "workspaces"), 0755)
+	_ = os.MkdirAll(i.workspacePath, 0755)
 	_ = os.MkdirAll(filepath.Join(i.cachePath, "sources"), 0755)
 	tmp := workspace + ".tmp." + strconv.Itoa(os.Getpid())
 	for suffix := 0; exists(tmp); suffix++ {
@@ -710,6 +722,7 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
 			}
 		}
 	}
+	var exportedSources []string
 	outputDir := filepath.Join(i.projectPath, "patches", recipe.id)
 	_ = os.MkdirAll(outputDir, 0755)
 	if len(patches) == 0 {
@@ -759,6 +772,10 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
 			return err
 		}
 		fmt.Println("Exported patch:", out)
+		exportedSources = append(exportedSources, workspacePatchSource(recipe, out))
+		if err := i.RecordWorkspacePatches(recipe, exportedSources); err != nil {
+			return err
+		}
 		_ = os.RemoveAll(workspace)
 		fmt.Println("Workspace closed:", workspace)
 		return nil
@@ -777,10 +794,215 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe) error {
 			return err
 		}
 		fmt.Println("Exported patch:", out)
+		exportedSources = append(exportedSources, workspacePatchSource(recipe, out))
+	}
+	if err := i.RecordWorkspacePatches(recipe, exportedSources); err != nil {
+		return err
 	}
 	_ = os.RemoveAll(workspace)
 	fmt.Println("Workspace closed:", workspace)
 	return nil
+}
+
+func workspacePatchSource(recipe Recipe, patchPath string) string {
+	return filepath.ToSlash(filepath.Join("patches", recipe.id, filepath.Base(patchPath)))
+}
+
+func (i *Ignite) RecordWorkspacePatches(recipe Recipe, sources []string) error {
+	if len(sources) == 0 {
+		return nil
+	}
+	if recipe.file == "" {
+		return fmt.Errorf("cannot update sources for %q because recipe file is unknown", recipe.id)
+	}
+	if err := appendSourcesToRecipeFile(recipe.file, recipe.config.StringSlice("sources"), sources); err != nil {
+		return err
+	}
+	if err := i.UpdateChecksumLockForSources(sources); err != nil {
+		return err
+	}
+	fmt.Println("Updated recipe sources:", recipe.file)
+	fmt.Println("Updated checksum lock:", filepath.Join(i.projectPath, "checksum.lock"))
+	return nil
+}
+
+func (i *Ignite) UpdateChecksumLockForSources(sources []string) error {
+	lockFile := filepath.Join(i.projectPath, "checksum.lock")
+	checksums := map[string]string{}
+	if exists(lockFile) {
+		var err error
+		checksums, err = readChecksumLock(lockFile)
+		if err != nil {
+			return err
+		}
+	}
+	for _, source := range sources {
+		spec, err := parseSourceSpec(source)
+		if err != nil {
+			return err
+		}
+		if strings.HasPrefix(spec.url, "http://") || strings.HasPrefix(spec.url, "https://") {
+			continue
+		}
+		path := filepath.Join(i.projectPath, spec.url)
+		sum, err := fileSHA256(path)
+		if err != nil {
+			return err
+		}
+		checksums[spec.filename] = sum
+	}
+	return writeChecksumLock(lockFile, checksums)
+}
+
+func appendSourcesToRecipeFile(path string, knownSources, sources []string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("failed to read recipe file %q: %w", path, err)
+	}
+	existing := map[string]bool{}
+	for _, source := range knownSources {
+		existing[normalizeSourceRef(source)] = true
+	}
+	for _, source := range scanRecipeSourceLines(string(data)) {
+		existing[normalizeSourceRef(source)] = true
+	}
+	var add []string
+	for _, source := range sources {
+		key := normalizeSourceRef(source)
+		if key == "" || existing[key] {
+			continue
+		}
+		add = append(add, source)
+		existing[key] = true
+	}
+	if len(add) == 0 {
+		return nil
+	}
+	updated := appendSourcesToRecipeText(string(data), add)
+	return os.WriteFile(path, []byte(updated), 0644)
+}
+
+func appendSourcesToRecipeText(text string, sources []string) string {
+	lines := strings.Split(text, "\n")
+	sourcesIdx := -1
+	for idx, line := range lines {
+		if isTopLevelKeyLine(line, "sources") {
+			sourcesIdx = idx
+			break
+		}
+	}
+	var insert []string
+	for _, source := range sources {
+		insert = append(insert, "  - "+source)
+	}
+	if sourcesIdx < 0 {
+		base := strings.TrimRight(text, "\n")
+		if base != "" {
+			base += "\n\n"
+		}
+		return base + "sources:\n" + strings.Join(insert, "\n") + "\n"
+	}
+	lines[sourcesIdx] = "sources:"
+	indent := "  "
+	insertAt := sourcesIdx + 1
+	blockEnd := len(lines)
+	for idx := sourcesIdx + 1; idx < len(lines); idx++ {
+		line := lines[idx]
+		if isTopLevelMappingLine(line) {
+			blockEnd = idx
+			break
+		}
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "-") {
+			indent = line[:len(line)-len(strings.TrimLeft(line, " \t"))]
+			insertAt = idx + 1
+		}
+	}
+	for idx := range insert {
+		insert[idx] = indent + "- " + strings.TrimPrefix(insert[idx], "  - ")
+	}
+	if insertAt > blockEnd {
+		insertAt = blockEnd
+	}
+	out := append([]string{}, lines[:insertAt]...)
+	out = append(out, insert...)
+	out = append(out, lines[insertAt:]...)
+	result := strings.Join(out, "\n")
+	if !strings.HasSuffix(result, "\n") {
+		result += "\n"
+	}
+	return result
+}
+
+func scanRecipeSourceLines(text string) []string {
+	lines := strings.Split(text, "\n")
+	sourcesIdx := -1
+	for idx, line := range lines {
+		if isTopLevelKeyLine(line, "sources") {
+			sourcesIdx = idx
+			break
+		}
+	}
+	if sourcesIdx < 0 {
+		return nil
+	}
+	var out []string
+	for idx := sourcesIdx + 1; idx < len(lines); idx++ {
+		line := lines[idx]
+		if isTopLevelMappingLine(line) {
+			break
+		}
+		trimmed := strings.TrimSpace(line)
+		if !strings.HasPrefix(trimmed, "-") {
+			continue
+		}
+		value := strings.TrimSpace(strings.TrimPrefix(trimmed, "-"))
+		if comment := strings.IndexByte(value, '#'); comment >= 0 {
+			value = strings.TrimSpace(value[:comment])
+		}
+		value = strings.Trim(value, "'\"")
+		if value != "" {
+			out = append(out, value)
+		}
+	}
+	return out
+}
+
+func isTopLevelKeyLine(line, key string) bool {
+	if strings.HasPrefix(line, " ") || strings.HasPrefix(line, "\t") {
+		return false
+	}
+	trimmed := strings.TrimSpace(line)
+	return trimmed == key+":" || strings.HasPrefix(trimmed, key+": ") || strings.HasPrefix(trimmed, key+":#")
+}
+
+func isTopLevelMappingLine(line string) bool {
+	if strings.TrimSpace(line) == "" || strings.HasPrefix(line, " ") || strings.HasPrefix(line, "\t") || strings.HasPrefix(strings.TrimSpace(line), "#") {
+		return false
+	}
+	idx := strings.IndexByte(line, ':')
+	if idx <= 0 {
+		return false
+	}
+	key := line[:idx]
+	for _, r := range key {
+		if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9') || r == '-' || r == '_') {
+			return false
+		}
+	}
+	return true
+}
+
+func normalizeSourceRef(source string) string {
+	source = strings.TrimSpace(source)
+	if source == "" {
+		return ""
+	}
+	spec, err := parseSourceSpec(source)
+	if err == nil {
+		source = spec.url
+	}
+	return filepath.ToSlash(filepath.Clean(source))
 }
 
 func (i *Ignite) CompileSource(recipe Recipe, container *Container, buildRoot, installRoot string) error {
@@ -1060,6 +1282,56 @@ func extract(path, outputPath string) ([]string, error) {
 		return nil, fmt.Errorf("failed to extract %s :%s", path, out)
 	}
 	return files, nil
+}
+
+func isPatchFile(path string) bool {
+	switch strings.ToLower(filepath.Ext(path)) {
+	case ".patch", ".diff":
+		return true
+	default:
+		return false
+	}
+}
+
+func patchCandidateRoots(root string) []string {
+	roots := []string{root}
+	entries, err := os.ReadDir(root)
+	if err != nil {
+		return roots
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			roots = append(roots, filepath.Join(root, entry.Name()))
+		}
+	}
+	return roots
+}
+
+func applyPatchFile(patchPath, root string) error {
+	if !isDir(root) {
+		return fmt.Errorf("source root %q does not exist", root)
+	}
+	stripLevels := []int{1, 0, 2, 3, 4}
+	var attempts []string
+	for _, candidate := range patchCandidateRoots(root) {
+		for _, strip := range stripLevels {
+			stripArg := fmt.Sprintf("-p%d", strip)
+			status, out := NewExecutor("/bin/patch").Arg("-f").Arg("-s").Arg("--dry-run").Arg(stripArg).Arg("-i").Arg(patchPath).Path(candidate).Output()
+			if status != 0 {
+				attempts = append(attempts, fmt.Sprintf("%s %s: %s", candidate, stripArg, out))
+				continue
+			}
+			fmt.Printf("Applying source patch: %s in %s with %s\n", filepath.Base(patchPath), candidate, stripArg)
+			if err := NewExecutor("/bin/patch").Arg("-f").Arg(stripArg).Arg("-i").Arg(patchPath).Path(candidate).Execute(); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+	if len(attempts) > 6 {
+		attempts = attempts[:6]
+	}
+	return fmt.Errorf("no matching source tree found under %q for %s; tried %s", root, filepath.Base(patchPath), strings.Join(attempts, "; "))
 }
 
 func isArchive(path string) bool {

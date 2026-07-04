@@ -3,7 +3,6 @@ version: 2.3.3
 about: Small UPnP client library/tool to access Internet Gateway Devices
 
 pre-script: |
-  patch -p2 -i ../ed1dc4bb.patch
 script: |-
   make
   python setup.py build

@@ -11,6 +11,7 @@ import (
 )
 
 type Recipe struct {
+	file               string
 	id, version, about string
 	integration, cache string
 	depends, backup    []string
@@ -21,7 +22,7 @@ type Recipe struct {
 }
 
 func LoadRecipe(path, projectPath string) (Recipe, error) {
-	r := Recipe{config: NewConfig()}
+	r := Recipe{file: path, config: NewConfig()}
 	r.config.searchPath = append(r.config.searchPath, projectPath)
 	r.config.SetString("cache", "none")
 	if err := r.UpdateFromFile(path); err != nil {

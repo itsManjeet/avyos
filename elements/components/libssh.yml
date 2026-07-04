@@ -5,7 +5,6 @@ about: Library for accessing ssh client services through C libraries
 build-type: autotools
 
 pre-script: |-
-  patch -Np1 -i libssh2-1.11.0-security_fixes-1.patch
 
 configure: >
   --disable-docker-tests
