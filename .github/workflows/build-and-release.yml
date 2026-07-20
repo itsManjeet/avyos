@@ -97,14 +97,8 @@ jobs:
                 done
 
       - name: Checkout system image
-        run: |
-              mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
-              rm -rf release-checkout/ && mkdir -p release-checkout
-              go run avyos.dev/tools/ignite checkout -cache-path "${CACHE_PATH}" -workspace-path "workspaces" installer/image.yml ${PWD}/release-checkout
-              cp release-checkout/avyos-${CHANNEL}-installer.iso ${CACHE_PATH}/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso
-              (cd ${CACHE_PATH}/releases/${CHANNEL}/;
-                zsyncmake -b 2048 -C -u http://repo.avyos.dev/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso avyos-${VERSION}-${CHANNEL}-installer.iso
-              )
+        run: ./scripts/update-iso.sh
+
 
   publish-system-image:
     name: Publish system image
