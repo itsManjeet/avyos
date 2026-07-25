@@ -107,7 +107,6 @@ depends:
     - components/gnome-software.yml
     - components/labwc.yml
     - components/astra.yml
-    - components/firefox.yml
     - components/mokutil.yml
     - components/sbsigntools.yml
     - components/efitools.yml

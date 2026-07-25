@@ -367,6 +367,9 @@ format_and_populate_esp() {
     echo ":: Formatting EFI system partition"
     run mkfs.vfat -F 32 -n EFI "$esp_part"
 
+    sync
+    sleep 1
+
     esp_mount="$(make_temp_dir)"
     mount_partition "$esp_part" "$esp_mount"
 

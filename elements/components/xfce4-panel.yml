@@ -111,7 +111,7 @@ post-script: |-
 
   install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/skel/.config/xfce4/panel/docklike-4.rc << "EOF"
   [user]
-  pinned=xfce4-appfinder;xfce4-terminal;thunar;firefox;xfce4-settings-manager;
+  pinned=xfce4-appfinder;xfce4-terminal;thunar;astra;xfce4-settings-manager;
   noWindowsListIfSingle=true
   onlyDisplayVisible=true
   onlyDisplayScreen=true
