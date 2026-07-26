@@ -87,7 +87,6 @@ depends:
     - components/gvfs.yml
     - components/xdg-user-dirs-gtk.yml
     - components/xdg-utils.yml
-    - components/flatpak.yml
     - components/power-profiles-daemon.yml
     - components/networkmanager.yml
     - components/networkmanager-openvpn.yml
@@ -103,8 +102,6 @@ depends:
     - components/picom.yml
 
     - components/initial-setup.yml
-    - components/distrobox.yml
-    - components/gnome-software.yml
     - components/labwc.yml
     - components/astra.yml
     - components/mokutil.yml
