@@ -93,14 +93,23 @@ fi
 install -d "$QEMU_DIR"
 cp "$QEMU_OVMF_VARS" "$QEMU_VARS"
 
+if ! [[ "$QEMU_VNC_PORT" =~ ^[0-9]+$ ]]; then
+    echo "QEMU_VNC_PORT must be a TCP port number" >&2
+    exit 1
+fi
+
 vnc_display=$((QEMU_VNC_PORT - 5900))
 if [ "$vnc_display" -lt 0 ]; then
     echo "QEMU_VNC_PORT must be 5900 or higher" >&2
     exit 1
 fi
+VNC_DISPLAY="${QEMU_VNC_HOST}:${vnc_display}"
 
 printf 'Booting %s with UEFI\n' "$ISO_PATH"
-printf 'VNC: %s:%s\n' "$QEMU_VNC_HOST" "$QEMU_VNC_PORT"
+printf 'VNC TCP port: %s:%s\n' "$QEMU_VNC_HOST" "$QEMU_VNC_PORT"
+printf 'VNC display: %s\n' "$VNC_DISPLAY"
+printf 'VNC viewer examples: vncviewer %s or vncviewer %s::%s\n' \
+    "$VNC_DISPLAY" "$QEMU_VNC_HOST" "$QEMU_VNC_PORT"
 
 # Run QEMU
 exec "$QEMU" \
@@ -108,14 +117,14 @@ exec "$QEMU" \
     -m "$QEMU_MEMORY" \
     -cpu Haswell \
     -smp "$QEMU_SMP" \
-    -boot d \
     -drive if=pflash,format=raw,readonly=on,file="$QEMU_OVMF_CODE" \
     -drive if=pflash,format=raw,file="$QEMU_VARS" \
-    -drive if=virtio,format=raw,file=disk.img \
-    -cdrom "$ISO_PATH" \
+    -drive if=none,id=disk0,format=raw,file=disk.img \
+    -device virtio-blk-pci,drive=disk0,bootindex=1 \
+    -drive if=none,id=cdrom0,media=cdrom,readonly=on,file="$ISO_PATH" \
+    -device ide-cd,drive=cdrom0,bootindex=2 \
     -netdev user,id=net0 \
     -device virtio-net-pci,netdev=net0 \
     -serial mon:stdio \
-    -display none \
-    -vnc "$QEMU_VNC_HOST:$vnc_display" \
+    -vnc "$VNC_DISPLAY" \
     $QEMU_EXTRA_ARGS
