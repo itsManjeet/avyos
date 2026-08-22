@@ -1,0 +1,11 @@
+id: clutter-gtk
+version: 1.8.4
+about: Library providing facilities to integrate Clutter into GTK+ applications
+
+depends:
+  - clutter
+  - gtk3
+build-depends:
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/clutter-gtk/%{version:2}/clutter-gtk-%{version}.tar.xz

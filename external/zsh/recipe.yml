@@ -1,0 +1,46 @@
+id: zsh
+version: 5.9.2
+about: A very advance and programmable command interpreter (shell) for UNIX
+
+configure: >
+  --docdir=%{datadir}/doc/zsh
+  --htmldir=%{datadir}/doc/zsh/html
+  --enable-etcdir=%{sysconfdir}/zsh
+  --enable-zshenv=%{sysconfdir}/zsh/shenv
+  --enable-zlogin=%{sysconfdir}/zsh/login
+  --enable-zlogout=%{sysconfdir}/zsh/logout
+  --enable-zprofile=%{sysconfdir}/zsh/profile
+  --enable-zshrc=%{sysconfdir}/zsh/zshrc
+  --enable-maildir-support
+  --with-term-lib='ncursesw'
+  --enable-multibyte
+  --enable-function-subdirs
+  --enable-fndir=%{datadir}/zsh/functions
+  --enable-scriptdir=%{datadir}/zsh/scripts
+  --with-tcsetpgrp
+  --enable-pcre
+  --enable-cap
+  --enable-zsh-secure-free
+
+pre-script: |
+
+  sed -i 's#/usr/share/keymaps#/usr/share/kbd/keymaps#g' Completion/Unix/Command/_loadkeys
+
+  sed -i 's#/usr/share/misc/usb.ids#/usr/share/hwdata/usb.ids#g' Completion/Linux/Command/_lsusb
+
+post-script: |
+  install -v -D -m 0644 /external/zsh/profile -t %{install-root}%{sysconfdir}/zsh
+  install -vDm0644 /dev/stdin %{install-root}/%{sysconfdir}/skel/.zshrc << "EOF"
+  EOF
+
+integration: |
+  echo -e "\n/bin/zsh" >> %{sysconfdir}/shells
+
+depends:
+  - gdbm
+  - libcap
+  - pcre
+build-depends:
+  - yodl
+sources:
+  - https://www.zsh.org/pub/zsh-%{version}.tar.xz

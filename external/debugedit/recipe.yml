@@ -1,0 +1,14 @@
+id: debugedit
+version: 5.3
+about: Tool to mangle source locations in .debug files
+
+strip: false
+
+depends:
+  - glibc
+
+pre-script: |-
+  autoreconf -fiv
+
+sources:
+  - https://sourceware.org/ftp/debugedit/%{version}/debugedit-%{version}.tar.xz

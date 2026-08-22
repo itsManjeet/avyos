@@ -1,0 +1,14 @@
+id: libpeas
+version: 2.2.1
+about: GObject based plugins engine,
+
+depends:
+  - gtk3
+  - libxml2
+  - python-gobject
+build-depends:
+  - gobject-introspection
+  - vala
+  # - external/glade
+sources:
+  - https://download.gnome.org/sources/libpeas/%{version:2}/libpeas-%{version}.tar.xz

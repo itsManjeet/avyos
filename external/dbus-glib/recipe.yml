@@ -1,0 +1,9 @@
+id: dbus-glib
+version: 0.114
+about: Package contains GLib interfaces to the D-Bus API
+
+depends:
+  - dbus
+  - glib
+sources:
+  - https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz

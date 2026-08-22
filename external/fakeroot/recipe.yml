@@ -1,0 +1,18 @@
+id: fakeroot
+version: 1.37.2
+about: Tool for simulating superuser privileges
+
+depends:
+  - filesystem
+  - glibc
+  - sed
+  - util-linux
+build-depends:
+  - po4a
+  - systemd
+sources:
+  - https://deb.debian.org/debian/pool/main/f/%{id}/%{id}_%{version}.orig.tar.gz
+
+configure: >-
+  --disable-static
+  --with-ipc=sysv

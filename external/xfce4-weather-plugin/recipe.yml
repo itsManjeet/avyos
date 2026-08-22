@@ -1,0 +1,11 @@
+id: xfce4-weather-plugin
+version: 0.12.0
+about: A weather plugin for the Xfce4 panel
+
+depends:
+  - libsoup3
+  - libxml2
+  - xfce4-panel
+
+sources:
+  - https://archive.xfce.org/src/panel-plugins/xfce4-weather-plugin/%{version:2}/xfce4-weather-plugin-%{version}.tar.xz

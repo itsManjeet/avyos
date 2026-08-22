@@ -1,0 +1,11 @@
+id: xfce4-dev-tools
+version: 4.20.0
+about: Xfce developer tools
+
+depends:
+  - glib
+  - gtk-doc
+  - intltool
+
+sources:
+  - https://archive.xfce.org/src/xfce/xfce4-dev-tools/%{version:2}/xfce4-dev-tools-%{version}.tar.bz2

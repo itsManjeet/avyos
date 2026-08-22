@@ -1,0 +1,10 @@
+id: json-glib
+version: 1.10.8
+about: serialization and deserialization support for the JavaScript
+
+depends:
+  - glib
+build-depends:
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/json-glib/%{version:2}/json-glib-%{version}.tar.xz

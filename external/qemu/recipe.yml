@@ -1,0 +1,62 @@
+id: qemu
+version: 11.0.0
+about: A full virtualization solution for Linux on x86 hardware containing virtualization extensions
+
+build-type: autotools
+
+strip-skip-mime:
+  - application/octet-stream
+
+post-script: |-
+  install -v -D -m 644 /dev/stdin %{install-root}/%{libdir}/udev/rules.d/65-kvm.rules << "EOF"
+  KERNEL=="vhost-net", GROUP="kvm", MODE="0660", TAG+="uaccess", OPTIONS+="static_node=vhost-net"
+
+  EOF
+
+  install -v -D -m 644 /dev/stdin %{install-root}%{sysconfdir}/sysctl.d/60-net-forward.conf << "EOF"
+  net.ipv4.ip_forward=1
+  EOF
+
+  install -v -D -m 644 /dev/stdin %{install-root}%{sysconfdir}/qemu/bridge.conf << "EOF"
+  allow br0
+  EOF
+
+  # chgrp kvm %{install-root}/%{libdir}/qemu-bridge-helper
+  chmod -v 4755 %{install-root}/%{libdir}/qemu-bridge-helper
+
+  rmdir %{install-root}/var/run
+
+configure: >-
+  --audio-drv-list=alsa
+  --smbd=/usr/bin/smbd
+  --enable-modules
+  --enable-sdl
+  --enable-gtk
+  --enable-spice
+  --enable-slirp
+
+depends:
+  - glib
+  - fuse
+  - gnutls
+  - curl
+  - libpng
+  - alsa-lib
+  - gtk3
+  - ncurses
+  - sdl2
+  - spice
+  - cairo
+  - samba
+  - libusb
+  - usbredir
+  - libcacard
+  - libslirp
+  - dtc
+
+build-depends:
+  - pkg-config
+  - spice-protocol
+
+sources:
+  - https://download.qemu.org/qemu-%{version}.tar.xz

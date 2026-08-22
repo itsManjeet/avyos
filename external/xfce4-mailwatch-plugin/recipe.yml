@@ -1,0 +1,8 @@
+id: xfce4-mailwatch-plugin
+version: 1.4.0
+about: Multi-protocol, multi-mailbox mail watcher for the Xfce4 panel
+
+depends:
+  - gnutls
+
+merge: [external/xfce4-panel-plugin.inc]

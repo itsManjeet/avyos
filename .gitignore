@@ -11,6 +11,6 @@ __pycache__
 /version.yml
 /channel.yml
 /config.mk
-/files/sign-keys
+/external/sign-keys
 /local.conf.yml
 /workspaces

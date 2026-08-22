@@ -35,5 +35,5 @@ version: ${VERSION}
 channel: ${CHANNEL}
 
 workspace-push: false
-workspace-message: avyos workspace update
+workspace-message: rlxos workspace update
 EOF

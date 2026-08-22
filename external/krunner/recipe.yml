@@ -1,0 +1,10 @@
+id: krunner
+merge: [external/kf5.inc]
+about: KF5 krunner
+
+depends:
+  - plasma-framework
+  - threadweaver
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

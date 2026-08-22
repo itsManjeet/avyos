@@ -1,0 +1,17 @@
+id: libfprint
+version: 1.94.10
+about: Library for fingerprint readers
+
+depends:
+  - libgudev
+  - libgusb
+  - nss
+  - pixman
+  - systemd
+build-depends:
+  - gobject-introspection
+  - cairo
+  - meson
+  - gtk-doc
+sources:
+  - https://gitlab.freedesktop.org/libfprint/libfprint/-/archive/v%{version}/libfprint-v%{version}.tar.gz

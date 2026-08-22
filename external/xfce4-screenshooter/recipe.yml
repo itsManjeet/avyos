@@ -1,0 +1,15 @@
+id: xfce4-screenshooter
+version: 1.11.3
+about: xfce screenshooter
+
+depends:
+  - libsoup3
+  - libxfce4ui
+  - libxfce4util
+  - xfce4-panel
+
+build-depends:
+  - perl-locale-gettext
+
+sources:
+  - https://archive.xfce.org/src/apps/xfce4-screenshooter/%{version:2}/xfce4-screenshooter-%{version}.tar.xz

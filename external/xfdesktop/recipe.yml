@@ -1,0 +1,35 @@
+id: xfdesktop
+version: 4.20.2
+about: Xfce desktop manager
+release: 8
+build-type: meson
+
+configure: >-
+  -D default-backdrop-filename=backgrounds/default.jpg
+
+post-script: |-
+  install -vDm 0644 /dev/stdin %{install-root}/%{sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << "EOF"
+  <?xml version="1.0" encoding="UTF-8"?>
+  <channel name="xfce4-desktop" version="1.0">
+    <property name="desktop-icons" type="empty">
+      <property name="icon-size" type="uint" value="64"/>
+      <property name="gravity" type="int" value="1"/>
+      <property name="file-icons" type="empty">
+        <property name="show-filesystem" type="bool" value="false"/>
+      </property>
+    </property>
+    <property name="desktop-menu" type="empty">
+      <property name="show" type="bool" value="false"/>
+    </property>
+  </channel>
+  EOF
+depends:
+  - libwnck
+  - libnotify
+  - startup-notification
+  - thunar
+  - exo
+  - libxfce4windowing
+  - garcon
+sources:
+  - https://archive.xfce.org/src/xfce/xfdesktop/%{version:2}/xfdesktop-%{version}.tar.bz2

@@ -1,0 +1,25 @@
+id: jasper
+version: 4.2.9
+about: An open-source initiative to provide a free software-based reference implementation of the JPEG-2000 codec
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects"
+  -DCMAKE_SKIP_INSTALL_RPATH=YES
+  -DALLOW_IN_SOURCE_BUILD=YES
+  -DJAS_ENABLE_OPENGL=ON
+  -DJAS_ENABLE_LIBJEPG=ON
+  -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF
+  -DJAS_ENABLE_DOC=OFF
+  -DJAS_ENABLED_SHARED=ON
+
+depends:
+  - libjpeg-turbo
+  - freeglut
+  - glu
+
+build-depends:
+  - cmake
+
+sources:
+  - https://github.com/jasper-software/jasper/archive/version-%{version}/jasper-%{version}.tar.gz

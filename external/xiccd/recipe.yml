@@ -1,0 +1,16 @@
+id: xiccd
+version: 0.4.1
+about: Simple bridge between colord and X
+
+pre-script: |-
+  aclocal
+  autoconf
+
+  automake --add-missing --foreign --force --copy
+
+depends:
+  - colord
+  - libxrandr
+
+sources:
+  - https://github.com/agalakhov/xiccd/archive/v%{version}.tar.gz

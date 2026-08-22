@@ -1,0 +1,14 @@
+id: xcb-util-keysyms
+version: 0.4.1
+about: Additional extensions to the XCB library
+sources:
+  - https://xcb.freedesktop.org/dist/xcb-util-keysyms-%{version}.tar.xz
+
+variables:
+  run-autogen: false
+
+depends:
+  - libxcb
+build-depends:
+  - xorgproto
+  - util-macros

@@ -1,0 +1,21 @@
+id: i3blocks
+version: 1.5
+about: Define blocks for your i3bar status line
+
+build-type: autotools
+seperate-build-dir: false
+
+pre-script: |-
+
+post-script: |-
+  install -vDm 0644 /external/i3blocks/i3blocks.conf -t %{install-root}%{sysconfdir}/
+  for script in audio battery network ; do
+    install -vDm 0755 /external/i3blocks/${script}.sh -t %{install-root}%{libdir}/i3blocks/
+  done
+
+depends:
+- external/glibc
+
+sources:
+- i3blocks-%{version}.tar.gz::https://github.com/vivien/i3blocks/archive/refs/tags/%{version}.tar.gz
+- external/i3blocks/i3blocks-1.5-fix-Makefile-bash-completion-dependency.patch

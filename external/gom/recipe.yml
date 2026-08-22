@@ -1,0 +1,13 @@
+id: gom
+version: 0.5.6
+about: A GObject to sqlite object mapper
+
+depends:
+  - glib
+  - sqlite
+build-depends:
+  - gdk-pixbuf
+  - gobject-introspection
+  - python-gobject
+sources:
+  - https://gitlab.gnome.org/GNOME/gom/-/archive/%{version}/gom-%{version}.tar.gz

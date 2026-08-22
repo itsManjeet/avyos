@@ -1,0 +1,22 @@
+id: xfce4-screensaver
+version: 4.20.2
+about: Xfce ScreenSaver
+
+post-script: |-
+  install -vDm644 /dev/stdin %{install-root}%{sysconfdir}/pam.d/xfce4-screensaver << "EOF"
+  auth  include   system-auth
+  -auth optional  pam_gnome_keygring.so
+  EOF
+
+depends:
+  - libxklavier
+  - libxscrnsaver
+  - libwnck
+  - garcon
+  - dbus-glib
+  - python
+  - python-gobject
+build-depends:
+  - intltool
+sources:
+  - https://archive.xfce.org/src/apps/xfce4-screensaver/%{version:2}/xfce4-screensaver-%{version}.tar.xz

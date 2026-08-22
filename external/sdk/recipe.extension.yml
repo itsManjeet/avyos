@@ -1,0 +1,46 @@
+id: sdk
+version: 2.0
+about: rlxos Software Development Kit
+
+include:
+  - platform
+  - bc
+  - gcc
+  - kernel-headers
+  - binutils
+  - git
+  - cmake
+  - go
+  - meson
+  - ninja
+  - rustc
+  - make
+  - automake
+  - autoconf
+  - pkg-config
+  - cppgir
+  - m4
+  - flex
+  - bison
+  - texinfo
+  - vala
+  - vala-language-server
+  - strace
+  - valgrind
+  - uncrustify
+  - libyaml-cpp
+  - sassc
+  - xfce4-dev-tools
+  - gdb
+  - patch
+  - man-pages
+  - rsync
+  - unzip
+
+include-parts:
+  - devel
+
+extra-commands: |-
+  mkdir -p %{include-root}/%{prefix}/local/include
+
+merge: [external/extension.inc]

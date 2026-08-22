@@ -1,0 +1,29 @@
+id: libblockdev
+version: 3.5.0
+about: A C library supporting GObject Introspection for manipulation of block devices
+
+pre-script: |-
+  find -name Makefile.in -exec sed -i "s/-Werror//" {} \;
+configure: >-
+  --with-python3
+  --without-nvdimm
+  --without-dm
+
+depends:
+  - gobject-introspection
+  - libbytesize
+  - libyaml
+  - parted
+  - volume_key
+  - cryptsetup
+  - keyutils
+  - e2fsprogs
+  - libnvme
+  - json-glib
+  - libatasmart
+
+build-depends:
+  - gtk-doc
+sources:
+  - https://github.com/storaged-project/libblockdev/releases/download/%{version}/libblockdev-%{version}.tar.gz
+# TODO: enable nvme support

@@ -1,0 +1,19 @@
+id: cage
+version: 0.3.0
+about: A kiosk compositor for Wayland
+
+post-script: |-
+  install -v -D -m 0644 LICENSE -t ${install-root}/%{datadir}/licenses/%{id}/
+
+depends:
+  - wlroots
+  - libxkbcommon
+  - wayland
+
+build-depends:
+  - pixman
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/cage-kiosk/cage/releases/download/v%{version}/cage-%{version}.tar.gz

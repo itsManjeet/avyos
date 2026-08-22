@@ -1,0 +1,14 @@
+id: clutter-gst
+version: 3.0.27
+about: An integration library for using GStreamer with Clutter
+
+depends:
+  - clutter
+  - gstreamer
+  - libgudev
+
+build-depends:
+  - gobject-introspection
+
+sources:
+  - https://download.gnome.org/sources/clutter-gst/%{version:2}/clutter-gst-%{version}.tar.xz

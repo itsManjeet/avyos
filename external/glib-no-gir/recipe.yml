@@ -1,0 +1,37 @@
+id: glib
+version: 2.88.1
+about: Package contains low-level libraries useful for providing data structure handling for C, portability wrappers and interfaces for such runtime functionality as an event loop, threads, dynamic loading and an object system
+
+pre-script: |-
+  python -m pip install packaging
+
+
+configure: >-
+  -D man-pages=disabled
+  -D selinux=disabled
+  -D dtrace=disabled
+  -D glib_debug=disabled
+  -D introspection=disabled
+  --buildtype=release
+
+depends:
+  - libffi
+  - util-linux
+  - zlib
+  - libelf
+  - libxslt
+  - pcre2
+
+build-depends:
+  - meson
+  - python-pip
+  - gettext
+
+sources:
+  - https://download.gnome.org/sources/glib/%{version:2}/glib-%{version}.tar.xz
+  - https://download.gnome.org/sources/gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz
+  - external/glib/0001-glib-compile-schemas-Remove-noisy-deprecation-warnin.patch
+
+integration: |
+  glib-compile-schemas %{datadir}/glib-2.0/schemas
+  gio-querymodules %{libdir}/gio/modules

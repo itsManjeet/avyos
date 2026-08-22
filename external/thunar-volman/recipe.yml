@@ -1,0 +1,17 @@
+id: thunar-volman
+version: 4.20.0
+about: Automatic management of removable drives and media for Thunar
+
+configure: >-
+  --disable-debug
+
+depends:
+  - hicolor-icon-theme
+  - libxfce4ui
+  - exo
+
+build-depends:
+  - intltool
+
+sources:
+  - https://archive.xfce.org/src/xfce/thunar-volman/%{version:2}/thunar-volman-%{version}.tar.bz2

@@ -1,0 +1,11 @@
+id: wm-kit-x11
+version: 0.1.0
+about: Essential tools for window managers
+include:
+  - dmenu
+  - scrot
+  - tint2
+  - picom
+  - rofi
+
+merge: [external/extension.inc]

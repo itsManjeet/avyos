@@ -1,0 +1,14 @@
+id: benchmark
+version: 1.9.5
+about: A microbenchmark support library
+
+configure: >
+  -DBENCHMARK_ENABLE_GTEST_TESTS=OFF
+  -DBUILD_SHARED_LIBS=ON
+
+depends:
+  - libgcc
+build-depends:
+  - cmake
+sources:
+  - https://github.com/google/benchmark/archive/v%{version}/benchmark-%{version}.tar.gz

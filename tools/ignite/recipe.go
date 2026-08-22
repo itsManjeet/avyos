@@ -11,14 +11,15 @@ import (
 )
 
 type Recipe struct {
-	file               string
-	id, version, about string
-	integration, cache string
-	depends, backup    []string
-	config             Config
-	buildTimeDepends   []string
-	sources            []string
-	elementID          string
+	file                        string
+	id, version, release, about string
+	integration, cache          string
+	depends, backup             []string
+	config                      Config
+	buildTimeDepends            []string
+	sources                     []string
+	elementID                   string
+	arch                        string
 }
 
 func LoadRecipe(path, projectPath string, virtualFiles map[string][]byte) (Recipe, error) {
@@ -31,11 +32,56 @@ func LoadRecipe(path, projectPath string, virtualFiles map[string][]byte) (Recip
 	}
 	r.buildTimeDepends = append(r.buildTimeDepends, r.config.StringSlice("build-depends")...)
 	r.sources = append(r.sources, r.config.StringSlice("sources")...)
-	rel, err := filepath.Rel(filepath.Join(projectPath, "elements"), path)
-	if err == nil {
-		r.elementID = strings.TrimSuffix(filepath.ToSlash(rel), filepath.Ext(rel))
+	if externalID, ok := externalRecipeID(path, projectPath); ok {
+		r.elementID = externalID
 	}
 	return r, nil
+}
+
+// externalRecipeID returns the canonical recipe ID for a recipe stored in
+// external/. recipe.yml is addressed as <name>; recipe.<sub>.yml as
+// <name>:<sub>.
+func externalRecipeID(file, projectPath string) (string, bool) {
+	rel, err := filepath.Rel(filepath.Join(projectPath, "external"), file)
+	if err != nil || rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
+		return "", false
+	}
+	dir := filepath.ToSlash(filepath.Dir(rel))
+	if dir == "." {
+		return "", false
+	}
+	base := filepath.Base(rel)
+	if base == "recipe.yml" {
+		return dir, true
+	}
+	if strings.HasPrefix(base, "recipe.") && strings.HasSuffix(base, ".yml") {
+		sub := strings.TrimSuffix(strings.TrimPrefix(base, "recipe."), ".yml")
+		if sub != "" {
+			return dir + ":" + sub, true
+		}
+	}
+	return "", false
+}
+
+// canonicalRecipeReference accepts canonical IDs as well as legacy external/
+// IDs and on-disk recipe-file paths.
+func canonicalRecipeReference(reference string) string {
+	reference = strings.TrimPrefix(reference, "external/")
+	slash := strings.LastIndexByte(reference, '/')
+	if slash < 0 {
+		return reference
+	}
+	dir, base := reference[:slash], reference[slash+1:]
+	if base == "recipe.yml" {
+		return dir
+	}
+	if strings.HasPrefix(base, "recipe.") && strings.HasSuffix(base, ".yml") {
+		sub := strings.TrimSuffix(strings.TrimPrefix(base, "recipe."), ".yml")
+		if sub != "" {
+			return dir + ":" + sub
+		}
+	}
+	return reference
 }
 
 func (r *Recipe) UpdateFromFile(path string) error {
@@ -58,6 +104,7 @@ func (r *Recipe) UpdateFromData(data []byte, path string) error {
 		return err
 	}
 	r.about, _ = r.config.String("about", "")
+	r.release, _ = r.config.String("release", "1")
 	r.cache, _ = r.config.String("cache", "")
 	r.depends = append(r.depends, r.config.StringSlice("depends")...)
 	r.backup = append(r.backup, r.config.StringSlice("backup")...)
@@ -66,12 +113,12 @@ func (r *Recipe) UpdateFromData(data []byte, path string) error {
 }
 
 func (r Recipe) Name() string {
-	return strings.ReplaceAll(r.id, "/", "-")
+	return recipePathName(r.id)
 }
 
 func (r Recipe) String() string {
 	var b strings.Builder
-	fmt.Fprintf(&b, "id: %s\nversion: %s\nabout: %s\ncache: %s\n", r.id, r.version, r.about, r.cache)
+	fmt.Fprintf(&b, "id: %s\nversion: %s\nrelease: %s\nabout: %s\nbuild-id: %s\n", r.id, r.version, r.release, r.about, r.cache)
 	if len(r.depends) > 0 {
 		b.WriteString("depends:\n")
 		for _, dep := range r.depends {
@@ -95,12 +142,29 @@ func (r Recipe) String() string {
 }
 
 func (r Recipe) PackageName(eid ...string) string {
-	name := r.id
+	name := r.elementID
+	if name == "" {
+		name = r.id
+	}
 	if len(eid) > 0 && eid[0] != "" {
 		name = eid[0]
 	}
+	name = packageNameIdentity(name)
+	arch := r.arch
+	if arch == "" {
+		arch = "any"
+	}
+	return name + "-" + r.version + "-" + r.release + "-" + arch + ".pkg"
+}
+
+func recipePathName(name string) string {
 	name = strings.ReplaceAll(name, "/", "-")
-	return name + "-" + r.version + "-" + r.cache + ".pkg"
+	name = strings.ReplaceAll(name, "\\", "-")
+	return strings.ReplaceAll(name, ":", "-")
+}
+
+func packageNameIdentity(name string) string {
+	return recipePathName(strings.TrimPrefix(name, "external/"))
 }
 
 func (r *Recipe) ResolveSources(global Config, extra map[string]string) error {

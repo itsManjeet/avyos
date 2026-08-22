@@ -1,0 +1,14 @@
+id: gnome-power-manager
+version: 50.0
+about:
+  Power Manager package contains a tool used to report on power management on
+  the system
+
+depends:
+  - gtk3
+  - upower
+sources:
+  - https://download.gnome.org/sources/gnome-power-manager/%{version:2}/gnome-power-manager-%{version}.tar.xz
+
+configure: >-
+  --buildtype=release

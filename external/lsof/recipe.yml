@@ -1,0 +1,22 @@
+id: lsof
+version: 4.99.6
+about: Lists open files for running unix processes
+
+pre-script: |-
+  autoreconf -fiv
+
+build-type: autotools
+configure: >-
+  --enable-security
+  --enable-no-sock-security
+  --with-libtirpc
+
+depends:
+  - glibc
+  - libtirpc
+
+build-depends:
+  - groff
+
+sources:
+  - https://github.com/lsof-org/lsof/archive/%{version}/%{id}-%{version}.tar.gz

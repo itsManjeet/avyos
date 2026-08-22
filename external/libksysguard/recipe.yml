@@ -1,0 +1,13 @@
+id: libksysguard
+merge: [external/plasma.inc]
+about: Plasma libksysguard
+
+depends:
+  - kdeclarative
+  - knewstuff
+  - libxres
+  - libnl
+  - lm-sensors
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

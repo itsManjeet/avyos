@@ -1,0 +1,28 @@
+id: openmpi
+version: 5.0.10
+about: High performance message passing library (MPI)
+
+configure: >-
+  --enable-builtin-atomics
+  --enable-mpi-cxx
+  --enable-mpi-fortran=all
+  --enable-pretty-print-stacktrace
+  --sysconfdir=%{sysconfdir}/openmpi
+  --with-hwloc=external
+  --with-libevent=external
+  --with-pmix=external
+
+depends:
+  - libgcc
+  - glibc
+  - hwloc
+  - libevent
+  - libnl
+  - openpmix
+  - zlib
+  - openssh
+  - perl
+build-depends:
+  - inetutils
+sources:
+  - https://www.open-mpi.org/software/ompi/v%{version:2}/downloads/openmpi-%{version}.tar.bz2

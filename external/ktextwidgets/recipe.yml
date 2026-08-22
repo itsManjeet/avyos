@@ -1,0 +1,10 @@
+id: ktextwidgets
+merge: [external/kf5.inc]
+about: KF5 ktextwidgets
+
+depends:
+  - kcompletion
+  - kconfigwidgets
+  - sonnet
+build-depends:
+  - extra-cmake-modules

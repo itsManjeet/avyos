@@ -1,0 +1,11 @@
+id: uchardet
+version: 0.0.8
+about: An encoding detectory library
+
+configure: >-
+  -DBUILD_STATIC=OFF -Wno-dev
+
+build-depends:
+  - cmake
+sources:
+  - https://www.freedesktop.org/software/uchardet/releases/uchardet-%{version}.tar.xz

@@ -1,0 +1,27 @@
+id: dpkg
+version: 1.23.7
+about: Debian package manager tools
+
+pre-script: |
+  echo %{version} > .dist-version
+
+configure: >-
+  --disable-start-stop-daemon
+
+post-script: |
+  mkdir -p %{install-root}%{sysconfdir}/dpkg/origins
+  ln -sf rlxos %{install-root}%{sysconfdir}/dpkg/origins/default
+
+  mkdir -p %{install-root}/var/dpkg/updates/
+  touch %{install-root}/var/lib/dpkg/{status,available}
+
+depends:
+  - bzip2
+  - perl
+  - xz
+  - zlib
+build-depends:
+  - perl-io-string
+  - perl-timedate
+sources:
+  - https://salsa.debian.org/dpkg-team/dpkg/-/archive/%{version}/dpkg-%{version}.tar.bz2

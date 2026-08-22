@@ -1,0 +1,8 @@
+id: plasma-firewall
+merge: [external/plasma.inc]
+about: Plasma plasma-firewall
+
+depends:
+  - systemsettings
+build-depends:
+  - extra-cmake-modules

@@ -1,0 +1,35 @@
+id: appimaged
+version: 940
+about: AppImage Integration tool
+
+script: |-
+  chmod +x appimaged-%{version}-x86_64.AppImage
+  ./appimaged-%{version}-x86_64.AppImage --appimage-extract
+  install -v -D -m 0755 -t %{install-root}/%{bindir} squashfs-root/%{bindir}/appimaged
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/systemd/user-preset/appimaged.preset << "EOF"
+  enable appimaged.service
+  EOF
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/systemd/user/appimaged.service << "EOF"
+  [Unit]
+  Description=AppImage system integration daemon
+  After=syslog.target network.target
+
+  [Service]
+  Type=simple
+  ExecStart=%{bindir}/%{id}
+  LimitNOFILE=65536
+  RestartSec=3
+  Restart=always
+  Environment=LAUNCHED_BY_SYSTEMD=1
+  Environment=APPIMAGE=1
+
+  [Install]
+  WantedBy=default.target
+  EOF
+
+
+sources:
+  - https://github.com/probonopd/go-appimage/releases/download/continuous/appimaged-%{version}-x86_64.AppImage
+
+build-depends:
+  - bash

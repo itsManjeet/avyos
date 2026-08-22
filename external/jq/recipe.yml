@@ -1,0 +1,18 @@
+id: jq
+version: 1.8.1
+about: cmdline json parser
+
+configure: >-
+  --disable-maintainer-mode
+install: prefix=%{prefix}
+depends:
+  - glibc
+  - oniguruma
+build-depends:
+  - autoconf
+  - automake
+  - bison
+  - flex
+  - python
+sources:
+  - https://github.com/stedolan/jq/releases/download/jq-%{version}/jq-%{version}.tar.gz

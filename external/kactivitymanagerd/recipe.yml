@@ -1,0 +1,10 @@
+id: kactivitymanagerd
+about: Plasma kactivitymanagerd
+
+
+depends:
+  - kio
+build-depends:
+  - extra-cmake-modules
+  - boost
+merge: [external/plasma.inc]

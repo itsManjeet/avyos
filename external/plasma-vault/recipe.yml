@@ -1,0 +1,9 @@
+id: plasma-vault
+merge: [external/plasma.inc]
+about: Plasma plasma-vault
+
+depends:
+  - networkmanager-qt
+  - plasma-workspace
+build-depends:
+  - extra-cmake-modules

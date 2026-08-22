@@ -1,0 +1,13 @@
+id: fmt
+version: 12.1.0
+about: Open-source formatting library for C++
+
+depends:
+  - libgcc
+build-depends:
+  - cmake
+  - ninja
+  - python-pip
+
+sources:
+  - fmt-%{version}.tar.gz::https://github.com/fmtlib/fmt/archive/refs/tags/%{version}.tar.gz

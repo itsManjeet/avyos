@@ -1,0 +1,12 @@
+id: sessreg
+version: 1.1.4
+about: Register X sessions in system utmp/utmpx database
+
+depends:
+  - glibc
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/app/sessreg-1.1.4.tar.xz

@@ -1,0 +1,14 @@
+id: double-conversion
+version: 3.4.0
+about: Binary-decimal and decimal-binary routines for IEEE doubles
+
+configure: >-
+  -DBUILD_SHARED_LIBS=ON
+depends:
+  - libgcc
+
+build-depends:
+  - cmake
+
+sources:
+- https://github.com/google/double-conversion/archive/v%{version}/double-conversion-%{version}.tar.gz

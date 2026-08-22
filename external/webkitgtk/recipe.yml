@@ -1,0 +1,66 @@
+id: webkitgtk
+version: 2.52.3
+about: A port of the portable web rendering engine WebKit
+
+environ:
+  - CC=clang
+  - CXX=clang++
+  - CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fcf-protection=none
+  - CXXFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fcf-protection=none
+  - LDFLAGS=-Wl,-O1,--sort-common,--as-needed,-z,relro,--hash-style=gnu -fuse-ld=lld
+
+configure: >-
+  -D CMAKE_SKIP_RPATH=ON
+  -D PORT=GTK
+  -D LIB_INSTALL_DIR=%{libdir}
+  -D USE_LIBBACKTRACE=OFF
+  -D USE_LIBHYPHEN=OFF
+  -D USE_WOFF2=OFF
+  -D USE_GTK4=OFF
+  -D USE_SYSTEM_SYSPROF_CAPTURE=OFF
+  -D USE_SYSPROP_CAPTURE=OFF
+  -D ENABLE_GAMEPAD=OFF
+  -D ENABLE_MINIBROWSER=OFF
+  -D ENABLE_BUBBLEWRAP_SANDBOX=ON
+  -D ENABLE_DOCUMENTATION=OFF
+  -D ENABLE_SPEECH_SYNTHESIS=OFF
+  -Wno-dev
+
+depends:
+  - cairo
+  - gstreamer
+  - gtk3
+  - harfbuzz
+  - libgudev
+  - libsecret
+  - libsoup3
+  - libtasn1
+  - libwebp
+  - libwpe
+  - mesa
+  - openjpeg
+  - sqlite
+  - libgcrypt
+  - libnotify
+  - wpebackend-fdo
+  - bubblewrap
+  - geoclue
+  - libavif
+  - libxt
+  - libx11
+  - libjxl
+  - enchant
+  - xdg-dbus-proxy
+
+build-depends:
+  - gobject-introspection
+  - gtk-doc
+  - unidef
+  - cmake
+  - which
+  - ruby
+  - gperf
+  - llvm
+
+sources:
+  - https://webkitgtk.org/releases/webkitgtk-%{version}.tar.xz

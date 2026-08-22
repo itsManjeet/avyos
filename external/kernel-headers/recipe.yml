@@ -1,0 +1,21 @@
+id: kernel-headers
+merge: [ external/linux.inc ]
+about: Linux kernel, modules and headers
+
+strip: false
+
+build-depends:
+  - base-image
+
+script: |
+  make headers
+
+  find usr/include -name ".*" -delete
+  rm usr/include/Makefile
+  mkdir -p %{install-root}/usr/include/
+  cp -rv usr/include/* %{install-root}/usr/include/
+
+sources:
+  - https://www.kernel.org/pub/linux/kernel/v%{version:1}.x/linux-%{version}.tar.xz
+
+container: true

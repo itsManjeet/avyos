@@ -1,0 +1,10 @@
+id: xxhash
+version: 0.8.3
+about: Extremely fast non-cryptographic hash algorithm
+depends:
+  - glibc
+sources:
+  - xxhash-%{version}.tar.gz::https://github.com/Cyan4973/xxHash/archive/refs/tags/v%{version}.tar.gz
+script: |-
+  make PREFIX=%{prefix}
+  make PREFIX=%{prefix} DESTDIR=%{install-root} install

@@ -1,0 +1,9 @@
+id: parallel
+version: 20260422
+about: A shell tool for executing jobs in parallel
+
+sources:
+    - https://ftp.gnu.org/gnu/parallel/parallel-%{version}.tar.bz2
+
+depends:
+     - glibc

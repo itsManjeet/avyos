@@ -1,0 +1,12 @@
+id: libsass
+version: 3.6.6
+about: A CSS pre-processor language
+
+pre-script: |-
+  autoreconf -fi
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/sass/libsass/archive/%{version}/libsass-%{version}.tar.gz

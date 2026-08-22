@@ -1,0 +1,40 @@
+id: update-config
+version: 0.0.2
+release: 2
+merge: [channel.yml]
+about: systemd-repart and systemd-sysupdate configuration
+
+build-depends:
+  - systemd
+
+script: |-
+  update_url="https://repo.rlxos.org/updates/%{channel}/"
+
+  install -d \
+    "%{install-root}/%{libdir}/repart.d" \
+    "%{install-root}/%{libdir}/sysupdate.d" \
+    "%{install-root}/%{libdir}/systemd/system/sysinit.target.wants"
+
+  for file in 10-efi.conf 20-usr-A.conf 21-usr-verity-A.conf 30-usr-B.conf 31-usr-verity-B.conf 90-root.conf; do
+    install -m 0644 "%{build-root}/${file}" "%{install-root}/%{libdir}/repart.d/${file}"
+  done
+
+  for file in rlxos-kernel.conf rlxos-usr-verity.conf rlxos-usr.conf; do
+    sed "s#@UPDATE_URL@#${update_url}#g" "%{build-root}/${file}" \
+      >"%{install-root}/%{libdir}/sysupdate.d/${file}"
+    chmod 0644 "%{install-root}/%{libdir}/sysupdate.d/${file}"
+  done
+
+  ln -sf ../systemd-sysext.service \
+    "%{install-root}/%{libdir}/systemd/system/sysinit.target.wants/systemd-sysext.service"
+
+sources:
+  - external/core/systemd-repart-config/10-efi.conf
+  - external/core/systemd-repart-config/20-usr-A.conf
+  - external/core/systemd-repart-config/21-usr-verity-A.conf
+  - external/core/systemd-repart-config/30-usr-B.conf
+  - external/core/systemd-repart-config/31-usr-verity-B.conf
+  - external/core/systemd-repart-config/90-root.conf
+  - external/core/systemd-sysupdate-config/rlxos-kernel.conf
+  - external/core/systemd-sysupdate-config/rlxos-usr-verity.conf
+  - external/core/systemd-sysupdate-config/rlxos-usr.conf

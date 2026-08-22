@@ -1,0 +1,7 @@
+id: awesome
+version: 4.3
+about: Awesome window manager
+include:
+  - awesome
+
+merge: [external/extension.inc]

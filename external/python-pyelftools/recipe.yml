@@ -1,0 +1,17 @@
+id: python-pyelftools
+version: 0.32
+about: Python library for parsing and analyzing ELF files and DWARF debugging information
+
+build-type: python
+
+depends:
+  - python
+
+build-depends:
+  - python-build
+  - python-installer
+  - python-setuptools
+  - python-wheel
+
+sources:
+  - https://files.pythonhosted.org/packages/source/p/pyelftools/pyelftools-%{version}.tar.gz

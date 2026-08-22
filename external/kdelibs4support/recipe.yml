@@ -1,0 +1,18 @@
+id: kdelibs4support
+merge: [external/kf5.inc]
+about: KF5 kdelibs4support
+depends:
+  - kemoticons
+  - kitemmodels
+  - kparts
+  - kunitconversion
+  - kdesignerplugin
+  - perl
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - networkmanager
+  - perl-uri
+
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/portingAids/%{id}-%{version}.tar.xz

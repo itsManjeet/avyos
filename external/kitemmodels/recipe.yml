@@ -1,0 +1,8 @@
+id: kitemmodels
+merge: [external/kf5.inc]
+about: KF5 kitemmodels
+
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules

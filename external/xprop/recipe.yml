@@ -1,0 +1,12 @@
+id: xprop
+version: 1.2.8
+about: Property displayer for X
+
+depends:
+  - libx11
+
+build-depends:
+  - util-macros
+
+sources:
+  - https://www.x.org/pub/individual/app/xprop-%{version}.tar.xz

@@ -1,0 +1,15 @@
+id: kio
+merge: [external/kf5.inc]
+about: KF5 kio
+
+depends:
+  - kbookmarks
+  - kded
+  - kjobwidgets
+  - ktextwidgets
+  - kwallet
+  - libxslt
+  - solid
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

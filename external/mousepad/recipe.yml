@@ -1,0 +1,15 @@
+id: mousepad
+version: 0.7.0
+about: Simple text editor for xfce
+
+depends:
+  - gtksourceview4
+  - hicolor-icon-theme
+  - libxfce4ui
+  - gspell
+build-depends:
+  - desktop-file-utils
+  - intltool
+
+sources:
+  - https://archive.xfce.org/src/apps/mousepad/%{version:2}/mousepad-%{version}.tar.xz

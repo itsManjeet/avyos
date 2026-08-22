@@ -1,0 +1,15 @@
+id: zenity
+version: 4.2.2
+about: GNOME port of dialog which allows you to display GTK+ dialog boxes from the command line and shell scripts
+
+configure: >-
+  -D manpage=false
+
+depends:
+  - gtk4
+  - libadwaita
+  - pango
+build-depends:
+  - itstool
+sources:
+  - https://download.gnome.org/sources/zenity/%{version:2}/zenity-%{version}.tar.xz

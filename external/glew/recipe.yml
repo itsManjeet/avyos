@@ -1,0 +1,36 @@
+id: glew
+version: 2.3.1
+about: OpenGL extension wrangler library
+
+script: |-
+
+  sed -i 's|lib64|lib|' config/Makefile.linux
+  sed -i '/^.PHONY: .*\.pc$/d' Makefile
+
+  make STRIP= \
+    LIBDIR=/usr/lib
+
+  mv bin/glewinfo bin/glxewinfo
+  rm glew.pc
+
+  make STRIP= SYSTEM=linux-egl glew.lib.shared bin/glewinfo
+  mv bin/glewinfo bin/eglewinfo
+
+  make GLEW_DEST=%{install-root}/%{prefix} \
+    STRIP= \
+    SYSTEM=linux-egl install
+
+  install -D -m755 -t %{install-root}/%{bindir} \
+    bin/eglewinfo bin/glxewinfo bin/visualinfo
+
+  ln -s eglewinfo %{install-root}%{bindir}/glewinfo
+
+depends:
+  - glu
+  - libglvnd
+  - libx11
+sources:
+  - https://downloads.sourceforge.net/glew/glew-%{version}.tgz
+  - external/glew/egl+glx.patch
+  - external/glew/glew-install.patch
+# TODO: fix patch

@@ -1,0 +1,32 @@
+id: gnome-control-center
+version: 50.1
+about: Control Center package contains the GNOME settings manager
+
+pre-script: |-
+  sed -i "s|gnome-logo|rlxos-logo|g" panels/info-overview/cc-info-overview-panel.c
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - accountsservice
+  - clutter-gtk
+  - colord-gtk
+  - gnome-online-accounts
+  - gnome-settings-daemon
+  - grilo
+  - gsound
+  - libgtop
+  - libpwquality
+  - shared-mime-info
+  - krb5
+  - udisks
+  - cups
+  - samba
+  - gnome-bluetooth
+  - ibus
+  - libhandy
+  - libnma
+  - modemmanager
+sources:
+  - https://download.gnome.org/sources/gnome-control-center/%{version:2}/gnome-control-center-%{version}.tar.xz

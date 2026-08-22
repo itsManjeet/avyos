@@ -1,0 +1,24 @@
+id: htop
+version: 3.5.1
+about: Interactive process viewer
+
+pre-script: |-
+  autoreconf -fi
+
+configure: >-
+  --enable-cgroup
+  --enable-delayacct
+  --enable-openvz
+  --enable-unicode
+  --enable-vserver
+
+build-depends:
+  - libcap
+  - libnl
+  - ncurses
+  - lm-sensors
+  - lsof
+  - strace
+
+sources:
+  - https://github.com/htop-dev/htop/releases/download/%{version}/htop-%{version}.tar.xz

@@ -1,0 +1,16 @@
+id: gdb
+version: 17.1
+about: GNU debugger
+
+configure: >-
+  --with-system-readline
+  --with-python=%{bindir}/python3
+  --disable-nls
+
+install: -C gdb DESTDIR=%{install-root}
+depends:
+  - python-six
+build-depends:
+  - texinfo
+sources:
+  - https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz

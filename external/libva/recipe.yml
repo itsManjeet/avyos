@@ -1,0 +1,10 @@
+id: libva
+version: 2.23.0
+about: Library provides access to hardware accelerated video processing
+
+depends:
+  - libdrm
+  - mesa
+
+sources:
+  - https://github.com/intel/libva/releases/download/%{version}/libva-%{version}.tar.bz2

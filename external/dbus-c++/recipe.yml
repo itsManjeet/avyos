@@ -1,0 +1,24 @@
+id: dbus-c++
+version: 0.9.1
+about: A C++ API for D-BUS
+
+pre-script: |
+  # patch -Np0 -i /external/dbus-c++/gcc47.patch
+  # patch -Np1 -i /external/dbus-c++/disable-threading.patch
+  # patch -Np1 -i /external/dbus-c++/fix-writechar.patch
+  # patch -Np1 -i /external/dbus-c++/template-operators.patch
+  autoreconf -vi
+
+configure: >-
+  --disable-static
+  --disable-ecore
+  --enable-glib
+
+depends:
+  - dbus
+  - libgcc
+  - glib
+sources:
+  - https://sourceforge.net/projects/dbus-cplusplus/assets/dbus-c++/%{version}/libdbus-c++-%{version}.tar.gz
+
+# TODO: fix patches

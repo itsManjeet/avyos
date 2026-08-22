@@ -1,0 +1,11 @@
+id: breeze-gtk
+
+about: Plasma breeze-gtk
+
+depends:
+  - breeze
+build-depends:
+  - extra-cmake-modules
+  - python-cairo
+  - sassc
+merge: [external/plasma.inc]

@@ -1,0 +1,41 @@
+id: mako
+version: 1.11.0
+about: Lightweight notification daemon for Wayland
+
+configure: >-
+  -Dsd-bus-provider=libsystemd
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}%{libdir}/systemd/user/mako.service << "EOF"
+  [Unit]
+  Description=Lightweight Wayland notification daemon
+  Documentation=man:mako(1)
+  PartOf=graphical-session.target
+  After=graphical-session.target
+  
+  [Service]
+  Type=dbus
+  BusName=org.freedesktop.Notifications
+  ExecCondition=%{bindir}/sh -c '[ -n "$WAYLAND_DISPLAY" ]'
+  ExecStart=%{bindir}/mako -c %{sysconfdir}/mako/config
+  ExecReload=%{bindir}/makoctl reload
+  SystemdService=mako.service
+  
+  [Install]
+  WantedBy=graphical-session.target
+  EOF
+
+depends:
+  - gdk-pixbuf
+  - pango
+  - systemd
+  - wayland
+  - jq
+
+build-depends:
+  - meson
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/emersion/mako/releases/download/v%{version}/mako-%{version}.tar.gz

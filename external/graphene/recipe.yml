@@ -1,0 +1,12 @@
+id: graphene
+version: 1.10.8
+about: A thin layer of types for graphics libraries
+
+depends:
+  - glib
+build-depends:
+  - gobject-introspection
+sources:
+  - graphene-%{version}.tar.gz::https://github.com/ebassi/graphene/archive/refs/tags/%{version}.tar.gz
+configure: >-
+  --buildtype=release

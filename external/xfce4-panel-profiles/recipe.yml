@@ -1,0 +1,29 @@
+id: xfce4-panel-profiles
+version: 1.1.1
+release: 2
+about: Application to manage xfce panel layouts
+
+pre-script: |-
+  sed -i '11d' org.xfce.PanelProfiles.desktop.in
+
+script: |-
+  ./configure --prefix=%{prefix} --python=python3
+  make ${MAKEFLAGS}
+  make install DESTDIR=%{install-root}
+
+  # cleanup default layouts
+  rm %{install-root}%{datadir}/xfce4-panel-profiles/layouts/*
+
+  # Install rlxos provided layouts
+  cp /external/layouts/*.tar.bz2 %{install-root}%{datadir}/xfce4-panel-profiles/layouts/
+
+  # Why executable??
+  chmod -x %{install-root}%{datadir}/icons/hicolor/*/apps/org.xfce.PanelProfiles.*
+
+depends:
+  - python-gobject
+  - python-psutil
+  - xfce4-panel
+
+sources:
+  - https://github.com/xfce-mirror/xfce4-panel-profiles/archive/refs/tags/xfce4-panel-profiles-%{version}.tar.gz

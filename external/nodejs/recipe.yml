@@ -1,0 +1,23 @@
+id: nodejs
+version: 26.1.0
+about: A JavaScript runtime built on Chrome's V8 JavaScript engine.
+
+script: |-
+  ./configure --prefix=%{prefix} \
+  --shared-openssl  \
+  --shared-zlib \
+  --shared-libuv \
+  --shared-nghttp2 \
+  --with-intl=system-icu
+
+  make ${MAKEFLAGS}
+  make install DESTDIR=%{install-root}
+
+depends:
+  - icu
+  - libuv
+  - nghttp2
+build-depends:
+  - which
+sources:
+  - https://nodejs.org/dist/v%{version}/node-v%{version}.tar.xz

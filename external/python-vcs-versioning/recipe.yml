@@ -1,0 +1,16 @@
+id: python-vcs-versioning
+version: 1.1.1
+about: Manage versions by VCS metadata
+
+build-type: python
+
+depends:
+  - python
+
+build-depends:
+  - python-setuptools
+  - python-build
+  - python-installer
+
+sources:
+  - https://files.pythonhosted.org/packages/source/v/vcs_versioning/vcs_versioning-%{version}.tar.gz

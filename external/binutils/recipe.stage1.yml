@@ -1,0 +1,9 @@
+id: binutils-stage1
+merge:
+  - external/binutils.inc
+
+build-depends:
+  - glibc:stage1
+
+container: true
+release: 2

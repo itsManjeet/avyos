@@ -1,0 +1,11 @@
+id: kscreen
+about: Plasma kscreen
+
+depends:
+  - libkscreen
+  - plasma-framework
+build-depends:
+  - extra-cmake-modules
+  - kcmutils
+
+merge: [external/plasma.inc]

@@ -1,0 +1,17 @@
+id: libxpresent
+version: 1.0.2
+about: X Present Extension library
+
+sources:
+  - https://xorg.freedesktop.org/archive/individual/lib/libXpresent-%{version}.tar.xz
+
+depends:
+  - glibc
+  - libx11
+  - libxext
+  - libxfixes
+  - libxrandr
+  - xorgproto
+
+build-depends:
+  - util-macros

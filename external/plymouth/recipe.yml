@@ -1,0 +1,28 @@
+id: plymouth
+version: 24.004.60
+release: 2
+about: A graphical boot splash screen with KMS
+
+pre-script: |-
+  # sed -i 's/dracut -f/mkinitramfs/' scripts/plymouth-update-initrd
+  sed -i 's/^Theme=spinner$/Theme=bgrt/' src/plymouthd.defaults
+
+configure: >-
+  -D logo=%{datadir}/icons/plymouth-rlxos.png
+
+post-script: |-
+  install -D -m 0644 %{datadir}/icons/plymouth-rlxos.png %{install-root}/%{datadir}/plymouth/themes/spinner/watermark.png
+
+depends:
+  - libdrm
+  - pango
+  - gtk3
+  - systemd
+  - libevdev
+  - branding
+
+build-depends:
+  - docbook-xsl
+
+sources:
+  - https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/%{version}/plymouth-%{version}.tar.gz

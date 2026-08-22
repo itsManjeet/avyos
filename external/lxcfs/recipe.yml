@@ -1,0 +1,25 @@
+id: lxcfs
+version: 7.0.0
+about: FUSE filesystem for LXC
+
+configure: -Ddocs=false
+
+depends:
+  - dbus-glib
+  - fuse
+  - libnih
+  - lxc
+build-depends:
+  - meson
+  - python-jinja2
+sources:
+  - https://linuxcontainers.org/downloads/lxcfs/lxcfs-%{version}.tar.gz
+  - lxcfs-fix-man.patch::https://patch-diff.githubusercontent.com/raw/lxc/lxcfs/pull/524.patch
+  - lxcfs-fix-libdir.patch::https://patch-diff.githubusercontent.com/raw/lxc/lxcfs/pull/527.patch
+pre-script: |
+post-script: |-
+  mkdir -p %{install-root}/var/lib/lxcfs
+  # install -v -D -m 0644 /external/lxcfs/lxcfs.service -t %{install-root}/usr/lib/systemd/system
+
+# TODO: fix service file
+# TODO: enable docs

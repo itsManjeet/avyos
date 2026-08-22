@@ -1,0 +1,8 @@
+id: libmnl
+version: 1.0.5
+about: Minimalistic user-space library oriented to Netlink developers
+
+depends:
+  - glibc
+sources:
+  - https://www.netfilter.org/projects/libmnl/assets/libmnl-%{version}.tar.bz2

@@ -1,0 +1,9 @@
+id: cxxopts
+version: 3.3.1
+about: Lightweight C++ command line option parser
+
+sources:
+  - https://github.com/jarro2783/cxxopts/archive/v%{version}/cxxopts-v%{version}.tar.gz
+
+build-depends:
+  - cmake

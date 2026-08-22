@@ -1,0 +1,9 @@
+id: binutils
+merge:
+  - external/binutils.inc
+
+depends:
+  - zlib
+  - libelf
+  - zstd
+release: 2

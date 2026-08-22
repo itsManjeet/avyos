@@ -1,0 +1,16 @@
+id: libqalculate
+version: 5.10.0
+about: Multi purpose desktop calculator
+
+environ:
+  - NOCONFIGURE=1
+
+depends:
+  - curl
+  - libxml2
+  - libmpfr
+  - icu
+build-depends:
+  - intltool
+sources:
+  - https://github.com/Qalculate/libqalculate/releases/download/v%{version}/%{id}-%{version}.tar.gz

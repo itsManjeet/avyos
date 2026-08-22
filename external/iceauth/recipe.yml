@@ -1,0 +1,13 @@
+id: iceauth
+version: 1.0.11
+about: ICE authority file utility
+
+depends:
+  - libice
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/app/iceauth-%{version}.tar.xz

@@ -1,0 +1,12 @@
+id: kwayland-integration
+merge: [external/plasma.inc]
+about: Plasma kwayland-integration
+
+depends:
+  - kguiaddons
+  - kidletime
+  - kwayland
+  - kwindowsystem
+build-depends:
+  - extra-cmake-modules
+  - wayland-protocols

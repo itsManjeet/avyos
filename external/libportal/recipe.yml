@@ -1,0 +1,18 @@
+id: libportal
+version: 0.9.1
+about: A library that contains GIO-style async APIs for most Flatpak portals
+
+configure: >-
+  -D docs=false
+
+depends:
+  - glib
+  - gtk3
+  - gtk4
+build-depends:
+  - gtk-doc
+  - gobject-introspection
+  - vala
+
+sources:
+  - https://github.com/flatpak/libportal/releases/download/%{version}/libportal-%{version}.tar.xz

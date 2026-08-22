@@ -1,0 +1,17 @@
+id: gnupg
+version: 2.5.19
+about: GNU's tool for secure communication and data storage
+
+pre-script: |-
+  sed -e "/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip" \
+      -i tools/Makefile.in
+
+depends:
+  - libassuan
+  - libgcrypt
+  - libksba
+  - npth
+  - pinentry
+sources:
+  - https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-%{version}.tar.bz2
+# TODO: check version and update url

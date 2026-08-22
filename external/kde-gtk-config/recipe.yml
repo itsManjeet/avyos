@@ -1,0 +1,20 @@
+id: kde-gtk-config
+version: 6.6.4
+about: Plasma kde-gtk-config
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - kconfigwidgets
+  - kdbusaddons
+  - kdecoration
+  - gtk3
+  - gsettings-desktop-schemas
+build-depends:
+  - extra-cmake-modules
+  - sassc
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz

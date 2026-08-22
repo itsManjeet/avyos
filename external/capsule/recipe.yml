@@ -1,0 +1,13 @@
+id: capsule
+version: 2.0.1
+about: An Easy to learn programming Language
+merge: [ external/rlxos.inc ]
+
+depends:
+  - glibc
+  - readline
+  - libffi
+
+build-depends:
+  - gcc
+  - git

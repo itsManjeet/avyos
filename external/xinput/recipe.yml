@@ -1,0 +1,17 @@
+id: xinput
+version: 1.6.4
+about: Commandline tool to configure devices
+
+depends:
+  - libx11
+  - libxi
+  - libxinerama
+  - xrandr
+
+build-depends:
+  - libxfixes
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/app/xinput-%{version}.tar.xz

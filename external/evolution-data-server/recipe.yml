@@ -1,0 +1,41 @@
+id: evolution-data-server
+version: 3.60.1
+about: |
+  A unified backend for programs that work with contacts, tasks, and calendar information
+
+configure: >-
+  -DPORT=GTK
+  -DENABLE_VALA_BINDINGS=ON
+  -DENABLE_INSTALLED_TESTS=ON
+  -DENABLE_GOOGLE=ON
+  -DWITH_OPENLDAP=ON
+  -DWITH_KRB5=ON
+  -DENABLE_OAUTH2_WEBKITGTK4=OFF
+  -DENABLE_INTROSPECTION=ON
+  -DENABLE_GTK_DOC=OFF
+  -DLIBEXEC_INSTALL_DIR=%{libdir}
+  -DSYSCONF_INSTALL_DIR=%{sysconfdir}
+
+depends:
+  - gcr
+  - libical
+  - libsecret
+  - nss
+  - sqlite
+  - gnome-online-accounts
+  - gobject-introspection
+  - gtk3
+  - icu
+  - libcanberra
+  - libgdata
+  - libgweather
+  - libldap
+  - enchant
+  - krb5
+build-depends:
+  - vala
+  - gtk-doc
+  - openldap
+  - gperf
+sources:
+  - https://download.gnome.org/sources/evolution-data-server/%{version:2}/evolution-data-server-%{version}.tar.xz

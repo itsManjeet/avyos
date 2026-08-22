@@ -1,0 +1,44 @@
+id: lua
+version: 5.4.8
+about: A powerful light-weight programming language designed for extending applications
+
+script: |
+
+  make linux
+  make \
+    INSTALL_TOP=%{install-root}/%{prefix} \
+    INSTALL_DATA="cp -d" \
+    INSTALL_MAN=%{install-root}/%{datadir}/man/man1   \
+    TO_LIB="liblua.so liblua.so.%{version:2} liblua.so.%{version}" \
+    install
+  mkdir -p %{install-root}/%{libdir}/pkgconfig/
+
+  cat >%{install-root}/%{libdir}/pkgconfig/lua.pc<<"EOF"
+  V=%{version:2}
+  R=%{version}
+
+  prefix=%{prefix}
+  INSTALL_BIN=%{bindir}
+  INSTALL_INC=%{prefix}/include
+  INSTALL_LIB=%{libdir}
+  INSTALL_MAN=%{datadir}/man/man1
+  INSTALL_LMOD=%{datadir}/lua/${V}
+  INSTALL_CMOD=%{libdir}/lua/${V}
+  exec_prefix=${prefix}
+  libdir=${exec_prefix}/lib
+  includedir=${prefix}/include
+
+  Name: Lua
+  Description: An Extensible Extension Language
+  Version: ${R}
+  Requires: 
+  Libs: -L%{libdir} -llua -lm -ldl
+  Cflags: -I${includedir}
+  EOF
+
+depends:
+  - glibc
+
+sources:
+  - https://www.lua.org/ftp/lua-%{version}.tar.gz
+  - external/lua/lua-5.4.8-shared_library-1.patch

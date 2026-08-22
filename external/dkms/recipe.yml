@@ -1,0 +1,27 @@
+id: dkms
+version: 3.4.1
+about: Dynamic Kernel Modules System
+
+script: |
+  for i in dkms{.in,.8.in,_framework.conf,.bash-completion,_common.postinst}; do
+    sed -ri 's,/lib/modules,/boot/modules,g' "$i"
+  done
+
+  make DESTDIR=%{install-root}   \
+    SBIN=%{install-root}/%{bindir} \
+    BASHDIR=%{install-root}%{datadir}/bash-completion/completions \
+    KCONF=%{build-root}/trash \
+    LIBDIR=%{build-root}/trash \
+    install
+
+depends:
+  - bash
+  - coreutils
+  - gawk
+  - gcc
+  - kmod
+  - make
+  - patch
+  - sed
+sources:
+  - dkms-%{version}.tar.gz::https://github.com/dell/dkms/archive/refs/tags/v%{version}.tar.gz

@@ -1,0 +1,17 @@
+id: baloo
+version: 6.26.0
+about: KF5 baloo
+release: 0
+depends:
+  - kfilemetadata
+  - kidletime
+  - kio
+  - lmdb
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/%{id}-%{version}.tar.xz
+configure: |
+  -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -Wno-dev
+
+# TODO: check and update

@@ -1,0 +1,14 @@
+id: libxfce4util
+version: 4.20.1
+about: Xfce4 basic utility library
+
+depends:
+  - glib
+build-depends:
+  - gobject-introspection
+  - vala
+  - intltool
+  - gtk-doc
+
+sources:
+  - https://archive.xfce.org/src/xfce/libxfce4util/%{version:2}/libxfce4util-%{version}.tar.bz2

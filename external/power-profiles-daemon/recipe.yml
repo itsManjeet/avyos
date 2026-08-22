@@ -1,0 +1,19 @@
+id: power-profiles-daemon
+version: 0.30
+about: Makes power profiles handling available over D-Bus
+
+configure: >-
+  -D tests=false
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}%{libdir}/systemd/system-preset/%{id}.preset << "EOF"
+  enable %{id}.service
+  EOF
+
+depends:
+  - polkit
+  - upower
+  - python-gobject
+
+sources:
+  - https://gitlab.freedesktop.org/hadess/power-profiles-daemon/-/archive/%{version}/power-profiles-daemon-%{version}.tar.gz

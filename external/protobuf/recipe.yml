@@ -1,0 +1,17 @@
+id: protobuf
+version: 34.1
+about: Protocol buffers - Google's data interchange format
+
+pre-script: |-
+  autoreconf -vfi
+
+depends:
+  - libgcc
+  - glibc
+  - zlib
+build-depends:
+  - python-setuptools
+  - unzip
+sources:
+  - https://github.com/protocolbuffers/protobuf/releases/download/v%{version}/protobuf-all-%{version}.tar.gz
+# TODO: fix update url

@@ -1,0 +1,10 @@
+id: kiconthemes
+merge: [external/kf5.inc]
+about: KF5 kiconthemes
+
+depends:
+  - karchive
+  - kconfigwidgets
+  - kitemviews
+build-depends:
+  - extra-cmake-modules

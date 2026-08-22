@@ -1,0 +1,18 @@
+id: gtk-doc
+version: 1.36.1
+about: Package contains a code documenter
+
+configure: >-
+  -D tests=false
+
+depends:
+  - docbook-xml
+  - docbook-xsl
+  - itstool
+  - python-pygments
+  - libxslt
+  - glib
+
+sources:
+  - https://download.gnome.org/sources/gtk-doc/%{version:2}/gtk-doc-%{version}.tar.xz
+# TODO: fix update url

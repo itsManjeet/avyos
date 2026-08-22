@@ -1,0 +1,20 @@
+id: swaylock
+version: 1.8.5
+about: Screen locker for wayland
+
+post-script: |-
+  install -D -m 0644 LICENSE -t %{install-root}/%{datadir}/licenses/%{id}
+
+depends:
+  - cairo
+  - gdk-pixbuf
+  - libxkbcommon
+  - pam
+  - wayland
+
+build-depends:
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/swaywm/swaylock/releases/download/v%{version}/swaylock-%{version}.tar.gz

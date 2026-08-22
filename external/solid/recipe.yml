@@ -1,0 +1,10 @@
+id: solid
+merge: [external/kf5.inc]
+about: KF5 solid
+
+depends:
+  - qt
+  - udisks
+  - upower
+build-depends:
+  - extra-cmake-modules

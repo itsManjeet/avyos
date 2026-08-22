@@ -63,7 +63,7 @@ if [ ! -f disk.img ]; then
 fi
 
 # Build installer image element
-ELEMENT="installer/image.yml"
+ELEMENT="installer"
 echo "Building element ${ELEMENT}..."
 "$IGNITE" build -cache-path "$CACHE_PATH" -workspace-path "$WORKSPACE_PATH" "$ELEMENT"
 
@@ -83,7 +83,7 @@ if [ ! -f "$QEMU_OVMF_VARS" ]; then
     exit 1
 fi
 
-ISO_PATH="${QEMU_CHECKOUT}/avyos-${CHANNEL}-installer.iso"
+ISO_PATH="${QEMU_CHECKOUT}/rlxos-${CHANNEL}-installer.iso"
 if [ ! -f "$ISO_PATH" ]; then
     echo "missing installer ISO: ${ISO_PATH}" >&2
     exit 1

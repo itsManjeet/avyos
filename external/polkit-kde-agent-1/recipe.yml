@@ -1,0 +1,11 @@
+id: polkit-kde-agent-1
+merge: [external/plasma.inc]
+about: Plasma polkit-kde-agent-1
+
+depends:
+  - kcrash
+  - kdbusaddons
+  - kiconthemes
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

@@ -1,0 +1,25 @@
+id: onboard
+version: 1.4.4.1
+about: On-screen keyboard useful on tablet PCs or for mobility impaired users
+
+pre-script: |-
+  for i in /external/onboard/*.patch ; do
+    patch -p1 -i ${i}
+  done
+
+depends:
+  - gtk3
+  - hunspell
+  - iso-codes
+  - libcanberra
+  - libxkbfile
+  - python-cairo
+  - python-dbus
+  - python-gobject
+  - systemd
+  - dconf
+build-depends:
+  - python-distutils-extra
+  - intltool
+sources:
+  - https://launchpad.net/onboard/%{version:2}/%{version}/+download/onboard-%{version}.tar.gz

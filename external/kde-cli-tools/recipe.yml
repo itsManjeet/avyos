@@ -1,0 +1,19 @@
+id: kde-cli-tools
+version: 6.6.4
+about: Plasma kde-cli-tools
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - kactivities
+  - kcmutils
+  - kdesu
+  - plasma-workspace
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz

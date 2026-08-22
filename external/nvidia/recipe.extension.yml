@@ -1,0 +1,7 @@
+id: nvidia
+version: 0.1.0
+about: Nvidia userland utilities
+include:
+  - nvidia-settings
+
+merge: [external/extension.inc]

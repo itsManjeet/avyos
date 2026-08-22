@@ -1,0 +1,22 @@
+id: valgrind
+version: 3.27.0
+about: Tool to help find memory-management problems in programs
+
+pre-script: |-
+  sed -i 's|sgml/docbook/xsl-stylesheets|xml/docbook/xsl-stylesheets-1.79.2-nons|' docs/Makefile.am
+
+run-autogen: false
+
+configure: >-
+  CFLAGS="${CFLAGS} -fno-stack-protector"
+  CXXFLAGS="${CXXFLAGS} -fno-stack-protector"
+
+depends:
+  - glibc
+  - gcc
+build-depends:
+  - docbook-xml
+  - docbook-xsl
+  - gdb
+sources:
+  - https://sourceware.org/pub/valgrind/valgrind-%{version}.tar.bz2

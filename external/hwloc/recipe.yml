@@ -1,0 +1,18 @@
+id: hwloc
+version: 2.13.0
+about: Portable Hardware Locality is a portable abstraction of hierarchical architectures
+
+depends:
+  - glibc
+  - libtool
+  - systemd
+  - cairo
+  - libx11
+  - libpciaccess
+  - libxml2
+  - pciutils
+sources:
+  - https://www.open-mpi.org/software/hwloc/v%{version:2}/downloads/hwloc-%{version}.tar.bz2
+
+configure: >-
+  --enable-plugins

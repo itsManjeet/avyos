@@ -1,9 +1,0 @@
-id: systemsettings
-merge: [elements/include/plasma.inc]
-about: Plasma systemsettings
-
-depends:
-  - components/plasma-workspace.yml
-build-depends:
-  - components/extra-cmake-modules.yml
-  - components/kdoctools.yml

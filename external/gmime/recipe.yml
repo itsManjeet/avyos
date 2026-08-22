@@ -1,0 +1,26 @@
+id: gmime
+version: 3.2.15
+about:
+  A C/C++ MIME creation and parser library with support for S/MIME, PGP and Unix
+  mbox spools
+
+variables:
+  run-autogen: false
+
+configure: >-
+  --program-prefix=gmime 
+  --disable-static
+
+depends:
+  - glib
+  - gpgme
+  - zlib
+  - libidn2
+
+build-depends:
+  - gobject-introspection
+  - vala
+  - gtk-doc
+
+sources:
+  - gmime-%{version}.tar.gz::https://github.com/jstedfast/gmime/archive/refs/tags/%{version}.tar.gz

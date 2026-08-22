@@ -1,0 +1,18 @@
+id: sdl2
+version: 2.32.66
+about: Simple DirectMedia Layer Version 2
+
+configure: >-
+  -D CMAKE_SKIP_INSTALL_RPATH=ON
+  -D SDL2COMPAT_STATIC=OFF
+  -D SDL2COMPAT_TESTS=OFF
+  -W no-dev
+
+depends:
+  - sdl3
+
+build-depends:
+  - cmake
+
+sources:
+  - https://www.libsdl.org/release/sdl2-compat-%{version}.tar.gz

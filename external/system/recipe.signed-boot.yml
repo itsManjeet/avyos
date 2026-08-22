@@ -1,0 +1,123 @@
+id: signed-boot
+version: 3.0
+release: 2
+about: Signed boot files
+
+build-depends:
+- external/system
+- external/linux
+- external/dracut
+- external/release-info
+- external/sbsigntools
+- external/shim
+- external/systemd
+
+uuidnamespace: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+efi-arch: x64
+
+script: |-
+  mkdir -p %{install-root}
+
+  dbus-uuidgen >/etc/machine-id
+  SYSTEMD_ESP_PATH=/boot bootctl --no-variables install
+  rm /etc/machine-id
+
+  mkdir -p /usr/lib
+  cp /etc/os-release /usr/lib/os-release
+
+  kernel_version="$(ls -1 /lib/modules | head -n1)"
+  test -n "${kernel_version}"
+  if [ ! -f "/lib/modules/${kernel_version}/vmlinuz" ] && [ -f "/lib/modules/${kernel_version}/bzImage" ]; then
+    cp "/lib/modules/${kernel_version}/bzImage" "/lib/modules/${kernel_version}/vmlinuz"
+  fi
+
+  root_part_uuid="$(uuidgen -s --namespace "%{uuidnamespace}" --name partition-root)"
+  dracut -v --xz --reproducible --fstab \
+    --uefi \
+    --no-machineid \
+    --no-hostonly \
+    --kernel-image "/lib/modules/${kernel_version}/vmlinuz" \
+    --kver "${kernel_version}" \
+    --kernel-cmdline "root=PARTUUID=${root_part_uuid} rootfstype=ext4 rw mount.usr=/dev/mapper/usr mount.usrfstype=squashfs mount.usrflags=ro" \
+    --filesystems "ext4 squashfs" \
+    --install "fsck.ext4" \
+    --install "mkfs.ext4" \
+    --add systemd-repart \
+    --add systemd-veritysetup \
+    --add crypt
+
+  set -x
+  usr_img="$(readlink /usr.squashfs)"
+  img_version="${usr_img##usr_}"
+  img_version="${img_version%.squashfs}"
+  img_version="${img_version%_*}"
+
+  uki="$(find /boot/EFI/Linux -maxdepth 1 -type f -name '*.efi' | sort | head -n1)"
+  test -n "${uki}"
+
+  usr_part_uuid="$(uuidgen -s --namespace "%{uuidnamespace}" --name partition-usr)"
+
+  objcopy -O binary -j .linux "${uki}" linux
+  objcopy -O binary -j .initrd "${uki}" initrd
+  objcopy -O binary -j .cmdline "${uki}" cmdline.txt
+  rm "${uki}"
+
+  echo -n "usrhash=$(cat /usr-root-hash.txt) " >new-cmdline.txt
+  cat cmdline.txt >>new-cmdline.txt
+
+  ukify build \
+    --linux=linux \
+    --initrd=initrd \
+    --cmdline=@new-cmdline.txt \
+    --secureboot-private-key=/external/sign-keys/VENDOR.key \
+    --secureboot-certificate=/external/sign-keys/VENDOR.crt \
+    --output="/boot/EFI/Linux/rlxos_${img_version}.efi"
+  chmod 0644 "/boot/EFI/Linux/rlxos_${img_version}.efi"
+
+  mkdir -p /boot/loader/entries
+  cat <<EOF >/boot/loader/loader.conf
+  timeout 3
+  editor yes
+  console-mode keep
+  EOF
+
+  sbsign \
+    --key /external/sign-keys/VENDOR.key \
+    --cert /external/sign-keys/VENDOR.crt \
+    --output "/boot/EFI/systemd/systemd-boot%{efi-arch}.efi.signed" \
+    /boot/EFI/systemd/systemd-boot%{efi-arch}.efi
+
+  mv "/boot/EFI/systemd/systemd-boot%{efi-arch}.efi.signed" \
+    "/boot/EFI/systemd/systemd-boot%{efi-arch}.efi"
+
+  install -m 0644 \
+    "/boot/EFI/systemd/systemd-boot%{efi-arch}.efi" \
+    "/boot/EFI/BOOT/rlxos-loader%{efi-arch}.efi"
+
+  shim="/usr/share/shim/shim%{efi-arch}.efi"
+  test -f "${shim}"
+  sbsign \
+    --key /external/sign-keys/DB.key \
+    --cert /external/sign-keys/DB.crt \
+    --output "/boot/EFI/BOOT/BOOTX64.EFI" \
+    "${shim}"
+
+  mok="/usr/share/shim/mm%{efi-arch}.efi"
+  test -f "${mok}"
+  sbsign \
+    --key /external/sign-keys/VENDOR.key \
+    --cert /external/sign-keys/VENDOR.crt \
+    --output "/boot/EFI/BOOT/mm%{efi-arch}.efi" \
+    "${mok}"
+
+  openssl x509 \
+    -in /external/sign-keys/VENDOR.crt \
+    -outform DER \
+    -out "/boot/EFI/BOOT/rlxos.cer"
+
+  openssl x509 \
+    -in /external/sign-keys/DB.crt \
+    -outform DER \
+    -out "/boot/EFI/BOOT/rlxos.db.cer"
+
+  cp -rT /boot %{install-root}/boot

@@ -1,0 +1,11 @@
+id: libunistring
+version: 1.4.2
+about: Library for manipulating Unicode strings and C strings
+sources:
+  - https://ftp.gnu.org/gnu/libunistring/libunistring-%{version}.tar.xz
+depends:
+  - glibc
+
+variables:
+  seperate-build-dir: false
+  run-autogen: false

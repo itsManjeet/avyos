@@ -1,0 +1,13 @@
+id: rust-bindgen
+version: 0.72.1
+release: 2
+about: Used to generate C/c++ bindings for Rust code
+
+depends:
+  - rustc
+
+sources:
+  - rust-bindgen-%{version}.tar.gz::https://github.com/rust-lang/rust-bindgen/archive/refs/tags/v%{version}.tar.gz
+
+post-script: |
+  install -v -D -m 0755 target/release/bindgen -t %{install-root}/%{bindir}

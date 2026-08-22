@@ -1,0 +1,12 @@
+id: kdsoap
+version: 2.3.0
+about: kdsoap is Qt-based client-side and server-side SOAP component
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_INSTALL_DOCDIR=%{datadir}/doc/%{id}-%{version}
+
+depends:
+  - qt
+sources:
+  - https://github.com/KDAB/KDSoap/releases/download/kdsoap-%{version}/kdsoap-%{version}.tar.gz

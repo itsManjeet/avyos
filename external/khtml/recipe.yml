@@ -1,0 +1,14 @@
+id: khtml
+merge: [external/kf5.inc]
+about: KF5 khtml
+depends:
+  - giflib
+  - kjs
+  - kparts
+  - phonon
+build-depends:
+  - extra-cmake-modules
+  - gperf
+
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/portingAids/%{id}-%{version}.tar.xz

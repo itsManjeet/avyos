@@ -1,0 +1,94 @@
+id: qt
+version: 6.11.0
+about: Cross-platform application framework
+
+depends:
+  - dbus
+  - openssl
+  - gdk-pixbuf
+  - libepoxy
+  - libmng
+  - libxkbcommon
+  - harfbuzz
+  - xcb-util-wm
+  - xcb-util-image
+  - xcb-util-keysyms
+  - xcb-util-renderutil
+  - xcb-util-cursor
+  - libxrender
+  - libxi
+  - desktop-file-utils
+  - libxcb
+  - sqlite
+  - fontconfig
+  - which
+  - nss
+  - libglvnd
+  - libwebp
+  - python
+  - alsa-lib
+  - pulseaudio
+  - ffmpeg
+  - wayland
+  - icu
+  - mesa
+  - nodejs
+  - nss
+  - pciutils
+  - alsa-lib
+  - pulseaudio
+  - ffmpeg
+  - icu
+  - libwebp
+  - libxslt
+  - opus
+  - libevent
+  - krb5
+  - cups
+  - pipewire
+  - poppler
+  - gtk3
+build-depends:
+  - gperf
+  - python-pip
+sources:
+  - https://download.qt.io/archive/qt/%{version:2}/%{version}/single/qt-everywhere-src-%{version}.tar.xz
+
+pre-script: |-
+  pip install html5lib
+
+script: |-
+  ./configure -prefix %{prefix} \
+    -sysconfdir %{sysconfdir}/xdg \
+    -docdir %{datadir}/doc/qt \
+    -headerdir %{prefix}/include \
+    -archdatadir %{libdir}/qt \
+    -datadir %{datadir}/qt \
+    -confirm-license -opensource \
+    -dbus-linked \
+    -openssl-linked \
+    -system-harfbuzz \
+    -system-sqlite \
+    -nomake examples \
+    -no-rpath \
+    -Wno-dev \
+    -journald
+
+  ninja
+
+  DESTDIR=%{install-root} ninja install
+
+  find %{install-root}/ -name \*.prl \
+    -exec sed -i -e "/^QMAKE_PRL_BUILD_DIR/d" {} \;
+
+  install -v -D -m 644 qttools/src/assistant/assistant/images/assistant-128.png \
+    %{install-root}%{datadir}/pixmaps/assistant-qt6.png
+
+  install -v -D -m 644 qttools/src/designer/src/designer/images/designer.png \
+    %{install-root}%{datadir}/pixmaps/designer-qt6.png
+
+  install -v -Dm644 qttools/src/linguist/linguist/images/icons/linguist-128-32.png \
+              %{install-root}%{datadir}/pixmaps/linguist-qt6.png
+
+  install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
+              %{install-root}%{datadir}/pixmaps/qdbusviewer-qt6.png

@@ -1,0 +1,21 @@
+id: vulkan-loader
+version: 1.4.351
+about: Lbrary which provides the Vulkan API and provides core support for graphics drivers for Vulkan
+
+configure: >-
+  -DCMAKE_SKIP_INSTALL_RPATH=ON
+  -DBUILD_WSI_XCB_SUPPORT=On
+  -DBUILD_WSI_XLIB_SUPPORT=On
+  -DBUILD_WSI_WAYLAND_SUPPORT=On
+
+depends:
+  - wayland
+  - libx11
+  - libxrandr
+
+build-depends:
+  - cmake
+  - vulkan-headers
+
+sources:
+  - https://github.com/KhronosGroup/Vulkan-Loader/archive/v%{version}/Vulkan-Loader-%{version}.tar.gz

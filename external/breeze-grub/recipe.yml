@@ -1,0 +1,6 @@
+id: breeze-grub
+about: Plasma breeze-grub
+
+depends:
+  - grub
+merge: [external/plasma.inc]

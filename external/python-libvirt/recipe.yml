@@ -1,0 +1,17 @@
+id: python-libvirt
+version: 12.3.0
+about: libvirt python binding
+
+build-type: python
+
+depends:
+  - libvirt
+  - python
+
+build-depends:
+  - python-setuptools
+  - python-build
+  - python-installer
+
+sources:
+  - https://gitlab.com/libvirt/libvirt-python/-/archive/v%{version}/libvirt-python-v%{version}.tar.gz

@@ -1,0 +1,8 @@
+id: font-util
+version: 1.4.2
+about: X.org font utilities
+
+build-depends:
+  - util-macros
+sources:
+  - https://www.x.org/pub/individual/font/font-util-%{version}.tar.xz

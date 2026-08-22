@@ -1,0 +1,16 @@
+id: quilt
+version: 0.69
+about: Manage a series of patches by keeping track of changes each patch makes
+
+configure: >-
+  --without-rpmbuild
+
+install: BUILD_ROOT=%{install-root}
+
+depends:
+  - bash
+  - bzip2
+  - diffutils
+  - gawk
+sources:
+  - https://savannah.nongnu.org/download/quilt/quilt-%{version}.tar.gz

@@ -2,7 +2,7 @@ import os
 import yaml
 
 def apply(fn):
-    components = [os.path.join(dp, f) for dp, dn, filenames in os.walk("elements/components") for f in filenames if os.path.splitext(f)[1] == '.yml']
+    components = [os.path.join(dp, f) for dp, dn, filenames in os.walk("external") for f in filenames if f == "recipe.yml"]
     count = 1
     total = len(components)
     for component in components:

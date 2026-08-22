@@ -1,0 +1,9 @@
+id: milou
+merge: [external/plasma.inc]
+about: Plasma milou
+depends:
+  - krunner
+  - kitemmodels
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

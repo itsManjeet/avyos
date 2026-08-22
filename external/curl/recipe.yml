@@ -1,0 +1,16 @@
+id: curl
+version: 8.20.0
+about: Utility and a library used for transferring files
+sources:
+  - https://curl.haxx.se/download/curl-%{version}.tar.xz
+
+configure: >-
+  --enable-threaded-resolver
+  --with-ca-path=/etc/ssl/certs
+  --with-openssl
+
+build-type: autotools
+depends:
+  - glibc
+  - libpsl
+  - openssl

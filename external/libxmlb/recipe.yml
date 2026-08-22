@@ -1,0 +1,19 @@
+id: libxmlb
+version: 0.3.26
+about: Library to help create and query binary XML blobs
+
+depends:
+  - glib
+  - snowball
+  - xz
+
+build-depends:
+  - gtk-doc
+  - gobject-introspection
+  - meson
+
+sources:
+  - https://github.com/hughsie/libxmlb/releases/download/%{version}/libxmlb-%{version}.tar.xz
+
+post-script: |-
+  rm -r %{install-root}/usr/{lib,share}/installed-tests

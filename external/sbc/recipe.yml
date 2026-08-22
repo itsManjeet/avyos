@@ -1,0 +1,12 @@
+id: sbc
+version: 2.2
+about: A digital audio encoder and decoder used to transfer data to Bluetooth audio output devices like headphones or loudspeakers
+
+configure: >-
+  --disable-static
+  --disable-tester
+
+depends:
+  - libsndfile
+sources:
+  - https://www.kernel.org/pub/linux/bluetooth/sbc-%{version}.tar.xz

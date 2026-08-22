@@ -1,0 +1,24 @@
+id: dotnet-runtime
+version: 10.0.7
+about: Binary release of .NET [RUNTIME]
+
+strip: false
+depends:
+  - libgcc
+  - glibc
+  - icu
+  - krb5
+  - openssl
+  - zlib
+build-depends:
+  - dotnet
+
+script: |-
+  mkdir -p %{install-root}/%{datadir}/dotnet
+  for mod in dotnet host shared ; do
+    echo "Added module ${mod}"
+    cp -ar %{datadir}/dotnet/${mod} %{install-root}/%{datadir}/dotnet/${mod}
+  done
+
+  mkdir -p %{install-root}/%{bindir}
+  ln -sv %{datadir}/dotnet/dotnet %{install-root}/%{bindir}

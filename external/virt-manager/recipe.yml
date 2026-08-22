@@ -1,0 +1,33 @@
+id: virt-manager
+version: 5.1.0
+about: Desktop user interface for managing virtual machines
+
+pre-script: |-
+  pip install docutils
+
+configure: >-
+  -D default-hvs=qemu,lxc
+  -D compile-schemas=false
+  -D update-icon-cache=false
+  -D tests=disabled
+
+post-script: |-
+  python -m compileall %{install-root}/%{datadir}/virt-manager
+  python -O -m compileall %{install-root}/%{datadir}/virt-manager
+
+depends:
+  - gtk-vnc
+  - gtksourceview4
+  - libvirt-glib
+  - python-cairo
+  - spice-gtk
+  - libosinfo
+  - libisoburn
+  - python-libvirt
+  - python-requests
+
+build-depends:
+  - python-setuptools
+
+sources:
+  - https://github.com/virt-manager/virt-manager/releases/download/v%{version}/virt-manager-%{version}.tar.xz

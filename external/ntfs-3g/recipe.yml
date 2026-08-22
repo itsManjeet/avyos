@@ -1,0 +1,29 @@
+id: ntfs-3g
+version: 2026.2.25
+about: |
+  A stable, read-write open source driver for NTFS partitions
+
+pre-script: |-
+  autoreconf -fiv
+  sed -i "s|/sbin|\$(DESTDIR)/%{bindir}|" {ntfsprogs,src}/Makefile.in
+
+configure: >-
+  --disable-static
+  --with-fuse=external
+  --enable-posix-acls
+  --enable-extras
+  --enable-crypto
+  --disable-ldconfig
+
+install: rootbindir=%{bindir} rootsbindir=%{bindir} rootlibdir=%{libdir}
+
+post-script: |-
+  ln -s %{bindir}/ntfs-3g %{install-root}/%{bindir}/mount.ntfs
+
+depends:
+  - fuse2
+  - libgcrypt
+  - gnutls
+  - libidn2
+sources:
+  - https://github.com/tuxera/ntfs-3g/archive/refs/tags/%{version}.tar.gz

@@ -1,0 +1,45 @@
+id: rlxos-container-devel
+merge: [version.yml, external/container.inc]
+about: rlxos container developers image
+
+capabilities:
+  - CAP_SYS_CHROOT
+
+include:
+  - libxml2-compat
+  - core
+  - meson
+  - make
+  - gcc
+  - binutils
+  - automake
+  - patch
+  - m4
+  - pkg-config
+  - bison
+  - flex
+  - kernel-headers
+  - texinfo
+  - cmake
+  - libtool
+  - jansson
+  - llvm
+  - bc
+
+include-parts:
+  - devel
+
+build-depends:
+  - squashfs-tools
+
+pre-script: |-
+  cp /external/sdt{,-config}.h %{include-root}/%{prefix}/include/sys/
+
+initial-commands: |-
+  systemd-sysusers
+  systemd-tmpfiles --create || true
+  systemctl preset-all || true
+  systemctl --global preset-all || true
+
+  pwconv
+  grpconv

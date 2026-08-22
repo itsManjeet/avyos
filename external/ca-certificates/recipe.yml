@@ -1,0 +1,36 @@
+id: ca-certificates
+version: 20260413
+about: Bundle of CA Root Certificates from Mozilla
+
+script: |-
+  gcc certdata2pem.c -o certdata2pem
+
+  ./certdata2pem
+
+  for i in *.crt ; do
+    install -D -m 644 -t %{install-root}/%{datadir}/%{id} $i
+  done
+
+  mkdir -p %{install-root}/%{sysconfdir}/ssl/certs
+
+  (cd %{install-root}/%{datadir}/%{id}/; find . -name "*.crt" | sort | cut -b3- > %{install-root}/%{sysconfdir}/ca-certificates.conf)
+
+  ln -s %{sysconfdir}/ssl/certs/ca-certificates.crt %{install-root}/%{sysconfdir}/ssl/cert.pem
+  install -v -D -m 0755 update-ca-certificates %{install-root}%{bindir}/update-ca-certificates
+
+
+build-depends:
+  - gcc
+
+sources:
+  - https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+  - https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/nssckbi.h
+  - external/ca-certificates/certdata2pem.c
+  - external/ca-certificates/update-ca-certificates
+  - external/ca-certificates/blacklist.txt
+
+integration: |-
+  # TODO: better work around
+  [ ! -e /dev/null ] && touch /dev/null
+  mkdir -p %{sysconfdir}/ssl/certs
+  update-ca-certificates

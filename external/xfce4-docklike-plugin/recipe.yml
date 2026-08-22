@@ -1,0 +1,22 @@
+id: xfce4-docklike-plugin
+version: 0.5.1
+about: A Modern, docklike, minimaslist taskbar for XFCE
+
+# pre-script: |-
+#   patch -Np1 -i 0001-Rearranged-menu-items.patch
+#   patch -Np1 -i 0002-workaround-overlapping-separators-when-actions-items.patch
+
+depends:
+  - cairo
+  - exo
+  - glib
+  - gtk3
+  - libwnck
+  - xfce4-panel
+build-depends:
+  - intltool
+  - cmake
+sources:
+  - https://archive.xfce.org/src/panel-plugins/xfce4-docklike-plugin/%{version:2}/xfce4-docklike-plugin-%{version}.tar.xz
+  # - external/xfce4/docklike-plugin/0001-Rearranged-menu-items.patch
+  # - external/xfce4/docklike-plugin/0002-workaround-overlapping-separators-when-actions-items.patch

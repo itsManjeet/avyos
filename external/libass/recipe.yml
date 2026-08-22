@@ -1,0 +1,13 @@
+id: libass
+version: 0.17.4
+about: A portable subtitle renderer for the ASS/SSA
+
+depends:
+  - freetype
+  - fribidi
+  - fontconfig
+  - harfbuzz
+build-depends:
+  - nasm
+sources:
+  - https://github.com/libass/libass/releases/download/%{version}/libass-%{version}.tar.xz

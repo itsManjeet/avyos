@@ -1,0 +1,12 @@
+id: gsound
+version: 1.0.3
+about: A  small library for playing system sounds
+
+depends:
+  - libcanberra
+
+build-depends:
+  - gobject-introspection
+  - vala
+sources:
+  - https://download.gnome.org/sources/gsound/%{version:2}/gsound-%{version}.tar.xz

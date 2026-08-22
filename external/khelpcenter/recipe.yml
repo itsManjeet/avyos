@@ -1,0 +1,17 @@
+id: khelpcenter
+version: 26.04.1
+about: KDE application's documentation
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  # - external/grantlee
+  - meta-kf5
+  - libxml2
+  # - external/xapian
+  - kio-extras
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/khelpcenter-%{version}.tar.xz

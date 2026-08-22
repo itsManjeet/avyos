@@ -1,0 +1,20 @@
+id: xdg-utils
+version: 1.2.1
+about: A set of command line tools that assist applications with a variety of desktop integration tasks
+
+variables:
+  seperate-build-dir: false
+
+configure: >-
+  --with-fop
+
+depends:
+  - dbus
+  - file
+  - which
+  - bash
+build-depends:
+  - xmlto
+  - lynx
+sources:
+  - https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v%{version}/xdg-utils-v%{version}.tar.gz

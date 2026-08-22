@@ -1,0 +1,9 @@
+id: libslirp
+version: 4.9.1
+about: user-mode networking library used by virtual machines, containers or various tools
+
+depends:
+  - glib
+
+sources:
+  - https://gitlab.freedesktop.org/slirp/libslirp/-/archive/v%{version}/libslirp-v%{version}.tar.bz2

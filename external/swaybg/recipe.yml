@@ -1,0 +1,18 @@
+id: swaybg
+version: 1.2.2
+about: Wallpaper tool for Wayland compositors
+
+post-script: |-
+  install -D -m 0644 LICENSE -t %{install-root}/%{datadir}/licenses/%{id}
+
+depends:
+  - cairo
+  - gdk-pixbuf
+  - wayland
+
+build-depends:
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/swaywm/swaybg/releases/download/v%{version}/swaybg-%{version}.tar.gz

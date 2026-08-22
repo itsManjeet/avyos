@@ -1,0 +1,11 @@
+id: icon-naming-utils
+version: 0.8.90
+about:
+  A Perl script used for maintaining backwards compatibility with current desktop
+  icon themes
+
+depends:
+  - perl-xml-simple
+sources:
+  - http://tango.freedesktop.org/releases/icon-naming-utils-%{version}.tar.bz2
+# TODO: fix update url

@@ -1,0 +1,13 @@
+id: pcaudiolib
+version: 1.3
+about: Portable C audio library
+
+build-type: autotools
+
+seperate-build-dir: false
+
+depends:
+  - alsa-lib
+  - pulseaudio
+sources:
+  - https://github.com/espeak-ng/pcaudiolib/archive/%{version}/pcaudiolib-%{version}.tar.gz

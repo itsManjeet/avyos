@@ -1,0 +1,12 @@
+id: osinfo-db
+version: 20251212
+about:
+  Osinfo database of information about operating systems for virtualization provisioning
+  tools
+
+build-depends:
+  - osinfo-db-tools
+sources:
+  - osinfo-db::https://releases.pagure.org/libosinfo/osinfo-db-%{version}.tar.xz
+script: |
+  osinfo-db-import --root %{install-root} --system %{build-root}/osinfo-db

@@ -1,0 +1,13 @@
+id: bibata-cursor-theme
+version: 2.0.7
+about: Material based cursor theme
+
+script: |-
+  mkdir -p %{install-root}/%{datadir}/icons/%{id}/
+  mv cursors cursor.theme index.theme %{install-root}/%{datadir}/icons/%{id}/
+
+build-depends:
+  - python-pip
+
+sources:
+  - Bibata-Modern-Ice-%{version}.tar.xz::https://github.com/ful1e5/Bibata_Cursor/releases/download/v%{version}/Bibata-Modern-Ice.tar.xz

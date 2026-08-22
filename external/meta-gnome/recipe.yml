@@ -1,0 +1,31 @@
+id: meta-gnome
+version: 44
+about: Gnome Desktop Environment
+merge: [external/meta.inc]
+depends:
+  # Core Gnome Components
+  - gdm
+  - gnome-backgrounds
+  - gnome-control-center
+  - gnome-initial-setup
+  - gnome-icon-theme
+  - gnome-icon-theme-extras
+  - gnome-icon-theme-symbolic
+  - adwaita-icon-theme
+  - gnome-menus
+  - gnome-power-manager
+  - gnome-shell
+  - gnome-session
+
+  # Gnome Apps
+  - gnome-terminal
+  - nautilus
+
+  - gnome-keyring
+
+  # Required Fonts
+  - cantarell
+  - noto
+  - noto-cjk
+  - noto-emoji
+  - adobe-source-code-pro-fonts

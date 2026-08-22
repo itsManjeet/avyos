@@ -1,0 +1,19 @@
+id: khotkeys
+version: 5.27.12
+about: Plasma khotkeys
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - kdelibs4support
+  - plasma-workspace
+build-depends:
+  - extra-cmake-modules
+  - kdesignerplugin
+  - kdoctools
+  - kinit
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz

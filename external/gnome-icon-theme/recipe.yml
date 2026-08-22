@@ -1,0 +1,13 @@
+id: gnome-icon-theme
+version: 3.12.0
+about: Package contains an assortment of non-scalable icons of different sizes and themes
+
+build-depends:
+  - gtk3
+  - hicolor-icon-theme
+  - icon-naming-utils
+sources:
+  - https://download.gnome.org/sources/gnome-icon-theme/%{version:2}/gnome-icon-theme-%{version}.tar.xz
+
+integration: |-
+  gtk-update-icon-cache %{datadir}/icons/gnome

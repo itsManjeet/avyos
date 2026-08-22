@@ -1,0 +1,8 @@
+id: yelp-xsl
+version: 49.0
+about: XSL stylesheets that are used by the Yelp help browser to format Docbook and Mallard documents
+depends:
+  - libxslt
+  - itstool
+sources:
+  - https://download.gnome.org/sources/yelp-xsl/%{version:2}/yelp-xsl-%{version}.tar.xz

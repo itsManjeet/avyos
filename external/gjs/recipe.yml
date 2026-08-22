@@ -1,0 +1,21 @@
+id: gjs
+version: 1.88.0
+about: A set of Javascript bindings for GNOME
+
+post-script: |-
+  ln -sfv gjs-console %{install-root}/%{bindir}/gjs
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - cairo
+  - dbus
+  - spidermonkey
+  - gtk3
+  - gtk4
+build-depends:
+  - gobject-introspection
+  - sysprof
+sources:
+  - https://download.gnome.org/sources/gjs/%{version:2}/gjs-%{version}.tar.xz

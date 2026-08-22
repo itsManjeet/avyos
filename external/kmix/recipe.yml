@@ -1,0 +1,15 @@
+id: kmix
+version: 26.04.1
+about: KF5 based sound mixer application
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -Wno-dev
+
+depends:
+  - meta-kf5
+  - alsa-lib
+  - libcanberra
+  - pulseaudio
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/kmix-%{version}.tar.xz

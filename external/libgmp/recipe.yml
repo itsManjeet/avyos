@@ -1,0 +1,19 @@
+id: libgmp
+version: 6.3.0
+release: 1
+about: Library for arbitrary precision arithmetic.
+
+pre-script: |-
+  autoreconf -i
+
+build-dir: gmp-%{version}
+configure: >
+  --enable-cxx
+  --disable-static
+
+depends:
+  - glibc
+
+sources:
+  - https://ftp.gnu.org/gnu/gmp/gmp-%{version}.tar.xz
+  - external/libgmp/0001-libgmp-workspace.patch

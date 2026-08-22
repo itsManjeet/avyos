@@ -1,0 +1,134 @@
+id: image
+merge: [version.yml]
+about: installer live ISO
+
+uuidnamespace: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+efi-arch: x64
+iso-volume-id: rlxos-LIVE
+
+script: |-
+  set -eu
+
+  mkdir -p "%{install-root}"
+
+  usr_img="$(readlink /usr.squashfs)"
+  img_version="${usr_img##usr_}"
+  img_version="${img_version%.squashfs}"
+  img_version="${img_version%_*}"
+
+  iso_root="%{build-root}/iso"
+  efi_root="%{build-root}/efi"
+  efi_img="%{build-root}/efiboot.img"
+  rm -rf "${iso_root}" "${efi_root}" "${efi_img}"
+
+  install -d \
+    "${iso_root}/boot" \
+    "${iso_root}/install" \
+    "${iso_root}/LiveOS" \
+    "${efi_root}/EFI/BOOT" \
+    "${efi_root}/EFI/Linux" \
+    "${efi_root}/EFI/systemd" \
+    "${efi_root}/loader/entries"
+
+  cp -a /boot/. "${iso_root}/install/boot/"
+  cp -L /usr.squashfs "${iso_root}/LiveOS/usr.squashfs"
+  cp -L /usr.verity "${iso_root}/install/usr.verity"
+  cp /usr-root-hash.txt "${iso_root}/install/usr-root-hash.txt"
+  ln -s ../LiveOS/usr.squashfs "${iso_root}/install/usr.squashfs"
+  ln -s ../install/usr.verity "${iso_root}/LiveOS/usr.verity"
+  ln -s ../install/usr-root-hash.txt "${iso_root}/LiveOS/usr-root-hash.txt"
+
+  install -m 0755 "%{build-root}/installer.sh" "${iso_root}/install/installer.sh"
+
+  kernel_version="$(ls -1 /lib/modules | head -n1)"
+  test -n "${kernel_version}"
+  if [ ! -f "/lib/modules/${kernel_version}/vmlinuz" ] && [ -f "/lib/modules/${kernel_version}/bzImage" ]; then
+    cp "/lib/modules/${kernel_version}/bzImage" "/lib/modules/${kernel_version}/vmlinuz"
+  fi
+
+  live_cmdline="root=tmpfs rd.rlxos.live=1 rd.rlxos.live.label=%{iso-volume-id} rw console=tty0"
+  dracut -v --xz --reproducible --fstab \
+    --uefi \
+    --no-machineid \
+    --no-hostonly \
+    --kernel-image "/lib/modules/${kernel_version}/vmlinuz" \
+    --kver "${kernel_version}" \
+    --kernel-cmdline "${live_cmdline}" \
+    --filesystems "squashfs vfat iso9660" \
+    --add-drivers "loop" \
+    --add rlxos-iso-live \
+    "%{build-root}/rlxos-live.efi" \
+    "${kernel_version}"
+
+  objcopy -O binary -j .linux "%{build-root}/rlxos-live.efi" "%{build-root}/linux"
+  objcopy -O binary -j .initrd "%{build-root}/rlxos-live.efi" "%{build-root}/initrd"
+  objcopy -O binary -j .cmdline "%{build-root}/rlxos-live.efi" "%{build-root}/cmdline.txt"
+
+  ukify build \
+    --linux="%{build-root}/linux" \
+    --initrd="%{build-root}/initrd" \
+    --cmdline="@%{build-root}/cmdline.txt" \
+    --secureboot-private-key=/external/sign-keys/VENDOR.key \
+    --secureboot-certificate=/external/sign-keys/VENDOR.crt \
+    --output="${efi_root}/EFI/Linux/rlxos_live_${img_version}.efi"
+  chmod 0644 "${efi_root}/EFI/Linux/rlxos_live_${img_version}.efi"
+
+  cp -a /boot/EFI/BOOT/. "${efi_root}/EFI/BOOT/"
+  cp -a /boot/EFI/systemd/. "${efi_root}/EFI/systemd/"
+  cat > "${efi_root}/loader/loader.conf" <<EOF
+  timeout 3
+  editor yes
+  console-mode keep
+  EOF
+
+  efi_size_kib="$(du -sk "${efi_root}" | awk '{print $1}')"
+  efi_size_mib=$(( (efi_size_kib + 20479) / 1024 ))
+  test "${efi_size_mib}" -ge 32 || efi_size_mib=32
+  dd if=/dev/zero of="${efi_img}" bs=1M count="${efi_size_mib}"
+  mkdosfs -n rlxos-EFI "${efi_img}"
+  mmd -i "${efi_img}" ::/EFI
+  mmd -i "${efi_img}" ::/EFI/BOOT
+  mmd -i "${efi_img}" ::/EFI/Linux
+  mmd -i "${efi_img}" ::/EFI/systemd
+  mmd -i "${efi_img}" ::/loader
+  mmd -i "${efi_img}" ::/loader/entries
+  mcopy -i "${efi_img}" "${efi_root}"/EFI/BOOT/* ::/EFI/BOOT
+  mcopy -i "${efi_img}" "${efi_root}"/EFI/Linux/* ::/EFI/Linux
+  mcopy -i "${efi_img}" "${efi_root}"/EFI/systemd/* ::/EFI/systemd
+  mcopy -i "${efi_img}" "${efi_root}"/loader/loader.conf ::/loader
+
+  cp "${efi_img}" "${iso_root}/boot/efiboot.img"
+  cp -a "${efi_root}/EFI" "${iso_root}/EFI"
+  cp -a "${efi_root}/loader" "${iso_root}/loader"
+
+  iso="%{install-root}/rlxos-%{channel}-installer.iso"
+  xorriso -as mkisofs \
+    -volid "%{iso-volume-id}" \
+    -joliet \
+    -rock \
+    -eltorito-alt-boot \
+    -e boot/efiboot.img \
+      -no-emul-boot \
+    -efi-boot-part --efi-boot-image \
+    -o "${iso}" \
+    "${iso_root}"
+
+  cd "%{install-root}"
+  sha256sum "rlxos-%{channel}-installer.iso" >"rlxos-%{channel}-installer.iso.sha256sum"
+  du -h "rlxos-%{channel}-installer.iso"
+
+build-depends:
+  - installer:dracut
+  - system
+  - system:signed-boot
+  - binutils
+  - dosfstools
+  - dracut
+  - libisoburn
+  - mtools
+  - sbsigntools
+  - systemd
+
+sources:
+  - external/initial-setup/installer.sh
+release: 2

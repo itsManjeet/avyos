@@ -1,0 +1,11 @@
+id: hwdata
+version: 0.407
+about: hardware identification databases
+depends:
+  - glibc
+sources:
+  - https://github.com/vcrhonek/hwdata/archive/refs/tags/v%{version}.tar.gz
+
+script: |-
+  ./configure --prefix=%{prefix} --disable-blacklist
+  make DESTDIR=%{install-root} install

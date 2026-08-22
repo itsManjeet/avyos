@@ -1,0 +1,21 @@
+id: kio-extras
+version: 26.04.1
+about:
+  Additional components to increase the functionality of the KDE resource and
+  network access abstractions
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - meta-kf5
+  - kdsoap
+  - libtirpc
+  - samba
+  - taglib
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/kio-extras-%{version}.tar.xz

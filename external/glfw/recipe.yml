@@ -1,0 +1,26 @@
+id: glfw
+version: 3.4
+about: A free, open source, portable framework for graphical application development
+
+configure: >-
+  -DBUILD_SHARED_LIBS=ON
+
+licenses:
+  - LICENSE.md
+
+depends:
+  - libglvnd
+  - libxkbcommon
+
+build-depends:
+  - cmake
+  - extra-cmake-modules
+  - libxi
+  - libxinerama
+  - libxrandr
+  - libxcursor
+  - mesa
+  - wayland-protocols
+
+sources:
+  - glfw-%{version}.tar.gz::https://github.com/glfw/glfw/archive/%{version}.tar.gz

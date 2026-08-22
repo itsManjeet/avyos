@@ -1,0 +1,33 @@
+id: shim
+version: 16.1
+release: 2
+about: EFI preloader
+
+pre-script: |-
+  sed -e 's/-Werror\b//g' -i Makefile Make.defaults
+
+  # Binutils 2.46 fix
+  sed -i 's/--target efi-app-\$(ARCH)/--output-target efi-app-\$(ARCH)/' Make.defaults
+
+  openssl x509 -inform PEM -outform DER -in "/external/sign-keys/VENDOR.crt" -out "rlxos.cer"
+
+make-args: >-
+  EFIDIR=rlxos
+  ESPROOTDIR=boot/efi
+  VENDOR_CERT_FILE=rlxos.cer
+  DEFAULT_LOADER='\\rlxos-loaderx64.efi'
+  DATATARGETDIR="/usr/share/shim"
+
+script: |-
+  make %{make-args}
+  make install-as-data %{make-args} DESTDIR=%{install-root}
+
+
+licenses:
+  - COPYRIGHT
+
+depends:
+  - efivar
+
+sources:
+  - https://github.com/rhboot/shim/releases/download/%{version}/shim-%{version}.tar.bz2

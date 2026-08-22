@@ -1,0 +1,23 @@
+id: pcsclite
+version: 1.9.8
+about: PC/SC Architecture smartcard middleware library
+
+configure: >-
+  --enable-filter
+  --enable-ipcdir=/run/pcscd
+  --enable-libudev
+  --enable-usbdropdir=%{libdir}/pcsc/drivers/
+  --with-systemdsystemunitdir=%{libdir}/systemd/system
+
+post-script: |-
+  install -D -m 0644 COPYING %{install-root}%{datadir}/doc/%{id}/LICENSE
+  install -d %{install-root}%{libdir}/pcsc/drivers/
+
+depends:
+  - systemd
+  - python
+build-depends:
+  - pkg-config
+sources:
+  - https://pcsclite.apdu.fr/assets/pcsc-lite-%{version}.tar.bz2
+# TODO: fix update url

@@ -1,0 +1,16 @@
+id: lame
+version: 3.100
+about: An MP3 encoder and optionally, an MP3 frame analyzer
+
+configure: >-
+  --enable-mp3rtp
+  --disable-static
+  --enable-nasm
+
+depends:
+  - glibc
+
+build-depends:
+  - nasm
+sources:
+  - https://downloads.sourceforge.net/lame/lame-%{version}.tar.gz

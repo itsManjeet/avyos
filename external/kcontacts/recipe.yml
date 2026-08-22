@@ -1,0 +1,10 @@
+id: kcontacts
+about: KF5 kcontacts
+merge: [external/kf5.inc]
+depends:
+  - kcodecs
+  - kconfig
+  - kcoreaddons
+  - ki18n
+build-depends:
+  - extra-cmake-modules

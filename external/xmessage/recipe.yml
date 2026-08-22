@@ -1,0 +1,11 @@
+id: xmessage
+version: 1.0.7
+about: xorg apps xmessage
+
+sources:
+  - https://www.x.org/pub/individual/app/xmessage-%{version}.tar.xz
+
+depends:
+  - libxaw
+build-depends:
+  - util-macros

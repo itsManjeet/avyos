@@ -1,0 +1,10 @@
+id: plasma-nm
+merge: [external/plasma.inc]
+about: Plasma plasma-nm
+
+depends:
+  - networkmanager
+  - plasma-workspace
+  - qca
+build-depends:
+  - extra-cmake-modules

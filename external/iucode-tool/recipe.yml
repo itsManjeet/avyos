@@ -1,0 +1,9 @@
+id: iucode-tool
+version: 2.3.1
+about: Tool to manipulate Intel® IA-32/X86-64 microcode bundles
+
+depends:
+  - glibc
+
+sources:
+  - https://gitlab.com/iucode-tool/releases/raw/master/iucode-tool_%{version}.tar.xz

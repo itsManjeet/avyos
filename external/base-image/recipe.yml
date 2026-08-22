@@ -1,0 +1,13 @@
+id: base-image
+version: 3.0
+release: 2
+about: rlxos base image
+container: true
+
+sources:
+  - http://repo.rlxos.org/base-image-%{version}.tar.zst
+
+build-type: import
+strip: false
+clean-empty-dir: false
+build-dir: .

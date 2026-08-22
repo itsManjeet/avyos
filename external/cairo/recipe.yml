@@ -1,0 +1,26 @@
+id: cairo
+version: 1.18.4
+about: A 2D graphics library with support for multiple output devices
+sources:
+  - https://gitlab.freedesktop.org/cairo/cairo/-/archive/%{version}/cairo-%{version}.tar.gz
+
+depends:
+  - libpng
+  - pixman
+  - fontconfig
+  - glib
+  - libx11
+  - libxcb
+  - libxext
+  - libxrender
+  - lzo
+  - zlib
+
+build-depends:
+  - meson
+configure: >-
+  -D spectre=disabled
+  -D tests=disabled
+  -D dwrite=disabled
+  -D gtk_doc=false
+  -D symbol-lookup=disabled

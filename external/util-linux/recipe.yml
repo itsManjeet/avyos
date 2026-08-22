@@ -1,0 +1,40 @@
+id: util-linux
+version: 2.42
+about: Uilities for handling file systems, consoles, partitions, and messages
+
+sources:
+  - https://www.kernel.org/pub/linux/utils/util-linux/v%{version}/util-linux-%{version}.tar.xz
+
+pre-script: |-
+  sed -i '/test_mkfds/s/^/#/' tests/helpers/Makemodule.am
+
+configure: >-
+  --disable-chfn-chsh
+  --disable-login
+  --disable-nologin
+  --disable-su
+  --disable-setpriv
+  --disable-runuser
+  --disable-pylibmount
+  --disable-static
+  --disable-wall
+  --without-python
+  ADJTIME_PATH=%{localstatedir}/lib/hwclock/adjtime
+  --docdir=%{datadir}/%{id}-%{version}
+
+depends:
+  - coreutils
+  - libcap
+  - file
+  - ncurses
+  - readline
+  - pam
+  - shadow
+build-depends:
+  - meson
+  - gcc
+
+integration: |-
+  for i in mount umount ; do
+    chmod 4755 %{bindir}/${i}
+  done

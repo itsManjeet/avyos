@@ -1,0 +1,14 @@
+id: libmpd
+version: 11.8.17
+about: Signal based wrapper around libmpdclient
+
+pre-script: |-
+
+depends:
+  - glib
+
+sources:
+  - https://download.sarine.nl/Programs/gmpc/%{version:2}/libmpd-%{version}.tar.gz
+  - external/libmpd/0001-fix-return-value.patch
+  - external/libmpd/0002-include-config.h.patch
+  - external/libmpd/0003-fix-comparison.patch

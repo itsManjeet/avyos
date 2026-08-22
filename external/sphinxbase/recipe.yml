@@ -1,0 +1,13 @@
+id: sphinxbase
+version: 0.8
+about: Common library for sphinx speech recognition
+
+depends:
+  - openblas-lapack
+  - pulseaudio
+  - python
+build-depends:
+  - bison
+  - swig
+sources:
+  - http://downloads.sourceforge.net/project/cmusphinx/sphinxbase/%{version}/sphinxbase-%{version}.tar.gz

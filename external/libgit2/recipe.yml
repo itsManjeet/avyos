@@ -1,0 +1,25 @@
+id: libgit2
+version: 1.9.3
+about: A linkable library for GIT
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=None
+  -DUSE_HTTP_PARSER=system
+  -DUSE_SSH=ON
+  -DTHREADSAFE=ON
+  -Wno-dev
+
+post-script: |-
+  install -vDm 644 AUTHORS README.md -t "%{install-root}/%{datadir}/doc/%{id}"
+
+depends:
+  - glibc
+  - http-parser
+  - libssh
+  - openssl
+  - pcre
+build-depends:
+  - cmake
+  - python
+sources:
+  - libgit2-%{version}.tar.gz::https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz

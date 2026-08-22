@@ -1,0 +1,7 @@
+id: kdnssd
+merge: [external/kf5.inc]
+about: KF5 kdnssd
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules

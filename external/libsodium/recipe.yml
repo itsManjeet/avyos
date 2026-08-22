@@ -1,0 +1,11 @@
+id: libsodium
+version: 1.0.22
+about: P(ortable|ackageable) NaCI-based crypto library
+
+depends:
+  - glibc
+
+build-depends:
+  - libtool
+sources:
+  - https://github.com/jedisct1/libsodium/releases/download/%{version}-RELEASE/libsodium-%{version}.tar.gz

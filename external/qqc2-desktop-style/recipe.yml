@@ -1,0 +1,10 @@
+id: qqc2-desktop-style
+merge: [external/kf5.inc]
+about: KF5 qqc2-desktop-style
+
+depends:
+  - kiconthemes
+  - kirigami2
+  - sonnet
+build-depends:
+  - extra-cmake-modules

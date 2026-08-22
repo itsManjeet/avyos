@@ -1,0 +1,21 @@
+id: geoclue
+version: 2.8.1
+about: A modular geoinformation service built on top of the D-Bus messaging system
+
+configure: >-
+  --buildtype=release
+  -D 3g-source=false
+  -D modem-gps-source=false
+  -D cdma-source=false
+  -D nmea-source=false
+
+depends:
+  - json-glib
+  - libsoup3
+  - libnotify
+build-depends:
+  - vala
+  - gtk-doc
+
+sources:
+  - https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/%{version}/geoclue-%{version}.tar.bz2

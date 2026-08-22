@@ -1,0 +1,19 @@
+id: kwin
+merge: [external/plasma.inc]
+about: Plasma kwin
+
+depends:
+  - breeze
+  - kcmutils
+  - kscreenlocker
+  - lcms
+  - plasma-framework
+  - xcb-util-cursor
+  - libxcvt
+  - libinput
+  - pipewire
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - krunner
+  - wayland

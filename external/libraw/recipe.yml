@@ -1,0 +1,14 @@
+id: libraw
+version: 0.22.1
+about:
+  A library for reading RAW files obtained from digital photo cameras (CRW/CR2,
+  NEF, RAF, DNG, and others)
+
+depends:
+  - jasper
+  - lcms
+sources:
+  - https://www.libraw.org/data/LibRaw-%{version}.tar.gz
+
+pre-script: |-
+  autoreconf -fi

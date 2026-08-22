@@ -1,0 +1,16 @@
+id: phonon-backend-gstreamer
+version: 4.10.0
+about: Phonon backend which utilizes the GStreamer media framework
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+
+depends:
+  - gstreamer
+  - libxml2
+  - phonon
+  - gstreamer
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/phonon/phonon-backend-gstreamer/%{version}/phonon-backend-gstreamer-%{version}.tar.xz

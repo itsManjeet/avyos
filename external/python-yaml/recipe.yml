@@ -1,0 +1,12 @@
+id: python-yaml
+version: 6.0.1
+about: Python library to access freedesktop.org standards
+release: 0
+depends:
+  - python
+  - libyaml
+build-depends:
+  - python-setuptools
+  - python-cython
+sources:
+  - https://files.pythonhosted.org/packages/source/P/PyYAML/PyYAML-%{version}.tar.gz

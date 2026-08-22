@@ -1,0 +1,17 @@
+id: bootstrap
+version: 2307
+release: 2
+about: rlxos bootstrap toolchain
+
+build-depends:
+  - kernel-headers
+  - glibc:stage1
+  - binutils:stage1
+  - gcc:stage1
+  - glibc:stage2
+  - binutils:stage2
+  - gcc:stage2
+
+script: |
+  mkdir -p %{install-root}
+  echo %{version} > %{install-root}/.bootstrap

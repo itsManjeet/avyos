@@ -1,0 +1,38 @@
+id: nautilus
+version: 50.1
+about: Package contains the GNOME file manager
+
+pre-script: |-
+  sed "/docdir =/s@\$@ / 'nautilus-%{version}'@" -i meson.build
+
+configure: >-
+  -D docs=false
+  -D packagekit=false
+  -D selinux=false
+
+depends:
+  - bubblewrap
+  - gexiv2
+  - gnome-autoar
+  - gnome-desktop
+  - libhandy
+  - libnotify
+  - libseccomp
+  - tracker-miners
+  - xdg-user-dirs
+  - desktop-file-utils
+  - exempi
+  - gstreamer
+  - libexif
+  - libportal
+  - libadwaita
+  - libcloudproviders
+  - gd
+  - adwaita-icon-theme
+  - gvfs
+
+build-depends:
+  - gobject-introspection
+
+sources:
+  - https://download.gnome.org/sources/nautilus/%{version:2}/nautilus-%{version}.tar.xz

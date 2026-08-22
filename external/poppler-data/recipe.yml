@@ -1,0 +1,11 @@
+id: poppler-data
+version: 0.4.12
+about: Poppler data
+
+depends:
+  - poppler
+sources:
+  - https://poppler.freedesktop.org/poppler-data-%{version}.tar.gz
+
+script: |-
+  make prefix=%{prefix} DESTDIR=%{install-root} install

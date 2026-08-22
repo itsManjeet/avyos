@@ -1,0 +1,18 @@
+id: libgsf
+version: 1.14.58
+about:
+  A library used for providing an extensible input/output abstraction layer for
+  structured file formats
+
+depends:
+  - pcre2
+  - glib
+  - libxml2
+  - gdk-pixbuf
+
+build-depends:
+  - gobject-introspection
+
+sources:
+  - https://download.gnome.org/sources/libgsf/%{version:2}/libgsf-%{version}.tar.xz
+  # - external/libgsf/libgsf-1.14.58-upstream_fixes-1.patch

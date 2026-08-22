@@ -1,0 +1,9 @@
+id: systemsettings
+merge: [external/plasma.inc]
+about: Plasma systemsettings
+
+depends:
+  - plasma-workspace
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

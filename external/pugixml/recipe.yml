@@ -1,0 +1,13 @@
+id: pugixml
+version: 1.15
+about: Light-weight, simple and fast XML parser for C++ with XPath support
+
+configure: >-
+  -DBUILD_SHARED_LIBS=ON
+
+depends:
+  - libgcc
+build-depends:
+  - cmake
+sources:
+  - https://github.com/zeux/pugixml/releases/download/v%{version}/pugixml-%{version}.tar.gz

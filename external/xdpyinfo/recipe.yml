@@ -1,0 +1,19 @@
+id: xdpyinfo
+version: 1.4.0
+about: Display information utility for X
+
+depends:
+  - libx11
+  - libxcomposite
+  - libxext
+  - libxinerama
+  - libxrender
+  - libxtst
+  - libxxf86vm
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/app/xdpyinfo-%{version}.tar.xz

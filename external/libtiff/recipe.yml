@@ -1,0 +1,16 @@
+id: libtiff
+version: 4.6.0
+about: TIFF libraries and associated utilities
+sources:
+  - https://download.osgeo.org/libtiff/tiff-%{version}.tar.gz
+
+variables:
+  run-autogen: false
+depends:
+  - glibc
+  - xz
+  - zlib
+  - zstd
+
+build-depends:
+  - cmake

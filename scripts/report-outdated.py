@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Report and optionally update outdated avyos recipes by comparing against
+Report and optionally update outdated rlxos recipes by comparing against
 the latest upstream versions from Repology.
 
 Uses the Repology /api/v1/project/ API with concurrent requests for
@@ -31,7 +31,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 REPOLOGY_API = "https://repology.org/api/v1/project"
-USER_AGENT = "avyos-report-outdated/1.0"
+USER_AGENT = "rlxos-report-outdated/1.0"
 
 
 # ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ USER_AGENT = "avyos-report-outdated/1.0"
 # ---------------------------------------------------------------------------
 
 def parse_recipe(filepath: str) -> dict | None:
-    """Parse an avyos recipe YAML file. Returns dict with id and version."""
+    """Parse an rlxos recipe YAML file. Returns dict with id and version."""
     try:
         with open(filepath, "r") as f:
             content = f.read()
@@ -266,7 +266,7 @@ def print_table(outdated: list[dict]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Report and update outdated avyos recipes")
+        description="Report and update outdated rlxos recipes")
     parser.add_argument("--packages",
                         help="Comma-separated list of packages to check")
     parser.add_argument("--json", action="store_true",

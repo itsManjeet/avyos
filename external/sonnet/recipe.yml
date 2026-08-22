@@ -1,0 +1,9 @@
+id: sonnet
+merge: [external/kf5.inc]
+about: KF5 sonnet
+
+depends:
+  - qt
+  - aspell
+build-depends:
+  - extra-cmake-modules

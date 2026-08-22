@@ -1,0 +1,29 @@
+id: wine
+version: 11.0
+about: A compatibility layer for running Windows programs
+
+configure: >-
+    --with-x
+    --with-gstreamer
+    --enable-win64
+
+depends:
+    - desktop-file-utils
+    - fontconfig
+    - gettext
+    - libgcc
+    - freetype
+    - alsa-lib
+    - cups
+    - gstreamer
+    - pulseaudio
+    - sdl2
+    - libxcursor
+    - libxi
+    - libxrandr
+    - libxcomposite
+    - libxinerama
+    - mesa
+
+sources:
+    - https://dl.winehq.org/wine/source/%{version}/wine-%{version}-rc5.tar.xz

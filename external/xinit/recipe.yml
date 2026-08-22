@@ -1,0 +1,18 @@
+id: xinit
+version: 1.4.4
+about: usable script to start the xserver
+sources:
+  - https://www.x.org/pub/individual/app/xinit-%{version}.tar.xz
+
+variables:
+  run-autogen: false
+
+depends:
+  - libx11
+  - xauth
+
+build-depends:
+  - util-macros
+
+configure: >
+  --sysconfdir=/etc

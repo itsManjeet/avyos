@@ -1,0 +1,16 @@
+id: xcb-util
+version: 0.4.1
+about: Utility libraries for XC Binding
+
+sources:
+  - https://xcb.freedesktop.org/dist/xcb-util-%{version}.tar.xz
+
+variables:
+  run-autogen: false
+
+depends:
+  - libxcb
+
+build-depends:
+  - util-macros
+  - xorgproto

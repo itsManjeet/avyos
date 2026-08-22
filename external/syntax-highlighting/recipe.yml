@@ -1,0 +1,8 @@
+id: syntax-highlighting
+merge: [external/kf5.inc]
+about: KF5 syntax-highlighting
+
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules

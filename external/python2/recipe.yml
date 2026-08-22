@@ -1,0 +1,21 @@
+id: python2
+version: 2.7.18
+about: Python2 development environment
+release: 0
+depends:
+  - bzip2
+  - expat
+  - gdbm
+  - libffi
+  - openssl
+  - zlib
+sources:
+  - https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
+  - https://www.linuxfromscratch.org/patches/blfs/svn/Python-2.7.18-security_fixes-1.patch
+pre-script: |
+  sed -i "/2to3/d" ./setup.py
+post-script: rm %{install-root}/usr/bin/python
+configure: |
+  --enable-shared --with-system-expat --with-system-ffi --without-ensurepip --enable-optimization --with-lto --with-tzpath=%{datadir}/zoneinfo --enable-loadable-sqlite-extensions
+
+# TODO: check deprecated

@@ -1,0 +1,18 @@
+id: cairomm
+version: 1.18.0
+about: A C++ interface to Cairo
+
+variables:
+  run-autogen: false
+
+configure: >
+  -D build-tests=false
+  -D boost-shared=true
+
+depends:
+  - cairo
+  - libsigc++
+build-depends:
+  - boost
+sources:
+  - https://www.cairographics.org/releases/cairomm-%{version}.tar.xz

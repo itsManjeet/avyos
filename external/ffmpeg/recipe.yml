@@ -1,0 +1,54 @@
+id: ffmpeg
+version: 8.1.1
+about: A solution to record, convert and stream audio and video
+
+script: |-
+
+  sed -i "s/-lflite\"/-lflite -lasound\"/" configure
+
+  ./configure --prefix=%{prefix} \
+    --enable-gpl \
+    --enable-version3 \
+    --disable-static \
+    --enable-shared \
+    --disable-debug \
+    --enable-libass \
+    --enable-libfreetype \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libtheora \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libpulse
+
+  make ${MAKEFLAGS}
+
+  make install DESTDIR=%{install-root}
+
+post-script: |-
+  # enable qt-faststart
+  gcc tools/qt-faststart.c -o %{install-root}/%{bindir}/qt-faststart
+
+depends:
+  - libass
+  - fdk-aac
+  - freetype
+  - lame
+  - libtheora
+  - libvorbis
+  - libvpx
+  - opus
+  - x264
+  - x265
+  - alsa-lib
+  - libva
+  - libvdpau
+  - pulseaudio
+  - sdl2
+build-depends:
+  - yasm
+  - texinfo
+sources:
+  - https://ffmpeg.org/releases/ffmpeg-%{version}.tar.xz

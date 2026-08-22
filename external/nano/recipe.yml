@@ -1,0 +1,14 @@
+id: nano
+version: 9.0
+about: Pico editor clone with enhancements
+
+configure: >-
+  --enable-color
+  --enable-nanorc
+  --enable-multibuffer
+
+depends:
+  - file
+  - ncurses
+sources:
+  - https://www.nano-editor.org/dist/v%{version:1}/nano-%{version}.tar.xz

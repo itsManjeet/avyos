@@ -1,0 +1,35 @@
+id: spice-vdagent
+version: 0.23.0
+about: Spice agent for linux guests
+
+pre-script: |-
+  sed -i 's|%{sysconfdir}/sysconfig/spice-vdagentd|%{sysconfdir}/conf.d/spice-vdagentd| \
+          s|/usr/sbin/spice-vdagentd|/usr/bin/spice-vdagentd|' data/spice-vdagentd.service
+  sed -i 's|%{sysconfdir}/sysconfig/spice-vdagentd|%{sysconfdir}/conf.d/spice-vdagentd|' data/spice-vdagentd.1.in
+post-script: |-
+  [ -d %{install-root} ] && rm -r %{install-root}/var
+  install -dm 755 %{install-root}%{sysconfdir}/conf.d/
+  echo 'SPICE_VDAGENTD_EXTRA_ARGS=""' > "%{install-root}%{sysconfdir}/conf.d/spice-vdagentd"
+
+  # install -v -D -m 0755 -t %{install-root}%{sysconfdir}/modules-load.d/ /external/10-uinput.conf
+configure: >-
+  --with-session-info=systemd
+  --with-init-script=systemd
+
+depends:
+  - alsa-lib
+  - dbus
+  - glib
+  - gtk3
+  - libdrm
+  - libpciaccess
+  - libxfixes
+  - libxinerama
+  - libxrandr
+  - systemd
+build-depends:
+  - spice-protocol
+sources:
+  - https://www.spice-space.org/download/releases/%{id}-%{version}.tar.bz2
+
+# TODO: fix configurations

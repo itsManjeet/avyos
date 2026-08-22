@@ -1,0 +1,14 @@
+id: xfce4-xkb-plugin
+version: 0.9.0
+about: Plugin to switch keyboard layouts for the Xfce4 panel
+
+depends:
+  - librsvg
+  - libwnck
+  - libxklavier
+  - xfce4-panel
+build-depends:
+  - intltool
+  - cmake
+sources:
+  - https://archive.xfce.org/src/panel-plugins/xfce4-xkb-plugin/%{version:2}/xfce4-xkb-plugin-%{version}.tar.xz

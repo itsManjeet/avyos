@@ -1,6 +1,6 @@
 .TOPDIR ?= ..
-include ${.TOPDIR}/build/avyos.defaults.inc
+include ${.TOPDIR}/build/rlxos.defaults.inc
 
 SUBDIR = limine
 
-include ${.TOPDIR}/build/avyos.subdir.inc
+include ${.TOPDIR}/build/rlxos.subdir.inc

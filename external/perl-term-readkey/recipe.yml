@@ -1,0 +1,11 @@
+id: perl-term-readkey
+version: 2.38
+about: Provides simple control over teminal driver modes
+
+depends:
+  - perl
+  - glibc
+sources:
+  - https://cpan.metacpan.org/authors/id/J/JS/JSTOWE/TermReadKey-%{version}.tar.gz
+
+configure: INSTALLDIRS=vendor

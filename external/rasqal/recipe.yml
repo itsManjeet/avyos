@@ -1,0 +1,12 @@
+id: rasqal
+version: 0.9.33
+about: Resource Description Framework (RDF) query language
+
+configure: >-
+  --disable-static
+
+depends:
+  - raptor
+
+sources:
+  - https://download.librdf.org/source/rasqal-%{version}.tar.gz

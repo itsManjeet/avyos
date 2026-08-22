@@ -1,0 +1,13 @@
+id: opensans-fonts
+version: 1.101
+about: Sans-serif typeface commissioned by Google
+commit: bd7e37632246368c60fdcbd374dbf9bad11969b6
+
+script: |-
+  install -vDm644 -t %{install-root}%{datadir}/fonts/TTF fonts/ttf/*.ttf
+
+build-depends:
+  - bash
+
+sources:
+  - opensans-fonts-%{commit}.tar.gz::https://github.com/googlefonts/opensans/archive/%{commit}.tar.gz

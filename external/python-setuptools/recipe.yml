@@ -1,0 +1,13 @@
+id: python-setuptools
+version: 80.9.0
+about: Easily download, build, install, upgrade and uninstall python packages
+
+depends:
+  - python
+
+build-depends:
+  - python-build
+  - python-installer
+
+sources:
+  - https://pypi.org/packages/source/s/setuptools/setuptools-%{version}.tar.gz

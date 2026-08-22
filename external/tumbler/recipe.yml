@@ -1,0 +1,21 @@
+id: tumbler
+version: 4.20.1
+about: D-Bus thumbnailing service based on the thumbnail management D-Bus Specification
+
+sources:
+  - https://archive.xfce.org/src/xfce/tumbler/%{version:2}/tumbler-%{version}.tar.bz2
+
+depends:
+  - glib
+  - freetype
+  - curl
+  - gdk-pixbuf
+  - libjpeg-turbo
+  - gstreamer
+  - libgsf
+  - libpng
+  - libxfce4util
+  - poppler
+
+build-depends:
+  - intltool

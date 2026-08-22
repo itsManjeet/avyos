@@ -1,0 +1,24 @@
+id: harfbuzz
+version: 14.2.0
+about: OpenType text shaping engine
+
+build-type: meson
+
+configure: >-
+  --buildtype=release
+  -D graphite2=enabled
+  -D benchmark=disabled
+  -D docs=disabled
+  -D icu=enabled
+
+depends:
+  - glib
+  - graphite2
+  - icu
+  - cairo
+build-depends:
+  - gobject-introspection
+  - meson
+
+sources:
+  - https://github.com/harfbuzz/harfbuzz/releases/download/%{version}/harfbuzz-%{version}.tar.xz

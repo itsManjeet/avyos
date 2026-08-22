@@ -1,0 +1,11 @@
+id: kdoctools
+merge: [external/kf5.inc]
+about: KF5 kdoctools
+depends:
+  - qt
+  - docbook-xsl
+  - karchive
+build-depends:
+  - ki18n
+  - extra-cmake-modules
+  - perl-uri

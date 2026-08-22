@@ -1,0 +1,13 @@
+id: genimage
+version: 19
+about: Tool to generate multiple filesystem and flash images from a tree
+
+depends:
+- external/libconfuse
+- external/squashfs-tools
+- external/libisoburn
+- external/dosfstools
+- external/mtools
+
+sources:
+- https://github.com/pengutronix/genimage/releases/download/v%{version}/genimage-%{version}.tar.xz

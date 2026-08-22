@@ -1,3 +1,4 @@
 mirrors:
     https://ftp.gnu.org/gnu/: https://mirrors.hopbox.net/gnu/
     http://ftp.gnu.org/gnu/: https://mirrors.hopbox.net/gnu/
+    https://download.savannah.gnu.org/releases/: https://download-mirror.savannah.nongnu.org/releases/

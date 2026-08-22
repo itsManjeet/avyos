@@ -1,0 +1,17 @@
+id: xfce4-appfinder
+version: 4.20.0
+about: xfce application finder and launcher tool
+
+pre-script: |-
+
+depends:
+  - garcon
+  - libxfce4ui
+  - libxfce4util
+
+build-depends:
+  - intltool
+
+sources:
+  - https://archive.xfce.org/src/xfce/xfce4-appfinder/%{version:2}/xfce4-appfinder-%{version}.tar.bz2
+  - external/xfce4/appfinder/01-updated-interface.patch

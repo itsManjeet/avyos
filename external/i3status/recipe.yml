@@ -1,0 +1,12 @@
+id: i3status
+version: 2.15
+about: Generates status bar to use with i3bar, dzen2 or xmobar
+depends:
+  - alsa-lib
+  - libconfuse
+  - libnl
+  - pulseaudio
+  - yajl
+
+sources:
+  - https://i3wm.org/i3status/i3status-%{version}.tar.xz

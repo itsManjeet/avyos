@@ -1,0 +1,11 @@
+id: libva-utils
+version: 2.23.0
+about: Intel VA-API Media Applications and Scripts for libva
+
+depends:
+  - libva
+build-depends:
+  - mesa
+
+sources:
+  - https://github.com/intel/libva-utils/releases/download/%{version}/libva-utils-%{version}.tar.bz2

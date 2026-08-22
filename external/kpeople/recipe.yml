@@ -1,0 +1,11 @@
+id: kpeople
+merge: [external/kf5.inc]
+about: KF5 kpeople
+
+depends:
+  - kcoreaddons
+  - ki18n
+  - kitemviews
+  - kwidgetsaddons
+build-depends:
+  - extra-cmake-modules

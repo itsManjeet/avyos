@@ -1,0 +1,14 @@
+id: libglvnd
+version: 1.7.0
+about: The GL Vendor Neutral Dispatch library
+
+build-depends:
+  - libxext
+  - libx11
+  - xorgproto
+
+sources:
+  - https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v%{version}/libglvnd-v%{version}.tar.gz
+
+configure: >
+  -D gles1=false

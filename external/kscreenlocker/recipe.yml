@@ -1,0 +1,16 @@
+id: kscreenlocker
+merge: [external/plasma.inc]
+about: Plasma kscreenlocker
+
+depends:
+  - kdeclarative
+  - kidletime
+  - kwayland
+  - layer-shell-qt
+  - perl
+  - kcmutils
+  - kscreen
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - libxcursor

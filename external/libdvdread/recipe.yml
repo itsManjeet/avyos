@@ -1,0 +1,12 @@
+id: libdvdread
+version: 7.0.1
+about: A library which provides a simple foundation for reading DVDs
+
+configure: >-
+  --disable-static
+  --docdir=%{datadir}/doc/libdvdread
+
+depends:
+  - glibc
+sources:
+  - https://get.videolan.org/libdvdread/%{version}/libdvdread-%{version}.tar.bz2

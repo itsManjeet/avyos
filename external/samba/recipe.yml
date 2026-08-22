@@ -1,0 +1,61 @@
+id: samba
+version: 4.24.1
+about: Package provides file and print services to SMB/CIFS clients and Windows networking to Linux clients
+
+build-type: autotools
+
+run-autogen: false
+seperate-build-dir: false
+
+pre-script: |-
+  python -m pip install cryptography pyasn1 iso8601
+
+configure: >-
+  --with-pammodulesdir=%{libdir}/security
+  --with-piddir=/run/samba
+  --enable-fhs
+  --without-ad-dc
+  --with-system-mitkrb5
+  --enable-selftest
+  --disable-rpath-install
+
+post-script: |-
+  install -v -m644 examples/smb.conf.default %{install-root}%{sysconfdir}/samba
+  sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" \
+      -e "s;path = %{prefix}/spool/samba;path = /var/spool/samba;" \
+      -i %{install-root}%{sysconfdir}/samba/smb.conf.default
+
+  mkdir -pv %{install-root}%{sysconfdir}/openldap/schema
+  cp examples/LDAP/README %{install-root}%{sysconfdir}/openldap/schema/README.LDAP
+  cp examples/LDAP/samba* %{install-root}%{sysconfdir}/openldap/schema/
+  cp examples/LDAP/{get*,ol*} %{install-root}%{sysconfdir}/openldap/schema/
+
+  install -vdm 755 %{install-root}/%{libdir}/cups/backend
+  ln -sf -v %{bindir}/smbspool %{install-root}/%{libdir}/cups/backend/smb
+
+depends:
+  - gnutls
+  - jansson
+  - libtirpc
+  - lmdb
+  - rpcsvc-proto
+  - fuse
+  - gpgme
+  - libtasn1
+  - libxslt
+  - pam
+  - perl-parse-yapp
+  - perl-json
+  - python-markdown
+  - cups
+  - libldap
+  - krb5
+  - waf
+
+build-depends:
+  - python-pip
+  - openldap
+
+sources:
+  - https://www.samba.org/ftp/samba/stable/samba-%{version}.tar.gz
+  - external/samba/fix-root-build.patch

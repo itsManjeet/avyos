@@ -1,0 +1,12 @@
+id: xhost
+version: 1.0.10
+about: Server access control program for X
+
+depends:
+  - libx11
+  - libxmu
+
+build-depends:
+  - util-macros
+sources:
+  - https://www.x.org/pub/individual/app/xhost-%{version}.tar.xz

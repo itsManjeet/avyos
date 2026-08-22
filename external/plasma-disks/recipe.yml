@@ -1,0 +1,18 @@
+id: plasma-disks
+merge: [external/plasma.inc]
+about: Plasma plasma-disks
+
+depends:
+  - desktop-file-utils
+  - kcoreaddons
+  - kdbusaddons
+  - knotifications
+  - ki18n
+  - solid
+  - kio
+  - kauth
+  - kservice
+  - kdeclarative
+  - kinfocenter
+build-depends:
+  - extra-cmake-modules

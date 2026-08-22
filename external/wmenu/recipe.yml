@@ -1,0 +1,18 @@
+id: wmenu
+version: 0.2.0
+about: Efficient dynamic menu for Wayland and wlroots based Wayland compositors
+
+depends:
+  - cairo
+  - pango
+  - wayland
+  - libxkbcommon
+
+build-depends:
+  - meson
+  - ninja
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - wmenu-%{version}.tar.gz::https://codeberg.org/adnano/wmenu/archive/%{version}.tar.gz

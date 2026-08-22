@@ -1,0 +1,13 @@
+id: python-lxml
+version: 6.0.4
+about: Python bindings for lxml
+
+sources:
+  - https://files.pythonhosted.org/packages/source/l/lxml/lxml-%{version}.tar.gz
+
+depends:
+  - libxslt
+  - python
+
+build-depends:
+  - python-setuptools

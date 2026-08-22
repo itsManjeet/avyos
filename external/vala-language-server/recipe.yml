@@ -1,0 +1,12 @@
+id: vala-language-server
+version: 0.48.7
+about: Language server for vala
+
+depends:
+  - libgee
+  - jsonrpc-glib
+  - vala
+build-depends:
+  - meson
+sources:
+  - vala-language-server-%{version}.tar.gz::https://github.com/prince781/vala-language-server/archive/%{version}.tar.gz

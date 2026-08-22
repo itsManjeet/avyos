@@ -1,0 +1,10 @@
+id: perl-timedate
+version: "2.33"
+about: Date formating subroutines
+
+depends:
+  - perl
+sources:
+  - https://cpan.metacpan.org/authors/id/A/AT/ATOOMIC/TimeDate-%{version}.tar.gz
+
+configure: INSTALLDIRS=vendor

@@ -1,0 +1,9 @@
+id: libbsd
+version: 0.12.2
+about: Provides useful functions commonly found on BSD systems like strlcpy
+
+depends:
+  - glibc
+  - libmd
+sources:
+  - https://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz

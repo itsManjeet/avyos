@@ -1,0 +1,21 @@
+id: libyaml-cpp
+version: 0.9.0
+about: YAML parser and emitter in c++
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DYAML_CPP_BUILD_TESTS=OFF
+  -DYAML_CPP_BUILD_TOOLS=OFF
+  -DBUILD_SHARED_LIBS=ON
+  -DYAML_BUILD_SHARED_LIBS=ON
+  -DCMAKE_BUILD_TYPE=Release
+
+depends:
+  - glibc
+
+build-depends:
+  - cmake
+  - gcc
+
+sources:
+  - https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-%{version}.tar.gz

@@ -1,0 +1,12 @@
+id: gc
+version: 8.2.6
+about: A garbage collector for C and C++
+
+configure: >-
+  --enable-cplusplus
+  --disable-static
+
+depends:
+  - libgcc
+sources:
+  - https://github.com/ivmai/bdwgc/releases/download/v%{version}/gc-%{version}.tar.gz

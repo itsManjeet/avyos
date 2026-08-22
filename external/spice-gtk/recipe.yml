@@ -1,0 +1,24 @@
+id: spice-gtk
+version: 0.42
+about: GTK+ client library for SPICE
+
+depends:
+  - gstreamer
+  - libcacard
+  - gtk3
+  - libjpeg-turbo
+  - opus
+  - phodav
+  - polkit
+  - usbredir
+build-depends:
+  - gobject-introspection
+  - meson
+  - spice-protocol
+  - usbutils
+  - vala
+  - wayland-protocols
+  - python-six
+  - python-parsing
+sources:
+  - https://www.spice-space.org/download/gtk/%{id}-%{version}.tar.xz

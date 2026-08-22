@@ -1,0 +1,26 @@
+id: networkmanager-openvpn
+version: 1.12.5
+about: NetworkManager VPN plugin for OpenVPN
+
+build-type: autotools
+
+pre-script: |-
+  autoreconf -fiv
+
+variables:
+  run-autogen: false
+  seperate-build-dir: false
+
+depends:
+  - libnma
+  - libsecret
+  - openvpn
+  - networkmanager
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/sysusers.d/%{id}.conf << "EOF"
+  u nm-openvpn - "NetworkManager OpenVPN"
+  EOF
+
+sources:
+  - https://gitlab.gnome.org/GNOME/NetworkManager-openvpn/-/archive/%{version}/NetworkManager-openvpn-%{version}.tar.gz

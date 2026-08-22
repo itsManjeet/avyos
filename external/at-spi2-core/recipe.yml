@@ -1,0 +1,15 @@
+id: at-spi2-core
+version: 2.60.3
+about: Service Provider Interface for the Assistive Technologies
+
+depends:
+  - dbus
+  - glib
+  - libx11
+  - libxtst
+  - xprop
+  - libxml2
+  - gobject-introspection
+
+sources:
+  - https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/%{version}/at-spi2-core-%{version}.tar.gz

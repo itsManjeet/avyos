@@ -1,0 +1,12 @@
+id: kcolorscheme
+merge: [external/kf5.inc]
+about: Classes to read and interact with KColorScheme
+
+depends:
+  - kconfig
+  - kguiaddons
+  - ki18n
+  - qt
+
+build-depends:
+  - extra-cmake-modules

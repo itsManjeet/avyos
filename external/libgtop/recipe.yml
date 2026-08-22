@@ -1,0 +1,15 @@
+id: libgtop
+version: 2.41.3
+about: A library for collecting system monitoring data
+
+variables:
+  run-autogen: false
+
+depends:
+  - glib
+  - libxau
+build-depends:
+  - gobject-introspection
+  - gtk-doc
+sources:
+  - https://download.gnome.org/sources/libgtop/%{version:2}/libgtop-%{version}.tar.xz

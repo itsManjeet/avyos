@@ -1,0 +1,10 @@
+id: python-distutils-extra
+version: 2.39
+about: Python module to enhanc build system
+
+depends:
+  - python-setuptools
+build-depends:
+  - intltool
+sources:
+  - https://launchpad.net/python-distutils-extra/trunk/%{version}/+download/python-distutils-extra-%{version}.tar.gz

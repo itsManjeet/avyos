@@ -1,0 +1,18 @@
+id: plasma-systemmonitor
+merge: [external/plasma.inc]
+about: Plasma plasma-systemmonitor
+
+depends:
+  - kconfig
+  - kdeclarative
+  - kservice
+  - kglobalaccel
+  - kio
+  - kdbusaddons
+  - kitemmodels
+  - knewstuff
+  - libksysguard
+  - kirigami2
+build-depends:
+  - ki18n
+  - extra-cmake-modules

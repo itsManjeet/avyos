@@ -1,0 +1,24 @@
+id: spice
+version: 0.15.2
+about: SPICE server
+
+configure: >-
+  --enable-gstreamer=no
+
+depends:
+  - glib
+  - libjpeg-turbo
+  - cyrus-sasl
+  - lz4
+  - opus
+  - pixman
+build-depends:
+  - libcacard
+  - python-six
+  - python-parsing
+  - meson
+  - spice-protocol
+sources:
+  - https://www.spice-space.org/download/releases/spice-server/%{id}-%{version}.tar.bz2
+
+# TODO: enable gstreamer

@@ -1,0 +1,16 @@
+id: libfyaml
+version: 0.9.6
+about: YAML 1.3 parser and writer
+
+configure: >-
+  --disable-static
+
+depends:
+  - libyaml
+  - llvm-runtime
+
+build-depends:
+  - llvm
+
+sources:
+  - https://github.com/pantoniou/libfyaml/releases/download/v%{version}/libfyaml-%{version}.tar.gz

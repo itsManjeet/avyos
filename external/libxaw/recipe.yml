@@ -1,0 +1,14 @@
+id: libxaw
+version: 1.0.16
+about: xorg library libXaw
+sources:
+  - https://www.x.org/pub/individual/lib/libXaw-%{version}.tar.xz
+
+variables:
+  run-autogen: false
+
+depends:
+  - libxmu
+  - libxpm
+build-depends:
+  - util-macros

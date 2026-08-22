@@ -1,0 +1,23 @@
+id: enchant
+version: 2.8.16
+about: A generic interface into various existing spell checking libraries
+
+seperate-build-dir: false
+run-autogen: false
+
+pre-script: |-
+  # TODO: why we need this hack ?
+  mkdir -p %{install-root}%{libdir}/enchant-%{version:1}
+
+configure: >-
+  --disable-static
+  --enable-relocatable
+
+depends:
+  - glib
+
+build-depends:
+  - groff
+
+sources:
+  - https://github.com/rrthomas/enchant/releases/download/v%{version}/enchant-%{version}.tar.gz

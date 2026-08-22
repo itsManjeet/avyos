@@ -1,0 +1,17 @@
+id: kconfigwidgets
+about: KF5 kconfigwidgets
+merge: [external/kf5.inc]
+depends:
+  - kauth
+  - kcodecs
+  - kconfig
+  - kcolorscheme
+  - kconfig
+  - kwidgetsaddons
+  - kguiaddons
+  - ki18n
+  - kwidgetsaddons
+build-depends:
+  - extra-cmake-modules
+  - perl
+  - kdoctools

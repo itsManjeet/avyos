@@ -1,0 +1,19 @@
+id: imlib2
+version: 1.12.6
+about: Library for image file manipulation
+sources:
+  - https://downloads.sourceforge.net/enlightenment/imlib2-%{version}.tar.xz
+
+configure: >
+  --sysconfdir=%{sysconfdir}/imlib2
+  --x-libraries=%{libdir}
+  --enable-amd64
+
+depends:
+  - bzip2
+  - freetype
+  - giflib
+  - libjpeg-turbo
+  - libpng
+  - libwebp
+  - libxext

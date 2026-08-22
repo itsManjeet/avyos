@@ -1,0 +1,8 @@
+id: evtest
+version: 1.36
+about: Input device event monitor and query tool
+
+depends:
+  - glibc
+sources:
+  - https://gitlab.freedesktop.org/libevdev/evtest/-/archive/evtest-%{version}/evtest-evtest-%{version}.tar.gz

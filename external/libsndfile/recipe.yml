@@ -1,0 +1,21 @@
+id: libsndfile
+version: 1.2.2
+about:
+  A library of C routines for reading and writing files containing sampled audio
+  data
+
+pre-script: |-
+  sed -i '/typedef enum/,/bool ;/d' src/ALAC/alac_{en,de}coder.c
+
+build-type: autotools
+
+configure: >-
+  --disable-static
+
+depends:
+  - flac
+  - opus
+  - libvorbis
+  - alsa-lib
+sources:
+  - https://github.com/libsndfile/libsndfile/releases/download/%{version}/libsndfile-%{version}.tar.xz

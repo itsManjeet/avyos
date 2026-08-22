@@ -1,0 +1,9 @@
+id: kwindowsystem
+merge: [external/kf5.inc]
+about: Access to windowing system
+
+depends:
+  - qt
+  - kwayland
+build-depends:
+  - extra-cmake-modules

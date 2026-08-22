@@ -1,0 +1,16 @@
+id: python-pathspec
+version: 1.0.4
+about: Library for pattern matching of file paths
+
+build-type: python
+
+depends:
+  - python
+
+build-depends:
+  - python-wheel
+  - python-build
+  - python-installer
+
+sources:
+  - https://files.pythonhosted.org/packages/source/p/pathspec/pathspec-%{version}.tar.gz

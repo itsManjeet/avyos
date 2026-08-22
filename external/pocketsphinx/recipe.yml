@@ -1,0 +1,17 @@
+id: pocketsphinx
+version: 5.1.0
+about: Lightweight speech recognition engine
+
+pre-script: |-
+  sed -i '753d' src/gst-plugin/gstpocketsphinx.c
+post-script: |-
+  install -D -m644 LICENSE %{install-root}%{datadir}/licenses/pocketsphinx/LICENSE
+
+depends:
+  - gstreamer
+  - sphinxbase
+build-depends:
+  - python
+  - swig
+sources:
+  - http://downloads.sourceforge.net/project/cmusphinx/pocketsphinx/%{version}/pocketsphinx-%{version}.tar.gz

@@ -1,0 +1,20 @@
+id: clucene
+version: 2.3.3.4
+about: CLucene is a C++ version of Lucene, a high performance text search engine
+
+pre-script: |-
+  sed -i '/Misc.h/a #include <ctime>' src/core/CLucene/document/DateTools.cpp
+
+configure: >-
+  -D BUILD_CONTRIBS_LIB=ON
+
+depends:
+  - libboost
+
+build-depends:
+  - boost
+  - cmake
+
+sources:
+  - https://downloads.sourceforge.net/clucene/clucene-core-%{version}.tar.gz
+  - external/clucene/clucene-%{version}-contribs_lib-1.patch

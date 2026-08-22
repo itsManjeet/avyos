@@ -1,0 +1,53 @@
+id: xserver
+version: 21.1.22
+about: Core of the X Window system
+sources:
+  - https://xorg.freedesktop.org/releases/individual/xserver/xorg-server-%{version}.tar.xz
+
+configure: >
+  -D xephyr=true
+  -D glamor=true
+  -D dri2=true
+  -D dri3=true
+  -D drm=true
+  -D systemd_logind=true
+  -D suid_wrapper=true
+  -D xkb_dir=%{datadir}/X11/xkb
+  -D xkb_output_dir=%{localstatedir}/lib/xkb
+
+build-type: meson
+depends:
+  - dbus
+  - libdrm
+  - libepoxy
+  - libpciaccess
+  - libxfont2
+  - libxshmfence
+  - font-util
+  - libxcvt
+  - nettle
+  - pixman
+  - libtirpc
+  - xkeyboard-config
+  - libepoxy
+  - mesa
+  - libx11
+  - libxaw
+  - libxi
+  - libxkbfile
+  - libxmu
+  - libxrender
+  - libxres
+  - libxv
+  - xcb-util
+  - xcb-util-image
+  - xcb-util-keysyms
+  - xcb-util-renderutil
+  - xcb-util-wm
+  - xtrans
+
+build-depends:
+  - util-macros
+  - xorgproto
+  - meson
+  - ninja

@@ -1,0 +1,9 @@
+id: glibc-stage2
+merge:
+  - external/glibc.inc
+
+build-depends:
+  - gcc:stage1
+
+container: true
+release: 2

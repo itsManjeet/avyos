@@ -1,0 +1,17 @@
+id: tint2
+version: 17.1.3
+about: Basic, good-looking task manager for WMs
+
+configure: >-
+  -D ENABLE_TINT2CONF=1
+
+depends:
+  - gtk3
+  - imlib2
+  - startup-notification
+build-depends:
+  - cmake
+  - ninja
+
+sources:
+  - https://gitlab.com/o9000/tint2/-/archive/%{version}/tint2-%{version}.tar.gz

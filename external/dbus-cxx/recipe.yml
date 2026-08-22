@@ -1,0 +1,17 @@
+id: dbus-cxx
+version: 2.6.0
+about: A C++ wrapper for dbus
+
+configure: >-
+  -DENABLE_GLIBMM=ON
+
+depends:
+  - dbus
+  - glibmm
+  - libsigc++
+  - popt
+build-depends:
+  - cmake
+  - make
+sources:
+  - dbus-cxx-%{version}.tar.gz::https://github.com/dbus-cxx/dbus-cxx/archive/refs/tags/%{version}.tar.gz

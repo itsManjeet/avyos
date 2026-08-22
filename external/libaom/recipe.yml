@@ -1,0 +1,19 @@
+id: libaom
+version: 3.14.1
+about: A reference version of the Alliance for Open Media video codec
+
+pre-script: |-
+  sed -i 's/aom aom_static/aom/' cmake/aom_install.cmake
+
+configure: >-
+  -DBUILD_SHARED_LIBS=1
+  -DENABLE_DOCS=no
+
+depends:
+  - glibc
+
+build-depends:
+  - nasm
+
+sources:
+  - https://storage.googleapis.com/aom-releases/libaom-%{version}.tar.gz

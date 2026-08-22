@@ -1,0 +1,10 @@
+id: pam-config
+version: 0.0.1
+release: 2
+about: rlxos pam configuration module
+
+depends:
+  - glibc
+
+script: |
+  install -v -D -m 644 -t %{install-root}/etc/pam.d/ /external/pam/*

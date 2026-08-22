@@ -1,0 +1,34 @@
+id: openjdk-jre
+merge: [external/java.inc]
+about: open-source implementation of Oracle's Java Standard Edition platform [RUNTIME]
+
+depends:
+  - alsa-lib
+  - cpio
+  - cups
+  - unzip
+  - which
+  - libx11
+  - libxext
+  - libxrandr
+  - libxrender
+  - libxt
+  - libxtst
+  - zip
+  - giflib
+  - lcms
+  - libjpeg-turbo
+  - libpng
+build-depends:
+  - openjdk
+
+script: |-
+  for bin in java jfr jrunscript jwebserver keytool rmiregistry ; do
+    install -v -D -m 0755 %{libdir}/openjdk/bin/${bin} -t %{install-root}/%{libdir}/openjdk/bin/
+  done
+
+  mkdir -p %{install-root}/%{libdir}/openjdk/lib/
+  cp %{libdir}/openjdk/lib/*.so %{install-root}/%{libdir}/openjdk/lib/
+  cp -ar %{libdir}/openjdk/lib/{jfr,jrt-fs.jar,jspawnhelper,jvm.cfg,modules,psfont*,security,server,tzdb.dat} %{install-root}/%{libdir}/openjdk/lib/
+
+  install -v -D -m 0755 %{sysconfdir}/profile.d/openjdk.sh %{install-root}%{sysconfdir}/profile.d/openjdk.sh

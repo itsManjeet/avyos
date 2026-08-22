@@ -1,0 +1,12 @@
+id: sshfs
+version: 3.7.3
+about: FUSE client based on the SSH File Transfer Protocol
+
+depends:
+  - fuse
+  - glib
+  - openssh
+build-depends:
+  - meson
+sources:
+  - https://github.com/libfuse/sshfs/releases/download/%{id}-%{version}/sshfs-%{version}.tar.xz

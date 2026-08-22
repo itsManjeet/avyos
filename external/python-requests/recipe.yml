@@ -1,0 +1,17 @@
+id: python-requests
+version: 2.32.3
+about: Python HTTP for Humans
+
+depends:
+  - python-idna
+  - python-urllib3
+  - python-socks
+
+build-depends:
+  - python-setuptools
+
+sources:
+  - https://github.com/psf/requests/archive/v%{version}/requests-%{version}.tar.gz
+  - external/py-requests/cert.patch
+
+pre-script: |-

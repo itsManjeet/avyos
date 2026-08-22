@@ -1,0 +1,9 @@
+id: rpcsvc-proto
+version: 1.4.4
+about: The rcpsvc protocol files and headers
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/thkukuk/rpcsvc-proto/releases/download/v%{version}/rpcsvc-proto-%{version}.tar.xz

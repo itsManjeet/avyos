@@ -1,0 +1,24 @@
+id: libssh
+version: 1.11.0
+about: Library for accessing ssh client services through C libraries
+
+build-type: autotools
+
+pre-script: |-
+
+configure: >
+  --disable-docker-tests
+  --disable-static
+
+depends:
+  - openssl
+  - zlib
+
+build-depends:
+  - cmake
+  - openssh
+  - python
+
+sources:
+  - https://www.libssh2.org/download/libssh2-%{version}.tar.gz
+  - external/libssh2/libssh2-1.11.0-security_fixes-1.patch

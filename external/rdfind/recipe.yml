@@ -1,0 +1,11 @@
+id: rdfind
+version: 1.8.0
+about: Redundant data find - a program that finds duplicate files.
+
+depends:
+  - libgcc
+  - glibc
+  - nettle
+
+sources:
+  - https://rdfind.pauldreik.se/rdfind-%{version}.tar.gz

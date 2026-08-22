@@ -1,0 +1,21 @@
+id: exiv2
+version: 0.28.8
+about: Library and a command line utility for managing image and video metadata
+
+build-type: cmake
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DEXIV2_ENABLE_VIDEO=yes
+  -DEXIV2_ENABLE_WEREADY=yes
+  -DEXIV2_ENABLE_CURL=yes
+  -DEXIV2_BUILD_SAMPLES=no
+
+depends:
+  - glibc
+  - brotli
+  - inih
+
+build-depends:
+  - cmake
+sources:
+  - https://github.com/Exiv2/exiv2/archive/v%{version}/exiv2-%{version}.tar.gz

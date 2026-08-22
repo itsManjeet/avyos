@@ -1,0 +1,10 @@
+id: libnih
+version: 1.0.3
+about: Small library for C application development
+
+depends:
+  - dbus
+build-depends:
+  - expat
+sources:
+  - https://launchpad.net/libnih/%{version:2}/%{version}/+download/libnih-%{version}.tar.gz

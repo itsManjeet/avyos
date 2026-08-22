@@ -1,0 +1,10 @@
+id: libwnck
+version: 43.3
+about: The Window Navigator Construction Kit
+
+depends:
+  - gtk3
+  - gobject-introspection
+  - startup-notification
+sources:
+  - https://download.gnome.org/sources/libwnck/%{version:1}/libwnck-%{version}.tar.xz

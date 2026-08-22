@@ -1,0 +1,17 @@
+id: python-hatchling
+version: 1.28.0
+about: Extensible, standards compliant build backend for python modules
+
+depends:
+  - python
+  - python-editables
+  - python-pathspec
+  - python-pluggy
+  - python-trove-classifiers
+
+build-depends:
+  - python-build
+  - python-installer
+
+sources:
+  - https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-%{version}.tar.gz

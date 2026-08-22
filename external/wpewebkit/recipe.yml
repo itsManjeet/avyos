@@ -1,0 +1,53 @@
+id: wpewebkit
+version: 2.52.3
+about: Embeddable web content engine
+
+configure: >-
+  -D PORT=WPE
+  -D CMAKE_SKIP_RPATH=ON
+  -D USE_LIBBACKTRACE=OFF
+  -D USE_JPEGXL=ON
+  -D USE_LIBHYPHEN=OFF
+  -D USE_SYSTEM_SYSPROF_CAPTURE=NO
+  -D ENABLE_DOCUMENTATION=OFF
+  -D ENABLE_MINIBROWSER=OFF
+  -D ENABLE_SPEECH_SYNTHESIS=ON
+  -D ENABLE_INTROSPECTION=ON
+
+sources:
+  - https://wpewebkit.org/releases/wpewebkit-%{version}.tar.xz
+
+depends:
+  - at-spi2-core
+  - bubblewrap
+  - fontconfig
+  - freetype
+  - glib
+  - harfbuzz
+  - icu
+  - wpebackend-fdo
+  - libavif
+  - libdrm
+  - libepoxy
+  - libgcrypt
+  - libjpeg-turbo
+  - libjxl
+  - libpng
+  - libseccomp
+  - libsoup3
+  - libwebp
+  - flite
+  - woff2
+  - libwpe
+  - libxkbcommon
+  - libxml2
+  - libxslt
+  - gstreamer
+  - mesa
+  - xdg-dbus-proxy
+  - zlib
+  - unidef
+
+build-depends:
+  - ruby
+  - gobject-introspection

@@ -1,0 +1,9 @@
+id: mpg123
+version: 1.33.5
+about: Package contains a console-based MP3 player.
+
+depends:
+  - alsa-lib
+  - pulseaudio
+sources:
+  - https://downloads.sourceforge.net/mpg123/mpg123-%{version}.tar.bz2

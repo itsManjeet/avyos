@@ -1,0 +1,17 @@
+id: dqlite
+version: 1.18.6
+about: Distributed SQLite
+
+sources:
+  - dqlite-%{version}.tar.gz::https://github.com/canonical/dqlite/archive/v%{version}.tar.gz
+
+depends:
+  - libuv
+  - raft
+  - sqlite
+build-depends:
+  - readline
+  - tcl
+  - zlib
+
+# TODO: run autoreconf

@@ -1,0 +1,14 @@
+id: peek
+version: 1.5.1
+about: Simple screen recoder with an easy to use interface
+merge: [external/appimage.inc]
+build-depends:
+  - ffmpeg
+  - gtk3
+  - keybinder
+  - gstreamer
+  - imagemagick
+  - vala
+  - cmake
+sources:
+  - peek-%{version}.tar.gz::https://github.com/phw/peek/archive/refs/tags/%{version}.tar.gz

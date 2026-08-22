@@ -1,0 +1,9 @@
+id: ksshaskpass
+merge: [external/plasma.inc]
+about: Plasma ksshaskpass
+
+depends:
+  - kwallet
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

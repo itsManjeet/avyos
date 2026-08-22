@@ -1,0 +1,9 @@
+id: sound-theme-freedesktop
+version: 0.8
+about: Sound Theme Freedesktop package contains sound themes for the desktop
+
+depends:
+  - glibc
+
+sources:
+  - https://people.freedesktop.org/~mccann/dist/sound-theme-freedesktop-%{version}.tar.bz2

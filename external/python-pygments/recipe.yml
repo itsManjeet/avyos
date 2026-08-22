@@ -1,0 +1,13 @@
+id: python-pygments
+version: 2.20.0
+about: Python Syntax highlighter
+
+depends:
+  - python
+  - python-hatchling
+build-depends:
+  - python-build
+  - python-installer
+
+sources:
+  - https://github.com/pygments/pygments/archive/%{version}/python-pygments-%{version}.tar.gz

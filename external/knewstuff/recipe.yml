@@ -1,0 +1,12 @@
+id: knewstuff
+merge: [external/kf5.inc]
+about: KF5 knewstuff
+
+depends:
+  - attica
+  - kio
+  - kpackage
+  - syndication
+build-depends:
+  - extra-cmake-modules
+  - kirigami2

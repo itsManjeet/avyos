@@ -1,0 +1,28 @@
+id: ghostscript
+version: 10.07.0
+about: An interpreter for the PostScript language
+
+seperate-build-dir: false
+configure: >-
+  --disable-compile-inits
+
+post-script: |-
+  make soinstall DESTDIR=%{install-root}
+  install -vm644 base/*.h %{install-root}%{prefix}/include/ghostscript
+  ln -sfvn ghostscript %{install-root}%{prefix}/include/ps
+
+depends:
+  - cairo
+  - fontconfig
+  - gdk-pixbuf
+  - glib
+  - lcms
+  - cups
+  - libjpeg-turbo
+  - libpng
+  - libx11
+  - libxt
+  - mesa
+
+sources:
+  - https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10031/ghostscript-%{version}.tar.xz

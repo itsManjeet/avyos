@@ -1,0 +1,16 @@
+id: gtkmm
+version: 4.22.0
+about: A C++ interface to GTK+ 4
+
+variables:
+  run-autogen: false
+
+depends:
+  - atkmm
+  - cairomm
+  - gtk4
+  - pangomm
+  - vulkan-loader
+
+sources:
+  - https://download.gnome.org/sources/gtkmm/%{version:2}/gtkmm-%{version}.tar.xz

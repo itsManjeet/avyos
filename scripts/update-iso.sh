@@ -17,18 +17,18 @@ cleanup() {
 trap cleanup EXIT
 
 # Checkout installer image to temporary directory
-"$IGNITE" checkout -cache-path "$CACHE_PATH" -workspace-path "$WORKSPACE_PATH" installer/image.yml "$TMPDIR"
+"$IGNITE" checkout -cache-path "$CACHE_PATH" -workspace-path "$WORKSPACE_PATH" installer "$TMPDIR"
 
 # Create release directory if it does not exist
 install -d "$RELEASE_DIR"
 
-ISO_NAME="avyos-${VERSION}-${CHANNEL}-installer.iso"
+ISO_NAME="rlxos-${VERSION}-${CHANNEL}-installer.iso"
 
 # Copy installer ISO to release directory
-cp "$TMPDIR/avyos-${CHANNEL}-installer.iso" "$RELEASE_DIR/$ISO_NAME"
+cp "$TMPDIR/rlxos-${CHANNEL}-installer.iso" "$RELEASE_DIR/$ISO_NAME"
 
 # Generate zsync file
-(cd "$RELEASE_DIR" && zsyncmake -b 2048 -C -u "http://repo.avyos.dev/releases/${CHANNEL}/${ISO_NAME}" "$ISO_NAME")
+(cd "$RELEASE_DIR" && zsyncmake -b 2048 -C -u "http://repo.rlxos.org/releases/${CHANNEL}/${ISO_NAME}" "$ISO_NAME")
 
 printf 'Published installer ISO to %s\n' "$RELEASE_DIR"
-printf 'ISO URL: http://repo.avyos.dev/releases/%s/%s\n' "$CHANNEL" "$ISO_NAME"
+printf 'ISO URL: http://repo.rlxos.org/releases/%s/%s\n' "$CHANNEL" "$ISO_NAME"

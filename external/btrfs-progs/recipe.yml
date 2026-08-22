@@ -1,0 +1,18 @@
+id: btrfs-progs
+version: 6.19.1
+about: Package contains administration and debugging tools for the B-tree file system (btrfs)
+
+variables:
+  run-autogen: false
+  seperate-build-dir: false
+
+configure: >-
+  --disable-documentation
+
+depends:
+  - lzo
+  - e2fsprogs
+build-depends:
+  - python-setuptools
+sources:
+  - https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v%{version}.tar.xz

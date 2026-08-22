@@ -1,0 +1,13 @@
+id: xgamma
+version: 1.0.8
+about: Alter a monitor's gamma correction
+
+depends:
+  - libx11
+  - libxxf86vm
+build-depends:
+  - util-macros
+
+sources:
+  - https://www.x.org/pub/individual/app/xgamma-%{version}.tar.xz
+

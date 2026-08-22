@@ -1,0 +1,30 @@
+id: appstream
+version: 1.1.2
+about: Provides a standard for creating app stores across distributions
+
+build-dir: AppStream-%{version}
+
+configure: >
+  -D vapi=true
+  -D apidocs=false
+  -D bash-completion=false
+
+depends:
+  - curl
+  - librsvg
+  - libsoup3
+  - libfyaml
+  - libxmlb
+  - lmdb
+
+build-depends:
+  - gobject-introspection
+  - gperf
+  - gtk-doc
+  - itstool
+  - meson
+  - vala
+  - xmlto
+
+sources:
+  - https://www.freedesktop.org/software/appstream/releases/AppStream-%{version}.tar.xz

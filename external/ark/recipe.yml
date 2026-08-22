@@ -1,0 +1,18 @@
+id: ark
+version: 26.04.1
+about: KF5 archive tool
+
+configure: >
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - meta-kf5
+  - libarchive
+  - cpio
+  - unzip
+  - zip
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/ark-%{version}.tar.xz
+

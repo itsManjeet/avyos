@@ -1,0 +1,9 @@
+id: kdesu
+merge: [external/kf5.inc]
+about: KF5 kdesu
+
+depends:
+  - kconfig
+  - kpty
+build-depends:
+  - extra-cmake-modules

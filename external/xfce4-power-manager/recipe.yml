@@ -1,0 +1,13 @@
+id: xfce4-power-manager
+version: 4.20.0
+about: Xfce4 power management tool
+
+depends:
+  - libnotify
+  - upower
+  - xfce4-panel
+  - networkmanager
+  - polkit
+
+sources:
+  - https://archive.xfce.org/src/xfce/xfce4-power-manager/%{version:2}/xfce4-power-manager-%{version}.tar.bz2

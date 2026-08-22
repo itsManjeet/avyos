@@ -1,0 +1,12 @@
+id: libisofs
+version: 1.5.8.pl01
+about: A library to create an ISO-9660 filesystem with extensions like RockRidge or Joliet
+sources:
+  - https://files.libburnia-project.org/releases/libisofs-%{version}.tar.gz
+
+configure: >-
+  --disable-static
+
+depends:
+  - acl
+  - zlib

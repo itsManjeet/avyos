@@ -1,0 +1,16 @@
+id: lavalauncher
+version: 2.1.1
+about: A simple launcher panel for Wayland
+
+depends:
+  - cairo
+  - libxkbcommon
+  - wayland
+build-depends:
+  - wayland-protocols
+  - meson
+  - ninja
+  - scdoc
+
+sources:
+  - https://git.sr.ht/~leon_plickat/lavalauncher//archive/v%{version}.tar.gz

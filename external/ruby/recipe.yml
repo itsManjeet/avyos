@@ -1,0 +1,21 @@
+id: ruby
+version: 4.0.3
+about: Ruby development environment
+
+configure: >-
+  --enable-shared
+  --docdir=%{datadir}/doc/ruby
+
+install: DESTDIR=%{install-root}
+
+depends:
+  - glibc
+  - gdbm
+  - libgmp
+  - libffi
+  - libyaml
+  - openssl
+  - zlib
+
+sources:
+  - https://cache.ruby-lang.org/pub/ruby/%{version:2}/ruby-%{version}.tar.xz

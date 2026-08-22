@@ -1,0 +1,23 @@
+id: xfce4-session
+version: 4.20.4
+about: A session manager for Xfce
+
+pre-script: |-
+
+configure: >-
+  --disable-debug
+  --disable-legacy-sm
+
+depends:
+  - libwnck
+  - libxfce4ui
+  - desktop-file-utils
+  - shared-mime-info
+  - polkit-gnome
+  - xfdesktop
+  - xinit
+  - iceauth
+
+sources:
+  - https://archive.xfce.org/src/xfce/xfce4-session/%{version:2}/xfce4-session-%{version}.tar.bz2
+  - external/xfce4/source-system-xinitrc-scripts.patch

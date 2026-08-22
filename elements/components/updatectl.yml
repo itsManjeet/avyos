@@ -1,9 +1,0 @@
-id: updatectl
-version: 0.1.0
-about: avyos update control tool
-commit: 246765cfcd2cb4459e140fb51fbf84c45ca796ff
-depends:
-- components/systemd.yml
-
-sources:
-- updatectl-%{commit}.tar.gz::https://github.com/itsManjeet/updatectl/archive/%{commit}.tar.gz

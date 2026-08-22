@@ -1,0 +1,12 @@
+id: sdl
+version: 1.2.68
+about:
+  A cross-platform library designed to make it easy to write multimedia software,
+  such as games and emulators
+
+depends:
+  - sdl2
+  - glu
+
+sources:
+  - sdl-%{version}.tar.gz::https://github.com/libsdl-org/sdl12-compat/archive/refs/tags/release-%{version}.tar.gz

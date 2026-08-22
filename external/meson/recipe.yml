@@ -1,0 +1,11 @@
+id: meson
+version: 1.11.1
+about: Open source build system meant to be both extremely fast and as user friendly as possible
+
+depends:
+  - ninja
+build-depends:
+  - python-setuptools
+
+sources:
+  - https://github.com/mesonbuild/meson/releases/download/%{version}/meson-%{version}.tar.gz

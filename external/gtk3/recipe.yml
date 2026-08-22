@@ -1,0 +1,39 @@
+id: gtk3
+version: 3.24.52
+about: Libraries used for creating graphical user interfaces for applications
+
+configure: >
+  -D tests=false
+  -D examples=false
+  -D demos=false
+  -D colord=yes
+  -D tracker3=true
+  -D cloudproviders=false
+  -D broadway_backend=false
+  -D wayland_backend=true
+  -D x11_backend=true
+
+integration: |-
+  gtk-query-immodules-3.0 --update-cache
+
+sources:
+  - https://gitlab.gnome.org/GNOME/gtk/-/archive/%{version}/gtk-%{version}.tar.gz
+
+depends:
+  - at-spi2-core
+  - gdk-pixbuf
+  - libepoxy
+  - pango
+  - colord
+  - tracker
+  - desktop-file-utils
+  - libxkbcommon
+  - libxcomposite
+  - libxinerama
+  - libxcursor
+  - wayland-protocols
+
+build-depends:
+  - gtk-doc
+  - python-pip
+  - python-packaging

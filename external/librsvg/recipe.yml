@@ -1,0 +1,26 @@
+id: librsvg
+version: 2.62.1
+about: A library and tools used to manipulate, convert and view Scalable Vector Graphic
+sources:
+  - https://download.gnome.org/sources/librsvg/%{version:2}/librsvg-%{version}.tar.xz
+
+environ:
+    - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+    - CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+    - CARGO_HTTP_CAINFO=/etc/ssl/certs/ca-certificates.crt
+
+build-type: meson
+
+configure: >-
+  -D pixbuf-loader=enabled
+
+build-depends:
+  - gobject-introspection
+  - rustc
+  - ca-certificates
+  - cargo-c
+
+depends:
+  - cairo
+  - pango
+  - gdk-pixbuf

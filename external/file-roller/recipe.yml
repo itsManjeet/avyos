@@ -1,0 +1,23 @@
+id: file-roller
+version: 44.6
+about: An archive manager for GNOME with support for tar, bzip2, gzip, zip, jar, compress, lzop, zstd, and many other archive formats
+
+configure: >-
+  --buildtype=release
+  -D packagekit=false
+
+depends:
+  - gtk3
+  - dconf
+  - libportal
+  - cpio
+  - json-glib
+  - libarchive
+  - libnotify
+  - libadwaita
+
+build-depends:
+  - itstool
+
+sources:
+  - https://download.gnome.org/sources/file-roller/%{version:1}/file-roller-%{version}.tar.xz

@@ -1,0 +1,16 @@
+id: libjpeg-turbo
+version: 3.1.4.1
+about: |
+  A fork of the original IJG libjpeg which uses SIMD to accelerate baseline JPEG
+  compression and decompression. libjpeg is a library that implements JPEG image encoding,
+  decoding and transcoding.
+
+sources:
+  - https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/%{version}/libjpeg-turbo-%{version}.tar.gz
+build-depends:
+  - cmake
+  - yasm
+configure: >
+  -DENABLE_STATIC=FLASE
+  -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib
+  -DWITH_JPEG8=ON

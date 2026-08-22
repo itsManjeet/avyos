@@ -1,0 +1,9 @@
+id: python-psutil
+version: 5.9.6
+about: A cross platform process and system utilities module for python
+
+depends:
+- external/python
+- external/python-setuptools
+sources:
+- py-psutil-%{version}.tar.gz::https://github.com/giampaolo/psutil/archive/release-%{version}.tar.gz

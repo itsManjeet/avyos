@@ -1,0 +1,12 @@
+id: breeze
+about: Plasma breeze
+
+depends:
+  - frameworkintegration
+  - hicolor-icon-theme
+  - kdecoration
+  - kwayland
+build-depends:
+  - extra-cmake-modules
+  - kcmutils
+merge: [external/plasma.inc]

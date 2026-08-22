@@ -1,0 +1,9 @@
+id: xfce4-sensors-plugin
+version: 1.5.0
+about: Sensors plugin for the Xfce panel
+
+depends:
+- external/libnotify
+- external/lm-sensors
+
+merge: [external/xfce4-panel-plugin.inc]

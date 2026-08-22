@@ -1,0 +1,14 @@
+id: fcft
+version: 3.3.3
+about: Simple library for font loading and glyph rasterization
+
+sources:
+  - fcft-%{version}.tar.gz::https://codeberg.org/dnkl/%{id}/archive/%{version}.tar.gz
+
+depends:
+  - fontconfig
+  - harfbuzz
+  - pixman
+build-depends:
+  - tllist
+  - meson

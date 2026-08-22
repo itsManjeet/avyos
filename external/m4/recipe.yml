@@ -1,0 +1,10 @@
+id: m4
+version: 1.4.21
+release: 1
+about: macro processor
+
+sources:
+  - https://ftp.gnu.org/gnu/m4/m4-%{version}.tar.xz
+
+depends:
+  - glibc

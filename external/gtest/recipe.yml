@@ -1,0 +1,12 @@
+id: gtest
+version: 1.17.0
+about: Google Test C++ testing utility
+
+build-depends:
+  - cmake
+  - python
+sources:
+  - https://github.com/google/googletest/archive/refs/tags/release-%{version}.tar.gz
+
+configure: >-
+  -DBUILD_SHARED_LIBS=ON

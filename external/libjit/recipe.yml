@@ -1,0 +1,16 @@
+id: libjit
+version: 0.1.4
+about: Generic jit compiler library
+
+pre-script: |-
+  ./bootstrap
+
+depends:
+  - glibc
+
+build-depends:
+  - gawk
+  - bison
+  - flex
+sources:
+  - http://git.savannah.gnu.org/cgit/libjit.git/snapshot/libjit-%{version}.tar.gz

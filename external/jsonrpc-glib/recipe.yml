@@ -1,0 +1,12 @@
+id: jsonrpc-glib
+version: 3.44.2
+about: A JSON rpc library for glib
+
+depends:
+  - json-glib
+build-depends:
+  - gobject-introspection
+  - meson
+  - vala
+sources:
+  - https://gitlab.gnome.org/GNOME/jsonrpc-glib/-/archive/%{version}/jsonrpc-glib-%{version}.tar.gz

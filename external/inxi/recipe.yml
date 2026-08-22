@@ -1,0 +1,14 @@
+id: inxi
+version: 3.3.40.1
+about: Full featured cli system information tool
+
+script: |-
+  install -D -m 0755 inxi -t %{install-root}/%{bindir}
+
+depends:
+  - coreutils
+  - pciutils
+  - perl
+  - procps-ng
+sources:
+  - inxi-%{version}.tar.gz::https://github.com/smxi/inxi/archive/refs/tags/%{version}-1.tar.gz

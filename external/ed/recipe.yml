@@ -1,0 +1,10 @@
+id: ed
+version: 1.22.5
+about: A POSIX-compliant line-oriented text editor
+
+sources:
+  - https://ftp.gnu.org/gnu/ed/ed-%{version}.tar.lz
+
+depends:
+  - glibc
+  - bash

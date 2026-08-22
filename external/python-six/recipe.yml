@@ -1,0 +1,11 @@
+id: python-six
+version: 1.16.0
+about: Python 2 and 3 compatibility library
+release: 0
+depends:
+- external/python
+build-depends:
+- external/python-setuptools
+sources:
+- https://files.pythonhosted.org/packages/source/s/six/six-1.16.0.tar.gz
+script: python3 setup.py install --optimize=1 --root=%{install-root}

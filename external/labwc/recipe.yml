@@ -1,0 +1,21 @@
+
+id: labwc
+version: 0.20.0
+about: A Wayland window-stacking compositor
+
+sources:
+  - labwc-%{version}.tar.gz::https://github.com/labwc/labwc/archive/refs/tags/%{version}.tar.gz
+
+depends:
+  - libpng
+  - librsvg
+  - libsfdo
+  - pango
+  - seatd
+  - wayland
+  - wlroots
+
+build-depends:
+  - meson
+  - scdoc
+  - wayland-protocols

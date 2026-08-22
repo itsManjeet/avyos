@@ -1,0 +1,24 @@
+id: accountsservice
+version: 26.13.3
+about: D-Bus interface for user account query and manipulation
+
+
+configure: >
+  -D admin_group=adm
+
+depends:
+  - glib
+  - polkit
+  - shadow
+  - systemd
+  - libgcrypt
+
+build-depends:
+  - xmlto
+  - meson
+  - gobject-introspection
+  - vala
+  - python-packaging
+
+sources:
+  - https://gitlab.freedesktop.org/accountsservice/accountsservice/-/archive/%{version}/accountsservice-%{version}.tar.gz

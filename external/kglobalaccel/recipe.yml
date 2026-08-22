@@ -1,0 +1,10 @@
+id: kglobalaccel
+merge: [external/kf5.inc]
+about: KF5 kglobalaccel
+
+depends:
+  - kconfig
+  - kcrash
+  - kdbusaddons
+build-depends:
+  - extra-cmake-modules

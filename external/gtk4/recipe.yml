@@ -1,0 +1,39 @@
+id: gtk4
+version: 4.22.3
+about: Libraries used for creating graphical user interfaces for applications
+
+configure: >-
+  --buildtype=release
+  -D broadway-backend=true
+  -D build-examples=false
+  -D build-tests=false
+  -D colord=enabled
+  -D introspection=enabled
+  -D vulkan=enabled
+  -D tracker=enabled
+
+depends:
+  - fribidi
+  - gdk-pixbuf
+  - graphene
+  - iso-codes
+  - libepoxy
+  - cairo
+  - pango
+  - wayland
+  - ffmpeg
+  - librsvg
+  - colord
+  - gstreamer
+  - tracker
+  - libxkbcommon
+  - libxinerama
+  - sassc
+
+build-depends:
+  - gobject-introspection
+  - shaderc
+  - git
+
+sources:
+  - https://gitlab.gnome.org/GNOME/gtk/-/archive/%{version}/gtk-%{version}.tar.gz

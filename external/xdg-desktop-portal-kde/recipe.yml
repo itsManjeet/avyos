@@ -1,0 +1,12 @@
+id: xdg-desktop-portal-kde
+merge: [external/plasma.inc]
+about: Plasma xdg-desktop-portal-kde
+
+depends:
+  - kirigami2
+  - kwayland
+  - plasma-framework
+  - cups
+build-depends:
+  - extra-cmake-modules
+  - plasma-wayland-protocols

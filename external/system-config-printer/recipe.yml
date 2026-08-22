@@ -1,0 +1,35 @@
+id: system-config-printer
+version: 1.5.18
+about: A CUPS printer configuration tool and status applet
+
+build-type: autotools
+
+configure: >-
+  --with-systemdsystemunitdir=%{libdir}/systemd/system
+  --with-udevdir=%{libdir}/udev
+  --with-udev-rules
+  --with-cups-serverbin-dir=%{libdir}/cups
+
+post-script: |-
+  find %{install-root} -name "*.py" -exec python -mpy_compile {} +
+  find %{install-root} -name "*.py" -exec python -O -mpy_compile {} +
+
+  install -dm755 %{install-root}/usr/share/dbus-1/system.d
+  mv %{install-root}/etc/dbus-1/system.d/* %{install-root}/usr/share/dbus-1/system.d
+  rm -rf %{install-root}/etc/dbus-1
+
+  # Show settings on Xfce4 Settings Manager
+  sed -i '/^Categories=/ s/$/X-XFCE-SettingsDialog;X-XFCE-HardwareSettings;/' %{install-root}/%{datadir}/applications/%{id}.desktop
+
+depends:
+  - gtk3
+  - libnotify
+  - libusb
+  - libsecret
+  - python-cairo
+  - python-dbus
+  - python-cups
+  - python-curl
+
+sources:
+  - https://github.com/OpenPrinting/system-config-printer/releases/download/v%{version}/system-config-printer-%{version}.tar.xz

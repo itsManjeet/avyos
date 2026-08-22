@@ -1,0 +1,13 @@
+id: xdg-user-dirs-gtk
+version: 0.16
+about: Create user dirs and asks to relocalize them
+
+depends:
+  - gtk3
+  - xdg-user-dirs
+
+build-depends:
+  - intltool
+
+sources:
+  - https://download.gnome.org/sources/xdg-user-dirs-gtk/%{version}/xdg-user-dirs-gtk-%{version}.tar.xz

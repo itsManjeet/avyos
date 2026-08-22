@@ -1,0 +1,19 @@
+id: bsdiff
+version: 4.3
+about: bsdiff and bspatch are tools for building and applying patches to binary files
+
+script: |
+  # patch -p0 < /external/bsdiff/Makefile.patch
+  # patch -p3 < ../bspatch.patch
+
+  make
+  make PREFIX=%{install-root}/usr install
+
+depends:
+  - bzip2
+sources:
+  - https://distfiles.macports.org/bsdiff/bsdiff-%{version}.tar.gz
+  - https://security.freebsd.org/patches/SA-16:25/bspatch.patch
+
+
+# TODO: fix patch

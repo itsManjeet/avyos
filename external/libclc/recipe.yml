@@ -1,0 +1,14 @@
+id: libclc
+version: 22.1.3
+about: Library requirements of the OpenCL C programming language
+
+build-dir: llvm-project-%{version}.src/libclc
+
+build-depends:
+  - llvm
+  - cmake
+  - spirv-tools
+  - spirv-llvm-translator
+
+sources:
+  - https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/llvm-project-%{version}.src.tar.xz

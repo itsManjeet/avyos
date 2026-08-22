@@ -1,0 +1,8 @@
+id: numactl
+version: 2.0.19
+about: Simple NUMA policy support
+
+depends:
+  - glibc
+sources:
+  - https://github.com/numactl/numactl/releases/download/v%{version}/%{id}-%{version}.tar.gz

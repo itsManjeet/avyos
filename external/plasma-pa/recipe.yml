@@ -1,0 +1,11 @@
+id: plasma-pa
+merge: [external/plasma.inc]
+about: Plasma plasma-pa
+
+depends:
+  - perl
+  - plasma-workspace
+  - pulseaudio
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

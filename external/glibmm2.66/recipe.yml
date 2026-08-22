@@ -1,0 +1,13 @@
+id: glibmm2.66.7
+version: 2.66.7
+about: A set of C++ bindings for GLib
+
+variables:
+  run-autogen: false
+
+depends:
+  - glib
+  - libsigc++2.12
+sources:
+  - https://download.gnome.org/sources/glibmm/%{version:2}/glibmm-%{version}.tar.xz
+

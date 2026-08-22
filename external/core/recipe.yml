@@ -1,0 +1,30 @@
+id: core
+version: 2.0
+merge: [external/meta.inc]
+about: rlxos core components
+
+depends:
+  - busybox
+  - ca-certificates
+  - coreutils
+  - dbus
+  - diffutils
+  - findutils
+  - glibc
+  - grep
+  - gzip
+  - inetutils
+  - iproute2
+  - kmod
+  - less
+  - libgcc
+  - libtool
+  - locales
+  - openssh
+  - sed
+  - systemd
+  - tar
+  - util-linux
+  - which
+  - xz
+  - zstd

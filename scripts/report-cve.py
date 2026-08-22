@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate a CVE report for avyos component recipes.
+Generate a CVE report for rlxos external recipes.
 
-The script scans `elements/components/*.yml`, extracts package IDs and
+The script scans `external/*/recipe.yml`, extracts package IDs and
 versions, and queries OSV for known vulnerabilities affecting those versions.
 
 Usage:
@@ -26,7 +26,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from common import apply
 
 OSV_QUERY_API = "https://api.osv.dev/v1/query"
-USER_AGENT = "avyos-report-cve/1.0"
+USER_AGENT = "rlxos-report-cve/1.0"
 
 
 def parse_args() -> argparse.Namespace:

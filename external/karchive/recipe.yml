@@ -1,0 +1,8 @@
+id: karchive
+about: KF5 karchive
+
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules
+merge: [external/kf5.inc]

@@ -1,0 +1,23 @@
+id: openjdk-bin
+merge: [external/java.inc]
+about: Java programming language [Binary]
+
+depends:
+  - alsa-lib
+  - cups
+  - giflib
+  - libx11
+  - libxext
+  - libxrandr
+  - libxrender
+  - libxt
+  - libxtst
+
+sources:
+  - https://anduin.linuxfromscratch.org/BLFS/OpenJDK/OpenJDK-%{version}/OpenJDK-%{version}+9-x86_64-bin.tar.xz
+
+script: |
+  JAVA_HOME=/opt/openjdk-bin-%{version}
+  install -v -d -m 0755 %{install-root}/${JAVA_HOME}
+  mv * %{install-root}/${JAVA_HOME}
+  chown -R root:root %{install-root}/${JAVA_HOME}

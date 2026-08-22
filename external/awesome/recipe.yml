@@ -1,0 +1,48 @@
+id: awesome
+version: 4.3
+about: Highly configurable framework window manager
+
+environ:
+  - CFLAGS=-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -D_FORTIFY_SOURCE=2 --param=ssp-buffer-size=4 -fcommon
+  - AWESOME_IGNORE_LGI=1
+
+pre-script: |-  
+  sed -i '/add_dependencies.*check-examples/d' CMakeLists.txt
+
+configure: >-
+  -D SYSCONFDIR=%{sysconfdir}
+  -D CMAKE_POLICY_VERSION_MINIMUM=3.5
+
+post-script: |-
+  install -Dm0644 -t %{install-root}/%{datadir}/xsessions awesome.desktop
+
+sources:
+  - https://github.com/awesomeWM/awesome/releases/download/v%{version}/awesome-%{version}.tar.xz
+  - external/awesome/glib-2.86.0.patch
+
+depends:
+  - cairo
+  - dbus
+  - gdk-pixbuf
+  - imlib2
+  - libxdg-basedir
+  - libxkbcommon
+  - lua53
+  - lgi53
+  - pango
+  - startup-notification
+  - xcb-util-keysyms
+  - xcb-util-cursor
+  - xcb-util-image
+  - xcb-util-wm
+  - xcb-util-xrm
+  - xmessage
+  - xserver
+  - xinit
+  - xf86-video-fbdev
+  - xf86-input-libinput
+
+build-depends:
+  - cmake
+  - docbook-xsl
+  - imagemagick

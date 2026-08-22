@@ -1,0 +1,13 @@
+id: libice
+version: 1.1.2
+about: X11 inter-client exchange library
+
+sources:
+  - https://www.x.org/pub/individual/lib/libICE-%{version}.tar.xz
+
+depends:
+  - glibc
+  - xorgproto
+build-depends:
+  - util-macros
+  - xtrans

@@ -1,0 +1,26 @@
+id: grilo-plugins
+version: 0.3.18
+about: A collection of plugins for the Grilo framework
+
+configure: >-
+  -D enable-tracker=no
+
+depends:
+  - chromaprint
+  - gmime
+  - gom
+  - grilo
+  - gstreamer
+  - libdmapsharing
+  - libgdata
+  - libmediaart
+  - lua
+  - tracker
+  - tracker-miners
+build-depends:
+  - gperf
+  - meson
+  - itstool
+  - python-gobject
+sources:
+  - https://gitlab.gnome.org/GNOME/grilo-plugins/-/archive/grilo-plugins-%{version}/grilo-plugins-grilo-plugins-%{version}.tar.gz

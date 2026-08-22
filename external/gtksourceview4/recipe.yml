@@ -1,0 +1,12 @@
+id: gtksourceview4
+version: 4.8.4
+about: Libraries used for extending the GTK+ text functions to include syntax highlighting
+
+depends:
+  - gtk3
+  - libxml2
+build-depends:
+  - gobject-introspection
+
+sources:
+  - https://download.gnome.org/sources/gtksourceview/%{version:2}/gtksourceview-%{version}.tar.xz

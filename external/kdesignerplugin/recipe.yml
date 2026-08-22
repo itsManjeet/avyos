@@ -1,0 +1,13 @@
+id: kdesignerplugin
+merge: [external/kf5.inc]
+about: KF5 kdesignerplugin
+
+depends:
+  - kconfig
+  - kcoreaddons
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/portingAids/%{id}-%{version}.tar.xz

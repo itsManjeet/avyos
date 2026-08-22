@@ -1,0 +1,10 @@
+id: xf86-video-vmware
+version: 13.4.0
+about: X.Org Video Driver for VMware SVGA virtual video cards
+
+depends:
+  - glibc
+build-depends:
+  - xserver
+sources:
+  - https://www.x.org/pub/individual/driver/%{id}-%{version}.tar.xz

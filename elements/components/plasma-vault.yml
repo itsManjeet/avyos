@@ -1,9 +1,0 @@
-id: plasma-vault
-merge: [elements/include/plasma.inc]
-about: Plasma plasma-vault
-
-depends:
-  - components/networkmanager-qt.yml
-  - components/plasma-workspace.yml
-build-depends:
-  - components/extra-cmake-modules.yml

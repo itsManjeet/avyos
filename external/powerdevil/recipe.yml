@@ -1,0 +1,12 @@
+id: powerdevil
+merge: [external/plasma.inc]
+about: Plasma powerdevil
+
+depends:
+  - bluez-qt
+  - networkmanager
+  - plasma-workspace
+  - kinfocenter
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

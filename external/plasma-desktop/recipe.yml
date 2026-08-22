@@ -1,0 +1,22 @@
+id: plasma-desktop
+merge: [external/plasma.inc]
+about: Plasma plasma-desktop
+
+depends:
+  - baloo
+  - gawk
+  - kdelibs4support
+  - kmenuedit
+  - ibus
+  - polkit-kde-agent-1
+  - xdg-user-dirs
+  - kscreen
+  - plasma-nm
+  - powerdevil
+build-depends:
+  - extra-cmake-modules
+  - intltool
+  - kdesignerplugin
+  - kdoctools
+  - kinit
+  - xserver

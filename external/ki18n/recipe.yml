@@ -1,0 +1,9 @@
+id: ki18n
+merge: [external/kf5.inc]
+about: KF5 ki18n
+
+depends:
+  - qt
+  - iso-codes
+build-depends:
+  - extra-cmake-modules

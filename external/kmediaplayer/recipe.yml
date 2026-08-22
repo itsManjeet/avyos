@@ -1,0 +1,11 @@
+id: kmediaplayer
+merge: [external/kf5.inc]
+about: KF5 kmediaplayer
+
+depends:
+  - kparts
+build-depends:
+  - extra-cmake-modules
+
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/portingAids/%{id}-%{version}.tar.xz

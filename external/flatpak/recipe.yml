@@ -1,0 +1,43 @@
+id: flatpak
+version: 1.16.6
+about: Linux application sandboxing and distribution framework
+
+post-script: |
+  install -v -Dm0755 /dev/stdin %{install-root}%{sysconfdir}/profile.d/flatpak.sh << "EOF"
+  append_path "$XDG_DATA_HOME/flatpak/exports/bin"
+  append_path "$HOME/.local/share/flatpak/exports/bin"
+  append_path "/var/lib/flatpak/exports/bin"
+  XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
+  EOF
+
+  install -v -D -t %{install-root}%{sysconfdir}/flatpak/remotes.d flathub.flatpakrepo
+
+configure: >-
+  -D dbus_config_dir=%{datadir}/dbus-1/system.d
+  -D selinux_module=disabled
+  -D system_bubblewrap=bwrap
+  -D system_dbus_proxy=xdg-dbus-proxy
+  -D tests=false
+
+depends:
+  - appstream
+  - appstream-glib
+  - bubblewrap
+  - dbus
+  - glib
+  - json-glib
+  - libarchive
+  - ostree
+  - polkit
+  - python
+  - systemd
+  - python-parsing
+  - xdg-dbus-proxy
+  - libseccomp
+
+build-depends:
+  - gtk-doc
+
+sources:
+  - https://github.com/flatpak/flatpak/releases/download/%{version}/flatpak-%{version}.tar.xz
+  - https://dl.flathub.org/repo/flathub.flatpakrepo

@@ -1,0 +1,11 @@
+id: plasma-sdk
+merge: [external/plasma.inc]
+about: Plasma plasma-sdk
+
+depends:
+  - perl
+  - plasma-framework
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - ktexteditor

@@ -1,0 +1,28 @@
+id: xfce4-whiskermenu-plugin
+version: 2.10.1
+about: Menu for xfce4
+
+build-type: cmake
+
+pre-script: |-
+  mkdir -p /usr/local/include
+
+configure: >-
+  -D ENABLE_GTK_LAYER_SHELL=OFF
+
+depends:
+  - garcon
+  - gtk3
+  - at-spi2-core
+  - libxfce4util
+  - libxfce4ui
+  - xfce4-panel
+  - accountsservice
+build-depends:
+  - intltool
+  - cmake
+
+sources:
+  - https://archive.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/%{version:2}/xfce4-whiskermenu-plugin-%{version}.tar.xz
+
+# TODO: Enable GTK layer shell support

@@ -1,0 +1,12 @@
+id: libxcursor
+version: 1.2.3
+about: X cursor management library
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXcursor-%{version}.tar.xz
+
+depends:
+  - libxfixes
+  - libxrender
+build-depends:
+  - util-macros

@@ -1,0 +1,13 @@
+id: plasma-integration
+merge: [external/plasma.inc]
+about: Plasma plasma-integration
+
+depends:
+  - kio
+  - kwayland
+  - libxcursor
+  - noto
+  - perl
+build-depends:
+  - extra-cmake-modules
+  - breeze

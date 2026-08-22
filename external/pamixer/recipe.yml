@@ -1,0 +1,12 @@
+id: pamixer
+version: 1.6
+about: Pulseaudio commandline mixer like amixer
+
+depends:
+  - pulseaudio
+
+build-depends:
+  - cxxopts
+
+sources:
+  - pamixer-%{version}.tar.gz::https://github.com/cdemoulins/pamixer/archive/%{version}.tar.gz

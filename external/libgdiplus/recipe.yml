@@ -1,0 +1,22 @@
+id: libgdiplus
+version: 6.2
+about: Open Source Implementation of GDI+ API
+
+pre-script: |-
+  autoreconf -fiv
+
+configure: >-
+  --with-cairo=system
+
+depends:
+  - cairo
+  - freetype
+  - giflib
+  - glib
+  - libexif
+  - libjpeg-turbo
+  - libpng
+  - libtiff
+  - zlib
+sources:
+  - https://github.com/mono/libgdiplus/archive/%{version}/libgdiplus-%{version}.tar.gz

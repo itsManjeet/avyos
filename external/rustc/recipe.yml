@@ -1,0 +1,86 @@
+id: rustc
+merge: [external/rust.inc]
+about: Rust programming language is designed to be a safe, concurrent, practical language
+
+environ:
+  - LIBGIT2_NO_VENDOR=1
+  - LIBSSH2_SYS_USE_PKG_CONFIG=1
+  - LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+  - RUST_BACKTRACE=1
+
+pre-script: |-
+
+
+
+script: |-
+  cat > config.toml << EOF
+  change-id = 148671
+
+  [llvm]
+  link-shared = true
+  targets = "X86"
+
+  [build]
+  description = "rlxos GNU/Linux"
+  docs = false
+  locked-deps = true
+  tools = ["cargo", "clippy", "rustdoc", "rustfmt", "src"]
+  vendor = true
+
+  [install]
+  prefix = "%{prefix}"
+
+  [rust]
+  channel = "stable"
+
+  lto = "thin"
+  codegen-units = 1
+
+  llvm-bitcode-linker = false
+
+  [target.x86_64-unknown-linux-gnu]
+  llvm-config = "%{bindir}/llvm-config"
+
+  [target.i686-unknown-linux-gnu]
+  llvm-config = "%{bindir}/llvm-config"
+  EOF
+
+  export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+  export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+  export CARGO_HTTP_CAINFO=/etc/ssl/certs/ca-certificates.crt
+
+
+  DESTDIR=%{install-root} python3 ./x.py install
+
+  chown -R root:root %{install-root}
+
+  rm -rf %{install-root}/%{libdir}/rustlib/components
+  rm -rf %{install-root}/%{libdir}/rustlib/manifest-rustc
+  rm -rf %{install-root}/%{libdir}/rustlib/rust-installer-version
+  rm -rf %{install-root}/%{sysconfdir}
+
+
+depends:
+  - curl
+  - llvm-runtime
+  - llvm
+  - libgit2
+  - libssh
+
+build-depends:
+  - cmake
+  - gdb
+  - ninja
+  - ca-certificates
+
+sources:
+  - https://static.rust-lang.org/dist/rustc-%{version}-src.tar.xz
+  - external/rustc/0001-bootstrap-Change-libexec-dir.patch
+  - external/rustc/0002-bootstrap-Change-bash-completion-dir.patch
+  - external/rustc/0003-bootstrap-Workaround-for-system-stage0.patch
+  - external/rustc/0004-compiler-Change-LLVM-targets.patch
+  - external/rustc/0005-compiler-Use-ld.lld-by-default.patch
+  - external/rustc/0006-compiler-Use-target-specific-GCC-linkers.patch
+  - external/rustc/0007-compiler-Link-riscv64-musl-statically.patch
+  - external/rustc/0008-compiler-Swap-primary-and-secondary-lib-dirs.patch
+release: 2

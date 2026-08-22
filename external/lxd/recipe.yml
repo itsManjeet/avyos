@@ -1,0 +1,35 @@
+id: lxd
+version: 6.8
+about: Daemon based on liblxc offering a REST API to manage containers
+
+depends:
+  - dnsmasq
+  - dqlite
+  - iptables
+  - libuv
+  - lxc
+  - lxcfs
+  - squashfs-tools
+build-depends:
+  - go
+  - libseccomp
+  - systemd
+  - tcl
+sources:
+  - https://linuxcontainers.org/downloads/lxd/lxd-%{version}.tar.gz
+pre-script: |
+  mkdir bin
+  echo "verifing modules"
+  go mod verify
+
+  echo "modules verified"
+script: |-
+  for tool in lxd lxc lxd-p2c fuidshift ; do
+    go build -v -tags "libsqlite3" -o bin/ ./${tool}/...
+    install -v -p -D -m 0755 bin/${tool} %{install-root}/usr/bin/${tool}
+  done
+
+  #install -v -D -m 0644 /external/lxd/lxd.{service,socket} -t %{install-root}/usr/lib/systemd/system/
+  install -v -d -m 0700 %{install-root}/var/log/lxd
+
+# TODO: fix service file

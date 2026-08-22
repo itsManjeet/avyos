@@ -1,0 +1,9 @@
+id: fast_float
+version: 8.2.5
+about: C++ header files for efficient string to float operations
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/fastfloat/fast_float/archive/v%{version}/fast_float-%{version}.tar.gz

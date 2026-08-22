@@ -1,0 +1,17 @@
+id: elementary-xfce-icons
+version: 0.15.2
+about: Elementary icon theme with improved Xfce support
+
+script: |-
+  ./configure --prefix=/usr
+  make
+  make DESTDIR=%{install-root} install
+
+depends:
+  - adwaita-icon-theme
+build-depends:
+  - gtk3
+  - optipng
+sources:
+  - elementary-xfce-%{version}.tar.gz::https://github.com/shimmerproject/elementary-xfce/archive/refs/tags/v%{version}.tar.gz
+# TODO: build using builtin autotools

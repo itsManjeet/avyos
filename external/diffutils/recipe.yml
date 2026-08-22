@@ -1,0 +1,8 @@
+id: diffutils
+version: 3.12
+about: Programs that show the differences between files or directories
+sources:
+  - https://ftp.gnu.org/gnu/diffutils/diffutils-%{version}.tar.xz
+
+depends:
+  - bash

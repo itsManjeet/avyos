@@ -1,0 +1,8 @@
+id: perl-parse-yapp
+version: "1.21"
+about: Perl extension for generating and using LALR parsers
+
+depends:
+  - perl
+sources:
+  - https://www.cpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-%{version}.tar.gz

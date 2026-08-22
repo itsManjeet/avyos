@@ -1,0 +1,12 @@
+id: atkmm
+version: 2.36.3
+about: C++ interface for the ATK accessibility toolkit library
+
+variables:
+  run-autogen: false
+
+depends:
+  - at-spi2-core
+  - glibmm
+sources:
+  - https://download.gnome.org/sources/atkmm/%{version:2}/atkmm-%{version}.tar.xz

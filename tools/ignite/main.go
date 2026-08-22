@@ -15,10 +15,7 @@ var (
 	cachePath        string
 	arch             = "x86_64"
 	force            bool
-	dashboardPort    = 8080
-	dashboardHost    = "127.0.0.1"
-	dashboardAssets  string
-	serverURL        string
+	fetchJobs        = 4
 	workspacePath    string
 	workspacePush    bool
 	workspaceMessage string
@@ -27,9 +24,9 @@ var (
 	workspacePathSet    bool
 	workspacePushSet    bool
 	workspaceMessageSet bool
-	serverURLSet        bool
 	archSet             bool
 	forceSet            bool
+	fetchJobsSet        bool
 )
 
 func help(_ *Ignite, _ []string) int {
@@ -40,12 +37,9 @@ Commands:
   pull <recipe>             Pull artifact cache from artifact-url:
   cache-path <recipe>       Print the cache path of recipe
   checkout <recipe> <path>  Checkout artifact at <path>
-  fetch [recipes...]        Fetch sources and write checksum.lock
+  fetch [recipes...]        Fetch sources in parallel and write checksum.lock
   workspace <recipe>        Create an editable source workspace
   workspace-finish <recipe> Export patches or commit git workspace and close it
-  server                    Start the long-running Ignite server/API/dashboard
-  dashboard                 Start the web dashboard (alias of server UI)
-  client <command> [...]    Send commands to a running Ignite server
 
 Options:
   -project-path <path>      Specify project path
@@ -55,10 +49,7 @@ Options:
   -workspace-message <msg>  Commit message for git workspace-finish
   -arch <arch>              Specify target device architecture (default: x86_64)
   -force                    Force refetch/update for supported commands
-  -port <port>              Dashboard listen port (default: 8080)
-  -host <host>              Dashboard bind host (default: 127.0.0.1)
-  -assets <path>            Path to dashboard static assets
-  -server-url <url>         Ignite server URL for client mode
+  -jobs, -j <count>         Concurrent fetch downloads (default: 4)
 
 If local.conf.yml exists in the project root, Ignite reads defaults from it.
 Command-line options always override local.conf.yml.`)
@@ -66,15 +57,10 @@ Command-line options always override local.conf.yml.`)
 }
 
 func findRecipe(ignite *Ignite, component string) (Recipe, error) {
+	component = canonicalRecipeReference(component)
 	candidates := []string{component}
 	if !strings.HasSuffix(component, ".yml") {
 		candidates = append(candidates, component+".yml")
-	}
-	if !strings.HasPrefix(component, "components/") {
-		candidates = append(candidates, "components/"+component)
-		if !strings.HasSuffix(component, ".yml") {
-			candidates = append(candidates, "components/"+component+".yml")
-		}
 	}
 	for _, candidate := range candidates {
 		if recipe, ok := ignite.pool[candidate]; ok {
@@ -99,6 +85,7 @@ func findRecipe(ignite *Ignite, component string) (Recipe, error) {
 }
 
 func findElementRecipe(ignite *Ignite, component string) (Recipe, error) {
+	component = canonicalRecipeReference(component)
 	if recipe, ok := ignite.pool[component]; ok {
 		return recipe, nil
 	}
@@ -111,14 +98,19 @@ func pull(ignite *Ignite, args []string) int {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
-	artifactURL := configString(*ignite.config, "artifact-url", "https://repo.avyos.dev")
+	artifactURL := configString(*ignite.config, "artifact-url", "https://repo.rlxos.org")
 	for _, state := range states {
 		recipe := state.recipe
 		if ignite.WorkspaceAvailable(recipe) {
 			fmt.Println("SKIP workspace active for", state.id)
 			continue
 		}
-		if !state.cached {
+		cached, err := ignite.PackageCached(recipe)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return 1
+		}
+		if !cached {
 			if err := recipe.ResolveSources(*ignite.config, nil); err != nil {
 				fmt.Fprintln(os.Stderr, err)
 				return 1
@@ -160,12 +152,11 @@ func checkout(ignite *Ignite, args []string) int {
 		fmt.Fprintln(os.Stderr, "require exactly two arguments: <recipe> <path>")
 		return 1
 	}
-	recipe, ok := ignite.pool[args[0]]
-	if !ok {
-		fmt.Fprintf(os.Stderr, "no recipe found with id %q\n", args[0])
+	recipe, err := findRecipe(ignite, args[0])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
-	var err error
 	recipe.cache, err = ignite.Hash(recipe)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -190,15 +181,12 @@ func build(ignite *Ignite, args []string) int {
 		return 1
 	}
 	for _, state := range states {
-		if state.cached {
-			continue
-		}
 		recipe := state.recipe
 		if err := recipe.ResolveSources(*ignite.config, nil); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			return 1
 		}
-		fmt.Println("building", state.id)
+		fmt.Println("checking", state.id)
 		if err := ignite.Build(recipe); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			return 1
@@ -242,13 +230,14 @@ func status(ignite *Ignite, args []string) int {
 	}
 	totalCached := 0
 	for _, state := range states {
-		label := "WAITING  "
+		label := "NEEDS BUILD"
+		reason := state.reason
 		if ignite.WorkspaceAvailable(state.recipe) {
-			label = "WORKSPACE"
+			label = "WORKSPACE  "
 		} else if state.cached {
-			label = "CACHED   "
+			label = "CACHED     "
 		}
-		fmt.Printf("  %s  %s\n", label, state.id)
+		fmt.Printf("  %-11s  %-36s  %s\n", label, state.id, reason)
 		if state.cached {
 			totalCached++
 		}
@@ -329,43 +318,20 @@ func localString(config Config, key, fallback string) string {
 	return value
 }
 
-func dashboardAssetsPath() string {
-	assets := dashboardAssets
-	if assets == "" {
-		if exe, err := os.Executable(); err == nil {
-			exeDir := filepath.Dir(exe)
-			for _, candidate := range []string{
-				filepath.Join(exeDir, "dashboard"),
-				filepath.Join(exeDir, "..", "share", "ignite", "dashboard"),
-				filepath.Join(projectPath, "tools", "ignite", "dashboard"),
-			} {
-				if exists(filepath.Join(candidate, "index.html")) {
-					assets, _ = filepath.Abs(candidate)
-					break
-				}
-			}
-		}
-		if assets == "" {
-			assets = filepath.Join(projectPath, "tools", "ignite", "dashboard")
-		}
+func localInt(config Config, key string, fallback int) int {
+	value, err := config.String(key, "")
+	if err != nil || value == "" {
+		return fallback
 	}
-	return assets
-}
-
-func dashboard(ignite *Ignite, _ []string) int {
-	d := NewDashboard(ignite, dashboardPort, dashboardHost, projectPath, cachePath, arch, dashboardAssetsPath())
-	return d.Run()
-}
-
-func server(ignite *Ignite, _ []string) int {
-	d := NewDashboard(ignite, dashboardPort, dashboardHost, projectPath, cachePath, arch, dashboardAssetsPath())
-	d.EnableRecipeWatcher(true)
-	return d.Run()
+	parsed, err := strconv.Atoi(value)
+	if err != nil || parsed < 1 {
+		return fallback
+	}
+	return parsed
 }
 
 func main() {
 	var fn commandFunc
-	skipRecipeLoad := false
 	args := []string{}
 	var err error
 	projectPath, err = os.Getwd()
@@ -405,19 +371,13 @@ func main() {
 			case "-force":
 				force = true
 				forceSet = true
-			case "-port":
-				dashboardPort, err = strconv.Atoi(require(arg))
-				if err != nil {
-					fmt.Fprintln(os.Stderr, err)
+			case "-jobs", "-j":
+				fetchJobs, err = strconv.Atoi(require(arg))
+				if err != nil || fetchJobs < 1 {
+					fmt.Fprintln(os.Stderr, "-jobs must be a positive integer")
 					os.Exit(1)
 				}
-			case "-host":
-				dashboardHost = require(arg)
-			case "-assets":
-				dashboardAssets = require(arg)
-			case "-server-url":
-				serverURL = require(arg)
-				serverURLSet = true
+				fetchJobsSet = true
 			default:
 				fmt.Fprintln(os.Stderr, "Unknown option:", arg)
 				os.Exit(1)
@@ -446,13 +406,6 @@ func main() {
 				fn = workspace
 			case "workspace-finish":
 				fn = workspaceFinish
-			case "server":
-				fn = server
-			case "dashboard":
-				fn = dashboard
-			case "client":
-				fn = client
-				skipRecipeLoad = true
 			default:
 				fmt.Fprintln(os.Stderr, "Unknown option:", arg)
 				os.Exit(1)
@@ -482,18 +435,15 @@ func main() {
 		if !workspaceMessageSet {
 			workspaceMessage = localString(localConfig, "workspace-message", workspaceMessage)
 		}
-		if !serverURLSet {
-			serverURL = localString(localConfig, "server-url", serverURL)
-		}
 		if !forceSet {
 			force = localConfig.Bool("force", force)
+		}
+		if !fetchJobsSet {
+			fetchJobs = localInt(localConfig, "fetch-jobs", fetchJobs)
 		}
 	}
 	if cachePath == "" {
 		cachePath = filepath.Join(projectPath, "build", arch)
-	}
-	if serverURL == "" {
-		serverURL = fmt.Sprintf("http://%s:%d", dashboardHost, dashboardPort)
 	}
 	config := NewConfig()
 	if localLoaded {
@@ -504,14 +454,13 @@ func main() {
 		fmt.Fprintln(os.Stderr, "ERROR:", err)
 		os.Exit(1)
 	}
+	ignite.fetchJobs = fetchJobs
 	if fn == nil {
 		os.Exit(help(ignite, args))
 	}
-	if !skipRecipeLoad {
-		if err := ignite.Load(); err != nil {
-			fmt.Fprintln(os.Stderr, "ERROR:", err)
-			os.Exit(1)
-		}
+	if err := ignite.Load(); err != nil {
+		fmt.Fprintln(os.Stderr, "ERROR:", err)
+		os.Exit(1)
 	}
 	os.Exit(fn(ignite, args))
 }

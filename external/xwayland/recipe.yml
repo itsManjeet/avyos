@@ -1,0 +1,25 @@
+id: xwayland
+version: 24.1.11
+about: Xorg server running on top of the wayland server
+
+pre-script: |-
+  sed -i '/install_man/,$d' meson.build
+
+configure: >-
+  -D xkb_output_dir=%{localstatedir}/lib/xkb
+
+depends:
+  - libxcvt
+  - pixman
+  - font-util
+  - libxkbfile
+  - libxfont2
+  - libepoxy
+  - libtirpc
+  - mesa
+
+build-depends:
+  - wayland-protocols
+
+sources:
+  - https://www.x.org/pub/individual/xserver/xwayland-%{version}.tar.xz

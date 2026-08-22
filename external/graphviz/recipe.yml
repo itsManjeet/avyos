@@ -1,0 +1,20 @@
+id: graphviz
+version: 14.1.5
+about: Graph visualization software
+
+build-type: cmake
+
+depends:
+  - pango
+  - cairo
+  - fontconfig
+  - libwebp
+  - poppler
+  - librsvg
+
+build-depends:
+  - git
+  - cmake
+
+sources:
+  - https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2

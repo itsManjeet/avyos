@@ -1,0 +1,12 @@
+id: libXpm
+version: 3.5.19
+about: xorg library libXpm
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXpm-%{version}.tar.xz
+
+depends:
+  - libxext
+  - libxt
+build-depends:
+  - util-macros

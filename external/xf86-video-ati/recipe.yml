@@ -1,0 +1,13 @@
+id: xf86-video-ati
+version: 19.1.0
+about: X.Org Video Driver for ATI Radeon video cards including all chipsets ranging from R100 to the "Volcanic Islands" chipsets
+
+pre-script: |-
+
+depends:
+  - glibc
+build-depends:
+  - xserver
+sources:
+  - https://www.x.org/pub/individual/driver/%{id}-%{version}.tar.bz2
+  - external/xorg/xf86-video-ati-%{version}-upstream_fixes-1.patch

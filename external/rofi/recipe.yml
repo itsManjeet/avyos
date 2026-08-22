@@ -1,0 +1,33 @@
+id: rofi
+version: 2.0.0
+about: A window switcher, application launcher and dmenu replacement
+
+build-type: meson
+seperate-build-dir: false
+
+post-script: |-
+  mkdir -p %{install-root}%{datadir}/
+  cp -rf /external/rofi %{install-root}%{datadir}/
+
+  for script in Powermenu TabletMode ; do
+    install -vDm 0755 /external/scripts/$script -t %{install-root}%{bindir}/
+  done
+
+depends:
+  - librsvg
+  - libxdg-basedir
+  - startup-notification
+  - hicolor-icon-theme
+  - libxcb
+  - libxkbcommon
+  - xcb-util-cursor
+  - xcb-util-wm
+  - xcb-util-xrm
+  - gdk-pixbuf
+
+build-depends:
+  - check
+  - wayland-protocols
+
+sources:
+  - https://github.com/lbonn/rofi/releases/download/%{version}%2Bwayland3/rofi-%{version}+wayland3.tar.gz

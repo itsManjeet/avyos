@@ -1,0 +1,14 @@
+id: scrot
+version: 2.0.0
+about: Simple command-line screenshot utility for X
+
+depends:
+  - imlib2
+  - libbsd
+  - libxcomposite
+  - libxext
+  - libxfixes
+  - libxinerama
+
+sources:
+  - https://github.com/resurrecting-open-source-projects/scrot/releases/download/%{version}/scrot-%{version}.tar.gz

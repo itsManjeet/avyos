@@ -1,0 +1,13 @@
+id: physfs
+version: 3.2.0
+about: A library to provide abstract access to various archives
+
+configure: >-
+  -DPHYSFS_BUILD_TESTS=OFF
+
+depends:
+  - zlib
+build-depends:
+  - cmake
+sources:
+  - https://icculus.org/physfs/downloads/%{id}-%{version}.tar.bz2

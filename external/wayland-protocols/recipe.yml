@@ -1,0 +1,10 @@
+id: wayland-protocols
+version: 1.48
+about: Project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol
+
+build-depends:
+  - meson
+  - wayland
+
+sources:
+  - https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/%{version}/downloads/wayland-protocols-%{version}.tar.xz

@@ -1,0 +1,13 @@
+id: initramfs
+version: 0.3.0
+about: rlxos initramfs tool
+
+script: |-
+  install -v -D -m 644 /external/init.in.sh  %{install-root}%{datadir}/initramfs/init.in
+  install -v -D -m 755 /external/mkinitramfs.sh  %{install-root}/usr/bin/mkinitramfs
+
+depends:
+  - bash
+  - kmod
+  - cpio
+  - zstd

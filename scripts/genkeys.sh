@@ -10,7 +10,7 @@ fi
 
 SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-SIGN_KEYS_DIR="${REPO_ROOT}/files/sign-keys"
+SIGN_KEYS_DIR="${REPO_ROOT}/external/sign-keys"
 
 # Ensure output directory exists
 mkdir -p "$SIGN_KEYS_DIR"
@@ -21,7 +21,7 @@ for key in PK KEK DB VENDOR linux-module-cert; do
     if [ ! -f "${key_path}.key" ] || [ ! -f "${key_path}.crt" ]; then
         echo "Generating key and cert for ${key}..."
         openssl req -new -x509 -newkey rsa:2048 \
-            -subj "/CN=AVYOS ${key} key/" \
+            -subj "/CN=rlxos ${key} key/" \
             -keyout "${key_path}.key" \
             -out "${key_path}.crt" \
             -days 3650 -nodes -sha256

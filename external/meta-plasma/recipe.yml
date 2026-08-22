@@ -1,0 +1,51 @@
+id: plasma
+merge: [external/plasma.inc]
+about: Plasma desktop
+
+depends:
+  - bluedevil
+  - breeze
+  - breeze-gtk
+  - drkonqi
+  - kactivitymanagerd
+  - kde-cli-tools
+  - kde-gtk-config
+  - kdecoration
+  - kdeplasma-addons
+  - kgamma5
+  - khotkeys
+#  - external/kinfocenter
+  - external/kmenuedit
+  - external/kscreen
+  - external/kscreenlocker
+  - external/ksshaskpass
+  - external/ksystemstats
+  - external/kwallet-pam
+  - external/kwayland-integration
+  - external/kwin
+  - external/kwrited
+  - external/layer-shell-qt
+  - external/libkscreen
+  - external/libksysguard
+  # - external/milou
+  - external/oxygen
+  - external/plasma-browser-integration
+  - external/plasma-desktop
+  - external/plasma-disks
+  - external/plasma-firewall
+  - external/plasma-integration
+  - external/plasma-nm
+  - external/plasma-pa
+  - external/plasma-pam
+  - external/plasma-sdk
+  - external/plasma-systemmonitor
+  - external/plasma-vault
+  - external/plasma-workspace
+  - external/plasma-workspace-wallpapers
+  - external/polkit-kde-agent-1
+  - external/powerdevil
+  - external/sddm-kcm
+  - external/systemsettings
+
+script: |-
+  mkdir -p %{install-root}/%{prefix}

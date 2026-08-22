@@ -1,0 +1,8 @@
+id: syndication
+merge: [external/kf5.inc]
+about: KF5 syndication
+
+depends:
+  - kcodecs
+build-depends:
+  - extra-cmake-modules

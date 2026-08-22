@@ -1,0 +1,15 @@
+id: libx11
+version: 1.8.13
+about: X11 client-side library
+
+depends:
+  - glibc
+  - libxcb
+  - xorgproto
+
+build-depends:
+  - util-macros
+  - xtrans
+
+sources:
+  - https://www.x.org/archive//individual/lib/libX11-%{version}.tar.xz

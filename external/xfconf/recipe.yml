@@ -1,0 +1,11 @@
+id: xfconf
+version: 4.20.0
+about: Xfce configuration storage system
+
+depends:
+  - libxfce4util
+build-depends:
+  - vala
+  - python-packaging
+sources:
+  - https://archive.xfce.org/src/xfce/xfconf/%{version:2}/xfconf-%{version}.tar.bz2

@@ -1,0 +1,9 @@
+id: xtrans
+version: 1.6.0
+about: xorg library xtrans
+
+depends:
+  - glibc
+
+sources:
+  - https://www.x.org/pub/individual/lib/xtrans-%{version}.tar.xz

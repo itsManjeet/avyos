@@ -1,0 +1,10 @@
+id: kdecoration
+about: Plasma kdecoration
+
+depends:
+  - kcoreaddons
+  - ki18n
+build-depends:
+  - extra-cmake-modules
+
+merge: [external/plasma.inc]

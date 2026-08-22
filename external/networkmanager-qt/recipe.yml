@@ -1,0 +1,9 @@
+id: networkmanager-qt
+merge: [external/kf5.inc]
+about: KF5 networkmanager-qt
+
+depends:
+  - qt
+  - networkmanager
+build-depends:
+  - extra-cmake-modules

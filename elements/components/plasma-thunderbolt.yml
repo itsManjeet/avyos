@@ -1,8 +1,0 @@
-id: plasma-thunderbolt
-merge: [elements/include/plasma.inc]
-about: Plasma plasma-thunderbolt
-
-depends:
-  - components/systemsettings.yml
-build-depends:
-  - components/extra-cmake-modules.yml

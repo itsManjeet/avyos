@@ -1,0 +1,12 @@
+id: libkscreen
+merge: [external/plasma.inc]
+about: Plasma libkscreen
+
+depends:
+  - kconfig
+  - kwayland
+  - layer-shell-qt
+  - qt
+build-depends:
+  - extra-cmake-modules
+  - plasma-wayland-protocols

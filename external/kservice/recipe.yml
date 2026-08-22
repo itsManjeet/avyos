@@ -1,0 +1,12 @@
+id: kservice
+merge: [external/kf5.inc]
+about: KF5 kservice
+
+depends:
+  - kconfig
+  - kcoreaddons
+  - kdbusaddons
+  - ki18n
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

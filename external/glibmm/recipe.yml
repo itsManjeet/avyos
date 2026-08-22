@@ -1,0 +1,12 @@
+id: glibmm
+version: 2.88.0
+about: A set of C++ bindings for GLib
+
+variables:
+  run-autogen: false
+
+depends:
+  - glib
+  - libsigc++
+sources:
+  - https://download.gnome.org/sources/glibmm/%{version:2}/glibmm-%{version}.tar.xz

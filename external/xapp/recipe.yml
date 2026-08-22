@@ -1,0 +1,17 @@
+id: xapp
+version: 3.2.2
+about: Common library for X-Apps project
+
+build-type: meson
+configure: >-
+  -D app-lib-only=true
+
+depends:
+  - gtk3
+build-depends:
+  - gobject-introspection
+  - python-gobject
+  - vala
+
+sources:
+  - https://github.com/linuxmint/xapp/archive/refs/tags/master.mint21.tar.gz

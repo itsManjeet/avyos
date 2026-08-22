@@ -1,0 +1,10 @@
+id: kded
+merge: [external/kf5.inc]
+about: KF5 kded
+
+depends:
+  - kcrash
+  - kservice
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

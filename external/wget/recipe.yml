@@ -1,0 +1,16 @@
+id: wget
+version: 1.25.0
+about: Network utility to retrieve files from the Web
+
+configure: >
+  --with-ssl=openssl
+
+sources:
+  - https://ftp.gnu.org/gnu/wget/wget-%{version}.tar.gz
+
+depends:
+  - glibc
+  - openssl
+  - util-linux
+  - libidn2
+  - pcre2

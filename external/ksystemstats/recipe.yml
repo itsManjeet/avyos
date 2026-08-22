@@ -1,0 +1,9 @@
+id: ksystemstats
+merge: [external/plasma.inc]
+about: Plasma ksystemstats
+
+depends:
+  - libksysguard
+  - networkmanager-qt
+build-depends:
+  - extra-cmake-modules

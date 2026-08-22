@@ -1,0 +1,40 @@
+id: metacity
+version: 3.58.1
+about: Window manager of GNOME Flashback
+
+build-type: autotools
+
+configure: >-
+  --disable-debug
+  --enable-compiler-warnings
+  --disable-vulkan
+
+depends:
+  - at-spi2-core
+  - cairo
+  - gdk-pixbuf
+  - gsettings-desktop-schemas
+  - gtk3
+  - libcanberra
+  - libgtop
+  - libice
+  - libsm
+  - libx11
+  - libxcomposite
+  - libxcursor
+  - libxdamage
+  - libxext
+  - libxfixes
+  - libxinerama
+  - libxrandr
+  - libxrender
+  - libxres
+  - libxpresent
+  - pango
+  - startup-notification
+  - zenity
+  - libgtop
+
+
+sources:
+  - https://gitlab.gnome.org/GNOME/metacity/-/archive/%{version}/metacity-%{version}.tar.gz

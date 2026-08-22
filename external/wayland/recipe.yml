@@ -1,0 +1,19 @@
+id: wayland
+version: 1.25.0
+about: Computer display server protocol
+
+depends:
+  - libxml2
+  - expat
+  - glibc
+  - libffi
+
+build-depends:
+  - meson
+
+sources:
+  - https://gitlab.freedesktop.org/wayland/wayland/-/releases/%{version}/downloads/wayland-%{version}.tar.xz
+
+configure: >
+  -D documentation=false
+  --buildtype=release

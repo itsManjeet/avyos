@@ -1,0 +1,31 @@
+id: pulseaudio
+version: 17.0
+about: A sound system for POSIX OSes
+
+configure: >-
+  --buildtype=release
+  -D consolekit=disabled
+  -D elogind=disabled
+  -D database=gdbm
+  -D pulsedsp-location='%{libdir}/pulseaudio'
+  -D udevrulesdir=%{libdir}/udev/rules.d
+  -D tcpwrap=disabled
+  -D bluez5=disabled
+  -D tests=false
+  -D doxygen=false
+
+post-script: |-
+  rm -fv %{install-root}%{sysconfdir}/dbus-1/system.d/pulseaudio-system.conf
+
+depends:
+  - libsndfile
+  - alsa-lib
+  - dbus
+  - glib
+  - libcap
+  - libxtst
+  - libice
+  - libsm
+  - perl-xml-parser
+sources:
+  - https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-%{version}.tar.xz

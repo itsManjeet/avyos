@@ -1,0 +1,34 @@
+id: dracut
+version: 111
+about: An event driven initramfs infrastructure
+
+variables:
+  seperate-build-dir: false
+  run-autogen: false
+
+configure: >-
+  --disable-documentation
+
+depends:
+  - bash
+  - coreutils
+  - binutils
+  - cpio
+  - findutils
+  - grep
+  - gzip
+  - kmod
+  - pkg-config
+  - procps-ng
+  - sed
+  - systemd
+  - util-linux
+  - xz
+  - zstd
+  - lsof
+
+build-depends:
+  - rustc
+
+sources:
+  - dracut-%{version}.tar.gz::https://github.com/dracut-ng/dracut-ng/archive/refs/tags/%{version}.tar.gz

@@ -1,0 +1,13 @@
+id: python-editables
+version: 0.5
+about: Editable wheels
+
+depends:
+  - python
+
+build-depends:
+  - python-build
+  - python-installer
+
+sources:
+  - https://files.pythonhosted.org/packages/source/e/editables/editables-%{version}.tar.gz

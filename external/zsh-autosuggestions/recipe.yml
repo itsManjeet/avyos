@@ -1,0 +1,12 @@
+id: zsh-autosuggestions
+version: 0.7.1
+
+depends:
+  - glibc
+
+script: |-
+  mkdir -p %{install-root}%{datadir}/ohmyzsh/custom/plugins/zsh-autosuggestions
+  cp -r *  %{install-root}%{datadir}/ohmyzsh/custom/plugins/zsh-autosuggestions/
+
+sources:
+  - zsh-autosuggestions-%{version}.tar.gz::https://github.com/zsh-users/zsh-autosuggestions/archive/refs/tags/v%{version}.tar.gz

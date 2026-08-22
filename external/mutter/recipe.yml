@@ -1,0 +1,25 @@
+id: mutter
+version: 50.1
+about: The window manager for GNOME
+
+configure: >-
+  -Dtests=false
+
+depends:
+  - gnome-settings-daemon
+  - graphene
+  - libxkbcommon
+  - pipewire
+  - zenity
+  - desktop-file-utils
+  - startup-notification
+  - libinput
+  - wayland
+  - xserver
+  - xwayland
+  - gtk3
+build-depends:
+  - sysprof
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/mutter/%{version:2}/mutter-%{version}.tar.xz

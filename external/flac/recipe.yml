@@ -1,0 +1,14 @@
+id: flac
+version: 1.5.0
+about: An audio CODEC similar to MP3, but lossless
+
+build-type: autotools
+configure: >-
+  --disable-thorough-tests
+
+depends:
+  - glibc
+
+sources:
+  - https://downloads.xiph.org/releases/flac/flac-%{version}.tar.xz
+

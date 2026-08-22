@@ -1,0 +1,10 @@
+id: qemu
+version: 0.1.0
+about: rlxos QEMU Virtualization Kit
+include:
+  - qemu
+  - bridge-utils
+  - libvirt
+  - virt-manager
+
+merge: [external/extension.inc]

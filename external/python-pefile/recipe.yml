@@ -1,0 +1,17 @@
+id: python-pefile
+version: 2024.8.26
+about: Python module for reading and working with PE files
+
+build-type: python
+
+depends:
+  - python
+
+build-depends:
+  - python-build
+  - python-installer
+  - python-setuptools
+  - python-wheel
+
+sources:
+  - https://files.pythonhosted.org/packages/source/p/pefile/pefile-%{version}.tar.gz

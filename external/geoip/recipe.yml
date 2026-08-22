@@ -1,0 +1,18 @@
+id: geoip
+version: 1.6.12
+about: Non-DNS IP-to-country resolver C library & utils
+
+pre-script: |-
+  ./bootstrap
+
+configure: >-
+  --sysconfdir=%{sysconfdir}/geoip
+
+depends:
+  - geoip-database
+  - zlib
+build-depends:
+  - autoconf
+  - libtool
+sources:
+  - geoip-%{version}.tar.gz::https://github.com/maxmind/geoip-api-c/archive/v%{version}.tar.gz

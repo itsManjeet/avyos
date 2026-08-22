@@ -1,0 +1,32 @@
+id: openldap
+version: 2.6.13
+about: Open source implementation of the Lightweight Directory Access Protocol
+
+configure: >-
+  --disable-static
+  --enable-versioning=yes
+  --disable-debug
+  --with-tls=openssl
+  --with-cyrus-sasl
+  --enable-dynamic
+  --enable-crypt
+  --enable-spasswd
+  --enable-slapd
+  --enable-modules
+  --enable-rlookups
+  --enable-backends=mod
+  --disable-ndb
+  --disable-sql
+  --disable-wt
+  --enable-overlays=mod
+
+compile: depend all
+
+depends:
+  - cyrus-sasl
+build-depends:
+  - groff
+sources:
+  - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-%{version}.tgz
+
+# TODO: fix post-script and configurations

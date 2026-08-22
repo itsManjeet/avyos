@@ -1,0 +1,16 @@
+id: libavif
+version: 1.4.1
+about: A library used for encoding and decoding AVIF files
+
+configure: >-
+  -DAVIF_CODEC_AOM=ON
+  -DAVIF_BUILD_GDK_PIXBUF=ON
+  -DAVIF_LIBYUV=OFF
+
+depends:
+  - libaom
+  - gdk-pixbuf
+
+sources:
+  - https://github.com/AOMediaCodec/libavif/archive/v%{version}/libavif-%{version}.tar.gz
+

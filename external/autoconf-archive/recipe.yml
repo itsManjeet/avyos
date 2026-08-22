@@ -1,0 +1,8 @@
+id: autoconf-archive
+version: 2024.10.16
+about: A collection of freely re-usable Autoconf macros
+
+depends:
+  - autoconf
+sources:
+  - https://ftpmirror.gnu.org/autoconf-archive/autoconf-archive-%{version}.tar.xz

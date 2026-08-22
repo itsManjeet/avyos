@@ -1,0 +1,22 @@
+id: swayidle
+version: 1.9.0
+about: Idle management daemon for Wayland
+
+configure: >-
+  -D logind=enabled
+  -D man-pages=enabled
+  -D logind-provider=systemd
+
+post-script: |-
+  install -D -m 0644 LICENSE -t %{install-root}/%{datadir}/licenses/%{id}
+
+depends:
+  - systemd
+  - wayland
+
+build-depends:
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/swaywm/swayidle/releases/download/v%{version}/swayidle-%{version}.tar.gz

@@ -1,0 +1,33 @@
+id: gnome-settings-daemon
+version: 50.1
+about: Daemon responsible for setting various parameters of a GNOME Session
+
+configure: >-
+  --buildtype=release
+  -Dwwan=false
+
+depends:
+  - alsa-lib
+  - colord
+  - fontconfig
+  - gcr
+  - geoclue
+  - geocode-glib
+  - gnome-desktop
+  - lcms
+  - ibus
+  - libcanberra
+  - libgweather
+  - libnotify
+  - librsvg
+  - libwacom
+  - pulseaudio
+  - systemd
+  - upower
+  - alsa-lib
+  - cups
+  - networkmanager
+  - nss
+  - wayland
+sources:
+  - https://download.gnome.org/sources/gnome-settings-daemon/%{version:2}/gnome-settings-daemon-%{version}.tar.xz

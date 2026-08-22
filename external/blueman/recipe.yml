@@ -1,0 +1,23 @@
+id: blueman
+version: 2.4.6
+about: GTK+ Bluetooth Manager
+
+build-type: autotools
+configure: >
+  --libexecdir=%{libdir}/blueman
+  --disable-schemas-compile
+  --with-dhcp-config='%{sysconfdir}/dhcpd.conf'
+
+depends:
+  - bluez
+  - gtk3
+  - python-cairo
+  - python-gobject
+  - intltool
+  - iproute2
+
+build-depends:
+  - python-cython
+
+sources:
+  - https://github.com/blueman-project/blueman/releases/download/%{version}/blueman-%{version}.tar.xz

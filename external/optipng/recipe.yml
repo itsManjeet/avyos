@@ -1,0 +1,15 @@
+id: optipng
+version: 7.9.1
+about: Compresses PNG files to smaller size without losing any information
+
+script: |-
+  ./configure --prefix=%{prefix} --with-system-libs
+  make ${MAKEFLAGS}
+  make ${MAKEFLAGS} install DESTDIR=%{install-root}
+
+depends:
+  - glibc
+  - libpng
+  - zlib
+sources:
+  - https://downloads.sourceforge.net/sourceforge/optipng/optipng-%{version}.tar.gz

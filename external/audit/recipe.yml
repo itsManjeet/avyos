@@ -1,0 +1,25 @@
+id: audit
+version: 4.1.4
+about: Userspace components of the audit framework
+
+configure: >
+  --libexecdir=%{libdir}/audit
+  --enable-gssapi-krb5=yes 
+  --enable-systemd=yes
+  --with-libcap-ng=yes
+
+depends:
+  - glibc
+  - krb5
+  - libcap-ng
+  - libldap
+build-depends:
+  - openldap
+  - kernel-headers
+  - python
+  - swig
+sources:
+  - https://people.redhat.com/sgrubb/audit/audit-%{version}.tar.gz
+
+# TODO: Learn More about it
+# TODO: check config path patch

@@ -1,0 +1,14 @@
+id: nghttp2
+version: 1.69.0
+about: An implementation of HTTP/2 and its header compression algorithm, HPACK
+
+build-type: autotools
+
+configure: >-
+  --enable-lib-only
+
+depends:
+  - libxml2
+
+sources:
+  - https://github.com/nghttp2/nghttp2/releases/download/v%{version}/nghttp2-%{version}.tar.xz

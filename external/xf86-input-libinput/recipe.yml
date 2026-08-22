@@ -1,0 +1,16 @@
+id: xf86-input-libinput
+version: 1.4.0
+about: Generic input driver for X.Org server based on libinput
+
+depends:
+  - glibc
+  - libinput
+
+build-depends:
+  - libx11
+  - libxi
+  - xserver
+  - xorgproto
+
+sources:
+  - https://xorg.freedesktop.org/releases/individual/driver/xf86-input-libinput-%{version}.tar.xz

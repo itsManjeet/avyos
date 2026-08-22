@@ -1,0 +1,11 @@
+id: libarchive
+version: 3.8.7
+about: Library provides a single interface for reading/writing various compression formats
+
+build-type: autotools
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/libarchive/libarchive/releases/download/v%{version}/libarchive-%{version}.tar.xz

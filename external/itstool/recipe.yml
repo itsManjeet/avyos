@@ -1,0 +1,25 @@
+id: itstool
+version: 2.0.7
+about:
+  Extracts messages from XML files and outputs PO template files, then merges
+  translations from MO files to create translated XML files
+
+environ:
+  - PYTHON=/usr/bin/python3
+
+build-type: autotools
+
+run-autogen: false
+
+pre-script: |-
+
+  ./autogen.sh --prefix=%{prefix}
+
+sources:
+  - https://github.com/itstool/itstool/archive/%{version}/itstool-%{version}.tar.gz
+  - external/itstools/itstool-2.0.7-lxml-1.patch
+
+depends:
+  - docbook-xml
+  - python-lxml
+  - python

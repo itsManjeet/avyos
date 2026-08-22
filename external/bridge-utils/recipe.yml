@@ -1,0 +1,17 @@
+id: bridge-utils
+version: 1.7.1
+about: Utility needed to create and manage bridge devices
+
+pre-script: |-
+  autoconf
+
+seperate-build-dir: false
+kernel:
+  - NET
+  - BRIDGE
+
+depends:
+  - glibc
+
+sources:
+  - https://www.kernel.org/pub/linux/utils/net/bridge-utils/bridge-utils-%{version}.tar.xz

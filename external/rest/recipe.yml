@@ -1,0 +1,17 @@
+id: rest
+version: 0.10.2
+about: A library that was designed to make it easier to access web services
+
+configure: >-
+  -D gtk_doc=false
+  -D examples=false
+  -D tests=false
+
+depends:
+  - libsoup3
+  - gtksourceview5
+  - libadwaita
+build-depends:
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/rest/%{version:2}/rest-%{version}.tar.xz

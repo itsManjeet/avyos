@@ -1,0 +1,19 @@
+id: imagemagick
+version: 7.1.2-23
+about: An image viewing/manipulation program
+sources:
+  - imagemagick-%{version}.tar.gz::https://github.com/ImageMagick/ImageMagick/archive/refs/tags/%{version}.tar.gz
+
+depends:
+  - fontconfig
+  - lcms
+  - libpng
+  - librsvg
+  - libwebp
+  - libxml2
+  - openjpeg
+  - pango
+
+configure: >
+  --sysconfdir=%{sysconfdir}
+  --enable-shared

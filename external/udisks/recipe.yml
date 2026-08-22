@@ -1,0 +1,20 @@
+id: udisks
+version: 2.11.1
+about: A daemon, tools and libraries to access and manipulate disks and storage devices
+
+configure: >-
+  --disable-static
+  --enable-available-modules
+
+depends:
+  - libatasmart
+  - libblockdev
+  - libgudev
+  - libxslt
+  - polkit
+build-depends:
+  - gobject-introspection
+  - python-packaging
+sources:
+  - https://github.com/storaged-project/udisks/releases/download/udisks-%{version}/udisks-%{version}.tar.bz2
+# TODO: check update url

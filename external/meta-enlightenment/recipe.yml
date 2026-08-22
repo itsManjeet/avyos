@@ -1,0 +1,9 @@
+id: meta-enlightenment
+version: 0.26.0
+about: Enlightenment group
+
+depends:
+  - enlightenment
+  - terminology
+
+merge: [external/meta.inc]

@@ -1,0 +1,8 @@
+id: libbytesize
+version: 2.12
+about: A library which facilitates the common operations with sizes in bytes
+
+depends:
+  - pcre2
+sources:
+  - https://github.com/storaged-project/libbytesize/releases/download/%{version}/libbytesize-%{version}.tar.gz

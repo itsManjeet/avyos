@@ -1,0 +1,11 @@
+id: kpackage
+merge: [external/kf5.inc]
+about: KF5 kpackage
+
+depends:
+  - karchive
+  - kcoreaddons
+  - ki18n
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

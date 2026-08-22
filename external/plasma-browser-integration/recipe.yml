@@ -1,0 +1,10 @@
+id: plasma-browser-integration
+merge: [external/plasma.inc]
+about: Plasma plasma-browser-integration
+
+depends:
+  - kfilemetadata
+  - plasma-workspace
+  - purpose
+build-depends:
+  - extra-cmake-modules

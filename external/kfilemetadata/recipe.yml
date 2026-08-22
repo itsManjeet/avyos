@@ -1,0 +1,12 @@
+id: kfilemetadata
+merge: [external/kf5.inc]
+about: KF5 kfilemetadata
+depends:
+  - exiv2
+  - ffmpeg
+  - karchive
+  - kconfig
+  - kcoreaddons
+  - ki18n
+build-depends:
+  - extra-cmake-modules

@@ -1,0 +1,18 @@
+id: locales
+version: 0.0.1
+about: Locale cache
+
+build-depends:
+  - glibc
+  - bash
+  - gzip
+
+script: |
+  mkdir -p %{install-root}/%{libdir}/locale
+
+  grep -v -e "C.UTF-8" %{datadir}/i18n/SUPPORTED | xargs -n 2 bash -c ' echo "Generating ${0}"; \
+    localedef --prefix=%{install-root} -i ${0%%.*} -f ${1} ${0}'
+
+  install -v -D -m 0644 /dev/stdin  %{install-root}/%{sysconfdir}/locale.conf << "EOF"
+  LANG=en_IN.utf8
+  EOF

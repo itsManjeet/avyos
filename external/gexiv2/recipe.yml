@@ -1,0 +1,15 @@
+id: gexiv2
+version: 0.16.0
+about: GObject-based wrapper around the Exiv2 library
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - exiv2
+  - python-gobject
+
+build-depends:
+  - vala
+sources:
+  - https://download.gnome.org/sources/gexiv2/%{version:2}/gexiv2-%{version}.tar.xz

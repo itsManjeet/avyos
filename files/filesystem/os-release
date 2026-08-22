@@ -1,5 +1,0 @@
-NAME="avyos @codename@"
-VERSION="@version@"
-ID=avyos
-PRETTY_NAME="avyos GNU/Linux"
-VERSION_CODENAME="@codename@"

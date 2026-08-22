@@ -1,0 +1,12 @@
+id: utf8cpp
+version: 4.0.5
+about: UTF-8 with C++ in a Portable Way
+
+configure: >-
+  -DUTF8_TESTS=OFF
+
+build-depends:
+  - cmake
+
+sources:
+- https://github.com/nemtrif/utfcpp/archive/v%{version}/utf8cpp-%{version}.tar.gz

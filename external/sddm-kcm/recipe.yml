@@ -1,0 +1,11 @@
+id: sddm-kcm
+merge: [external/plasma.inc]
+about: Plasma sddm-kcm
+
+depends:
+  - knewstuff
+  - kdeclarative
+  - kcmutils
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

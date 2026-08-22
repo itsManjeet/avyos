@@ -1,0 +1,15 @@
+id: upower
+version: 1.91.2
+about: Package provides an interface to enumerating power devices, listening to device events and querying history and statistics
+
+depends:
+  - libgudev
+  - libusb
+  - polkit
+  - gobject-introspection
+
+build-depends:
+  - python-packaging
+
+sources:
+  - https://gitlab.freedesktop.org/upower/upower/-/archive/v%{version}/upower-v%{version}.tar.gz

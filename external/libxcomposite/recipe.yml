@@ -1,0 +1,13 @@
+id: libxcomposite
+version: 0.4.7
+about: X11 composite extension library
+
+depends:
+  - libxfixes
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXcomposite-%{version}.tar.xz

@@ -1,0 +1,30 @@
+id: fprintd
+version: 1.94.5
+about: D-Bus service to access fingerprint readers
+
+configure: >
+  -D pam_modules_dir=%{libdir}/security
+  -D gtk_doc=true
+
+pre-script: |-
+  sed -i "s#subdir('pam')##g" tests/meson.build
+
+depends:
+  - dbus
+  - dbus-glib
+  - glib
+  - libfprint
+  - polkit
+  - systemd
+
+build-depends:
+  - gtk-doc
+  - meson
+  - python-cairo
+  - pam_wrapper
+  - python-dbus
+  - python-dbusmock
+  - python-packaging
+
+sources:
+  - https://gitlab.freedesktop.org/libfprint/fprintd/-/archive/v%{version}/fprintd-v%{version}.tar.gz

@@ -1,0 +1,14 @@
+id: libsfdo
+version: 0.1.4
+about: Freedesktop.org specification helper libraries
+
+sources:
+  - https://gitlab.freedesktop.org/vyivel/libsfdo/-/archive/v%{version}/libsfdo-v%{version}.tar.gz
+
+configure: >-
+  --buildtype=release
+  -Dexamples=false
+  -Dtests=false
+
+build-depends:
+  - meson

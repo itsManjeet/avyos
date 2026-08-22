@@ -1,0 +1,12 @@
+id: sgml-common
+version: 0.6.3
+about: Package for creating and maintaining centralized SGML catalogs
+
+depends:
+  - glibc
+sources:
+  - https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-%{version}.tgz
+  - https://www.linuxfromscratch.org/patches/blfs/svn/sgml-common-%{version}-manpage-1.patch
+
+pre-script: |
+  autoreconf -f -i

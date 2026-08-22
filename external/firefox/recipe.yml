@@ -1,0 +1,147 @@
+id: firefox
+version: 140.12.0esr
+about: Firefox is a stand-alone browser based on the Mozilla codebase
+
+script: |-
+  cat > mozconfig << "EOF"
+  mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
+
+  ac_add_options --prefix=%{prefix}
+  ac_add_options --enable-application=browser
+
+  # Release-style optimized build
+  ac_add_options --enable-release
+  ac_add_options --enable-hardening
+  ac_add_options --enable-optimize
+  ac_add_options --enable-rust-simd
+  ac_add_options --enable-linker=lld
+  ac_add_options --disable-debug
+  ac_add_options --disable-debug-symbols
+  ac_add_options --disable-tests
+  ac_add_options --disable-bootstrap
+
+  # Distro / redistributable branding
+  ac_add_options --with-branding=browser/branding/unofficial
+  ac_add_options --with-distribution-id=dev.rlxos
+  ac_add_options --enable-update-channel=default
+
+  # rlxos should update Firefox through the OS package/update system
+  ac_add_options --disable-updater
+  ac_add_options --disable-crashreporter
+  ac_add_options --disable-necko-wifi
+
+  # System libraries
+  ac_add_options --with-system-icu
+  ac_add_options --with-system-libevent
+  ac_add_options --with-system-libvpx
+  ac_add_options --with-system-nspr
+  ac_add_options --with-system-nss
+  ac_add_options --with-system-webp
+  ac_add_options --with-system-jpeg
+  ac_add_options --with-system-zlib
+  ac_add_options --enable-system-ffi
+  ac_add_options --enable-system-pixman
+
+  # Avoid bundled wasm sandbox libs if your distro policy needs it
+  ac_add_options --without-wasm-sandboxed-libraries
+
+  # Let distro packaging strip/split debug symbols itself
+  ac_add_options --disable-strip
+  ac_add_options --disable-install-strip
+
+  # Do not report telemetry as an official Mozilla build
+  unset MOZ_TELEMETRY_REPORTING
+  EOF
+
+
+  sed -e '/patch.crates-io/a glslopt={path="third_party/rust/glslopt"}' -i Cargo.toml
+  sed -i '/name = "glslopt"/,/^$/{/source/d;/checksum/d}' Cargo.lock
+
+
+  sed -i '/VIRAMA = 47/a CLASS_CHARACTER,' intl/lwbrk/LineBreaker.cpp
+
+  export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
+  export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+
+  ./mach build
+
+  DESTDIR=%{install-root} ./mach install
+
+  install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/defaults.preferences/vendor.js << "EOF"
+  pref("intl.locale.requested", "");
+  pref("spellchecker.dictionary_path", "%{datadir}/hunspell");
+  pref("browser.shell.checkDefaultBrowser", false);
+  pref("extensions.autoDisableScope", 11);
+  EOF
+
+  install -Dm644 /dev/stdin %{install-root}%{libdir}/firefox/browser/distribution/distribution.ini << "EOF"
+  [Global]
+  id=rlxos
+  version=2.0
+  about=Mozilla Firefox for rlxos
+
+  [Preferences]
+  app.distributor=rlxos
+  app.distributor.channel=firefox
+  app.partner.rlxos=rlxos
+  EOF
+
+  for i in 16 22 24 32 48 64 128 256 ; do
+    install -Dvm644 browser/branding/official/default$i.png \
+      %{install-root}%{datadir}/icons/hicolor/${i}x${i}/apps/firefox.png
+  done
+
+  install -Dvm644 browser/branding/official/content/about-logo.svg \
+    %{install-root}%{datadir}/icons/hicolor/scalable/apps/firefox.svg
+
+  install -Dvm644 firefox.desktop -t %{install-root}%{datadir}/applications/
+
+depends:
+  - dbus-glib
+  - alsa-lib
+  - at-spi2-core
+  - bash
+  - cairo
+  - dbus
+  - ffmpeg
+  - fontconfig
+  - freetype
+  - gdk-pixbuf
+  - gtk3
+  - pulseaudio
+  - libevent
+  - libx11
+  - libxcb
+  - libxcomposite
+  - libxdamage
+  - libxext
+  - libxfixes
+  - libxrandr
+  - libxt
+  - nspr
+  - nss
+  - pango
+  - libnotify
+  - networkmanager
+  - xdg-desktop-portal
+  - libwebp
+
+build-depends:
+  - cbindgen
+  - llvm
+  - diffutils
+  - inetutils
+  - mesa
+  - nodejs
+  - rustc
+  - python
+  - unzip
+  - which
+  - yasm
+
+sources:
+  - https://archive.mozilla.org/pub/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
+  - external/firefox/firefox-140.12.0esr-glibc-2.43.patch
+  - external/firefox/firefox-140.12.0esr-python_3.14_fixes-1.patch
+  - external/firefox/firefox-140.12.0esr-llvm_22-1.patch
+  - external/firefox/firefox.desktop

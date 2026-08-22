@@ -1,0 +1,13 @@
+id: potrace
+version: 1.16
+about: Utility for tracing a bitmap (input PBM,PGM,PPM,BMP; output EPS,PS,PDF,SVG,DXF,PGM,Gimppath,XFig)
+
+configure: >-
+  --with-libpotrace
+
+depends:
+  - glibc
+  - zlib
+
+sources:
+  - http://potrace.sourceforge.net/download/%{version}/potrace-%{version}.tar.gz

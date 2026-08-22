@@ -1,0 +1,14 @@
+id: sfwbar
+version: 1.0
+about: S* Floating Window taskBar
+
+depends:
+- external/gtk-layer-shell
+- external/wayland
+- external/pulseaudio
+
+build-depends:
+- external/wayland-protocols
+
+sources:
+- sfwbar-%{version}.tar.gz::https://github.com/LBCrion/sfwbar/archive/refs/tags/v1.0_beta14.tar.gz

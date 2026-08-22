@@ -1,0 +1,16 @@
+id: kpmcore
+version: 26.04.1
+about: Library for managing partitions
+
+configure: >-
+  -DBUILD_TESTING=OFF
+
+depends:
+  - kcoreaddons
+  - ki18n
+  - kwidgetsaddons
+  - polkit-qt
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/%{id}-%{version}.tar.xz

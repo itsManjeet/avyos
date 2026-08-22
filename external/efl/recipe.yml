@@ -1,0 +1,76 @@
+id: efl
+version: 1.28.1
+about: Enlightenment Foundation Libraries
+
+configure: >-
+    -D fb=true
+    -D drm=true
+    -D wl=true
+    -D network-backend=connman
+    -D lua-interpreter=lua
+    -D bindings=
+    -D build-examples=false
+    -D build-tests=false
+    -D docs=false
+
+license-files:
+    - licenses/COPYING.BSD
+    - licenses/COPYING.SMALL
+
+depends:
+    - curl
+    - dbus
+    - fontconfig
+    - freetype
+    - fribidi
+    - giflib
+    - glib
+    - gstreamer
+    - harfbuzz
+    - hicolor-icon-theme
+    - libglvnd
+    - libinput
+    - libjpeg-turbo
+    - libpng
+    - pulseaudio
+    - libsndfile
+    - libtiff
+    - libwebp
+    - lua52
+    - mailcap
+    - mesa
+    - openjpeg
+    - openssl
+    - shared-mime-info
+    - systemd
+    - util-linux
+    - zlib
+    - wayland
+    - libraw
+    - librsvg
+    - poppler
+    - scim
+    - libspectre
+    - liberation-fonts
+    - libx11
+    - libxcb
+    - libxcomposite
+    - libxcursor
+    - libxdamage
+    - libxfixes
+    - libxi
+    - libxinerama
+    - libxkbcommon
+    - libxrandr
+    - libxrender
+    - libxscrnsaver
+    - libxtst
+
+build-depends:
+    # - external/doxygen
+    - meson
+    - ninja
+    - wayland-protocols
+
+sources:
+    - https://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz

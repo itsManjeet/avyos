@@ -1,0 +1,12 @@
+id: xmodmap
+version: 1.0.11
+about: Utility for modifying keymaps and button mappings
+
+depends:
+  - libx11
+build-depends:
+  - util-macros
+
+sources:
+  - https://www.x.org/pub/individual/app/xmodmap-%{version}.tar.xz
+

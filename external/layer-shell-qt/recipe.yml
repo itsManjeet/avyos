@@ -1,0 +1,11 @@
+id: layer-shell-qt
+merge: [external/plasma.inc]
+about: Plasma layer-shell-qt
+
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/layer-shell-qt-%{version}.tar.xz
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules
+  - wayland-protocols

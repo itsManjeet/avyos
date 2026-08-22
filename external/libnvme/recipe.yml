@@ -1,0 +1,13 @@
+id: libnvme
+version: 1.16.1
+about: Library which provides type definitions for NVMe specification structures, enumerations, and bit fields, helper functions to construct, dispatch, and decode commands and payloads, and utilities to connect, scan, and manage NVMe devices on a Linux system
+
+depends:
+  - glibc
+  - dbus
+  - keyutils
+  - swig
+  - json-c
+
+sources:
+  - https://github.com/linux-nvme/libnvme/archive/refs/tags/v%{version}/libnvme-%{version}.tar.gz

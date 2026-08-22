@@ -1,0 +1,13 @@
+id: gspell
+version: 1.14.3
+about: A flexible API to add spell checking to a GTK+ application
+
+depends:
+  - enchant
+  - gtk3
+build-depends:
+  - gobject-introspection
+  - vala
+  - iso-codes
+sources:
+  - https://download.gnome.org/sources/gspell/%{version:2}/gspell-%{version}.tar.xz

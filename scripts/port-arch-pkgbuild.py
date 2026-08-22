@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Port Arch Linux PKGBUILDs (in arch-repo/) to avyos recipes (elements/components/).
+"""Port Arch Linux PKGBUILDs (in arch-repo/) to rlxos external recipes.
 
 Local sources referenced by the PKGBUILD are copied:
-  - *.patch / *.diff        -> patches/<pkgname>/
-  - everything else (local) -> files/<pkgname>/
+  - all local files         -> external/<pkgname>/
 
-Existing elements/components/<pkgname>.yml files are NOT overwritten
+Existing external/<pkgname>/recipe.yml files are NOT overwritten
 unless --overwrite is passed.
 
 Usage:
@@ -25,9 +24,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARCH_REPO = REPO_ROOT / "arch-repo"
-COMPONENTS_DIR = REPO_ROOT / "elements" / "components"
-PATCHES_DIR = REPO_ROOT / "patches"
-FILES_DIR = REPO_ROOT / "files"
+EXTERNAL_DIR = REPO_ROOT / "external"
 
 # Deps that match these substrings are almost always .so soname deps or Arch
 # packaging artifacts - skip them entirely from the ported recipe.
@@ -36,9 +33,9 @@ SKIP_DEP_PATTERNS = (
     re.compile(r"^lib.+\.so$"),
 )
 
-# Optional coarse name translation from Arch conventions to avyos components.
+# Optional coarse name translation from Arch conventions to rlxos components.
 # Intentionally minimal - mapping is a hint, not authoritative. The porter
-# emits components/<name>.yml for each dep; the user fixes missing ones.
+# emits <name> for each dependency; the user fixes missing ones.
 DEP_TRANSLATE = {
     "glib2": "glib",
     "glib2-devel": "glib",
@@ -262,7 +259,7 @@ def dedent(s: str) -> str:
 # ---------------------------------------------------------------------------
 
 def transform_script(body: str, pkgname: str, pkgver: str) -> str:
-    """Convert a PKGBUILD function body to an avyos recipe script snippet."""
+    """Convert a PKGBUILD function body to an rlxos recipe script snippet."""
     s = body
 
     # pkgdir -> install-root
@@ -286,7 +283,7 @@ def transform_script(body: str, pkgname: str, pkgver: str) -> str:
     s = re.sub(r'\$pkgver\b', '%{version}', s)
 
     # Strip the leading `cd "<pkgname>-<pkgver>"` or `cd <pkgname>` that every
-    # PKGBUILD function starts with - avyos already puts us in the extracted
+    # PKGBUILD function starts with - rlxos already puts us in the extracted
     # source directory.
     src_dir_patterns = [
         rf'^\s*cd\s+"{re.escape(pkgname)}-%\{{version\}}"\s*\n',
@@ -342,7 +339,7 @@ def source_basename(s: str) -> str:
 
 
 def normalize_url(url: str, pkgname: str, pkgver: str) -> str:
-    """Substitute pkgname/pkgver occurrences in a source URL with avyos
+    """Substitute pkgname/pkgver occurrences in a source URL with rlxos
     placeholders so bumping `version:` is enough to refresh the URL."""
     # Prefer ${var} forms first since they are unambiguous
     url = url.replace("${pkgname}", "%{id}")
@@ -361,20 +358,15 @@ def normalize_url(url: str, pkgname: str, pkgver: str) -> str:
 
 def copy_local_source(pkgname: str, src_dir: Path, filename: str) -> str:
     """Copy a local source file from the arch-repo package dir into either
-    patches/<pkgname>/ or files/<pkgname>/ and return the in-recipe path."""
+    external/<pkgname>/ and return the in-recipe path."""
     src = src_dir / filename
     if not src.exists():
         warn(f"  local source not found: {src}")
         # Fall back to a likely path so the user can fix it
-        kind = "patches" if filename.endswith((".patch", ".diff")) else "files"
-        return f"{kind}/{pkgname}/{filename}"
+        return f"external/{pkgname}/{filename}"
 
-    if filename.endswith((".patch", ".diff")):
-        dst_dir = PATCHES_DIR / pkgname
-        rel = f"patches/{pkgname}/{filename}"
-    else:
-        dst_dir = FILES_DIR / pkgname
-        rel = f"files/{pkgname}/{filename}"
+    dst_dir = EXTERNAL_DIR / pkgname
+    rel = f"external/{pkgname}/{filename}"
 
     dst_dir.mkdir(parents=True, exist_ok=True)
     dst = dst_dir / filename
@@ -385,9 +377,9 @@ def copy_local_source(pkgname: str, src_dir: Path, filename: str) -> str:
 
 def process_sources(sources: list, pkgname: str, pkgver: str,
                     pkg_dir: Path) -> list:
-    """Convert PKGBUILD source entries into avyos recipe source entries.
+    """Convert PKGBUILD source entries into rlxos recipe source entries.
 
-    Local files are copied into patches/ or files/ and returned as relative
+    Local files are copied into external/<pkgname>/ and returned as relative
     project paths.
     """
     result = []
@@ -518,13 +510,13 @@ def build_recipe(pkgbuild_path: Path) -> str:
     if depends:
         out.append("depends:")
         for d in depends:
-            out.append(f"  - components/{d}.yml")
+            out.append(f"  - {d}")
         out.append("")
 
     if build_depends:
         out.append("build-depends:")
         for d in build_depends:
-            out.append(f"  - components/{d}.yml")
+            out.append(f"  - {d}")
         out.append("")
 
     if sources:
@@ -550,7 +542,7 @@ def port_one(pkgname: str, overwrite: bool) -> bool:
         warn(f"{pkgname}: no PKGBUILD at {pkgbuild}")
         return False
 
-    out_path = COMPONENTS_DIR / f"{pkgname}.yml"
+    out_path = EXTERNAL_DIR / pkgname / "recipe.yml"
     if out_path.exists() and not overwrite:
         info(f"{pkgname}: skip (recipe exists)")
         return False
@@ -576,7 +568,7 @@ def main():
     ap.add_argument("--from-list", metavar="FILE",
                     help="read package names (one per line) from FILE")
     ap.add_argument("--overwrite", action="store_true",
-                    help="overwrite existing elements/components/*.yml")
+                    help="overwrite existing external/*/recipe.yml")
     args = ap.parse_args()
 
     if not ARCH_REPO.is_dir():

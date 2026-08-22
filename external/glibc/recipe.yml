@@ -1,0 +1,10 @@
+id: glibc
+merge:
+  - external/glibc.inc
+
+depends:
+  - filesystem
+
+build-depends:
+  - gcc:stage2
+release: 2

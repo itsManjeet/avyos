@@ -1,0 +1,20 @@
+id: libadwaita
+version: 1.9.0
+about: Building blocks for modern adaptive GNOME applications
+
+configure: >-
+  -D examples=false
+
+depends:
+  - gtk4
+  - appstream
+  - gcr-4
+
+build-depends:
+  - gobject-introspection
+  - meson
+  - vala
+  - sassc
+
+sources:
+  - https://gitlab.gnome.org/GNOME/libadwaita/-/archive/%{version}/libadwaita-%{version}.tar.gz

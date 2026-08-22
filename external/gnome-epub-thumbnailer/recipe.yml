@@ -1,0 +1,15 @@
+id: gnome-epub-thumbnailer
+version: 1.8
+about: Thumbnailer for EPub and MOBI books
+
+depends:
+  - gdk-pixbuf
+  - libarchive
+  - librsvg
+  - libxml2
+sources:
+  - https://gitlab.gnome.org/GNOME/gnome-epub-thumbnailer/-/archive/%{version}/gnome-epub-thumbnailer-%{version}.tar.gz
+
+environ:
+  - NOCONFIGURE=1
+# TODO: fix update url

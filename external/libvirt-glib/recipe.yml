@@ -1,0 +1,17 @@
+id: libvirt-glib
+version: 5.0.0
+about: GLib bindings for libvirt
+
+configure: >-
+  --buildtype=plain
+
+depends:
+  - libvirt
+build-depends:
+  - gobject-introspection
+  - intltool
+  - meson
+  - vala
+  - python
+sources:
+  - https://libvirt.org/sources/glib/%{id}-%{version}.tar.xz

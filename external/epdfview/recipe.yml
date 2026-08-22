@@ -1,0 +1,16 @@
+id: epdfview
+version: 20200814
+about: Lightweight PDF document viewer
+
+configure: >-
+  -Denable-printing=true
+
+depends:
+  - gtk3
+  - poppler
+  - cups
+  - desktop-file-utils
+  - hicolor-icon-theme
+
+sources:
+  - https://anduin.linuxfromscratch.org/BLFS/epdfview-gtk3/epdfview-gtk3-%{version}.tar.xz

@@ -1,0 +1,50 @@
+id: compiz
+version: 0.9.14.2
+about: Composite manager for Aiglx and Xgl, with plugins and CCSM
+
+pre-script: |-
+  for p in /external/compiz/*.patch ; do
+    echo "Applying $(basename $p)"
+    patch -Np1 -F100 -i $p
+  done
+
+configure: >-
+  -DCMAKE_CXX_STANDARD=17
+  -DCMAKE_BUILD_TYPE="Release"
+  -DCOMPIZ_BUILD_WITH_RPATH=OFF
+  -DCOMPIZ_PACKAGING_ENABLED=ON
+  -DBUILD_GTK=ON
+  -DBUILD_METACITY=ON
+  -DCOMPIZ_DEFAULT_PLUGINS="composite,opengl,decor,resize,place,move,compiztoolbox,staticswitcher,regex,animation,wall,ccp"
+  -DCOMPIZ_BUILD_TESTING=OFF
+  -DCOMPIZ_WERROR=OFF
+  -Wno-dev
+
+post-script: |-
+  install -D -m644 COPYING{,.GPL,.LGPL,.MIT} -t %{install-root}%{datadir}/licenses/%{id}
+
+depends:
+  - libboost
+  - fuse
+  - libnotify
+  - libwnck
+  - libxslt
+  - protobuf
+  - python-cairo
+  - python-gobject
+  - xserver
+  - xprop
+  - gtkmm
+  - startup-notification
+  - glu
+  - metacity
+
+build-depends:
+  - boost
+  - cmake
+  - python-cython
+  - intltool
+  - python-setuptools
+
+sources:
+  - https://launchpad.net/compiz/%{version:3}/%{version}/+download/compiz-%{version}.tar.xz

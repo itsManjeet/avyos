@@ -1,4 +1,4 @@
-module avyos.dev
+module rlxos.org
 
 go 1.26.4
 

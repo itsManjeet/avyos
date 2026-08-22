@@ -1,0 +1,38 @@
+id: llvm
+version: 22.1.5
+about: |
+  A collection of modular and reusable compiler and toolchain technologies
+
+depends:
+  - glibc
+build-depends:
+  - cmake
+
+sources:
+  - https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}/llvm-project-%{version}.src.tar.xz
+
+build-dir: llvm-project-%{version}.src/llvm
+
+build-type: cmake
+
+environ:
+  - CC=gcc
+  - CXX=g++
+
+pre-script: |-
+  grep -rl '#!.*python$' | xargs sed -i '1s/python$/python3/'
+  sed 's/utility/tool/' -i utils/FileCheck/CMakeLists.txt
+
+configure: >-
+  -DLLVM_ENABLE_FFI=ON
+  -DCMAKE_BUILD_TYPE=Release
+  -DLLVM_BUILD_LLVM_DYLIB=ON
+  -DLLVM_LINK_LLVM_DYLIB=ON
+  -DLLVM_ENABLE_RTTI=ON
+  -DLLVM_TARGETS_TO_BUILD="host;AMDGPU;BPF"
+  -DLLVM_ENABLE_PROJECTS="clang;lld;clang-tools-extra"
+  -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;libunwind"
+  -DLLVM_BINUTILS_INCDIR=/usr/include
+  -DLLVM_INCLUDE_BENCHMARKS=OFF
+  -DCLANG_DEFAULT_PIE_ON_LINUX=ON
+  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF

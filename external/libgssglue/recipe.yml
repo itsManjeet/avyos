@@ -1,0 +1,17 @@
+id: libgssglue
+version: 0.9
+about: Exports a gssapi interface which calls other random gssapi libraries
+
+depends:
+  - glibc
+build-depends:
+  - autoconf
+  - pkg-config
+sources:
+  - http://www.citi.umich.edu/projects/nfsv4/linux/%{id}/%{id}-%{version}.tar.gz
+
+post-script: |-
+  # install -D -m 0644 /external/gssapi_mech.conf -t %{install-root}%{sysconfdir}/
+  install -D -m 0644 COPYING %{install-root}%{datadir}/doc/%{id}/LICENSE
+
+# TODO: fix configuration

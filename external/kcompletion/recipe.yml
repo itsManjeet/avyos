@@ -1,0 +1,10 @@
+id: kcompletion
+about: KF5 kcompletion
+merge: [external/kf5.inc]
+depends:
+  - qt
+  - kcodecs
+  - kconfig
+  - kwidgetsaddons
+build-depends:
+  - extra-cmake-modules

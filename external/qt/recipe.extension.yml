@@ -1,0 +1,10 @@
+id: qt
+version: 6
+about: Qt ui toolkit
+include:
+  - qt
+
+merge: [external/extension.inc]
+include-parts:
+  - devel
+  - doc

@@ -1,0 +1,15 @@
+id: libxtst
+version: 1.2.5
+about: X11 Testing Resource extension library
+
+depends:
+  - libxext
+  - libxfixes
+  - libxi
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXtst-%{version}.tar.xz

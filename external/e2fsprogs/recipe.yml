@@ -1,0 +1,18 @@
+id: e2fsprogs
+version: 1.47.4
+about: Utilities for handling the ext2, ext3 and ext4 file system
+
+depends:
+  - bash
+  - util-linux
+  - systemd
+
+sources:
+  - https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v%{version}/e2fsprogs-%{version}.tar.xz
+
+configure: >
+  --enable-elf-shlibs
+  --disable-libblkid
+  --disable-libuuid
+  --disable-uuidd
+  --disable-fsck

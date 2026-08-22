@@ -1,0 +1,16 @@
+id: slurp
+version: 1.5.0
+about: Select a region in a Wayland compositor
+
+depends:
+  - cairo
+  - libxkbcommon
+  - wayland
+
+build-depends:
+  - meson
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://github.com/emersion/slurp/releases/download/v%{version}/slurp-%{version}.tar.gz

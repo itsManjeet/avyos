@@ -1,0 +1,77 @@
+id: systemd
+version: 260.1
+release: 2
+about: Package contains programs for controlling the startup, running, and shutdown of the system
+
+environ:
+  - LANG=en_IN.utf-8
+  - PKG_CONFIG_PATH="%{libdir}/pkgconfig"
+
+pre-script: |
+  sed -i -e 's/GROUP="render"/GROUP="video"/' \
+       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
+
+build-type: meson
+
+configure: >
+  -D default-dnssec=no
+  -D firstboot=false
+  -D install-tests=false
+  -D rpmmacrosdir=no
+  -D mode=release
+  -D efi=true
+  -D bootloader=enabled
+  -D ukify=enabled
+  -D sysupdate=enabled
+  -D nologin-path=%{bindir}/nologin
+  -D debug-shell=%{bindir}/sh
+  -D default-user-shell=%{bindir}/sh
+  -D dev-kvm-mode=0660
+  -D fallback-hostname='rlxos'
+  -D docdir=%{datadir}/doc/system-%{version}
+  -Dsbat-distro='rlxos'
+  -Dsbat-distro-summary='rlxos GNU/Linux'
+  -Dsbat-distro-pkgname="%{id}"
+  -Dsbat-distro-version="%{version}"
+  -Dsbat-distro-url="https://rlxos.org/"
+
+post-script: |-
+  rm -f %{install-root}%{libdir}/sysusers.d/*.conf
+  for f in etc home legacy tmp var x11  ; do
+    rm %{install-root}%{libdir}/tmpfiles.d/$f.conf
+  done
+
+depends:
+  - acl
+  - bash
+  - coreutils
+  - util-linux
+  - openssl
+  - iptables
+  - kmod
+  - diffutils
+  - grep
+  - openssl
+  - libgcrypt
+  - python-jinja2
+  - libcap
+  - sed
+  - gawk
+  - lz4
+  - libseccomp
+  - libelf
+  - cryptsetup
+  - gnu-efi
+
+build-depends:
+  - gcc
+  - meson
+  - expat
+  - libxslt
+  - docbook-xsl
+  - dbus-nosystemd
+  - python-pefile
+  - python-pyelftools
+
+sources:
+  - https://github.com/systemd/systemd/archive/v%{version}/systemd-%{version}.tar.gz

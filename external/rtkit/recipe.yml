@@ -1,0 +1,20 @@
+id: rtkit
+version: 0.14
+about: Realtime Policy and watchdog daemon
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}/%{libdir}/sysusers.d/%{id}.conf << "EOF"
+  u rtkit 83 "RealtimeKit" /proc
+  EOF
+
+depends:
+  - dbus
+  - polkit
+  - systemd
+
+build-depends:
+  - meson
+  - vim
+
+sources:
+  - https://gitlab.freedesktop.org/pipewire/rtkit/-/archive/v%{version}/rtkit-v%{version}.tar.gz

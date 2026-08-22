@@ -1,0 +1,22 @@
+id: libdmapsharing
+version: 3.9.13
+about: A library that implements that DMAP family of protocols
+
+environ:
+  - NOCONFIGURE=1
+
+configure: >-
+  --with-mdns=avahi
+  --enable-gtk-doc
+  --disable-tests
+
+depends:
+  - avahi
+  - gdk-pixbuf
+  - gstreamer
+  - libsoup
+build-depends:
+  - gobject-introspection
+  - gtk-doc
+sources:
+  - https://gitlab.gnome.org/GNOME/libdmapsharing/-/archive/LIBDMAPSHARING_%{version:_}/libdmapsharing-LIBDMAPSHARING_%{version:_}.tar.gz

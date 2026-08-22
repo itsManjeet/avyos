@@ -1,0 +1,10 @@
+id: qqc2-breeze-style
+merge: [external/plasma.inc]
+about: Plasma qqc2-breeze-style
+
+depends:
+  - qt
+  - kiconthemes
+  - kirigami2
+build-depends:
+  - extra-cmake-modules

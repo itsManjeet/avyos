@@ -1,0 +1,22 @@
+id: yodl
+version: 4.05.01
+about: Implements a predocument language and tools to process it
+
+depends:
+  - bash
+build-depends:
+  - icmake
+sources:
+  - https://gitlab.com/fbb-git/yodl/-/archive/%{version}/yodl-%{version}.tar.gz
+script: |
+  cd yodl
+
+  ./build programs
+  ./build macros
+  ./build man
+  ./build html
+
+  ./build install programs %{install-root}
+  ./build install macros %{install-root}
+  ./build install man %{install-root}
+  ./build install html %{install-root}

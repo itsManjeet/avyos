@@ -1,0 +1,16 @@
+id: pango
+version: 1.57.1
+about: Library for laying out and rendering text
+sources:
+  - https://gitlab.gnome.org/GNOME/pango/-/archive/%{version}/pango-%{version}.tar.gz
+
+configure: >-
+  -D introspection=enabled
+
+depends:
+  - fontconfig
+  - fribidi
+  - glib
+  - cairo
+  - gobject-introspection
+  - harfbuzz

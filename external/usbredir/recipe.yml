@@ -1,0 +1,11 @@
+id: usbredir
+version: 0.15.0
+about: USB traffic redirection protocol
+
+depends:
+  - glib
+  - libusb
+build-depends:
+  - meson
+sources:
+  - https://spice-space.org/download/usbredir/%{id}-%{version}.tar.xz

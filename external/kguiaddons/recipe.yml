@@ -1,0 +1,9 @@
+id: kguiaddons
+merge: [external/kf5.inc]
+about: KF5 kguiaddons
+
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules
+  - plasma-wayland-protocols

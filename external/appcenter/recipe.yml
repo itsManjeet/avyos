@@ -1,0 +1,21 @@
+id: appcenter
+version: 8.4.0
+about: Browse and manage apps
+
+pre-script: |-
+  sed -i 's/.xml.gz/.xml/g' src/Core/FlatpakBackend.vala
+depends:
+  - appstream
+  - flatpak
+  - libhandy
+  - granite
+  - libadwaita
+  - gtk4
+  - libportal
+
+build-depends:
+  - meson
+  - vala
+
+sources:
+  - appcenter-%{version}.tar.gz::https://github.com/elementary/appcenter/archive/refs/tags/%{version}.tar.gz

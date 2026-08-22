@@ -1,0 +1,19 @@
+id: kdeplasma-addons
+version: 6.6.4
+about: Plasma kdeplasma-addons
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - kunitconversion
+  - plasma-workspace
+  - purpose
+  - qt
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz
+

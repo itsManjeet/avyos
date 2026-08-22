@@ -1,0 +1,22 @@
+id: libsoup
+version: 3.6.6
+about: A HTTP client/server library for GNOME
+
+configure: >-
+  -D vapi=enabled
+  -D gssapi=disabled
+  --buildtype=release
+
+depends:
+  - glib-networking
+  - libpsl
+  - libxml2
+  - sqlite
+  - nghttp2
+
+build-depends:
+  - gobject-introspection
+  - vala
+
+sources:
+  - https://download.gnome.org/sources/libsoup/%{version:2}/libsoup-%{version}.tar.xz

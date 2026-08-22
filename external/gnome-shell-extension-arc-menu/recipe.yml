@@ -1,0 +1,10 @@
+id: gnome-shell-extension-arc-menu
+version: v20
+about: Application Menu extension for GNOME
+release: 0
+depends:
+  - gnome-menus
+  - glib
+sources:
+  - https://gitlab.com/arcmenu/ArcMenu/-/archive/%{version}/ArcMenu-%{version}.tar.gz
+script: make install DESTDIR=%{install-root}

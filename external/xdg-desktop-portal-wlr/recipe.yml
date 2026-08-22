@@ -1,0 +1,22 @@
+id: xdg-desktop-portal-wlr
+version: 0.8.2
+about: A backend implementation of xdg-desktop-portal using wlroots
+
+post-script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}%{datadir}/xdg-desktop-portal/wlr-portals.conf << "EOF"
+  [preferred]
+  default=wlr
+  EOF
+
+depends:
+  - inih
+  - pipewire
+  - xdg-desktop-portal
+
+build-depends:
+  - meson
+  - scdoc
+  - wayland
+  - wayland-protocols
+sources:
+  - xdg-desktop-portal-wlr-%{version}.tar.gz::https://github.com/emersion/xdg-desktop-portal-wlr/archive/v%{version}.tar.gz

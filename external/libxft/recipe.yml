@@ -1,0 +1,10 @@
+id: libXft
+version: 2.3.9
+about: Freetyp based font drawing library for X
+
+depends:
+  - fontconfig
+  - libxrender
+
+sources:
+- https://www.x.org/pub/individual/lib/libXft-%{version}.tar.xz

@@ -1,0 +1,20 @@
+id: gnome-desktop
+version: 44.5
+about:
+  A library that provides an API shared by several applications on the GNOME
+  Desktop
+
+depends:
+  - gsettings-desktop-schemas
+  - gtk3
+  - gtk4
+  - iso-codes
+  - libseccomp
+  - libxml2
+  - xkeyboard-config
+  - bubblewrap
+  - gobject-introspection
+build-depends:
+  - itstool
+sources:
+  - https://download.gnome.org/sources/gnome-desktop/%{version:2}/gnome-desktop-%{version}.tar.xz

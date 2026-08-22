@@ -1,0 +1,8 @@
+id: kparts
+merge: [external/kf5.inc]
+about: KF5 kparts
+
+depends:
+  - kio
+build-depends:
+  - extra-cmake-modules

@@ -1,0 +1,21 @@
+id: devel
+version: 2.0
+about: rlxos developers tool kit
+
+depends:
+  - gcc
+  - kernel-headers
+  - m4
+  - binutils
+  - meson
+  - make
+  - autoconf
+  - automake
+  - pkg-config
+  - cmake
+  - patch
+  - bison
+  - flex
+script: |-
+  mkdir -p %{install-root}/usr/rlxos/kits/
+  echo %{version} > %{install-root}/usr/rlxos/kits/devel

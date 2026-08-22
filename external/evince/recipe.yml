@@ -1,0 +1,22 @@
+id: evince
+version: 48.1
+about: Document viewer (PDF, PostScript, XPS, djvu, dvi, tiff, cbr, cbz, cb7, cbt)
+
+depends:
+  - dconf
+  - gnome-desktop
+  - gsettings-desktop-schemas
+  - gspell
+  - gstreamer
+  - gtk3
+  - gvfs
+  - libarchive
+  - adwaita-icon-theme
+  - nautilus
+  - libhandy
+  - libsecret
+build-depends:
+  - meson
+  - gtk-doc
+sources:
+  - https://gitlab.gnome.org/GNOME/evince/-/archive/%{version}/evince-%{version}.tar.gz

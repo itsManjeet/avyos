@@ -1,0 +1,7 @@
+id: kdbusaddons
+merge: [external/kf5.inc]
+about: KF5 kdbusaddons
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules

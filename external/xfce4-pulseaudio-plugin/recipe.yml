@@ -1,0 +1,15 @@
+id: xfce4-pulseaudio-plugin
+version: 0.5.1
+about: Pulse audio plugin for xfce4 panel
+
+depends:
+  - keybinder
+  - libnotify
+  - pavucontrol
+  - pulseaudio
+  - xfce4-panel
+build-depends:
+  - intltool
+  - cmake
+sources:
+  - https://archive.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/%{version:2}/xfce4-pulseaudio-plugin-%{version}.tar.xz

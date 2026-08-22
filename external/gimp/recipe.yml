@@ -1,0 +1,36 @@
+id: gimp
+version: 3.2.4
+about: GNU Image Manipulation Program which is useful for photo retouching, image composition and image authoring
+
+depends:
+    - appstream-glib
+    - gegl
+    - gexiv2
+    - glib-networking
+    - gtk3
+    - harfbuzz
+    - libmypaint
+    - librsvg
+    - libtiff
+    - libxml2
+    - lcms
+    - mypaint-brushes
+    - poppler
+    - poppler-data
+    - graphviz
+    - iso-codes
+    - libgudev
+    - python-gobject
+    - libx11
+    - libxmu
+    - xdg-utils
+    # - external/libjxl
+    - libmng
+    - libwebp
+
+build-depends:
+    - ghostscript
+    - gvfs
+
+sources:
+    - https://anduin.linuxfromscratch.org/BLFS/gimp/gimp3-20240711.tar.xz

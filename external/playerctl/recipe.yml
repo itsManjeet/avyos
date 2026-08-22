@@ -1,0 +1,14 @@
+id: playerctl
+version: 2.4.1
+about: mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others.
+
+depends:
+  - glib
+
+build-depends:
+  - gobject-introspection
+  - gtk-doc
+  - meson
+
+sources:
+  - playerctl-%{version}.tar.gz::https://github.com/altdesktop/playerctl/archive/refs/tags/v%{version}.tar.gz

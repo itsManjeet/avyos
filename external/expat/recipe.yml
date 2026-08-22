@@ -1,0 +1,9 @@
+id: expat
+version: 2.8.0
+about: A stream oriented C library for parsing XML
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/libexpat/libexpat/releases/download/R_%{version:_}/expat-%{version}.tar.bz2

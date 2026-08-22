@@ -1,0 +1,24 @@
+id: libjxl
+version: 0.11.2
+about: JPEG XL image format reference implementation
+
+configure: >-
+  -D BUILD_TESTING=OFF
+  -D BUILD_SHARED_LIBS=ON
+  -D JPEGXL_ENABLE_SKCMS=OFF
+  -D JPEGXL_ENABLE_SJPEG=OFF
+  -D JPEGXL_ENABLE_PLUGINS=OFF
+
+depends:
+    - brotli
+    - giflib
+    - highway
+    - lcms
+    - libjpeg-turbo
+    - libpng
+
+build-depends:
+    - cmake
+
+sources:
+    - https://github.com/libjxl/libjxl/archive/v%{version}/libjxl-%{version}.tar.gz

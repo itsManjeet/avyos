@@ -1,0 +1,25 @@
+id: gnome-initial-setup
+version: 50.0
+about: Simple, easy, and safe way to prepare a new system
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - networkmanager
+  - accountsservice
+  - geocode-glib
+  - gnome-online-accounts
+  - ibus
+  - libgweather
+  - libnma
+  - upower
+  - gdm
+  - gnome-desktop
+  - gnome-keyring
+  - adwaita-icon-theme
+  - webkitgtk-6.0
+  - gstreamer
+  - libpwquality
+sources:
+  - http://ftp.gnome.org/pub/gnome/sources/gnome-initial-setup/%{version:2}/gnome-initial-setup-%{version}.tar.xz

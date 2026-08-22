@@ -1,0 +1,14 @@
+id: libcloudproviders
+version: 0.4.0
+about: Library which provides a DBus API that allows cloud storage sync clients to expose their services
+
+build-depends:
+  - gobject-introspection
+  - vala
+  - python-packaging
+
+depends:
+  - glib
+
+sources:
+  - https://download.gnome.org/sources/libcloudproviders/%{version:2}/libcloudproviders-%{version}.tar.xz

@@ -1,0 +1,18 @@
+id: xdg-user-dirs
+version: 0.20
+about: A tool to help manage well known user directories
+
+environ:
+  - NOCONFIGURE=1
+
+depends:
+  - glibc
+  - libxslt
+
+build-depends:
+  - docbook-xsl
+  - meson
+  - ninja
+
+sources:
+  - https://gitlab.freedesktop.org/xdg/xdg-user-dirs/-/archive/v%{version}/xdg-user-dirs-v%{version}.tar.gz

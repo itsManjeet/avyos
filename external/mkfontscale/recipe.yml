@@ -1,0 +1,14 @@
+id: mkfontscale
+version: 1.2.4
+about: xorg apps mkfontscale
+
+sources:
+  - https://www.x.org/pub/individual/app/mkfontscale-%{version}.tar.xz
+
+depends:
+  - freetype
+  - libfontenc
+
+build-depends:
+  - util-macros
+  - xorgproto

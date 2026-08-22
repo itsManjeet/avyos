@@ -1,0 +1,19 @@
+id: dialog
+version: 1.3_20260107
+about: A tool to display dialog boxes from shell scripts
+
+configure: >
+  --enable-nls
+  --with-libtool
+  --with-ncursesw
+
+install: install-full
+
+post-script: |-
+  install -vDm 0644 /external/dialogrc -t %{install-root}%{sysconfdir}/
+
+depends:
+  - ncurses
+  - libtool
+sources:
+  - https://invisible-mirror.net/archives/dialog/dialog-%{version}.tgz

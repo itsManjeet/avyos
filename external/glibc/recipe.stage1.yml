@@ -1,0 +1,8 @@
+id: glibc-stage1
+merge:
+  - external/glibc.inc
+build-depends:
+  - kernel-headers
+
+container: true
+release: 2

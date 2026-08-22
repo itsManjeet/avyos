@@ -1,0 +1,35 @@
+id: plasma-workspace
+merge: [external/plasma.inc]
+about: Plasma plasma-workspace
+
+depends:
+  - accountsservice
+  - kio
+  - knotifyconfig
+  - kpeople
+  - kquickcharts
+  - ktexteditor
+  - kwin
+  - libkscreen
+  - krunner
+  - kitemmodels
+  - prison
+  - xmessage
+  - xrdb
+  - xsetroot
+  - baloo
+  - kdesu
+  - libksysguard
+  - libqalculate
+  - kholidays
+  - phonon
+  - kuserfeedback
+  - networkmanager-qt
+  - kpipewire
+  - libkexiv2
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - kinit
+  - kunitconversion
+  - plasma-wayland-protocols

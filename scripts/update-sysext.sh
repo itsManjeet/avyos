@@ -41,4 +41,4 @@ xz -T0 -f -k "$SYSEXT_DIR/$name.raw"
 (cd "$SYSEXT_DIR" && sha256sum *.raw.xz > SHA256SUMS)
 
 printf 'Published sysext %s to %s\n' "$name" "$SYSEXT_DIR"
-printf 'Sysext URL: https://repo.avyos.dev/releases/%s/extensions/%s.raw.xz\n' "$CHANNEL" "$name"
+printf 'Sysext URL: https://repo.rlxos.org/releases/%s/extensions/%s.raw.xz\n' "$CHANNEL" "$name"

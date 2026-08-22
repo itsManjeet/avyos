@@ -1,0 +1,15 @@
+id: discover
+merge: [external/plasma.inc]
+about: Plasma discover
+
+depends:
+  - hicolor-icon-theme
+  - kcmutils
+  - kidletime
+  - kirigami2
+  - kitemmodels
+  - knewstuff
+  - purpose
+build-depends:
+  - extra-cmake-modules
+  - plasma-framework

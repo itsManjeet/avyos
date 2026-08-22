@@ -1,0 +1,10 @@
+id: kwayland
+merge: [external/kf5.inc]
+about: KF5 kwayland
+
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules
+  - plasma-wayland-protocols
+  - wayland-protocols

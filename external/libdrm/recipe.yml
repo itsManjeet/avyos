@@ -1,0 +1,15 @@
+id: libdrm
+version: 2.4.133
+about: Library for accessing the DRM
+sources:
+  - https://dri.freedesktop.org/libdrm/libdrm-%{version}.tar.xz
+
+depends:
+  - glibc
+  - libpciaccess
+build-depends:
+  - meson
+configure: >-
+  --buildtype=release
+  -D udev=true
+  -D valgrind=disabled

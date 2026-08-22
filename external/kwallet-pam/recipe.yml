@@ -1,0 +1,8 @@
+id: kwallet-pam
+merge: [external/plasma.inc]
+about: Plasma kwallet-pam
+
+depends:
+  - kwallet
+build-depends:
+  - extra-cmake-modules

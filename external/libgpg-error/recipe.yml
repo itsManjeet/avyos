@@ -1,0 +1,8 @@
+id: libgpg-error
+version: 1.61
+about: Library that defines common error values for all GnuPG components
+sources:
+  - https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-%{version}.tar.bz2
+
+depends:
+  - bash

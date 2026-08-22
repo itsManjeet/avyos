@@ -1,0 +1,12 @@
+id: libpsl
+version: 0.21.5
+about: |
+  A library for accessing and resolving information from the Public Suffix List (PSL)
+
+pre-script: |-
+  sed -i "s/env python/&3/" src/psl-make-dafsa
+
+depends:
+  - libidn2
+sources:
+  - https://github.com/rockdaboot/libpsl/releases/download/%{version}/libpsl-%{version}.tar.gz

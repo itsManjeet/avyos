@@ -1,0 +1,13 @@
+id: xrandr
+version: 1.5.4
+about: Primitive commandline interface to RandR extensions
+
+depends:
+  - libx11
+  - libxrandr
+
+build-depends:
+  - util-macros
+
+sources:
+  - https://www.x.org/pub/individual/app/xrandr-%{version}.tar.xz

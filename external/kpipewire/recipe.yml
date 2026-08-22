@@ -1,0 +1,15 @@
+id: kpipewire
+about: Components relating to pipewire use in Plasma
+merge: [external/plasma.inc]
+
+depends:
+  - ffmpeg
+  - kcoreaddons
+  - ki18n
+  - libepoxy
+  - pipewire
+
+build-depends:
+  - extra-cmake-modules
+  - kwayland
+  - plasma-wayland-protocols

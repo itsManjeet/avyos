@@ -1,0 +1,16 @@
+id: appstream-glib
+version: 0.8.3
+about: Objects and methods for reading and writing AppStream metadata
+
+configure: >
+  -D rpm=false
+
+depends:
+  - gtk3
+  - libyaml
+  - librsvg
+  - curl
+  - snowball
+
+sources:
+  - http://people.freedesktop.org/~hughsient/appstream-glib/releases/appstream-glib-%{version}.tar.xz

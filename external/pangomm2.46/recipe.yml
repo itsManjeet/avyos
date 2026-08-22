@@ -1,0 +1,14 @@
+id: pangomm2.46
+version: 2.46.4
+about: A C++ interface to Pango
+
+variables:
+  run-autogen: false
+
+depends:
+  - cairomm1.14
+  - glibmm2.66
+  - pango
+sources:
+  - https://download.gnome.org/sources/pangomm/%{version:2}/pangomm-%{version}.tar.xz
+

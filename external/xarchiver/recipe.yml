@@ -1,0 +1,28 @@
+id: xarchiver
+version: 0.5.4.26
+about: GTK+ frontend to various command line archivers
+
+configure: >-
+  --libexecdir=%{libdir}/xfce4
+
+depends:
+  - gtk3
+  - bzip2
+  - cpio
+  - gzip
+  - lz4
+  - tar
+  - zstd
+  - lzip
+  - p7zip
+  - zip
+  - unzip
+  - binutils
+  - xdg-utils
+
+build-depends:
+  - xmlto
+  - intltool
+
+sources:
+  - https://github.com/ib/xarchiver/archive/%{version}/xarchiver-%{version}.tar.gz

@@ -1,0 +1,18 @@
+id: dconf
+version: 0.40.0
+about: A low-level configuration system
+
+configure: >-
+  -D bash_completion=false
+
+depends:
+  - dbus
+  - glib
+  - libxml2
+  - libxslt
+build-depends:
+  - vala
+  - python-packaging
+sources:
+  - https://download.gnome.org/sources/dconf/%{version:2}/dconf-%{version}.tar.xz
+# TODO: enable bash_completion

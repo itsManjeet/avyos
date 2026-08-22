@@ -1,0 +1,8 @@
+id: xfce4-notes-plugin
+version: 1.12.0
+about: Notes plugin for the Xfce panel
+
+merge: [external/xfce4-panel-plugin.inc]
+
+depends:
+  - gtksourceview4

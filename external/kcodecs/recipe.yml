@@ -1,0 +1,8 @@
+id: kcodecs
+
+depends:
+  - qt
+build-depends:
+  - gperf
+  - extra-cmake-modules
+merge: [external/kf5.inc]

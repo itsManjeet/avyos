@@ -1,0 +1,13 @@
+id: libgnomekbd
+version: 3.28.1
+about: GNOME KBD library
+
+build-depends:
+  - gobject-introspection
+
+depends:
+  - libxklavier
+  - gtk3
+
+sources:
+  - https://download.gnome.org/sources/libgnomekbd/%{version:2}/libgnomekbd-%{version}.tar.xz

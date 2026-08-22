@@ -1,0 +1,30 @@
+id: connman
+version: 2.0
+about: Intel's modular network connection manager
+
+configure: >-
+  --with-systemdunitdir=%{libdir}/systemd/system
+  --enable-openvpn
+  --enable-polkit
+  --enable-client
+  --enable-nmcompat
+  --enable-test
+  --enable-pie
+
+post-script: |-
+  install -Dm755 -t %{install-root}%{bindir}/ %{build-dir}/client/connmanctl
+
+depends:
+  - dbus
+  - glib
+  - gnutls
+  - iptables
+  - bluez
+  # - external/iwd
+  - libmnl
+  - openvpn
+  # - external/pptpclient
+  - wpa_supplicant
+
+sources:
+  - https://www.kernel.org/pub/linux/network/connman/connman-%{version}.tar.xz

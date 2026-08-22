@@ -1,0 +1,141 @@
+id: image
+merge: [version.yml]
+about: installer disk image
+
+script: |-
+  efi_part_uuid="$(uuidgen -s --namespace "%{uuidnamespace}" --name partition-efi)"
+  root_part_uuid="$(uuidgen -s --namespace "%{uuidnamespace}" --name partition-root)"
+  usr_part_uuid="$(cat /usr-root-hash.txt | sed -E 's/^([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12}).*/\1-\2-\3-\4-\5/')"
+  usr_verity_part_uuid="$(cat /usr-root-hash.txt | sed -E 's/.*([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12})$/\1-\2-\3-\4-\5/')"
+  disk_uuid="$(uuidgen -s --namespace "%{uuidnamespace}" --name disk)"
+  id_efi="${efi_part_uuid%%-*}"
+  efi_size_mib=500
+  usr_size_mib=3072
+  usr_verity_size_mib=32
+  root_size_mib=2048
+  disk_slack_mib=8
+  disk_size_mib=$((efi_size_mib + usr_size_mib + usr_verity_size_mib + root_size_mib + disk_slack_mib))
+
+  usr_img="$(readlink /usr.squashfs)"
+  img_version="${usr_img##usr_}"
+  img_version="${img_version%.squashfs}"
+  img_version="${img_version%_*}"
+
+  mkdir -p "%{install-root}"
+  expected_uki="EFI/Linux/rlxos_${img_version}.efi"
+  boot_source=""
+  for boot_dir in /install-root/*/boot; do
+    [ "${boot_dir}" = "%{install-root}/boot" ] && continue
+    [ -d "${boot_dir}" ] || continue
+    [ -f "${boot_dir}/${expected_uki}" ] || continue
+    boot_source="${boot_dir}"
+    break
+  done
+  if [ -z "${boot_source}" ]; then
+    echo "missing installer boot tree containing ${expected_uki}" >&2
+    find /install-root -maxdepth 6 -type f -path '*/boot/EFI/Linux/*.efi' -print >&2
+    exit 1
+  fi
+  cp -a "${boot_source}" "%{install-root}/boot"
+  test -d "%{install-root}/boot"
+  test -f "%{install-root}/boot/${expected_uki}"
+
+  cp -L /usr.squashfs "%{install-root}/usr.squashfs"
+  cp -L /usr.verity "%{install-root}/usr.verity"
+
+  rootfs="%{install-root}/rootfs"
+  rm -rf "${rootfs}"
+  install -d -m 0755 \
+    "${rootfs}/boot" \
+    "${rootfs}/dev" \
+    "${rootfs}/etc" \
+    "${rootfs}/home" \
+    "${rootfs}/mnt" \
+    "${rootfs}/opt" \
+    "${rootfs}/proc" \
+    "${rootfs}/run" \
+    "${rootfs}/srv" \
+    "${rootfs}/sys" \
+    "${rootfs}/usr" \
+    "${rootfs}/var"
+  install -d -m 0700 "${rootfs}/root"
+  install -d -m 1777 "${rootfs}/tmp"
+  ln -s usr/bin "${rootfs}/bin"
+  ln -s usr/bin "${rootfs}/sbin"
+  ln -s usr/lib "${rootfs}/lib"
+  ln -s usr/lib "${rootfs}/lib64"
+
+  cat > %{build-root}/genimage.cfg << EOF
+  image efi.img {
+    vfat {
+      extraargs = "--invariant -F32 -i ${id_efi} -n EFI"
+    }
+    mountpoint = "/boot"
+    size = ${efi_size_mib}M
+  }
+  image root.img {
+    ext4 {
+      label = "rlxos-root"
+    }
+    mountpoint = "/rootfs"
+    size = ${root_size_mib}M
+  }
+  image disk.img {
+    size = ${disk_size_mib}M
+    hdimage {
+      align = 1M
+      partition-table-type = "gpt"
+      disk-uuid = "${disk_uuid}"
+    }
+    partition efi {
+      image = "efi.img"
+      partition-type-uuid = "U"
+      partition-uuid = "${efi_part_uuid}"
+    }
+    partition rlxos_usr_${img_version} {
+      image = "usr.squashfs"
+      partition-type-uuid = "%{usr-uuid}"
+      partition-uuid = "${usr_part_uuid}"
+      size = ${usr_size_mib}M
+    }
+    partition rlxos_usr_verity_${img_version} {
+      image = "usr.verity"
+      partition-type-uuid = "%{usr-verity-uuid}"
+      partition-uuid = "${usr_verity_part_uuid}"
+      size = ${usr_verity_size_mib}M
+    }
+    partition rlxos_root {
+      image = "root.img"
+      partition-type-uuid = "%{root-uuid}"
+      partition-uuid = "${root_part_uuid}"
+      size = ${root_size_mib}M
+    }
+  }
+  config {
+    tmppath = "%{build-root}/tmp"
+    inputpath = "%{install-root}"
+    outputpath = "%{install-root}"
+  }
+  EOF
+
+  du -h --max-depth=1 "%{install-root}" | grep '^[^0]' | sort -rh
+
+  genimage --config "%{build-root}/genimage.cfg" --rootpath "%{install-root}"
+
+  du -BM "%{install-root}/disk.img"
+
+uuidnamespace: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+
+root-uuid: 4f68bce3-e8cd-4db1-96e7-fbcaf984b709
+usr-uuid: 8484680c-9521-48c6-9c11-b0720656f69e
+usr-verity-uuid: 77ff5f63-e7b6-4633-acf4-1565b864c0e6
+
+include:
+  - system:signed-boot
+
+build-depends:
+  - system
+  - genimage
+  - e2fsprogs
+  - libisoburn
+  - gptfdisk

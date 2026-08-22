@@ -1,0 +1,22 @@
+id: python-build
+version: 1.4.2
+about: Simple, correct PEP 517 build frontend
+
+script: |-
+  PYTHONPATH="${PWD}/src:${PYTHONPATH}" \
+    python -m build --no-isolation --wheel .
+
+  python -m installer --destdir %{install-root} \
+    dist/build-%{version}-py3-none-any.whl
+
+depends:
+  - python
+
+build-depends:
+  - python-flit-core
+  - python-installer
+  - python-packaging
+  - python-pyproject-hooks
+
+sources:
+  - https://files.pythonhosted.org/packages/source/b/build/build-%{version}.tar.gz

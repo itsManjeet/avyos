@@ -1,0 +1,55 @@
+version: 2.43
+about: GNU C Library
+
+keep-files:
+  - lib(.*)\.dbg
+
+pre-script: |-
+  echo "slibdir=%{libdir}"      >> configparms
+  echo "rtlddir=%{libdir}"      >> configparms
+  echo "sbindir=%{bindir}"      >> configparms
+  echo "rootsbindir=%{bindir}"  >> configparms
+
+  sed -e '/while..ancount/c\  for (; ancount > 0; --ancount)'  \
+    -e '/binary_hnok..expected/s/expected_name/name_buffer/' \
+    -i resolv/nss_dns/dns-host.c
+
+configure: >-
+  --with-headers=%{prefix}/include
+  --with-bugurl=https://github.com/itsmanjeet/rlxos/issues
+  --enable-bind-now
+  --enable-cet
+  --enable-fortify-source
+  --enable-kernel=5.10
+  --enable-stack-protector=strong
+  --disable-multi-arch
+  --disable-nscd
+  --disable-profile
+  --disable-werror
+
+compile: -O
+
+post-script: |
+  make -C %{build-root}/localedata objdir=%{build-root}/%{build-dir} \
+    DESTDIR=%{build-root}/locales install-locale-files
+
+  rm -f %{install-root}/%{sysconfdir}/ld.so.cache
+  rm -f %{install-root}/%{bindir}/{tzselect,zdump,zic}
+
+  install -dm755 %{install-root}/usr/lib/{locale,systemd/system,tmpfiles.d}
+
+  install -m644 posix/gai.conf %{install-root}/%{sysconfdir}/gai.conf
+
+  sed -e '1,3d' -e 's|/| |g' -e 's| \\||g' \
+    localedata/SUPPORTED > %{install-root}/%{datadir}/i18n/SUPPORTED
+
+  install -dm755 %{install-root}/%{libdir}/locale
+  cp -r %{build-root}/locales/%{libdir}/locale/C.utf8 -t %{install-root}/%{libdir}/locale
+
+  install -Dm644 sdt.h %{install-root}/%{prefix}/include/sys/sdt.h
+  install -Dm644 sdt-config.h %{install-root}/%{prefix}/include/sys/sdt-config.h
+
+sources:
+  - https://ftp.gnu.org/gnu/glibc/glibc-%{version}.tar.xz
+  - external/sdt.h
+  - external/sdt-config.h

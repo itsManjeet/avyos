@@ -1,0 +1,11 @@
+id: plasma-framework
+merge: [external/kf5.inc]
+about: KF5 plasma-framework
+
+depends:
+  - kactivities
+  - kdeclarative
+  - kirigami2
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

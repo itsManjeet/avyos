@@ -26,4 +26,4 @@ These are not appropriate avenues for seeking help or support with an open-sourc
 
 ## Customer Support
 
-I do not provide any sort of "customer support" for open-source projects. However, for any serious query you can try contracting and consulting, mail to [Support](mailto:support@rlxos.dev).
+I do not provide any sort of "customer support" for open-source projects. However, for any serious query you can try contracting and consulting, mail to [Support](mailto:support@rlxos.org).

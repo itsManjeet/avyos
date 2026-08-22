@@ -1,0 +1,7 @@
+id: bspwm
+version: 0.9.10
+about: bspwm window manager
+include:
+  - bspwm
+
+merge: [external/extension.inc]

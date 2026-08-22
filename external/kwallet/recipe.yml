@@ -1,0 +1,15 @@
+id: kwallet
+merge: [external/kf5.inc]
+about: KF5 kwallet
+
+depends:
+  - gpgme
+  - kiconthemes
+  - knotifications
+  - kservice
+  - libgcrypt
+  - qca
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+  - boost

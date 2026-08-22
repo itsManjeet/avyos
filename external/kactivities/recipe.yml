@@ -1,0 +1,12 @@
+id: kactivities
+about: KF5 kactivities
+
+depends:
+  - kconfig
+  - kcoreaddons
+  - kwindowsystem
+build-depends:
+  - boost
+  - extra-cmake-modules
+
+merge: [external/kf5.inc]

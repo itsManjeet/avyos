@@ -1,0 +1,11 @@
+id: etc-sysctl
+version: 0.1.0
+about: Linux kernel configuration
+
+build-depends:
+  - bash
+
+script: |-
+  install -v -D -m 0644 /dev/stdin %{install-root}%{sysconfdir}/sysctl.d/20-quiet-printk.conf << "EOF"
+  kernel.printk = 3 3 3 3
+  EOF

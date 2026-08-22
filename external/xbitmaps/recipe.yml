@@ -1,0 +1,9 @@
+id: xbitmaps
+version: 1.1.4
+about: Bitmap images used by multiple applications
+
+build-depends:
+- external/util-macros
+sources:
+- https://www.x.org/pub/individual/data/xbitmaps-1.1.2.tar.bz2
+

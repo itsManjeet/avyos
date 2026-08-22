@@ -1,0 +1,8 @@
+id: kirigami2
+merge: [external/kf5.inc]
+about: KF5 kirigami2
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules
+  - kpackage

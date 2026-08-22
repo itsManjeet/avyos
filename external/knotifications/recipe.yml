@@ -1,0 +1,12 @@
+id: knotifications
+merge: [external/kf5.inc]
+about: KF5 knotifications
+
+depends:
+  - kconfig
+  - kcoreaddons
+  - kwindowsystem
+  - libcanberra
+  - libxtst
+build-depends:
+  - extra-cmake-modules

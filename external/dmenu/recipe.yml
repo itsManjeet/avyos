@@ -1,0 +1,17 @@
+id: dmenu
+version: 5.4
+about: Generic menu for X
+release: 0
+depends:
+  - coreutils
+  - fontconfig
+  - freetype
+  - glibc
+  - libx11
+  - libxft
+  - libxinerama
+sources:
+  - https://dl.suckless.org/tools/dmenu-%{version}.tar.gz
+script: |-
+  make
+  make PREFIX=/usr DESTDIR=%{install-root} install

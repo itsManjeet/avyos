@@ -1,0 +1,11 @@
+id: gnome-menus
+version: 3.38.1
+about: GNOME menu specifications
+
+depends:
+  - glib
+build-depends:
+  - gobject-introspection
+  - intltool
+sources:
+  - https://download.gnome.org/sources/gnome-menus/%{version:2}/gnome-menus-%{version}.tar.xz

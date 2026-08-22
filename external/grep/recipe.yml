@@ -1,0 +1,13 @@
+id: grep
+version: 3.12
+about: |
+  Programs for searching through the contents of files
+
+pre-script: |
+  sed -i "s/echo/#echo/" src/egrep.sh
+
+depends:
+  - pcre2
+
+sources:
+  - https://ftp.gnu.org/gnu/grep/grep-%{version}.tar.xz

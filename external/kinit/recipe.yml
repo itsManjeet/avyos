@@ -1,0 +1,9 @@
+id: kinit
+merge: [external/kf5.inc]
+about: KF5 kinit
+
+depends:
+  - kio
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

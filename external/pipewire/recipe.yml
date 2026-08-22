@@ -1,0 +1,19 @@
+id: pipewire
+version: 1.6.4
+about: A server and user-space API to handle multimedia pipelines
+
+configure: >-
+  -D session-managers="[]"
+  --buildtype=release
+
+depends:
+  - bluez
+  - ffmpeg
+  - gstreamer
+  - libva
+  - pulseaudio
+  - sbc
+  - sdl
+  - v4l-utils
+sources:
+  - https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/%{version}/pipewire-%{version}.tar.bz2

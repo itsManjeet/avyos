@@ -1,0 +1,126 @@
+id: platform
+version: 2.0
+release: 2
+merge: [external/meta.inc]
+about: rlxos platform components
+
+depends:
+    - busybox
+    - ca-certificates
+    - coreutils
+    - dbus
+    - diffutils
+    - findutils
+    - glibc
+    - grep
+    - gzip
+    - inetutils
+    - iproute2
+    - kmod
+    - less
+    - libgcc
+    - libtool
+    - locales
+    - openssh
+    - sed
+    - ohmyzsh
+    - systemd
+    - tar
+    - man-pages
+    - man-db
+    - util-linux
+    - which
+    - xz
+    - zstd
+    - release-info
+    - pam-config
+    - pciutils
+    - tzdata
+    - kbd
+    - branding
+    - cups
+    - vim
+    - nano
+    - squashfs-tools
+    - wget
+    - sudo
+    - sysroot
+    - dmidecode
+    - libsmbios
+    - libgtop
+    - libwnck
+    - libnotify
+    - librsvg
+    - pulseaudio
+    - upower
+    - libnvme
+    - gstreamer
+    - e2fsprogs
+    - python-pip
+    - ufw
+    - zram-generator
+    - rsync
+
+    - plymouth
+    - fuse2
+
+    - parted
+    - dosfstools
+    - mtools
+
+    - libconfuse
+
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-xapp
+    - xdg-dbus-proxy
+    - wireplumber
+    - gnome-keyring
+    - dracut
+    - zsync
+
+    - firmware
+    - sof-firmware
+    - intel-ucode
+
+    - system-config-printer
+
+    # Components
+    - gvfs
+    - xdg-user-dirs-gtk
+    - xdg-utils
+    - power-profiles-daemon
+    - networkmanager
+    - networkmanager-openvpn
+    - network-manager-applet
+    - blueman
+    - ntfs-3g
+    - xarchiver
+    - updatectl
+
+    - meta-xfce4
+    - meta-x11
+    - lightdm
+    - picom
+
+    - initial-setup
+    - labwc
+    - astra
+    - mokutil
+    - sbsigntools
+    - efitools
+
+    # TODO: Fix these
+    - libxml2-compat
+    - spirv-tools
+
+    - linux
+    - nvidia
+
+    - system:systemd-preset
+    - system:etc-shells
+    - system:etc-skel
+    - system:etc-sysctl
+    - system:etc-default-useradd
+    - system:update-config
+    - system:x11-config
+    - system:default-background

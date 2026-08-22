@@ -1,0 +1,8 @@
+id: xfce4-systemload-plugin
+version: 1.4.0
+about: System load plugin for the Xfce panel
+
+build-depends:
+  - libgtop
+
+merge: [external/xfce4-panel-plugin.inc]

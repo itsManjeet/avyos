@@ -1,0 +1,6 @@
+id: openjdk
+merge: [external/java.inc, external/extension.inc]
+about: Open-source implementation of Oracle's Java Standard Edition platform
+
+include:
+  - openjdk

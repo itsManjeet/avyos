@@ -1,0 +1,9 @@
+id: i3
+version: 0.1.0
+about: I3 Window Manager
+include:
+  - i3
+  - i3lock
+  - i3status
+
+merge: [external/extension.inc]

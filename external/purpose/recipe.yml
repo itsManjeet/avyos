@@ -1,0 +1,13 @@
+id: purpose
+merge: [external/kf5.inc]
+about: KF5 purpose
+
+depends:
+  - kirigami2
+  - prison
+  - kio
+  - ki18n
+  - knotifications
+build-depends:
+  - extra-cmake-modules
+  - intltool

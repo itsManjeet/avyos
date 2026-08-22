@@ -1,0 +1,8 @@
+id: plasma-thunderbolt
+merge: [external/plasma.inc]
+about: Plasma plasma-thunderbolt
+
+depends:
+  - systemsettings
+build-depends:
+  - extra-cmake-modules

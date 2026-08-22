@@ -1,0 +1,40 @@
+id: ibus
+version: 1.5.34
+about: A new input framework for the Linux OS
+
+variables:
+  run-autogen: false
+
+configure: >-
+  --enable-dconf
+  --enable-memconf
+  --disable-appindicator
+  --disable-emoji-dict
+  --enable-engine
+  --disable-tests
+  --disable-gconf
+  --disable-gtk2
+  --disable-glibtest
+  --disable-libnotify
+  --disable-python2
+  --disable-scheme-compile
+  --disable-static
+  --disable-setup
+  --disable-ui
+  --disable-unicode-dict
+  --with-python=python3
+  --enable-wayland
+  --enable-introspection
+  --enable-vala
+  --enable-gtk4
+
+depends:
+  - dconf
+  - iso-codes
+  - gtk4
+  - gtk3
+build-depends:
+  - vala
+  - gobject-introspection
+sources:
+  - https://github.com/ibus/ibus/releases/download/%{version}/ibus-%{version}.tar.gz

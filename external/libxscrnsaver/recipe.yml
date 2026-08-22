@@ -1,0 +1,13 @@
+id: libxscrnsaver
+version: 1.2.5
+about: X11 Screen Saver extension client library
+
+depends:
+  - libx11
+  - libxext
+
+build-depends:
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXScrnSaver-%{version}.tar.xz

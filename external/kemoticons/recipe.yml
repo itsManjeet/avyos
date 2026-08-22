@@ -1,0 +1,8 @@
+id: kemoticons
+merge: [external/kf5.inc]
+about: KF5 kemoticons
+depends:
+  - karchive
+  - kservice
+build-depends:
+  - extra-cmake-modules

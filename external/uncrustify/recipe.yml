@@ -1,0 +1,16 @@
+id: uncrustify
+version: 0.82.0
+about: A source code beautifier
+
+post-script: |-
+  install -D -m 0644 -t %{install-root}%{datadir}/%{id}/ etc/*.cfg
+
+depends:
+  - libgcc
+
+build-depends:
+  - cmake
+  - python
+
+sources:
+  - https://github.com/uncrustify/uncrustify/archive/uncrustify-%{version}.tar.gz

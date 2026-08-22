@@ -1,0 +1,11 @@
+id: bluedevil
+about: Plasma bluedevil
+
+depends:
+  - bluez-qt
+  - kdeclarative
+  - kcmutils
+build-depends:
+  - extra-cmake-modules
+  - plasma-framework
+merge: [external/plasma.inc]

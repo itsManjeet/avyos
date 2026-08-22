@@ -1,0 +1,29 @@
+id: gettext
+version: 1.0
+about: Utilities for internationalization and localization
+
+build-dir: gettext-%{version}
+
+environ:
+  - NO_BUILD_DIR=1
+
+pre-script: |
+  autoreconf --force
+
+script: |
+  ./configure --prefix=%{prefix} \
+    --with-xz \
+    --without-included-gettext
+  make ${MAKEFLAGS}
+  make install DESTDIR=%{install-root}
+
+post-script: |
+  chmod -v 0755 %{install-root}/usr/lib/preloadable_libintl.so
+
+depends:
+  - acl
+  - libunistring
+  - libxml2
+
+sources:
+  - https://ftp.gnu.org/gnu/gettext/gettext-%{version}.tar.xz

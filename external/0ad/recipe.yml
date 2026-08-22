@@ -1,0 +1,73 @@
+id: 0ad
+version: 0.28.0
+about: |-
+  Cross-platform, 3D and historically-based real-time strategy game
+
+script: |-
+  export CXXFLAGS="${CXXFLAGS/-fexceptions/}"
+
+  cd libraries
+  ./build-source-libs.sh \
+    --with-system-premake
+
+  cd ../build/workspaces
+  ./update-workspaces.sh -j$(nproc) \
+    --with-system-premake5 \
+    --with-lto \
+    --without-pch \
+    --bindir=%{bindir} \
+    --libdir=%{libdir}/0ad \
+    --datadir=%{datadir}/0ad
+
+  cd gcc
+  make -j$(nproc)
+
+  install -d "%{install-root}"/usr/{bin,lib/0ad,share/0ad/data}
+  install -Dm755 binaries/system/pyrogenesis "%{install-root}/usr/bin"
+  install -Dm755 binaries/system/*.so "%{install-root}/usr/lib/0ad"
+
+  cp -r binaries/data/l10n/ "%{install-root}/usr/share/0ad/data/"
+
+  install -Dm755 build/resources/0ad.sh "%{install-root}/usr/bin/0ad"
+  install -Dm644 build/resources/0ad.desktop "%{install-root}/usr/share/applications/0ad.desktop"
+  install -Dm644 build/resources/0ad.png "%{install-root}/usr/share/pixmaps/0ad.png"
+
+depends:
+  - 0ad-data
+  - binutils
+  - boost-libs
+  - curl
+  - enet
+  - libogg
+  - libpng
+  - libvorbis
+  - libxml2
+  - openal
+  - sdl2
+  - wxwidgets-gtk3
+  - zlib
+  - mesa
+  - glu
+  - fmt
+  - gloox
+  - miniupnpc
+  - icu
+  - nspr
+  - libsodium
+  - which
+
+build-depends:
+  - boost
+  - cmake
+  - mesa
+  - zip
+  - libsm
+  - rust
+  - git
+  - python
+  - llvm
+  - cbindgen
+  - premake
+
+sources:
+  - https://releases.wildfiregames.com/0ad-%{version}-unix-build.tar.xz

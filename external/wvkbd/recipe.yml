@@ -1,0 +1,18 @@
+id: wvkbd
+version: 0.19.4
+about: On-screen keyboard for wlroots
+
+script: |-
+  make && make PREFIX=%{prefix} DESTDIR=%{install-root} install
+
+depends:
+  - wayland
+  - pango
+  - cairo
+
+build-depends:
+  - fontconfig
+  - libxkbcommon
+
+sources:
+  - wvkbd-%{version}.tar.gz::https://git.sr.ht/~proycon/wvkbd/archive/v%{version}.tar.gz

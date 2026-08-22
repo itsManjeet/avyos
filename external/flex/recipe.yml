@@ -1,0 +1,19 @@
+id: flex
+version: 2.6.4
+release: 1
+about: Utility for generating programs that recognize patterns in text
+
+sources:
+  - https://github.com/westes/flex/releases/download/v%{version}/flex-%{version}.tar.gz
+
+depends:
+  - glibc
+  - m4
+  - libtool
+
+configure: >
+  --disable-static
+
+post-script: |
+  ln -sv flex %{install-root}/usr/bin/lex
+  ln -sv flex.1 %{install-root}/usr/share/man/man1/lex.1

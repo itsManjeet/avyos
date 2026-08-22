@@ -1,0 +1,8 @@
+id: sed
+version: 4.10
+about: A stream editor
+sources:
+  - https://ftp.gnu.org/gnu/sed/sed-%{version}.tar.xz
+
+depends:
+  - acl

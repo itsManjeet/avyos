@@ -1,0 +1,13 @@
+id: mod_wsgi
+version: 4.9.0
+about: Python WSGI adapter module for apache
+
+configure: >
+  --with-python=%{bindir}/python
+  --with-apxs=%{bindir}/apxs
+
+depends:
+  - apache
+  - python
+sources:
+  - mod_wsgi-%{version}.tar.gz::https://github.com/GrahamDumpleton/mod_wsgi/archive/refs/tags/%{version}.tar.gz

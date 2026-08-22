@@ -1,0 +1,16 @@
+id: gtk-vnc
+version: 1.5.0
+about: A VNC viewer widget for GTK+
+
+depends:
+  - gnutls
+  - gtk3
+  - libgcrypt
+  - pulseaudio
+build-depends:
+  - gobject-introspection
+  - meson
+  - vala
+
+sources:
+  - https://download.gnome.org/sources/%{id}/%{version:2}/%{id}-%{version}.tar.xz

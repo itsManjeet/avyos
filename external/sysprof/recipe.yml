@@ -1,0 +1,14 @@
+id: sysprof
+version: 50.0
+about: |
+  A statistical and system-wide profiler for Linux
+
+pre-script: |-
+  mkdir -p /usr/local/include
+
+depends:
+  - json-glib
+  - libdazzle
+  - polkit
+sources:
+  - https://download.gnome.org/sources/sysprof/%{version:2}/sysprof-%{version}.tar.xz

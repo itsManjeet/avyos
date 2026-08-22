@@ -1,0 +1,13 @@
+id: gcc
+merge:
+  - external/gcc.inc
+
+depends:
+  - zlib
+  - libmpc
+  - libmpfr
+  - libgmp
+
+build-depends:
+  - binutils
+release: 2

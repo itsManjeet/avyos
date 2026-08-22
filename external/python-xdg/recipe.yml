@@ -1,0 +1,10 @@
+id: python-xdg
+version: "0.27"
+about: Python library to access freedesktop.org standards
+release: 0
+depends:
+- external/python
+build-depends:
+- external/python-setuptools
+sources:
+- https://files.pythonhosted.org/packages/source/p/pyxdg/pyxdg-%{version}.tar.gz

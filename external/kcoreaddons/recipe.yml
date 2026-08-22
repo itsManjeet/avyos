@@ -1,0 +1,7 @@
+id: kcoreaddons
+merge: [external/kf5.inc]
+about: KF5 kcoreaddons
+depends:
+  - qt
+build-depends:
+  - extra-cmake-modules

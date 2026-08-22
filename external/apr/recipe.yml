@@ -1,0 +1,16 @@
+id: apr
+version: 1.7.6
+about: Apache portable runtime library
+
+configure: >
+  --with-installbuilddir=%{datadir}/apr-1
+
+post-script: sed -i -r "/^APR_(SOURCE|BUILD)/s|=.*|=|" %{install-root}/%{bindir}/apr-1-config
+
+depends:
+  - util-linux
+  - expat
+  - gdbm
+  - sqlite
+sources:
+  - https://archive.apache.org/dist/apr/apr-%{version}.tar.bz2

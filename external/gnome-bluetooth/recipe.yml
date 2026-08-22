@@ -1,0 +1,23 @@
+id: gnome-bluetooth
+version: 47.2
+about: Tools for managing and manipulating Bluetooth devices using the GNOME Desktop
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - gtk4
+  - libcanberra
+  - libadwaita
+  - libnotify
+  - bluez
+  - systemd
+  - gsound
+  - libyaml
+  - upower
+build-depends:
+  - gobject-introspection
+  - itstool
+  - gtk-doc
+sources:
+  - https://download.gnome.org/sources/gnome-bluetooth/%{version:2}/gnome-bluetooth-%{version}.tar.xz

@@ -1,0 +1,38 @@
+id: gnome-software
+version: 50.1
+about: GNOME Software Tools
+
+configure: >-
+  -D packagekit=false
+  -D tests=false
+  -D malcontent=false
+  -D fwupd=false
+  -D webapps=false
+  -D hardcoded_foss_webapps=false
+  -D hardcoded_proprietary_webapps=false
+  -D systemd-sysupdate=true
+
+depends:
+  - appstream
+  - dconf
+  - gdk-pixbuf
+  - gsettings-desktop-schemas
+  - gtk4
+  - json-glib
+  - hicolor-icon-theme
+  - libadwaita
+  - libgudev
+  - libsoup3
+  - libxmlb
+  - pango
+  - polkit
+  - flatpak
+  - llvm-runtime
+  # - external/fwupd
+
+build-depends:
+  - docbook-xsl
+  - llvm
+
+sources:
+  - https://download.gnome.org/sources/gnome-software/%{version:1}/gnome-software-%{version}.tar.xz

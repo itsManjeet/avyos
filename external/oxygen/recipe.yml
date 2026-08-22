@@ -1,0 +1,12 @@
+id: oxygen
+merge: [external/plasma.inc]
+about: Plasma oxygen
+
+depends:
+  - frameworkintegration
+  - hicolor-icon-theme
+  - kdecoration
+  - kcmutils
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

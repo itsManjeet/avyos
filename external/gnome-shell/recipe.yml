@@ -1,0 +1,40 @@
+id: gnome-shell
+version: 50.1
+about: Core user interface for GNOME Desktop Environment
+
+depends:
+  - networkmanager
+  - accountsservice
+  - dconf
+  - evolution-data-server
+  - startup-notification
+  - upower
+  - gdm
+  - gnome-bluetooth
+  - gnome-desktop
+  - gnome-settings-daemon
+  - mutter
+  - adwaita-icon-theme
+  - gcr-4
+  - gjs
+  - glib
+  - gobject-introspection
+  - gstreamer
+  - gtk4
+  - libsoup
+  - gnome-autoar
+  - libgnomekbd
+  - libgweather
+  - geoclue
+
+build-depends:
+  - sassc
+
+sources:
+  - https://download.gnome.org/sources/gnome-shell/%{version:2}/gnome-shell-%{version}.tar.xz
+
+configure: >-
+  --buildtype=release
+  -Dextensions_app=false
+  -Dextensions-tool:bash_completion=disabled
+  -Dtests=false

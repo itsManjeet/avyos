@@ -1,0 +1,24 @@
+id: shared-mime-info
+version: 2.4
+about: Package contains a MIME database
+
+depends:
+  - glib
+  - libxml2
+
+build-depends:
+  - itstool
+  - xmlto
+
+sources:
+  - https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/%{version}/shared-mime-info-%{version}.tar.gz
+
+environ:
+  - XML_CATALOG_FILES=/etc/xml/catalog
+
+configure: >
+  --buildtype=release
+  -Dupdate-mimedb=true
+
+integration: |-
+  update-mime-database %{datadir}/mime

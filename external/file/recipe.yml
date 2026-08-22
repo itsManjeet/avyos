@@ -1,0 +1,12 @@
+id: file
+version: 5.47
+about: Utility for determining the type of a given file or files.
+
+depends:
+  - glibc
+  - zlib
+  - bzip2
+
+sources:
+- https://astron.com/pub/file/file-%{version}.tar.gz
+

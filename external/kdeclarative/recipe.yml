@@ -1,0 +1,10 @@
+id: kdeclarative
+merge: [external/kf5.inc]
+about: KF5 kdeclarative
+
+depends:
+  - kio
+  - kpackage
+  - libepoxy
+build-depends:
+  - extra-cmake-modules

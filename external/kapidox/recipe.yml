@@ -1,0 +1,16 @@
+id: kapidox
+about: KF5 kapidox
+
+merge: [external/kf5.inc]
+script: |-
+  pip install build installer wheel
+
+  python -m build --wheel --no-isolation
+  python -m installer --destdir=%{install-root} dist/*.whl
+
+depends:
+  - qt
+  - python-jinja2
+build-depends:
+  - python-pip
+  - extra-cmake-modules

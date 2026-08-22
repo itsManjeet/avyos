@@ -1,0 +1,22 @@
+id: gtkgreet
+version: 0.8
+about: GTK based greeter for greetd
+
+pre-script: |-
+
+configure: >-
+  -D layershell=enabled
+
+depends:
+  - gtk-layer-shell
+  - gtk3
+  - json-c
+
+build-depends:
+  - meson
+  - ninja
+  - scdoc
+
+sources:
+  - gtkgreet-%{version}.tar.gz::https://git.sr.ht/~kennylevinsen/gtkgreet/archive/%{version}.tar.gz
+  - external/gtkgreet/greetd-gtkgreet-fix-build.patch

@@ -1,0 +1,23 @@
+id: tracker-miners
+version: 3.7.2
+about: Package contains a set of data extractors for Tracker
+
+configure: >-
+  --buildtype=release
+  -D man=false
+
+depends:
+  - gstreamer
+  - tracker
+  - exempi
+  - gexiv2
+  - ffmpeg
+  - giflib
+  - icu
+  - libexif
+  - libgrss
+  - libgxps
+  - poppler
+  - upower
+sources:
+  - https://download.gnome.org/sources/tracker-miners/%{version:2}/tracker-miners-%{version}.tar.xz

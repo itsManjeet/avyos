@@ -1,0 +1,9 @@
+id: libnl
+version: 3.12.0
+about: Libraries providing APIs to netlink protocol based Linux kernel interfaces
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/thom311/libnl/releases/download/libnl%{version:_}/libnl-%{version}.tar.gz

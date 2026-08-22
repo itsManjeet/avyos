@@ -1,0 +1,13 @@
+id: lz4
+version: 1.10.0
+about: Extremely fast compression algorithm
+sources:
+  - lz4-%{version}.tar.gz::https://github.com/lz4/lz4/archive/refs/tags/v%{version}.tar.gz
+
+depends:
+  - diffutils
+
+script: |
+  make -C lib PREFIX=%{prefix}
+  make -C programs PREFIX=%{prefix} lz4 lz4c
+  make install PREFIX=%{prefix} DESTDIR=%{install-root}

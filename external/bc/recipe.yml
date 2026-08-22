@@ -1,0 +1,15 @@
+id: bc
+version: 1.07.1
+about: An arbitrary precision calculator language
+
+configure: >-
+  --with-readline
+
+depends:
+  - readline
+
+build-depends:
+  - ed
+
+sources:
+  - https://ftp.gnu.org/gnu/bc/bc-%{version}.tar.gz

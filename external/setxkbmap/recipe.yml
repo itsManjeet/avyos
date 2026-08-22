@@ -1,0 +1,13 @@
+id: setxkbmap
+version: 1.3.5
+about: Set the keyboard using the X keyboard extension
+
+depends:
+  - libxkbfile
+  - libxrandr
+
+build-depends:
+  - util-macros
+sources:
+- https://www.x.org/pub/individual/app/setxkbmap-%{version}.tar.xz
+

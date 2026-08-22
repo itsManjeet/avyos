@@ -1,0 +1,26 @@
+id: clutter
+version: 1.26.4
+about: |
+  Library used for creating fast, visually rich and animated graphical user interfaces
+
+build-type: autotools
+configure: >
+  --enable-egl-wayland
+  --enable-evdev-input
+  --enable-wayland-backend
+  --enable-wayland-compositor
+
+depends:
+  - at-spi2-core
+  - cogl
+  - json-glib
+  - gtk3
+  - libgudev
+  - libinput
+  - libxkbcommon
+  - wayland
+build-depends:
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/clutter/%{version:2}/clutter-%{version}.tar.xz
+# TODO: check configure options

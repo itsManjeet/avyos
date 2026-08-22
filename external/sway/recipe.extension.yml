@@ -1,0 +1,11 @@
+id: sway
+version: 0.1.0
+about: Meta sway compositor
+
+include:
+  - swayfx
+  - swaybg
+  - swayidle
+  - swaylock
+
+merge: [external/extension.inc]

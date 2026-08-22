@@ -1,0 +1,19 @@
+id: gconf
+version: 3.2.6
+about: A configuration database system used by many GNOME applications
+
+post-script: |-
+  ln -sv gconf.xml.default %{install-root}%{sysconfdir}/gconf/gconf.xml.system
+
+configure: >-
+  --disable-static 
+  -disable-orbit
+
+depends:
+  - dbus-glib
+  - libxml2
+  - gobject-introspection
+  - gtk3
+  - polkit
+sources:
+  - https://download.gnome.org/sources/GConf/%{version:2}/GConf-%{version}.tar.xz

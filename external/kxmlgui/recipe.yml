@@ -1,0 +1,9 @@
+id: kxmlgui
+merge: [external/kf5.inc]
+about: KF5 kxmlgui
+
+depends:
+  - kglobalaccel
+  - kiconthemes
+build-depends:
+  - extra-cmake-modules

@@ -1,0 +1,18 @@
+id: grim
+version: 1.5.0
+about: Screenshot utility for Wayland
+
+depends:
+  - cairo
+  - libjpeg-turbo
+  - wayland
+
+build-depends:
+  - meson
+  - ninja
+  - pango
+  - scdoc
+  - wayland-protocols
+
+sources:
+  - https://git.sr.ht/~emersion/grim/refs/download/v%{version}/grim-%{version}.tar.gz

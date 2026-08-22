@@ -1,0 +1,15 @@
+id: gtksourceview5
+version: 5.12.1
+about: Libraries used for extending the GTK+ text functions to include syntax highlighting
+
+depends:
+  - gtk4
+  - pcre2
+build-depends:
+  - gobject-introspection
+  - libxml2
+  - vala
+  - gtk-doc
+
+sources:
+  - https://download.gnome.org/sources/gtksourceview/%{version:2}/gtksourceview-%{version}.tar.xz

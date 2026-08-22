@@ -1,0 +1,17 @@
+id: qogir-icon-theme
+version: 2025-02-15
+about: A colorful design icon theme for linux desktops
+merge: [external/update-icon-cache.inc]
+depends:
+  - hicolor-icon-theme
+build-depends:
+  - gtk3
+sources:
+  - qogir-icon-theme-%{version}.tar.gz::https://github.com/vinceliuice/Qogir-icon-theme/archive/refs/tags/%{version}.tar.gz
+script: |
+  install -d %{install-root}%{datadir}/icons
+
+  ./install.sh              \
+    --theme default         \
+    --color all             \
+    -d %{install-root}%{datadir}/icons

@@ -1,0 +1,21 @@
+id: granite
+version: 7.8.1
+about: Library that extends Gtk+
+
+configure: >-
+  -Db_pie=false
+
+depends:
+  - cairo
+  - gdk-pixbuf
+  - gtk4
+  - libgee
+  - pango
+
+build-depends:
+  - sassc
+  - gobject-introspection
+  - vala
+
+sources:
+  - granite-%{version}.tar.gz::https://github.com/elementary/granite/archive/refs/tags/%{version}.tar.gz

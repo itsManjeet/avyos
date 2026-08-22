@@ -1,0 +1,10 @@
+id: updatectl
+version: 0.1.0
+release: 2
+about: rlxos update control tool
+commit: 246765cfcd2cb4459e140fb51fbf84c45ca796ff
+depends:
+- external/systemd
+
+sources:
+- updatectl-%{commit}.tar.gz::https://github.com/itsManjeet/updatectl/archive/%{commit}.tar.gz

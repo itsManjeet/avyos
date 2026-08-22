@@ -1,0 +1,15 @@
+id: libhandy
+version: 1.8.3
+about: Provides additional GTK UI widgets for use in developing user interfaces
+
+configure: >-
+  --buildtype=release
+
+depends:
+  - gtk3
+build-depends:
+  - vala
+  - gobject-introspection
+  - meson
+sources:
+  - https://download.gnome.org/sources/libhandy/%{version:2}/libhandy-%{version}.tar.xz

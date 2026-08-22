@@ -1,0 +1,23 @@
+id: apr-util
+version: 1.6.3
+about: Apache portable runtime utils
+
+configure: >
+  --with-apr=%{prefix}
+  --with-expat=%{prefix}
+  --with-gdbm=%{prefix}
+  --with-sqlite3=%{prefix}
+  --disable-util-dso
+
+post-script: sed -i -r "/^APR_(SOURCE|BUILD)/s|=.*|=|" %{install-root}/%{bindir}/apu-1-config
+
+depends:
+  - util-linux
+  - expat
+  - gdbm
+  - sqlite
+  - apr
+sources:
+  - http://www.apache.org/dist/apr/apr-util-%{version}.tar.bz2
+
+# TODO: fix update url

@@ -1,0 +1,14 @@
+id: libmypaint
+version: 1.6.1
+about: a library for making brushstrokes which is used by MyPaint and other projects
+
+depends:
+  - json-c
+  - glib
+
+build-depends:
+  - gobject-introspection
+  - intltool
+
+sources:
+  - https://github.com/mypaint/libmypaint/releases/download/v%{version}/libmypaint-%{version}.tar.xz

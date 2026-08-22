@@ -1,0 +1,10 @@
+id: python-chardet
+version: 5.2.0
+about: Python3 module for character encoding auto-detection
+
+depends:
+  - python
+build-depends:
+  - python-setuptools
+sources:
+  - https://pypi.io/packages/source/c/chardet/chardet-%{version}.tar.gz

@@ -1,0 +1,39 @@
+id: fuse2
+version: 2.9.9
+about:
+  A simple interface for userspace programs to export a virtual filesystem to
+  the Linux kernel
+
+variables:
+  run-autogen: false
+  seperate-build-dir: false
+
+environ:
+  - UDEV_RULES_PATH=%{libdir}/udev/rules.d
+  - MOUNT_FUSE_PATH=%{bindir}
+
+pre-script: |-
+  patch -Np1 -i /external/fuse2/glibc-2.34-fix.patch
+
+  autoreconf -fi
+
+configure: >-
+  --enable-lib
+  --enable-util
+  --disable-example
+
+post-script: |
+  rm -r %{install-root}%{sysconfdir}/init.d
+  rm -r %{install-root}/dev
+
+sources:
+  - https://github.com/libfuse/libfuse/releases/download/fuse-%{version}/fuse-%{version}.tar.gz
+
+depends:
+  - glibc
+
+build-depends:
+  - libtool
+
+integration: |-
+  chmod 4755 %{bindir}/fusermount

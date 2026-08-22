@@ -1,0 +1,14 @@
+id: lxappearance
+version: 0.6.4
+about: Feature-rich GTK+ theme switcher of the LXDE desktop
+
+depends:
+  - gtk3
+build-depends:
+  - dbus-glib
+  - intltool
+sources:
+  - https://downloads.sourceforge.net/lxde/lxappearance-%{version}.tar.xz
+configure: >-
+  --enable-dbus
+  --enable-gtk3

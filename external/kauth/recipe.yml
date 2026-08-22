@@ -1,0 +1,11 @@
+id: kauth
+about: KF5 kauth
+
+depends:
+  - qt
+  - kcoreaddons
+  - polkit-qt
+  - kwindowsystem
+build-depends:
+  - extra-cmake-modules
+merge: [external/kf5.inc]

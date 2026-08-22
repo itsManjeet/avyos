@@ -1,0 +1,10 @@
+id: libthai
+version: 0.1.30
+about: Thai language support routines
+
+depends:
+  - libdatrie
+build-depends:
+  - pkg-config
+sources:
+  - https://linux.thai.net/pub/thailinux/software/libthai/libthai-%{version}.tar.xz

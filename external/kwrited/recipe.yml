@@ -1,0 +1,11 @@
+id: kwrited
+merge: [external/plasma.inc]
+about: Plasma kwrited
+
+depends:
+  - kdbusaddons
+  - knotifications
+  - kpty
+build-depends:
+  - extra-cmake-modules
+  - kdoctools

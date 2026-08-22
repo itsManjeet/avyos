@@ -23,7 +23,7 @@ jobs:
           submodules: true
           fetch-depth: 0
       - name: Add sign keys
-        run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
+        run: rm -rf external/sign-keys && cp -r ${SIGN_KEYS_PATH} external/sign-keys
 
       - name: Write changelog
         run: |-
@@ -54,14 +54,14 @@ jobs:
         run: ./scripts/configure.sh -version ${VERSION} -channel ${CHANNEL} -cache-path ${CACHE_PATH}
 
       - name: Build System image
-        run: go run avyos.dev/tools/ignite build installer/image.yml
+        run: go run rlxos.org/tools/ignite build installer
 
       - name: Build sysext extensions
         run: |-
-          for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
-            go run avyos.dev/tools/ignite build $ext
+          for ext in sdk:extension qemu:extension bspwm:extension nvidia:extension ; do
+            go run rlxos.org/tools/ignite build $ext
           done
-        #  elements/extensions/i3.yml elements/extensions/openjdk.yml elements/extensions/sway.yml elements/extensions/wine.yml elements/extensions/wm-kit-x11.yml elements/extensions/wm-kit.yml
+        #  i3:extension openjdk:extension sway:extension wine:extension wm-kit-x11:extension wm-kit:extension
 
   update-system-image:
     name: Update System image
@@ -72,7 +72,7 @@ jobs:
         with:
           token: ${{ secrets.CI_TOKEN }}
           submodules: true
-      
+
       - name: write local.conf
         run: ./scripts/configure.sh -version ${VERSION} -channel ${CHANNEL} -cache-path ${CACHE_PATH}
 
@@ -81,7 +81,7 @@ jobs:
         run: |
             mkdir -p ${CACHE_PATH}/releases/${CHANNEL}/
             cd ${CACHE_PATH}/releases/${CHANNEL}/
-            find . -maxdepth 1 -name "avyos-*-${CHANNEL}.img" -printf '%T@ %f\n' \
+            find . -maxdepth 1 -name "rlxos-*-${CHANNEL}.img" -printf '%T@ %f\n' \
               | sort -rn \
               | awk 'NR > 10 {print $2}' \
               | while read -r image; do
@@ -105,7 +105,7 @@ jobs:
 
       - name: Upload to sourceforge
         run: |-
-            scp -pr ${CACHE_PATH}/releases/${CHANNEL}/avyos-${VERSION}-${CHANNEL}-installer.iso ${SOURCEFORGE_PREFIX}/${CHANNEL}/
+            scp -pr ${CACHE_PATH}/releases/${CHANNEL}/rlxos-${VERSION}-${CHANNEL}-installer.iso ${SOURCEFORGE_PREFIX}/${CHANNEL}/
 
   publish-updates:
     name: Publish Updates
@@ -118,7 +118,7 @@ jobs:
           submodules: true
 
       - name: Add sign keys
-        run: rm -rf files/sign-keys && cp -r ${SIGN_KEYS_PATH} files/sign-keys
+        run: rm -rf external/sign-keys && cp -r ${SIGN_KEYS_PATH} external/sign-keys
 
       - name: write local.conf
         run: ./scripts/configure.sh -version ${VERSION} -channel ${CHANNEL} -cache-path ${CACHE_PATH}
@@ -128,6 +128,6 @@ jobs:
 
       - name: Publish extensions
         run: |
-          for ext in extensions/sdk.yml extensions/qemu.yml extensions/bspwm.yml extensions/nvidia.yml ; do
+          for ext in sdk:extension qemu:extension bspwm:extension nvidia:extension ; do
             ./scripts/update-sysext.sh "$ext"
           done

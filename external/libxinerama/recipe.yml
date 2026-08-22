@@ -1,0 +1,13 @@
+id: libxinerama
+version: 1.1.6
+about: X11 Xinerama extension library
+
+depends:
+  - libxext
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+  - https://www.x.org/pub/individual/lib/libXinerama-%{version}.tar.xz

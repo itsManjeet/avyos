@@ -1,0 +1,11 @@
+id: libxrender
+version: 0.9.12
+about: xorg library libXrender
+sources:
+  - https://www.x.org/pub/individual/lib/libXrender-%{version}.tar.xz
+
+depends:
+  - libx11
+
+build-depends:
+  - xorgproto

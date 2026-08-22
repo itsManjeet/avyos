@@ -1,0 +1,9 @@
+id: kcrash
+merge: [external/kf5.inc]
+about: KF5 kcrash
+depends:
+  - qt
+  - kcoreaddons
+  - kwindowsystem
+build-depends:
+  - extra-cmake-modules

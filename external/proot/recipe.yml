@@ -1,0 +1,18 @@
+id: proot
+version: 5.4.0
+about: chroot, mount --bind, and binfmt_misc without privilege/setup
+
+pre-script: |-
+  # patch -p1 -i /external/0001-Fix-use-of-size.patch
+script: |-
+  make -f GNUmakefile -C src
+  install -v -D -m 0755 src/%{id} -t %{install-root}/%{bindir}
+
+depends:
+  - talloc
+build-depends:
+  - libxslt
+sources:
+  - proot-v%{version}.tar.gz::https://github.com/cedric-vincent/proot/archive/v%{version}.tar.gz
+
+# TODO: fix patch

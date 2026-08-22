@@ -1,0 +1,11 @@
+id: exo
+version: 4.20.0
+about: Support library for xfce
+
+depends:
+  - libxfce4ui
+build-depends:
+  - intltool
+sources:
+  - https://archive.xfce.org/src/xfce/exo/%{version:2}/exo-%{version}.tar.bz2
+# TODO: fix update url

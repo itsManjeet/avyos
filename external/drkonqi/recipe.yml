@@ -1,0 +1,19 @@
+id: drkonqi
+version: 6.6.4
+about: Plasma drkonqi
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - gdb
+  - kidletime
+  - kio
+  - syntax-highlighting
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/plasma/%{version}/%{id}-%{version}.tar.xz
+# TODO: fix update url

@@ -1,0 +1,23 @@
+id: libxklavier
+version: 5.4
+about: A utility library for X keyboard
+
+run-autogen: false
+
+configure: >-
+  --disable-static
+  --disable-gtk-doc
+
+depends:
+  - glib
+  - iso-codes
+  - libxml2
+  - xkeyboard-config
+
+build-depends:
+  - gobject-introspection
+  - vala
+  - intltool
+
+sources:
+  - https://people.freedesktop.org/~svu/libxklavier-%{version}.tar.bz2

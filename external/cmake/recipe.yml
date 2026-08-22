@@ -1,0 +1,24 @@
+id: cmake
+version: 4.3.2
+about: Modern toolset used for generating Makefiles
+sources:
+  - https://cmake.org/files/v%{version:2}/cmake-%{version}.tar.gz
+
+depends:
+  - libuv
+  - curl
+  - lz4
+  - libarchive
+
+build-type: autotools
+pre-script: |
+  sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
+script: |
+  ./configure --prefix=%{prefix}  \
+  --system-libs       \
+  --no-system-jsoncpp   \
+  --no-system-librhash  \
+  --no-system-cppdap \
+  --docdir=/share/doc/%{id}
+  make ${MAKEFLAGS}
+  make install DESTDIR=%{install-root}

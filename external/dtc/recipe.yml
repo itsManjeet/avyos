@@ -1,0 +1,20 @@
+id: dtc
+version: 1.7.2
+about: Device Tree Compiler
+
+pre-script: |-
+
+configure: >-
+  -D python=disabled
+
+sources:
+  - https://kernel.org/pub/software/utils/dtc/dtc-%{version}.tar.xz
+  - external/dtc/dtc-1.7.2-glibc_fixes-1.patch
+
+depends:
+  - glibc
+  - libyaml
+
+build-depends:
+  - meson
+  - swig

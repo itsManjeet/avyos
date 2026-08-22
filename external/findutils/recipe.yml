@@ -1,0 +1,8 @@
+id: findutils
+version: 4.10.0
+about: Programs to find files
+sources:
+  - https://ftp.gnu.org/gnu/findutils/findutils-%{version}.tar.xz
+
+depends:
+  - glibc

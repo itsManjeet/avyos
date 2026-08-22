@@ -1,0 +1,11 @@
+id: iio-sway
+version: 31-05-2022
+commit: e07477d1b2478fede1446e97424a94c80767819d
+about: Rotate Sway outputs based on current accelerometer orientation using iio-sensor-proxy
+
+depends:
+  - iio-sensor-proxy
+  - dbus 
+
+sources:
+  - iio-sway-%{commit}.tar.gz::https://github.com/okeri/iio-sway/archive/%{commit}.tar.gz

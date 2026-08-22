@@ -1,0 +1,11 @@
+id: icu
+version: 78.3
+about: International Components for Unicode
+
+build-dir: icu/source
+
+depends:
+  - glibc
+
+sources:
+  - https://github.com/unicode-org/icu/releases/download/release-%{version}/icu4c-%{version}-sources.tgz

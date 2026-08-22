@@ -1,0 +1,9 @@
+id: gcc-stage2
+merge:
+  - external/gcc.inc
+
+build-depends:
+  - binutils:stage2
+
+container: true
+release: 2

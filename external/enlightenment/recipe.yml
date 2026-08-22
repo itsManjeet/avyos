@@ -1,0 +1,44 @@
+id: enlightenment
+version: 0.27.1
+about: Enlightenment window manager
+
+backup:
+  - "%{sysconfdir}/enlightenment/sysaction.conf"
+  - "%{sysconfdir}/enlightenment/system.conf"
+  - "%{sysconfdir}/xdg/menus/e-applications.menu"
+
+configure: >-
+  -Dwl=true
+
+license-files:
+  - COPYING
+
+depends:
+  - alsa-lib
+  - bc
+  - bluez
+  - efl
+  - hicolor-icon-theme
+  - libexif
+  - pulseaudio
+  - librsvg
+  - libxkbcommon
+  - pam
+  - liberation-fonts
+  - udisks
+  - util-linux
+  - wayland
+  - xwayland
+  - acpid
+  - connman
+  - fprintd
+  - geoclue
+  # - external/packagekit
+
+build-depends:
+  - meson
+  - ninja
+  - wayland-protocols
+
+sources:
+  - https://download.enlightenment.org/rel/apps/enlightenment/enlightenment-%{version}.tar.xz

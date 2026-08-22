@@ -1,0 +1,12 @@
+id: libxext
+version: 1.3.7
+about: X11 miscellaneous extensions library
+depends:
+  - libx11
+
+build-depends:
+  - util-macros
+  - xorgproto
+
+sources:
+- https://www.x.org/pub/individual/lib/libXext-%{version}.tar.xz

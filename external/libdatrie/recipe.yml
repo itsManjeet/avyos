@@ -1,0 +1,10 @@
+id: libdatrie
+version: 0.2.14
+about:
+  Implementation of double array structure for representing trie, as proposed
+  by junichi Aoe
+
+depends:
+  - glibc
+sources:
+  - https://linux.thai.net/pub/thailinux/software/libthai/libdatrie-%{version}.tar.xz

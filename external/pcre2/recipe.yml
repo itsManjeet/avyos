@@ -1,0 +1,22 @@
+id: pcre2
+version: 10.47
+about: Perl Compatible Regular Expression libraries
+
+build-type: autotools
+configure: >-
+  --enable-unicode
+  --enable-jit
+  --enable-pcre2-16
+  --enable-pcre2-32
+  --enable-pcre2grep-libz
+  --enable-pcre2grep-libbz2
+  --enable-pcre2test-libreadline
+
+depends:
+  - bash
+  - bzip2
+  - readline
+  - zlib
+
+sources:
+  - https://github.com/PhilipHazel/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.bz2

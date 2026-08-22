@@ -1,0 +1,23 @@
+id: android-tools
+version: 31.0.3p2
+about: Android platform tools
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+
+depends:
+  - android-udev
+  - libusb
+  - zstd
+  - brotli
+  - protobuf
+  - pcre2
+build-depends:
+  - cmake
+  - git
+  - go
+  - ninja
+  - pcre
+  - gtest
+sources:
+  - https://github.com/nmeum/android-tools/releases/download/%{version}/android-tools-%{version}.tar.xz

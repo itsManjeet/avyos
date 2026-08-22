@@ -1,0 +1,12 @@
+id: baloo-widgets
+version: 26.04.1
+about: Widgets for baloo
+release: 0
+depends:
+  - baloo
+build-depends:
+  - extra-cmake-modules
+  - kdoctools
+sources:
+  - https://download.kde.org/stable/release-service/%{version}/src/%{id}-%{version}.tar.xz
+configure: -DBUILD_TESTING=OFF

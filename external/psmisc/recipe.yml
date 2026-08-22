@@ -1,0 +1,11 @@
+id: psmisc
+version: 23.7
+about: Programs for displaying information about running processes
+sources:
+  - https://sourceforge.net/projects/psmisc/assets/psmisc/psmisc-%{version}.tar.xz
+
+depends:
+  - ncurses
+
+variables:
+  seperate-build-dir: false

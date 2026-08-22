@@ -1,0 +1,10 @@
+id: libpipeline
+version: 1.5.8
+about:
+  Library for manipulating pipelines of subprocesses in a flexible and convenient
+  way
+
+depends:
+  - glibc
+sources:
+  - https://download.savannah.gnu.org/releases/libpipeline/libpipeline-%{version}.tar.gz

@@ -1,0 +1,14 @@
+id: wl-clipboard
+version: 2.3.0
+about: Command-line copy/paste utilities for Wayland
+
+depends:
+  - wayland
+  - xdg-utils
+
+build-depends:
+  - meson
+  - wayland-protocols
+
+sources:
+  - https://github.com/bugaevc/wl-clipboard/archive/v%{version}.tar.gz

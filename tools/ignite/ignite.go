@@ -29,6 +29,7 @@ type State struct {
 	id     string
 	recipe Recipe
 	cached bool
+	reason string
 }
 
 type WorkspaceFinishOptions struct {
@@ -48,6 +49,8 @@ type Ignite struct {
 	projectPath   string
 	cachePath     string
 	workspacePath string
+	arch          string
+	fetchJobs     int
 	pool          map[string]Recipe
 	compilers     map[string]Compiler
 	hashCache     map[string]string
@@ -69,7 +72,7 @@ func NewIgnite(config *Config, projectPath, cachePath, workspacePath, arch strin
 		workspacePath = filepath.Join(projectPath, workspacePath)
 	}
 	i := &Ignite{
-		config: config, projectPath: projectPath, cachePath: cachePath, workspacePath: workspacePath,
+		config: config, projectPath: projectPath, cachePath: cachePath, workspacePath: workspacePath, arch: arch,
 		pool: map[string]Recipe{}, compilers: map[string]Compiler{}, hashCache: map[string]string{},
 	}
 	if node := config.Node("compiler"); node != nil && node.Kind == yaml.MappingNode {
@@ -108,8 +111,8 @@ func (i *Ignite) virtualMergeFiles() map[string][]byte {
 }
 
 func (i *Ignite) Load() error {
-	root := filepath.Join(i.projectPath, "elements")
 	nextPool := map[string]Recipe{}
+	root := filepath.Join(i.projectPath, "external")
 	err := filepath.WalkDir(root, func(path string, entry fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -117,13 +120,16 @@ func (i *Ignite) Load() error {
 		if entry.IsDir() || filepath.Ext(path) != ".yml" {
 			return nil
 		}
-		rel, _ := filepath.Rel(root, path)
-		rel = filepath.ToSlash(rel)
+		id, ok := externalRecipeID(path, i.projectPath)
+		if !ok {
+			return nil
+		}
 		recipe, err := LoadRecipe(path, i.projectPath, i.virtualMergeFiles())
 		if err != nil {
-			return fmt.Errorf("failed to load %q because %w", rel, err)
+			return fmt.Errorf("failed to load %q because %w", id, err)
 		}
-		nextPool[rel] = recipe
+		recipe.arch = i.arch
+		nextPool[id] = recipe
 		return nil
 	})
 	if err != nil {
@@ -142,6 +148,7 @@ func (i *Ignite) Resolve(ids []string, devel, includeDepends, includeExtra bool)
 	visited := map[string]bool{}
 	var dfs func(string) error
 	dfs = func(id string) error {
+		id = canonicalRecipeReference(id)
 		visited[id] = true
 		recipe, ok := i.pool[id]
 		if !ok {
@@ -153,6 +160,9 @@ func (i *Ignite) Resolve(ids []string, devel, includeDepends, includeExtra bool)
 		}
 		if includeExtra {
 			depends = append(depends, recipe.config.StringSlice("include")...)
+		}
+		for idx, dep := range depends {
+			depends[idx] = canonicalRecipeReference(dep)
 		}
 		if includeDepends {
 			for _, dep := range depends {
@@ -170,36 +180,11 @@ func (i *Ignite) Resolve(ids []string, devel, includeDepends, includeExtra bool)
 			return err
 		}
 		resolved.cache = hash
-		cached := !i.WorkspaceAvailable(resolved) && exists(i.CacheFile(resolved))
-		for _, dep := range depends {
-			found := false
-			for _, state := range output {
-				if state.id == dep {
-					found = true
-					if !state.cached {
-						cached = false
-					}
-					break
-				}
-			}
-			if found {
-				continue
-			}
-			local, ok := i.pool[dep]
-			if !ok {
-				return fmt.Errorf("internal error %s not in a pool for %s", dep, id)
-			}
-			hash, err := i.Hash(local)
-			if err != nil {
-				return err
-			}
-			local.cache = hash
-			if i.WorkspaceAvailable(local) || !exists(i.CacheFile(local)) {
-				cached = false
-				break
-			}
+		cacheState, err := i.PackageCacheState(resolved)
+		if err != nil {
+			return err
 		}
-		output = append(output, State{id, resolved, cached})
+		output = append(output, State{id: id, recipe: resolved, cached: cacheState.Cached, reason: cacheState.Reason})
 		return nil
 	}
 	for _, id := range ids {
@@ -225,20 +210,29 @@ func (i *Ignite) Hash(recipe Recipe) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	sum := sha256Hex(data)
-	includes := recipe.config.StringSlice("include")
-	for _, deps := range [][]string{recipe.depends, recipe.buildTimeDepends, includes} {
-		for _, dep := range deps {
-			depRecipe, ok := i.pool[dep]
-			if !ok {
-				return "", fmt.Errorf("missing required element %q for %s", dep, recipe.id)
-			}
-			depHash, err := i.Hash(depRecipe)
+	sum := sha256Hex(append(data, []byte("\narch="+recipe.arch)...))
+	resolved := recipe
+	if err := resolved.ResolveSources(*i.config, nil); err != nil {
+		return "", err
+	}
+	for _, source := range resolved.sources {
+		spec, err := parseSourceSpec(source)
+		if err != nil {
+			return "", err
+		}
+		input := source
+		if !spec.IsGit() && !strings.HasPrefix(spec.url, "http://") && !strings.HasPrefix(spec.url, "https://") {
+			checksum, err := fileSHA256(filepath.Join(i.projectPath, spec.url))
 			if err != nil {
 				return "", err
 			}
-			sum = sha256Hex([]byte(depHash + sum))
+			input = spec.url + "=" + checksum
+		} else if checksum, found, err := i.LockedSourceChecksum(spec.filename); err != nil {
+			return "", err
+		} else if found {
+			input = spec.filename + "=" + checksum
 		}
+		sum = sha256Hex([]byte(sum + input))
 	}
 	i.hashMu.Lock()
 	i.hashCache[key] = sum
@@ -283,9 +277,8 @@ func (i *Ignite) SetupContainer(recipe Recipe, typ ContainerType) (Container, er
 	binds := [][2]string{
 		{"/sources", filepath.Join(i.cachePath, "sources")},
 		{"/cache", filepath.Join(i.cachePath, "cache")},
-		{"/files", filepath.Join(i.projectPath, "files")},
-		{"/patches", filepath.Join(i.projectPath, "patches")},
-		{"/avyos", i.projectPath},
+		{"/external", filepath.Join(i.projectPath, "external")},
+		{"/rlxos", i.projectPath},
 	}
 	if ccache {
 		env = enableCCacheEnvironment(env)
@@ -310,7 +303,7 @@ func (i *Ignite) SetupContainer(recipe Recipe, typ ContainerType) (Container, er
 	i.config.SetString("dir.build", hostRoot)
 	_ = os.MkdirAll(filepath.Join(hostRoot, "usr", "local", "include"), 0755)
 	if ccache {
-		if err := i.IntegrateCachedTool(&c, "components/ccache.yml"); err != nil {
+		if err := i.IntegrateCachedTool(&c, "ccache"); err != nil {
 			return c, err
 		}
 	}
@@ -380,6 +373,7 @@ func (i *Ignite) SetupContainer(recipe Recipe, typ ContainerType) (Container, er
 }
 
 func (i *Ignite) IntegrateCachedTool(container *Container, id string) error {
+	id = canonicalRecipeReference(id)
 	if _, ok := i.pool[id]; !ok {
 		return nil
 	}
@@ -388,7 +382,11 @@ func (i *Ignite) IntegrateCachedTool(container *Container, id string) error {
 		return err
 	}
 	for _, state := range states {
-		if !exists(i.CacheFile(state.recipe)) {
+		cached, err := i.PackageCached(state.recipe)
+		if err != nil {
+			return err
+		}
+		if !cached {
 			return nil
 		}
 	}
@@ -464,6 +462,21 @@ func (i *Ignite) Integrate(container *Container, recipe Recipe, root string) err
 }
 
 func (i *Ignite) Build(recipe Recipe) error {
+	cached, err := i.PackageCached(recipe)
+	if err != nil {
+		return err
+	}
+	if cached {
+		return nil
+	}
+	previousRelease := recipe.release
+	recipe, err = i.bumpReleaseForRebuild(recipe)
+	if err != nil {
+		return err
+	}
+	if recipe.release != previousRelease {
+		fmt.Printf("Ignite::build(): bumped %s release %s -> %s\n", recipe.elementID, previousRelease, recipe.release)
+	}
 	container, err := i.SetupContainer(recipe, ContainerBuild)
 	if err != nil {
 		return err
@@ -592,7 +605,7 @@ func gitCurrentBranch(path string) string {
 }
 
 func gitWorkspaceBranch(recipe Recipe) string {
-	return "avyos/" + workspaceComponentID(recipe)
+	return "rlxos/" + workspaceComponentID(recipe)
 }
 
 func (i *Ignite) FetchSourceFile(source, sourceDir string, force bool) error {
@@ -615,7 +628,7 @@ func (i *Ignite) FetchSourceFile(source, sourceDir string, force bool) error {
 	}
 	if strings.HasPrefix(spec.url, "http") {
 		url := i.findMirror(spec.url)
-		if err := NewExecutor("/bin/wget").Arg("-c").Arg("-U").Arg("Avyos/0.1 (+https://avyos.dev)").Arg(url).Arg("-O").Arg(tmp).Execute(); err != nil {
+		if err := NewExecutor("/bin/wget").Arg("-c").Arg("-U").Arg("rlxos/0.1 (+https://rlxos.org)").Arg(url).Arg("-O").Arg(tmp).Execute(); err != nil {
 			return err
 		}
 		return os.Rename(tmp, filePath)
@@ -660,10 +673,48 @@ func (i *Ignite) LockedSourceChecksum(filename string) (string, bool, error) {
 	return value, ok, nil
 }
 
+type FetchFailure struct {
+	Recipe string
+	Source string
+	Err    error
+}
+
+type FetchError struct {
+	Failures []FetchFailure
+}
+
+func (e *FetchError) Error() string {
+	var out strings.Builder
+	fmt.Fprintf(&out, "fetch completed with %d failure(s):", len(e.Failures))
+	for _, failure := range e.Failures {
+		fmt.Fprintf(&out, "\n  %s: %s: %v", failure.Recipe, failure.Source, failure.Err)
+	}
+	return out.String()
+}
+
+type sourceFetchTask struct {
+	source  string
+	spec    SourceSpec
+	recipes []string
+}
+
+type sourceFetchResult struct {
+	task      *sourceFetchTask
+	checksum  string
+	useLocked bool
+	err       error
+}
+
 func (i *Ignite) FetchSources(ids []string, force bool) error {
 	var recipes []Recipe
 	if len(ids) == 0 {
-		for _, recipe := range i.pool {
+		recipeIDs := make([]string, 0, len(i.pool))
+		for id := range i.pool {
+			recipeIDs = append(recipeIDs, id)
+		}
+		sort.Strings(recipeIDs)
+		for _, id := range recipeIDs {
+			recipe := i.pool[id]
 			recipes = append(recipes, recipe)
 		}
 	} else {
@@ -685,54 +736,134 @@ func (i *Ignite) FetchSources(ids []string, force bool) error {
 			return err
 		}
 	}
+	failures := []FetchFailure{}
+	fail := func(recipe Recipe, source string, err error) {
+		failures = append(failures, FetchFailure{Recipe: recipe.elementID, Source: source, Err: err})
+	}
+	tasksByFilename := map[string]*sourceFetchTask{}
 	for _, recipe := range recipes {
 		if err := recipe.ResolveSources(*i.config, nil); err != nil {
-			return fmt.Errorf("failed to fetch sources for %q (%s): %w", elementName(recipe), recipe.id, err)
+			fail(recipe, "recipe sources", err)
+			continue
 		}
 		for _, source := range recipe.sources {
 			spec, err := parseSourceSpec(source)
 			if err != nil {
-				return err
-			}
-			if spec.IsGit() {
-				expected := ""
-				if !force {
-					expected = checksums[spec.filename]
-				}
-				commit, err := i.FetchGitSource(spec, sourceDir, force, expected)
-				if err != nil {
-					return err
-				}
-				if expected != "" && !force {
-					fmt.Println("Using locked git source:", spec.filename, commit)
-					continue
-				}
-				checksums[spec.filename] = commit
-				fmt.Println("Fetched git source:", spec.filename, commit)
+				fail(recipe, source, err)
 				continue
 			}
-			path := filepath.Join(sourceDir, spec.filename)
-			if err := i.FetchSourceFile(source, sourceDir, force); err != nil {
-				return err
-			}
-			if _, ok := checksums[spec.filename]; !force && ok {
-				fmt.Println("Using locked source:", spec.filename)
+			task, found := tasksByFilename[spec.filename]
+			if found && task.source != source {
+				fail(recipe, source, fmt.Errorf("source filename %q is already used by %q", spec.filename, task.source))
 				continue
 			}
-			sum, err := fileSHA256(path)
-			if err != nil {
-				return err
+			if !found {
+				task = &sourceFetchTask{source: source, spec: spec}
+				tasksByFilename[spec.filename] = task
 			}
-			checksums[spec.filename] = sum
-			fmt.Println("Fetched source:", spec.filename)
+			task.recipes = append(task.recipes, recipe.elementID)
 		}
-		if err := writeChecksumLock(lockFile, checksums); err != nil {
-			return err
-		}
-		fmt.Println("Checkpointed checksum lock after:", recipe.elementID)
 	}
-	fmt.Println("Wrote checksum lock:", lockFile)
+
+	tasks := make([]*sourceFetchTask, 0, len(tasksByFilename))
+	for _, task := range tasksByFilename {
+		tasks = append(tasks, task)
+	}
+	sort.Slice(tasks, func(a, b int) bool { return tasks[a].spec.filename < tasks[b].spec.filename })
+	lockedChecksums := make(map[string]string, len(checksums))
+	for filename, checksum := range checksums {
+		lockedChecksums[filename] = checksum
+	}
+	jobs := i.fetchJobs
+	if jobs < 1 {
+		jobs = 4
+	}
+	if jobs > len(tasks) && len(tasks) > 0 {
+		jobs = len(tasks)
+	}
+	results := make(chan sourceFetchResult, len(tasks))
+	work := make(chan *sourceFetchTask)
+	var workers sync.WaitGroup
+	for worker := 0; worker < jobs; worker++ {
+		workers.Add(1)
+		go func() {
+			defer workers.Done()
+			for task := range work {
+				results <- i.runFetchTask(task, sourceDir, force, lockedChecksums)
+			}
+		}()
+	}
+	for _, task := range tasks {
+		work <- task
+	}
+	close(work)
+	workers.Wait()
+	close(results)
+	for result := range results {
+		if result.err != nil {
+			for _, recipeID := range result.task.recipes {
+				failures = append(failures, FetchFailure{Recipe: recipeID, Source: result.task.source, Err: result.err})
+			}
+			continue
+		}
+		if result.task.spec.IsGit() {
+			if result.useLocked {
+				fmt.Println("Using locked git source:", result.task.spec.filename, result.checksum)
+			} else {
+				checksums[result.task.spec.filename] = result.checksum
+				fmt.Println("Fetched git source:", result.task.spec.filename, result.checksum)
+			}
+			continue
+		}
+		if result.useLocked {
+			fmt.Println("Using locked source:", result.task.spec.filename)
+		} else {
+			checksums[result.task.spec.filename] = result.checksum
+			fmt.Println("Fetched source:", result.task.spec.filename)
+		}
+	}
+	if err := writeChecksumLock(lockFile, checksums); err != nil {
+		failures = append(failures, FetchFailure{Recipe: "checksum.lock", Source: lockFile, Err: err})
+	} else {
+		fmt.Println("Wrote checksum lock:", lockFile)
+	}
+	if len(failures) > 0 {
+		return &FetchError{Failures: failures}
+	}
 	return nil
+}
+
+func (i *Ignite) runFetchTask(task *sourceFetchTask, sourceDir string, force bool, checksums map[string]string) sourceFetchResult {
+	result := sourceFetchResult{task: task}
+	expected := ""
+	if !force {
+		expected = checksums[task.spec.filename]
+	}
+	if task.spec.IsGit() {
+		commit, err := i.FetchGitSource(task.spec, sourceDir, force, expected)
+		if err != nil {
+			result.err = err
+			return result
+		}
+		result.checksum = commit
+		result.useLocked = expected != "" && !force
+		return result
+	}
+	if err := i.FetchSourceFile(task.source, sourceDir, force); err != nil {
+		result.err = err
+		return result
+	}
+	if expected != "" && !force {
+		result.useLocked = true
+		return result
+	}
+	sum, err := fileSHA256(filepath.Join(sourceDir, task.spec.filename))
+	if err != nil {
+		result.err = err
+		return result
+	}
+	result.checksum = sum
+	return result
 }
 
 func (i *Ignite) PrepareSources(recipe Recipe, sourceDir, buildRoot string) (string, error) {
@@ -922,7 +1053,7 @@ func (i *Ignite) WorkspaceFinish(recipe Recipe, opts WorkspaceFinishOptions) err
 		}
 	}
 	var exportedSources []string
-	outputDir := filepath.Join(i.projectPath, "patches", recipe.id)
+	outputDir := filepath.Join(i.projectPath, "external", recipe.id)
 	_ = os.MkdirAll(outputDir, 0755)
 	if len(patches) == 0 {
 		diffRoot := filepath.Join(i.cachePath, "temp", "workspace-diff-"+workspaceComponentID(recipe)+"-"+strconv.Itoa(os.Getpid()))
@@ -1053,7 +1184,7 @@ func (i *Ignite) WorkspaceFinishGit(recipe Recipe, workspace, meta string, opts 
 		}
 		message := opts.Message
 		if message == "" {
-			message = "avyos: update " + recipe.id + " workspace"
+			message = "rlxos: update " + recipe.id + " workspace"
 		}
 		if err := NewExecutor("/bin/git").Arg("commit").Arg("-m").Arg(message).Path(workspace).Execute(); err != nil {
 			return err
@@ -1091,7 +1222,7 @@ func (i *Ignite) WorkspaceFinishGit(recipe Recipe, workspace, meta string, opts 
 }
 
 func workspacePatchSource(recipe Recipe, patchPath string) string {
-	return filepath.ToSlash(filepath.Join("patches", recipe.id, filepath.Base(patchPath)))
+	return filepath.ToSlash(filepath.Join("external", recipe.id, filepath.Base(patchPath)))
 }
 
 func (i *Ignite) RecordWorkspacePatches(recipe Recipe, sources []string) error {
@@ -1432,6 +1563,9 @@ func (i *Ignite) Strip(recipe Recipe, container *Container, installRoot string) 
 func (i *Ignite) Pack(recipe Recipe, container *Container, installRoot, packagePath string) error {
 	installRootPackage := filepath.Join(installRoot, recipe.PackageName())
 	installRootDbg := filepath.Join(installRoot, recipe.PackageName()+".dbg")
+	if err := os.MkdirAll(installRootPackage, 0755); err != nil {
+		return err
+	}
 	_ = os.MkdirAll(installRootDbg, 0755)
 	keep := []*regexp.Regexp{}
 	for _, pattern := range recipe.config.StringSlice("keep-files") {
@@ -1501,6 +1635,13 @@ func (i *Ignite) Pack(recipe Recipe, container *Container, installRoot, packageP
 		if err == nil && len(entries) == 0 {
 			_ = os.Remove(dir)
 		}
+	}
+	info, err := i.packageInfo(recipe, installRootPackage)
+	if err != nil {
+		return err
+	}
+	if err := writePackageInfo(filepath.Join(installRootPackage, "INFO"), info); err != nil {
+		return err
 	}
 	fmt.Println("Compressing", recipe.Name())
 	userMap := filepath.Join(installRoot, "user-map")
@@ -1951,9 +2092,7 @@ func workspaceComponentID(recipe Recipe) string {
 	if id == "" {
 		id = recipe.id
 	}
-	id = strings.ReplaceAll(id, "/", "-")
-	id = strings.ReplaceAll(id, "\\", "-")
-	return id
+	return recipePathName(id)
 }
 
 func workspacePackageName(recipe Recipe) string {

@@ -1,0 +1,20 @@
+id: libgdata
+version: 0.18.1
+about: A GLib-based library for accessing online service
+
+configure: >-
+  --buildtype=release
+  -D always_build_tests=false
+
+depends:
+  - libsoup
+  - gnome-online-accounts
+  - gtk3
+  - json-glib
+  - gcr
+build-depends:
+  - vala
+  - gtk-doc
+  - gobject-introspection
+sources:
+  - https://download.gnome.org/sources/libgdata/%{version:2}/libgdata-%{version}.tar.xz

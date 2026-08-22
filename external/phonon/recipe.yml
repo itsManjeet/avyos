@@ -1,0 +1,11 @@
+id: phonon
+version: 4.12.0
+about: The multimedia API for KDE
+
+depends:
+  - glib
+  - qt
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/phonon/%{version}/phonon-%{version}.tar.xz

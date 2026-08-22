@@ -1,0 +1,8 @@
+id: plasma-wayland-protocols
+version: 1.20.0
+about: Protocol definations for KDE
+
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-%{version}.tar.xz

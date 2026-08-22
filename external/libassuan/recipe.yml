@@ -1,0 +1,8 @@
+id: libassuan
+version: 3.0.2
+about: An inter process communication library
+
+depends:
+  - libgpg-error
+sources:
+  - https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-%{version}.tar.bz2

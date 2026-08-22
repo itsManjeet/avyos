@@ -1,0 +1,29 @@
+id: libosinfo
+version: 1.12.0
+about:
+  GObject based library API for managing information about operating systems,
+  hypervisors and the (virtual) hardware devices they can support
+
+pre-script: |-
+  sed -i "s/'-Werror'//" meson.build
+
+configure: >-
+  -D with-usb-ids-path=%{datadir}/hwdata/usb.ids
+  -D with-pci-ids-path=%{datadir}/hwdata/pci.ids
+
+depends:
+  - glib
+  - hwdata
+  - libsoup3
+  - libxslt
+  - osinfo-db
+
+build-depends:
+  - gobject-introspection
+  - gtk-doc
+  - meson
+  - vala
+
+sources:
+  - https://releases.pagure.org/libosinfo/%{id}-%{version}.tar.xz
+  - external/libosinfo/fix-attribute-unused.patch

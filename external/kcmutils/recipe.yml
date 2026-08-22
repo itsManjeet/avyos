@@ -1,0 +1,9 @@
+id: kcmutils
+about: KF5 kcmutils
+
+depends:
+  - kdeclarative
+build-depends:
+  - extra-cmake-modules
+
+merge: [external/kf5.inc]

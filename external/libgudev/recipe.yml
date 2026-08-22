@@ -1,0 +1,14 @@
+id: libgudev
+version: 238
+about: GObject bindings for libudev.
+
+depends:
+  - glib
+  - systemd
+  - gobject-introspection
+
+build-depends:
+  - meson
+
+sources:
+  - https://download.gnome.org/sources/libgudev/%{version}/libgudev-%{version}.tar.xz

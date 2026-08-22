@@ -1,0 +1,33 @@
+id: weston
+version: 15.0.1
+about: reference implementation of wayland compositor
+
+depends:
+  - cairo
+  - dbus
+  - glib
+  - libdrm
+  - wayland
+  - seatd
+  - graphite2
+  - libxkbcommon
+  - libinput
+  - libjpeg-turbo
+  - libwebp
+  - mesa
+  - lcms
+  - pango
+  - pipewire
+
+sources:
+  - https://gitlab.freedesktop.org/wayland/weston/-/releases/%{version}/downloads/weston-%{version}.tar.xz
+
+configure: >
+  -D b_lto=false
+  -D backend-drm-screencast-vaapi=false
+  -D backend-rdp=false
+  -D backend-vnc=false
+  -D xwayland=false
+  -D remoting=false
+
+# TODO: enable vaapi, pipewire, freerdp, xwayland, gstreamer

@@ -1,0 +1,8 @@
+id: knotifyconfig
+merge: [external/kf5.inc]
+about: KF5 knotifyconfig
+
+depends:
+  - kio
+build-depends:
+  - extra-cmake-modules

@@ -1,0 +1,21 @@
+id: openal
+version: 1.22.0
+about: cross-platform 3D audio library, software implementation
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=None
+
+depends:
+  - libgcc
+  - qt
+build-depends:
+  - alsa-lib
+  - cmake
+  - ffmpeg
+  - ninja
+  - pulseaudio
+  - pipewire
+  - pcre2
+  - sdl2
+sources:
+  - openal-soft-%{version}.tar.gz::https://github.com/kcat/openal-soft/archive/refs/tags/%{version}.tar.gz

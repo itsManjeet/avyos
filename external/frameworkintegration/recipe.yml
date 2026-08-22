@@ -1,0 +1,15 @@
+id: frameworkintegration
+version: 6.26.0
+about: KF5 frameworkintegration
+
+configure: >-
+  -DCMAKE_BUILD_TYPE=Release
+  -DBUILD_TESTING=OFF
+  -Wno-dev
+
+depends:
+  - knewstuff
+build-depends:
+  - extra-cmake-modules
+sources:
+  - https://download.kde.org/stable/frameworks/%{version:2}/%{id}-%{version}.tar.xz

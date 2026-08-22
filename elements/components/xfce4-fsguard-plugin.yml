@@ -1,5 +1,0 @@
-id: xfce4-fsguard-plugin
-version: 1.2.0
-about: File system usage monitor plugin for the Xfce4 panel
-
-merge: [elements/include/xfce4-panel-plugin.inc]
